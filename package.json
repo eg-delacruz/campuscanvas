@@ -1,0 +1,15 @@
+{
+  "name": "campus_canvas",
+  "version": "1.0.0",
+  "description": "Campus canvas project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Campus",
+    "Bag"
+  ],
+  "author": "\u001b[A\u001b[A\u001b[A\u001b[B\u001b[B\u001b[B\u001b[B\u001b[B\u001b[B\u001b[BGerardo De La Cruz",
+  "license": "ISC"
+}
