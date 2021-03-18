@@ -1,7 +1,22 @@
 @import "../globals";
-p {
-  @include paragraph--regular;
+
+body {
+  background-color: $color--white;
+  .body__gridContainer {
+    display: grid;
+  }
 }
+
+.container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/////////////////////////
+//       Header        //
+/////////////////////////
 
 /////////////////////////
 //         MQ         //

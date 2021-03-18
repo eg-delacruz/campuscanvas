@@ -14,15 +14,21 @@ body {
   /* eliminate horizontal scroll */
   max-width: 100%;
   overflow-x: hidden;
-  background-color: #5b0791;
 }
 
-p {
-  font-size: 16px;
-  font-size: 1rem;
-  line-height: 30px;
-  letter-spacing: 4px;
-  font-weight: 400;
+body {
+  background-color: #f5f5f5;
+}
+
+body .body__gridContainer {
+  display: grid;
+}
+
+.container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 /*Export to index.scss*/
