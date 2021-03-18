@@ -1,0 +1,12 @@
+@import "../globals";
+p {
+  @include paragraph--regular;
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+
+@import "../MQ/index_767";
+@import "../MQ/index_480";
+@import "../MQ/index_320";

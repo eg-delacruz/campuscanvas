@@ -1,0 +1,31 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  /* eliminate horizontal scroll */
+  max-width: 100%;
+  overflow-x: hidden;
+  font-size: 16px;
+  font-family: "Open Sans", sans-serif;
+}
+
+body {
+  /* eliminate horizontal scroll */
+  max-width: 100%;
+  overflow-x: hidden;
+  background-color: #5b0791;
+}
+
+p {
+  font-size: 16px;
+  font-size: 1rem;
+  line-height: 30px;
+  letter-spacing: 4px;
+  font-weight: 400;
+}
+
+/*Export to index.scss*/
+/*Export to index.scss*/
+/*Export to index.scss*/
+/*# sourceMappingURL=index.css.map */

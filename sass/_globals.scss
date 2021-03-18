@@ -1,0 +1,116 @@
+/////////////////////////
+//      Variables      //
+/////////////////////////
+
+// Fonts
+$font1: "Poppins", sans-serif;
+$font2: "Open Sans", sans-serif;
+
+//Primary color scales
+$color--primary1: #ad2146;
+$color--primary1-light1: #e63b69;
+$color--primary1-light2: #ff80a2;
+$color--primary2: #5b0791;
+$color--primary2-dark1: #3b055e;
+$color--primary2-light1: #9059b3;
+$color--primary2-light2: #e4baff;
+
+//Black-white scale
+$color--black: #1e0230;
+$color--dark-gray: #afabb9;
+$color--light-gray: #dee2e6;
+$color--white: #f5f5f5;
+
+//Secondary color scale
+$color--secondary: #3a86ff;
+$color--secondary-light: #e3efff;
+$color--secondary-white: #f1f6fa;
+
+/////////////////////////
+//       Functions     //
+/////////////////////////
+
+@function pixelToRem($size) {
+  $remSize: $size / 16px;
+  @return $remSize * 1rem;
+}
+
+/////////////////////////
+//        Mixins       //
+/////////////////////////
+
+@mixin font-size($size) {
+  font-size: $size;
+  font-size: pixelToRem($size);
+  //   line-height: pixelToRem($size) * 1.5;
+}
+
+//Titles
+@mixin titleh1 {
+  font-family: $font1;
+  font-weight: 800;
+}
+@mixin titleh2 {
+  font-family: $font1;
+  @include font-size(32px);
+  line-height: 48px;
+  letter-spacing: 0;
+  font-weight: 800;
+}
+@mixin titleh3 {
+  font-family: $font1;
+  @include font-size(24px);
+  line-height: 35px;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+@mixin titleh4 {
+  font-family: $font1;
+  @include font-size(20px);
+  line-height: 30px;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+
+//Paragraphs
+@mixin paragraph--small {
+  @include font-size(10px);
+  line-height: 24px;
+  letter-spacing: 4px;
+  font-weight: 400;
+}
+@mixin paragraph--regular {
+  @include font-size(16px);
+  line-height: 30px;
+  letter-spacing: 4px;
+  font-weight: 400;
+}
+@mixin paragraph--big {
+  @include font-size(18px);
+  line-height: 35px;
+  letter-spacing: 4px;
+  font-weight: 400;
+}
+
+/////////////////////////
+//       Globals       //
+/////////////////////////
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  /* eliminate horizontal scroll */
+  max-width: 100%;
+  overflow-x: hidden;
+  font-size: 16px;
+  font-family: $font2;
+}
+
+body {
+  /* eliminate horizontal scroll */
+  max-width: 100%;
+  overflow-x: hidden;
+  background-color: $color--primary2;
+}
