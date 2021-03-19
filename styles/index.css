@@ -14,10 +14,50 @@ body {
   /* eliminate horizontal scroll */
   max-width: 100%;
   overflow-x: hidden;
+  background-color: #f5f5f5;
 }
 
-body {
-  background-color: #f5f5f5;
+header {
+  box-shadow: 0 1px 6px 0 #20212447;
+}
+
+header .header__container {
+  display: flex;
+  justify-content: space-between;
+  height: 97px;
+}
+
+header .header__container .header__logo {
+  margin: auto 0;
+}
+
+.menu,
+.menu__item {
+  height: inherit;
+}
+
+.menu__list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+  height: inherit;
+  margin: 0;
+}
+
+.menu__list .menu__item a {
+  text-decoration: none;
+  color: #1e0230;
+  height: inherit;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  margin-left: 46px;
+}
+
+.menu__item a:hover {
+  color: #ad2146;
 }
 
 body .body__gridContainer {
