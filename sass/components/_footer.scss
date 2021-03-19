@@ -1,0 +1,73 @@
+/////////////////////////
+//        Footer       //
+/////////////////////////
+
+.footer {
+  /////////////////////////
+  //        Navigation       //
+  /////////////////////////
+  color: $color--white;
+  &__navigation {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+    background-color: $color--primary2;
+  }
+  &__navigation h5 {
+    font-family: $font1;
+    @include font-size(20px);
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 14px;
+  }
+  &__navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__navigation ul li {
+    margin-bottom: 4px;
+  }
+
+  &__platform,
+  &__legal {
+    margin: 40px 0;
+    align-self: start;
+  }
+
+  &__social {
+    padding: 10px;
+  }
+  &__social a {
+    margin: 12px;
+  }
+
+  &__navigation ul li a {
+    text-decoration: none;
+    color: $color--white;
+    @include font-size(14px);
+  }
+
+  .footer__empleos::after {
+    content: "!Estamos contratando¡";
+    display: inline;
+    @include font-size(10px);
+    border-radius: 15px;
+    background-color: $color--primary2-light1;
+    padding: 1px 6px;
+  }
+
+  /////////////////////////
+  //       Signature     //
+  /////////////////////////
+
+  &__signature {
+    background-color: $color--black;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    @include font-size(14px);
+  }
+}

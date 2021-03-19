@@ -1,5 +1,6 @@
 @import "../globals";
 @import "../components/header";
+@import "../components/footer";
 
 body {
   .body__gridContainer {
@@ -13,10 +14,6 @@ body {
   margin: 0 auto;
   box-sizing: border-box;
 }
-
-/////////////////////////
-//        Footer       //
-/////////////////////////
 
 /////////////////////////
 //         MQ         //
