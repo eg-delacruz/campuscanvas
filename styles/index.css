@@ -93,6 +93,53 @@ header .header__container .header__logo {
   color: #ad2146;
 }
 
+.burguer__button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  top: 5px;
+  right: 5px;
+  z-index: 1;
+}
+
+.icon__line {
+  height: 4px;
+  width: 22px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.burguer__line2 {
+  margin: 3px 0;
+}
+
+@media screen and (max-width: 767px) {
+  .burguer__button {
+    display: flex;
+  }
+  .menu {
+    position: fixed;
+    background: rgba(5, 111, 255, 0.9);
+    z-index: 2;
+    top: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .menu.is-active {
+    left: 0;
+  }
+}
+
 .footer {
   color: #f5f5f5;
 }
