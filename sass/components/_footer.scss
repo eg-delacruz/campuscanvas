@@ -4,12 +4,12 @@
 
 .footer {
   /////////////////////////
-  //        Navigation       //
+  //       Navigation     //
   /////////////////////////
   color: $color--white;
   &__navigation {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-areas: "logo plataforma legal social";
     justify-items: center;
     align-items: center;
     background-color: $color--primary2;
@@ -51,7 +51,7 @@
   }
 
   .footer__empleos::after {
-    content: "!Estamos contratando¡";
+    content: "¡Estamos contratando!";
     display: inline;
     @include font-size(10px);
     border-radius: 15px;
@@ -69,5 +69,105 @@
     justify-content: space-between;
     padding: 0 20px;
     @include font-size(14px);
+  }
+}
+
+/////////////////////////
+//         MQ          //
+/////////////////////////
+@media screen and (max-width: 1100px) {
+  .footer {
+    &__navigation {
+      grid-template-areas: "plataforma legal" "logo social";
+    }
+
+    &__logo {
+      grid-area: logo;
+      justify-self: end;
+    }
+    &__platform {
+      grid-area: plataforma;
+      // justify-self: end;
+    }
+    &__legal {
+      grid-area: legal;
+      // justify-self: start;
+    }
+    &__social {
+      grid-area: social;
+      justify-self: center;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .footer {
+    &__navigation {
+      grid-template-areas:
+        "plataforma legal"
+        "logo logo"
+        "social social";
+    }
+
+    &__logo {
+      justify-self: center;
+    }
+
+    &__signature {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
+@media screen and (max-width: 480px) {
+  .footer {
+    &__navigation {
+      grid-template-areas:
+        "plataforma" "legal"
+        "logo"
+        "social";
+      padding: 15px;
+    }
+
+    &__logo figure {
+      margin: 0;
+    }
+    &__logo {
+      margin-bottom: 30px;
+    }
+
+    &__platform {
+      width: 180px;
+      margin-top: 20px;
+    }
+
+    &__legal {
+      margin-top: 0;
+      width: 180px;
+    }
+    &__social {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      padding: 0;
+      margin-bottom: 30px;
+    }
+    &__social a {
+      margin: 0;
+    }
+
+    &__signature p {
+      text-align: center;
+    }
+  }
+}
+@media screen and (max-width: 320px) {
+  .footer {
+    &__logo figure {
+      width: 100%;
+    }
+    &__logo figure img {
+      width: 100%;
+    }
   }
 }

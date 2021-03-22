@@ -45,33 +45,6 @@ $color--secondary-white: #f1f6fa;
   //   line-height: pixelToRem($size) * 1.5;
 }
 
-//Titles
-@mixin titleh1 {
-  font-family: $font1;
-  font-weight: 800;
-}
-@mixin titleh2 {
-  font-family: $font1;
-  @include font-size(32px);
-  line-height: 48px;
-  letter-spacing: 0;
-  font-weight: 800;
-}
-@mixin titleh3 {
-  font-family: $font1;
-  @include font-size(24px);
-  line-height: 35px;
-  letter-spacing: 0;
-  font-weight: 700;
-}
-@mixin titleh4 {
-  font-family: $font1;
-  @include font-size(20px);
-  line-height: 30px;
-  letter-spacing: 0;
-  font-weight: 700;
-}
-
 //Paragraphs
 @mixin paragraph--small {
   @include font-size(10px);
@@ -113,4 +86,33 @@ body {
   max-width: 100%;
   overflow-x: hidden;
   background-color: $color--white;
+}
+
+h1 {
+  font-family: $font1;
+  font-weight: 800;
+}
+
+h2 {
+  font-family: $font1;
+  @include font-size(32px);
+  line-height: 48px;
+  letter-spacing: 0;
+  font-weight: 800;
+}
+
+h3 {
+  font-family: $font1;
+  @include font-size(24px);
+  line-height: 35px;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+
+h4 {
+  font-family: $font1;
+  @include font-size(20px);
+  line-height: 30px;
+  letter-spacing: 0;
+  font-weight: 700;
 }

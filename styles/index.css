@@ -18,6 +18,38 @@ body {
   background-color: #f5f5f5;
 }
 
+h1 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+}
+
+h2 {
+  font-family: "Poppins", sans-serif;
+  font-size: 32px;
+  font-size: 2rem;
+  line-height: 48px;
+  letter-spacing: 0;
+  font-weight: 800;
+}
+
+h3 {
+  font-family: "Poppins", sans-serif;
+  font-size: 24px;
+  font-size: 1.5rem;
+  line-height: 35px;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+
+h4 {
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  font-size: 1.25rem;
+  line-height: 30px;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+
 header {
   box-shadow: 0 1px 6px 0 #20212447;
 }
@@ -67,7 +99,7 @@ header .header__container .header__logo {
 
 .footer__navigation {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-areas: "logo plataforma legal social";
   justify-items: center;
   align-items: center;
   background-color: #5b0791;
@@ -113,7 +145,7 @@ header .header__container .header__logo {
 }
 
 .footer .footer__empleos::after {
-  content: "!Estamos contratando¡";
+  content: "¡Estamos contratando!";
   display: inline;
   font-size: 10px;
   font-size: 0.625rem;
@@ -131,6 +163,82 @@ header .header__container .header__logo {
   font-size: 0.875rem;
 }
 
+@media screen and (max-width: 1100px) {
+  .footer__navigation {
+    grid-template-areas: "plataforma legal" "logo social";
+  }
+  .footer__logo {
+    grid-area: logo;
+    justify-self: end;
+  }
+  .footer__platform {
+    grid-area: plataforma;
+  }
+  .footer__legal {
+    grid-area: legal;
+  }
+  .footer__social {
+    grid-area: social;
+    justify-self: center;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .footer__navigation {
+    grid-template-areas: "plataforma legal" "logo logo" "social social";
+  }
+  .footer__logo {
+    justify-self: center;
+  }
+  .footer__signature {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .footer__navigation {
+    grid-template-areas: "plataforma" "legal" "logo" "social";
+    padding: 15px;
+  }
+  .footer__logo figure {
+    margin: 0;
+  }
+  .footer__logo {
+    margin-bottom: 30px;
+  }
+  .footer__platform {
+    width: 180px;
+    margin-top: 20px;
+  }
+  .footer__legal {
+    margin-top: 0;
+    width: 180px;
+  }
+  .footer__social {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 0;
+    margin-bottom: 30px;
+  }
+  .footer__social a {
+    margin: 0;
+  }
+  .footer__signature p {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .footer__logo figure {
+    width: 100%;
+  }
+  .footer__logo figure img {
+    width: 100%;
+  }
+}
+
 body .body__gridContainer {
   display: grid;
 }
@@ -142,7 +250,6 @@ body .body__gridContainer {
   box-sizing: border-box;
 }
 
-/*Export to index.scss*/
 /*Export to index.scss*/
 /*Export to index.scss*/
 /*# sourceMappingURL=index.css.map */
