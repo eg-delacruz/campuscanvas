@@ -370,6 +370,11 @@ body .body__gridContainer {
   max-width: 100%;
 }
 
+.main__title-container {
+  margin: 60px auto;
+  text-align: center;
+}
+
 @media screen and (max-width: 767px) {
   .hero__title {
     font-size: 50px;
