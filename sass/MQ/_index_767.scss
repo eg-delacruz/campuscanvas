@@ -1,6 +1,13 @@
 @media screen and (max-width: 767px) {
-}
-@media screen and (max-width: 480px) {
-}
-@media screen and (max-width: 320px) {
+  /////////////////////////
+  //         Hero         //
+  /////////////////////////
+  .hero__title {
+    @include font-size(50px);
+    line-height: 80px;
+  }
+
+  .hero__image-container {
+    margin-right: -190px;
+  }
 }

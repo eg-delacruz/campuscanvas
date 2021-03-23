@@ -1,1 +1,8 @@
-/*Export to index.scss*/
+@media screen and (max-width: 320px) {
+  /////////////////////////
+  //         Hero         //
+  /////////////////////////
+  .hero__container .hero__image-container {
+    margin-right: -90px;
+  }
+}

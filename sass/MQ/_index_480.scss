@@ -1,1 +1,16 @@
-/*Export to index.scss*/
+@media screen and (max-width: 480px) {
+  /////////////////////////
+  //         Hero         //
+  /////////////////////////
+  .hero__container {
+    padding: 10px;
+    .hero__title {
+      margin: 20px 0;
+      @include font-size(40px);
+      line-height: 60px;
+    }
+    .hero__image-container {
+      margin-right: -110px;
+    }
+  }
+}
