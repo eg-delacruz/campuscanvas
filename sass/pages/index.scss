@@ -55,7 +55,85 @@ body {
     margin: 60px auto;
     text-align: center;
   }
+  &__content {
+    display: flex;
+  }
+  &__content-image {
+    width: auto;
+    max-width: 100%;
+    margin: 0;
+    margin-left: 70px;
+  }
+
+  &__content-description {
+    margin-left: -194px;
+    @include paragraph--regular;
+    padding-right: 50px;
+  }
+  &__content-description::before {
+    content: url(../../assets/images/arrow_topleft.svg);
+    display: inline-block;
+    margin-left: -65px;
+  }
+
+  &__description-container::after {
+    content: url(../../assets/images/arrow_botright.svg);
+    display: inline-block;
+    transform: translate(323%, -50%);
+  }
 }
+
+/////////////////////////
+//      Benefits       //
+/////////////////////////
+
+.benefits {
+  background-color: $color--primary2;
+  &__container {
+    display: flex;
+  }
+  &__cards {
+    width: 48%;
+    padding: 10px;
+    margin: 0 1%;
+  }
+  &__description {
+    color: $color--white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 48%;
+    margin: 0 1%;
+    @include paragraph--big;
+  }
+}
+
+.card {
+  background-color: $color--white;
+  border-radius: 10px;
+  box-shadow: 10px 20px 20px 0 #00000029;
+  display: flex;
+  margin: 30px 0;
+  align-items: center;
+  padding: 10px;
+  color: $color--primary2-dark1;
+  &__information {
+    padding: 10px;
+  }
+  &__information h4 {
+    margin: 0;
+    margin-bottom: 10px;
+  }
+  &__information p {
+    @include paragraph--regular;
+    margin: 0;
+  }
+}
+
+/////////////////////////
+//    Distribution     //
+/////////////////////////
 
 /////////////////////////
 //         MQ         //

@@ -49,19 +49,16 @@ $color--secondary-white: #f1f6fa;
 @mixin paragraph--small {
   @include font-size(10px);
   line-height: 24px;
-  letter-spacing: 4px;
   font-weight: 400;
 }
 @mixin paragraph--regular {
   @include font-size(16px);
   line-height: 30px;
-  letter-spacing: 4px;
   font-weight: 400;
 }
 @mixin paragraph--big {
   @include font-size(18px);
   line-height: 35px;
-  letter-spacing: 4px;
   font-weight: 400;
 }
 

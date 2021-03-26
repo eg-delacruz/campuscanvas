@@ -13,4 +13,33 @@
       margin-right: -110px;
     }
   }
+
+  /////////////////////////
+  //       Main         //
+  /////////////////////////
+
+  .main {
+    &__title-container {
+      height: auto;
+      width: 100%;
+      padding: 10px;
+    }
+    &__title-container img {
+      width: 100%;
+    }
+  }
+
+  /////////////////////////
+  //      Benefits       //
+  /////////////////////////
+
+  .benefits {
+    &__cards {
+      width: 100%;
+    }
+  }
+
+  .card {
+    flex-direction: column;
+  }
 }

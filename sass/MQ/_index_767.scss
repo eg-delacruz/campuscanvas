@@ -10,4 +10,61 @@
   .hero__image-container {
     margin-right: -190px;
   }
+
+  /////////////////////////
+  //       Main         //
+  /////////////////////////
+  .main {
+    &__title-container {
+      height: 64px;
+      margin: 30px 0;
+    }
+    &__title-container img {
+      height: 100%;
+    }
+  }
+
+  .main__content {
+    flex-direction: column;
+    &-image {
+      margin: 0;
+      width: auto;
+      padding-left: 32%;
+    }
+    &-image img {
+      width: 120%;
+    }
+  }
+
+  .main__content-description {
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+  }
+  .main__content-description::before {
+    display: none;
+  }
+
+  .main__description-container::after {
+    display: none;
+  }
+
+  /////////////////////////
+  //      Benefits       //
+  /////////////////////////
+
+  .benefits {
+    &__container {
+      flex-direction: column-reverse;
+      padding: 10px;
+      align-items: center;
+    }
+    &__cards {
+      width: 70%;
+    }
+    &__description {
+      width: 100%;
+      text-align: center;
+    }
+  }
 }

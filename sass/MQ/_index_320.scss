@@ -5,4 +5,23 @@
   .hero__container .hero__image-container {
     margin-right: -90px;
   }
+
+  /////////////////////////
+  //       Main         //
+  /////////////////////////
+
+  .main {
+    &__title-container {
+      margin: 10px 0;
+    }
+  }
+
+  .main__content {
+    &-image {
+      padding-left: 15%;
+    }
+    &-image img {
+      width: 160%;
+    }
+  }
 }
