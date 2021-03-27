@@ -17,6 +17,13 @@
     <!-- Improves loading performance by loading google fonts parallel to wp load -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
+    <!-- External styles -->
+    <!-- Glider.css -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/glider-js@1.7.7/glider.min.css"
+    />
+
     <!-- Local stylesheets -->
     <link rel="stylesheet" href="styles/normalize.css" />
     <link rel="stylesheet" href="styles/index.css" />
@@ -38,6 +45,7 @@
     <meta name="robots" content="index" follow />
     <title>Campus Canvas</title>
   </head>
+
   <body>
     <!--  /////////////////////////
           //    Burguer menu     //
@@ -207,15 +215,114 @@
             //    Distribution     //
             /////////////////////////  -->
       <section class="distribution">
-        <div class="distributionMadrid">Comunidad de Madrid</div>
-        <div class="distributionDelivery">Home delivery</div>
+        <div class="distributionMadrid container">
+          <h2>Espéranos en tu universidad de la Comunidad de Madrid</h2>
+          <figure>
+            <img
+              src="assets/images/distribution_map2x.png"
+              alt="Mapa de distribución en Madrid"
+            />
+          </figure>
+          <p>
+            Si eres estudiante en una de las universidades de la Comunidad de
+            Madrid, podrás recibir tu Campus Bag en alguna de nuestras visitas a
+            tu campus.
+          </p>
+        </div>
+
+        <div class="distributionDelivery container">
+          <h2>O te la llevamos hasta tu casa</h2>
+          <figure>
+            <img
+              src="assets/images/distribution_house2x.png"
+              alt="Te enviamos la Campus Bag a casa"
+            />
+          </figure>
+          <h4>Tú solo pagas el envío</h4>
+          <a class="btn button-red" href="#">¡Pedir Campus Bag!</a>
+        </div>
       </section>
 
       <!--  /////////////////////////
             //       Sponsors        //
             /////////////////////////  -->
 
-      <section class="sponsors">Nuestros patrocinadores</section>
+      <section class="sponsors">
+        <div class="sponsors__container container">
+          <h2>Nuestros patrocinadores</h2>
+          <div class="carousel">
+            <div class="carousel__container">
+              <button class="carousel__back" aria-label="Anterior">
+                <img src="assets/images/arrow_left.svg" alt="Anterior" />
+              </button>
+
+              <div class="carousel__list">
+                <div class="carousel__element">
+                  <img
+                    src="assets/images/decisionhandler.png"
+                    alt="Desicion Handler"
+                  />
+                </div>
+
+                <div class="carousel__element">
+                  <img
+                    src="assets/images/decisionhandler.png"
+                    alt="Desicion Handler"
+                  />
+                </div>
+
+                <div class="carousel__element">
+                  <img
+                    src="assets/images/decisionhandler.png"
+                    alt="Desicion Handler"
+                  />
+                </div>
+
+                <div class="carousel__element">
+                  <img
+                    src="assets/images/decisionhandler.png"
+                    alt="Desicion Handler"
+                  />
+                </div>
+
+                <div class="carousel__element">
+                  <img
+                    src="assets/images/decisionhandler.png"
+                    alt="Desicion Handler"
+                  />
+                </div>
+
+                <div class="carousel__element">
+                  <img
+                    src="assets/images/decisionhandler.png"
+                    alt="Desicion Handler"
+                  />
+                </div>
+
+                <div class="carousel__element">
+                  <img
+                    src="assets/images/decisionhandler.png"
+                    alt="Desicion Handler"
+                  />
+                </div>
+
+                <div class="carousel__element">
+                  <img
+                    src="assets/images/decisionhandler.png"
+                    alt="Desicion Handler"
+                  />
+                </div>
+              </div>
+
+              <button class="carousel__next" aria-label="Siguiente">
+                <img src="assets/images/arrow_right.svg" alt="Siguiente" />
+              </button>
+            </div>
+
+            <div role="tablist" class="carousel__indicators"></div>
+          </div>
+        </div>
+      </section>
 
       <!--  /////////////////////////
             //       Footer        //
@@ -268,24 +375,24 @@
           <div class="footer__social">
             <a href="https://instagram.com/" target="_blank">
               <img
-                src="/assets/images/instagram_icon.svg"
+                src="assets/images/instagram_icon.svg"
                 alt="enlace instagram"
               />
             </a>
             <a href="https://www.facebook.com/" target="_blank">
               <img
-                src="/assets/images/facebook_icon.svg"
+                src="assets/images/facebook_icon.svg"
                 alt="enlace facebook"
               />
             </a>
             <a href="https://www.linkedin.com" target="_blank">
               <img
-                src="/assets/images/linkedin_icon.svg"
+                src="assets/images/linkedin_icon.svg"
                 alt="enlace linkedin"
               />
             </a>
             <a href="https://www.youtube.com/" target="_blank">
-              <img src="/assets/images/youtube_icon.svg" alt="enlace youtube" />
+              <img src="assets/images/youtube_icon.svg" alt="enlace youtube" />
             </a>
           </div>
         </section>
@@ -297,6 +404,9 @@
       </footer>
     </div>
 
+    <!-- Carrousel library Glider.js -->
+    <script src="https://cdn.jsdelivr.net/npm/glider-js@1.7.7/glider.min.js"></script>
     <script src="js/burguer-button.js"></script>
+    <script src="js/carousel.js"></script>
   </body>
 </html>
