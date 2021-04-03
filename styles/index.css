@@ -50,6 +50,13 @@ h4 {
   font-weight: 700;
 }
 
+.container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
 header {
   box-shadow: 0 1px 6px 0 #20212447;
 }
@@ -380,6 +387,13 @@ h4 {
   font-weight: 700;
 }
 
+.container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
 .btn {
   text-decoration: none;
   color: white;
@@ -563,13 +577,6 @@ h4 {
 
 body .body__gridContainer {
   display: grid;
-}
-
-.container {
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-  box-sizing: border-box;
 }
 
 .hero {
