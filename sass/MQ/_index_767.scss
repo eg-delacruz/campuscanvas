@@ -15,12 +15,21 @@
   //       Main         //
   /////////////////////////
   .main {
+    &__container {
+      padding-bottom: 30px;
+    }
     &__title-container {
       height: 64px;
       margin: 30px 0;
     }
     &__title-container img {
       height: 100%;
+    }
+
+    &__content-image img {
+      object-fit: contain;
+      position: relative;
+      right: -15%;
     }
   }
 
@@ -29,7 +38,7 @@
     &-image {
       margin: 0;
       width: auto;
-      padding-left: 32%;
+      // padding-left: 0;
     }
     &-image img {
       width: 120%;

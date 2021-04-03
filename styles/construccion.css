@@ -1,0 +1,131 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  /* eliminate horizontal scroll */
+  max-width: 100%;
+  overflow-x: hidden;
+  font-size: 16px;
+  font-family: "Open Sans", sans-serif;
+}
+
+body {
+  /* eliminate horizontal scroll */
+  max-width: 100%;
+  overflow-x: hidden;
+  background-color: #f5f5f5;
+}
+
+h1 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+}
+
+h2 {
+  font-family: "Poppins", sans-serif;
+  font-size: 32px;
+  font-size: 2rem;
+  line-height: 48px;
+  letter-spacing: 0;
+  font-weight: 800;
+}
+
+h3 {
+  font-family: "Poppins", sans-serif;
+  font-size: 24px;
+  font-size: 1.5rem;
+  line-height: 35px;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+
+h4 {
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  font-size: 1.25rem;
+  line-height: 30px;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  /* eliminate horizontal scroll */
+  max-width: 100%;
+  overflow-x: hidden;
+  font-size: 16px;
+  font-family: "Open Sans", sans-serif;
+}
+
+body {
+  /* eliminate horizontal scroll */
+  max-width: 100%;
+  overflow-x: hidden;
+  background-color: #f5f5f5;
+}
+
+h1 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+}
+
+h2 {
+  font-family: "Poppins", sans-serif;
+  font-size: 32px;
+  font-size: 2rem;
+  line-height: 48px;
+  letter-spacing: 0;
+  font-weight: 800;
+}
+
+h3 {
+  font-family: "Poppins", sans-serif;
+  font-size: 24px;
+  font-size: 1.5rem;
+  line-height: 35px;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+
+h4 {
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  font-size: 1.25rem;
+  line-height: 30px;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+
+.btn {
+  text-decoration: none;
+  color: white;
+  font-family: "Open Sans", sans-serif;
+  border-radius: 5px;
+  padding: 14px 31px;
+  font-weight: 800;
+}
+
+.button-red {
+  background-color: #ad2146;
+}
+
+body {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+}
+
+body .body__container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/*# sourceMappingURL=construccion.css.map */

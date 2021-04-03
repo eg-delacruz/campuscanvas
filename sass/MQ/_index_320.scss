@@ -5,6 +5,11 @@
   .hero__container .hero__image-container {
     margin-right: -90px;
   }
+  .hero__container .hero__title {
+    @include font-size(35px);
+
+    line-height: 53px;
+  }
 
   /////////////////////////
   //       Main         //
@@ -14,14 +19,12 @@
     &__title-container {
       margin: 10px 0;
     }
-  }
-
-  .main__content {
-    &-image {
-      padding-left: 15%;
-    }
-    &-image img {
+    &__content-image img {
       width: 160%;
+      top: -50px;
+    }
+    &__description-container {
+      margin-top: -100px;
     }
   }
 }
