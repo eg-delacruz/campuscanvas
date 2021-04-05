@@ -1,3 +1,15 @@
+@media screen and (max-width: 880px) {
+  .main__content-image {
+    margin-left: 0;
+  }
+  .main__content-description {
+    margin-left: -270px;
+  }
+  .main__description-container::after {
+    transform: translate(200%, -50%);
+  }
+}
+
 @media screen and (max-width: 767px) {
   /////////////////////////
   //         Hero         //
