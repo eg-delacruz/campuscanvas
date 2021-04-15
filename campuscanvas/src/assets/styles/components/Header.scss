@@ -1,3 +1,5 @@
+@import '../components/Vars.scss';
+
 /////////////////////////
 //       Header        //
 /////////////////////////
@@ -98,7 +100,7 @@ header {
     height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: start;
+    align-items: flex-start;
     padding: 15px;
     transition: 0.3s;
 
