@@ -1,17 +1,17 @@
 import React from 'react';
-
-//these styles only needed here in the app
-import '../assets/styles/Globals.scss';
-import '../assets/styles/components/Buttons.scss';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import Main from '../pages/Main';
 import Construccion from '../pages/Construccion';
 
 function App() {
   return (
-    <div>
-      <Construccion />
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path='/' component={Main} />
+        <Route exact path='/construccion' component={Construccion} />
+      </Switch>
+    </BrowserRouter>
   );
 }
 

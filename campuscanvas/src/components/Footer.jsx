@@ -1,6 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
+//Styles
 import '../assets/styles/components/Footer.scss';
 
+//Assets
 import Logo_footer from '../assets/static/logo_footer.svg';
 import Youtube from '../assets/static/youtube_icon.svg';
 import Facebook from '../assets/static/facebook_icon.svg';
@@ -21,19 +25,19 @@ function Footer() {
             <h5>Plataforma</h5>
             <ul>
               <li>
-                <a href='pages/construccion.html'>Home</a>
+                <Link to='/'>Home</Link>
               </li>
               <li>
-                <a href='pages/construccion.html'>Blog</a>
+                <Link to='/construccion'>Blog</Link>
               </li>
               <li>
-                <a href='pages/construccion.html'>FAQs</a>
+                <Link to='/construccion'>FAQs</Link>
               </li>
               <li>
-                <a href='pages/construccion.html'>Nosotros</a>
+                <Link to='/construccion'>Nosotros</Link>
               </li>
               <li className='footer__empleos'>
-                <a href='pages/construccion.html'>Empleos</a>
+                <Link to='/construccion'>Empleos</Link>
               </li>
             </ul>
           </div>
@@ -41,13 +45,13 @@ function Footer() {
             <h5>Legal</h5>
             <ul>
               <li>
-                <a href='pages/construccion.html'>Política de privacidad</a>
+                <Link to='/construccion'>Política de privacidad</Link>
               </li>
               <li>
-                <a href='pages/construccion.html'>Términos y condiciones</a>
+                <Link to='/construccion'>Términos y condiciones</Link>
               </li>
               <li>
-                <a href='pages/construccion.html'>Declaración de cookies</a>
+                <Link to='/construccion'>Declaración de cookies</Link>
               </li>
             </ul>
           </div>

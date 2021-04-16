@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import '../assets/styles/components/Header.scss';
 import Logo_Campus_Canvas from '../assets/static/logo.svg';
 
@@ -29,12 +31,12 @@ function Header() {
         <div className='burguer__line3 icon__line' />
       </i>
 
-      <header className='header'>
+      <header className='header header__component'>
         <div className='header__container container'>
           <figure className='header__logo'>
-            <a href='/'>
+            <Link to='/'>
               <img src={Logo_Campus_Canvas} alt='Logo Campus Canvas' />
-            </a>
+            </Link>
           </figure>
           <nav
             onClick={() => hideMenu()}
@@ -42,19 +44,19 @@ function Header() {
           >
             <ul className='menu__list'>
               <li className='menu__item'>
-                <a href='/'>Home</a>
+                <Link to='/'>Home</Link>
               </li>
               <li className='menu__item'>
-                <a href='pages/construccion.html'>Nosotros</a>
+                <Link to='/construccion'>Nosotros</Link>
               </li>
               <li className='menu__item'>
-                <a href='pages/construccion.html'>Para empresas</a>
+                <Link to='/construccion'>Para empresas</Link>
               </li>
               <li className='menu__item'>
-                <a href='pages/construccion.html'>Blog</a>
+                <Link to='/construccion'>Blog</Link>
               </li>
               <li className='menu__item'>
-                <a href='pages/construccion.html'>FAQs</a>
+                <Link to='/construccion'>FAQs</Link>
               </li>
             </ul>
           </nav>
