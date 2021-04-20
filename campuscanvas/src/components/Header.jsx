@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import '../assets/styles/components/Header.scss';
+import '../assets/styles/components/Header.scoped.scss';
 import Logo_Campus_Canvas from '../assets/static/logo.svg';
 
 function Header() {

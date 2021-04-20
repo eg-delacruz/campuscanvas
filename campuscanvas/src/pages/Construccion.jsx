@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 import Construccion_img from '../assets/static/under_construction.svg';
 import Logo_Campus_Canvas from '../assets/static/logo.svg';
 
-import '../assets/styles/pages/Construccion.scss';
+import '../assets/styles/pages/Construccion.scoped.scss';
 
 function Construccion() {
   return (
-    <div className='construccion__container'>
-      <header className='header__construccion'>
+    <React.Fragment>
+      <header className='header header__construccion'>
         <div className='header__container container'>
           <a href='/'>
             <img src={Logo_Campus_Canvas} alt='Logo Campus Canvas' />
@@ -29,7 +29,7 @@ function Construccion() {
           </p>
         </div>
       </main>
-    </div>
+    </React.Fragment>
   );
 }
 
