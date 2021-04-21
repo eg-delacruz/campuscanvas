@@ -8,7 +8,7 @@ import '../assets/styles/pages/Construccion.scoped.scss';
 
 function Construccion() {
   return (
-    <React.Fragment>
+    <div className='construction__container'>
       <header className='header header__construccion'>
         <div className='header__container container'>
           <a href='/'>
@@ -29,7 +29,7 @@ function Construccion() {
           </p>
         </div>
       </main>
-    </React.Fragment>
+    </div>
   );
 }
 
