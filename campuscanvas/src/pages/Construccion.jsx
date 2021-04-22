@@ -9,7 +9,7 @@ import '../assets/styles/pages/Construccion.scoped.scss';
 function Construccion() {
   return (
     <div className='construction__container'>
-      <header className='header header__construccion'>
+      <header className='header'>
         <div className='header__container container'>
           <a href='/'>
             <img src={Logo_Campus_Canvas} alt='Logo Campus Canvas' />
