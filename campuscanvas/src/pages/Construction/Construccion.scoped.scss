@@ -1,5 +1,5 @@
-@import '../components/Vars.scss';
-@import '../components/Buttons.scss';
+@import '../../assets/styles/Vars.scss';
+@import '../../assets/styles/Buttons.scss';
 
 .construction__container {
   position: fixed;
@@ -52,4 +52,4 @@
   }
 }
 
-@import '../pages/MQ/MQ_Construccion.scss';
+@import './MQ_Construccion.scss';

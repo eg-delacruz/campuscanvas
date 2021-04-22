@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Construccion_img from '../assets/static/under_construction.svg';
-import Logo_Campus_Canvas from '../assets/static/logo.svg';
+import Construccion_img from '../../assets/static/under_construction.svg';
+import Logo_Campus_Canvas from '../../assets/static/logo.svg';
 
-import '../assets/styles/pages/Construccion.scoped.scss';
+import './Construccion.scoped.scss';
 
 function Construccion() {
   return (

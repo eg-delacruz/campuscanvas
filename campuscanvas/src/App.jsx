@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import Main from '../pages/Main';
-import Construccion from '../pages/Construccion';
+import Main from './pages/Main/Main';
+import Construccion from './pages/Construction/Construccion';
 
 function App() {
   return (
