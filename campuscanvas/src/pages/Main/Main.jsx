@@ -1,16 +1,15 @@
 import React from 'react';
-import './Main.scss';
+import './Main.scoped.scss';
 
 //Componentes
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
+import Layout from '../../components/Layout/Layout';
 
 function Main() {
   return (
     <div className='body__gridContainer'>
-      <Header />
-      <h1>Hola</h1>
-      <Footer />
+      <Layout>
+        <h1>Hola</h1>
+      </Layout>
     </div>
   );
 }
