@@ -14,6 +14,7 @@ import Distributon_house from '../../assets/static/distribution_house2x.png';
 
 //Componentes
 import Layout from '../../components/Layout/Layout';
+import Carousel from '../../components/Carousel/Carousel';
 
 function Main() {
   return (
@@ -169,6 +170,12 @@ function Main() {
             </Link>
           </div>
         </section>
+
+        {/* /////////////////////////
+            //   Patrocinadores    //
+            ///////////////////////// */}
+
+        <Carousel />
       </Layout>
     </div>
   );
