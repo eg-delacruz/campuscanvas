@@ -9,18 +9,20 @@ import 'slick-carousel/slick/slick-theme.css';
 import './Carousel.scss';
 
 //assets
-// import DecisionHandler from '../../assets/static/decisionhandler.png';
-// import Arrow_Left from '../../assets/static/arrow_left.svg';
-// import Arrow_Right from '../../assets/static/arrow_right.svg';
+import DecisionHandler from '../../assets/static/decisionhandler.png';
+import Arrow_Left from '../../assets/static/arrow_left.svg';
+import Arrow_Right from '../../assets/static/arrow_right.svg';
 
 export default class Carousel extends Component {
   render() {
     const settings = {
       dots: true,
       infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
+      speed: 800,
+      slidesToShow: 4,
+      slidesToScroll: 4,
+      autoplay: true,
+      autoplaySpeed: 2800,
     };
     return (
       <section className='sponsors'>
@@ -28,22 +30,40 @@ export default class Carousel extends Component {
           <h2> Nuestros patrocinadores</h2>
           <Slider {...settings}>
             <div>
-              <h3>1</h3>
+              <img src={DecisionHandler} alt='Desicion handler' />
             </div>
             <div>
-              <h3>2</h3>
+              <img src={DecisionHandler} alt='Desicion handler' />
             </div>
             <div>
-              <h3>3</h3>
+              <img src={DecisionHandler} alt='Desicion handler' />
             </div>
             <div>
-              <h3>4</h3>
+              <img src={DecisionHandler} alt='Desicion handler' />
             </div>
             <div>
-              <h3>5</h3>
+              <img src={DecisionHandler} alt='Desicion handler' />
             </div>
             <div>
-              <h3>6</h3>
+              <img src={DecisionHandler} alt='Desicion handler' />
+            </div>
+            <div>
+              <img src={DecisionHandler} alt='Desicion handler' />
+            </div>
+            <div>
+              <img src={DecisionHandler} alt='Desicion handler' />
+            </div>
+            <div>
+              <img src={DecisionHandler} alt='Desicion handler' />
+            </div>
+            <div>
+              <img src={DecisionHandler} alt='Desicion handler' />
+            </div>
+            <div>
+              <img src={DecisionHandler} alt='Desicion handler' />
+            </div>
+            <div>
+              <img src={DecisionHandler} alt='Desicion handler' />
             </div>
           </Slider>
         </div>
