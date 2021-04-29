@@ -104,7 +104,7 @@ export default class Carousel extends Component {
           settings: {
             slidesToShow: 1,
             slidesToScroll: 1,
-            dots: true,
+            dots: false,
           },
         },
       ],
@@ -118,54 +118,54 @@ export default class Carousel extends Component {
             <div>
               <img
                 src={DecisionHandler}
-                style={{
-                  margin: '0 auto',
-                }}
+                // style={{
+                //   margin: '0 auto',
+                // }}
                 alt='Desicion handler'
               />
             </div>
             <div>
               <img
                 src={DecisionHandler}
-                style={{
-                  margin: '0 auto',
-                }}
+                // style={{
+                //   margin: '0 auto',
+                // }}
                 alt='Desicion handler'
               />
             </div>
             <div>
               <img
                 src={DecisionHandler}
-                style={{
-                  margin: '0 auto',
-                }}
+                // style={{
+                //   margin: '0 auto',
+                // }}
                 alt='Desicion handler'
               />
             </div>
             <div>
               <img
                 src={DecisionHandler}
-                style={{
-                  margin: '0 auto',
-                }}
+                // style={{
+                //   margin: '0 auto',
+                // }}
                 alt='Desicion handler'
               />
             </div>
             <div>
               <img
                 src={DecisionHandler}
-                style={{
-                  margin: '0 auto',
-                }}
+                // style={{
+                //   margin: '0 auto',
+                // }}
                 alt='Desicion handler'
               />
             </div>
             <div>
               <img
                 src={DecisionHandler}
-                style={{
-                  margin: '0 auto',
-                }}
+                // style={{
+                //   margin: '0 auto',
+                // }}
                 alt='Desicion handler'
               />
             </div>

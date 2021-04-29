@@ -48,6 +48,10 @@
     @include font-size(14px);
   }
 
+  .footer__empleos a {
+    margin-right: 5px;
+  }
+
   .footer__empleos::after {
     content: '¡Estamos contratando!';
     display: inline;
