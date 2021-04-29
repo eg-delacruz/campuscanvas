@@ -31,7 +31,7 @@ function Header() {
         <div className='burguer__line3 icon__line' />
       </i>
 
-      <header className='header header__component'>
+      <header className='header header__component' id='header'>
         <div className='header__container container'>
           <figure className='header__logo'>
             <Link to='/'>

@@ -1,0 +1,35 @@
+.button-up-container {
+  position: fixed;
+  right: 150px;
+  bottom: 30px;
+  z-index: 1;
+}
+.button-up-container .a {
+  fill: #fff;
+}
+.button-up-container .b {
+  fill: #1f2233;
+}
+.button-up-container .c {
+  fill: none;
+  stroke: #fff;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3px;
+}
+.button-up-container svg:hover .a {
+  fill: #1f2233;
+}
+.button-up-container svg:hover .b {
+  fill: #fff;
+}
+.button-up-container svg:hover .c {
+  stroke: #1f2233;
+}
+
+@media screen and (max-width: 767px) {
+  .button-up-container {
+    right: 30px;
+    bottom: 125px;
+  }
+}

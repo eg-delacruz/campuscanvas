@@ -15,6 +15,7 @@ import Distributon_house from '../../assets/static/distribution_house2x.png';
 //Componentes
 import Layout from '../../components/Layout/Layout';
 import Carousel from '../../components/Carousel/Carousel';
+import ButtonUp from '../../components/ButtonUp/ButtonUp';
 
 function Main() {
   return (
@@ -23,6 +24,7 @@ function Main() {
         {/* /////////////////////////
             //       Hero        //
             ///////////////////////// */}
+
         <section className='hero'>
           <div className='hero__container container'>
             <h1 className='hero__title'>
