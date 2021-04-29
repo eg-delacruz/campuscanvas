@@ -21,9 +21,14 @@ function NextArrow(props) {
       style={{
         ...style,
         display: 'block',
-        width: '42px',
+        width: '45px',
         height: '46px',
-        padding: '9px 12px',
+        padding: '6px 4px 6px 6px',
+        border: '1px solid rgba(255, 255, 255, 0.5',
+        borderRadius: '5px',
+        boxShadow: '0 1px 6px 0 #20212447',
+        right: 0,
+        zIndex: '1',
       }}
       onClick={onClick}
       src={Arrow_Right}
@@ -40,9 +45,14 @@ function PrevArrow(props) {
       style={{
         ...style,
         display: 'block',
-        width: '42px',
+        width: '45px',
         height: '46px',
-        padding: '9px 12px',
+        padding: '6px 6px 6px 4px',
+        border: '1px solid rgba(255, 255, 255, 0.5',
+        borderRadius: '5px',
+        boxShadow: '0 1px 6px 0 #20212447',
+        left: 0,
+        zIndex: '1',
       }}
       onClick={onClick}
       src={Arrow_Left}
@@ -63,29 +73,101 @@ export default class Carousel extends Component {
       autoplaySpeed: 2800,
       nextArrow: <NextArrow />,
       prevArrow: <PrevArrow />,
+
+      responsive: [
+        {
+          breakpoint: 767,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            //infinite: true,
+            dots: true,
+          },
+        },
+        {
+          breakpoint: 625,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2,
+            initialSlide: 2,
+          },
+        },
+        {
+          breakpoint: 410,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+          },
+        },
+        {
+          breakpoint: 383,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            dots: true,
+          },
+        },
+      ],
     };
+
     return (
       <section className='sponsors'>
         <div className='sponsors__container container'>
           <h2> Nuestros patrocinadores</h2>
           <Slider {...settings}>
             <div>
-              <img src={DecisionHandler} alt='Desicion handler' />
+              <img
+                src={DecisionHandler}
+                style={{
+                  margin: '0 auto',
+                }}
+                alt='Desicion handler'
+              />
             </div>
             <div>
-              <img src={DecisionHandler} alt='Desicion handler' />
+              <img
+                src={DecisionHandler}
+                style={{
+                  margin: '0 auto',
+                }}
+                alt='Desicion handler'
+              />
             </div>
             <div>
-              <img src={DecisionHandler} alt='Desicion handler' />
+              <img
+                src={DecisionHandler}
+                style={{
+                  margin: '0 auto',
+                }}
+                alt='Desicion handler'
+              />
             </div>
             <div>
-              <img src={DecisionHandler} alt='Desicion handler' />
+              <img
+                src={DecisionHandler}
+                style={{
+                  margin: '0 auto',
+                }}
+                alt='Desicion handler'
+              />
             </div>
             <div>
-              <img src={DecisionHandler} alt='Desicion handler' />
+              <img
+                src={DecisionHandler}
+                style={{
+                  margin: '0 auto',
+                }}
+                alt='Desicion handler'
+              />
             </div>
             <div>
-              <img src={DecisionHandler} alt='Desicion handler' />
+              <img
+                src={DecisionHandler}
+                style={{
+                  margin: '0 auto',
+                }}
+                alt='Desicion handler'
+              />
             </div>
             <div>
               <img src={DecisionHandler} alt='Desicion handler' />
