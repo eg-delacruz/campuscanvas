@@ -13,13 +13,13 @@ import Distribution_map from '../../assets/static/distribution_map2x.png';
 import Distributon_house from '../../assets/static/distribution_house2x.png';
 
 //Componentes
-//import Layout from '../../components/Layout/Layout';
 import Carousel from '../../components/Carousel/Carousel';
-//import ButtonUp from '../../components/ButtonUp/ButtonUp';
+import ButtonUp from '../../components/ButtonUp/ButtonUp';
 
 function Main() {
   return (
     <div className='body__gridContainer'>
+      <ButtonUp />
       {/* /////////////////////////
             //       Hero        //
             ///////////////////////// */}
