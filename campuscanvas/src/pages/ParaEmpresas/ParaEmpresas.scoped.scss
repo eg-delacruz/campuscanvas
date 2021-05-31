@@ -4,6 +4,50 @@
 body {
   .body__gridContainer {
     display: grid;
-    padding: 0 8px;
   }
 }
+
+/////////////////////////
+//     Page Titel      //
+/////////////////////////
+
+.pageTitle img {
+  display: block;
+  margin: 30px auto;
+}
+
+/////////////////////////
+//        Hero         //
+/////////////////////////
+
+.hero {
+  background-color: $color--primary2;
+  &__container {
+    display: grid;
+    grid-template-columns: 50% 1fr;
+    padding: 25px 0;
+  }
+  &__title {
+    color: $color--white;
+    @include font-size(60px);
+    line-height: 100px;
+    margin: 0;
+    align-self: center;
+  }
+  figure {
+    margin: 0;
+  }
+  a {
+    display: block;
+  }
+  a img {
+    display: block;
+    margin: 0 auto -32px;
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+
+@import './MQ_ParaEmpresas.scoped.scss';
