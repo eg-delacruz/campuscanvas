@@ -5,6 +5,7 @@ import Layout from './components/Layout/Layout';
 //pages
 import Main from './pages/Main/Main';
 import Construccion from './pages/Construction/Construccion';
+import ParaEmpresas from './pages/ParaEmpresas/ParaEmpresas';
 
 //Router
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Fragment>
           <Layout>
             <Route exact path='/' component={Main} />
+            <Route exact path='/empresas' component={ParaEmpresas} />
           </Layout>
         </Fragment>
       </Switch>

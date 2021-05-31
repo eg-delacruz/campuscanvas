@@ -60,6 +60,7 @@ body {
     margin-left: -194px;
     @include paragraph--regular;
     padding-right: 50px;
+    text-align: justify;
   }
   &__content-description::before {
     content: url(../../assets/static/arrow_topleft.svg);

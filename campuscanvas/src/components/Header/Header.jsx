@@ -50,7 +50,9 @@ function Header() {
                 <Link to='/construccion'>Nosotros</Link>
               </li>
               <li className='menu__item'>
-                <Link to='/construccion'>Para empresas</Link>
+                <Link to='/empresas'>
+                  Información <br /> para empresas
+                </Link>
               </li>
               <li className='menu__item'>
                 <Link to='/construccion'>Blog</Link>
