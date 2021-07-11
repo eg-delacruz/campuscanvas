@@ -5,8 +5,10 @@ import './ParaEmpresas.scoped.scss';
 import BagLogo from '../../assets/static/bag_logo.svg';
 import Bagsx2 from '../../assets/static/2bags.png';
 import sectionDown from '../../assets/static/section_down.png';
+import cardImage from '../../assets/static/card_sample_image.png';
 
 //components
+import Card from '../../components/Card--ImgTitleText/Card';
 import Patrocinadores from '../../components/Carousel/Carousel';
 
 function ParaEmpresas() {
@@ -32,13 +34,14 @@ function ParaEmpresas() {
 
       <section className='main container' id='paraEmpresas_main'>
         <h2>¡Regala una sonrisa al estudiante!</h2>
-        <p>
-          Nuestro servicio Campus Bag tiene como principal objetivo obsequiar
-          productos y servicios a los estudiantes universitarios a través de un
-          modelo de patrocinios. A lo largo del cuatrimestre estudiantil nos
-          acercamos a los distintos campus de las universidades Madrileñas a
-          entregar bolsas con todo tipo de contenido relevante para los
-          estudiantes. Estos van desde productos comestibles como galletas,
+
+        <p className='main__content'>
+          Nuestro servicio <b>Campus Bag</b> tiene como principal objetivo
+          obsequiar productos y servicios a los estudiantes universitarios a
+          través de un modelo de patrocinios. A lo largo del cuatrimestre
+          estudiantil nos acercamos a los distintos campus de las universidades
+          Madrileñas a entregar bolsas con todo tipo de contenido relevante para
+          los estudiantes. Estos van desde productos comestibles como galletas,
           chocolatinas y alguna que otra chuchería, hasta bebidas de todo tipo,
           muestras de productos cosméticos o muestras de productos de oficina
           como bolígrafos y útiles escolares. Además, nuestros patrocinadores
@@ -46,42 +49,72 @@ function ParaEmpresas() {
           ofertas de empleo y búsqueda de candidatos. Todo con el objetivo de
           brindar valor a los estudiantes y generar una imagen de marca
           positiva.
+          <br />
         </p>
       </section>
 
-      <section className='beneficios container'>
-        <h2>¿Por qué confiar en nuestro servicio</h2>
-        <div className='beneficios__container'>
-          <article className='card card--beneficio'>
-            <img src='' alt='Percepción positiva' />
-            <h4>Da una percepción positiva a tu marca</h4>
-            <p>
-              Nuestra Campus Bag es un regalo que las marcas patrocinadoras en
-              conjunto dan a los estudiantes.
-            </p>
-          </article>
+      <section className='upperBenefits'>
+        <div className='upperBenefits__container container'>
+          <h2>¿Por qué confiar en nuestro servicio</h2>
+          <div className='beneficios__container'>
+            <Card
+              image={cardImage}
+              imgAlt='Imagen de tarjeta'
+              title='Da una percepción positiva a tu marca'
+            >
+              Nuestra <b>Campus Bag</b> es un regalo que las distintas marcas
+              patrocinadoras en conjunto dan a los estudiantes.
+            </Card>
 
-          <article className='card card--beneficio'>
-            <img src='' alt='Percepción positiva' />
-            <h4>Da una percepción positiva a tu marca</h4>
-            <p>
-              Nuestra Campus Bag es un regalo que las marcas patrocinadoras en
-              conjunto dan a los estudiantes.
-            </p>
-          </article>
+            <Card
+              image={cardImage}
+              imgAlt='Imagen de tarjeta'
+              title='Una forma distinta de hacer publicidad'
+            >
+              Diferénciate de tu competencia al utilizar un medio de publicidad
+              menos saturado que los medios tradicionales.
+            </Card>
 
-          <article className='card card--beneficio'>
-            <img src='' alt='Percepción positiva' />
-            <h4>Da una percepción positiva a tu marca</h4>
-            <p>
-              Nuestra Campus Bag es un regalo que las marcas patrocinadoras en
-              conjunto dan a los estudiantes.
-            </p>
-          </article>
+            <Card
+              image={cardImage}
+              imgAlt='Imagen de tarjeta'
+              title='Contacto directo con estudiantes internacionales'
+            >
+              Las universidades de Madrid reciben constantemente estudiantes
+              internacionales. Dales una buena impresión de tus productos.
+            </Card>
+
+            <Card
+              image={cardImage}
+              imgAlt='Imagen de tarjeta'
+              title='Perfecto para nuevas empresas'
+            >
+              Si eres una nueva empresa con productos o servicios interesantes
+              para estudiantes, haz que te conozcan a través de nosotros.
+            </Card>
+
+            <Card
+              image={cardImage}
+              imgAlt='Imagen de tarjeta'
+              title='Un punto de contacto más con clientes potenciales'
+            >
+              Tener diversos puntos de contacto con tus clientes puede hacer la
+              diferencia. Nosotros añadimos un punto de contacto más a tu lista.
+            </Card>
+
+            <Card
+              image={cardImage}
+              imgAlt='Imagen de tarjeta'
+              title='Dedicado a estudiantes'
+            >
+              Proveemos un servicio de publicidad enfocado a estudiantes,
+              facilitando así el contacto directo entre ellos y las empresas.
+            </Card>
+          </div>
         </div>
       </section>
 
-      <section className='masBeneficios container'>
+      <section className='underBenefits container'>
         <article className='beneficio'>
           <div className='beneficio__informacion'>
             <h4>Cubrimos toda la comunidad de Madrid</h4>

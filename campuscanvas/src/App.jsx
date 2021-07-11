@@ -26,3 +26,6 @@ function App() {
 }
 
 export default App;
+
+
+//This component gathers all pages and gives them a rout and a layout

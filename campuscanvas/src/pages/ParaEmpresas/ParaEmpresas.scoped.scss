@@ -37,12 +37,63 @@ body {
   figure {
     margin: 0;
   }
+  figure img {
+    max-width: 163%;
+  }
   a {
     display: block;
   }
   a img {
     display: block;
     margin: 0 auto -32px;
+  }
+}
+
+/////////////////////////
+//     Main Text       //
+/////////////////////////
+
+.main {
+  padding-bottom: 60px;
+  h2{
+    color: $color--primary1;
+    text-align: center;
+    margin-top: 70px;
+    margin-bottom: 50px;
+  }
+  p {
+    @include paragraph--regular;
+    text-align: justify;
+    margin: 0 64px;
+  }
+  .main__content::before{
+    content:url(../../assets/static/arrow_topleft.svg);
+    display:inline-block;
+    margin-left: -65px;
+  }
+  .main__content::after{
+    content:url(../../assets/static/arrow_botright.svg);
+    margin-left: 100%;
+    display: block;
+    margin-top: -15px;
+  }
+}
+
+/////////////////////////
+//   Upper benefits    //
+/////////////////////////
+
+.upperBenefits{
+  background-color: $color--light-gray;
+  h2{
+    color: $color--primary2-dark1;
+    margin: 50px 0 80px;
+  }
+  .beneficios__container{
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-gap: 15px;
+    justify-content: center;
   }
 }
 

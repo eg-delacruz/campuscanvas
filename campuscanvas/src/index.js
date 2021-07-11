@@ -7,3 +7,5 @@ import './assets/styles/Globals.scss';
 import './assets/styles/Buttons.scss';
 
 ReactDOM.render(<App />, document.getElementById('app'));
+
+//this component is just to render the whole Web
