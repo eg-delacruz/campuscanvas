@@ -7,9 +7,9 @@ function Card(props) {
   console.log(props);
   return (
     <article className='card'>
-      <img src={props.image} alt={props.imgAlt} />
-      <h4>{props.title}</h4>
-      <p>{props.children}</p>
+      <img className='card__image' src={props.image} alt={props.imgAlt} />
+      <h4 className='card__title'>{props.title}</h4>
+      <p className='card__description'>{props.children}</p>
     </article>
   );
 }

@@ -18,6 +18,7 @@ function App() {
           <Layout>
             <Route exact path='/' component={Main} />
             <Route exact path='/empresas' component={ParaEmpresas} />
+            {/* Create Not Found 404 page */}
           </Layout>
         </Fragment>
       </Switch>
@@ -26,6 +27,5 @@ function App() {
 }
 
 export default App;
-
 
 //This component gathers all pages and gives them a rout and a layout

@@ -1,0 +1,25 @@
+@import '../../assets/styles/Vars.scss';
+
+.card {
+  border: $color--primary1-light2 solid 3px;
+  border-radius: 5px;
+  background-color: $color--white;
+  padding: 5px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 14px 21px 50px -19px rgba(0, 0, 0, 0.58);
+  &__image {
+    width: 40%;
+  }
+  &__title {
+    color: $color--primary2;
+    margin: 20px 0 12px;
+  }
+  &__description {
+    @include paragraph--regular;
+    margin: 0;
+  }
+}

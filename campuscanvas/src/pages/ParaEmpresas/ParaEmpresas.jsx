@@ -1,5 +1,6 @@
 import React from 'react';
 import './ParaEmpresas.scoped.scss';
+import { Link } from 'react-router-dom';
 
 //assets
 import BagLogo from '../../assets/static/bag_logo.svg';
@@ -14,6 +15,10 @@ import Patrocinadores from '../../components/Carousel/Carousel';
 function ParaEmpresas() {
   return (
     <div className='body__gridContainer'>
+      {/* /////////////////////////
+            //       Hero         //
+            ///////////////////////// */}
+
       <figure className='pageTitle container'>
         <img src={BagLogo} alt='Logo Campus Bag' />
       </figure>
@@ -31,6 +36,10 @@ function ParaEmpresas() {
           <img src={sectionDown} alt='Bajar a siguiente sección' />
         </a>
       </section>
+
+      {/* /////////////////////////
+            //       Main         //
+            ///////////////////////// */}
 
       <section className='main container' id='paraEmpresas_main'>
         <h2>¡Regala una sonrisa al estudiante!</h2>
@@ -52,6 +61,10 @@ function ParaEmpresas() {
           <br />
         </p>
       </section>
+
+      {/* /////////////////////////
+          //   Upper Benefits    //
+          ///////////////////////// */}
 
       <section className='upperBenefits'>
         <div className='upperBenefits__container container'>
@@ -114,6 +127,10 @@ function ParaEmpresas() {
         </div>
       </section>
 
+      {/* /////////////////////////
+          //   Under Benefits    //
+          ///////////////////////// */}
+
       <section className='underBenefits container'>
         <article className='beneficio'>
           <div className='beneficio__informacion'>
@@ -166,9 +183,13 @@ function ParaEmpresas() {
           </figure>
         </article>
       </section>
+
       {/* Enviar título por props */}
       <Patrocinadores />
 
+      {/* /////////////////////////
+          //      Contacto       //
+          ///////////////////////// */}
       <section className='bottom container'>
         <p>
           Contacta con nosotros y asegura un lugar para tus productos en la
@@ -176,9 +197,9 @@ function ParaEmpresas() {
           Madrid una vez por cuatrimestre y sorpréndelos con un bonito regalo de
           parte de tu empresa.{' '}
         </p>
-        <a href='#' className='btn button-blue'>
+        <Link to='#' className='btn button-blue'>
           Contáctanos
-        </a>
+        </Link>
       </section>
     </div>
   );

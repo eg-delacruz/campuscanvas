@@ -55,7 +55,7 @@ body {
 
 .main {
   padding-bottom: 60px;
-  h2{
+  h2 {
     color: $color--primary1;
     text-align: center;
     margin-top: 70px;
@@ -66,13 +66,13 @@ body {
     text-align: justify;
     margin: 0 64px;
   }
-  .main__content::before{
-    content:url(../../assets/static/arrow_topleft.svg);
-    display:inline-block;
+  .main__content::before {
+    content: url(../../assets/static/arrow_topleft.svg);
+    display: inline-block;
     margin-left: -65px;
   }
-  .main__content::after{
-    content:url(../../assets/static/arrow_botright.svg);
+  .main__content::after {
+    content: url(../../assets/static/arrow_botright.svg);
     margin-left: 100%;
     display: block;
     margin-top: -15px;
@@ -83,17 +83,19 @@ body {
 //   Upper benefits    //
 /////////////////////////
 
-.upperBenefits{
+.upperBenefits {
   background-color: $color--light-gray;
-  h2{
+  h2 {
     color: $color--primary2-dark1;
-    margin: 50px 0 80px;
+    margin: 50px 0 40px;
   }
-  .beneficios__container{
+  .beneficios__container {
     display: grid;
-    grid-template-columns: 33% 33% 33%;
-    grid-gap: 15px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 35px;
     justify-content: center;
+    padding-bottom: 50px;
+    box-sizing: border-box;
   }
 }
 
