@@ -85,6 +85,7 @@ body {
 
 .upperBenefits {
   background-color: $color--light-gray;
+  padding: 0 8px;
   h2 {
     color: $color--primary2-dark1;
     margin: 50px 0 40px;
@@ -96,6 +97,35 @@ body {
     justify-content: center;
     padding-bottom: 50px;
     box-sizing: border-box;
+  }
+}
+
+/////////////////////////
+//   Under benefits    //
+/////////////////////////
+
+.underBenefits {
+  display: grid;
+  padding: 50px 8px 80px;
+  .beneficio {
+    display: flex;
+    justify-content: space-between;
+    &__informacion {
+      max-width: 50%;
+      p {
+        @include paragraph--regular;
+      }
+    }
+    &__imagen {
+      max-width: 50%;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img {
+        width: 50%;
+      }
+    }
   }
 }
 

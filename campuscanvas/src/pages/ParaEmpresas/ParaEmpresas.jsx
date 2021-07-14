@@ -7,6 +7,10 @@ import BagLogo from '../../assets/static/bag_logo.svg';
 import Bagsx2 from '../../assets/static/2bags.png';
 import sectionDown from '../../assets/static/section_down.png';
 import cardImage from '../../assets/static/card_sample_image.png';
+import sampleImage_1 from '../../assets/static/Sample_img_1.png';
+import sampleImage_2 from '../../assets/static/Sample_img_2.png';
+import sampleImage_3 from '../../assets/static/Sample_img_3.png';
+import sampleImage_4 from '../../assets/static/Sample_img_4.png';
 
 //components
 import Card from '../../components/Card--ImgTitleText/Card';
@@ -145,41 +149,77 @@ function ParaEmpresas() {
             </p>
           </div>
           <figure className='beneficio__imagen'>
-            <img src='' alt='Comunidad de Madrid' />
+            <img src={sampleImage_1} alt='Comunidad de Madrid' />
           </figure>
         </article>
 
         <article className='beneficio'>
           <div className='beneficio__informacion'>
-            <h4>Cubrimos toda la comunidad de Madrid</h4>
+            <h4>La forma perfecta de encontrar candidatos</h4>
             <p>
-              --- Hablar de cantidad total de estudiantes --- metus. Donec
-              scelerisque sollicitudin enim eu venenatis. Duis tincidunt laoreet
-              ex, in pretium orci vestibulum eget. Class aptent taciti sociosqu
-              ad litora torquent per conubia nostra, per inceptos himenaeos.
-              Duis pharetra luctus lacus ut vestibulum. Maecenas ipsum lacus,
-              lacinia quis posuere ut
+              Encuentra a los mejores candidatos para tu empresa directamente en
+              las universidades. A través de nosotros puedes ofrecer bacantes
+              para estudiantes en prácticas, de media jornada, jornada completa
+              o de cualquier otro tipo. Además, puedes enviar tus propuestas al
+              campus que mejor se adapte al tipo de perfil que estás buscando.
             </p>
           </div>
           <figure className='beneficio__imagen'>
-            <img src='' alt='Comunidad de Madrid' />
+            <img src={sampleImage_1} alt='Comunidad de Madrid' />
           </figure>
         </article>
 
         <article className='beneficio'>
           <div className='beneficio__informacion'>
-            <h4>Cubrimos toda la comunidad de Madrid</h4>
+            <h4>Nosotros nos encargamos de la distribución</h4>
             <p>
-              --- Hablar de cantidad total de estudiantes --- metus. Donec
-              scelerisque sollicitudin enim eu venenatis. Duis tincidunt laoreet
-              ex, in pretium orci vestibulum eget. Class aptent taciti sociosqu
-              ad litora torquent per conubia nostra, per inceptos himenaeos.
-              Duis pharetra luctus lacus ut vestibulum. Maecenas ipsum lacus,
-              lacinia quis posuere ut
+              El equipo de Campus Canvas cuenta con una red de distribución de
+              Campus Bag en toda la comunidad de Madrid, pudiendo así llegar a
+              los estudiantes de las universidades más grandes del área. A lo
+              largo de cada cuatrimestre estudiantil, todas estas universidades
+              son visitadas como mínimo una vez por nuestro equipo. De esta
+              manera no te tienes que preocupar por la logística de
+              distribución, ¡déjalo en nuestras manos!
             </p>
           </div>
           <figure className='beneficio__imagen'>
-            <img src='' alt='Comunidad de Madrid' />
+            <img src={sampleImage_2} alt='Comunidad de Madrid' />
+          </figure>
+        </article>
+
+        <article className='beneficio'>
+          <div className='beneficio__informacion'>
+            <h4>Diseñamos tu publicidad</h4>
+            <p>
+              Si no tienes un equipo dedicado al diseño e impresión de tu
+              publicidad, nosotros lo hacemos por ti. En conjunto contigo,
+              diseñamos tus volantes publicitarios y nos encargamos de su
+              impresión con el acabado que más te convenga: impresiones a una
+              tinta, duo tonos, coated, uncoated, etc. Si lo prefieres, puedes
+              enviarnos el diseño de tu volante y nosotros continuaremos el
+              proceso de impresión y distribución.
+            </p>
+          </div>
+          <figure className='beneficio__imagen'>
+            <img src={sampleImage_3} alt='Comunidad de Madrid' />
+          </figure>
+        </article>
+
+        <article className='beneficio'>
+          <div className='beneficio__informacion'>
+            <h4>Múltiples opciones para tus productos</h4>
+            <p>
+              Uno de los objetivos de nuestra Campus Bag es obsequiar valor al
+              estudiante. Por ello, incitamos a nuestros patrocinadores en
+              contribuir a ella principalmente con productos interesantes de su
+              marca y de esta manera generar una imagen de marca positiva de
+              cara a los estudiantes. Otras maneras de contribuir es a través de
+              flyers o cupones con descuentos, ofertas atractivas u ofertas de
+              empleo.
+            </p>
+          </div>
+          <figure className='beneficio__imagen'>
+            <img src={sampleImage_4} alt='Comunidad de Madrid' />
           </figure>
         </article>
       </section>
