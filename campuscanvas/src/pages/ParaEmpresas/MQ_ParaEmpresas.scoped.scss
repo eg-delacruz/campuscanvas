@@ -1,24 +1,125 @@
+@media screen and (max-width: 880px) {
+  /////////////////////////
+  //         Hero         //
+  /////////////////////////
+  .hero {
+    &__title {
+      @include font-size(50px);
+      text-align: center;
+    }
+  }
+}
+
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 767px) {
+  /////////////////////////
+  //         Hero         //
+  /////////////////////////
+  .hero {
+    &__title {
+      line-height: 70px;
+    }
+  }
+
   .upperBenefits {
     .beneficios__container {
       grid-template-columns: 45% 45%;
       grid-gap: 20px;
     }
   }
+
+  .underBenefits {
+    padding: 50px 20px 80px;
+  }
 }
 ////////////////////////////////////////480/////////////////////////////////////////////
 
 @media screen and (max-width: 480px) {
+  //   .pageTitle img {
+  //     margin: 30px auto;
+  //   }
+  /////////////////////////
+  //         Hero         //
+  /////////////////////////
+
+  .hero {
+    &__container {
+      grid-template-columns: 1fr;
+      padding: 25px 0;
+      figure {
+        margin-right: 8px;
+      }
+    }
+    &__title {
+      @include font-size(40px);
+      margin: 0px;
+    }
+  }
+
+  /////////////////////////
+  //     Main Text       //
+  /////////////////////////
+
+  .main {
+    padding-bottom: 30px;
+    h2 {
+      margin-bottom: 30px;
+    }
+  }
+
   .upperBenefits {
     .beneficios__container {
       grid-template-columns: 70%;
       grid-gap: 15px;
     }
   }
+
+  /////////////////////////
+  //   Under benefits    //
+  /////////////////////////
+
+  .underBenefits {
+    padding-bottom: 0;
+    .beneficio {
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 55px;
+      &__informacion {
+        order: 1;
+        max-width: 95%;
+        h4 {
+          margin: 15px 0;
+        }
+      }
+      &__imagen {
+        max-width: 100%;
+      }
+    }
+  }
+
+  /////////////////////////
+  //   Patrocinadores    //
+  /////////////////////////
 }
 ////////////////////////////////////////320/////////////////////////////////////////////
 
 @media screen and (max-width: 320px) {
+  .main {
+    p {
+      margin: 0 10px;
+    }
+    .main__content::before {
+      display: none;
+    }
+    .main__content::after {
+      display: none;
+    }
+  }
+
+  .upperBenefits {
+    .beneficios__container {
+      grid-template-columns: 95%;
+    }
+  }
 }

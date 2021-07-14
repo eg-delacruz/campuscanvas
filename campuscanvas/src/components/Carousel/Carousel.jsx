@@ -63,6 +63,8 @@ function PrevArrow(props) {
 
 export default class Carousel extends Component {
   render() {
+    const { titulo } = this.props;
+
     const settings = {
       dots: true,
       infinite: true,
@@ -113,7 +115,7 @@ export default class Carousel extends Component {
     return (
       <section className='sponsors'>
         <div className='sponsors__container container'>
-          <h2> Nuestros patrocinadores</h2>
+          <h2> {titulo}</h2>
           <Slider {...settings}>
             <div>
               <img

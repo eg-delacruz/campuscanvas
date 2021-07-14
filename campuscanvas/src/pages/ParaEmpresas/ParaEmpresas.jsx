@@ -13,12 +13,14 @@ import sampleImage_3 from '../../assets/static/Sample_img_3.png';
 import sampleImage_4 from '../../assets/static/Sample_img_4.png';
 
 //components
+import ButtonUp from '../../components/ButtonUp/ButtonUp';
 import Card from '../../components/Card--ImgTitleText/Card';
 import Patrocinadores from '../../components/Carousel/Carousel';
 
 function ParaEmpresas() {
   return (
     <div className='body__gridContainer'>
+      <ButtonUp />
       {/* /////////////////////////
             //       Hero         //
             ///////////////////////// */}
@@ -225,19 +227,22 @@ function ParaEmpresas() {
       </section>
 
       {/* Enviar título por props */}
-      <Patrocinadores />
+      <Patrocinadores
+        className='patrocinadores'
+        titulo='Estas empresas ya confían en nosotros'
+      />
 
       {/* /////////////////////////
           //      Contacto       //
           ///////////////////////// */}
-      <section className='bottom container'>
+      <section className='contact container'>
         <p>
           Contacta con nosotros y asegura un lugar para tus productos en la
           bolsa que se distribuye a todos los estudiantes universitarios en
           Madrid una vez por cuatrimestre y sorpréndelos con un bonito regalo de
           parte de tu empresa.{' '}
         </p>
-        <Link to='#' className='btn button-blue'>
+        <Link to='/construccion' className='btn button-blue'>
           Contáctanos
         </Link>
       </section>

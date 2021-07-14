@@ -11,9 +11,17 @@ body {
 //     Page Titel      //
 /////////////////////////
 
-.pageTitle img {
-  display: block;
-  margin: 30px auto;
+.pageTitle {
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  img {
+    // display: block;
+    margin: 30px auto;
+    max-width: 100%;
+  }
 }
 
 /////////////////////////
@@ -25,7 +33,7 @@ body {
   &__container {
     display: grid;
     grid-template-columns: 50% 1fr;
-    padding: 25px 0;
+    padding: 25px 10px;
   }
   &__title {
     color: $color--white;
@@ -126,6 +134,23 @@ body {
         width: 50%;
       }
     }
+  }
+}
+
+/////////////////////////
+//      Contacto       //
+/////////////////////////
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 8px 90px;
+  p {
+    margin-top: 0;
+    margin-bottom: 80px;
+    @include paragraph--regular;
+    text-align: center;
   }
 }
 

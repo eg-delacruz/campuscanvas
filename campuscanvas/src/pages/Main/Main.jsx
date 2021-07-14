@@ -172,7 +172,7 @@ function Main() {
             //   Patrocinadores    //
             ///////////////////////// */}
 
-      <Carousel />
+      <Carousel titulo='Nuestros patrocinadores' />
     </div>
   );
 }
