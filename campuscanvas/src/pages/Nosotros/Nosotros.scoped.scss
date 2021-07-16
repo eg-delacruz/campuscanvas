@@ -5,7 +5,7 @@
 /////////////////////////
 
 .hero {
-  background-image: url(../../assets/static/nosotros_hero.png);
+  background-image: url('../../assets/static/nosotros_hero.png');
   background-repeat: no-repeat;
   background-position: center;
   &__container {
@@ -25,13 +25,13 @@
 /////////////////////////
 
 .main {
-  background-image: url(../../assets/static/BG_nosotros_1.svg),
-    url(../../assets/static/BG_nosotros_2.svg),
-    url(../../assets/static/BG_nosotros_3.svg),
-    url(../../assets/static/BG_nosotros_4.svg),
-    url(../../assets/static/BG_nosotros_5.svg),
-    url(../../assets/static/BG_nosotros_6.svg),
-    url(../../assets/static/BG_nosotros_7.svg);
+  background-image: url('../../assets/static/BG_nosotros_1.svg'),
+    url('../../assets/static/BG_nosotros_2.svg'),
+    url('../../assets/static/BG_nosotros_3.svg'),
+    url('../../assets/static/BG_nosotros_4.svg'),
+    url('../../assets/static/BG_nosotros_5.svg'),
+    url('../../assets/static/BG_nosotros_6.svg'),
+    url('../../assets/static/BG_nosotros_7.svg');
   background-repeat: no-repeat;
   background-position: 10% 65%, 85% 25%, 70% 110%, 60% 70%, 30% 85%, 38% 50%,
     60% 53%;
