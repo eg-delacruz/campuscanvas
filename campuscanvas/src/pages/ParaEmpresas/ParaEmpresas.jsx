@@ -19,12 +19,6 @@ import lowerBenefit3 from '../../assets/static/lowerBenefit_img_3.png';
 import lowerBenefit4 from '../../assets/static/lowerBenefit_img_4.png';
 import lowerBenefit5 from '../../assets/static/lowerBenefit_img_5.png';
 
-import cardImage from '../../assets/static/card_sample_image.png';
-import sampleImage_1 from '../../assets/static/Sample_img_1.png';
-import sampleImage_2 from '../../assets/static/Sample_img_2.png';
-import sampleImage_3 from '../../assets/static/Sample_img_3.png';
-import sampleImage_4 from '../../assets/static/Sample_img_4.png';
-
 //components
 import ButtonUp from '../../components/ButtonUp/ButtonUp';
 import Card from '../../components/Card--ImgTitleText/Card';

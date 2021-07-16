@@ -1,0 +1,69 @@
+@import '../../assets/styles/Vars.scss';
+
+/////////////////////////
+//        Hero         //
+/////////////////////////
+
+.hero {
+  background-image: url(../../assets/static/nosotros_hero.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  &__container {
+    padding: 40px 0;
+  }
+  h1 {
+    color: $color--white;
+    margin: 0;
+    width: 80%;
+    @include font-size(70px);
+    line-height: 100px;
+  }
+}
+
+/////////////////////////
+//        Main         //
+/////////////////////////
+
+.main {
+  background-image: url(../../assets/static/BG_nosotros_1.svg),
+    url(../../assets/static/BG_nosotros_2.svg),
+    url(../../assets/static/BG_nosotros_3.svg),
+    url(../../assets/static/BG_nosotros_4.svg),
+    url(../../assets/static/BG_nosotros_5.svg),
+    url(../../assets/static/BG_nosotros_6.svg),
+    url(../../assets/static/BG_nosotros_7.svg);
+  background-repeat: no-repeat;
+  background-position: 10% 65%, 85% 25%, 70% 110%, 60% 70%, 30% 85%, 38% 50%,
+    60% 53%;
+  &__container {
+    padding: 30px 8px 90px;
+  }
+  &__quienesSomos {
+    &-container {
+      display: flex;
+      justify-content: space-between;
+      p {
+        @include paragraph--regular;
+        width: 48%;
+      }
+      figure {
+        width: 48%;
+        img {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  &__motivation {
+    p {
+      @include paragraph--regular;
+    }
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+
+@import './MQ_Nosotros.scoped.scss';

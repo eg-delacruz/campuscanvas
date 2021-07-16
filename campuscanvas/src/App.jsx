@@ -6,6 +6,7 @@ import Layout from './components/Layout/Layout';
 import Main from './pages/Main/Main';
 import Construccion from './pages/Construction/Construccion';
 import ParaEmpresas from './pages/ParaEmpresas/ParaEmpresas';
+import Nosotros from './pages/Nosotros/Nosotros';
 
 //Router
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Layout>
             <Route exact path='/' component={Main} />
             <Route exact path='/empresas' component={ParaEmpresas} />
+            <Route exact path='/nosotros' component={Nosotros} />
             {/* Create Not Found 404 page */}
           </Layout>
         </Fragment>
