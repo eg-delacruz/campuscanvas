@@ -125,13 +125,14 @@ body {
       }
     }
     &__imagen {
+      width: 50%;
       max-width: 50%;
       margin: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       img {
-        width: 50%;
+        width: 40%;
       }
     }
   }

@@ -6,6 +6,19 @@ import { Link } from 'react-router-dom';
 import BagLogo from '../../assets/static/bag_logo.svg';
 import Bagsx2 from '../../assets/static/2bags.png';
 import sectionDown from '../../assets/static/section_down.png';
+
+import upperBenefit1 from '../../assets/static/upperBenefit_img_1.png';
+import upperBenefit2 from '../../assets/static/upperBenefit_img_2.png';
+import upperBenefit3 from '../../assets/static/upperBenefit_img_3.png';
+import upperBenefit4 from '../../assets/static/upperBenefit_img_4.png';
+import upperBenefit5 from '../../assets/static/upperBenefit_img_5.png';
+import upperBenefit6 from '../../assets/static/upperBenefit_img_6.png';
+import lowerBenefit1 from '../../assets/static/lowerBenefit_img_1.png';
+import lowerBenefit2 from '../../assets/static/lowerBenefit_img_2.png';
+import lowerBenefit3 from '../../assets/static/lowerBenefit_img_3.png';
+import lowerBenefit4 from '../../assets/static/lowerBenefit_img_4.png';
+import lowerBenefit5 from '../../assets/static/lowerBenefit_img_5.png';
+
 import cardImage from '../../assets/static/card_sample_image.png';
 import sampleImage_1 from '../../assets/static/Sample_img_1.png';
 import sampleImage_2 from '../../assets/static/Sample_img_2.png';
@@ -77,7 +90,7 @@ function ParaEmpresas() {
           <h2>¿Por qué confiar en nuestro servicio</h2>
           <div className='beneficios__container'>
             <Card
-              image={cardImage}
+              image={upperBenefit1}
               imgAlt='Imagen de tarjeta'
               title='Da una percepción positiva a tu marca'
             >
@@ -86,25 +99,25 @@ function ParaEmpresas() {
             </Card>
 
             <Card
-              image={cardImage}
+              image={upperBenefit2}
               imgAlt='Imagen de tarjeta'
               title='Una forma distinta de hacer publicidad'
             >
               Diferénciate de tu competencia al utilizar un medio de publicidad
-              menos saturado que los medios tradicionales.
+              menos saturado.
             </Card>
 
             <Card
-              image={cardImage}
+              image={upperBenefit3}
               imgAlt='Imagen de tarjeta'
               title='Contacto directo con estudiantes internacionales'
             >
-              Las universidades de Madrid reciben constantemente estudiantes
-              internacionales. Dales una buena impresión de tus productos.
+              Causa una buena impresión de tus productos al constante flujo de
+              estidiantes internacionales en Madrid.
             </Card>
 
             <Card
-              image={cardImage}
+              image={upperBenefit4}
               imgAlt='Imagen de tarjeta'
               title='Perfecto para nuevas empresas'
             >
@@ -113,16 +126,16 @@ function ParaEmpresas() {
             </Card>
 
             <Card
-              image={cardImage}
+              image={upperBenefit5}
               imgAlt='Imagen de tarjeta'
               title='Un punto de contacto más con clientes potenciales'
             >
               Tener diversos puntos de contacto con tus clientes puede hacer la
-              diferencia. Nosotros añadimos un punto de contacto más a tu lista.
+              diferencia. Nosotros añadimos uno más a tu lista.
             </Card>
 
             <Card
-              image={cardImage}
+              image={upperBenefit6}
               imgAlt='Imagen de tarjeta'
               title='Dedicado a estudiantes'
             >
@@ -142,16 +155,15 @@ function ParaEmpresas() {
           <div className='beneficio__informacion'>
             <h4>Cubrimos toda la comunidad de Madrid</h4>
             <p>
-              --- Hablar de cantidad total de estudiantes --- metus. Donec
-              scelerisque sollicitudin enim eu venenatis. Duis tincidunt laoreet
-              ex, in pretium orci vestibulum eget. Class aptent taciti sociosqu
-              ad litora torquent per conubia nostra, per inceptos himenaeos.
-              Duis pharetra luctus lacus ut vestibulum. Maecenas ipsum lacus,
-              lacinia quis posuere ut
+              Con más de 300 000 estudiantes, Madrid ofrece un gran potencial
+              para nuestro servicio, pues nuestro objetivo es hacer entrega de
+              una <b>Campus Bag</b> a cada uno de ellas/os cada cuatrimestre. La
+              espectativa generada por nuestra bolsa garantiza a tu empresa una
+              campaña de publicidad efectiva.
             </p>
           </div>
           <figure className='beneficio__imagen'>
-            <img src={sampleImage_1} alt='Comunidad de Madrid' />
+            <img src={lowerBenefit1} alt='Comunidad de Madrid' />
           </figure>
         </article>
 
@@ -160,14 +172,14 @@ function ParaEmpresas() {
             <h4>La forma perfecta de encontrar candidatos</h4>
             <p>
               Encuentra a los mejores candidatos para tu empresa directamente en
-              las universidades. A través de nosotros puedes ofrecer bacantes
-              para estudiantes en prácticas, de media jornada, jornada completa
-              o de cualquier otro tipo. Además, puedes enviar tus propuestas al
-              campus que mejor se adapte al tipo de perfil que estás buscando.
+              las universidades. Con nosotros puedes ofrecer bacantes para
+              estudiantes en prácticas, de media jornada, jornada completa o de
+              cualquier otro tipo. Además, promover tus propuestas en el campus
+              que mejor se adapte al tipo de perfil que estás buscando.
             </p>
           </div>
           <figure className='beneficio__imagen'>
-            <img src={sampleImage_1} alt='Comunidad de Madrid' />
+            <img src={lowerBenefit2} alt='Comunidad de Madrid' />
           </figure>
         </article>
 
@@ -185,7 +197,7 @@ function ParaEmpresas() {
             </p>
           </div>
           <figure className='beneficio__imagen'>
-            <img src={sampleImage_2} alt='Comunidad de Madrid' />
+            <img src={lowerBenefit3} alt='Comunidad de Madrid' />
           </figure>
         </article>
 
@@ -203,7 +215,7 @@ function ParaEmpresas() {
             </p>
           </div>
           <figure className='beneficio__imagen'>
-            <img src={sampleImage_3} alt='Comunidad de Madrid' />
+            <img src={lowerBenefit4} alt='Comunidad de Madrid' />
           </figure>
         </article>
 
@@ -212,25 +224,21 @@ function ParaEmpresas() {
             <h4>Múltiples opciones para tus productos</h4>
             <p>
               Uno de los objetivos de nuestra Campus Bag es obsequiar valor al
-              estudiante. Por ello, incitamos a nuestros patrocinadores en
+              estudiante. Por ello, incitamos a nuestros patrocinadores a
               contribuir a ella principalmente con productos interesantes de su
-              marca y de esta manera generar una imagen de marca positiva de
-              cara a los estudiantes. Otras maneras de contribuir es a través de
-              flyers o cupones con descuentos, ofertas atractivas u ofertas de
-              empleo.
+              marca, y de esta manera generar una imagen de marca positiva de
+              cara a los estudiantes. También puedes poner productos como flyers
+              o cupones con descuentos, ofertas atractivas y ofertas de empleo.
             </p>
           </div>
           <figure className='beneficio__imagen'>
-            <img src={sampleImage_4} alt='Comunidad de Madrid' />
+            <img src={lowerBenefit5} alt='Comunidad de Madrid' />
           </figure>
         </article>
       </section>
 
       {/* Enviar título por props */}
-      <Patrocinadores
-        className='patrocinadores'
-        titulo='Estas empresas ya confían en nosotros'
-      />
+      <Patrocinadores titulo='Estas empresas ya confían en nosotros' />
 
       {/* /////////////////////////
           //      Contacto       //
@@ -238,9 +246,9 @@ function ParaEmpresas() {
       <section className='contact container'>
         <p>
           Contacta con nosotros y asegura un lugar para tus productos en la
-          bolsa que se distribuye a todos los estudiantes universitarios en
-          Madrid una vez por cuatrimestre y sorpréndelos con un bonito regalo de
-          parte de tu empresa.{' '}
+          bolsa que se distribuye a todos los estudiantes madrileños una vez por
+          cuatrimestre y sorpréndelos con un bonito regalo de parte de tu
+          empresa.
         </p>
         <Link to='/construccion' className='btn button-blue'>
           Contáctanos
