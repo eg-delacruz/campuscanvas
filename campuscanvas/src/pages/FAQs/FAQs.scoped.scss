@@ -1,5 +1,21 @@
 @import '../../assets/styles/Vars.scss';
 
+.main {
+  &__title {
+    margin-top: 30px;
+    color: $color--primary2;
+  }
+  &__container {
+    padding: 30px 8px 90px;
+    h3 {
+      color: $color--primary2-dark1;
+    }
+    p {
+      @include paragraph--regular;
+    }
+  }
+}
+
 /////////////////////////
 //         MQ         //
 /////////////////////////
