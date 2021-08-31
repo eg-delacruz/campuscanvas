@@ -4,6 +4,7 @@ import React from 'react';
 import './FAQs.scoped.scss';
 
 //Components
+import ButtonUp from '../../components/ButtonUp/ButtonUp';
 
 function FAQs() {
   const QUESTIONS = [
@@ -82,6 +83,7 @@ function FAQs() {
             //       Main        //
             ///////////////////////// */}
       <main>
+        <ButtonUp />
         <div className='main__container container'>
           <h1 className='main__title'>Preguntas frecuentes</h1>
           <section className='main__questionList'>{displayQuestions}</section>
