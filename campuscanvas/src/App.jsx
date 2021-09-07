@@ -9,6 +9,7 @@ import ParaEmpresas from './pages/ParaEmpresas/ParaEmpresas';
 import Nosotros from './pages/Nosotros/Nosotros';
 import FAQs from './pages/FAQs/FAQs';
 import PoliticasPrivacidad from './pages/PoliticasPrivacidad/PoliticasPrivacidad';
+import TerminosCondiciones from './pages/TerminosCondiciones/TerminosCondiciones';
 
 //Router
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route exact path='/nosotros' component={Nosotros} />
             <Route exact path='/FAQs' component={FAQs} />
             <Route exact path='/privacidad' component={PoliticasPrivacidad} />
+            <Route exact path='/condiciones' component={TerminosCondiciones} />
             {/* Create Not Found 404 page */}
           </Layout>
         </Fragment>

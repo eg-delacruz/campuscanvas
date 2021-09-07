@@ -332,7 +332,7 @@ function politicasPrivacidad() {
             </ul>
           </article>
           <div className='main__bottom'>
-            <h4>Última actualización: 16/02/2021</h4>
+            <h4>Última actualización: 7/09/2021</h4>
             <h4>
               Copyright ® Campus Canvas 2021. Todos los derechos reservados
             </h4>

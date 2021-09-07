@@ -48,7 +48,7 @@ function Footer() {
                 <Link to='/privacidad'>Política de privacidad</Link>
               </li>
               <li>
-                <Link to='/construccion'>Términos y condiciones</Link>
+                <Link to='/condiciones'>Términos y condiciones</Link>
               </li>
               <li>
                 <Link to='/construccion'>Declaración de cookies</Link>
