@@ -31,10 +31,10 @@ function Footer() {
                 <Link to='/construccion'>Blog</Link>
               </li>
               <li>
-                <Link to='/construccion'>FAQs</Link>
+                <Link to='/FAQs'>FAQs</Link>
               </li>
               <li>
-                <Link to='/construccion'>Nosotros</Link>
+                <Link to='/nosotros'>Nosotros</Link>
               </li>
               <li className='footer__empleos'>
                 <Link to='/construccion'>Empleos</Link>
@@ -45,7 +45,7 @@ function Footer() {
             <h5>Legal</h5>
             <ul>
               <li>
-                <Link to='/construccion'>Política de privacidad</Link>
+                <Link to='/privacidad'>Política de privacidad</Link>
               </li>
               <li>
                 <Link to='/construccion'>Términos y condiciones</Link>

@@ -50,6 +50,8 @@ body {
   }
   a {
     display: block;
+    position: relative;
+    z-index: 1;
   }
   a img {
     display: block;
