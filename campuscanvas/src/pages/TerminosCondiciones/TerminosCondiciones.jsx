@@ -1,5 +1,5 @@
 import React from 'react';
-import './TerminosCondiciones.scope.scss';
+import './TerminosCondiciones.scoped.scss';
 
 //Components
 import ButtonUp from '../../components/ButtonUp/ButtonUp';

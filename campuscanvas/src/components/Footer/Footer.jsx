@@ -51,7 +51,7 @@ function Footer() {
                 <Link to='/condiciones'>Términos y condiciones</Link>
               </li>
               <li>
-                <Link to='/construccion'>Declaración de cookies</Link>
+                <Link to='/cookies'>Declaración de cookies</Link>
               </li>
             </ul>
           </div>
