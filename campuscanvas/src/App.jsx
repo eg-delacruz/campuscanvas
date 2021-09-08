@@ -11,6 +11,7 @@ import FAQs from './pages/FAQs/FAQs';
 import PoliticasPrivacidad from './pages/PoliticasPrivacidad/PoliticasPrivacidad';
 import TerminosCondiciones from './pages/TerminosCondiciones/TerminosCondiciones';
 import Cookies from './pages/Cookies/Cookies';
+import Empleos from './pages/Empleos/Empleos';
 
 //Router
 function App() {
@@ -28,6 +29,7 @@ function App() {
             <Route exact path='/privacidad' component={PoliticasPrivacidad} />
             <Route exact path='/condiciones' component={TerminosCondiciones} />
             <Route exact path='/cookies' component={Cookies} />
+            <Route exact path='/empleos' component={Empleos} />
             {/* Create Not Found 404 page */}
           </Layout>
         </Fragment>
