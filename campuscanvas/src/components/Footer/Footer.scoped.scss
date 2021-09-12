@@ -52,13 +52,15 @@
     margin-right: 5px;
   }
 
-  .footer__empleos::after {
+  .footer__empleos-enlace::after {
     content: '¡Estamos contratando!';
     display: inline;
-    @include font-size(10px);
+    @include font-size(11px);
     border-radius: 15px;
     background-color: $color--primary2-light1;
-    padding: 1px 6px;
+    padding: 0px 6px;
+    padding-bottom: 2px;
+    margin-left: 2px;
   }
 
   /////////////////////////
@@ -139,13 +141,13 @@
     }
 
     &__platform {
-      width: 180px;
+      width: 200px;
       margin-top: 20px;
     }
 
     &__legal {
       margin-top: 0;
-      width: 180px;
+      width: 200px;
     }
     &__social {
       width: 100%;

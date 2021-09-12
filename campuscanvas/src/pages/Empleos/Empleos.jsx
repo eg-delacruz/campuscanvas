@@ -2,6 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Empleos.scoped.scss';
 
+//Assets
+
+//Components
+import TablaEmpleos from './TablaEmpleos';
+
 function Empleos() {
   return (
     <div className='body__gridContainer'>
@@ -13,52 +18,7 @@ function Empleos() {
             puestos que actualmente buscamos:
           </p>
 
-          <section className='main__jobs'>
-            <article className='main__jobCard'>
-              <h4 className='main_jobCardTitle'>
-                Desarrollador frontend con React
-              </h4>
-              <p>
-                Aquí va una pequeña descripción del perfil que estamos buscando.
-                Se describen un poco las habilidades requeridas de una manera
-                interesante y corta. Pueden mencionarse las tecnologías que el
-                solicitante deberá dominar de manera rápida. Quizá poner algunas
-                actividades extra que se llevarán a cabo con otros equipos o el
-                propósito de lo que se quiere lograr con este cargo.
-              </p>
-              <Link className='btn button--purple' to='/construccion'>
-                Más información
-              </Link>
-            </article>
-            <article className='main__jobCard'>
-              <h4>Desarrollador frontend con React</h4>
-              <p>
-                Aquí va una pequeña descripción del perfil que estamos buscando.
-                Se describen un poco las habilidades requeridas de una manera
-                interesante y corta. Pueden mencionarse las tecnologías que el
-                solicitante deberá dominar de manera rápida. Quizá poner algunas
-                actividades extra que se llevarán a cabo con otros equipos o el
-                propósito de lo que se quiere lograr con este cargo.
-              </p>
-              <Link className='btn button--purple' to='/construccion'>
-                Más información
-              </Link>
-            </article>
-            <article className='main__jobCard'>
-              <h4>Desarrollador frontend con React</h4>
-              <p>
-                Aquí va una pequeña descripción del perfil que estamos buscando.
-                Se describen un poco las habilidades requeridas de una manera
-                interesante y corta. Pueden mencionarse las tecnologías que el
-                solicitante deberá dominar de manera rápida. Quizá poner algunas
-                actividades extra que se llevarán a cabo con otros equipos o el
-                propósito de lo que se quiere lograr con este cargo.
-              </p>
-              <Link className='btn button--purple' to='/construccion'>
-                Más información
-              </Link>
-            </article>
-          </section>
+          <TablaEmpleos />
 
           <section className='main__sendCV'>
             <h3>O toma la iniciativa y envíanos tu CV</h3>

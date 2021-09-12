@@ -37,7 +37,9 @@ function Footer() {
                 <Link to='/nosotros'>Nosotros</Link>
               </li>
               <li className='footer__empleos'>
-                <Link to='/empleos'>Empleos</Link>
+                <Link className='footer__empleos-enlace' to='/empleos'>
+                  Empleos
+                </Link>
               </li>
             </ul>
           </div>
