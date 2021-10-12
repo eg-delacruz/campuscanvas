@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+
+//Components
 import Layout from './components/Layout/Layout';
 
 //pages
@@ -13,10 +15,15 @@ import TerminosCondiciones from './pages/TerminosCondiciones/TerminosCondiciones
 import Cookies from './pages/Cookies/Cookies';
 import Empleos from './pages/Empleos/Empleos';
 
+//hooks
+import ScrollToTop from './hooks/ScrollToTop';
+
 //Router
 function App() {
+  //console.log(useScrollToTop);
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Switch>
         {/* A todo lo que va fuera del <Fragment> no se le aplica el layout */}
         <Route exact path='/construccion' component={Construccion} />
@@ -41,5 +48,3 @@ function App() {
 export default App;
 
 //This component gathers all pages and gives them a rout and a layout
-//To scroll to top when new page opens:
-//https://stackoverflow.com/questions/36904185/react-router-scroll-to-top-on-every-transition
