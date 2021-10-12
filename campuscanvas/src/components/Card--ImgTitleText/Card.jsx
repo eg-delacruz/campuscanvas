@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 //styles
 import './Card.scoped.scss';
@@ -15,4 +16,9 @@ function Card({ image, imgAlt, title, children }) {
 
 export default Card;
 
-//Poner proptypes
+Card.propTypes = {
+  image: PropTypes.node.isRequired,
+  imgAlt: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+};
