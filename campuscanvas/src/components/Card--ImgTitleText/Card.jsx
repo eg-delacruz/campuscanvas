@@ -14,3 +14,5 @@ function Card({ image, imgAlt, title, children }) {
 }
 
 export default Card;
+
+//Poner proptypes

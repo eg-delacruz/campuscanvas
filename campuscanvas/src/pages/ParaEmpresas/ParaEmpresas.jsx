@@ -162,6 +162,8 @@ function ParaEmpresas() {
           </figure>
         </article>
 
+        <hr className='beneficio__hr' />
+
         <article className='beneficio'>
           <div className='beneficio__informacion'>
             <h4>La forma perfecta de encontrar candidatos</h4>
@@ -178,6 +180,8 @@ function ParaEmpresas() {
           </figure>
         </article>
 
+        <hr className='beneficio__hr' />
+
         <article className='beneficio'>
           <div className='beneficio__informacion'>
             <h4>Nosotros nos encargamos de la distribución</h4>
@@ -191,10 +195,12 @@ function ParaEmpresas() {
               distribución, ¡déjalo en nuestras manos!
             </p>
           </div>
-          <figure className='beneficio__imagen'>
+          <figure className='beneficio__imagen beneficio__imgSizeModif'>
             <img src={lowerBenefit3} alt='Comunidad de Madrid' />
           </figure>
         </article>
+
+        <hr className='beneficio__hr' />
 
         <article className='beneficio'>
           <div className='beneficio__informacion'>
@@ -209,10 +215,12 @@ function ParaEmpresas() {
               proceso de impresión y distribución.
             </p>
           </div>
-          <figure className='beneficio__imagen'>
+          <figure className='beneficio__imagen beneficio__imgSizeModif'>
             <img src={lowerBenefit4} alt='Comunidad de Madrid' />
           </figure>
         </article>
+
+        <hr className='beneficio__hr' />
 
         <article className='beneficio'>
           <div className='beneficio__informacion'>
@@ -226,7 +234,7 @@ function ParaEmpresas() {
               o cupones con descuentos, ofertas atractivas y ofertas de empleo.
             </p>
           </div>
-          <figure className='beneficio__imagen'>
+          <figure className='beneficio__imagen beneficio__imgSizeModif'>
             <img src={lowerBenefit5} alt='Comunidad de Madrid' />
           </figure>
         </article>

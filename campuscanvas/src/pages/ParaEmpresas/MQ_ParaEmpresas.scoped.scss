@@ -101,7 +101,7 @@
     .beneficio {
       flex-direction: column;
       align-items: center;
-      margin-bottom: 55px;
+      margin: 32px 0;
       &__informacion {
         order: 1;
         max-width: 95%;
@@ -113,6 +113,13 @@
         max-width: 100%;
         width: 100%;
       }
+      &__imgSizeModif {
+        width: 80%;
+      }
+      &__hr {
+        display: initial;
+        width: 80%;
+      }
     }
   }
 
@@ -120,11 +127,25 @@
   //   Patrocinadores    //
   /////////////////////////
 }
+
+@media screen and (max-width: 400px) {
+  .main {
+    .main__content {
+      margin: 0 38px;
+    }
+    .main__content::before {
+      margin-left: -51px;
+    }
+    .main__content::after {
+      margin-left: 95%;
+    }
+  }
+}
 ////////////////////////////////////////320/////////////////////////////////////////////
 
 @media screen and (max-width: 320px) {
   .main {
-    p {
+    .main__content {
       margin: 0 10px;
     }
     .main__content::before {
