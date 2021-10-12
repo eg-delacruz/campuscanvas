@@ -41,3 +41,5 @@ function App() {
 export default App;
 
 //This component gathers all pages and gives them a rout and a layout
+//To scroll to top when new page opens:
+//https://stackoverflow.com/questions/36904185/react-router-scroll-to-top-on-every-transition

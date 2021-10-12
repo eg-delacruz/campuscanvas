@@ -7,6 +7,7 @@ import BagLogo from '../../assets/static/bag_logo.svg';
 import Bagsx2 from '../../assets/static/2bags.png';
 import sectionDown from '../../assets/static/section_down.png';
 
+//Images
 import upperBenefit1 from '../../assets/static/upperBenefit_img_1.png';
 import upperBenefit2 from '../../assets/static/upperBenefit_img_2.png';
 import upperBenefit3 from '../../assets/static/upperBenefit_img_3.png';

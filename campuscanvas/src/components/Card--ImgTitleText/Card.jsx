@@ -3,13 +3,12 @@ import React from 'react';
 //styles
 import './Card.scoped.scss';
 
-function Card(props) {
-  console.log(props);
+function Card({ image, imgAlt, title, children }) {
   return (
     <article className='card'>
-      <img className='card__image' src={props.image} alt={props.imgAlt} />
-      <h4 className='card__title'>{props.title}</h4>
-      <p className='card__description'>{props.children}</p>
+      <img className='card__image' src={image} alt={imgAlt} />
+      <h4 className='card__title'>{title}</h4>
+      <p className='card__description'>{children}</p>
     </article>
   );
 }
