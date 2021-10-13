@@ -1,5 +1,9 @@
 @import '../../assets/styles/Vars.scss';
 
+//Animations:
+//FadeIn
+@import '../../assets/styles/Animations/fadeIn.scoped.scss';
+
 .button-up-container {
   position: fixed;
   right: 150px;
@@ -9,6 +13,7 @@
 }
 .is-active {
   display: initial;
+  animation: setFadeIn();
 }
 
 .button-up-container svg {

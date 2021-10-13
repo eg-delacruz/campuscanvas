@@ -5,16 +5,17 @@ import { useToggleOnScroll } from '../../hooks/useToggleEOnScroll';
 
 //styles
 import './ButtonUp.scoped.scss';
-import { Button } from './styles';
 
 function ButtonUp() {
   const [buttonToggler] = useToggleOnScroll(200);
-  console.log(buttonToggler);
+  //console.log(buttonToggler);
 
   return (
-    <Button
+    <div
       className={
-        buttonToggler ? 'button-up-container is-active' : 'button-up-container'
+        buttonToggler
+          ? 'button-up-container is-active fadeIn'
+          : 'button-up-container'
       }
     >
       <a href='#header'>
@@ -67,7 +68,7 @@ function ButtonUp() {
           <path className='c' d='M18,24V12' transform='translate(2 2)' />
         </svg> */}
       </a>
-    </Button>
+    </div>
   );
 }
 
