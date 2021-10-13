@@ -34,7 +34,7 @@
     }
     &__title-container {
       height: 64px;
-      margin: 30px 0;
+      margin: 30px 0 0;
     }
     &__title-container img {
       height: 100%;
@@ -62,7 +62,7 @@
   .main__content-description {
     margin: 0;
     padding: 10px;
-    text-align: center;
+    text-align: initial;
   }
   .main__content-description::before {
     display: none;
@@ -125,9 +125,14 @@
       height: auto;
       width: 100%;
       padding: 10px;
+      width: 90%;
+      margin: 30px auto 0;
     }
     &__title-container img {
       width: 100%;
+    }
+    &__content-image {
+      margin-top: -40px;
     }
   }
 
