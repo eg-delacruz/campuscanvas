@@ -66,12 +66,15 @@ function Main() {
                 patrocinadores. ¡Todo completamente gratis!
                 <br />
                 <br />
-                Repartimos las bolsas una vez a lo largo del cuatrimestre
-                estudiantil, cerca de alguno de los punto de acceso a tu
-                universidad. Consulta nuestro
-                <Link to='/construccion'> calendario de visitas</Link>, donde
-                podrás enterarte del día y la hora de nuestra visita a tu
-                campus. ¡No te quedes sin la tuya!
+                Repartimos las bolsas a lo largo del cuatrimestre estudiantil,
+                cerca de alguno de los punto de acceso a tu universidad.
+                Consulta nuestra{' '}
+                <Link to='/construccion'>
+                  {' '}
+                  lista de universidades y ubicaciones
+                </Link>
+                , donde podrás comprobar si tu campus se encuentra entre
+                nuestros puntos de repartición. ¡No te quedes sin la tuya!
               </p>
             </div>
           </section>
@@ -120,7 +123,7 @@ function Main() {
                 <p>
                   Ahorra dinero con nosotros a través de códigos de descuento
                   exclusivos para distintos productos, eventos y otras
-                  actividades
+                  actividades.
                 </p>
               </div>
             </article>
@@ -154,7 +157,7 @@ function Main() {
           </p>
         </div>
         <div className='distributionDelivery container'>
-          <h2>O te la llevamos hasta tu casa</h2>
+          <h2>... O te la llevamos hasta tu casa!</h2>
           <figure>
             <img
               src={Distributon_house}
