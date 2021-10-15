@@ -9,7 +9,6 @@ import SectionDownButton from '../../assets/static/SVGComponents/section_down';
 
 //Images
 import upperBenefit1 from '../../assets/static/upperBenefit_img_1.png';
-import upperBenefit2 from '../../assets/static/upperBenefit_img_2.png';
 import upperBenefit3 from '../../assets/static/upperBenefit_img_3.png';
 import upperBenefit4 from '../../assets/static/upperBenefit_img_4.png';
 import upperBenefit5 from '../../assets/static/upperBenefit_img_5.png';
@@ -19,6 +18,7 @@ import lowerBenefit2 from '../../assets/static/lowerBenefit_img_2.png';
 import lowerBenefit3 from '../../assets/static/lowerBenefit_img_3.png';
 import lowerBenefit4 from '../../assets/static/lowerBenefit_img_4.png';
 import lowerBenefit5 from '../../assets/static/lowerBenefit_img_5.png';
+import Card_gift from '../../assets/static/card_gift.png';
 
 //components
 import ButtonUp from '../../components/ButtonUp/ButtonUp';
@@ -95,12 +95,13 @@ function ParaEmpresas() {
             </Card>
 
             <Card
-              image={upperBenefit2}
+              image={Card_gift}
               imgAlt='Imagen de tarjeta'
               title='Una forma distinta de hacer publicidad'
             >
-              Diferénciate de tu competencia al utilizar un medio de publicidad
-              menos saturado.
+              La espectativa generada en los estudiantes por descubrir lo que
+              hay dentro de la bolsa hace destacar la efectividad de nuestra
+              publicidad.
             </Card>
 
             <Card

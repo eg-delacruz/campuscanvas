@@ -90,7 +90,11 @@ function Main() {
           <div className='benefits__cards'>
             <article className='card'>
               <div className='card__image'>
-                <img src={Card_gift} alt='Productos de la bolsa' />
+                <img
+                  src={Card_gift}
+                  className='image1'
+                  alt='Productos de la bolsa'
+                />
               </div>
               <div className='card__information'>
                 <h4>Productos</h4>
@@ -101,6 +105,7 @@ function Main() {
                 </p>
               </div>
             </article>
+
             <article className='card'>
               <div className='card__image'>
                 <img src={Card_pages} alt='Ofertas de trabajo' />
@@ -114,6 +119,7 @@ function Main() {
                 </p>
               </div>
             </article>
+
             <article className='card'>
               <div className='card__image'>
                 <img src={Card_coupons} alt='Cupones y descuentos' />
