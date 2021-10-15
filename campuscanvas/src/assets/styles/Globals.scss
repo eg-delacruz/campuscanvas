@@ -37,6 +37,7 @@ h2 {
   line-height: 48px;
   letter-spacing: 0;
   font-weight: 800;
+  color: $color--primary2-dark1;
 }
 
 h3 {
@@ -61,3 +62,6 @@ h4 {
   margin: 0 auto;
   box-sizing: border-box;
 }
+
+//Titular mayor (h1), primary2-dark
+//h2, if an h1 already, primary2, if not, primary2-dark

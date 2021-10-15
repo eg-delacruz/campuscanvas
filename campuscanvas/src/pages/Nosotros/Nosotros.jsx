@@ -41,7 +41,7 @@ function Nosotros() {
                 (mercadeo, contabilidad, recursos humanos, financiación) y el
                 desarrollo de destrezas interpersonales en entornos
                 multiculturales ha culminado en la creación de este proyecto
-                Campus Canvas.
+                <strong> Campus Canvas</strong> .
               </p>
               <figure className='main__image1Container'>
                 <img
@@ -56,20 +56,24 @@ function Nosotros() {
           <div className='main__motivation'>
             <h2>Lo que nos motiva</h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-              nisl eros, pulvinar facilisis justo mollis, auctor consequat urna.
-              Morbi a bibendum metus. Donec scelerisque sollicitudin enim eu
-              venenatis. Duis tincidunt laoreet ex, in pretium orci vestibulum
-              eget. Class aptent taciti sociosqu ad litora torquent per conubia
-              nostra, per inceptos himenaeos. Duis pharetra luctus lacus ut
-              vestibulum. Maecenas ipsum lacus, lacinia quis posuere ut,
-              pulvinar vitae dolor.Integer eu nibh at nisi ullamcorper sagittis
-              id vel leo. Integer feugiat faucibus libero, at maximus nisl
-              suscipit posuere. Morbi nec enim nunc. Phasellus bibendum turpis
-              ut ipsum egestas, sed sollicitudin elit convallis. Cras pharetra
-              mi tristique sapien vestibulum lobortis. Nam eget bibendum metus,
-              non dictum mauris. Nulla at tellus sagittis, viverra est a,
-              bibendum metus.
+              El equipo de Campus Canvas está formado en su mayoría por
+              estudiantes, con lo cual nosotros también sabemos que a veces la
+              motivación por los estudios puede estar por los suelos. Es por eso
+              que nuestro objetivo número uno es motivarte a ti, estudiante, y
+              hacer de tu tiempo en la universidad una experiencia memorable.
+              Los productos promocionales de nuestras{' '}
+              <strong>Campus Bag</strong> son cuidadosamente seleccionados para
+              que estos sean de tu agrado y beneficio. Buscamos ser una
+              alternativa publicitaria atractiva y poco intrusiva a comparación
+              de otros medios tradicionales y digitales, conectando y
+              facilitando así la interacción entre empresas y estudiantes a
+              través de la distribución de{' '}
+              <strong>
+                ofertas de empleo, productos promocionales de interés y cupones
+                de descuento
+              </strong>{' '}
+              en variedad de productos. Todo totalmente gratis para ti de parte
+              de nuestros patrocinadores!🎁
             </p>
           </div>
         </div>

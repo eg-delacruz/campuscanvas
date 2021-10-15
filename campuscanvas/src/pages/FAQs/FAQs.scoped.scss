@@ -3,12 +3,12 @@
 .main {
   &__title {
     margin-top: 30px;
-    color: $color--primary2;
+    color: $color--primary2-dark1;
   }
   &__container {
     padding: 30px 8px 90px;
-    h3 {
-      color: $color--primary2-dark1;
+    h4 {
+      color: $color--primary2;
     }
     p {
       @include paragraph--regular;

@@ -28,13 +28,16 @@ function Footer() {
                 <Link to='/'>Home</Link>
               </li>
               <li>
+                <Link to='/nosotros'>Nosotros</Link>
+              </li>
+              <li>
+                <Link to='/empresas'>Empresas</Link>
+              </li>
+              <li>
                 <Link to='/construccion'>Blog</Link>
               </li>
               <li>
                 <Link to='/FAQs'>FAQs</Link>
-              </li>
-              <li>
-                <Link to='/nosotros'>Nosotros</Link>
               </li>
               <li className='footer__empleos'>
                 <Link className='footer__empleos-enlace' to='/empleos'>

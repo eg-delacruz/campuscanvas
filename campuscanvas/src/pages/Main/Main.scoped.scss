@@ -98,6 +98,9 @@ body {
     width: 48%;
     margin: 0 1%;
     @include paragraph--big;
+    h2 {
+      color: $color--white;
+    }
   }
 }
 
