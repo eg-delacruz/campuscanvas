@@ -92,29 +92,26 @@ function FAQs() {
             <article>
               <h4>¿Por qué son las bolsas de Campus Bag totalmente gratis?</h4>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-                nisl eros, pulvinar facilisis justo mollis, auctor consequat
-                urna. Morbi a bibendum metus. Donec scelerisque sollicitudin
-                enim eu venenatis. Duis tincidunt laoreet ex, in pretium orci
-                vestibulum eget. Class aptent taciti sociosqu ad litora torquent
-                per conubia nostra, per inceptos himenaeos. Duis pharetra luctus
-                lacus ut vestibulum. Maecenas ipsum lacus, lacinia quis posuere
-                ut, pulvinar vitae dolor.Integer eu nibh at nisi ullamcorper
-                sagittis id vel leo.
+                El contenido de nuestra <strong>Campus Bag</strong> es
+                totalmente patrocinado por empresas que quieren dar a conocer y
+                promover sus productos entre los estudiantes en España; qué
+                mejor manera de hacerlo que obsequiándotelos para que puedas
+                disfrutar de ellos.
               </p>
             </article>
             <article>
               <h4>¿Dónde y cuándo se reparten las bolsas?</h4>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-                nisl eros, pulvinar facilisis justo mollis, auctor consequat
-                urna. Morbi a bibendum metus. Donec scelerisque sollicitudin
-                enim eu venenatis. Duis tincidunt laoreet ex, in pretium orci
-                vestibulum eget. Class aptent taciti sociosqu ad litora torquent
-                per conubia nostra, per inceptos himenaeos. Duis pharetra luctus
-                lacus ut vestibulum. Maecenas ipsum lacus, lacinia quis posuere
-                ut, pulvinar vitae dolor.Integer eu nibh at nisi ullamcorper
-                sagittis id vel leo.
+                En nuestra{' '}
+                <Link to='/construccion'>
+                  lista de universidades y ubicaciones
+                </Link>{' '}
+                puedes verificar si tu universidad forma parte de nuestros
+                puntos de repartición. Hacemos nuestro mejor esfuerzo por
+                llevarte tu <strong> Campus Bag</strong> al menos una vez por
+                cuatrimestre. Si tu universidad no se encuentra en nuestra
+                lista, ¡no te desanimes! Estamos constantemente en expansión y
+                seguramente en un futuro próximo también estaremos en tu campus.
               </p>
             </article>
             <article>
@@ -123,8 +120,9 @@ function FAQs() {
                 puedo obtener una?
               </h4>
               <p>
-                Puedes pedir tu Campus Bag en línea en este enlace, o puedes
-                esperar nuestra siguiente repartición. En algunas universidades
+                Puedes pedir tu <strong> Campus Bag</strong> en línea en{' '}
+                <Link to='/construccion'>este enlace</Link> , o puedes esperar
+                nuestra siguiente repartición. En algunas universidades
                 repartimos incluso dos veces en el mismo cuatrimestre.
               </p>
             </article>

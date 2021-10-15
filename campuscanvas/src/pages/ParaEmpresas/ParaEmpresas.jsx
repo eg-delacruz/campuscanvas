@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 //assets
 import BagLogo from '../../assets/static/bag_logo.svg';
 import Bagsx2 from '../../assets/static/2bags.png';
-import sectionDown from '../../assets/static/section_down.png';
+import SectionDownButton from '../../assets/static/SVGComponents/section_down';
 
 //Images
 import upperBenefit1 from '../../assets/static/upperBenefit_img_1.png';
@@ -47,7 +47,8 @@ function ParaEmpresas() {
           </figure>
         </div>
         <a href='#paraEmpresas_main'>
-          <img src={sectionDown} alt='Bajar a siguiente sección' />
+          <SectionDownButton className='hero__sectionDown' />
+          {/* <img src={sectionDown} alt='Bajar a siguiente sección' /> */}
         </a>
       </section>
 
