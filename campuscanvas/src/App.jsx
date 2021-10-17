@@ -1,47 +1,64 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, Suspense } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+
+//hooks
+import ScrollToTop from './utilities/ScrollToTop';
 
 //Components
 import Layout from './components/Layout/Layout';
 
-//pages
-import Main from './pages/Main/Main';
-import Construccion from './pages/Construction/Construccion';
-import ParaEmpresas from './pages/ParaEmpresas/ParaEmpresas';
-import Nosotros from './pages/Nosotros/Nosotros';
-import FAQs from './pages/FAQs/FAQs';
-import PoliticasPrivacidad from './pages/PoliticasPrivacidad/PoliticasPrivacidad';
-import TerminosCondiciones from './pages/TerminosCondiciones/TerminosCondiciones';
-import Cookies from './pages/Cookies/Cookies';
-import Empleos from './pages/Empleos/Empleos';
+//pages with React.lazy()
 
-//hooks
-import ScrollToTop from './hooks/ScrollToTop';
+const Main = React.lazy(() => import('./pages/Main/Main'));
+const Construccion = React.lazy(() =>
+  import('./pages/Construction/Construccion')
+);
+const ParaEmpresas = React.lazy(() =>
+  import('./pages/ParaEmpresas/ParaEmpresas')
+);
+const Nosotros = React.lazy(() => import('./pages/Nosotros/Nosotros'));
+const FAQs = React.lazy(() => import('./pages/FAQs/FAQs'));
+const PoliticasPrivacidad = React.lazy(() =>
+  import('./pages/PoliticasPrivacidad/PoliticasPrivacidad')
+);
+const TerminosCondiciones = React.lazy(() =>
+  import('./pages/TerminosCondiciones/TerminosCondiciones')
+);
+const Cookies = React.lazy(() => import('./pages/Cookies/Cookies'));
+const Empleos = React.lazy(() => import('./pages/Empleos/Empleos'));
+const Contacto = React.lazy(() => import('./pages/Contacto/Contacto'));
 
 //Router
 function App() {
   //console.log(useScrollToTop);
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <Switch>
-        {/* A todo lo que va fuera del <Fragment> no se le aplica el layout */}
-        <Route exact path='/construccion' component={Construccion} />
-        <Fragment>
-          <Layout>
-            <Route exact path='/' component={Main} />
-            <Route exact path='/empresas' component={ParaEmpresas} />
-            <Route exact path='/nosotros' component={Nosotros} />
-            <Route exact path='/FAQs' component={FAQs} />
-            <Route exact path='/privacidad' component={PoliticasPrivacidad} />
-            <Route exact path='/condiciones' component={TerminosCondiciones} />
-            <Route exact path='/cookies' component={Cookies} />
-            <Route exact path='/empleos' component={Empleos} />
-            {/* Create Not Found 404 page */}
-          </Layout>
-        </Fragment>
-      </Switch>
-    </BrowserRouter>
+    <Suspense fallback={<div />}>
+      <BrowserRouter>
+        <ScrollToTop />
+        <Switch>
+          {/* A todo lo que va fuera del <Fragment> no se le aplica el layout */}
+          <Route exact path='/construccion' component={Construccion} />
+          <Fragment>
+            <Layout>
+              <Route exact path='/' component={Main} />
+              <Route exact path='/empresas' component={ParaEmpresas} />
+              <Route exact path='/nosotros' component={Nosotros} />
+              <Route exact path='/FAQs' component={FAQs} />
+              <Route exact path='/privacidad' component={PoliticasPrivacidad} />
+              <Route
+                exact
+                path='/condiciones'
+                component={TerminosCondiciones}
+              />
+              <Route exact path='/cookies' component={Cookies} />
+              <Route exact path='/empleos' component={Empleos} />
+              <Route exact path='/contacto' component={Contacto} />
+              {/* Create Not Found 404 page */}
+            </Layout>
+          </Fragment>
+        </Switch>
+      </BrowserRouter>
+    </Suspense>
   );
 }
 

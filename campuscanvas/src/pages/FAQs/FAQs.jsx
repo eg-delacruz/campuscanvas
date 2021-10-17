@@ -137,8 +137,8 @@ function FAQs() {
                   <span>campuscanvas.info@gmail.com</span>
                 </a>{' '}
                 o utilizar nuestro{' '}
-                <Link to='/construccion'> formulario de contacto </Link>. Con
-                mucho gusto te enviaremos toda la información que necesites.
+                <Link to='/contacto'> formulario de contacto </Link>. Con mucho
+                gusto te enviaremos toda la información que necesites.
               </p>
             </article>
           </section>
