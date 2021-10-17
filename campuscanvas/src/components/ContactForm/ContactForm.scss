@@ -14,14 +14,60 @@
   box-shadow: 14px 21px 20px -19px rgba(0, 0, 0, 0.3);
   //   &__title {
   //   }
+  &__labelTag {
+    position: relative;
+  }
+  &__inputLabel {
+    position: absolute;
+    left: 6px;
+    top: 11px;
+    white-space: nowrap;
+    transform: translate(0, 0);
+    transform-origin: 0 0;
+    transition: transform 120ms ease-in;
+    // font-weight: bold;
+    line-height: 1.2;
+    background-color: $color--white;
+    color: $color--dark-gray;
+  }
   &__input {
     border-radius: 3px;
     margin-bottom: 20px;
-    border: 1px solid $color--primary2;
+    border: 1px solid $color--primary2-dark1;
     padding: 10px;
+    height: 40px;
+    box-sizing: border-box;
+    background-color: $color--white;
+    width: 100%;
+
+    &:focus,
+    &:not(:placeholder-shown) {
+      & + .form__inputLabel {
+        transform: translate(-0.2rem, -90%) scale(0.8);
+        color: $color--primary1;
+      }
+    }
+  }
+
+  &__input::placeholder {
+    // @include font-size(14px);
+    // vertical-align: center;
+    // margin-bottom: 5px;
+    color: transparent;
   }
   &__message {
     min-height: 180px;
+  }
+  &__message::-webkit-scrollbar {
+    background-color: $color--light-gray;
+    width: 10px;
+  }
+  &__message::-webkit-scrollbar-thumb {
+    background-color: $color--primary2;
+    border-radius: 8px;
+  }
+  &__message::placeholder {
+    color: $color--dark-gray;
   }
 }
 
