@@ -1,5 +1,30 @@
 @import '../../assets/styles/Vars.scss';
 
+.form {
+  max-width: 350px;
+  min-width: 290px;
+  //box-sizing: border-box;
+  border: 1px $color--primary2 solid;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  border-radius: 3px;
+  padding: 10px;
+  background-color: $color--secondary-white;
+  box-shadow: 14px 21px 20px -19px rgba(0, 0, 0, 0.3);
+  //   &__title {
+  //   }
+  &__input {
+    border-radius: 3px;
+    margin-bottom: 20px;
+    border: 1px solid $color--primary2;
+    padding: 10px;
+  }
+  &__message {
+    min-height: 180px;
+  }
+}
+
 /////////////////////////
 //         MQ         //
 /////////////////////////

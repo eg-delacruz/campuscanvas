@@ -1,5 +1,8 @@
 import React from 'react';
 
+//Styles
+import './ContactForm.scss';
+
 //hooks
 import { useInputValue } from '../../hooks/useInputValue';
 
@@ -18,13 +21,45 @@ const ContactForm = () => {
   return (
     <form className='form' onSubmit={handleSubmit} action=''>
       <h3 className='form__title'>Formulario de contacto</h3>
-      <input type='text' placeholder='Nombre *' {...NAME} />
-      <input type='text' placeholder='Apellido *' {...LAST_NAME} />
-      <input type='email' placeholder='Correo empresarial *' {...EMAIL} />
-      <input type='text' placeholder='Empresa' {...COMPANY} />
-      <input type='tel' placeholder='Número de teléfono' {...PHONE} />
-      <input type='text' placeholder='Tus preguntas aquí' {...MESSAGE} />
-      <button type='submit'>Enviar</button>
+      <input
+        className='form__input'
+        type='text'
+        placeholder='Nombre *'
+        {...NAME}
+      />
+      <input
+        className='form__input'
+        type='text'
+        placeholder='Apellido *'
+        {...LAST_NAME}
+      />
+      <input
+        className='form__input'
+        type='email'
+        placeholder='Correo empresarial *'
+        {...EMAIL}
+      />
+      <input
+        className='form__input'
+        type='text'
+        placeholder='Empresa'
+        {...COMPANY}
+      />
+      <input
+        className='form__input'
+        type='tel'
+        placeholder='Número de teléfono'
+        {...PHONE}
+      />
+      <textarea
+        className='form__input form__message'
+        name='user_message'
+        placeholder='Tus preguntas aquí'
+        {...MESSAGE}
+      />
+      <button className='form__button' type='submit'>
+        Enviar
+      </button>
     </form>
   );
 };
