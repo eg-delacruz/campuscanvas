@@ -3,6 +3,9 @@ import React, { useState, useRef, useEffect } from 'react';
 //Styles
 import './ContactForm.scss';
 
+//images
+import UploadIcon from '../../assets/static/upload_icon1.png';
+
 //hooks
 import { useInputValue } from '../../hooks/useInputValue';
 
@@ -124,10 +127,14 @@ const ContactForm = () => {
         <span className='form__inputLabel'>Teléfono</span>
       </label>
 
-      <label className='form__labelTag'>
+      <label className='form__labelTag form__FileInputLabelTag'>
+        <img src={UploadIcon} alt='' />
+
+        <span>Sube un archivo</span>
+
         <input
           id='fileItem'
-          className='form__input'
+          className='form__input form__FileInput'
           type='file'
           placeholder='Documentos'
           name='documentos'
@@ -136,7 +143,7 @@ const ContactForm = () => {
           value={files.value}
           onChange={onChange}
         />
-        <span className='form__inputLabel'>Archivo</span>
+        {/* <span className='form__inputLabel form__FileInputLabel'>Archivo</span> */}
       </label>
 
       {Object.keys(files.uploadedFiles).length > 0 && displayUploadedFiles()}

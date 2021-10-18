@@ -50,10 +50,39 @@
     }
   }
 
+  &__FileInput {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+  &__FileInputLabelTag {
+    @include font-size(16px);
+    font-weight: 700;
+    color: $color--white;
+    background-color: $color--primary1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    cursor: pointer;
+    box-shadow: 14px 21px 20px -19px rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
+  &__uploadIcon {
+    //width: 50px;
+    // height: 50px;
+    // color: red;
+  }
+  &__FileInputLabelTag:focus,
+  &__FileInputLabelTag:hover {
+    background-color: rgba(173, 33, 70, 0.8);
+  }
+
   &__input::placeholder {
-    // @include font-size(14px);
-    // vertical-align: center;
-    // margin-bottom: 5px;
     color: transparent;
   }
   &__message {
