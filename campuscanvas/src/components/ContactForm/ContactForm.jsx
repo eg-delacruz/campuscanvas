@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 //Styles
 import './ContactForm.scss';
@@ -14,15 +14,54 @@ const ContactForm = () => {
   const COMPANY = useInputValue('');
   const MESSAGE = useInputValue('');
 
-  const handleSubmit = (e) => {
-    //e.preventDefault();
+  ////////////////////////////////////////////// Input File ligic////////////////////////////////////////
+
+  //Controlling files input
+  const elemRef = useRef(null);
+
+  const [files, setFiles] = useState({
+    value: '',
+    uploadedFiles: {},
+  });
+
+  //Saving files in state
+  const onChange = (e) => {
+    setFiles((prevState) => ({
+      ...prevState,
+      value: e.target.value,
+      uploadedFiles: elemRef.current.files,
+    }));
   };
+
+  //needed to se changes every time state is changes, since useState async!
+  // useEffect(() => {
+  //   console.log(files);
+  // }, [files]);
+
+  const deleteUploadedFile = (key) => {
+    const updatedFiles = { ...files.uploadedFiles };
+    delete updatedFiles[key];
+
+    setFiles((prevState) => ({
+      ...prevState,
+      uploadedFiles: updatedFiles,
+    }));
+  };
+
+  const displayUploadedFiles = () =>
+    Object.keys(files.uploadedFiles).map((key) => (
+      <div key={key}>
+        {files.uploadedFiles[key].name}
+        <button onClick={() => deleteUploadedFile(key)}>Delete</button>
+      </div>
+    ));
+
+  ////////////////////////////////////////////// Input File ligic////////////////////////////////////////
 
   return (
     <form
       className='form'
       method='POST'
-      onSubmit={handleSubmit}
       action='https://formsubmit.co/a6c2cdb34bab8fc6bd2a306139ff5fdb'
     >
       <h3 className='form__title'>Formulario de contacto</h3>
@@ -85,6 +124,23 @@ const ContactForm = () => {
         <span className='form__inputLabel'>Teléfono</span>
       </label>
 
+      <label className='form__labelTag'>
+        <input
+          id='fileItem'
+          className='form__input'
+          type='file'
+          placeholder='Documentos'
+          name='documentos'
+          multiple
+          ref={elemRef}
+          value={files.value}
+          onChange={onChange}
+        />
+        <span className='form__inputLabel'>Archivo</span>
+      </label>
+
+      {Object.keys(files.uploadedFiles).length > 0 && displayUploadedFiles()}
+
       <textarea
         className='form__input form__message'
         name='user_message'
@@ -92,7 +148,7 @@ const ContactForm = () => {
         required
         {...MESSAGE}
       />
-      <button className='button-blue btn form__button' type='submit'>
+      <button className='button--blue btn form__button' type='submit'>
         Enviar
       </button>
     </form>

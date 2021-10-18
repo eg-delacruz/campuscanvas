@@ -22,7 +22,7 @@ function Empleos() {
 
           <section className='main__sendCV'>
             <h3>O toma la iniciativa y envíanos tu CV</h3>
-            <Link to='/construccion' className='btn button-red'>
+            <Link to='/construccion' className='btn button--red'>
               Enviar mi CV
             </Link>
           </section>

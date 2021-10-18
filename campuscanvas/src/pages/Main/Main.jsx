@@ -171,7 +171,7 @@ function Main() {
             />
           </figure>
           <h4>Tú solo pagas el envío</h4>
-          <Link className='btn button-red' to='/construccion'>
+          <Link className='btn button--red' to='/construccion'>
             ¡Pedir Campus Bag!
           </Link>
         </div>

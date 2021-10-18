@@ -10,17 +10,30 @@
   border: none;
   width: fit-content;
   margin: 0 auto;
+  box-shadow: 14px 21px 20px -15px rgba(0, 0, 0, 0.3);
 }
 
 /////////////////////////
-//     Button-red      //
+//    Button-colors    //
 /////////////////////////
-.button-red {
+.button--red {
   background-color: $color--primary1;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(173, 33, 70, 0.8);
+  }
 }
-.button-blue {
+.button--blue {
   background-color: $color--secondary;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(58, 134, 255, 0.8);
+  }
 }
 .button--purple {
   background-color: $color--primary2;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(91, 7, 145, 0.8);
+  }
 }

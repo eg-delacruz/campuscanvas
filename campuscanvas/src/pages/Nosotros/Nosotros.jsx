@@ -5,6 +5,7 @@ import './Nosotros.scoped.scss';
 import Gerardo from '../../assets/static/Gerardo.jpg';
 
 //Components
+import ButtonUp from '../../components/ButtonUp/ButtonUp';
 
 function Nosotros() {
   return (
@@ -12,6 +13,7 @@ function Nosotros() {
       {/* /////////////////////////
             //       Hero        //
             ///////////////////////// */}
+      <ButtonUp />
 
       <section className='hero'>
         <div className='hero__container container'>
