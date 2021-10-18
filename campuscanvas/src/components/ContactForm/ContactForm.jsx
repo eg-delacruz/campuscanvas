@@ -5,6 +5,7 @@ import './ContactForm.scss';
 
 //images
 import UploadIcon from '../../assets/static/upload_icon1.png';
+import TrashIcon from '../../assets/TrashIcon.png';
 
 //hooks
 import { useInputValue } from '../../hooks/useInputValue';
@@ -55,7 +56,9 @@ const ContactForm = () => {
     Object.keys(files.uploadedFiles).map((key) => (
       <div key={key}>
         {files.uploadedFiles[key].name}
-        <button onClick={() => deleteUploadedFile(key)}>Delete</button>
+        <button onClick={() => deleteUploadedFile(key)}>
+          <img src={TrashIcon} alt='Borrar archivo' />
+        </button>
       </div>
     ));
 
@@ -66,6 +69,7 @@ const ContactForm = () => {
       className='form'
       method='POST'
       action='https://formsubmit.co/a6c2cdb34bab8fc6bd2a306139ff5fdb'
+      enctype='multipart/form-data'
     >
       <h3 className='form__title'>Formulario de contacto</h3>
 
@@ -128,25 +132,23 @@ const ContactForm = () => {
       </label>
 
       <label className='form__labelTag form__FileInputLabelTag'>
-        <img src={UploadIcon} alt='' />
-
-        <span>Sube un archivo</span>
-
+        <img className='form__uploadIcon' src={UploadIcon} alt='' />
+        <span>Sube un documento</span>
         <input
           id='fileItem'
           className='form__input form__FileInput'
           type='file'
           placeholder='Documentos'
           name='documentos'
-          multiple
           ref={elemRef}
           value={files.value}
           onChange={onChange}
         />
-        {/* <span className='form__inputLabel form__FileInputLabel'>Archivo</span> */}
       </label>
 
-      {Object.keys(files.uploadedFiles).length > 0 && displayUploadedFiles()}
+      {Object.keys(files.uploadedFiles).length > 0 && (
+        <div className='uploadedfiles__Container'>{displayUploadedFiles()}</div>
+      )}
 
       <textarea
         className='form__input form__message'
@@ -163,3 +165,6 @@ const ContactForm = () => {
 };
 
 export default ContactForm;
+
+//El servicio para recibir la info por correo solo admite subir y enviar
+//un solo archivo.
