@@ -12,8 +12,9 @@
   padding: 10px;
   background-color: $color--secondary-white;
   box-shadow: 14px 21px 20px -19px rgba(0, 0, 0, 0.3);
-  //   &__title {
-  //   }
+  &__title {
+    margin: 16px 0;
+  }
   &__labelTag {
     position: relative;
   }
@@ -87,6 +88,7 @@
   }
   &__message {
     min-height: 180px;
+    margin-bottom: 10px;
   }
   &__message::-webkit-scrollbar {
     background-color: $color--light-gray;

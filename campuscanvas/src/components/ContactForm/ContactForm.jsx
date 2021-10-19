@@ -1,16 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 //Styles
 import './ContactForm.scss';
 
 //images
 import UploadIcon from '../../assets/static/upload_icon1.png';
-import TrashIcon from '../../assets/TrashIcon.png';
+import TrashIcon from '../../assets/static/TrashIcon.png';
 
 //hooks
 import { useInputValue } from '../../hooks/useInputValue';
 
-const ContactForm = () => {
+const ContactForm = ({ UploadText = 'Sube un documento' }) => {
   const NAME = useInputValue('');
   const LAST_NAME = useInputValue('');
   const EMAIL = useInputValue('');
@@ -18,7 +19,7 @@ const ContactForm = () => {
   const COMPANY = useInputValue('');
   const MESSAGE = useInputValue('');
 
-  ////////////////////////////////////////////// Input File ligic////////////////////////////////////////
+  ////////////////////////////////////////////// Input File logic////////////////////////////////////////
 
   //Controlling files input
   const elemRef = useRef(null);
@@ -28,7 +29,7 @@ const ContactForm = () => {
     uploadedFiles: {},
   });
 
-  //Saving files in state
+  //Saving files in state (an controlling input)
   const onChange = (e) => {
     setFiles((prevState) => ({
       ...prevState,
@@ -62,14 +63,14 @@ const ContactForm = () => {
       </div>
     ));
 
-  ////////////////////////////////////////////// Input File ligic////////////////////////////////////////
+  ////////////////////////////////////////////// Input File logic////////////////////////////////////////
 
   return (
     <form
       className='form'
       method='POST'
       action='https://formsubmit.co/a6c2cdb34bab8fc6bd2a306139ff5fdb'
-      enctype='multipart/form-data'
+      encType='multipart/form-data'
     >
       <h3 className='form__title'>Formulario de contacto</h3>
 
@@ -133,7 +134,7 @@ const ContactForm = () => {
 
       <label className='form__labelTag form__FileInputLabelTag'>
         <img className='form__uploadIcon' src={UploadIcon} alt='' />
-        <span>Sube un documento</span>
+        <span>{UploadText}</span>
         <input
           id='fileItem'
           className='form__input form__FileInput'
@@ -141,6 +142,7 @@ const ContactForm = () => {
           placeholder='Documentos'
           name='documentos'
           ref={elemRef}
+          multiple
           value={files.value}
           onChange={onChange}
         />
@@ -166,5 +168,9 @@ const ContactForm = () => {
 
 export default ContactForm;
 
-//El servicio para recibir la info por correo solo admite subir y enviar
-//un solo archivo.
+ContactForm.propTypes = {
+  UploadText: PropTypes.string,
+};
+
+//El servicio para recibir la info por correo solo admite
+//subir y enviar un solo archivo.

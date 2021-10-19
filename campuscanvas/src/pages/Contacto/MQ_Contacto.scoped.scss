@@ -4,15 +4,34 @@
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 767px) {
+  .body__gridContainer {
+    background-size: auto 360px;
+  }
+  .contactForm h1 {
+    @include font-size(60px);
+  }
 }
 ////////////////////////////////////////480/////////////////////////////////////////////
 
 @media screen and (max-width: 480px) {
-  .contact {
-    padding: 8px;
+  .body__gridContainer {
+    padding-bottom: 60px;
+  }
+  .contactInfo__mediaIcons {
+    margin-top: 16px;
+    a {
+      margin-right: 8px;
+    }
+  }
+  .contactInfo__mediaIcon {
+    transform: scale(0.9);
   }
 }
 ////////////////////////////////////////320/////////////////////////////////////////////
 
 @media screen and (max-width: 320px) {
+  .contactForm h1 {
+    @include font-size(40px);
+    margin-bottom: 30px;
+  }
 }

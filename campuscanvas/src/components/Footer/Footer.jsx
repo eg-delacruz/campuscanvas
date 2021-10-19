@@ -10,6 +10,7 @@ import Youtube from '../../assets/static/youtube_icon.svg';
 import Facebook from '../../assets/static/facebook_icon.svg';
 import Instagram from '../../assets/static/instagram_icon.svg';
 import LinkedIn from '../../assets/static/linkedin_icon.svg';
+import Prueba from '../../assets/static/SVGComponents/linkedIn_icon';
 
 function Footer() {
   return (
@@ -36,13 +37,13 @@ function Footer() {
               <li>
                 <Link to='/construccion'>Blog</Link>
               </li>
-              <li>
-                <Link to='/FAQs'>FAQs</Link>
-              </li>
               <li className='footer__empleos'>
                 <Link className='footer__empleos-enlace' to='/empleos'>
                   Empleos
                 </Link>
+              </li>
+              <li>
+                <Link to='/contacto'>Contacto</Link>
               </li>
             </ul>
           </div>
