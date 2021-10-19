@@ -28,11 +28,11 @@ const Contacto = () => {
       </section>
 
       {/* /////////////////////////
-//      Contact Details       //
+//     Contact Details     //
 ///////////////////////// */}
 
       <section className='contactInfo container'>
-        <div className='contactInfo'>
+        <div className='contactInfo__container'>
           <h2 className='contactInfo__title'>O contacta con nuestro equipo</h2>
 
           <div className='contactInfo__details'>

@@ -142,7 +142,7 @@ const ContactForm = ({ UploadText = 'Sube un documento' }) => {
           placeholder='Documentos'
           name='documentos'
           ref={elemRef}
-          multiple
+          accept='.pdf,.jpg,.jpeg,.png,.doc,.docx,.xlsx,.pptx'
           value={files.value}
           onChange={onChange}
         />

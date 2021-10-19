@@ -3,17 +3,22 @@
 .form {
   max-width: 350px;
   min-width: 290px;
-  //box-sizing: border-box;
-  border: 1px $color--primary2 solid;
+  //border: 1px $color--primary2 solid;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
   border-radius: 3px;
   padding: 10px;
-  background-color: $color--secondary-white;
-  box-shadow: 14px 21px 20px -19px rgba(0, 0, 0, 0.3);
+  //background-color: $color--secondary-white;
+  //box-shadow: 14px 21px 20px -19px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  background: rgba(255, 255, 255, 0.8);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   &__title {
     margin: 16px 0;
+    color: $color--black;
   }
   &__labelTag {
     position: relative;
@@ -47,6 +52,7 @@
       & + .form__inputLabel {
         transform: translate(-0.2rem, -90%) scale(0.8);
         color: $color--primary1;
+        background: rgba(255, 255, 255, 0.85);
       }
     }
   }
