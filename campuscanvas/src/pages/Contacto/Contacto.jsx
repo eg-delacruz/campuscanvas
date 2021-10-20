@@ -7,13 +7,13 @@ import './Contacto.scoped.scss';
 import ContactForm from '../../components/ContactForm/ContactForm';
 
 //Assets
-import LinkedIn from '../../assets/static/SVGComponents/linkedIn_icon';
-import Facebook from '../../assets/static/SVGComponents/facebook_icon';
-import Instagram from '../../assets/static/SVGComponents/instagram_icon';
-import Youtube from '../../assets/static/SVGComponents/youtube_icon';
+import LinkedIn from '../../assets/static/SVGComponents/Icons/linkedIn_icon';
+import Facebook from '../../assets/static/SVGComponents/Icons/facebook_icon';
+import Instagram from '../../assets/static/SVGComponents/Icons/instagram_icon';
+import Youtube from '../../assets/static/SVGComponents/Icons/youtube_icon';
 
-import PhoneIcon from '../../assets/static/SVGComponents/phone_icon';
-import LocationIcon from '../../assets/static/SVGComponents/location_icon';
+import PhoneIcon from '../../assets/static/SVGComponents/Icons/phone_icon';
+import LocationIcon from '../../assets/static/SVGComponents/Icons/location_icon';
 
 const Contacto = () => {
   return (

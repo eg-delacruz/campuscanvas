@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 //Styles
@@ -38,7 +38,8 @@ const ContactForm = ({ UploadText = 'Sube un documento' }) => {
     }));
   };
 
-  //needed to se changes every time state is changes, since useState async!
+  //needed to se changes every time state is changed, since useState async!
+  //Siempre que files cambie, useEffect se ejecutará
   // useEffect(() => {
   //   console.log(files);
   // }, [files]);

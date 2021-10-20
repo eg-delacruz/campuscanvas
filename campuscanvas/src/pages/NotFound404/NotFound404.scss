@@ -1,14 +1,5 @@
-@import '../../assets/styles/Vars.scss';
+@import '../../assets/styles/Vars';
 @import '../../assets/styles/Buttons.scss';
-
-// .construction__container {
-//   position: fixed;
-//   left: 0;
-//   right: 0;
-//   bottom: 0;
-//   top: 0;
-//   text-align: center;
-// }
 
 .main {
   width: 100%;
@@ -37,7 +28,18 @@
   p {
     @include paragraph--big;
     color: $color--primary2-dark1;
+    margin: 40px 0;
   }
 }
 
-@import './MQ_Construccion.scoped.scss';
+/////////////////////////
+//         MQ         //
+/////////////////////////
+
+@media screen and (max-width: 320px) {
+  .main {
+    h2 {
+      margin: 15px 0;
+    }
+  }
+}

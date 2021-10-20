@@ -1,21 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+//Assets
 import Construccion_img from '../../assets/static/under_construction.svg';
-import Logo_Campus_Canvas from '../../assets/static/logo.svg';
 
+//Components
+import SecondaryHeader from '../../components/SecondaryHeader/SecondaryHeader';
+
+//Styles
 import './Construccion.scoped.scss';
 
 function Construccion() {
   return (
     <div className='construction__container'>
-      <header className='header'>
-        <div className='header__container container'>
-          <a href='/'>
-            <img src={Logo_Campus_Canvas} alt='Logo Campus Canvas' />
-          </a>
-        </div>
-      </header>
+      <SecondaryHeader />
 
       <main className='main'>
         <div className='main__container container'>

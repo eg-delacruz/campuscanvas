@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 //assets
 import BagLogo from '../../assets/static/bag_logo.svg';
 import Bagsx2 from '../../assets/static/2bags.png';
-import SectionDownButton from '../../assets/static/SVGComponents/section_down';
+import SectionDownButton from '../../assets/static/SVGComponents/Icons/section_down';
 
 //Images
 import upperBenefit1 from '../../assets/static/upperBenefit_img_1.png';

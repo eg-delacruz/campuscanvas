@@ -27,6 +27,7 @@ const TerminosCondiciones = React.lazy(() =>
 const Cookies = React.lazy(() => import('./pages/Cookies/Cookies'));
 const Empleos = React.lazy(() => import('./pages/Empleos/Empleos'));
 const Contacto = React.lazy(() => import('./pages/Contacto/Contacto'));
+const NotFound = React.lazy(() => import('./pages/NotFound404/NotFound404'));
 
 //Router
 function App() {
@@ -38,6 +39,7 @@ function App() {
         <Switch>
           {/* A todo lo que va fuera del <Fragment> no se le aplica el layout */}
           <Route exact path='/construccion' component={Construccion} />
+
           <Fragment>
             <Layout>
               <Route exact path='/' component={Main} />
@@ -53,7 +55,8 @@ function App() {
               <Route exact path='/cookies' component={Cookies} />
               <Route exact path='/empleos' component={Empleos} />
               <Route exact path='/contacto' component={Contacto} />
-              {/* Create Not Found 404 page */}
+              {/*Not Found 404 */}
+              <Route component={NotFound} />
             </Layout>
           </Fragment>
         </Switch>

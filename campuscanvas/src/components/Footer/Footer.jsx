@@ -10,7 +10,6 @@ import Youtube from '../../assets/static/youtube_icon.svg';
 import Facebook from '../../assets/static/facebook_icon.svg';
 import Instagram from '../../assets/static/instagram_icon.svg';
 import LinkedIn from '../../assets/static/linkedin_icon.svg';
-import Prueba from '../../assets/static/SVGComponents/linkedIn_icon';
 
 function Footer() {
   return (
