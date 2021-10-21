@@ -4,7 +4,7 @@ import React from 'react';
 import Logo_Campus_Canvas from '../../assets/static/logo.svg';
 
 //Styles
-import './SecondaryHeader.scss';
+import './SecondaryHeader.scoped.scss';
 
 const SecondaryHeader = () => {
   return (

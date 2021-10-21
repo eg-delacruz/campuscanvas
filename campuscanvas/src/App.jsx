@@ -1,5 +1,5 @@
 import React, { Fragment, Suspense } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 //hooks
 import ScrollToTop from './utilities/ScrollToTop';
@@ -32,33 +32,24 @@ const NotFound = React.lazy(() => import('./pages/NotFound404/NotFound404'));
 //Router
 function App() {
   //console.log(useScrollToTop);
+
   return (
     <Suspense fallback={<div />}>
       <BrowserRouter>
         <ScrollToTop />
-        <Switch>
-          {/* A todo lo que va fuera del <Fragment> no se le aplica el layout */}
-          <Route exact path='/construccion' component={Construccion} />
 
-          <Fragment>
-            <Layout>
-              <Route exact path='/' component={Main} />
-              <Route exact path='/empresas' component={ParaEmpresas} />
-              <Route exact path='/nosotros' component={Nosotros} />
-              <Route exact path='/FAQs' component={FAQs} />
-              <Route exact path='/privacidad' component={PoliticasPrivacidad} />
-              <Route
-                exact
-                path='/condiciones'
-                component={TerminosCondiciones}
-              />
-              <Route exact path='/cookies' component={Cookies} />
-              <Route exact path='/empleos' component={Empleos} />
-              <Route exact path='/contacto' component={Contacto} />
-              {/*Not Found 404 */}
-              <Route component={NotFound} />
-            </Layout>
-          </Fragment>
+        <Switch>
+          <Route exact path='/construccion' component={Construccion} />
+          <Route exact path='/' component={Main} />
+          <Route exact path='/empresas' component={ParaEmpresas} />
+          <Route exact path='/nosotros' component={Nosotros} />
+          <Route exact path='/FAQs' component={FAQs} />
+          <Route exact path='/privacidad' component={PoliticasPrivacidad} />
+          <Route exact path='/condiciones' component={TerminosCondiciones} />
+          <Route exact path='/cookies' component={Cookies} />
+          <Route exact path='/empleos' component={Empleos} />
+          <Route exact path='/contacto' component={Contacto} />
+          <Route component={NotFound} />
         </Switch>
       </BrowserRouter>
     </Suspense>

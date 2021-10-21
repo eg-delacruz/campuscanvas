@@ -2,14 +2,18 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 //Styles
-import './NotFound404.scss';
+import './NotFound404.scoped.scss';
+
+//Assets
+import NotFoundImage from '../../assets/static/NotFound404.svg';
 
 //Components
-import NotFoundImage from '../../assets/static/NotFound404.svg';
+import SecondaryHeader from '../../components/SecondaryHeader/SecondaryHeader';
 
 const NotFound404 = () => {
   return (
     <div className='404__container'>
+      <SecondaryHeader />
       <main className='main'>
         <div className='main__container container'>
           <h2>Página no encontrada</h2>
