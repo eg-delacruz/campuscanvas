@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+//Redux actions
+import * as usuariosActions from '../../actions/usuariosActions';
 
 //Assets
 import './FAQs.scoped.scss';
@@ -8,7 +12,7 @@ import './FAQs.scoped.scss';
 import ButtonUp from '../../components/ButtonUp/ButtonUp';
 import Layout from '../../components/Layout/Layout';
 
-function FAQs() {
+function FAQs(props) {
   // const QUESTIONS = [
   //   {
   //     index: 1,
@@ -79,6 +83,14 @@ function FAQs() {
   //     <p>{content}</p>
   //   </article>
   // ));
+
+  useEffect(() => {
+    props.traerTodos();
+  }, []);
+
+  //en las props se guarda todo lo que está en initialState del reducer.
+  //también se guardan los actions.
+  console.log(props);
 
   return (
     <Layout>
@@ -154,4 +166,13 @@ function FAQs() {
   );
 }
 
-export default FAQs;
+//Maps state defined in the reducer to the props.
+const mapStateToProps = (reducers) => {
+  //accedemos al reducer que nos interesa
+  return reducers.usuariosReducer;
+};
+
+export default connect(
+  mapStateToProps,
+  usuariosActions
+)(FAQs);

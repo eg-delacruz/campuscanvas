@@ -1,14 +1,12 @@
-import React, { Fragment, Suspense } from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import React, { Suspense } from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 //hooks
 import ScrollToTop from './utilities/ScrollToTop';
 
 //Components
-import Layout from './components/Layout/Layout';
 
 //pages with React.lazy()
-
 const Main = React.lazy(() => import('./pages/Main/Main'));
 const Construccion = React.lazy(() =>
   import('./pages/Construction/Construccion')
