@@ -13,11 +13,16 @@ import reduxThunk from 'redux-thunk';
 
 import reducers from './reducers';
 
-const store = createStore(
-  reducers, //Todos los reducers
-  {}, //Estado inicial --> Jugar con esto para ver cómo funciona. Ver si lo mejor es modificarlo desde aquí o desde los reducers.
-  applyMiddleware(reduxThunk)
-);
+import configureStore from './configureStore';
+
+//const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+// const store = createStore(
+//   reducers, //Todos los reducers
+//   {}, //Estado inicial --> Jugar con esto para ver cómo funciona. Ver si lo mejor es modificarlo desde aquí o desde los reducers.
+//   applyMiddleware(reduxThunk)
+// );
+
+const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>

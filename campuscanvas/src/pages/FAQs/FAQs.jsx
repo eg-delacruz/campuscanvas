@@ -86,6 +86,7 @@ function FAQs(props) {
 
   useEffect(() => {
     props.traerTodos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //en las props se guarda todo lo que está en initialState del reducer.
