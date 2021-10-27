@@ -25,11 +25,11 @@ function TablaEmpleos() {
   ];
 
   const displayOffers = () =>
-    OFERTAS.map((oferta) => (
+    OFERTAS.map((oferta, index) => (
       <article key={oferta.id} className='main__jobCard'>
         <h4 className='main_jobCardTitle'>{oferta.title}</h4>
         <p>{oferta.content}</p>
-        <Link className='btn button--purple' to='/construccion'>
+        <Link className='btn button--purple' to={`/empleo/${index}`}>
           Más información
         </Link>
       </article>
