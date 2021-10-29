@@ -201,3 +201,56 @@ export const JOBS = [
     },
   },
 ];
+
+/////////////////////////
+//   Object template   //
+/////////////////////////
+
+// {
+//     id: ,
+//     JobTitle: '',
+//     CardDescription:'',
+//     SpecificationList1: [
+//       {
+//         Location: '',
+//         PublishingDate: '',
+//         Salary: '',
+//       },
+//     ],
+//     SpecificationList2: [
+//       {
+//         Experience: '',
+//         Contract: '',
+//       },
+//     ],
+//     RequirementsList: [
+//       {
+//         MinimumStudies: '',
+//         Experience: '',
+//         Availability: '',
+//       },
+//     ],
+//     Image: ,
+//     Description:'',
+//     TasksList: {
+//       Task1: '',
+//       Task2:'',
+//       Task3:'',
+//       Task4: '',
+//       Task5: '',
+//       Task6: '',
+//     },
+//     YourBenefitsList: {
+//       Benefit1:'',
+//       Benefit2:'',
+//       Benefit3:'',
+//       Benefit4:'',
+//       Benefit5:'',
+//       Benefit6:'',
+//     },
+//     ProfileList: {
+//       Attribute1: '',
+//       Attribute2: '',
+//       Attribute3:'',
+//     },
+//   }
