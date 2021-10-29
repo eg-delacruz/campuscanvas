@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 //Redux actions
-import * as usuariosActions from '../../actions/usuariosActions';
+import * as jobsActions from '../../actions/jobsActions';
 
 //Assets
 import './FAQs.scoped.scss';
@@ -13,77 +13,6 @@ import ButtonUp from '../../components/ButtonUp/ButtonUp';
 import Layout from '../../components/Layout/Layout';
 
 function FAQs(props) {
-  // const QUESTIONS = [
-  //   {
-  //     index: 1,
-  //     title: '¿Por qué son las bolsas de Campus Bag totalmente gratis?',
-  //     content:
-  //       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna. Morbi a bibendum metus. Donec scelerisque sollicitudin enim eu venenatis. Duis tincidunt laoreet ex, in pretium orci vestibulum eget. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis pharetra luctus lacus ut vestibulum. Maecenas ipsum lacus, lacinia quis posuere ut, pulvinar vitae dolor.Integer eu nibh at nisi ullamcorper sagittis id vel leo.',
-  //   },
-  //   {
-  //     index: 2,
-  //     title: '¿Dónde y cuándo se reparten las bolsas?',
-  //     content:
-  //       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna. Morbi a bibendum metus. Donec scelerisque sollicitudin enim eu venenatis. Duis tincidunt laoreet ex, in pretium orci vestibulum eget. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis pharetra luctus lacus ut vestibulum. Maecenas ipsum lacus, lacinia quis posuere ut, pulvinar vitae dolor.Integer eu nibh at nisi ullamcorper sagittis id vel leo.',
-  //   },
-  //   {
-  //     index: 3,
-  //     title:
-  //       'Me perdí de la distribución de las bolsas en mi campus, ¿cómo puedo obtener una?',
-  //     content:
-  //       'Puedes pedir tu Campus Bag en línea en este enlace, o puedes esperar nuestra siguiente repartición. En algunos campus repartimos',
-  //   },
-  //   {
-  //     index: 4,
-  //     title: 'Esta es la pregunta frecuente número 4',
-  //     content:
-  //       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna. Morbi a bibendum metus. Donec scelerisque sollicitudin enim eu venenatis. Duis tincidunt laoreet ex, in pretium orci vestibulum eget. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis pharetra luctus lacus ut vestibulum. Maecenas ipsum lacus, lacinia quis posuere ut, pulvinar vitae dolor.Integer eu nibh at nisi ullamcorper sagittis id vel leo.',
-  //   },
-  //   {
-  //     index: 5,
-  //     title: 'Esta es la pregunta frecuente número 5',
-  //     content:
-  //       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna. Morbi a bibendum metus. Donec scelerisque sollicitudin enim eu venenatis. Duis tincidunt laoreet ex, in pretium orci vestibulum eget. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis pharetra luctus lacus ut vestibulum. Maecenas ipsum lacus, lacinia quis posuere ut, pulvinar vitae dolor.Integer eu nibh at nisi ullamcorper sagittis id vel leo.',
-  //   },
-  //   {
-  //     index: 6,
-  //     title: 'Esta es la pregunta frecuente número 6',
-  //     content:
-  //       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna. Morbi a bibendum metus. Donec scelerisque sollicitudin enim eu venenatis. Duis tincidunt laoreet ex, in pretium orci vestibulum eget. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis pharetra luctus lacus ut vestibulum. Maecenas ipsum lacus, lacinia quis posuere ut, pulvinar vitae dolor.Integer eu nibh at nisi ullamcorper sagittis id vel leo.',
-  //   },
-  //   {
-  //     index: 7,
-  //     title: 'Esta es la pregunta frecuente número 7',
-  //     content:
-  //       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna. Morbi a bibendum metus. Donec scelerisque sollicitudin enim eu venenatis. Duis tincidunt laoreet ex, in pretium orci vestibulum eget. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis pharetra luctus lacus ut vestibulum. Maecenas ipsum lacus, lacinia quis posuere ut, pulvinar vitae dolor.Integer eu nibh at nisi ullamcorper sagittis id vel leo.',
-  //   },
-  //   {
-  //     index: 8,
-  //     title: 'Esta es la pregunta frecuente número 8',
-  //     content:
-  //       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna. Morbi a bibendum metus. Donec scelerisque sollicitudin enim eu venenatis. Duis tincidunt laoreet ex, in pretium orci vestibulum eget. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis pharetra luctus lacus ut vestibulum. Maecenas ipsum lacus, lacinia quis posuere ut, pulvinar vitae dolor.Integer eu nibh at nisi ullamcorper sagittis id vel leo.',
-  //   },
-  //   {
-  //     index: 9,
-  //     title: 'Esta es la pregunta frecuente número 9',
-  //     content:
-  //       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna. Morbi a bibendum metus. Donec scelerisque sollicitudin enim eu venenatis. Duis tincidunt laoreet ex, in pretium orci vestibulum eget. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis pharetra luctus lacus ut vestibulum. Maecenas ipsum lacus, lacinia quis posuere ut, pulvinar vitae dolor.Integer eu nibh at nisi ullamcorper sagittis id vel leo.',
-  //   },
-  //   {
-  //     index: 10,
-  //     title: 'Esta es la pregunta frecuente número 10',
-  //     content:
-  //       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna. Morbi a bibendum metus. Donec scelerisque sollicitudin enim eu venenatis. Duis tincidunt laoreet ex, in pretium orci vestibulum eget. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis pharetra luctus lacus ut vestibulum. Maecenas ipsum lacus, lacinia quis posuere ut, pulvinar vitae dolor.Integer eu nibh at nisi ullamcorper sagittis id vel leo.',
-  //   },
-  // ];
-
-  // const displayQuestions = QUESTIONS.map(({ index, title, content }) => (
-  //   <article key={index}>
-  //     <h4>{title}</h4>
-  //     <p>{content}</p>
-  //   </article>
-  // ));
-
   useEffect(() => {
     props.traerTodos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -170,10 +99,10 @@ function FAQs(props) {
 //Maps state defined in the reducer to the props.
 const mapStateToProps = (reducers) => {
   //accedemos al reducer que nos interesa
-  return reducers.usuariosReducer;
+  return reducers.jobsReducer;
 };
 
 export default connect(
   mapStateToProps,
-  usuariosActions
+  jobsActions
 )(FAQs);

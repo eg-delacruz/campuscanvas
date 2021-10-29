@@ -1,14 +1,15 @@
-import { TRAER_TODOS } from '../reduxtypes/usuariosTypes';
+import { GET_ALL } from '../reduxtypes/jobsTypes';
+import { JOBS } from '../Databases/jobsDatabase';
 
 const INITIAL_STATE = {
-  usuarios: [1, 2, 3],
+  jobs: JOBS,
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case TRAER_TODOS:
-      return { ...state, usuarios: action.payload };
+    case GET_ALL:
+      return { ...state, jobs: action.payload };
 
     default:
       return state;

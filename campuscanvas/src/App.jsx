@@ -53,7 +53,7 @@ function App() {
           <Route exact path='/cookies' component={Cookies} />
           <Route exact path='/empleos' component={Empleos} />
           <Route exact path='/contacto' component={Contacto} />
-          <Route exact path='/empleo/:index' component={Empleo} />
+          <Route exact path='/empleo/:id' component={Empleo} />
           <Route component={NotFound} />
         </Switch>
       </BrowserRouter>

@@ -29,7 +29,7 @@ const ContactForm = ({ UploadText = 'Sube un documento' }) => {
     uploadedFiles: {},
   });
 
-  //Saving files in state (an controlling input)
+  //Saving files in state (and controlling input)
   const onChange = (e) => {
     setFiles((prevState) => ({
       ...prevState,

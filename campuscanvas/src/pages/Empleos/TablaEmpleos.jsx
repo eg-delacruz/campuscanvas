@@ -29,7 +29,7 @@ function TablaEmpleos() {
       <article key={oferta.id} className='main__jobCard'>
         <h4 className='main_jobCardTitle'>{oferta.title}</h4>
         <p>{oferta.content}</p>
-        <Link className='btn button--purple' to={`/empleo/${index}`}>
+        <Link className='btn button--purple' to={`/empleo/${oferta.id}`}>
           Más información
         </Link>
       </article>
