@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 //Styles
 import './TablaEmpleos.scoped.scss';
@@ -7,7 +8,8 @@ import './TablaEmpleos.scoped.scss';
 //Redux actions
 import * as jobsActions from '../../actions/jobsActions';
 
-function TablaEmpleos() {
+function TablaEmpleos(props) {
+  console.log(props.jobs);
   const OFERTAS = [
     {
       id: 1,
@@ -47,4 +49,11 @@ function TablaEmpleos() {
   );
 }
 
-export default TablaEmpleos;
+const mapStateToProps = (reducers) => {
+  return reducers.jobsReducer;
+};
+
+export default connect(
+  mapStateToProps,
+  jobsActions
+)(TablaEmpleos);
