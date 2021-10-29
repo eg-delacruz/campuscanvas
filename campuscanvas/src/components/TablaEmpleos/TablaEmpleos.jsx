@@ -7,35 +7,20 @@ import './TablaEmpleos.scoped.scss';
 
 //Redux actions
 import * as jobsActions from '../../actions/jobsActions';
+const { getJobs } = jobsActions;
 
 function TablaEmpleos(props) {
   console.log(props.jobs);
-  const OFERTAS = [
-    {
-      id: 1,
-      title: 'Desarrollador frontend con React',
-      content:
-        'Aquí va una pequeña descripción del perfil que estamos buscando. Se describen un poco las habilidades requeridas de una manera interesante y corta. Pueden mencionarse las tecnologías que el solicitante deberá dominar de manera rápida. Quizá poner algunas actividades extra que se llevarán a cabo con otros equipos o el propósito de lo que se quiere lograr con este cargo.',
-    },
-    {
-      id: 2,
-      title: 'Desarrollador frontend con React',
-      content:
-        'Aquí va una pequeña descripción del perfil que estamos buscando. Se describen un poco las habilidades requeridas de una manera interesante y corta. Pueden mencionarse las tecnologías que el solicitante deberá dominar de manera rápida. Quizá poner algunas actividades extra que se llevarán a cabo con otros equipos o el propósito de lo que se quiere lograr con este cargo.',
-    },
-    {
-      id: 3,
-      title: 'Desarrollador frontend con React',
-      content:
-        'Aquí va una pequeña descripción del perfil que estamos buscando. Se describen un poco las habilidades requeridas de una manera interesante y corta. Pueden mencionarse las tecnologías que el solicitante deberá dominar de manera rápida. Quizá poner algunas actividades extra que se llevarán a cabo con otros equipos o el propósito de lo que se quiere lograr con este cargo.',
-    },
-  ];
+
+  if (props.jobs.length === 0) {
+    props.getJobs();
+  }
 
   const displayOffers = () =>
-    OFERTAS.map((oferta, index) => (
+    props.jobs.map((oferta, index) => (
       <article key={oferta.id} className='jobCard'>
-        <h4 className='main_jobCardTitle'>{oferta.title}</h4>
-        <p>{oferta.content}</p>
+        <h4 className='main_jobCardTitle'>{oferta.JobTitle}</h4>
+        <p>{oferta.CardDescription}</p>
         <Link className='btn button--purple' to={`/empleo/${oferta.id}`}>
           Más información
         </Link>
@@ -49,11 +34,21 @@ function TablaEmpleos(props) {
   );
 }
 
+//Map state to props
 const mapStateToProps = (reducers) => {
   return reducers.jobsReducer;
 };
 
+//Maps actions to props
+const mapDispatchToProps = {
+  getJobs,
+};
+
 export default connect(
   mapStateToProps,
-  jobsActions
+  mapDispatchToProps
 )(TablaEmpleos);
+
+//To do:
+//- Si el arreglo de JOBS está vacío, que muestre mensaje de que no estamos buscando de momento (ver cómo en curso redux)
+//- Ver si puedo hacer la respuesta asíncrona con setTimeout, para así mostrar un loading

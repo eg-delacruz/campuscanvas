@@ -1,8 +1,9 @@
 import { GET_ALL } from '../reduxtypes/jobsTypes';
-import { JOBS } from '../Databases/jobsDatabase';
 
 const INITIAL_STATE = {
-  jobs: JOBS,
+  jobs: [],
+  loading: false,
+  error: '',
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
