@@ -1,0 +1,31 @@
+@import '../../assets/styles/Globals';
+@import '../../assets/styles/Buttons.scss';
+
+.jobCard {
+  background-color: $color--light-gray;
+  border-radius: 8px;
+  border: 1px solid $color--dark-gray;
+  padding: 20px;
+  padding-bottom: 16px;
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 5px 5px 20px -5px rgba(0, 0, 0, 0.5);
+
+  h4 {
+    color: $color--primary1;
+    margin: 0;
+  }
+  p {
+    margin-top: 10px;
+  }
+  .btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 152px;
+    align-self: center;
+    padding: 8px;
+    height: 40px;
+  }
+}

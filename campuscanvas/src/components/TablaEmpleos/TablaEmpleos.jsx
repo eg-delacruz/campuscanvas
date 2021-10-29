@@ -1,6 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Empleos.scoped.scss';
+
+//Styles
+import './TablaEmpleos.scoped.scss';
+
+//Redux actions
+import * as jobsActions from '../../actions/jobsActions';
 
 function TablaEmpleos() {
   const OFERTAS = [
@@ -26,7 +31,7 @@ function TablaEmpleos() {
 
   const displayOffers = () =>
     OFERTAS.map((oferta, index) => (
-      <article key={oferta.id} className='main__jobCard'>
+      <article key={oferta.id} className='jobCard'>
         <h4 className='main_jobCardTitle'>{oferta.title}</h4>
         <p>{oferta.content}</p>
         <Link className='btn button--purple' to={`/empleo/${oferta.id}`}>

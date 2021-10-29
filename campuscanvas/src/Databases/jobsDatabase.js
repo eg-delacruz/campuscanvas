@@ -206,6 +206,8 @@ export const JOBS = [
 //   Object template   //
 /////////////////////////
 
+//Copiar y pegar este objeto, y rellenar los campos requeridos.
+
 // {
 //     id: ,
 //     JobTitle: '',

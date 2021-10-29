@@ -5,7 +5,7 @@ import './Empleos.scoped.scss';
 //Assets
 
 //Components
-import TablaEmpleos from './TablaEmpleos';
+import TablaEmpleos from '../../components/TablaEmpleos/TablaEmpleos';
 import Layout from '../../components/Layout/Layout';
 
 function Empleos() {
