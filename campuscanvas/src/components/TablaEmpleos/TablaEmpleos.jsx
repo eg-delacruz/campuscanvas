@@ -14,12 +14,21 @@ function TablaEmpleos(props) {
 
   if (props.jobs.length === 0) {
     props.getJobs();
+    if (props.jobs.length === 0) {
+      return (
+        <h4 className='notAvailableJobs'>
+          Momentaneamente no estamos ofreciendo ninguna posición. <br /> Sin
+          embargo, puedes enviarnos tu CV si te interesa formar parte del equipo
+          Campus Canvas.
+        </h4>
+      );
+    }
   }
 
   const displayOffers = () =>
     props.jobs.map((oferta, index) => (
       <article key={oferta.id} className='jobCard'>
-        <h4 className='main_jobCardTitle'>{oferta.JobTitle}</h4>
+        <h4 className='jobCardTitle'>{oferta.JobTitle}</h4>
         <p>{oferta.CardDescription}</p>
         <Link className='btn button--purple' to={`/empleo/${oferta.id}`}>
           Más información
