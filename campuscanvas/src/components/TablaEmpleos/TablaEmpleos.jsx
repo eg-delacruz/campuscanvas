@@ -5,12 +5,19 @@ import { connect } from 'react-redux';
 //Styles
 import './TablaEmpleos.scoped.scss';
 
+//Components
+import Loader from '../../components/Loader/Loader.jsx';
+import ErrorDisplayer from '../../components/ErrorDisplayer/ErrorDisplayer';
+
 //Redux actions
 import * as jobsActions from '../../actions/jobsActions';
 const { getJobs } = jobsActions;
 
 function TablaEmpleos(props) {
-  console.log(props.jobs);
+  console.log(props);
+
+  if (props.loading) return <Loader />;
+  if (props.error) return <ErrorDisplayer message={props.error} />;
 
   if (props.jobs.length === 0) {
     props.getJobs();
@@ -48,7 +55,7 @@ const mapStateToProps = (reducers) => {
   return reducers.jobsReducer;
 };
 
-//Maps actions to props
+//Map actions to props
 const mapDispatchToProps = {
   getJobs,
 };
@@ -57,7 +64,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(TablaEmpleos);
-
-//To do:
-//- Si el arreglo de JOBS está vacío, que muestre mensaje de que no estamos buscando de momento (ver cómo en curso redux)
-//- Ver si puedo hacer la respuesta asíncrona con setTimeout, para así mostrar un loading

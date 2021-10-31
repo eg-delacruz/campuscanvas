@@ -67,5 +67,14 @@ p {
   box-sizing: border-box;
 }
 
+/////////////////////////
+//       Globals       //
+/////////////////////////
+.error__message {
+  color: $color--primary1;
+  @include font-size(16px);
+  font-weight: 600;
+}
+
 //Titular mayor (h1), primary2-dark
 //h2, if an h1 already, primary2, if not, primary2-dark
