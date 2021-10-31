@@ -2,8 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Empleos.scoped.scss';
 
-//Assets
-
 //Components
 import TablaEmpleos from '../../components/TablaEmpleos/TablaEmpleos';
 import Layout from '../../components/Layout/Layout';

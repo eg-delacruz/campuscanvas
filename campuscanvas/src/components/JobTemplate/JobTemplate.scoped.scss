@@ -3,7 +3,7 @@
 
 .body__gridContainer {
   display: grid;
-  padding: 80px 0 90px;
+  padding: 80px 8px 90px;
   li {
     @include paragraph--regular;
   }

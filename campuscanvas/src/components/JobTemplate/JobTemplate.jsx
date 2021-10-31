@@ -169,7 +169,7 @@ const JobsTemplate = ({
         <section className='apply container'>
           <h4>¡Envíanos tu currículum y aplica al puesto!</h4>
           <Link to='/contacto' className='btn button--red'>
-            Enviar mi CV
+            Enviar CV
           </Link>
         </section>
       </div>
