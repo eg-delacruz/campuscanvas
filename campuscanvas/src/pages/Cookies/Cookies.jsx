@@ -3,11 +3,13 @@ import './Cookies.scoped.scss';
 import ButtonUp from '../../components/ButtonUp/ButtonUp';
 
 //Components
+import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
 import Layout from '../../components/Layout/Layout';
 
 function Cookies() {
   return (
     <Layout>
+      <HelmetLayout title='Cookies' subtitle='Declaración de cookies' />
       <div className='body__gridContainer'>
         <main className='main'>
           <ButtonUp />

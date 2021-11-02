@@ -4,12 +4,17 @@ import './PoliticasPrivacidad.scoped.scss';
 //Assets
 
 //Components
+import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
 import ButtonUp from '../../components/ButtonUp/ButtonUp';
 import Layout from '../../components/Layout/Layout';
 
 function politicasPrivacidad() {
   return (
     <Layout>
+      <HelmetLayout
+        title='Privacidad'
+        subtitle='Estas son nuestras políticas de privacidad'
+      />
       <div className='body__gridContainer'>
         <section className='main'>
           <div className='main__container container'>

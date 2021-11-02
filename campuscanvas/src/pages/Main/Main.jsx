@@ -13,6 +13,7 @@ import Distribution_map from '../../assets/static/distribution_map2x.png';
 import Distributon_house from '../../assets/static/distribution_house2x.png';
 
 //Componentes
+import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
 import Carousel from '../../components/Carousel/Carousel';
 import ButtonUp from '../../components/ButtonUp/ButtonUp';
 import Layout from '../../components/Layout/Layout';
@@ -20,6 +21,10 @@ import Layout from '../../components/Layout/Layout';
 function Main() {
   return (
     <Layout>
+      <HelmetLayout
+        title='Home'
+        subtitle='Bolsas publicitarias gratuitas para estudiantes'
+      />
       <div className='body__gridContainer'>
         <ButtonUp />
         {/* /////////////////////////

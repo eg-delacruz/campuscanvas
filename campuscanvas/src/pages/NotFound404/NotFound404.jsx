@@ -8,11 +8,16 @@ import './NotFound404.scoped.scss';
 import NotFoundImage from '../../assets/static/NotFound404.svg';
 
 //Components
+import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
 import SecondaryHeader from '../../components/SecondaryHeader/SecondaryHeader';
 
 const NotFound404 = () => {
   return (
     <div className='404__container'>
+      <HelmetLayout
+        title='Página no encontrada'
+        subtitle='No se pudo encontrar la página que estabas buscando'
+      />
       <SecondaryHeader />
       <main className='main'>
         <div className='main__container container'>

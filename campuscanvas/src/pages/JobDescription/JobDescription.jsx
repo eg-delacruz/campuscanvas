@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 //Components
+import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
 import JobTemplate from '../../components/JobTemplate/JobTemplate';
 import Loader from '../../components/Loader/Loader';
 import ErrorDisplayer from '../../components/ErrorDisplayer/ErrorDisplayer';
@@ -49,6 +50,10 @@ const JobDescription = (props) => {
     <>
       {props.jobs === 'no_jobs' ? <Redirect to='/notfound' /> : ''}
       <Layout>
+        <HelmetLayout
+          title='Empleo'
+          subtitle='Descripción de posición de empleo en Campus Canvas'
+        />
         <JobTemplate {...DESCRIPTION} />
       </Layout>
     </>

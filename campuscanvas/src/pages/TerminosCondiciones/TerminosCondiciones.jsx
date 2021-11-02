@@ -2,12 +2,17 @@ import React from 'react';
 import './TerminosCondiciones.scoped.scss';
 
 //Components
+import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
 import ButtonUp from '../../components/ButtonUp/ButtonUp';
 import Layout from '../../components/Layout/Layout';
 
 function TerminosCondiciones() {
   return (
     <Layout>
+      <HelmetLayout
+        title='Terminos y condiciones'
+        subtitle='Estos son nuestros términos y condiciones'
+      />
       <div className='body__gridcontainer'>
         <section className='main'>
           <div className='main__container container'>

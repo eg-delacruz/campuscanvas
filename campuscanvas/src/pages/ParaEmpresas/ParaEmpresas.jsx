@@ -21,6 +21,7 @@ import lowerBenefit5 from '../../assets/static/lowerBenefit_img_5.png';
 import Card_gift from '../../assets/static/card_gift.png';
 
 //components
+import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
 import Layout from '../../components/Layout/Layout';
 import ButtonUp from '../../components/ButtonUp/ButtonUp';
 import Card from '../../components/Card--ImgTitleText/Card';
@@ -29,6 +30,10 @@ import Patrocinadores from '../../components/Carousel/Carousel';
 function ParaEmpresas() {
   return (
     <Layout>
+      <HelmetLayout
+        title='Empresas'
+        subtitle='Información para empresas sobre nuestros servicios y productos'
+      />
       <div className='body__gridContainer'>
         <ButtonUp />
         {/* /////////////////////////

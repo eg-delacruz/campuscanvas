@@ -3,12 +3,17 @@ import { Link } from 'react-router-dom';
 import './Empleos.scoped.scss';
 
 //Components
+import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
 import TablaEmpleos from '../../components/TablaEmpleos/TablaEmpleos';
 import Layout from '../../components/Layout/Layout';
 
 function Empleos() {
   return (
     <Layout>
+      <HelmetLayout
+        title='Empleos'
+        subtitle='Aplica a un empleo en Campus Canvas'
+      />
       <div className='body__gridContainer'>
         <main>
           <div className='main__container container'>

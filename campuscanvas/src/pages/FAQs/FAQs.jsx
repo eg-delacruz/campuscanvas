@@ -1,29 +1,21 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-
-//Redux actions
-import * as jobsActions from '../../actions/jobsActions';
 
 //Assets
 import './FAQs.scoped.scss';
 
 //Components
+import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
 import ButtonUp from '../../components/ButtonUp/ButtonUp';
 import Layout from '../../components/Layout/Layout';
 
-function FAQs(props) {
-  useEffect(() => {
-    props.traerTodos();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  //en las props se guarda todo lo que está en initialState del reducer.
-  //también se guardan los actions.
-  console.log(props);
-
+function FAQs() {
   return (
     <Layout>
+      <HelmetLayout
+        title='Preguntas frecuentes'
+        subtitle='Preguntas frecuentes hechas por empresas y estudiantes'
+      />
       <div>
         {/* /////////////////////////
             //       Main        //
@@ -96,13 +88,4 @@ function FAQs(props) {
   );
 }
 
-//Maps state defined in the reducer to the props.
-const mapStateToProps = (reducers) => {
-  //accedemos al reducer que nos interesa
-  return reducers.jobsReducer;
-};
-
-export default connect(
-  mapStateToProps,
-  jobsActions
-)(FAQs);
+export default FAQs;

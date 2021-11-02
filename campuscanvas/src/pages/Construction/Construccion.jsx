@@ -6,6 +6,7 @@ import Construccion_img from '../../assets/static/under_construction.svg';
 
 //Components
 import SecondaryHeader from '../../components/SecondaryHeader/SecondaryHeader';
+import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
 
 //Styles
 import './Construccion.scoped.scss';
@@ -13,6 +14,10 @@ import './Construccion.scoped.scss';
 function Construccion() {
   return (
     <div className='construction__container'>
+      <HelmetLayout
+        title='En construcción'
+        subtitle='Estamos trabajando en nuevas funcionalidades para ti.'
+      />
       <SecondaryHeader />
 
       <main className='main'>

@@ -5,12 +5,14 @@ import './Nosotros.scoped.scss';
 import Gerardo from '../../assets/static/Gerardo.jpg';
 
 //Components
+import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
 import ButtonUp from '../../components/ButtonUp/ButtonUp';
 import Layout from '../../components/Layout/Layout';
 
 function Nosotros() {
   return (
     <Layout>
+      <HelmetLayout title='Nosotros' subtitle='Conóce quienes somos' />
       <div>
         {/* /////////////////////////
             //       Hero        //

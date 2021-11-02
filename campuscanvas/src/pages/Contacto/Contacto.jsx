@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import './Contacto.scoped.scss';
 
 //Components
+import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
 import Layout from '../../components/Layout/Layout';
 import ContactForm from '../../components/ContactForm/ContactForm';
 
@@ -39,6 +40,10 @@ const Contacto = () => {
 
   return (
     <Layout>
+      <HelmetLayout
+        title='Contacto'
+        subtitle='Contáctanos a través de nuestro formulario de contacto'
+      />
       <div className='body__gridContainer'>
         {/* /////////////////////////
 //      Contact Form       //
