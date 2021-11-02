@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 
 //Styles
 import './Contacto.scoped.scss';
@@ -17,6 +18,25 @@ import PhoneIcon from '../../assets/static/SVGComponents/Icons/phone_icon';
 import LocationIcon from '../../assets/static/SVGComponents/Icons/location_icon';
 
 const Contacto = () => {
+  //Activates access to data.state.propertyName sent with Link tag
+  const data = useLocation();
+
+  let PAGE_TITLE;
+
+  //Setting elements depending if for contact or for job application
+  if (data.state === undefined) {
+    //If its just contact
+    PAGE_TITLE = 'Dejanos aquí tus dudas';
+  } else {
+    if (data.state.CV) {
+      //If its job application
+      PAGE_TITLE = 'Únete al equipo Campus Canvas';
+    } else {
+      //If its just contact
+      PAGE_TITLE = 'Dejanos aquí tus dudas';
+    }
+  }
+
   return (
     <Layout>
       <div className='body__gridContainer'>
@@ -25,7 +45,7 @@ const Contacto = () => {
 ///////////////////////// */}
 
         <section className='contactForm container'>
-          <h1>Déjanos aquí tus dudas</h1>
+          <h1>{PAGE_TITLE}</h1>
           <ContactForm />
         </section>
 

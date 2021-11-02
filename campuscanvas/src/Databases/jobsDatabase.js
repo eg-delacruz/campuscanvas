@@ -11,6 +11,8 @@ import LogisticsImage from '../assets/static/logistics_image.jpg';
 //TasksList isRequired as object
 //YourBenefitsList isRequired as an object
 //ProfileList isRequired as an object
+
+//In case of no jobs, let JOBS be []
 export const JOBS = [
   {
     /////////////////////////

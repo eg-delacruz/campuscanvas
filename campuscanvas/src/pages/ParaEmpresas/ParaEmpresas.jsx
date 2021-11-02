@@ -258,7 +258,10 @@ function ParaEmpresas() {
             por cuatrimestre y sorpréndelos con un bonito regalo de parte de tu
             empresa.
           </p>
-          <Link to='/contacto' className='btn button--blue'>
+          <Link
+            to={{ pathname: '/contacto', state: { CV: false } }}
+            className='btn button--blue'
+          >
             Contáctanos
           </Link>
         </section>

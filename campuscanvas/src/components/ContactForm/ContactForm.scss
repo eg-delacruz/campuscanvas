@@ -3,14 +3,11 @@
 .form {
   max-width: 350px;
   min-width: 290px;
-  //border: 1px $color--primary2 solid;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
   border-radius: 3px;
   padding: 10px;
-  //background-color: $color--secondary-white;
-  //box-shadow: 14px 21px 20px -19px rgba(0, 0, 0, 0.3);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(4px);
   background: rgba(255, 255, 255, 0.8);
@@ -31,7 +28,6 @@
     transform: translate(0, 0);
     transform-origin: 0 0;
     transition: transform 120ms ease-in;
-    // font-weight: bold;
     line-height: 1.2;
     background-color: $color--white;
     color: $color--dark-gray;
@@ -105,6 +101,17 @@
     border-radius: 8px;
   }
   &__message::placeholder {
+    color: $color--dark-gray;
+  }
+
+  ///////////No transparent placeholder for datalist input/////////////////
+  .non_transparent_placeholder {
+    display: none;
+  }
+  .isActive {
+    display: initial;
+  }
+  .non_transparent_placeholder::placeholder {
     color: $color--dark-gray;
   }
 

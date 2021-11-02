@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
-import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 //Styles
 import './ContactForm.scss';
@@ -11,13 +12,66 @@ import TrashIcon from '../../assets/static/TrashIcon.png';
 //hooks
 import { useInputValue } from '../../hooks/useInputValue';
 
-const ContactForm = ({ UploadText = 'Sube un documento' }) => {
+//
+
+const ContactForm = (props) => {
+  //Activates access to data.state.propertyName sent with Link tag
+  const data = useLocation();
+
+  ////////////Setting elements depending if for contact or for job application////////////
+  let FORM_TITLE;
+  let UPLOAD_TEXT;
+  let EMAIL_PLACEHOLDER;
+  let SHOW_COMPANY_FIELD;
+  let SHOW_JOBSELECTION_FIELD;
+  let MESSAGE_PLACEHOLDER;
+
+  if (data.state === undefined) {
+    //If its just contact
+    FORM_TITLE = 'Formulario de contacto';
+    UPLOAD_TEXT = 'Sube un documento';
+    EMAIL_PLACEHOLDER = 'Correo empresarial *';
+    SHOW_COMPANY_FIELD = false;
+    SHOW_JOBSELECTION_FIELD = false;
+    MESSAGE_PLACEHOLDER = 'Escribe aquí tu mensaje';
+  } else {
+    if (data.state.CV) {
+      //If its job application
+      FORM_TITLE = 'Aplica al empleo';
+      UPLOAD_TEXT = 'Sube tu CV aquí';
+      EMAIL_PLACEHOLDER = 'Correo *';
+      SHOW_COMPANY_FIELD = true;
+      SHOW_JOBSELECTION_FIELD = true;
+      MESSAGE_PLACEHOLDER = 'Compártenos aquí tu carta de motivación';
+    } else {
+      //If its just contact
+      FORM_TITLE = 'Formulario de contacto';
+      UPLOAD_TEXT = 'Sube un documento';
+      EMAIL_PLACEHOLDER = 'Correo empresarial *';
+      SHOW_COMPANY_FIELD = false;
+      SHOW_JOBSELECTION_FIELD = false;
+      MESSAGE_PLACEHOLDER = 'Escribe aquí tu mensaje';
+    }
+  }
+  ////////////Setting elements depending if for contact or for job application////////////
+
+  //Controlling inputs
   const NAME = useInputValue('');
   const LAST_NAME = useInputValue('');
+  const JOB_NAME = useInputValue('');
   const EMAIL = useInputValue('');
   const PHONE = useInputValue('');
   const COMPANY = useInputValue('');
   const MESSAGE = useInputValue('');
+
+  ///////////////////////Show jobs in datalist in case of job application////////////////////////
+  let JOB_POSITIONS = [];
+  if (typeof props.jobs === 'object') {
+    JOB_POSITIONS = props.jobs.map((position) => {
+      return position.JobTitle;
+    });
+  }
+  ///////////////////////Show jobs in datalist in case of job application////////////////////////
 
   ////////////////////////////////////////////// Input File logic////////////////////////////////////////
 
@@ -37,12 +91,6 @@ const ContactForm = ({ UploadText = 'Sube un documento' }) => {
       uploadedFiles: elemRef.current.files,
     }));
   };
-
-  //needed to se changes every time state is changed, since useState async!
-  //Siempre que files cambie, useEffect se ejecutará
-  // useEffect(() => {
-  //   console.log(files);
-  // }, [files]);
 
   const deleteUploadedFile = (key) => {
     const updatedFiles = { ...files.uploadedFiles };
@@ -73,7 +121,7 @@ const ContactForm = ({ UploadText = 'Sube un documento' }) => {
       action='https://formsubmit.co/a6c2cdb34bab8fc6bd2a306139ff5fdb'
       encType='multipart/form-data'
     >
-      <h3 className='form__title'>Formulario de contacto</h3>
+      <h3 className='form__title'>{FORM_TITLE}</h3>
 
       <label className='form__labelTag'>
         <input
@@ -101,6 +149,26 @@ const ContactForm = ({ UploadText = 'Sube un documento' }) => {
 
       <label className='form__labelTag'>
         <input
+          required
+          className={
+            SHOW_JOBSELECTION_FIELD
+              ? 'form__input non_transparent_placeholder isActive'
+              : 'form__input non_transparent_placeholder'
+          }
+          list='job_positions'
+          name='Posición de interés'
+          {...JOB_NAME}
+          placeholder='Posición de interés'
+        />
+        <datalist id='job_positions'>
+          {JOB_POSITIONS.map((position, index) => (
+            <option key={index} value={position} />
+          ))}
+        </datalist>
+      </label>
+
+      <label className='form__labelTag'>
+        <input
           className='form__input'
           type='email'
           placeholder='Correo empresarial *'
@@ -108,7 +176,7 @@ const ContactForm = ({ UploadText = 'Sube un documento' }) => {
           required
           {...EMAIL}
         />
-        <span className='form__inputLabel'>Correo empresarial *</span>
+        <span className='form__inputLabel'>{EMAIL_PLACEHOLDER}</span>
       </label>
 
       <label className='form__labelTag'>
@@ -117,6 +185,7 @@ const ContactForm = ({ UploadText = 'Sube un documento' }) => {
           type='text'
           placeholder='Empresa'
           name='empresa'
+          hidden={SHOW_COMPANY_FIELD}
           {...COMPANY}
         />
         <span className='form__inputLabel'>Empresa</span>
@@ -135,7 +204,7 @@ const ContactForm = ({ UploadText = 'Sube un documento' }) => {
 
       <label className='form__labelTag form__FileInputLabelTag'>
         <img className='form__uploadIcon' src={UploadIcon} alt='' />
-        <span>{UploadText}</span>
+        <span>{UPLOAD_TEXT}</span>
         <input
           id='fileItem'
           className='form__input form__FileInput'
@@ -156,7 +225,7 @@ const ContactForm = ({ UploadText = 'Sube un documento' }) => {
       <textarea
         className='form__input form__message'
         name='user_message'
-        placeholder='Escribe aquí tu mensaje'
+        placeholder={MESSAGE_PLACEHOLDER}
         required
         {...MESSAGE}
       />
@@ -167,11 +236,11 @@ const ContactForm = ({ UploadText = 'Sube un documento' }) => {
   );
 };
 
-export default ContactForm;
-
-ContactForm.propTypes = {
-  UploadText: PropTypes.string,
+const mapStateToProps = (reducers) => {
+  return reducers.jobsReducer;
 };
+
+export default connect(mapStateToProps)(ContactForm);
 
 //El servicio para recibir la info por correo solo admite
 //subir y enviar un solo archivo.
