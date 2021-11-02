@@ -1,5 +1,16 @@
 import LogisticsImage from '../assets/static/logistics_image.jpg';
 
+//Explanation:
+//id isRequired as number
+//JofTitle isRequired as string
+//CardDescription is required as string
+//All attributes of SpecificationList1 and SpecificationList2 are required as array
+//All attributes of RequirementsList are required as array
+//Image isRequired as image
+//Description isRequired as string
+//TasksList isRequired as object
+//YourBenefitsList isRequired as an object
+//ProfileList isRequired as an object
 export const JOBS = [
   {
     /////////////////////////
@@ -13,7 +24,7 @@ export const JOBS = [
       {
         Location: 'Ciudad Universitaria',
         PublishingDate: '26/10/2021',
-        Salary: '25 000 EUR',
+        Salary: 'Por concretar',
       },
     ],
     SpecificationList2: [

@@ -1,4 +1,4 @@
-import React, { Link } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
@@ -26,7 +26,10 @@ const JobDescription = (props) => {
   const DESCRIPTION = props.jobs.find((item) => {
     return item.id === Number(id);
   });
-  console.log(DESCRIPTION);
+
+  // if (props.loading === false) {
+  //   console.log(DESCRIPTION.JobTitle);
+  // }
 
   if (props.loading)
     return (

@@ -14,7 +14,7 @@ import * as jobsActions from '../../actions/jobsActions';
 const { getJobs } = jobsActions;
 
 function TablaEmpleos(props) {
-  console.log(props);
+  //console.log(props);
 
   if (props.jobs.length === 0) {
     props.getJobs();
