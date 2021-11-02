@@ -14,23 +14,22 @@ import * as jobsActions from '../../actions/jobsActions';
 const { getJobs } = jobsActions;
 
 function TablaEmpleos(props) {
-  //console.log(props);
-
-  if (props.loading) return <Loader />;
-  if (props.error) return <ErrorDisplayer message={props.error} />;
+  console.log(props);
 
   if (props.jobs.length === 0) {
     props.getJobs();
-    if (props.jobs.length === 0) {
-      return (
-        <h4 className='notAvailableJobs'>
-          Momentaneamente no estamos ofreciendo ninguna posición. <br /> Sin
-          embargo, puedes enviarnos tu CV si te interesa formar parte del equipo
-          Campus Canvas.
-        </h4>
-      );
-    }
   }
+
+  if (props.loading) return <Loader />;
+  if (props.error) return <ErrorDisplayer message={props.error} />;
+  if (props.jobs === 'no_jobs')
+    return (
+      <h4 className='notAvailableJobs'>
+        De momento, no estamos ofreciendo ninguna posición. <br /> Sin embargo,
+        puedes enviarnos tu CV si te interesa formar parte del equipo Campus
+        Canvas.
+      </h4>
+    );
 
   const displayOffers = () =>
     props.jobs.map((oferta, index) => (

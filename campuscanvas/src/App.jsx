@@ -26,10 +26,9 @@ const Cookies = React.lazy(() => import('./pages/Cookies/Cookies'));
 const Empleos = React.lazy(() => import('./pages/Empleos/Empleos'));
 const Contacto = React.lazy(() => import('./pages/Contacto/Contacto'));
 const NotFound = React.lazy(() => import('./pages/NotFound404/NotFound404'));
-
-//Este import de Empleo es provicional mientras hago el layout, pero después habrá que importar cada página de empleo.
-//Revisar en curso de redux por bedu cómo hacer para que en cada URL, cargue el empleo que se necesita.
-const Empleo = React.lazy(() => import('./components/JobTemplate/JobTemplate'));
+const Empleo = React.lazy(() =>
+  import('./pages/JobDescription/JobDescription')
+);
 
 //Router
 function App() {

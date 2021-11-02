@@ -66,14 +66,12 @@ export const JOBS = [
         'Habilidades blandas: organización, planificación, habilidad excepcional para comunicar, capacidad de resolución de problemas por sí solo o en equipo.',
     },
   },
-
   /////////////////////////
   //       Job2          //
   /////////////////////////
-
   {
     id: 2,
-    JobTitle: 'Desarrollador frontend con React',
+    JobTitle: 'Desarrollador Backend con Node JS y MongoDB',
     CardDescription:
       'Aquí va una pequeña descripción del perfil que estamos buscando. Se describen un poco las habilidades requeridas de una manera interesante y corta. Pueden mencionarse las tecnologías que el solicitante deberá dominar de manera rápida. Quizá poner algunas actividades extra que se llevarán a cabo con otros equipos o el propósito de lo que se quiere lograr con este cargo.',
     SpecificationList1: [
@@ -133,11 +131,9 @@ export const JOBS = [
         'Habilidades blandas: organización, planificación, habilidad excepcional para comunicar, capacidad de resolución de problemas por sí solo o en equipo.',
     },
   },
-
   /////////////////////////
   //       Job3          //
   /////////////////////////
-
   {
     id: 3,
     JobTitle: 'Desarrollador frontend con React',

@@ -8,10 +8,17 @@ export const getJobs = () => (dispatch) => {
 
   try {
     setTimeout(function() {
-      dispatch({
-        type: GET_ALL,
-        payload: JOBS,
-      });
+      if (JOBS.length === 0) {
+        dispatch({
+          type: GET_ALL,
+          payload: 'no_jobs',
+        });
+      } else {
+        dispatch({
+          type: GET_ALL,
+          payload: JOBS,
+        });
+      }
     }, 800);
   } catch (error) {
     dispatch({

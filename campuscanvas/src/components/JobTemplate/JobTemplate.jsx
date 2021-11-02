@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import './JobTemplate.scoped.scss';
 
 //Components
-import Layout from '../Layout/Layout';
 import ButtonUp from '../ButtonUp/ButtonUp';
 
 //Assets
@@ -70,7 +69,7 @@ const JobsTemplate = ({
   },
 }) => {
   return (
-    <Layout>
+    <>
       <ButtonUp />
 
       <div className='body__gridContainer'>
@@ -173,7 +172,7 @@ const JobsTemplate = ({
           </Link>
         </section>
       </div>
-    </Layout>
+    </>
   );
 };
 
