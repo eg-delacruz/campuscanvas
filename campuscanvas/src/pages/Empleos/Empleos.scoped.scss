@@ -3,6 +3,7 @@
 
 .body__gridContainer {
   display: grid;
+  min-height: calc(100vh - (149px + 62px + 97px + 90px));
 }
 
 .main {
