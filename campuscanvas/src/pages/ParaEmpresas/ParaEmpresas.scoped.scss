@@ -64,7 +64,7 @@ body {
 /////////////////////////
 
 .main {
-  padding-bottom: 60px;
+  padding: 0 8px 60px;
   h2 {
     color: $color--primary1;
     text-align: center;
@@ -75,6 +75,9 @@ body {
     @include paragraph--regular;
     text-align: justify;
     margin: 0 64px;
+  }
+  br {
+    display: none;
   }
   .main__content::before {
     content: url(../../assets/static/arrow_topleft.svg);

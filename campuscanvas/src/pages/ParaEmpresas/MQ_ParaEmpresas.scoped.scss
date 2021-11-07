@@ -34,6 +34,16 @@
     }
   }
 
+  /////////////////////////
+  //     Main Text       //
+  /////////////////////////
+
+  .main {
+    br {
+      display: initial;
+    }
+  }
+
   .upperBenefits {
     .beneficios__container {
       grid-template-columns: 45% 45%;
@@ -53,9 +63,6 @@
 ////////////////////////////////////////480/////////////////////////////////////////////
 
 @media screen and (max-width: 480px) {
-  //   .pageTitle img {
-  //     margin: 30px auto;
-  //   }
   /////////////////////////
   //         Hero         //
   /////////////////////////
@@ -82,6 +89,19 @@
     padding-bottom: 30px;
     h2 {
       margin-bottom: 30px;
+    }
+    .main__content {
+      margin: 0;
+      text-align: start;
+    }
+    // br {
+    //   display: initial;
+    // }
+    .main__content::before {
+      display: none;
+    }
+    .main__content::after {
+      display: none;
     }
   }
 
@@ -148,12 +168,12 @@
     .main__content {
       margin: 0 10px;
     }
-    .main__content::before {
-      display: none;
-    }
-    .main__content::after {
-      display: none;
-    }
+    // .main__content::before {
+    //   display: none;
+    // }
+    // .main__content::after {
+    //   display: none;
+    // }
   }
 
   .upperBenefits {

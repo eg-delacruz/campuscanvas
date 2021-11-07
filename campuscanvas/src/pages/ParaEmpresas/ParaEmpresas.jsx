@@ -72,14 +72,14 @@ function ParaEmpresas() {
             través de un modelo de patrocinios. A lo largo del cuatrimestre
             estudiantil nos acercamos a los distintos campus de las
             universidades Madrileñas a entregar bolsas con todo tipo de
-            contenido relevante para los estudiantes. Estos van desde productos
-            comestibles como galletas, chocolatinas y alguna que otra chuchería,
-            hasta bebidas de todo tipo, muestras de productos cosméticos o
-            muestras de productos de oficina como bolígrafos y útiles escolares.
-            Además, nuestros patrocinadores pueden incluir en la bolsa flyers y
-            cupones de descuento e incluso ofertas de empleo y búsqueda de
-            candidatos. Todo con el objetivo de brindar valor a los estudiantes
-            y generar una imagen de marca positiva.
+            contenido relevante para los estudiantes. <br /> <br /> Estos van
+            desde productos comestibles como galletas, chocolatinas y alguna que
+            otra chuchería, hasta bebidas de todo tipo, muestras de productos
+            cosméticos o muestras de productos de oficina como bolígrafos y
+            útiles escolares. Además, nuestros patrocinadores pueden incluir en
+            la bolsa flyers y cupones de descuento e incluso ofertas de empleo y
+            búsqueda de candidatos. Todo con el objetivo de brindar valor a los
+            estudiantes y generar una imagen de marca positiva.
             <br />
           </p>
         </section>
