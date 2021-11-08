@@ -53,7 +53,7 @@ function Main() {
         <main>
           <div className='main__container container'>
             <figure className='main__title-container'>
-              <img src={Bag_logo} alt='Logo de Campus Bags' />
+              <img src={Bag_logo} alt='Logo Campus Bags' />
             </figure>
             <section className='main__content'>
               <figure className='main__content-image'>

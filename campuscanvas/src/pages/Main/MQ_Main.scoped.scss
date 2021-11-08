@@ -1,6 +1,9 @@
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 880px) {
+  .main__title-container {
+    margin-bottom: 30px;
+  }
   .main__content-image {
     margin-left: 0;
   }
@@ -134,6 +137,9 @@
     &__content-image {
       margin-top: -40px;
     }
+    &__content-description {
+      margin-top: -45px;
+    }
   }
 
   /////////////////////////
@@ -180,11 +186,14 @@
 
   .main {
     &__title-container {
-      margin: 10px 0;
+      margin: 10px auto;
     }
     &__content-image img {
       width: 160%;
       top: -50px;
+    }
+    &__content-description {
+      margin-top: 0;
     }
     &__description-container {
       margin-top: -100px;
