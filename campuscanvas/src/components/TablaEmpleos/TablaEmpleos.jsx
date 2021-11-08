@@ -32,7 +32,7 @@ function TablaEmpleos(props) {
     );
 
   const displayOffers = () =>
-    props.jobs.map((oferta, index) => (
+    props.jobs.map((oferta) => (
       <article key={oferta.id} className='jobCard'>
         <h4 className='jobCardTitle'>{oferta.JobTitle}</h4>
         <p>{oferta.CardDescription}</p>

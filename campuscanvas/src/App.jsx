@@ -29,6 +29,7 @@ const NotFound = React.lazy(() => import('./pages/NotFound404/NotFound404'));
 const Empleo = React.lazy(() =>
   import('./pages/JobDescription/JobDescription')
 );
+const Blog = React.lazy(() => import('./pages/BlogHome/BlogHome'));
 
 //Router
 function App() {
@@ -51,6 +52,7 @@ function App() {
           <Route exact path='/empleos' component={Empleos} />
           <Route exact path='/contacto' component={Contacto} />
           <Route exact path='/empleo/:id' component={Empleo} />
+          <Route exact path='/blog' component={Blog} />
           <Route component={NotFound} />
         </Switch>
       </BrowserRouter>

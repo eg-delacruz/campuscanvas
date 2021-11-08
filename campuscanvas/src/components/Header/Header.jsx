@@ -55,7 +55,7 @@ function Header() {
                 </Link>
               </li>
               <li className='menu__item'>
-                <Link to='/construccion'>Blog</Link>
+                <Link to='/blog'>Blog</Link>
               </li>
               <li className='menu__item'>
                 <Link to='/FAQs'>FAQs</Link>

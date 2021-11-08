@@ -1,0 +1,24 @@
+@import '../../assets/styles/Vars.scss';
+
+/////////////////////////
+//      Main Post      //
+/////////////////////////
+
+.Posts {
+  &__main {
+    background-color: $color--light-gray;
+    h3 {
+      color: $color--primary1;
+      text-align: center;
+    }
+  }
+}
+
+/////////////////////////
+//    Posts Table      //
+/////////////////////////
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@import './MQ_PostsTable.scoped.scss';
