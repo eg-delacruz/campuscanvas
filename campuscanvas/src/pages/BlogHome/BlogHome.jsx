@@ -10,6 +10,7 @@ import Blog_title from '../../assets/static/Blog_logo.svg';
 import Layout from '../../components/Layout/Layout';
 import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
 import PostsTable from '../../components/BlogTable/PostsTable';
+import ButtonUp from '../../components/ButtonUp/ButtonUp';
 
 const BlogHome = () => {
   return (
@@ -18,6 +19,7 @@ const BlogHome = () => {
         title='Blog'
         subtitle='Blog dedicado a la vida estudiantil'
       />
+      <ButtonUp />
       <div className='Blog__container'>
         <figure className='Blog__title'>
           <img src={Blog_title} alt='Campus Blog' />

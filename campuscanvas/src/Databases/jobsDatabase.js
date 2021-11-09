@@ -1,3 +1,4 @@
+//images
 import LogisticsImage from '../assets/static/logistics_image.jpg';
 
 //Explanation:

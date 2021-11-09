@@ -11,6 +11,9 @@
       color: $color--primary1;
       text-align: center;
     }
+    h1 {
+      color: $color--primary2-dark1;
+    }
   }
 }
 
@@ -45,6 +48,7 @@
 .AllPosts {
   h3 {
     text-align: center;
+    color: $color--primary2-dark1;
   }
   .AllPostsGrid {
     padding-top: 52px;
@@ -58,6 +62,9 @@
         border-radius: 3px;
         box-shadow: 14px 21px 20px -15px rgba(0, 0, 0, 0.3);
       }
+    }
+    h4 {
+      color: $color--primary2-dark1;
     }
     hr {
       display: none;

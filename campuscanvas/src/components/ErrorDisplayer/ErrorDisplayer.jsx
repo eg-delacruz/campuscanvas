@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Fatal(props) {
-  return <p className='error__message'>{props.message}</p>;
+  return <p className='container error__message'>{props.message}</p>;
 }
 
 export default Fatal;
