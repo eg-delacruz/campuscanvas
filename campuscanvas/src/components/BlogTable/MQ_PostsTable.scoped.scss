@@ -4,12 +4,82 @@
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 767px) {
+  /////////////////////////
+  //      Main Post      //
+  /////////////////////////
+  .Posts {
+    &__main {
+      h3 {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .MainPost {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'PostTitle'
+      'PostImage'
+      'PostDescription'
+      'PostButton';
+    figure {
+      grid-area: PostImage;
+      justify-self: center;
+    }
+    h1,
+    p {
+      margin-left: 0px;
+    }
+    h1 {
+      justify-self: center;
+    }
+  }
+
+  /////////////////////////
+  //    Posts Table      //
+  /////////////////////////
+  .AllPosts {
+    padding: 0 8px;
+    .AllPostsGrid {
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 60px 40px;
+    }
+  }
 }
 ////////////////////////////////////////480/////////////////////////////////////////////
 
 @media screen and (max-width: 480px) {
+  /////////////////////////
+  //    Posts Table      //
+  /////////////////////////
+  .AllPosts {
+    .AllPostsGrid {
+      grid-template-columns: 1fr;
+      grid-gap: 40px;
+      hr {
+        display: block;
+        width: 90%;
+        border: 2px solid $color--dark-gray;
+        border-radius: 5px;
+        margin-top: 40px;
+      }
+      div:last-of-type hr {
+        display: none;
+      }
+    }
+  }
 }
 ////////////////////////////////////////320/////////////////////////////////////////////
 
 @media screen and (max-width: 320px) {
+  /////////////////////////
+  //      Main Post      //
+  /////////////////////////
+  .Posts {
+    &__main {
+      h3 {
+        font-size: 20px;
+      }
+    }
+  }
 }
