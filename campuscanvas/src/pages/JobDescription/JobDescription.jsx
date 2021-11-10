@@ -28,10 +28,6 @@ const JobDescription = (props) => {
     return item.id === Number(id);
   });
 
-  // if (props.loading === false) {
-  //   console.log(DESCRIPTION.JobTitle);
-  // }
-
   if (props.loading)
     return (
       <Layout>

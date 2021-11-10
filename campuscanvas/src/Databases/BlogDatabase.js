@@ -10,6 +10,7 @@ import ImagePost7 from '../assets/static/Blog Images/Post7/Post1.jpg';
 //ALL REQUIRED
 //id:numbre
 //Title: string
+//PubDate: string
 //Image: image URL
 //Author: string
 //Content: [], each paragraph of post is separated by a ,
@@ -18,6 +19,7 @@ export const POSTS = [
   {
     id: '1',
     Title: 'Título del post',
+    PubDate: '10/11/2021',
     Image: ImagePost1,
     Author: 'Gerardo De La Cruz',
     Content: [
@@ -30,6 +32,7 @@ export const POSTS = [
   {
     id: '2',
     Title: 'Título del post',
+    PubDate: '10/11/2021',
     Image: ImagePost2,
     Author: 'Gerardo De La Cruz',
     Content: [
@@ -42,6 +45,7 @@ export const POSTS = [
   {
     id: '3',
     Title: 'Título del post',
+    PubDate: '10/11/2021',
     Image: ImagePost3,
     Author: 'Gerardo De La Cruz',
     Content: [
@@ -54,6 +58,7 @@ export const POSTS = [
   {
     id: '4',
     Title: 'Título del post',
+    PubDate: '10/11/2021',
     Image: ImagePost4,
     Author: 'Gerardo De La Cruz',
     Content: [
@@ -66,6 +71,7 @@ export const POSTS = [
   {
     id: '5',
     Title: 'Título del post',
+    PubDate: '10/11/2021',
     Image: ImagePost5,
     Author: 'Gerardo De La Cruz',
     Content: [
@@ -78,6 +84,7 @@ export const POSTS = [
   {
     id: '6',
     Title: 'Título del post',
+    PubDate: '10/11/2021',
     Image: ImagePost6,
     Author: 'Gerardo De La Cruz',
     Content: [
@@ -89,6 +96,7 @@ export const POSTS = [
   {
     id: '7',
     Title: 'Título del post',
+    PubDate: '10/11/2021',
     Image: ImagePost7,
     Author: 'Gerardo De La Cruz',
     Content: [
@@ -103,6 +111,7 @@ export const POSTS = [
 // {
 // id: '',
 // Title: '',
+//PubDate: '',
 // Image: ,
 // Author: '',
 // Content: [

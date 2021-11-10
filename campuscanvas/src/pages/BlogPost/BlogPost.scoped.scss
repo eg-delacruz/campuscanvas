@@ -1,0 +1,42 @@
+.PostContainer {
+  padding: 32px 8px 90px;
+}
+.Blog__logo {
+  margin: 0 0 32px;
+  text-align: center;
+  padding: 0 8px;
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+  .PostContainer {
+    padding-bottom: 70px;
+  }
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+  .PostContainer {
+    padding-bottom: 50px;
+  }
+  .Blog__logo {
+    margin: 0 0 32px;
+    text-align: center;
+    max-width: 100vw;
+    img {
+      width: 100%;
+    }
+  }
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}

@@ -119,17 +119,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(PostsTable);
-
-//Código para hacer map a los párrafos del post, a usar
-//en donde se muestra el post
-
-//  {POSTS.map((post) => (
-//               <div>
-//                 {post.Content.map((paragraph) => (
-//                   <>
-//                     <p>{paragraph}</p>
-//                     <br />
-//                   </>
-//                 ))}
-//               </div>
-//             ))}

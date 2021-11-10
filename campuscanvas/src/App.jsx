@@ -30,6 +30,7 @@ const Empleo = React.lazy(() =>
   import('./pages/JobDescription/JobDescription')
 );
 const Blog = React.lazy(() => import('./pages/BlogHome/BlogHome'));
+const BlogPost = React.lazy(() => import('./pages/BlogPost/BlogPost'));
 
 //Router
 function App() {
@@ -53,6 +54,7 @@ function App() {
           <Route exact path='/contacto' component={Contacto} />
           <Route exact path='/empleo/:id' component={Empleo} />
           <Route exact path='/blog' component={Blog} />
+          <Route exact path='/blog/post/:id' component={BlogPost} />
           <Route component={NotFound} />
         </Switch>
       </BrowserRouter>
