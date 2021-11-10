@@ -1,5 +1,5 @@
 //images
-import LogisticsImage from '../assets/static/logistics_image.jpg';
+import LogisticsImage from '../assets/static/PagesImages/EmpleosImages/AyudanteLogistica/logistics_image.jpg';
 
 //Explanation:
 //id isRequired as number

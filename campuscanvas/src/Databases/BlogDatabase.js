@@ -1,10 +1,10 @@
-import ImagePost1 from '../assets/static/Blog Images/Post1/PostImage.jpg';
-import ImagePost2 from '../assets/static/Blog Images/Post2/PostImage.jpg';
-import ImagePost3 from '../assets/static/Blog Images/Post3/PostImage.jpg';
-import ImagePost4 from '../assets/static/Blog Images/Post4/PostImage.jpg';
-import ImagePost5 from '../assets/static/Blog Images/Post5/PostImage.jpg';
-import ImagePost6 from '../assets/static/Blog Images/Post6/PostImage.jpg';
-import ImagePost7 from '../assets/static/Blog Images/Post7/Post1.jpg';
+import ImagePost1 from '../assets/static/PagesImages/BlogImages/Post1/PostImage.jpg';
+import ImagePost2 from '../assets/static/PagesImages/BlogImages/Post2/PostImage.jpg';
+import ImagePost3 from '../assets/static/PagesImages/BlogImages/Post3/PostImage.jpg';
+import ImagePost4 from '../assets/static/PagesImages/BlogImages/Post4/PostImage.jpg';
+import ImagePost5 from '../assets/static/PagesImages/BlogImages/Post5/PostImage.jpg';
+import ImagePost6 from '../assets/static/PagesImages/BlogImages/Post6/PostImage.jpg';
+import ImagePost7 from '../assets/static/PagesImages/BlogImages/Post7/Post1.jpg';
 
 //Explanation
 //ALL REQUIRED

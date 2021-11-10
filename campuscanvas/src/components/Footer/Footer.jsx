@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom';
 import './Footer.scoped.scss';
 
 //Assets
-import Logo_footer from '../../assets/static/logo_footer.svg';
-import Youtube from '../../assets/static/youtube_icon.svg';
-import Facebook from '../../assets/static/facebook_icon.svg';
-import Instagram from '../../assets/static/instagram_icon.svg';
-import LinkedIn from '../../assets/static/linkedin_icon.svg';
+import Logo_footer from '../../assets/static/GeneralUse/Logos/logo_footer.svg';
+import Youtube from '../../assets/static/GeneralUse/IconsAndButtons/youtube_icon.svg';
+import Facebook from '../../assets/static/GeneralUse/IconsAndButtons/facebook_icon.svg';
+import Instagram from '../../assets/static/GeneralUse/IconsAndButtons/instagram_icon.svg';
+import LinkedIn from '../../assets/static/GeneralUse/IconsAndButtons/linkedin_icon.svg';
 
 function Footer() {
   return (

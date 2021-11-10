@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 
 //Assets
 import Hero_image from '../../assets/static/PagesImages/HomeImages/bags_hero2x.png';
-import Bag_logo from '../../assets/static/PagesImages/HomeImages/bag_logo.svg';
-import Bag_example from '../../assets/static/bag2x.png';
-import Card_gift from '../../assets/static/card_gift.png';
-import Card_pages from '../../assets/static/card_pages.png';
-import Card_coupons from '../../assets/static/card_coupons.png';
-import Distribution_map from '../../assets/static/distribution_map2x.png';
-import Distributon_house from '../../assets/static/distribution_house2x.png';
+import Bag_logo from '../../assets/static/GeneralUse/Logos/bag_logo.svg';
+import Bag_example from '../../assets/static/PagesImages/HomeImages/bag2x.png';
+import Card_gift from '../../assets/static/GeneralUse/card_gift.png';
+import Card_pages from '../../assets/static/GeneralUse/card_pages.png';
+import Card_coupons from '../../assets/static/GeneralUse/card_coupons.png';
+import Distribution_map from '../../assets/static/PagesImages/HomeImages/distribution_map2x.png';
+import Distributon_house from '../../assets/static/PagesImages/HomeImages/distribution_house2x.png';
 
 //Componentes
 import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 //Assets
-import Construccion_img from '../../assets/static/under_construction.svg';
+import Construccion_img from '../../assets/static/PagesImages/ConstructionImages/under_construction.svg';
 
 //Components
 import SecondaryHeader from '../../components/SecondaryHeader/SecondaryHeader';

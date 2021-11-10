@@ -10,13 +10,13 @@ import Layout from '../../components/Layout/Layout';
 import ContactForm from '../../components/ContactForm/ContactForm';
 
 //Assets
-import LinkedIn from '../../assets/static/SVGComponents/Icons/linkedIn_icon';
-import Facebook from '../../assets/static/SVGComponents/Icons/facebook_icon';
-import Instagram from '../../assets/static/SVGComponents/Icons/instagram_icon';
-import Youtube from '../../assets/static/SVGComponents/Icons/youtube_icon';
+import LinkedIn from '../../assets/static/GeneralUse/IconsAndButtons/linkedIn_icon';
+import Facebook from '../../assets/static/GeneralUse/IconsAndButtons/facebook_icon';
+import Instagram from '../../assets/static/GeneralUse/IconsAndButtons/instagram_icon';
+import Youtube from '../../assets/static/GeneralUse/IconsAndButtons/youtube_icon';
 
-import PhoneIcon from '../../assets/static/SVGComponents/Icons/phone_icon';
-import LocationIcon from '../../assets/static/SVGComponents/Icons/location_icon';
+import PhoneIcon from '../../assets/static/GeneralUse/IconsAndButtons/phone_icon';
+import LocationIcon from '../../assets/static/GeneralUse/IconsAndButtons/location_icon';
 
 const Contacto = () => {
   //Activates access to data.state.propertyName sent with Link tag

@@ -4,7 +4,7 @@ import React from 'react';
 import './BlogHome.scoped.scss';
 
 //Assets
-import Blog_title from '../../assets/static/Blog_logo.svg';
+import Blog_title from '../../assets/static/GeneralUse/Logos/Blog_logo.svg';
 
 //Components
 import Layout from '../../components/Layout/Layout';

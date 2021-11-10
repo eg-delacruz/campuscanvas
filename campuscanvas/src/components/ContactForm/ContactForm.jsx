@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 //Styles
 import './ContactForm.scss';
 
-//images
-import UploadIcon from '../../assets/static/upload_icon1.png';
-import TrashIcon from '../../assets/static/TrashIcon.png';
+//Assets
+import UploadIcon from '../../assets/static/PagesImages/ContactoImages/upload_icon1.png';
+import TrashIcon from '../../assets/static/PagesImages/ContactoImages/TrashIcon.png';
 
 //hooks
 import { useInputValue } from '../../hooks/useInputValue';

@@ -9,9 +9,9 @@ import 'slick-carousel/slick/slick-theme.css';
 import './Carousel.scss';
 
 //assets
-import DecisionHandler from '../../assets/static/decisionhandler.png';
-import Arrow_Left from '../../assets/static/arrow_left.svg';
-import Arrow_Right from '../../assets/static/arrow_right.svg';
+import DecisionHandler from '../../assets/static/GeneralUse/Sponsors/decisionhandler.png';
+import Arrow_Left from '../../assets/static/GeneralUse/IconsAndButtons/arrow_left.svg';
+import Arrow_Right from '../../assets/static/GeneralUse/IconsAndButtons/arrow_right.svg';
 
 function NextArrow(props) {
   const { className, style, onClick } = props;

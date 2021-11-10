@@ -2,7 +2,7 @@ import React from 'react';
 
 //assets
 import './Nosotros.scoped.scss';
-import Gerardo from '../../assets/static/Gerardo.jpg';
+import Gerardo from '../../assets/static/PagesImages/NosotrosImages/Gerardo.jpg';
 
 //Components
 import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';

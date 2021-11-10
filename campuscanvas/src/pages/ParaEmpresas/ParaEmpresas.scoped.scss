@@ -80,12 +80,12 @@ body {
     display: none;
   }
   .main__content::before {
-    content: url(../../assets/static/arrow_topleft.svg);
+    content: url(../../assets/static/GeneralUse/IconsAndButtons/arrow_topleft.svg);
     display: inline-block;
     margin-left: -65px;
   }
   .main__content::after {
-    content: url(../../assets/static/arrow_botright.svg);
+    content: url(../../assets/static/GeneralUse/IconsAndButtons/arrow_botright.svg);
     margin-left: 100%;
     display: block;
     margin-top: -15px;

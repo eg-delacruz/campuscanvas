@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import './Header.scoped.scss';
-import Logo_Campus_Canvas from '../../assets/static/logo.svg';
+import Logo_Campus_Canvas from '../../assets/static/GeneralUse/Logos/logo.svg';
 
 function Header() {
   const [menu, setMenu] = useState({

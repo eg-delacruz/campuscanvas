@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import './NotFound404.scoped.scss';
 
 //Assets
-import NotFoundImage from '../../assets/static/NotFound404.svg';
+import NotFoundImage from '../../assets/static/PagesImages/NotFoundImages/NotFound404.svg';
 
 //Components
 import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';

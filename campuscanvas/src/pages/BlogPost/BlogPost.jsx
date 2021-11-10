@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 //Assets
-import Blog_Logo from '../../assets/static/Blog_logo.svg';
+import Blog_Logo from '../../assets/static/GeneralUse/Logos/Blog_logo.svg';
 
 //Styles
 import './BlogPost.scoped.scss';

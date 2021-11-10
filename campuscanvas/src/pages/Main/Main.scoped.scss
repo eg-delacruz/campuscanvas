@@ -63,13 +63,13 @@ body {
     text-align: justify;
   }
   &__content-description::before {
-    content: url(../../assets/static/arrow_topleft.svg);
+    content: url(../../assets/static/GeneralUse/IconsAndButtons/arrow_topleft.svg);
     display: inline-block;
     margin-left: -65px;
   }
 
   &__description-container::after {
-    content: url(../../assets/static/arrow_botright.svg);
+    content: url(../../assets/static/GeneralUse/IconsAndButtons/arrow_botright.svg);
     display: inline-block;
     transform: translate(323%, -50%);
   }
