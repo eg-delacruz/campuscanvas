@@ -3,8 +3,8 @@ import './Main.scoped.scss';
 import { Link } from 'react-router-dom';
 
 //Assets
-import Hero_image from '../../assets/static/bags_hero2x.png';
-import Bag_logo from '../../assets/static/bag_logo.svg';
+import Hero_image from '../../assets/static/PagesImages/HomeImages/bags_hero2x.png';
+import Bag_logo from '../../assets/static/PagesImages/HomeImages/bag_logo.svg';
 import Bag_example from '../../assets/static/bag2x.png';
 import Card_gift from '../../assets/static/card_gift.png';
 import Card_pages from '../../assets/static/card_pages.png';
