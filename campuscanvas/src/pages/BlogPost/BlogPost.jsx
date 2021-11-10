@@ -8,11 +8,11 @@ import Blog_Logo from '../../assets/static/GeneralUse/Logos/Blog_logo.svg';
 import './BlogPost.scoped.scss';
 
 //Components
-import PostTemplate from '../../components/BlogComponents/NewComponentTemplate/PostTemplate';
-import Layout from '../../components/Layout/Layout';
-import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
-import Loader from '../../components/Loader/Loader';
-import ErrorDisplayer from '../../components/ErrorDisplayer/ErrorDisplayer';
+import PostTemplate from '../../components/UsedInSpecificRoutes/Blog/PostTemplate/PostTemplate';
+import Layout from '../../components/GeneralUseComponents/Layout/Layout';
+import HelmetLayout from '../../components/GeneralUseComponents/HelmetLayout/HelmetLayout';
+import Loader from '../../components/GeneralUseComponents/Loader/Loader';
+import ErrorDisplayer from '../../components/GeneralUseComponents/ErrorDisplayer/ErrorDisplayer';
 
 //Redux actions
 import * as postsActions from '../../actions/postsActions';

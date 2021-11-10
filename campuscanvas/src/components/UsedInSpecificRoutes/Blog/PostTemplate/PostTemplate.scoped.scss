@@ -1,0 +1,33 @@
+@import '../../../../assets/styles/Vars.scss';
+.Post {
+  &__image {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    img {
+      width: 100%;
+      border-radius: 3px;
+      box-shadow: 14px 21px 20px -15px rgba(0, 0, 0, 0.3);
+    }
+  }
+  &__author {
+    display: block;
+    margin-top: 16px;
+  }
+  &__PubDate {
+    @include font-size(12px);
+    h6 {
+      @include font-size(12px);
+      margin: 0;
+      display: inline-block;
+    }
+  }
+  hr {
+    margin-top: 20px;
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@import './MQ_PostTemplate.scoped.scss';

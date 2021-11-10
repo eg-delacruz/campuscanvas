@@ -21,11 +21,11 @@ import lowerBenefit4 from '../../assets/static/PagesImages/EmpresasImages/lowerB
 import lowerBenefit5 from '../../assets/static/PagesImages/EmpresasImages/lowerBenefit_img_5.png';
 
 //components
-import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
-import Layout from '../../components/Layout/Layout';
-import ButtonUp from '../../components/ButtonUp/ButtonUp';
-import Card from '../../components/Card--ImgTitleText/Card';
-import Patrocinadores from '../../components/Carousel/Carousel';
+import HelmetLayout from '../../components/GeneralUseComponents/HelmetLayout/HelmetLayout';
+import Layout from '../../components/GeneralUseComponents/Layout/Layout';
+import ButtonUp from '../../components/GeneralUseComponents/ButtonUp/ButtonUp';
+import Card from '../../components/GeneralUseComponents/Card--ImgTitleText/Card';
+import Patrocinadores from '../../components/GeneralUseComponents/Carousel/Carousel';
 
 function ParaEmpresas() {
   return (

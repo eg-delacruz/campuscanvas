@@ -8,8 +8,8 @@ import './NotFound404.scoped.scss';
 import NotFoundImage from '../../assets/static/PagesImages/NotFoundImages/NotFound404.svg';
 
 //Components
-import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
-import SecondaryHeader from '../../components/SecondaryHeader/SecondaryHeader';
+import HelmetLayout from '../../components/GeneralUseComponents/HelmetLayout/HelmetLayout';
+import SecondaryHeader from '../../components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
 
 const NotFound404 = () => {
   return (

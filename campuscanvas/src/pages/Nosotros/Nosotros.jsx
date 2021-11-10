@@ -5,9 +5,9 @@ import './Nosotros.scoped.scss';
 import Gerardo from '../../assets/static/PagesImages/NosotrosImages/Gerardo.jpg';
 
 //Components
-import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
-import ButtonUp from '../../components/ButtonUp/ButtonUp';
-import Layout from '../../components/Layout/Layout';
+import HelmetLayout from '../../components/GeneralUseComponents/HelmetLayout/HelmetLayout';
+import ButtonUp from '../../components/GeneralUseComponents/ButtonUp/ButtonUp';
+import Layout from '../../components/GeneralUseComponents/Layout/Layout';
 
 function Nosotros() {
   return (

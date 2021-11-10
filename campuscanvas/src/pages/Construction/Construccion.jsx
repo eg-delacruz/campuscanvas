@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import Construccion_img from '../../assets/static/PagesImages/ConstructionImages/under_construction.svg';
 
 //Components
-import SecondaryHeader from '../../components/SecondaryHeader/SecondaryHeader';
-import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
+import SecondaryHeader from '../../components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
+import HelmetLayout from '../../components/GeneralUseComponents/HelmetLayout/HelmetLayout';
 
 //Styles
 import './Construccion.scoped.scss';

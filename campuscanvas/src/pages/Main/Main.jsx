@@ -13,10 +13,10 @@ import Distribution_map from '../../assets/static/PagesImages/HomeImages/distrib
 import Distributon_house from '../../assets/static/PagesImages/HomeImages/distribution_house2x.png';
 
 //Componentes
-import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
-import Carousel from '../../components/Carousel/Carousel';
-import ButtonUp from '../../components/ButtonUp/ButtonUp';
-import Layout from '../../components/Layout/Layout';
+import HelmetLayout from '../../components/GeneralUseComponents/HelmetLayout/HelmetLayout';
+import Carousel from '../../components/GeneralUseComponents/Carousel/Carousel';
+import ButtonUp from '../../components/GeneralUseComponents/ButtonUp/ButtonUp';
+import Layout from '../../components/GeneralUseComponents/Layout/Layout';
 
 function Main() {
   return (

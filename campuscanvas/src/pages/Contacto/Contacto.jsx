@@ -5,9 +5,9 @@ import { useLocation } from 'react-router-dom';
 import './Contacto.scoped.scss';
 
 //Components
-import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
-import Layout from '../../components/Layout/Layout';
-import ContactForm from '../../components/ContactForm/ContactForm';
+import HelmetLayout from '../../components/GeneralUseComponents/HelmetLayout/HelmetLayout';
+import Layout from '../../components/GeneralUseComponents/Layout/Layout';
+import ContactForm from '../../components/UsedInSpecificRoutes/Contact/ContactForm/ContactForm';
 
 //Assets
 import LinkedIn from '../../assets/static/GeneralUse/IconsAndButtons/linkedIn_icon';

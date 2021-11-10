@@ -1,11 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
+//Styles
 import './Empleos.scoped.scss';
 
 //Components
-import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
-import TablaEmpleos from '../../components/TablaEmpleos/TablaEmpleos';
-import Layout from '../../components/Layout/Layout';
+import HelmetLayout from '../../components/GeneralUseComponents/HelmetLayout/HelmetLayout';
+import TablaEmpleos from '../../components/UsedInSpecificRoutes/Jobs/TablaEmpleos/TablaEmpleos';
+import Layout from '../../components/GeneralUseComponents/Layout/Layout';
 
 function Empleos() {
   return (

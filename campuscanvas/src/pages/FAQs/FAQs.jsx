@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 import './FAQs.scoped.scss';
 
 //Components
-import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
-import ButtonUp from '../../components/ButtonUp/ButtonUp';
-import Layout from '../../components/Layout/Layout';
+import HelmetLayout from '../../components/GeneralUseComponents/HelmetLayout/HelmetLayout';
+import ButtonUp from '../../components/GeneralUseComponents/ButtonUp/ButtonUp';
+import Layout from '../../components/GeneralUseComponents/Layout/Layout';
 
 function FAQs() {
   return (

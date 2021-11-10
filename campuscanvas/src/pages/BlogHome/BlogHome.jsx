@@ -7,10 +7,10 @@ import './BlogHome.scoped.scss';
 import Blog_title from '../../assets/static/GeneralUse/Logos/Blog_logo.svg';
 
 //Components
-import Layout from '../../components/Layout/Layout';
-import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
-import PostsTable from '../../components/BlogTable/PostsTable';
-import ButtonUp from '../../components/ButtonUp/ButtonUp';
+import Layout from '../../components/GeneralUseComponents/Layout/Layout';
+import HelmetLayout from '../../components/GeneralUseComponents/HelmetLayout/HelmetLayout';
+import PostsTable from '../../components/UsedInSpecificRoutes/Blog/BlogTable/PostsTable';
+import ButtonUp from '../../components/GeneralUseComponents/ButtonUp/ButtonUp';
 
 const BlogHome = () => {
   return (

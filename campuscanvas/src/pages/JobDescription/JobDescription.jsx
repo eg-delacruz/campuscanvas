@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 //Components
-import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
-import JobTemplate from '../../components/JobTemplate/JobTemplate';
-import Loader from '../../components/Loader/Loader';
-import ErrorDisplayer from '../../components/ErrorDisplayer/ErrorDisplayer';
-import Layout from '../../components/Layout/Layout';
+import HelmetLayout from '../../components/GeneralUseComponents/HelmetLayout/HelmetLayout';
+import JobTemplate from '../../components/UsedInSpecificRoutes/Jobs/JobTemplate/JobTemplate';
+import Loader from '../../components/GeneralUseComponents/Loader/Loader';
+import ErrorDisplayer from '../../components/GeneralUseComponents/ErrorDisplayer/ErrorDisplayer';
+import Layout from '../../components/GeneralUseComponents/Layout/Layout';
 
 //Redux actions
 import * as jobsActions from '../../actions/jobsActions';

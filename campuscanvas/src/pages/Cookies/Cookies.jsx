@@ -1,10 +1,10 @@
 import React from 'react';
 import './Cookies.scoped.scss';
-import ButtonUp from '../../components/ButtonUp/ButtonUp';
 
 //Components
-import HelmetLayout from '../../components/HelmetLayout/HelmetLayout';
-import Layout from '../../components/Layout/Layout';
+import HelmetLayout from '../../components/GeneralUseComponents/HelmetLayout/HelmetLayout';
+import Layout from '../../components/GeneralUseComponents/Layout/Layout';
+import ButtonUp from '../../components/GeneralUseComponents/ButtonUp/ButtonUp';
 
 function Cookies() {
   return (
