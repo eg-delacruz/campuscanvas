@@ -41,7 +41,7 @@ function FAQs() {
                 <h4>¿Dónde y cuándo se reparten las bolsas?</h4>
                 <p>
                   En nuestra{' '}
-                  <Link to='/construccion'>
+                  <Link to='/universidades'>
                     lista de universidades y ubicaciones
                   </Link>{' '}
                   puedes verificar si tu universidad forma parte de nuestros

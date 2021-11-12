@@ -31,6 +31,7 @@ const Empleo = React.lazy(() =>
 );
 const Blog = React.lazy(() => import('./pages/BlogHome/BlogHome'));
 const BlogPost = React.lazy(() => import('./pages/BlogPost/BlogPost'));
+const UniList = React.lazy(() => import('./pages/UniList/UniList'));
 
 //Router
 function App() {
@@ -55,6 +56,7 @@ function App() {
           <Route exact path='/empleo/:id' component={Empleo} />
           <Route exact path='/blog' component={Blog} />
           <Route exact path='/blog/post/:id' component={BlogPost} />
+          <Route exact path='/universidades' component={UniList} />
           <Route component={NotFound} />
         </Switch>
       </BrowserRouter>

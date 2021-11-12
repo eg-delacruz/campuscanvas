@@ -77,7 +77,7 @@ function Main() {
                   Repartimos las bolsas a lo largo del cuatrimestre estudiantil,
                   cerca de alguno de los punto de acceso a tu universidad.
                   Consulta nuestra{' '}
-                  <Link to='/construccion'>
+                  <Link to='/universidades'>
                     {' '}
                     lista de universidades y ubicaciones
                   </Link>
