@@ -3,14 +3,15 @@ import './Main.scoped.scss';
 import { Link } from 'react-router-dom';
 
 //Assets
-import Hero_image from '../../assets/static/PagesImages/HomeImages/bags_hero2x.png';
+import Hero_image from '../../assets/static/PagesImages/HomeImages/bags_hero.png';
+import MQ_Hero_image from '../../assets/static/PagesImages/HomeImages/3bags_hero.png';
 import Bag_logo from '../../assets/static/GeneralUse/Logos/bag_logo.svg';
-import Bag_example from '../../assets/static/PagesImages/HomeImages/bag2x.png';
+import Bag_example from '../../assets/static/PagesImages/HomeImages/bag.png';
 import Card_gift from '../../assets/static/GeneralUse/card_gift.png';
 import Card_pages from '../../assets/static/GeneralUse/card_pages.png';
 import Card_coupons from '../../assets/static/GeneralUse/card_coupons.png';
-import Distribution_map from '../../assets/static/PagesImages/HomeImages/distribution_map2x.png';
-import Distributon_house from '../../assets/static/PagesImages/HomeImages/distribution_house2x.png';
+import Distribution_map from '../../assets/static/PagesImages/HomeImages/distribution_map.png';
+import Distributon_house from '../../assets/static/PagesImages/HomeImages/distribution_house.png';
 
 //Componentes
 import HelmetLayout from '../../components/GeneralUseComponents/HelmetLayout/HelmetLayout';
@@ -36,13 +37,18 @@ function Main() {
             <h1 className='hero__title'>
               ¡La bolsa más esperada por los estudiantes!
             </h1>
-            <figure className='hero__image-container' width={1112} height={461}>
+            <picture
+              className='hero__image-container'
+              width={1112}
+              height={461}
+            >
+              <source media='(max-width:480px)' srcset={MQ_Hero_image} />
               <img
                 className='hero__image'
                 src={Hero_image}
                 alt='Bolsas Campus Canvas'
               />
-            </figure>
+            </picture>
           </div>
         </section>
 
