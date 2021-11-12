@@ -3,12 +3,20 @@ import React from 'react';
 //Styles
 import './PostTemplate.scoped.scss';
 
-const PostTemplate = ({ Author, Content = [], Image, Title, PubDate }) => {
+const PostTemplate = ({
+  Author,
+  Content = [],
+  SmallImage,
+  LargeImage,
+  Title,
+  PubDate,
+}) => {
   return (
     <div className='Post container'>
-      <figure className='Post__image'>
-        <img src={Image} alt='Imagen del post' />
-      </figure>
+      <picture className='Post__image'>
+        <source media='(max-width:480px)' srcset={SmallImage} />
+        <img src={LargeImage} alt='Imagen del post' />
+      </picture>
 
       <span className='Post__author'>
         {' '}

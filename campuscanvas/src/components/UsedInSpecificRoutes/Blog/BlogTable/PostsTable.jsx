@@ -58,7 +58,7 @@ const PostsTable = (props) => {
           {MAIN_POST.map((post) => (
             <div key={post.id} className='MainPost'>
               <figure className='MainPost__image'>
-                <img src={post.Image} alt='Imagen de la publicación' />
+                <img src={post.SmallImage} alt='Imagen de la publicación' />
               </figure>
               <h1>{post.Title}</h1>
               <p>{truncateText(post.Content[0], 350)}</p>
@@ -84,7 +84,7 @@ const PostsTable = (props) => {
           {ALL_POSTS.map((post) => (
             <div key={post.id} className='post'>
               <figure>
-                <img src={post.Image} alt='Portada del post' />
+                <img src={post.SmallImage} alt='Portada del post' />
               </figure>
               <h4>{post.Title}</h4>
               <p className='post__description'>
