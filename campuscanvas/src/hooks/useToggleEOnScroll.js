@@ -11,10 +11,10 @@ export const useToggleOnScroll = (windowDistance) => {
       showFixed !== newShowFixed && setShowFixed(newShowFixed);
     };
 
-    //Forma de acrivar onScroll
+    //Forma de activar onScroll
     document.addEventListener('scroll', onScroll);
 
-    //Clean listener in caso component stops rendering (Optimization)
+    //Clean listener in case component stops rendering (Optimization)
     return () => document.removeEventListener('scroll', onScroll);
 
     //Retornamos lo necesario para usar el hook

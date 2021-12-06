@@ -118,58 +118,22 @@ export default class Carousel extends Component {
           <h2> {titulo}</h2>
           <Slider {...settings}>
             <div>
-              <img
-                src={DecisionHandler}
-                // style={{
-                //   margin: '0 auto',
-                // }}
-                alt='Desicion handler'
-              />
+              <img src={DecisionHandler} alt='Desicion handler' />
             </div>
             <div>
-              <img
-                src={DecisionHandler}
-                // style={{
-                //   margin: '0 auto',
-                // }}
-                alt='Desicion handler'
-              />
+              <img src={DecisionHandler} alt='Desicion handler' />
             </div>
             <div>
-              <img
-                src={DecisionHandler}
-                // style={{
-                //   margin: '0 auto',
-                // }}
-                alt='Desicion handler'
-              />
+              <img src={DecisionHandler} alt='Desicion handler' />
             </div>
             <div>
-              <img
-                src={DecisionHandler}
-                // style={{
-                //   margin: '0 auto',
-                // }}
-                alt='Desicion handler'
-              />
+              <img src={DecisionHandler} alt='Desicion handler' />
             </div>
             <div>
-              <img
-                src={DecisionHandler}
-                // style={{
-                //   margin: '0 auto',
-                // }}
-                alt='Desicion handler'
-              />
+              <img src={DecisionHandler} alt='Desicion handler' />
             </div>
             <div>
-              <img
-                src={DecisionHandler}
-                // style={{
-                //   margin: '0 auto',
-                // }}
-                alt='Desicion handler'
-              />
+              <img src={DecisionHandler} alt='Desicion handler' />
             </div>
             <div>
               <img src={DecisionHandler} alt='Desicion handler' />

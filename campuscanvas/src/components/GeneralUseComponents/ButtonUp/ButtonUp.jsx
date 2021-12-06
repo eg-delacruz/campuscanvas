@@ -13,9 +13,7 @@ function ButtonUp() {
   return (
     <div
       className={
-        buttonToggler
-          ? 'button-up-container is-active fadeIn'
-          : 'button-up-container'
+        buttonToggler ? 'button-up-container is-active' : 'button-up-container'
       }
     >
       <a href='#header'>
