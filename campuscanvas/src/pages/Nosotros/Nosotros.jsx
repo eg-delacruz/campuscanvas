@@ -45,7 +45,7 @@ function Nosotros() {
                   <br /> La experiencia adquirida en empresas de renombre como
                   Bosch, en Madrid, o Aeroman, en El Salvador, en combinación
                   con sus estudios enfocados a las distintas áreas empresariales
-                  (mercadeo, contabilidad, recursos humanos, financiación) y el
+                  (mercadeo, contabilidad, recursos humanos, finanzas) y el
                   desarrollo de destrezas interpersonales en entornos
                   multiculturales ha culminado en la creación de este proyecto
                   <strong> Campus Canvas</strong> .
