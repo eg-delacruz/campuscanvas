@@ -29,7 +29,7 @@ body {
 /////////////////////////
 
 .hero {
-  background-color: $color--primary2;
+  background-color: $color--secondary;
   &__container {
     display: grid;
     grid-template-columns: 50% 1fr;
@@ -37,7 +37,7 @@ body {
   }
   &__title {
     color: $color--white;
-    @include font-size(60px);
+    @include font-size(58px);
     line-height: 100px;
     margin: 0;
     align-self: center;

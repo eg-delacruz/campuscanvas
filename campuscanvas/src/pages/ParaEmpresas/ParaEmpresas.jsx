@@ -47,14 +47,14 @@ function ParaEmpresas() {
         <section className='hero'>
           <div className='hero__container container'>
             <h1 className='hero__title'>
-              ¡La bolsa más esperada por los estudiantes
+              ¡La bolsa más esperada por los estudiantes!
             </h1>
             <figure>
               <img src={Bagsx2} alt='Ejemplos bolsas Campus Bag' />
             </figure>
           </div>
           <a href='#paraEmpresas_main'>
-            <SectionDownButton className='hero__sectionDown' />
+            <SectionDownButton className='hero__sectionDown' color='#3a86ff' />
             {/* <img src={sectionDown} alt='Bajar a siguiente sección' /> */}
           </a>
         </section>
