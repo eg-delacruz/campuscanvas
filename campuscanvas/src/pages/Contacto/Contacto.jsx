@@ -75,13 +75,13 @@ const Contacto = () => {
                   rel='noreferrer'
                   target='_blank'
                 >
-                  C/ Tren de Arganda. 11 <br /> 29188 Madrid
+                  C/ Juan Montalvo 29 <br /> 28040 Madrid
                 </a>
               </div>
 
               <div className='contactInfo__phone'>
                 <PhoneIcon className='contactInfo__phoneIcon' alt='Teléfono' />
-                <a href='tel:+4915736449626'>+49 1573 6449 626</a>
+                <a href='tel:+4915736449626'>+34 611 516 396</a>
               </div>
             </div>
 
