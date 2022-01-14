@@ -125,6 +125,9 @@ body {
     justify-content: space-between;
     &__informacion {
       max-width: 50%;
+      h4 {
+        color: $color--secondary;
+      }
       p {
         @include paragraph--regular;
       }
