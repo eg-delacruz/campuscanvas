@@ -1,0 +1,2 @@
+Usar última versión de node al iniciar proyecto en next.js.
+--> Usar nvm para cambiar entre versiones.
