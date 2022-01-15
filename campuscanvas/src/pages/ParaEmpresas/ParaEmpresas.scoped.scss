@@ -65,30 +65,57 @@ body {
 
 .main {
   padding: 0 8px 60px;
-  h2 {
+  &__title1,
+  &__title2 {
     color: $color--primary1;
     text-align: center;
     margin-top: 70px;
     margin-bottom: 50px;
   }
-  p {
+  &__title2 {
+    color: $color--black;
+    font-weight: lighter;
+    margin-top: 50px;
+    margin-bottom: 70px;
+    b {
+      font-weight: 800;
+    }
+  }
+  &__content1 {
     @include paragraph--regular;
     text-align: justify;
     margin: 0 64px;
   }
-  br {
-    display: none;
-  }
-  .main__content::before {
+  .main__content1::before {
     content: url(../../assets/static/GeneralUse/IconsAndButtons/arrow_topleft.svg);
     display: inline-block;
     margin-left: -65px;
   }
-  .main__content::after {
+  .main__content1::after {
     content: url(../../assets/static/GeneralUse/IconsAndButtons/arrow_botright.svg);
     margin-left: 100%;
     display: block;
     margin-top: -15px;
+  }
+
+  &__content2 {
+    list-style: none;
+    h4 {
+      @include font-size(18px);
+      font-family: $font2;
+      margin: 0;
+      margin-top: 50px;
+    }
+    p {
+      margin: 0;
+    }
+  }
+  &__content2 h4::before {
+    content: url(../../assets/static/GeneralUse/IconsAndButtons/check_bullet.svg);
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: -44px;
+    margin-right: 15px;
   }
 }
 

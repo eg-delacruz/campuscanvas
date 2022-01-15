@@ -90,17 +90,14 @@
     h2 {
       margin-bottom: 30px;
     }
-    .main__content {
+    .main__content1 {
       margin: 0;
       text-align: start;
     }
-    // br {
-    //   display: initial;
-    // }
-    .main__content::before {
+    .main__content1::before {
       display: none;
     }
-    .main__content::after {
+    .main__content1::after {
       display: none;
     }
   }
