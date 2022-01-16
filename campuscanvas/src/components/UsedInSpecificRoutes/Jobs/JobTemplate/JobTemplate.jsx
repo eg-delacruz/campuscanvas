@@ -69,6 +69,7 @@ const JobsTemplate = ({
                     <li>{`Estudios mínimos: ${list.MinimumStudies}`}</li>
                     <li>{`Experiencia mínima: ${list.Experience}`}</li>
                     <li>{`Disponibilidad requerida: ${list.Availability}`}</li>
+                    {list.Plus && <li>{list.Plus}</li>}
                   </ul>
                 ))}
               </div>
