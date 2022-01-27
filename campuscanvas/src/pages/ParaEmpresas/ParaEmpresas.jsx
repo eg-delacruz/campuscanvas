@@ -142,9 +142,9 @@ function ParaEmpresas() {
                 imgAlt='Imagen de tarjeta'
                 title='Una forma distinta de hacer publicidad'
               >
-                La espectativa generada en los estudiantes por descubrir lo que
-                hay dentro de la bolsa hace destacar la efectividad de nuestra
-                publicidad.
+                La expectativa generada en los estudiantes por descubrir lo que
+                hay dentro de nuestras bolsas hace destacar la efectividad de
+                nuestra publicidad.
               </Card>
 
               <Card
@@ -198,7 +198,7 @@ function ParaEmpresas() {
                 Con más de 300 000 estudiantes, Madrid ofrece un gran potencial
                 para nuestro servicio, pues nuestro objetivo es hacer entrega de
                 una <b>Campus Bag</b> a cada uno de ellas/os cada cuatrimestre.
-                La espectativa generada por nuestra bolsa garantiza a tu empresa
+                La expectativa generada por nuestra bolsa garantiza a tu empresa
                 una campaña de publicidad efectiva.
               </p>
             </div>
@@ -214,7 +214,7 @@ function ParaEmpresas() {
               <h4>La forma perfecta de encontrar candidatos</h4>
               <p>
                 Encuentra a los mejores candidatos para tu empresa directamente
-                en las universidades. Con nosotros puedes ofrecer bacantes para
+                en las universidades. Con nosotros puedes ofrecer vacantes para
                 estudiantes en prácticas, de media jornada, jornada completa o
                 de cualquier otro tipo.
               </p>

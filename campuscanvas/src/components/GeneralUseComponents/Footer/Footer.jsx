@@ -62,14 +62,14 @@ function Footer() {
           </div>
           <div className='footer__social'>
             <a
-              href='https://www.instagram.com/campuscanvas.info/'
+              href='https://www.instagram.com/cc_campuscanvas/'
               rel='noreferrer'
               target='_blank'
             >
               <img src={Instagram} alt='Enlace a nuestro Instagram' />
             </a>
             <a
-              href='https://www.facebook.com/campuscanvas.net'
+              href='https://www.facebook.com/spaincampuscanvas'
               rel='noreferrer'
               target='_blank'
             >

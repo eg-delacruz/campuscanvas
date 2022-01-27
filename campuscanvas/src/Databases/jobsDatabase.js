@@ -36,6 +36,7 @@ export const JOBS = [
         Contract: 'Por definir',
       },
     ],
+    //Nótese que las palabras MinimumStudies, Experience y Availability NO pueden cambiarse ni quitarse. Plus es opcional.
     RequirementsList: [
       {
         MinimumStudies: 'Escuela Primaria Obligatoria (ESO)',

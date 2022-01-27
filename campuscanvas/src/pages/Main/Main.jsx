@@ -42,7 +42,7 @@ function Main() {
               width={1112}
               height={461}
             >
-              <source media='(max-width:480px)' srcset={MQ_Hero_image} />
+              <source media='(max-width:480px)' srcSet={MQ_Hero_image} />
               <img
                 className='hero__image'
                 src={Hero_image}
@@ -127,9 +127,9 @@ function Main() {
                 <div className='card__information'>
                   <h4>Ofertas de trabajo</h4>
                   <p>
-                    Ya sean ofertas de estudiantes en prácticas o jornadas de
-                    tiempo completo, conecta de primero con tus empresas
-                    favoritas.
+                    Ya sean ofertas de estudiantes en prácticas, jornadas de
+                    medio tiempo o a tiempo completo, conecta de primera mano
+                    con tus empresas favoritas.
                   </p>
                 </div>
               </article>

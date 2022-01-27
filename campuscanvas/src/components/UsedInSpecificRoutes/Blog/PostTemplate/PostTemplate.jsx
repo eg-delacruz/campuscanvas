@@ -14,7 +14,7 @@ const PostTemplate = ({
   return (
     <div className='Post container'>
       <picture className='Post__image'>
-        <source media='(max-width:480px)' srcset={SmallImage} />
+        <source media='(max-width:480px)' srcSet={SmallImage} />
         <img src={LargeImage} alt='Imagen del post' />
       </picture>
 
