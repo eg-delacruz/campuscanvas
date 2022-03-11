@@ -75,7 +75,11 @@ function Footer() {
             >
               <img src={Facebook} alt='Enlace a nuestro Facebook' />
             </a>
-            <a href='https://www.linkedin.com' rel='noreferrer' target='_blank'>
+            <a
+              href='https://www.linkedin.com/company/campus-canvas/'
+              rel='noreferrer'
+              target='_blank'
+            >
               <img src={LinkedIn} alt='Enlace a nuestro Linkedin' />
             </a>
             <a
