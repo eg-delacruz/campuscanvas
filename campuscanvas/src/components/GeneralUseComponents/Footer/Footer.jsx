@@ -92,7 +92,7 @@ function Footer() {
           </div>
         </section>
         <section className='footer__signature'>
-          <p>®Campus Canvas 2021. Todos los derechos reservados</p>
+          <p>®Campus Canvas 2022. Todos los derechos reservados</p>
           <p>Dedicado a los estudiantes desde Madrid ❤️</p>
         </section>
       </div>

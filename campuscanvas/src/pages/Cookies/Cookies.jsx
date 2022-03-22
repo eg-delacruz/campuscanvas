@@ -15,7 +15,21 @@ function Cookies() {
           <ButtonUp />
           <div className='main__container container'>
             <h2>Declaración de cookies</h2>
+
             <p>
+              De momento, la web de Campus Canvas no recopila datos de ningún
+              tipo, por consiguiente no se hace rastreo de "cookies" ni de
+              ningún tipo de dato del usuario. Nuestra web se limita a ser
+              meramente informativa a quien interese. Sin embargo, en futuras
+              versiones y actualizaciones de esta, es posible que se implemente
+              el uso de cookies para mejorar la usabilidad y los servicios que
+              se vayan añadiendo. Estas actualizaciones e implementaciones serán
+              notificadas en este apartado de nuestra web.
+            </p>
+
+            {/* //////////////////Descomentar y usar esta estructura en el momento en que se comience a hacer uso de datos, y sustituir lo de arriba/////////////// */}
+
+            {/* <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
               nisl eros, pulvinar facilisis justo mollis, auctor consequat urna.
               Morbi a bibendum metus. Donec scelerisque sollicitudin enim eu
@@ -251,9 +265,9 @@ function Cookies() {
                 mollis, auctor consequat urna. Morbi a bibendum metus. Donec
                 scelerisque sollicitudin
               </li>
-            </ul>
+            </ul> */}
             <div className='main__bottom'>
-              <h4>Última actualización: 7/09/2021</h4>
+              <h4>Última actualización: 22/03/2022</h4>
               <h4>
                 Copyright ® Campus Canvas 2021. Todos los derechos reservados
               </h4>
