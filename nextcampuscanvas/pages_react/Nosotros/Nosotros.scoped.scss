@@ -1,0 +1,72 @@
+@import '../../assets/styles/Vars.scss';
+
+/////////////////////////
+//        Hero         //
+/////////////////////////
+
+.hero {
+  background-image: url('../../assets/static/GeneralUse/nosotros_hero.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  &__container {
+    padding: 40px 0;
+  }
+  h1 {
+    color: $color--white;
+    margin: 0;
+    width: 80%;
+    @include font-size(70px);
+    line-height: 100px;
+  }
+}
+
+/////////////////////////
+//        Main         //
+/////////////////////////
+
+.main {
+  background-image: url('../../assets/static/GeneralUse/BG_sticker_1.svg'),
+    url('../../assets/static/GeneralUse/BG_sticker_2.svg'),
+    url('../../assets/static/GeneralUse/BG_sticker_3.svg'),
+    url('../../assets/static/GeneralUse/BG_sticker_4.svg'),
+    url('../../assets/static/GeneralUse/BG_sticker_5.svg'),
+    url('../../assets/static/GeneralUse/BG_sticker_6.svg'),
+    url('../../assets/static/GeneralUse/BG_sticker_7.svg');
+  background-repeat: no-repeat;
+  background-position: 10% 65%, 85% 25%, 70% 110%, 60% 70%, 30% 85%, 38% 50%,
+    60% 53%;
+  &__container {
+    padding: 30px 8px 90px;
+  }
+  &__quienesSomos {
+    &-container {
+      display: flex;
+      justify-content: space-between;
+      p {
+        @include paragraph--regular;
+        width: 48%;
+      }
+      figure {
+        width: 35%;
+        margin: 16px auto 0;
+        img {
+          width: 100%;
+          border-radius: 5px;
+          box-shadow: 14px 21px 20px -15px rgba(0, 0, 0, 0.3);
+        }
+      }
+    }
+  }
+
+  &__motivation {
+    p {
+      @include paragraph--regular;
+    }
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+
+@import './MQ_Nosotros.scoped.scss';

@@ -1,0 +1,45 @@
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+  .body__gridContainer {
+    background-size: auto 360px, auto, auto, auto, auto, auto, auto, auto;
+    background-position: 0% 0%, 17% 62%, 124% 90%, 74% 51%, 43% 58%, 66% 33%,
+      53% 39%, 38% 28%;
+  }
+  .contactForm h1 {
+    @include font-size(60px);
+  }
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+  .body__gridContainer {
+    padding-bottom: 60px;
+    background-position: 0% 0%, 17% 62%, 140% 68%, 74% 51%, 43% 58%, 66% 33%,
+      53% 39%, 38% 28%;
+  }
+  .contactForm h1 {
+    @include font-size(50px);
+  }
+
+  .contactInfo__mediaIcons {
+    margin-top: 16px;
+    a {
+      margin-right: 8px;
+    }
+  }
+  .contactInfo__mediaIcon {
+    transform: scale(0.9);
+  }
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+  .contactForm h1 {
+    @include font-size(40px);
+    margin-bottom: 30px;
+  }
+}
