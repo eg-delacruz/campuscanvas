@@ -1,4 +1,5 @@
-import '@assets/styles/Globals.scss';
+import '@styles/Globals.scss';
+import '@styles/Buttons.scss'
 
 function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />;

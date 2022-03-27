@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 //Assets
-import Logo_Campus_Canvas from '@assets/static/GeneralUse/Logos/logo.svg';
+import Logo_Campus_Canvas from '@assets/GeneralUse/Logos/logo.svg';
 
 //Styles
 import styles from './Header.module.scss';
@@ -42,7 +42,9 @@ function Header() {
         <div className={`${styles['header__container']} container`}>
           <figure className={styles.header__logo}>
             <Link href='/'>
-              <Image src={Logo_Campus_Canvas} alt='Logo Campus Canvas' />
+              <button>
+                <Image src={Logo_Campus_Canvas} alt='Logo Campus Canvas' />
+              </button>
             </Link>
           </figure>
           <nav

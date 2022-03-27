@@ -6,11 +6,11 @@ import Image from 'next/image';
 import styles from './Footer.module.scss';
 
 //Assets
-import Logo_footer from '@assets/static/GeneralUse/Logos/logo_footer.svg';
-import Youtube from '@assets/static/GeneralUse/IconsAndButtons/youtube_icon.svg';
-import Facebook from '@assets/static/GeneralUse/IconsAndButtons/facebook_icon.svg';
-import Instagram from '@assets/static/GeneralUse/IconsAndButtons/instagram_icon.svg';
-import LinkedIn from '@assets/static/GeneralUse/IconsAndButtons/linkedin_icon.svg';
+import Logo_footer from '@assets/GeneralUse/Logos/logo_footer.svg';
+import Youtube from '@assets/GeneralUse/IconsAndButtons/youtube_icon.svg';
+import Facebook from '@assets/GeneralUse/IconsAndButtons/facebook_icon.svg';
+import Instagram from '@assets/GeneralUse/IconsAndButtons/instagram_icon.svg';
+import LinkedIn from '@assets/GeneralUse/IconsAndButtons/linkedin_icon.svg';
 
 function Footer() {
   return (

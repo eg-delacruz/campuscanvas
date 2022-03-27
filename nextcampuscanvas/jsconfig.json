@@ -5,13 +5,14 @@
     //Esto es para usar alias. Véase su uso en las importaciones de cosas
     "paths": {
       "@assets/*": ["assets/*"],
-      "@components/*": ["components/*"]
-      // "@containers/*":["containers/*"],
-      // "@icons/*":["assets/icons/*"],
-      // "@logos/*":["assets/logos/*"],
-      // "@context/*":["context/*"],
-      // "@styles/*":["styles/*"],
-      // "@hooks/*":["hooks/*"]
+      "@components/*": ["components/*"],
+      "@hooks/*": ["hooks/*"],
+      "@databases/*": ["databases/*"],
+      "@reducers/*": ["reducers/*"],
+      "@reduxtypes/*": ["reduxtypes/*"],
+      "@utilities/*": ["utilities/*"],
+      "@styles/*": ["styles/*"],
+      "@pagestyles/*": ["styles/pagestyles/*"]
     }
   }
 }

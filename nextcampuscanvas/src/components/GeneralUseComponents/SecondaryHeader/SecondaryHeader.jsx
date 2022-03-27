@@ -1,7 +1,7 @@
 import React from 'react';
 
 //Assets
-import Logo_Campus_Canvas from '../../../assets/static/GeneralUse/Logos/logo.svg';
+import Logo_Campus_Canvas from '../../../assets/GeneralUse/Logos/logo.svg';
 
 //Styles
 import './SecondaryHeader.scoped.scss';

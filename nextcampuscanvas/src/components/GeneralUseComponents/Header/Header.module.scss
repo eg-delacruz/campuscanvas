@@ -1,4 +1,4 @@
-@import '../../../assets/styles/Vars.scss';
+@import '../../../styles/Vars.scss';
 
 /////////////////////////
 //       Header        //
@@ -14,6 +14,11 @@
 
     .header__logo {
       margin: auto 0;
+      button {
+        background-color: transparent;
+        border: 0px;
+        cursor: pointer;
+      }
     }
   }
 }

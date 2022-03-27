@@ -1,4 +1,4 @@
-@import '../../assets/styles/Vars.scss';
+@import '../Vars.scss';
 
 body {
   .body__gridContainer {
@@ -49,10 +49,11 @@ body {
   &__content {
     display: flex;
   }
+
   &__content-image {
     width: auto;
     max-width: 100%;
-    margin: 0;
+    margin: 0 0 0 70px;
     margin-left: 70px;
   }
 
@@ -63,13 +64,13 @@ body {
     text-align: justify;
   }
   &__content-description::before {
-    content: url(../../assets/static/GeneralUse/IconsAndButtons/arrow_topleft.svg);
+    content: url(../../assets/GeneralUse/IconsAndButtons/arrow_topleft.svg);
     display: inline-block;
     margin-left: -65px;
   }
 
   &__description-container::after {
-    content: url(../../assets/static/GeneralUse/IconsAndButtons/arrow_botright.svg);
+    content: url(../../assets/GeneralUse/IconsAndButtons/arrow_botright.svg);
     display: inline-block;
     transform: translate(323%, -50%);
   }
@@ -113,10 +114,6 @@ body {
   align-items: center;
   padding: 10px;
   color: $color--primary2-dark1;
-  .image1 {
-    width: 91px;
-    height: 100px;
-  }
   &__information {
     padding: 10px;
   }
@@ -159,8 +156,8 @@ body {
       margin: 0;
       margin-bottom: 30px;
     }
-    & img {
-      max-width: 80%;
+    & figure {
+      max-width: 76%;
     }
     & p {
       @include paragraph--big;
