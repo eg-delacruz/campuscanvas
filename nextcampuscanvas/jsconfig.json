@@ -4,8 +4,8 @@
     "baseUrl": "src",
     //Esto es para usar alias. Véase su uso en las importaciones de cosas
     "paths": {
-      "@assets/*": ["assets/*"]
-      // "@components/*":["components/*"],
+      "@assets/*": ["assets/*"],
+      "@components/*": ["components/*"]
       // "@containers/*":["containers/*"],
       // "@icons/*":["assets/icons/*"],
       // "@logos/*":["assets/logos/*"],

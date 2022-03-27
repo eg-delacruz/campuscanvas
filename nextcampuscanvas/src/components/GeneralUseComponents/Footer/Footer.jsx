@@ -1,0 +1,102 @@
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+
+//Styles
+import styles from './Footer.module.scss';
+
+//Assets
+import Logo_footer from '@assets/static/GeneralUse/Logos/logo_footer.svg';
+import Youtube from '@assets/static/GeneralUse/IconsAndButtons/youtube_icon.svg';
+import Facebook from '@assets/static/GeneralUse/IconsAndButtons/facebook_icon.svg';
+import Instagram from '@assets/static/GeneralUse/IconsAndButtons/instagram_icon.svg';
+import LinkedIn from '@assets/static/GeneralUse/IconsAndButtons/linkedin_icon.svg';
+
+function Footer() {
+  return (
+    <footer className={styles.footer}>
+      <div>
+        <section className={styles.footer__navigation}>
+          <div className={styles.footer__logo}>
+            <figure>
+              <Image src={Logo_footer} alt='Logo footer' />
+            </figure>
+          </div>
+          <div className={styles.footer__platform}>
+            <h5>Plataforma</h5>
+            <ul>
+              <li>
+                <Link href='/'>Home</Link>
+              </li>
+              <li>
+                <Link href='/nosotros'>Nosotros</Link>
+              </li>
+              <li>
+                <Link href='/empresas'>Empresas</Link>
+              </li>
+              <li>
+                <Link href='/blog'>Blog</Link>
+              </li>
+              <li className={styles.footer__empleos}>
+                <Link href='/empleos'>Empleos</Link>
+              </li>
+              <li>
+                <Link href='/contacto'>Contacto</Link>
+              </li>
+            </ul>
+          </div>
+          <div className={styles.footer__legal}>
+            <h5>Legal</h5>
+            <ul>
+              <li>
+                <Link href='/privacidad'>Política de privacidad</Link>
+              </li>
+              <li>
+                <Link href='/condiciones'>Términos y condiciones</Link>
+              </li>
+              <li>
+                <Link href='/cookies'>Declaración de cookies</Link>
+              </li>
+            </ul>
+          </div>
+          <div className={styles.footer__social}>
+            <a
+              href='https://www.instagram.com/cc_campuscanvas/'
+              rel='noreferrer'
+              target='_blank'
+            >
+              <Image src={Instagram} alt='Enlace a nuestro Instagram' />
+            </a>
+            <a
+              href='https://www.facebook.com/spaincampuscanvas'
+              rel='noreferrer'
+              target='_blank'
+            >
+              <Image src={Facebook} alt='Enlace a nuestro Facebook' />
+            </a>
+            <a
+              href='https://www.linkedin.com/company/campus-canvas/'
+              rel='noreferrer'
+              target='_blank'
+            >
+              <Image src={LinkedIn} alt='Enlace a nuestro Linkedin' />
+            </a>
+            <a
+              href='https://www.youtube.com/channel/UCZj1h0L7x1QEY-Fx5VwS8Lg'
+              rel='noreferrer'
+              target='_blank'
+            >
+              <Image src={Youtube} alt='Enlace a nuestro youtube' />
+            </a>
+          </div>
+        </section>
+        <section className={styles.footer__signature}>
+          <p>®Campus Canvas 2022. Todos los derechos reservados</p>
+          <p>Dedicado a los estudiantes desde Madrid ❤️</p>
+        </section>
+      </div>
+    </footer>
+  );
+}
+
+export default Footer;

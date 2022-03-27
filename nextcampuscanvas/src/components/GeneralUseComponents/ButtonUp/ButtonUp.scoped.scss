@@ -1,0 +1,47 @@
+@import '../../../assets/styles/Vars.scss';
+
+//Animations:
+//FadeIn
+@import '../../../assets/styles/Animations/fadeIn.scoped.scss';
+
+.button-up-container {
+  position: fixed;
+  right: 150px;
+  bottom: 30px;
+  z-index: 1;
+  display: none;
+}
+.is-active {
+  display: initial;
+  animation: setFadeIn();
+}
+
+.button-up-container svg {
+  border-radius: 5px;
+  box-shadow: 8px 4px 15px -1px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 8px 4px 15px -1px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 8px 4px 15px -1px rgba(0, 0, 0, 0.5);
+}
+.button-up-container svg:hover .button-up__background {
+  fill: $color--white;
+}
+.button-up-container svg:hover .button-up__circle {
+  fill: $color--primary1;
+}
+
+@media screen and (max-width: 1100px) {
+  .button-up-container {
+    right: 70px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .button-up-container {
+    right: 30px;
+    bottom: 10%;
+  }
+}
+@media screen and (max-width: 480px) {
+  .button-up-container {
+    bottom: 5%;
+  }
+}
