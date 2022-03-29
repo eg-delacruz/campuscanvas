@@ -1,0 +1,150 @@
+@import '../Vars.scss';
+
+/////////////////////////
+//        Hero         //
+/////////////////////////
+
+.hero {
+  background-image: url('../../assets/GeneralUse/nosotros_hero.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  &__container {
+    padding: 40px 0;
+  }
+  h1 {
+    color: $color--white;
+    margin: 0;
+    width: 80%;
+    @include font-size(70px);
+    line-height: 100px;
+  }
+}
+
+/////////////////////////
+//        Main         //
+/////////////////////////
+
+.main {
+  background-image: url('../../assets/GeneralUse/BG_sticker_1.svg'),
+    url('../../assets/GeneralUse/BG_sticker_2.svg'),
+    url('../../assets/GeneralUse/BG_sticker_3.svg'),
+    url('../../assets/GeneralUse/BG_sticker_4.svg'),
+    url('../../assets/GeneralUse/BG_sticker_5.svg'),
+    url('../../assets/GeneralUse/BG_sticker_6.svg'),
+    url('../../assets/GeneralUse/BG_sticker_7.svg');
+  background-repeat: no-repeat;
+  background-position: 10% 65%, 85% 25%, 70% 110%, 60% 70%, 30% 85%, 38% 50%,
+    60% 53%;
+  &__container {
+    padding: 30px 8px 90px;
+  }
+  &__quienesSomos {
+    &-container {
+      display: flex;
+      justify-content: space-between;
+      p {
+        @include paragraph--regular;
+        width: 48%;
+      }
+      figure {
+        width: 35%;
+        margin: 16px auto 0;
+        img {
+          width: 100%;
+          border-radius: 5px;
+          box-shadow: 14px 21px 20px -15px rgba(0, 0, 0, 0.3);
+        }
+      }
+    }
+  }
+
+  &__motivation {
+    p {
+      @include paragraph--regular;
+    }
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+
+@media screen and (max-width: 880px) {
+  .hero {
+    background-image: url(../../assets/GeneralUse/nosotros_hero.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    &__container {
+      padding: 0px 8px;
+    }
+    h1 {
+      @include font-size(60px);
+    }
+  }
+
+  .main {
+    .main__image1Container {
+      width: 350px;
+    }
+  }
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+  .hero {
+    h1 {
+      width: 100%;
+      line-height: 80px;
+    }
+  }
+  .main {
+    &__quienesSomos {
+      h2 {
+        margin-top: 0;
+      }
+      &-container {
+        flex-direction: column;
+        align-items: center;
+        p {
+          width: 100%;
+          order: 2;
+        }
+        figure {
+          order: 1;
+          margin-bottom: 16px;
+        }
+      }
+    }
+  }
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+  .hero {
+    h1 {
+      @include font-size(50px);
+    }
+  }
+  .main {
+    .main__image1Container {
+      width: 70%;
+    }
+  }
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+  .hero {
+    h1 {
+      @include font-size(40px);
+      line-height: 70px;
+      text-align: center;
+    }
+  }
+  .main {
+    .main__image1Container {
+      width: 90%;
+    }
+  }
+}

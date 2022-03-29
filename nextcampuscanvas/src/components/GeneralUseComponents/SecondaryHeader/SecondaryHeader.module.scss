@@ -1,4 +1,4 @@
-@import '../../../assets/styles/Vars';
+@import '../../../styles/Vars.scss';
 
 .header {
   height: 97px;
@@ -12,6 +12,12 @@
     align-items: center;
     justify-content: flex-start;
     padding: 0 15px;
+    button {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
   }
 }
 @media screen and (max-width: 480px) {

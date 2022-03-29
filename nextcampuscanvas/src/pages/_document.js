@@ -13,7 +13,7 @@ class MyDocument extends Document {
           <link rel='manifest' href='/manifest.json'></link>
 
           {/* No se que son */}
-          <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+          <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
           <link rel='preconnect' href='https://fonts.gstatic.com' />
 
           {/* Favicon  */}
@@ -55,13 +55,17 @@ class MyDocument extends Document {
           />
 
           {/* Improves loading performance by loading google fonts parallel to wp load */}
-          <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+          <link
+            rel='preconnect'
+            href='https://fonts.gstatic.com'
+            crossOrigin='true'
+          />
 
           {/* makes browser color match website */}
           <meta name='theme-color' content='#ffffff' />
 
           {/* allows search engines to find this page */}
-          <meta name='robots' content='index' follow />
+          <meta name='robots' content='index' follow='true' />
         </Head>
 
         <body>

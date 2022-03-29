@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-//Assets
-import './FAQs.scoped.scss';
+//Styles
+import styles from './FAQs.module.scss';
 
 //Components
 import HelmetLayout from '../../components/GeneralUseComponents/HelmetLayout/HelmetLayout';
