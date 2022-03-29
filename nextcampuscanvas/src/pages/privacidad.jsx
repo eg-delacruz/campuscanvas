@@ -1,58 +1,70 @@
 import React from 'react';
-import './PoliticasPrivacidad.scoped.scss';
+import Head from 'next/head';
+
+//Styles
+import styles from '@pagestyles/PoliticasPrivacidad.module.scss';
 
 //Assets
 
 //Components
-import HelmetLayout from '../../components/GeneralUseComponents/HelmetLayout/HelmetLayout';
-import ButtonUp from '../../components/GeneralUseComponents/ButtonUp/ButtonUp';
-import Layout from '../../components/GeneralUseComponents/Layout/Layout';
+import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
+import Layout from '@components/GeneralUseComponents/Layout/Layout';
 
 function politicasPrivacidad() {
   return (
-    <Layout>
-      <HelmetLayout
-        title='Privacidad'
-        subtitle='Estas son nuestras políticas de privacidad'
-      />
-      <div className='body__gridContainer'>
-        <section className='main'>
-          <div className='main__container container'>
-            <ButtonUp />
-            <h2>Políticas de privacidad</h2>
+    <>
+      <Head>
+        <title>Privacidad | Campus Canvas</title>
+        <meta
+          name='Privacidad'
+          content='Estas son nuestras políticas de privacidad'
+        />
+        {/* Prevents horizontal scroll due to animations on phone */}
+        <meta
+          name='viewport'
+          content='width=device-width, height=device-height, initial-scale=1.0'
+        />
+      </Head>
 
-            <article>
-              <h3>Responsable del tratamiento de tus datos</h3>
-              <h4>¿Quién es responsable de sus datos?</h4>
-              <strong>Titular: </strong> Campus Canvas, S.L. <br /> <br />
-              <strong>NIF: </strong> B09762238 <br /> <br />
-              <strong>Domicilio social: </strong> Calle de Juan Montalvo 29,
-              Madrid, España <br /> <br />
-              <strong>Registro público: </strong> Inscrita en el registro
-              mercantil de Madrid, tomo 42930, del archivo general del libro de
-              sociedades, folio 193, hoja número M-758914
-              <br /> <br />
-              <strong>Teléfono de contacto: </strong> 611 516 396
-              <br /> <br />
-            </article>
+      <Layout>
+        <div className={styles.body__gridContainer}>
+          <section className={styles.main}>
+            <div className={`${styles.main__container} container`}>
+              <ButtonUp />
+              <h2>Políticas de privacidad</h2>
 
-            <article>
-              <h4>¿Qué categorías de datos tratamos?</h4>
-              <p>
-                De momento, la web de Campus Canvas no recopila datos de ningún
-                tipo, por consiguiente no se hace rastreo de "cookies" ni de
-                ningún tipo de dato del usuario. Nuestra web se limita a ser
-                meramente informativa a quien interese. Sin embargo, en futuras
-                versiones y actualizaciones de esta, es posible que se
-                implemente el uso de cookies para mejorar la usabilidad y los
-                servicios que se vayan añadiendo. Estas actualizaciones e
-                implementaciones serán notificadas en este apartado de nuestra
-                web.
-              </p>
-            </article>
+              <article>
+                <h3>Responsable del tratamiento de tus datos</h3>
+                <h4>¿Quién es responsable de sus datos?</h4>
+                <strong>Titular: </strong> Campus Canvas, S.L. <br /> <br />
+                <strong>NIF: </strong> B09762238 <br /> <br />
+                <strong>Domicilio social: </strong> Calle de Juan Montalvo 29,
+                Madrid, España <br /> <br />
+                <strong>Registro público: </strong> Inscrita en el registro
+                mercantil de Madrid, tomo 42930, del archivo general del libro
+                de sociedades, folio 193, hoja número M-758914
+                <br /> <br />
+                <strong>Teléfono de contacto: </strong> 611 516 396
+                <br /> <br />
+              </article>
 
-            {/* //////////////////Descomentar y usar esta estructura en el momento en que se comience a hacer uso de datos, y sustituir lo de arriba/////////////// */}
-            {/* <article>
+              <article>
+                <h4>¿Qué categorías de datos tratamos?</h4>
+                <p>
+                  De momento, la web de Campus Canvas no recopila datos de
+                  ningún tipo, por consiguiente no se hace rastreo de "cookies"
+                  ni de ningún tipo de dato del usuario. Nuestra web se limita a
+                  ser meramente informativa a quien interese. Sin embargo, en
+                  futuras versiones y actualizaciones de esta, es posible que se
+                  implemente el uso de cookies para mejorar la usabilidad y los
+                  servicios que se vayan añadiendo. Estas actualizaciones e
+                  implementaciones serán notificadas en este apartado de nuestra
+                  web.
+                </p>
+              </article>
+
+              {/* //////////////////Descomentar y usar esta estructura en el momento en que se comience a hacer uso de datos, y sustituir lo de arriba/////////////// */}
+              {/* <article>
               <h3>I. Responsable del tratamiento de tus datos</h3>
               <h4>¿Quién es responsable de sus datos?</h4>
               <strong>Titular: </strong> Campus Canvas, S.L. <br /> <br />
@@ -66,9 +78,9 @@ function politicasPrivacidad() {
               <strong>Teléfono de contacto: </strong> 611 516 396
               <br /> <br />
             </article>
-
+            
             <article>
-              <h3>
+            <h3>
                 II. Finalidad del tratamiento de los datos y categorías de datos
                 tratados
               </h3>
@@ -76,12 +88,12 @@ function politicasPrivacidad() {
               <p>
                 Dependiendo de la finalidad, Campus Canvas trata las siguientes
                 categorías de datos:
-              </p>
-              <ul>
+                </p>
+                <ul>
                 <li>
-                  Ejemplo 1 de datos: Lorem ipsum dolor sit amet, consectetur
-                  adipiscing elit. Quisque nisl eros, pulvinar facilisis justo
-                  mollis, auctor consequat urna. Morbi a bibendum metus. Donec
+                Ejemplo 1 de datos: Lorem ipsum dolor sit amet, consectetur
+                adipiscing elit. Quisque nisl eros, pulvinar facilisis justo
+                mollis, auctor consequat urna. Morbi a bibendum metus. Donec
                   scelerisque sollicitudin enim eu venenatis. Duis tincidunt
                   laoreet ex, in pretium orci vestibulum eget. Class aptent
                   taciti sociosqu ad litora torquent per conubia nostra, per
@@ -91,13 +103,13 @@ function politicasPrivacidad() {
                   Ejemplo 2 de datos: Lorem ipsum dolor sit amet, consectetur
                   adipiscing elit. Quisque nisl eros, pulvinar facilisis justo
                   mollis, auctor consequat urna. Morbi a bi
-                </li>
+                  </li>
                 <li>
-                  Ejemplo 3 de datos: Lorem ipsum dolor sit amet, consectetur
-                  adipiscing elit. Quisque nisl eros, pulvinar facilisis justo
-                  mollis, auctor consequat urna. Morbi a bibendum metus. Donec
-                  scelerisque sollicitudin enim eu venenatis. Duis tincidunt
-                  laoreet ex, in pretium
+                Ejemplo 3 de datos: Lorem ipsum dolor sit amet, consectetur
+                adipiscing elit. Quisque nisl eros, pulvinar facilisis justo
+                mollis, auctor consequat urna. Morbi a bibendum metus. Donec
+                scelerisque sollicitudin enim eu venenatis. Duis tincidunt
+                laoreet ex, in pretium
                 </li>
                 <li>
                   Ejemplo 4 de datos: Lorem ipsum dolor sit amet, consectetur
@@ -373,16 +385,17 @@ function politicasPrivacidad() {
                 </li>
               </ul>
             </article> */}
-            <div className='main__bottom'>
-              <h4>Última actualización: 22/03/2022</h4>
-              <h4>
-                Copyright ® Campus Canvas 2022. Todos los derechos reservados
-              </h4>
+              <div className={styles.main__bottom}>
+                <h4>Última actualización: 22/03/2022</h4>
+                <h4>
+                  Copyright ® Campus Canvas 2022. Todos los derechos reservados
+                </h4>
+              </div>
             </div>
-          </div>
-        </section>
-      </div>
-    </Layout>
+          </section>
+        </div>
+      </Layout>
+    </>
   );
 }
 
