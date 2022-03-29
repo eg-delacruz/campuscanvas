@@ -1,0 +1,42 @@
+@import '../../assets/styles/Vars.scss';
+
+.main {
+  &__title {
+    margin-top: 30px;
+    color: $color--primary2-dark1;
+  }
+  &__container {
+    padding: 30px 8px 90px;
+    h4 {
+      color: $color--primary2;
+    }
+    p {
+      @include paragraph--regular;
+    }
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+  .main {
+    &__title {
+      margin-top: 20px;
+    }
+  }
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}
