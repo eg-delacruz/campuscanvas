@@ -1,10 +1,10 @@
 import React from 'react';
-import './Loader.scoped.scss';
+import styles from './Loader.module.scss';
 
 function Spinner() {
   return (
-    <div className='center'>
-      <div className='lds-ripple'>
+    <div className={styles.center}>
+      <div className={styles['lds-ripple']}>
         <div />
         <div />
       </div>

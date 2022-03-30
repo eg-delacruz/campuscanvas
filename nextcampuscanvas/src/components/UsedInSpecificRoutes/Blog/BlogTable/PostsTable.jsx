@@ -1,21 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { connect } from 'react-redux';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 //Styles
-import './PostsTable.scoped.scss';
+import styles from './PostsTable.module.scss';
 
 //Assets
 
 //Components
-import Loader from '../../../GeneralUseComponents/Loader/Loader.jsx';
-import ErrorDisplayer from '../../../../components/GeneralUseComponents/ErrorDisplayer/ErrorDisplayer';
+import Loader from '@components/GeneralUseComponents/Loader/Loader.jsx';
+import ErrorDisplayer from '@components/GeneralUseComponents/ErrorDisplayer/ErrorDisplayer';
 
 //Redux actions
 import * as postsActions from '../../../../actions/postsActions';
 const { getPosts } = postsActions;
 
 const PostsTable = (props) => {
+  //To send the id of the post to the post page
+  const router = useRouter();
+
   if (props.posts.length === 0) {
     props.getPosts();
   }
@@ -47,27 +52,35 @@ const PostsTable = (props) => {
   }
 
   return (
-    <div className='Posts'>
+    <div className={styles.Posts}>
       {/*   /////////////////////////
             //      Main Post      //
             ///////////////////////// */}
-      <main className='Posts__main'>
-        <div className='Posts__mainContainer container'>
+      <main className={styles.Posts__main}>
+        <div className={`${styles.Posts__mainContainer} container`}>
           <h3>Descubre tips y consejos para tu vida estudiantil aquí</h3>
 
           {MAIN_POST.map((post) => (
-            <div key={post.id} className='MainPost'>
-              <figure className='MainPost__image'>
-                <img src={post.SmallImage} alt='Imagen de la publicación' />
+            <div key={post.id} className={styles.MainPost}>
+              <figure className={styles.MainPost__image}>
+                <Image src={post.SmallImage} alt='Imagen de la publicación' />
               </figure>
               <h1>{post.Title}</h1>
               <p>{truncateText(post.Content[0], 350)}</p>
-              <Link
-                to={`blog/post/${post.id}`}
+              <button
+                onClick={() => {
+                  router.push(
+                    {
+                      pathname: `/blog/post/${post.id}`,
+                      query: { id: post.id },
+                    },
+                    `/blog/post/${post.id}`
+                  );
+                }}
                 className='btn button--redRedborderTransparent'
               >
                 Leer más
-              </Link>
+              </button>
             </div>
           ))}
         </div>
@@ -76,26 +89,36 @@ const PostsTable = (props) => {
       {/*   /////////////////////////
             //     Posts Table     //
             ///////////////////////// */}
-      <section className='AllPosts container'>
+      <section className={`${styles.AllPosts} container`}>
         <h3>Últimos Posts</h3>
         <hr />
 
-        <div className='AllPostsGrid'>
+        <div className={styles.AllPostsGrid}>
           {ALL_POSTS.map((post) => (
-            <div key={post.id} className='post'>
+            <div key={post.id} className={styles.post}>
               <figure>
-                <img src={post.SmallImage} alt='Portada del post' />
+                <Image src={post.SmallImage} alt='Portada del post' />
               </figure>
               <h4>{post.Title}</h4>
-              <p className='post__description'>
+              <p className={styles.post__description}>
                 {truncateText(post.Content[0], 170)}
               </p>
-              <Link
-                to={`blog/post/${post.id}`}
+
+              <button
+                onClick={() => {
+                  router.push(
+                    {
+                      pathname: `/blog/post/${post.id}`,
+                      query: { id: post.id },
+                    },
+                    `/blog/post/${post.id}`
+                  );
+                }}
                 className='btn button--redRedborderTransparent'
               >
                 Leer más
-              </Link>
+              </button>
+
               <hr />
             </div>
           ))}
@@ -115,7 +138,4 @@ const mapDispatchToProps = {
   getPosts,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PostsTable);
+export default connect(mapStateToProps, mapDispatchToProps)(PostsTable);

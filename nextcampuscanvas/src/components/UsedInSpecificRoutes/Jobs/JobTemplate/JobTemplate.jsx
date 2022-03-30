@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 
 //Styles
-import './JobTemplate.scoped.scss';
+import styles from './JobTemplate.module.scss';
 
 //Components
-import ButtonUp from '../../../GeneralUseComponents/ButtonUp/ButtonUp';
+import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 
 //Assets
 
@@ -21,19 +21,20 @@ const JobsTemplate = ({
   YourBenefitsList = {},
   ProfileList = {},
 }) => {
+  const router = useRouter();
   return (
     <>
       <ButtonUp />
 
-      <div className='body__gridContainer'>
+      <div className={styles.body__gridContainer}>
         {/* /////////////////////////
           //        Hero         //
           ///////////////////////// */}
 
-        <main className='hero container'>
-          <h1 className='hero__title'>{JobTitle}</h1>
-          <div className='hero__specifications'>
-            <div className='hero__specificationsList1'>
+        <main className={`${styles.hero} container`}>
+          <h1 className={styles.hero__title}>{JobTitle}</h1>
+          <div className={styles.hero__specifications}>
+            <div className={styles.hero__specificationsList1}>
               {SpecificationList1.map((list, index) => (
                 <ul key={index}>
                   <li>{`Localización: ${list.Location}`}</li>
@@ -42,7 +43,7 @@ const JobsTemplate = ({
                 </ul>
               ))}
             </div>
-            <div className='hero__specificationsList2'>
+            <div className={styles.hero__specificationsList2}>
               {SpecificationList2.map((list, index) => (
                 <ul key={index}>
                   <li>{`Experiancia requerida: ${list.Experience}`}</li>
@@ -53,15 +54,15 @@ const JobsTemplate = ({
           </div>
         </main>
 
-        <hr className='empleo__hr container' />
+        <hr className={`${styles.empleo__hr} container`} />
 
-        <section className='content container'>
+        <section className={`${styles.content} container`}>
           {/* /////////////////////////
           //       Requisitos        //
           ///////////////////////// */}
 
-          <section className='requirements'>
-            <div className='requirements__list'>
+          <section className={styles.requirements}>
+            <div className={styles.requirements__list}>
               <h3>Requisitos</h3>
               <div>
                 {RequirementsList.map((list, index) => (
@@ -74,8 +75,8 @@ const JobsTemplate = ({
                 ))}
               </div>
             </div>
-            <figure className='requirements__image'>
-              <img src={Image} alt='Imagen del empleo' />
+            <figure className={styles.requirements__image}>
+              {Image && <img src={Image.src} alt='Imagen del empleo' />}
             </figure>
           </section>
 
@@ -83,7 +84,7 @@ const JobsTemplate = ({
           //      Descripción       //
           ///////////////////////// */}
 
-          <section className='description'>
+          <section className={styles.description}>
             <h3>Descripción</h3>
             <p>{Description}</p>
             <h4>Tareas a realizar</h4>
@@ -119,14 +120,20 @@ const JobsTemplate = ({
           //   Enviar currículum     //
           ///////////////////////// */}
 
-        <section className='apply container'>
+        <section className={`${styles.apply} container`}>
           <h4>¡Envíanos tu currículum y aplica al puesto!</h4>
-          <Link
-            to={{ pathname: '/contacto', state: { CV: true } }}
+
+          <button
+            onClick={() => {
+              router.push(
+                { pathname: '/contacto', query: { CV: true } },
+                'contacto'
+              );
+            }}
             className='btn button--red'
           >
             Enviar CV
-          </Link>
+          </button>
         </section>
       </div>
     </>

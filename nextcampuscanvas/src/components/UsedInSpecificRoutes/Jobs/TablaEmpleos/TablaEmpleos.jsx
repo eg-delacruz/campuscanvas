@@ -1,13 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import { connect } from 'react-redux';
 
 //Styles
-import './TablaEmpleos.scoped.scss';
+import styles from './TablaEmpleos.module.scss';
 
 //Components
-import Loader from '../../../GeneralUseComponents/Loader/Loader.jsx';
-import ErrorDisplayer from '../../../GeneralUseComponents/ErrorDisplayer/ErrorDisplayer';
+import Loader from '@components/GeneralUseComponents/Loader/Loader.jsx';
+import ErrorDisplayer from '@components/GeneralUseComponents/ErrorDisplayer/ErrorDisplayer';
 
 //Redux actions
 import * as jobsActions from '../../../../actions/jobsActions';
@@ -15,6 +15,7 @@ const { getJobs } = jobsActions;
 
 function TablaEmpleos(props) {
   //console.log(props);
+  const router = useRouter();
 
   if (props.jobs.length === 0) {
     props.getJobs();
@@ -24,7 +25,7 @@ function TablaEmpleos(props) {
   if (props.error) return <ErrorDisplayer message={props.error} />;
   if (props.jobs === 'no_jobs')
     return (
-      <h4 className='notAvailableJobs'>
+      <h4 className={styles.notAvailableJobs}>
         De momento, no estamos ofreciendo ninguna posición. <br /> Sin embargo,
         puedes enviarnos tu CV si te interesa formar parte del equipo Campus
         Canvas.
@@ -33,18 +34,30 @@ function TablaEmpleos(props) {
 
   const displayOffers = () =>
     props.jobs.map((oferta) => (
-      <article key={oferta.id} className='jobCard'>
-        <h4 className='jobCardTitle'>{oferta.JobTitle}</h4>
+      <article key={oferta.id} className={styles.jobCard}>
+        <h4 className={styles.jobCardTitle}>{oferta.JobTitle}</h4>
         <p>{oferta.CardDescription}</p>
-        <Link className='btn button--purple' to={`/empleo/${oferta.id}`}>
+
+        <button
+          className='btn button--purple'
+          onClick={() => {
+            router.push(
+              {
+                pathname: `/empleo/${oferta.id}`,
+                query: { id: oferta.id },
+              },
+              `/empleo/${oferta.id}`
+            );
+          }}
+        >
           Más información
-        </Link>
+        </button>
       </article>
     ));
 
   return (
     <React.Fragment>
-      <section className='main__jobs'>{displayOffers()}</section>
+      <section className={styles.main__jobs}>{displayOffers()}</section>
     </React.Fragment>
   );
 }
@@ -59,7 +72,4 @@ const mapDispatchToProps = {
   getJobs,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TablaEmpleos);
+export default connect(mapStateToProps, mapDispatchToProps)(TablaEmpleos);

@@ -17,7 +17,7 @@ function Card({ image, imgAlt, title, children }) {
 export default Card;
 
 Card.propTypes = {
-  image: PropTypes.node.isRequired,
+  image: PropTypes.object.isRequired,
   imgAlt: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,

@@ -1,7 +1,7 @@
 import React from 'react';
 
 //Styles
-import './PostTemplate.scoped.scss';
+import styles from './PostTemplate.module.scss';
 
 const PostTemplate = ({
   Author,
@@ -13,23 +13,23 @@ const PostTemplate = ({
 }) => {
   return (
     <div className='Post container'>
-      <picture className='Post__image'>
+      <picture className={styles.Post__image}>
         <source media='(max-width:480px)' srcSet={SmallImage} />
-        <img src={LargeImage} alt='Imagen del post' />
+        {LargeImage && <img src={LargeImage.src} alt='Imagen del post' />}
       </picture>
 
-      <span className='Post__author'>
+      <span className={styles.Post__author}>
         {' '}
         <strong>Autor:</strong> {Author}{' '}
       </span>
       <br />
-      <span className='Post__PubDate'>
+      <span className={styles.Post__PubDate}>
         <h6>Fecha de publicación: </h6> {PubDate}
       </span>
 
       <hr />
 
-      <h2 className='Post__title'>{Title}</h2>
+      <h2 className={styles.Post__title}>{Title}</h2>
       {Content.map((paragraph, index) => (
         <div key={index}>
           <p>{paragraph}</p>

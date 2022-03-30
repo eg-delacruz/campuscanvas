@@ -1,8 +1,33 @@
-import '@styles/Globals.scss';
-import '@styles/Buttons.scss'
+import App from 'next/app';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { createWrapper } from 'next-redux-wrapper';
+import configureStore from '../configureStore';
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+//Globas styles
+import '@styles/Globals.scss';
+import '@styles/Buttons.scss';
+
+const store = configureStore();
+
+class MyApp extends App {
+  render() {
+    const { Component, pageProps } = this.props;
+    return (
+      <Provider store={store}>
+        <Component {...pageProps} />
+      </Provider>
+    );
+  }
 }
 
-export default MyApp;
+const makestore = () => store;
+const wrapper = createWrapper(makestore);
+
+export default wrapper.withRedux(MyApp);
+
+// function MyApp({ Component, pageProps }) {
+//   return <Component {...pageProps} />;
+// }
+
+// export default MyApp;

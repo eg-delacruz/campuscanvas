@@ -1,0 +1,56 @@
+@import '../Vars.scss';
+
+.Universidades {
+  padding: 30px 8px 90px;
+  h3 {
+    color: $color--primary1;
+  }
+}
+.UniList {
+  margin: 0 auto;
+  border-collapse: collapse;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 14px 21px 20px -15px rgba(0, 0, 0, 0.3);
+  @include font-size(14px);
+  thead tr {
+    background-color: $color--primary1;
+    color: $color--white;
+    text-align: center;
+    font-weight: bold;
+    @include font-size(16px);
+  }
+  th,
+  td {
+    padding: 8px 15px;
+  }
+  tbody tr {
+    border-bottom: 1px solid $color--dark-gray;
+  }
+  .Uni {
+    background-color: $color--light-gray;
+    font-weight: bold;
+  }
+  tbody tr:last-of-type {
+    border-bottom: 2px solid $color--primary1;
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}

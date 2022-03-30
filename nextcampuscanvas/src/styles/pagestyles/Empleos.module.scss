@@ -1,0 +1,60 @@
+@import '../Vars.scss';
+@import '../Buttons.scss';
+
+.body__gridContainer {
+  display: grid;
+  min-height: calc(100vh - (149px + 62px + 97px + 90px));
+}
+
+.main {
+  &__container {
+    padding: 0 8px;
+    @include paragraph--regular;
+    padding-bottom: 90px;
+    h2,
+    h3 {
+      color: $color--primary2-dark1;
+    }
+  }
+  &__subTitle {
+    @include paragraph--regular;
+  }
+
+  &__sendCV {
+    .btn {
+      display: block;
+      margin: 0 auto;
+      width: 140px;
+      padding: 8px;
+      text-align: center;
+      margin-top: 60px;
+    }
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 880px) {
+  .main {
+    &__container {
+      padding: 0 16px;
+      padding-bottom: 90px;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+}
+
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+}
+
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}

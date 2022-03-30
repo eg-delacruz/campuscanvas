@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 //Styles
 import styles from '@pagestyles/ParaEmpresas.module.scss';
@@ -30,6 +31,7 @@ import Card from '@components/GeneralUseComponents/Card--ImgTitleText/Card';
 import Patrocinadores from '@components/GeneralUseComponents/Carousel/Carousel';
 
 function ParaEmpresas() {
+  const router = useRouter();
   return (
     <>
       <Head>
@@ -70,7 +72,6 @@ function ParaEmpresas() {
                 className={styles.hero__sectionDown}
                 color='#3a86ff'
               />
-              {/* <img src={sectionDown} alt='Bajar a siguiente sección' /> */}
             </a>
           </section>
 
@@ -323,13 +324,18 @@ function ParaEmpresas() {
               bolsa que se distribuye a todos los estudiantes madrileños, y
               sorpréndelos con un bonito regalo de parte de tu empresa.
             </p>
-            {/* TODO: Ver cómo hacer esto con el link de next */}
-            {/* <Link
-              to={{ pathname: '/contacto', state: { CV: false } }}
+
+            <button
+              onClick={() => {
+                router.push(
+                  { pathname: '/contacto', query: { CV: false } },
+                  'contacto'
+                );
+              }}
               className='btn button--blue'
             >
               Contáctanos
-            </Link> */}
+            </button>
           </section>
         </div>
       </Layout>

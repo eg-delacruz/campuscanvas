@@ -1,16 +1,16 @@
-@import '../../assets/styles/Vars.scss';
+@import '../Vars.scss';
 
 .body__gridContainer {
   display: grid;
   padding: 0px 8px 90px;
-  background-image: url('../../assets/static/PagesImages/ContactoImages/contact_background.png'),
-    url('../../assets/static/GeneralUse/BG_sticker_1.svg'),
-    url('../../assets/static/GeneralUse/BG_sticker_2.svg'),
-    url('../../assets/static/GeneralUse/BG_sticker_3.svg'),
-    url('../../assets/static/GeneralUse/BG_sticker_4.svg'),
-    url('../../assets/static/GeneralUse/BG_sticker_5.svg'),
-    url('../../assets/static/GeneralUse/BG_sticker_6.svg'),
-    url('../../assets/static/GeneralUse/BG_sticker_7.svg');
+  background-image: url('../../assets/PagesImages/ContactoImages/contact_background.png'),
+    url('../../assets/GeneralUse/BG_sticker_1.svg'),
+    url('../../assets/GeneralUse/BG_sticker_2.svg'),
+    url('../../assets/GeneralUse/BG_sticker_3.svg'),
+    url('../../assets/GeneralUse/BG_sticker_4.svg'),
+    url('../../assets/GeneralUse/BG_sticker_5.svg'),
+    url('../../assets/GeneralUse/BG_sticker_6.svg'),
+    url('../../assets/GeneralUse/BG_sticker_7.svg');
   background-repeat: no-repeat;
   background-position: 0% 0%, 17% 62%, 90% 90%, 74% 51%, 43% 58%, 66% 33%,
     53% 39%, 38% 28%;
