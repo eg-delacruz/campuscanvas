@@ -1,2 +1,0 @@
-Usar versión de node 15.14.0 para el sitio web hecho con create-react-app para evitar crashes.
---> Usar nvm para cambiar entre versiones.

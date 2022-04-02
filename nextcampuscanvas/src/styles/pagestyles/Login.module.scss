@@ -1,0 +1,10 @@
+@import '../Vars.scss';
+
+.footer__signature {
+  color: $color--white;
+  background-color: $color--black;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  @include font-size(14px);
+}

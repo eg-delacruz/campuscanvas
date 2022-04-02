@@ -12,7 +12,7 @@
   margin: 0 auto;
   box-shadow: 14px 21px 20px -15px rgba(0, 0, 0, 0.3);
   display: block;
-  margin: 0 auto;
+  cursor: pointer;
 }
 
 /////////////////////////
@@ -48,5 +48,15 @@
   &:hover {
     background-color: $color--primary1;
     color: $color--white;
+  }
+}
+
+.button--redRedborderTransparentHoverShadowtRed {
+  border: 1px solid $color--primary1;
+  color: $color--primary2;
+  padding: 10px 31px;
+  background-color: transparent;
+  &:hover {
+    box-shadow: 0 0 10px 0 $color--primary1;
   }
 }

@@ -43,10 +43,15 @@ function Header() {
           <figure className={styles.header__logo}>
             <Link href='/'>
               <button>
-                <Image src={Logo_Campus_Canvas} alt='Logo Campus Canvas' />
+                <Image
+                  height={55}
+                  src={Logo_Campus_Canvas}
+                  alt='Logo Campus Canvas'
+                />
               </button>
             </Link>
           </figure>
+
           <nav
             onClick={() => hideMenu()}
             className={
@@ -74,6 +79,17 @@ function Header() {
               </li>
               <li className={styles.menu__item}>
                 <Link href='/FAQs'>FAQs</Link>
+              </li>
+            </ul>
+
+            <ul className={styles.menu__user}>
+              <li
+                className={`${styles.menu__item} ${styles.menu__logButton} btn button--redRedborderTransparentHoverShadowtRed`}
+              >
+                <Link href='/login'>Login</Link>
+              </li>
+              <li className={`${styles.menu__item} btn button--red `}>
+                <Link href='/construccion'>Registrarse</Link>
               </li>
             </ul>
           </nav>

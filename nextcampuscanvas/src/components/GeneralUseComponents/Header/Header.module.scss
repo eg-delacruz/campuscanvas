@@ -7,10 +7,7 @@
   box-shadow: 0 4px 6px 0 #20212447;
   position: relative;
   .header__container {
-    display: flex;
-    justify-content: space-between;
-    height: 97px;
-    padding: 0 10px;
+    padding: 0 10px 10px;
 
     .header__logo {
       margin: auto 0;
@@ -19,6 +16,7 @@
         border: 0px;
         cursor: pointer;
         padding: 0;
+        margin: 10px 0;
       }
     }
   }
@@ -26,13 +24,17 @@
 
 .menu,
 .menu__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   height: inherit;
 }
 
+//Estilos menu general
 .menu__list {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   list-style: none;
   padding: 0;
   height: inherit;
@@ -45,13 +47,39 @@
     display: flex;
     align-items: center;
     font-weight: 700;
-    margin-left: 46px;
+    margin-right: 46px;
     cursor: pointer;
   }
 }
 
-.menu__item a:hover,
-.menu__item div:hover {
+//Estilos menu user
+.menu__user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0;
+  .menu__item {
+    padding: 10px;
+    height: inherit;
+    margin-left: 8px;
+  }
+  .menu__item a {
+    text-decoration: none;
+    color: $color--white;
+    height: inherit;
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .menu__logButton a {
+    color: $color--black;
+  }
+}
+
+.menu__list a:hover,
+.menu__list div:hover {
   color: $color--primary1;
 }
 
@@ -96,6 +124,7 @@
 
   .header .header__container {
     padding: 0;
+    display: flex;
     justify-content: center;
   }
 
@@ -116,35 +145,54 @@
     width: 100vw;
     height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 15px;
+    flex-direction: column;
+    justify-content: flex-start;
     transition: 0.3s;
-
-    &__list {
+    .menu__list {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
       flex-direction: column;
       height: auto;
       width: 100%;
+      .menu__item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 4px 0;
+        height: 70px;
+        width: 50%;
+        border: 1px solid $color--white;
+        border-radius: 5px;
+        background: rgba(91, 7, 145, 0.9);
+      }
+      .menu__item a,
+      .menu__item div {
+        color: $color--white;
+        margin: 0;
+        width: 100%;
+        justify-content: center;
+      }
     }
 
-    &__item {
+    .menu__user {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: auto;
+      width: 100%;
+    }
+    .menu__item {
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 4px 0;
-      height: 70px;
+      height: 40px;
       width: 50%;
-      border: 1px solid $color--white;
-      border-radius: 5px;
-      background: rgba(91, 7, 145, 0.9);
     }
-
-    &__list .menu__item a,
-    .menu__item div {
-      color: $color--white;
-      margin: 0;
-      width: 100%;
-      justify-content: center;
+    .menu__logButton {
+      background-color: $color--white;
     }
   }
 
