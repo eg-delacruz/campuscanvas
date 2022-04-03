@@ -83,11 +83,13 @@ function Header() {
             </ul>
 
             <ul className={styles.menu__user}>
-              <li
-                className={`${styles.menu__item} ${styles.menu__logButton} btn button--redRedborderTransparentHoverShadowtRed`}
-              >
-                <Link href='/login'>Login</Link>
-              </li>
+              <Link href='/login'>
+                <li
+                  className={`${styles.menu__item} ${styles.menu__logButton} btn button--redRedborderTransparentHoverShadowtRed`}
+                >
+                  Login
+                </li>
+              </Link>
               <li className={`${styles.menu__item} btn button--red `}>
                 <Link href='/construccion'>Registrarse</Link>
               </li>

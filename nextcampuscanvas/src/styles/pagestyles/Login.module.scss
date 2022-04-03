@@ -55,6 +55,13 @@
   .terminos {
     @include font-size(12px);
   }
+  .errorMessage {
+    position: relative;
+    top: -45px;
+    color: $color--primary1;
+    @include font-size(16px);
+    font-weight: 600;
+  }
 }
 .footer__signature {
   color: $color--white;

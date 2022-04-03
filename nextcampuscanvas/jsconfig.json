@@ -5,6 +5,7 @@
     //Esto es para usar alias. Véase su uso en las importaciones de cosas
     "paths": {
       "@assets/*": ["assets/*"],
+      "@actions/*": ["actions/*"],
       "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
       "@databases/*": ["databases/*"],
@@ -12,7 +13,8 @@
       "@reduxtypes/*": ["reduxtypes/*"],
       "@utilities/*": ["utilities/*"],
       "@styles/*": ["styles/*"],
-      "@pagestyles/*": ["styles/pagestyles/*"]
+      "@pagestyles/*": ["styles/pagestyles/*"],
+      "@services/*": ["services/*"]
     }
   }
 }
