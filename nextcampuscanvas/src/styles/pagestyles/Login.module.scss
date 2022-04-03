@@ -1,5 +1,61 @@
 @import '../Vars.scss';
 
+.main {
+  min-height: calc(100vh - 159px);
+  &__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .form {
+    max-width: 490px;
+    align-self: center;
+    vertical-align: center;
+    margin-top: 40px;
+    h1 {
+      margin-bottom: 10px;
+    }
+    h4 {
+      margin-top: 0;
+    }
+    label {
+      @include font-size(16px);
+      display: block;
+      margin-bottom: 8px;
+    }
+    input {
+      width: 100%;
+      background-color: $color--secondary-light;
+      border: 1px solid $color--black;
+      height: 45px;
+      border-radius: 5px;
+      margin-bottom: 30px;
+      padding: 10px;
+    }
+
+    .buttons {
+      a,
+      p {
+        @include font-size(14px);
+      }
+      p {
+        margin: 0;
+      }
+      button {
+        margin-top: 10px;
+      }
+    }
+  }
+
+  .divider {
+    margin: 35px 0;
+    text-align: center;
+  }
+
+  .terminos {
+    @include font-size(12px);
+  }
+}
 .footer__signature {
   color: $color--white;
   background-color: $color--black;
@@ -7,4 +63,36 @@
   justify-content: space-between;
   padding: 0 20px;
   @include font-size(14px);
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+  .main {
+    min-height: calc(100vh - 221px);
+  }
+  .footer__signature {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+  .main__container {
+    padding: 0 8px;
+  }
+  .footer__signature p {
+    text-align: center;
+  }
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
 }
