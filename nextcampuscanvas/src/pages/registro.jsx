@@ -1,14 +1,20 @@
 import React from 'react';
 import Head from 'next/head';
 import { connect } from 'react-redux';
+import { useRouter } from 'next/router';
+
+//Form Validation
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 //Components
 import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
+import EmailPasswordForm from '@components/UsedInSpecificRoutes/register/EmailPasswordForm';
 import FooterSignature from '@components/GeneralUseComponents/FooterSignature/FooterSignature';
-import LoginForm from '@components/UsedInSpecificRoutes/Login/LoginForm';
 
 //Styles
-import styles from '@pagestyles/Login.module.scss';
+import styles from '@pagestyles/Registro.module.scss';
 
 //Redux actions
 import * as authActions from '@actions/authActions';
@@ -35,7 +41,7 @@ const login = (props) => {
 
         <main className={styles.main}>
           <div className={styles.main__container}>
-            <LoginForm />
+            <EmailPasswordForm />
           </div>
         </main>
 

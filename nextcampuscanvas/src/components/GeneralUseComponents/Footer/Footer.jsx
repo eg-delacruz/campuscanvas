@@ -12,6 +12,9 @@ import Facebook from '@assets/GeneralUse/IconsAndButtons/facebook_icon.svg';
 import Instagram from '@assets/GeneralUse/IconsAndButtons/instagram_icon.svg';
 import LinkedIn from '@assets/GeneralUse/IconsAndButtons/linkedin_icon.svg';
 
+//Components
+import FooterSignature from '@components/GeneralUseComponents/FooterSignature/FooterSignature';
+
 function Footer() {
   return (
     <footer className={styles.footer}>
@@ -90,10 +93,7 @@ function Footer() {
             </a>
           </div>
         </section>
-        <section className={styles.footer__signature}>
-          <p>®Campus Canvas 2022. Todos los derechos reservados</p>
-          <p>Dedicado a los estudiantes desde Madrid ❤️</p>
-        </section>
+        <FooterSignature />
       </div>
     </footer>
   );

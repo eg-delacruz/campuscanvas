@@ -91,7 +91,7 @@ function Header() {
                 </li>
               </Link>
               <li className={`${styles.menu__item} btn button--red `}>
-                <Link href='/construccion'>Registrarse</Link>
+                <Link href='/registro'>Registrarse</Link>
               </li>
             </ul>
           </nav>

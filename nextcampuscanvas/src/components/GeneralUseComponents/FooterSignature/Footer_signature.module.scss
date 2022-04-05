@@ -1,0 +1,23 @@
+@import '../../../styles/Vars.scss';
+
+.footer__signature {
+  color: $color--white;
+  background-color: $color--black;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  @include font-size(14px);
+}
+
+@media screen and (max-width: 767px) {
+  .footer__signature {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .footer __signature p {
+    text-align: center;
+  }
+}
