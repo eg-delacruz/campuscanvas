@@ -1,4 +1,4 @@
-const db = require('mongoose');
+let db = require('mongoose');
 
 const dbConnect = async (url) => {
   await db
@@ -14,4 +14,4 @@ const dbConnect = async (url) => {
     });
 };
 
-export default dbConnect;
+module.exports = dbConnect;

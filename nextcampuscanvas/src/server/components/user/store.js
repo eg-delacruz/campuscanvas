@@ -5,12 +5,12 @@ import config from '@server/config';
 dbConnect(config.dbURL);
 
 //Model
-import User from '@server/components/user/model';
+let User = require('@server/components/user/model');
 
 /////////////////////Add users//////////////////////////////
 
 const addUser = async (user) => {
-  await User.create(user);
+  return await User.create(user);
 };
 
 const getUsers = async () => {

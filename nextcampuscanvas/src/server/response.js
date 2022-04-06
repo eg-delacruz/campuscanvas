@@ -45,7 +45,7 @@ const statusMessages = {
   511: 'Network Authentication Required',
 };
 
-exports.success = (req, res, message, status) => {
+export function successResponse(req, res, message, status) {
   let statusCode = status;
   let statusMessage = message;
   //Configuramos los códigos de estatus por defecto en el caso de
@@ -56,11 +56,13 @@ exports.success = (req, res, message, status) => {
   if (!message) {
     statusMessage = statusMessages[status];
   }
+  console.log('[RESPONSE]Operación realizada con éxito');
+  console.log(message);
   //El status se muestra en el caso de insomnia en un indicador, NO en el objeto enviado
   res.status(statusCode).send({ error: '', body: statusMessage });
-};
+}
 
-exports.error = (req, res, message, status, details) => {
+export function errorResponse(req, res, message, status, details) {
   let statusCode = status;
   let statusMessage = message;
 
@@ -75,4 +77,4 @@ exports.error = (req, res, message, status, details) => {
   //módulo del que viene ese mensaje en consola para identificarlo rápido.
   console.error('[response error]' + details);
   res.status(statusCode).send({ error: statusMessage, body: '' });
-};
+}

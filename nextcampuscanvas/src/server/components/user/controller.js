@@ -15,8 +15,12 @@ const addUser = (email, password) => {
       updatedAt: new Date(),
     };
 
-    store.add(fullUser);
-    resolve(fullUser);
+    try {
+      const addedUser = await store.add(fullUser);
+      resolve(addedUser);
+    } catch (error) {
+      return reject(error);
+    }
   });
 };
 
