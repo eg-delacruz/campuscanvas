@@ -15,8 +15,8 @@ const addUser = (email, password) => {
       updatedAt: new Date(),
     };
 
-    store.add(fullUser).catch(() => {
-      console.error('[userController] Error al crear usuario');
+    store.add(fullUser).catch((error) => {
+      console.error('[userController] Error al crear usuario' + error.message);
       return reject('Error al crear usuario');
     });
     resolve(fullUser);

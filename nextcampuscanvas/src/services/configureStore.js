@@ -2,7 +2,7 @@ import { applyMiddleware, createStore } from 'redux';
 import reduxThunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import reducers from './reducers';
+import reducers from '../reducers';
 
 export default function configureStore(preloadedState = {}) {
   const middlewares = [reduxThunk];

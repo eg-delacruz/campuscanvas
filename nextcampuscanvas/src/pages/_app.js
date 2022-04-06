@@ -2,7 +2,7 @@ import App from 'next/app';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createWrapper } from 'next-redux-wrapper';
-import configureStore from '../configureStore';
+import configureStore from '../services/configureStore';
 
 //Globas styles
 import '@styles/Globals.scss';

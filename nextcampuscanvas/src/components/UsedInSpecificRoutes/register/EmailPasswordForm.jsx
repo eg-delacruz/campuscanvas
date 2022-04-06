@@ -18,8 +18,9 @@ import styles from './emailPasswordForm.module.scss';
 
 //Redux actions
 import * as authActions from '@actions/authActions';
-import { useState } from 'react';
+const { register } = authActions;
 
+//Form validation
 const schema = yup.object().shape({
   //Name of inputs should match these keys
   correo: yup
@@ -58,7 +59,14 @@ const emailPasswordForm = (props) => {
   });
 
   const submitFunction = (e) => {
-    console.log(e);
+    try {
+      props.register(CORREO.value, CONTRASENA.value).then((res) => {
+        console.log('Res' + res);
+        router.push('/');
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   if (props.loading) return <Loader />;
@@ -138,6 +146,7 @@ const emailPasswordForm = (props) => {
           'Acepta nuestros términos y condiciones para continuar'}
       </p>
       {props.error && <p className={styles.errorMessage}>{props.error}</p>}
+      {props.error && console.log('Props.error' + props.error)}
       {/* /////////////////////////
             //       Buttons        //
             ///////////////////////// */}
@@ -160,6 +169,8 @@ const mapStateToProps = (reducers) => {
 };
 
 //Map actions to props
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  register,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(emailPasswordForm);

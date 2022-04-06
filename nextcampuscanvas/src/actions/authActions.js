@@ -33,7 +33,7 @@ export const signIn = (email, password) => async (dispatch) => {
     //Guardamos el token en el navegador. Expira en 5 días
     Cookie.set('token', access_token, { expires: 5 });
 
-    const response = await fetch(endPoints.auth.profile, {
+    const response = await fetch(endPoints.auth.login, {
       method: 'GET',
       headers: {
         authorization: `Bearer ${access_token}`,
@@ -52,6 +52,41 @@ export const signIn = (email, password) => async (dispatch) => {
     dispatch({
       type: ERROR,
       payload: 'Error al iniciar sesión' + error.message,
+    });
+  }
+};
+
+export const signOut = () => {};
+
+export const register = (email, password) => async (dispatch) => {
+  dispatch({
+    type: LOADING,
+  });
+  //console.log(endPoints.auth.register);
+  try {
+    const respuesta = await fetch(endPoints.auth.register, {
+      method: 'POST',
+      headers: {
+        accept: '*/*',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: email, password: password }),
+    });
+    console.log(respuesta);
+    const data = await respuesta.json();
+
+    //TODO: hacer manejo de guardado de token
+
+    dispatch({
+      type: AUTH_USER,
+      payload: data,
+    });
+
+    //If error on response.
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: 'Error al registrar usuario ' + error.message,
     });
   }
 };

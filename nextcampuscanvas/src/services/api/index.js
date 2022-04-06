@@ -6,10 +6,14 @@
 const API = process.env.NEXT_PUBLIC_API_URL;
 const VERSION = process.env.NEXT_PUBLIC_API_VERSION;
 
+const API_CC = process.env.NEXT_PUBLIC_API_URL_CC;
+
 const endPoints = {
   auth: {
     login: `${API}/api/${VERSION}/auth/login`,
+    //Ruta para obtener perfil de usuario luego de haber iniciado sesión
     profile: `${API}/api/${VERSION}/auth/profile`,
+    register: `${API_CC}/api/users`,
   },
 };
 

@@ -25,7 +25,7 @@ export default async function handler(req, res) {
 
     ////////////////////////////////////////////////
     case 'POST':
-      console.log(req.headers);
+      console.log(req.body);
       Controller.addUser(req.body.email, req.body.password)
         .then((addedUser) => {
           response.success(req, res, addedUser, 201);
