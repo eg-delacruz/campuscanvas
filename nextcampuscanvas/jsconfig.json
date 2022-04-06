@@ -14,7 +14,8 @@
       "@utilities/*": ["utilities/*"],
       "@styles/*": ["styles/*"],
       "@pagestyles/*": ["styles/pagestyles/*"],
-      "@services/*": ["services/*"]
+      "@services/*": ["services/*"],
+      "@server/*": ["server/*"]
     }
   }
 }
