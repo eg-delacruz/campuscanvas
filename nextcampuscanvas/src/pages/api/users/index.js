@@ -1,35 +1,47 @@
-//DB connection
-import dbConnect from '@server/dbConnect';
-import config from '@server/config';
-
-//Model
-import User from '@server/components/user/model';
-
-dbConnect(config.dbURL);
+//Response manager
+import response from '@server/response';
+import Controller from '@server/components/user/controller';
 
 export default async function handler(req, res) {
   const { method } = req;
 
   switch (method) {
     case 'GET':
-      try {
-        const user = await User.find({});
-
-        res.status(200).json({ success: true, data: user });
-      } catch (error) {
-        res.status(400).json({ success: false, error: error.message });
-      }
+      Controller.getUsers()
+        .then((users) => {
+          console.log(users);
+          response.success(req, res, users, 200);
+        })
+        .catch((error) => {
+          response.error(
+            req,
+            res,
+            'Error interno al obtener usuarios',
+            400,
+            error
+          );
+        });
       break;
+
+    ////////////////////////////////////////////////
     case 'POST':
-      try {
-        const user = await User.create(req.body);
-        res.status(201).json({ success: true, data: user });
-      } catch (error) {
-        res.status(400).json({ success: false, error: error.message });
-      }
+      console.log(req.headers);
+      Controller.addUser(req.body.email, req.body.password)
+        .then((addedUser) => {
+          response.success(req, res, addedUser, 201);
+        })
+        .catch((error) => {
+          response.error(
+            req,
+            res,
+            'Error interno al crear usuario',
+            400,
+            error
+          );
+        });
       break;
     default:
-      res.status(400).json({ success: false, error: 'Method not allowed' });
+      response.error(req, res, 'Método no soportado', 400);
       break;
   }
 }

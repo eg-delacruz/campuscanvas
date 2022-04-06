@@ -1,16 +1,17 @@
 const mongoose = require('mongoose');
 
-const UsersSchema = new mongoose.Schema({
+const usersSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, 'El correo es necesario'],
     unique: true,
+    lowercase: true,
   },
   password: {
     type: String,
     required: [true, 'Por favor, ingresa una contraseña'],
-    minlength: [6, 'Password must be at least 8 characters long'],
-    maxlength: [16, 'Password must be at most 16 characters long'],
+    minlength: [6, 'La contraseña debe tener al menos 6 caracteres'],
+    maxlength: [16, 'La contraseña no puede tener más de 16 caracteres'],
     // validate: {
     //   validator: function (value) {
     //     return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/.test(
@@ -19,6 +20,13 @@ const UsersSchema = new mongoose.Schema({
     //   },
     // },
   },
+  createdAt: {
+    type: Date,
+    immutable: true,
+  },
+  updatedAt: {
+    type: Date,
+  },
 });
 
-module.exports = mongoose.models.Users || mongoose.model('Users', UsersSchema);
+module.exports = mongoose.model('User', usersSchema);
