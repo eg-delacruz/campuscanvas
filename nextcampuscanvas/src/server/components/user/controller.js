@@ -15,22 +15,14 @@ const addUser = (email, password) => {
       updatedAt: new Date(),
     };
 
-    store.add(fullUser).catch((error) => {
-      console.error('[userController] Error al crear usuario' + error.message);
-      return reject('Error al crear usuario');
-    });
+    store.add(fullUser);
     resolve(fullUser);
   });
 };
 
 const getUsers = () => {
   return new Promise((resolve, reject) => {
-    resolve(
-      store.users().catch(() => {
-        console.error('[userController] Error al obtener usuarios');
-        return reject('Error al obtener usuarios');
-      })
-    );
+    resolve(store.users());
   });
 };
 

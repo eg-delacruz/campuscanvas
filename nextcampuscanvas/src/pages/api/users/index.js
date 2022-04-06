@@ -7,38 +7,34 @@ export default async function handler(req, res) {
 
   switch (method) {
     case 'GET':
-      Controller.getUsers()
-        .then((users) => {
-          console.log(users);
-          response.success(req, res, users, 200);
-        })
-        .catch((error) => {
-          response.error(
-            req,
-            res,
-            'Error interno al obtener usuarios',
-            400,
-            error
-          );
-        });
+      try {
+        const users = await Controller.getUsers();
+        console.log(users);
+        response.success(req, res, users, 200);
+      } catch (error) {
+        response.error(
+          req,
+          res,
+          'Error interno al obtener usuarios',
+          400,
+          error
+        );
+      }
       break;
 
     ////////////////////////////////////////////////
     case 'POST':
       console.log(req.body);
-      Controller.addUser(req.body.email, req.body.password)
-        .then((addedUser) => {
-          response.success(req, res, addedUser, 201);
-        })
-        .catch((error) => {
-          response.error(
-            req,
-            res,
-            'Error interno al crear usuario',
-            400,
-            error
-          );
-        });
+      try {
+        const user = await Controller.addUser(
+          req.body.email,
+          req.body.password
+        );
+        response.success(req, res, user, 201);
+      } catch (error) {
+        response.error(req, res, 'Error interno al crear usuario', 400, error);
+      }
+
       break;
     default:
       response.error(req, res, 'Método no soportado', 400);
