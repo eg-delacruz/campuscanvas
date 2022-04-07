@@ -41,6 +41,7 @@ const schema = yup.object().shape({
 });
 
 const emailPasswordForm = (props) => {
+  //console.log(props);
   const router = useRouter();
 
   //Controlling inputs
@@ -61,7 +62,11 @@ const emailPasswordForm = (props) => {
   const submitFunction = (e) => {
     try {
       props.register(CORREO.value, CONTRASENA.value).then((res) => {
-        //console.log('Res' + res);
+        console.log(res);
+        if (res?.payload === 'El email ya existe') {
+          return false;
+        }
+        console.log('Usuario registrado');
         router.push('/');
       });
     } catch (error) {

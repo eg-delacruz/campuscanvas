@@ -59,12 +59,10 @@ export const signIn = (email, password) => async (dispatch) => {
 export const signOut = () => {};
 
 export const register = (email, password) => async (dispatch) => {
-  console.log(email, password);
-  console.log(endPoints.auth.register);
   dispatch({
     type: LOADING,
   });
-  //console.log(endPoints.auth.register);
+
   try {
     const respuesta = await fetch(endPoints.auth.register, {
       method: 'POST',
@@ -76,9 +74,17 @@ export const register = (email, password) => async (dispatch) => {
     });
     const data = await respuesta.json();
 
+    //If user already exists
+    if (data.error === 'El email ya existe') {
+      return dispatch({
+        type: ERROR,
+        payload: data.error,
+      });
+    }
+
     //TODO: hacer manejo de guardado de token
 
-    dispatch({
+    return dispatch({
       type: AUTH_USER,
       payload: data,
     });
