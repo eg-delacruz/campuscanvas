@@ -59,6 +59,8 @@ export const signIn = (email, password) => async (dispatch) => {
 export const signOut = () => {};
 
 export const register = (email, password) => async (dispatch) => {
+  console.log(email, password);
+  console.log(endPoints.auth.register);
   dispatch({
     type: LOADING,
   });
@@ -72,7 +74,6 @@ export const register = (email, password) => async (dispatch) => {
       },
       body: JSON.stringify({ email: email, password: password }),
     });
-    console.log(respuesta);
     const data = await respuesta.json();
 
     //TODO: hacer manejo de guardado de token

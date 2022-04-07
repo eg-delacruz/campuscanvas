@@ -61,7 +61,7 @@ const emailPasswordForm = (props) => {
   const submitFunction = (e) => {
     try {
       props.register(CORREO.value, CONTRASENA.value).then((res) => {
-        console.log('Res' + res);
+        //console.log('Res' + res);
         router.push('/');
       });
     } catch (error) {
