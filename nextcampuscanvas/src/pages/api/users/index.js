@@ -27,8 +27,9 @@ export default async function handler(req, res) {
       } catch (error) {
         if (error.message.includes('duplicate key')) {
           errorResponse(req, res, 'El email ya existe', 400, error);
+        } else {
+          errorResponse(req, res, 'Mensaje interno del servidor', 400, error);
         }
-        errorResponse(req, res, 'Mensaje interno del servidor', 400, error);
       }
 
       break;

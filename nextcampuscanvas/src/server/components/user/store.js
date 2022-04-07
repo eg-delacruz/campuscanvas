@@ -5,7 +5,8 @@ import config from '@server/config';
 dbConnect(config.dbURL);
 
 //Model
-let User = require('@server/components/user/model');
+import User from '@server/components/user/model';
+console.log('Holas');
 
 /////////////////////Add users//////////////////////////////
 
