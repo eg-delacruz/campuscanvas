@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
+import { signIn } from 'next-auth/react';
 
 //Form Validation
 import { useForm } from 'react-hook-form';
@@ -62,11 +63,16 @@ const emailPasswordForm = (props) => {
   const submitFunction = (e) => {
     try {
       props.register(CORREO.value, CONTRASENA.value).then((res) => {
-        console.log(res);
         if (res?.payload === 'El email ya existe') {
           return false;
         }
         console.log('Usuario registrado');
+        //TODO: Esto debería hacerse en reduxAction
+        signIn('credentials', {
+          redirect: false,
+          email: CORREO.value,
+          password: CONTRASENA.value,
+        });
         router.push('/');
       });
     } catch (error) {
@@ -151,12 +157,14 @@ const emailPasswordForm = (props) => {
           'Acepta nuestros términos y condiciones para continuar'}
       </p>
       {props.error && <p className={styles.errorMessage}>{props.error}</p>}
-      {props.error && console.log('Props.error' + props.error)}
       {/* /////////////////////////
             //       Buttons        //
             ///////////////////////// */}
       <div className={styles.buttons}>
-        <Link href='/construccion'>¿Olvidaste tu contraseña?</Link>
+        {/* TODO: ver si este _blank funciona con la Link tag */}
+        <Link target='_blank' href='/construccion'>
+          ¿Olvidaste tu contraseña?
+        </Link>
         <p>
           ¿Ya tienes una cuenta? <Link href='/login'>Accede aquí</Link>
         </p>

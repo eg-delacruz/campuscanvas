@@ -1,5 +1,9 @@
 let db = require('mongoose');
 
+//Le decimos a Mongoose que cuando quiera utilizar cualquier promesa, que utilice esta
+//la cual es la nativa, pero podemos usar otras librerías para promesas
+db.Promise = global.Promise;
+
 const dbConnect = async (url) => {
   await db
     .connect(url, {

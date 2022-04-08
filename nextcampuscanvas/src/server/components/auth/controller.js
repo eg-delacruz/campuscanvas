@@ -1,16 +1,27 @@
-import store from '@server/components/user/store';
+import store from '@server/components/auth/store';
+import { hash } from 'bcryptjs';
 
-const addUser = (email, password) => {
+const registerUser = (email, password) => {
   return new Promise(async (resolve, reject) => {
-    if (!email || !password) {
+    if (!email || !password || !email.includes('@')) {
       console.error('[userController] No hay email o password');
       //Usamos return para parar ejecución
-      return reject('Los datos son incorrectos');
+      return reject({ message: 'Los datos son incorrectos' });
     }
+
+    //Admin user
+    let role = 'user';
+    if (email === 'eg.cruzvalle@gmail.com') {
+      role = 'admin';
+    }
+
+    //Hashing password
+    const hashPassword = await hash(password, 12);
 
     const fullUser = {
       email,
-      password,
+      password: hashPassword,
+      role: role,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -31,6 +42,6 @@ const getUsers = () => {
 };
 
 module.exports = {
-  addUser,
+  registerUser,
   getUsers,
 };

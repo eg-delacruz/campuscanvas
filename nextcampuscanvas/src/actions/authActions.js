@@ -4,6 +4,8 @@ import Cookie from 'js-cookie';
 //Endpoints
 import endPoints from '@services/api';
 
+const localAPI = process.env.NEXT_PUBLIC_API_LOCAL_HOST;
+
 export const signIn = (email, password) => async (dispatch) => {
   dispatch({
     type: LOADING,
@@ -64,7 +66,7 @@ export const register = (email, password) => async (dispatch) => {
   });
 
   try {
-    const respuesta = await fetch(endPoints.auth.register, {
+    const respuesta = await fetch(localAPI, {
       method: 'POST',
       headers: {
         accept: '*/*',

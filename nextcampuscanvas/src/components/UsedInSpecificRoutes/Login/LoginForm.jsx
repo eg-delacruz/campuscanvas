@@ -27,6 +27,9 @@ const LoginForm = (props) => {
   const CONTRASENA = useInputValue('');
 
   const handleSubmit = (e) => {
+    //TODO: En reduxAction, en función signIn, mandar correo y contraseña y ejecutar
+    //signIn de authActions, para que de la response ahí y si es correcto,
+    //aquí en el try redireccionar a home
     e.preventDefault();
     try {
       props.signIn(CORREO.value, CONTRASENA.value).then((res) => {

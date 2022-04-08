@@ -20,8 +20,16 @@ import Distributon_house from '@assets/PagesImages/HomeImages/distribution_house
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import Carousel from '@components/GeneralUseComponents/Carousel/Carousel';
+import { useSession } from 'next-auth/react';
 
 export default function Home() {
+  //Evaluar si !session y !loading para mostrar botón de login
+  //Evaluar si session para mostrar botón de (perfil) y logout
+  //Para signout usar hook "signOut()" de next-auth/react
+  const { data: session, status } = useSession();
+  const loading = status === 'loading';
+
+  console.log(session, loading);
   return (
     <>
       <Head>
