@@ -10,10 +10,11 @@ dbConnect(config.dbURL);
 import User from '@server/components/auth/model';
 
 import { verifyPassword } from '@server/services/auth';
-
+// TODO: asignar tiempo de expiración de sesión
 export default NextAuth({
   session: {
     strategy: 'jwt',
+    maxAge: 60 * 60 * 24 * 5, // 5 days
   },
   providers: [
     CredentialsProvider({
@@ -21,9 +22,10 @@ export default NextAuth({
         const result = await User.findOne({
           email: credentials.email,
         });
-        console.log('Next auth', credentials);
+        console.log('NEXTAUTH', result);
 
         if (!result) {
+          console.log('Usuario no encontrado');
           throw new Error('Usuario no encontrado');
         }
 
@@ -33,8 +35,12 @@ export default NextAuth({
         );
 
         if (!checkPassword) {
+          console.log('Contraseña incorrecta');
           throw new Error('Contraseña incorrecta');
         }
+        console.log('Login OK');
+        //No estoy seguro de cómo acceder a esto en el front
+        return result;
         return { email: result.email };
       },
     }),

@@ -1,0 +1,2 @@
+## Rute de user debe estar protegida, pues solo si ya se ha hecho login
+## se puede traer al user

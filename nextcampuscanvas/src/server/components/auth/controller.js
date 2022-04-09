@@ -1,5 +1,14 @@
 import store from '@server/components/auth/store';
-import { hash } from 'bcryptjs';
+import { hashPassword } from '@server/services/auth';
+
+function cleanUser(user) {
+  let userClean = user?.toObject();
+  delete userClean.password;
+  delete userClean.createdAt;
+  delete userClean.updatedAt;
+  delete userClean.__v;
+  return userClean;
+}
 
 const registerUser = (email, password) => {
   return new Promise(async (resolve, reject) => {
@@ -16,11 +25,11 @@ const registerUser = (email, password) => {
     }
 
     //Hashing password
-    const hashPassword = await hash(password, 12);
+    const encPass = await hashPassword(password, 12);
 
     const fullUser = {
       email,
-      password: hashPassword,
+      password: encPass,
       role: role,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -35,6 +44,16 @@ const registerUser = (email, password) => {
   });
 };
 
+const getUser = async (email) => {
+  try {
+    const requiredUser = await store.get(email);
+    return cleanUser(requiredUser);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+//Esta función no se usa, sin embargo, dejarla para ejemplos futuros
 const getUsers = () => {
   return new Promise((resolve, reject) => {
     resolve(store.users());
@@ -43,5 +62,6 @@ const getUsers = () => {
 
 module.exports = {
   registerUser,
+  getUser,
   getUsers,
 };

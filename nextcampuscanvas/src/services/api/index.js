@@ -14,6 +14,7 @@ const endPoints = {
     login: `${API}/api/${VERSION}/auth/login`,
     //Ruta para obtener perfil de usuario luego de haber iniciado sesión
     profile: `${API}/api/${VERSION}/auth/profile`,
+    //Cambiar nombre ruta register por login
     register: `${API_CC}/api/auth/signup`,
   },
 };
