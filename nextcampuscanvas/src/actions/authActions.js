@@ -4,8 +4,8 @@ import { signIn } from 'next-auth/react';
 
 //Endpoints
 import endPoints from '@services/api';
-
-const localAPI = process.env.NEXT_PUBLIC_API_PROFILE;
+//TODO: cambiar en función register al endpoint register
+const localAPI = process.env.NEXT_PUBLIC_SIGNUP;
 
 export const login = (email, password) => async (dispatch) => {
   dispatch({
@@ -25,6 +25,8 @@ export const login = (email, password) => async (dispatch) => {
     }
 
     //TODO: aquí hay que pedir al usuario, pues aquí ya está autenticado!!!
+    //Aunque posiblemente podría hacerse desde [...nextAuth].js, investigar options
+
     // const response = await fetch(localAPI, {
     //   method: 'GET',
     //   headers: {
@@ -40,8 +42,6 @@ export const login = (email, password) => async (dispatch) => {
     //   payload: user,
     // });
 
-    // TODO: asignar tiempo de expiración de sesión
-
     //TODO: Investigar para qué es el bearer y si hay algo como eso en next auth
     // const response = await fetch(endPoints.auth.login, {
     //   method: 'GET',
@@ -55,9 +55,6 @@ export const login = (email, password) => async (dispatch) => {
     //   type: AUTH_USER,
     //   payload: user,
     // });
-
-    //If error on response.
-    //TODO: Al hacer api, enviar un error de respuesta para provar este manejo de error
   } catch (error) {
     dispatch({
       type: ERROR,
@@ -91,8 +88,6 @@ export const register = (email, password) => async (dispatch) => {
         payload: data.error,
       });
     }
-
-    //TODO: hacer manejo de guardado de token
 
     return dispatch({
       type: AUTH_USER,

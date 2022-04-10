@@ -12,11 +12,13 @@ const VERSION_CC = process.env.NEXT_PUBLIC_API_URL_CC_VERSION;
 const endPoints = {
   auth: {
     login: `${API}/api/${VERSION}/auth/login`,
-    //Ruta para obtener perfil de usuario luego de haber iniciado sesión
+    //Ruta para obtener perfil de usuario luego de haber iniciado sesión.
+    //TODO: pasar esta ruta a user y aquí solo dejar register, el cual cambiará de nombre a login
     profile: `${API}/api/${VERSION}/auth/profile`,
     //Cambiar nombre ruta register por login
     register: `${API_CC}/api/auth/signup`,
   },
+  user: {},
 };
 
 export default endPoints;

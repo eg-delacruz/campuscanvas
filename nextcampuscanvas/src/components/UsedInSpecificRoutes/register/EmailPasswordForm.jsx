@@ -42,7 +42,7 @@ const schema = yup.object().shape({
 });
 
 const emailPasswordForm = (props) => {
-  //console.log(props);
+  console.log(props);
   const router = useRouter();
 
   //Controlling inputs
