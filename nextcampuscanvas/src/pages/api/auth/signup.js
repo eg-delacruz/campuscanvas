@@ -1,3 +1,7 @@
+//TODO: Este archivo posiblemente se pueda eliminar y pasar lo que
+//está aquí a v1/user/index. Hacerlo luego de haber hecho el
+//get para un user con toda su estructura.
+
 //Response manager
 import { successResponse, errorResponse } from '@server/response';
 import Controller from '@server/components/auth/controller';

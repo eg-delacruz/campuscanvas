@@ -6,7 +6,7 @@
 // import response from '@server/response';
 
 // //Model
-// import User from '@server/components/user/model';
+// import User from '@server/components/auth/model';
 
 // dbConnect(config.dbURL);
 

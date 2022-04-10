@@ -1,6 +1,6 @@
 //Response manager
 import { successResponse, errorResponse } from '@server/response';
-import Controller from '@server/components/auth/controller';
+import Controller from '@server/components/user/controller';
 
 //Avoids CORS errors
 import NextCors from 'nextjs-cors';
@@ -13,19 +13,23 @@ export default async function handler(req, res) {
     optionsSuccessStatus: 200,
   });
 
-  const { method } = req;
+  const {
+    query: { user: id },
+    method,
+  } = req;
 
+  //TODO: Comprobar si pedir este user por query o por params (lectura en agenda)
   switch (method) {
     case 'GET':
       try {
-        const user = await Controller.getUser(req.body.email);
+        const user = await Controller.getUser(id);
         successResponse(req, res, user, 201);
       } catch (error) {
         errorResponse(req, res, 'Usuario no encontrado', 400, error);
       }
 
       break;
-    //TODO: aquí irá ruta de modificar user (PUT), la cual deberá recibir el id, aunque pensar si recibirlo por query y hacer otro archivo como ruta dinámica para las modificaciones
+    //TODO: aquí irá ruta de modificar user (PATCH), la cual deberá recibir el id por req.query.id --> Ver curso node con mongo params vs query
     default:
       errorResponse(req, res, 'Método no soportado', 400);
       break;

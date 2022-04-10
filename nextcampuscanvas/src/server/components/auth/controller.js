@@ -1,15 +1,6 @@
 import store from '@server/components/auth/store';
 import { hashPassword } from '@server/services/auth';
 
-function cleanUser(user) {
-  let userClean = user?.toObject();
-  delete userClean.password;
-  delete userClean.createdAt;
-  delete userClean.updatedAt;
-  delete userClean.__v;
-  return userClean;
-}
-
 const registerUser = (email, password) => {
   return new Promise(async (resolve, reject) => {
     if (!email || !password || !email.includes('@')) {
@@ -44,15 +35,6 @@ const registerUser = (email, password) => {
   });
 };
 
-const getUser = async (email) => {
-  try {
-    const requiredUser = await store.get(email);
-    return cleanUser(requiredUser);
-  } catch (error) {
-    throw new Error(error.message);
-  }
-};
-
 //Esta función no se usa, sin embargo, dejarla para ejemplos futuros
 const getUsers = () => {
   return new Promise((resolve, reject) => {
@@ -62,6 +44,5 @@ const getUsers = () => {
 
 module.exports = {
   registerUser,
-  getUser,
   getUsers,
 };

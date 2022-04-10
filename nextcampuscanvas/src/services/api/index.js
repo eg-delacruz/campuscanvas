@@ -14,7 +14,7 @@ const endPoints = {
     login: `${API}/api/${VERSION}/auth/login`,
     //Ruta para obtener perfil de usuario luego de haber iniciado sesión.
     //TODO: pasar esta ruta a user y aquí solo dejar register, el cual cambiará de nombre a login
-    profile: `${API}/api/${VERSION}/auth/profile`,
+    profile: (id) => `${API}/api/${VERSION}/user/${id}`,
     //Cambiar nombre ruta register por login
     register: `${API_CC}/api/auth/signup`,
   },
