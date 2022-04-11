@@ -11,6 +11,7 @@ const usersSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Por favor, ingresa una contraseña'],
     minlength: [6, 'La contraseña debe tener al menos 6 caracteres'],
+    //TODO:Ver qué es esto
     //No incluir maxlength porque el hash es más largo
     // validate: {
     //   validator: function (value) {

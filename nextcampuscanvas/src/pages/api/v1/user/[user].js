@@ -18,7 +18,8 @@ export default async function handler(req, res) {
     method,
   } = req;
 
-  //TODO: Comprobar si pedir este user por query o por params (lectura en agenda)
+  //Not being used atm, since next-auth gets the user from the session after login.
+  //To use it, we pass the id through the query of a GET request
   switch (method) {
     case 'GET':
       try {

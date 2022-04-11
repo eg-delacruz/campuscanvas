@@ -1,24 +1,20 @@
 //Aquí manejaremos todos los puntos de entrada de la API desde el FRONT!!
-//Ver: https://api.escuelajs.co/docs/#/
-//Cuando tenga mi propia api, hacer cambios pertinentes
 
-//No olvidar que en Vercel se pueden añadir allá las variables de entorno
-const API = process.env.NEXT_PUBLIC_API_URL;
-const VERSION = process.env.NEXT_PUBLIC_API_VERSION;
+//const API = process.env.NEXT_PUBLIC_API_URL;
+//const VERSION = process.env.NEXT_PUBLIC_API_VERSION;
 
-const API_CC = process.env.NEXT_PUBLIC_API_URL_CC;
-const VERSION_CC = process.env.NEXT_PUBLIC_API_URL_CC_VERSION;
+const API = process.env.NEXT_PUBLIC_API_URL_CC;
+const VERSION = process.env.NEXT_PUBLIC_API_URL_CC_VERSION;
 
 const endPoints = {
   auth: {
-    login: `${API}/api/${VERSION}/auth/login`,
-    //Ruta para obtener perfil de usuario luego de haber iniciado sesión.
-    //TODO: pasar esta ruta a user y aquí solo dejar register, el cual cambiará de nombre a login
-    profile: (id) => `${API}/api/${VERSION}/user/${id}`,
-    //Cambiar nombre ruta register por login
-    register: `${API_CC}/api/auth/signup`,
+    //TODO: borrar ruta de prueba
+    //login: `${API}/api/${VERSION}/auth/login`,
+    login: `${API}/api/auth/signup`,
   },
-  user: {},
+  user: {
+    getProfile: (id) => `${API}/api/${VERSION}/user/${id}`,
+  },
 };
 
 export default endPoints;

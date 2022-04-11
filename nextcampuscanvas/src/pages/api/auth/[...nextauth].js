@@ -22,7 +22,6 @@ export default NextAuth({
         const result = await User.findOne({
           email: credentials.email,
         });
-        console.log('NEXTAUTH', result);
 
         if (!result) {
           console.log('Usuario no encontrado');
@@ -47,12 +46,17 @@ export default NextAuth({
   ],
   callbacks: {
     jwt: async ({ token, user }) => {
-      //first time jwt callback is run, user object is available
+      //The user we get after validation is available here with all its properties and we can pass all properties
+      //needed to the token, which is available in the token object in the frontend
       if (user) {
-        token.id = 'test_1';
+        token.id = user._id;
+        token.email = user.email;
+        token.role = user.role;
       }
       return token;
     },
+    //Session contains the token and some pre-defined properties of the user (name,email, imgae)
+    //It also has the token with the user data we pass to it in the jwt callback
     session: (session, token) => {
       if (token) {
         session.id = token.id;
@@ -60,6 +64,7 @@ export default NextAuth({
       return session;
     },
   },
+  //TODO: leer que hace esto
   secret: 'test',
   jwt: {
     secret: 'test',

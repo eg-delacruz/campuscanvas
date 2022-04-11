@@ -42,7 +42,6 @@ const schema = yup.object().shape({
 });
 
 const emailPasswordForm = (props) => {
-  console.log(props);
   const router = useRouter();
 
   //Controlling inputs
@@ -66,13 +65,6 @@ const emailPasswordForm = (props) => {
         if (res?.payload === 'El email ya existe') {
           return false;
         }
-        console.log('Usuario registrado');
-        //TODO: Esto debería hacerse en reduxAction
-        signIn('credentials', {
-          redirect: false,
-          email: CORREO.value,
-          password: CONTRASENA.value,
-        });
         router.push('/');
       });
     } catch (error) {

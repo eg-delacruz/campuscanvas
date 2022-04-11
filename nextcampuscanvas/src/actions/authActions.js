@@ -1,11 +1,9 @@
 import { AUTH_USER, LOADING, ERROR } from '@reduxtypes/authTypes';
-import Cookie from 'js-cookie';
 import { signIn } from 'next-auth/react';
 
 //Endpoints
 import endPoints from '@services/api';
-//TODO: cambiar en función register al endpoint register
-const localAPI = process.env.NEXT_PUBLIC_SIGNUP;
+//const localAPI = process.env.NEXT_PUBLIC_SIGNUP;
 
 export const login = (email, password) => async (dispatch) => {
   dispatch({
@@ -17,6 +15,7 @@ export const login = (email, password) => async (dispatch) => {
       email: email,
       password: password,
     });
+
     if (auth.error) {
       return dispatch({
         type: ERROR,
@@ -24,23 +23,10 @@ export const login = (email, password) => async (dispatch) => {
       });
     }
 
-    //TODO: aquí hay que pedir al usuario, pues aquí ya está autenticado!!!
-    //Aunque posiblemente podría hacerse desde [...nextAuth].js, investigar options
-
-    // const response = await fetch(localAPI, {
-    //   method: 'GET',
-    //   headers: {
-    //     accept: '*/*',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({ email }),
-    // });
-    // const user = await response.json();
-    // console.log(user);
-    // dispatch({
-    //   type: AUTH_USER,
-    //   payload: user,
-    // });
+    dispatch({
+      type: AUTH_USER,
+      payload: null,
+    });
 
     //TODO: Investigar para qué es el bearer y si hay algo como eso en next auth
     // const response = await fetch(endPoints.auth.login, {
@@ -71,7 +57,7 @@ export const register = (email, password) => async (dispatch) => {
   });
 
   try {
-    const respuesta = await fetch(localAPI, {
+    const respuesta = await fetch(endPoints.auth.login, {
       method: 'POST',
       headers: {
         accept: '*/*',
@@ -89,9 +75,22 @@ export const register = (email, password) => async (dispatch) => {
       });
     }
 
+    const auth = await signIn('credentials', {
+      redirect: false,
+      email: email,
+      password: password,
+    });
+
+    if (auth.error) {
+      return dispatch({
+        type: ERROR,
+        payload: 'Usuario o contraseña incorrectos',
+      });
+    }
+
     return dispatch({
       type: AUTH_USER,
-      payload: data,
+      payload: null,
     });
 
     //If error on response.

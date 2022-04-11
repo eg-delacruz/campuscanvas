@@ -20,7 +20,7 @@ const getUser = async (id) => {
     const user = await User.findOne({ _id: id });
     return user;
   } else if (!exists) {
-    throw new Error('Usuario no encontrado');
+    throw new Error('[Store] Usuario no encontrado');
   }
 };
 

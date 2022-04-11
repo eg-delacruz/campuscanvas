@@ -18,6 +18,5 @@ const getUsers = async () => {
 
 module.exports = {
   add: addUser,
-  get: getUser,
   users: getUsers,
 };
