@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import Head from 'next/head';
 
 //Assets
 import Blog_Logo from '@assets/GeneralUse/Logos/Blog_logo.svg';
@@ -15,6 +14,7 @@ import PostTemplate from '@components/UsedInSpecificRoutes/Blog/PostTemplate/Pos
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import ErrorDisplayer from '@components/GeneralUseComponents/ErrorDisplayer/ErrorDisplayer';
+import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 //Redux actions
 import * as postsActions from '../../../actions/postsActions';
@@ -25,18 +25,6 @@ const BlogPost = (props) => {
   const {
     query: { id },
   } = router;
-
-  // const asignID = () => {
-  //   if (router.query.id) {
-  //     id = router.query.id;
-  //     return id;
-  //   }
-  //   id = router.asPath.substring('/blog/post/'.length);
-  //   console.log(id);
-  //   return id;
-  // };
-
-  // asignID();
 
   if (props.posts.length === 0 || props.posts === undefined) {
     props.getPosts();
@@ -60,7 +48,7 @@ const BlogPost = (props) => {
       </Layout>
     );
 
-  //Const used in ReactHelmet for SEO to define the author of the post in the description
+  //Const used for SEO to define the author of the post in the description
   let Author = 'el equipo de Campus Canvas';
   if (POST) {
     Author =
@@ -69,15 +57,12 @@ const BlogPost = (props) => {
 
   return (
     <>
-      <Head>
-        <title>Post | Campus Canvas</title>
-        <meta name='Post' content={`Post publicado por ${Author}`} />
-        {/* Prevents horizontal scroll due to animations on phone */}
-        <meta
-          name='viewport'
-          content='width=device-width, height=device-height, initial-scale=1.0'
-        />
-      </Head>
+      <SEOHeader
+        tabTitle={'Post'}
+        metaName={'Post'}
+        description={`Post publicado por ${Author}`}
+      />
+
       <Layout>
         <div className={styles.PostContainer}>
           <figure className={styles.Blog__logo}>

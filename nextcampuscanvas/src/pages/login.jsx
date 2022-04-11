@@ -1,11 +1,11 @@
 import React from 'react';
-import Head from 'next/head';
 import { connect } from 'react-redux';
 
 //Components
 import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
 import FooterSignature from '@components/GeneralUseComponents/FooterSignature/FooterSignature';
 import LoginForm from '@components/UsedInSpecificRoutes/Login/LoginForm';
+import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 //Styles
 import styles from '@pagestyles/Login.module.scss';
@@ -17,18 +17,11 @@ const { signIn } = authActions;
 const login = (props) => {
   return (
     <>
-      <Head>
-        <title>Login | Campus Canvas</title>
-        <meta
-          name='Login'
-          content='Inicia sesión para acceder a nuestros servicios'
-        />
-        {/* Prevents horizontal scroll due to animations on phone */}
-        <meta
-          name='viewport'
-          content='width=device-width, height=device-height, initial-scale=1.0'
-        />
-      </Head>
+      <SEOHeader
+        tabTitle={'Login frecuentes'}
+        metaName={'Login'}
+        description={'Inicia sesión para acceder a nuestros servicios'}
+      />
 
       <div className={styles.login__container}>
         <SecondaryHeader />

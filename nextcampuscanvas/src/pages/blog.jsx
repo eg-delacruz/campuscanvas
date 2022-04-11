@@ -1,5 +1,4 @@
 import React from 'react';
-import Head from 'next/head';
 import Image from 'next/image';
 
 //Styles
@@ -12,19 +11,16 @@ import Blog_title from '@assets/GeneralUse/Logos/Blog_logo.svg';
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import PostsTable from '@components/UsedInSpecificRoutes/Blog/BlogTable/PostsTable';
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
+import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 const BlogHome = () => {
   return (
     <>
-      <Head>
-        <title>Blog | Campus Canvas</title>
-        <meta name='Blog' content='Blog dedicado a la vida estudiantil' />
-        {/* Prevents horizontal scroll due to animations on phone */}
-        <meta
-          name='viewport'
-          content='width=device-width, height=device-height, initial-scale=1.0'
-        />
-      </Head>
+      <SEOHeader
+        tabTitle={'Blog'}
+        metaName={'Blog'}
+        description={'Blog dedicado a la vida estudiantil'}
+      />
 
       <Layout>
         <ButtonUp />

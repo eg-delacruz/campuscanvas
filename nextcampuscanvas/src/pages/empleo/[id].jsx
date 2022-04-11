@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 //Components
@@ -8,6 +7,7 @@ import JobTemplate from '@components/UsedInSpecificRoutes/Jobs/JobTemplate/JobTe
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import ErrorDisplayer from '@components/GeneralUseComponents/ErrorDisplayer/ErrorDisplayer';
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
+import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 //Redux actions
 import * as jobsActions from '../../actions/jobsActions';
@@ -50,18 +50,12 @@ const JobDescription = (props) => {
 
   return (
     <>
-      <Head>
-        <title>Empleo | Campus Canvas</title>
-        <meta
-          name='Empleo'
-          content='Descripción de posición de empleo en Campus Canvas'
-        />
-        {/* Prevents horizontal scroll due to animations on phone */}
-        <meta
-          name='viewport'
-          content='width=device-width, height=device-height, initial-scale=1.0'
-        />
-      </Head>
+      <SEOHeader
+        tabTitle={'Empleo'}
+        metaName={'Empleo'}
+        description={'Descripción de posición de empleo en Campus Canvas'}
+      />
+
       <Layout>
         <JobTemplate {...DESCRIPTION} />
       </Layout>

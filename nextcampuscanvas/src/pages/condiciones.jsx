@@ -1,5 +1,4 @@
 import React from 'react';
-import Head from 'next/head';
 
 //Styles
 import styles from '@pagestyles/TerminosCondiciones.module.scss';
@@ -7,22 +6,16 @@ import styles from '@pagestyles/TerminosCondiciones.module.scss';
 //Components
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
+import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 function TerminosCondiciones() {
   return (
     <>
-      <Head>
-        <title>Términos y condiciones | Campus Canvas</title>
-        <meta
-          name='Terminos y condiciones'
-          content='Estos son nuestros términos y condiciones'
-        />
-        {/* Prevents horizontal scroll due to animations on phone */}
-        <meta
-          name='viewport'
-          content='width=device-width, height=device-height, initial-scale=1.0'
-        />
-      </Head>
+      <SEOHeader
+        tabTitle={'Términos y condiciones'}
+        metaName={'Terminos y condiciones'}
+        description={'Estos son nuestros términos y condiciones'}
+      />
 
       <Layout>
         <div className={styles.body__gridcontainer}>

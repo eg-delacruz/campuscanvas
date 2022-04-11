@@ -1,5 +1,4 @@
 import React from 'react';
-import Head from 'next/head';
 
 //Styles
 import styles from '@pagestyles/Cookies.module.scss';
@@ -7,19 +6,16 @@ import styles from '@pagestyles/Cookies.module.scss';
 //Components
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
+import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 function Cookies() {
   return (
     <>
-      <Head>
-        <title>Cookies | Campus Canvas</title>
-        <meta name='Cookies' content='Declaración de cookies' />
-        {/* Prevents horizontal scroll due to animations on phone */}
-        <meta
-          name='viewport'
-          content='width=device-width, height=device-height, initial-scale=1.0'
-        />
-      </Head>
+      <SEOHeader
+        tabTitle={'Cookies'}
+        metaName={'Cookies'}
+        description={'Declaración de cookies'}
+      />
 
       <Layout>
         <div className={styles.body__gridContainer}>

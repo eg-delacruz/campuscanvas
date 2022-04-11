@@ -1,17 +1,11 @@
 import React from 'react';
-import Head from 'next/head';
 import { connect } from 'react-redux';
-import { useRouter } from 'next/router';
-
-//Form Validation
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 
 //Components
 import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
 import EmailPasswordForm from '@components/UsedInSpecificRoutes/register/EmailPasswordForm';
 import FooterSignature from '@components/GeneralUseComponents/FooterSignature/FooterSignature';
+import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 //Styles
 import styles from '@pagestyles/Registro.module.scss';
@@ -23,18 +17,13 @@ const { signIn } = authActions;
 const login = (props) => {
   return (
     <>
-      <Head>
-        <title>Login | Campus Canvas</title>
-        <meta
-          name='Login'
-          content='Inicia sesión para acceder a nuestros servicios'
-        />
-        {/* Prevents horizontal scroll due to animations on phone */}
-        <meta
-          name='viewport'
-          content='width=device-width, height=device-height, initial-scale=1.0'
-        />
-      </Head>
+      <SEOHeader
+        tabTitle={'Registro'}
+        metaName={'Registro de usuario'}
+        description={
+          'Regísrate en Campus Canvas y acceder a nuestros productos'
+        }
+      />
 
       <div className={styles.login__container}>
         <SecondaryHeader />

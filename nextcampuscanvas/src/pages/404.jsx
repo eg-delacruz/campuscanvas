@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import Head from 'next/head';
 
 //Styles
 import styles from '@pagestyles/404.module.scss';
@@ -11,22 +10,19 @@ import NotFoundImage from '@assets/PagesImages/NotFoundImages/NotFound404.svg';
 
 //Components
 import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
+import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 const NotFound404 = () => {
   return (
     <>
-      <Head>
-        <title>Page Not Found | Campus Canvas</title>
-        <meta
-          name='Página no encontrada'
-          content='No pudimos encontrar la página que buscabas. Puedes volver al Home.'
-        />
-        {/* Prevents horizontal scroll due to animations on phone */}
-        <meta
-          name='viewport'
-          content='width=device-width, height=device-height, initial-scale=1.0'
-        />
-      </Head>
+      <SEOHeader
+        tabTitle={'Página no encontrada'}
+        metaName={'Página no encontrada'}
+        description={
+          'No pudimos encontrar la página que buscabas. Puedes volver al Home.'
+        }
+      />
+
       <div className={styles['404__container']}>
         <SecondaryHeader />
         <main className={styles.main}>

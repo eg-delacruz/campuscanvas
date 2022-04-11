@@ -10,18 +10,11 @@ import Layout from '@components/GeneralUseComponents/Layout/Layout';
 const UniList = () => {
   return (
     <>
-      <Head>
-        <title>Universidades | Campus Canvas</title>
-        <meta
-          name='Universidades'
-          content='Lista de universidades y ubicaciones de repartición'
-        />
-        {/* Prevents horizontal scroll due to animations on phone */}
-        <meta
-          name='viewport'
-          content='width=device-width, height=device-height, initial-scale=1.0'
-        />
-      </Head>
+      <SEOHeader
+        tabTitle={'Universidades'}
+        metaName={'Universidades'}
+        description={'Lista de universidades y ubicaciones de repartición'}
+      />
 
       <Layout>
         <div className={`${styles.Universidades} container`}>

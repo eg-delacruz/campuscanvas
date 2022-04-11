@@ -9,7 +9,6 @@ import styles from '@pagestyles/ParaEmpresas.module.scss';
 import BagLogo from '@assets/GeneralUse/Logos/bag_logo.svg';
 import Bagsx2 from '@assets/PagesImages/EmpresasImages/2bags.png';
 import SectionDownButton from '@assets/GeneralUse/IconsAndButtons/section_down';
-import Head from 'next/head';
 
 //Images
 import upperBenefit1 from '@assets/PagesImages/EmpresasImages/upperBenefit_img_1.png';
@@ -29,23 +28,19 @@ import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import Card from '@components/GeneralUseComponents/Card--ImgTitleText/Card';
 import Patrocinadores from '@components/GeneralUseComponents/Carousel/Carousel';
+import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 function ParaEmpresas() {
   const router = useRouter();
   return (
     <>
-      <Head>
-        <title>Home | Campus Canvas</title>
-        <meta
-          name='Empresas'
-          content='Información para empresas sobre nuestros servicios y productos'
-        />
-        {/* Prevents horizontal scroll due to animations on phone */}
-        <meta
-          name='viewport'
-          content='width=device-width, height=device-height, initial-scale=1.0'
-        />
-      </Head>
+      <SEOHeader
+        tabTitle={'Empresas'}
+        metaName={'Empresas'}
+        description={
+          'Información para empresas sobre nuestros servicios y productos'
+        }
+      />
 
       <Layout>
         <div className={styles.body__gridContainer}>

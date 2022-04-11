@@ -11,19 +11,16 @@ import styles from '@pagestyles/Nosotros.module.scss';
 //Components
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
+import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 function Nosotros() {
   return (
     <>
-      <Head>
-        <title>Nosotros | Campus Canvas</title>
-        <meta name='Nosotros' content='Conoce quienes somos' />
-        {/* Prevents horizontal scroll due to animations on phone */}
-        <meta
-          name='viewport'
-          content='width=device-width, height=device-height, initial-scale=1.0'
-        />
-      </Head>
+      <SEOHeader
+        tabTitle={'Nosotros'}
+        metaName={'Nosotros'}
+        description={'Conoce quienes somos'}
+      />
 
       <Layout>
         <div>

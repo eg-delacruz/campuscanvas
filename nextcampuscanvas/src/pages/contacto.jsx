@@ -1,5 +1,4 @@
 import React from 'react';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 //Styles
@@ -8,6 +7,7 @@ import styles from '@pagestyles/Contacto.module.scss';
 //Components
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import ContactForm from '@components/UsedInSpecificRoutes/Contact/ContactForm/ContactForm';
+import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 //Assets
 import LinkedIn from '@assets/GeneralUse/IconsAndButtons/linkedIn_icon';
@@ -40,18 +40,12 @@ const Contacto = () => {
 
   return (
     <>
-      <Head>
-        <title>Contacto | Campus Canvas</title>
-        <meta
-          name='Contacto'
-          content='Contáctanos a través de nuestro formulario de contacto'
-        />
-        {/* Prevents horizontal scroll due to animations on phone */}
-        <meta
-          name='viewport'
-          content='width=device-width, height=device-height, initial-scale=1.0'
-        />
-      </Head>
+      <SEOHeader
+        tabTitle={'Contacto'}
+        metaName={'Contacto'}
+        description={'Contáctanos a través de nuestro formulario de contacto'}
+      />
+
       <Layout>
         <div className={styles.body__gridContainer}>
           {/* /////////////////////////

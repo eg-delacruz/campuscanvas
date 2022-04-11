@@ -14,7 +14,7 @@ import { verifyPassword } from '@server/services/auth';
 export default NextAuth({
   session: {
     strategy: 'jwt',
-    maxAge: 60 * 60 * 24 * 5, // 5 days
+    maxAge: 60 * 60 * 2 * 1, // 2 hours
   },
   providers: [
     CredentialsProvider({
@@ -65,7 +65,12 @@ export default NextAuth({
     },
   },
   //TODO: leer que hace esto
+  //Secret is a string that is used to sign the token
+  //Only the server knows this secret
+  //TODO:Should be saved in a .env file
+  //generate Secret in keygen.io/#fakeLink --> WEP 256-bit Key
   secret: 'test',
+  //jwt
   jwt: {
     secret: 'test',
     encryption: true,

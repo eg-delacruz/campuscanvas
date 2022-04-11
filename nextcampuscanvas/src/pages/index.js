@@ -20,6 +20,9 @@ import Distributon_house from '@assets/PagesImages/HomeImages/distribution_house
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import Carousel from '@components/GeneralUseComponents/Carousel/Carousel';
+import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
+
+//Session
 import { useSession } from 'next-auth/react';
 
 export default function Home() {
@@ -32,18 +35,11 @@ export default function Home() {
   console.log(session, loading);
   return (
     <>
-      <Head>
-        <title>Home | Campus Canvas</title>
-        <meta
-          name='Campus Canvas'
-          content='Bolsas publicitarias gratuitas para estudiantes'
-        />
-        {/* Prevents horizontal scroll due to animations on phone */}
-        <meta
-          name='viewport'
-          content='width=device-width, height=device-height, initial-scale=1.0'
-        />
-      </Head>
+      <SEOHeader
+        tabTitle={'Home'}
+        metaName={'Campus Canvas'}
+        description={'Bolsas publicitarias gratuitas para estudiantes'}
+      />
 
       <Layout>
         <ButtonUp />

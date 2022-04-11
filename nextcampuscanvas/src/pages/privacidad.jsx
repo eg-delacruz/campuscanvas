@@ -1,5 +1,4 @@
 import React from 'react';
-import Head from 'next/head';
 
 //Styles
 import styles from '@pagestyles/PoliticasPrivacidad.module.scss';
@@ -9,22 +8,16 @@ import styles from '@pagestyles/PoliticasPrivacidad.module.scss';
 //Components
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
+import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 function politicasPrivacidad() {
   return (
     <>
-      <Head>
-        <title>Privacidad | Campus Canvas</title>
-        <meta
-          name='Privacidad'
-          content='Estas son nuestras políticas de privacidad'
-        />
-        {/* Prevents horizontal scroll due to animations on phone */}
-        <meta
-          name='viewport'
-          content='width=device-width, height=device-height, initial-scale=1.0'
-        />
-      </Head>
+      <SEOHeader
+        tabTitle={'Privacidad'}
+        metaName={'Privacidad'}
+        description={'Estas son nuestras políticas de privacidad'}
+      />
 
       <Layout>
         <div className={styles.body__gridContainer}>

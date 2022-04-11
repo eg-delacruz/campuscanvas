@@ -1,5 +1,4 @@
 import React from 'react';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 //Styles
@@ -13,15 +12,11 @@ function Empleos() {
   const router = useRouter();
   return (
     <>
-      <Head>
-        <title>Empleos | Campus Canvas</title>
-        <meta name='Empleos' content='Aplica a un empleo en Campus Canvas' />
-        {/* Prevents horizontal scroll due to animations on phone */}
-        <meta
-          name='viewport'
-          content='width=device-width, height=device-height, initial-scale=1.0'
-        />
-      </Head>
+      <SEOHeader
+        tabTitle={'Empleos'}
+        metaName={'Empleos'}
+        description={'Aplica a un empleo en Campus Canvas'}
+      />
 
       <Layout>
         <div className={styles.body__gridContainer}>

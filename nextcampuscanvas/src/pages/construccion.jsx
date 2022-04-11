@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import Head from 'next/head';
 import Image from 'next/image';
 
 //Assets
@@ -15,18 +14,11 @@ import styles from '@pagestyles/Construccion.module.scss';
 function Construccion() {
   return (
     <>
-      <Head>
-        <title>Construcción | Campus Canvas</title>
-        <meta
-          name='En construcción'
-          content='Estamos trabajando en nuevas funcionalidades para ti.'
-        />
-        {/* Prevents horizontal scroll due to animations on phone */}
-        <meta
-          name='viewport'
-          content='width=device-width, height=device-height, initial-scale=1.0'
-        />
-      </Head>
+      <SEOHeader
+        tabTitle={'Construcción'}
+        metaName={'En construcción'}
+        description={'Estamos trabajando en nuevas funcionalidades para ti.'}
+      />
 
       <div className={styles.construction__container}>
         <SecondaryHeader />

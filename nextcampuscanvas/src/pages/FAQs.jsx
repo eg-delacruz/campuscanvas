@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import Head from 'next/head';
 
 //Styles
 import styles from '@pagestyles/FAQs.module.scss';
@@ -8,22 +7,16 @@ import styles from '@pagestyles/FAQs.module.scss';
 //Components
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
+import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 function FAQs() {
   return (
     <>
-      <Head>
-        <title>Preguntas frecuentes | Campus Canvas</title>
-        <meta
-          name='Preguntas frecuentes'
-          content='Preguntas frecuentes hechas por empresas y estudiantes'
-        />
-        {/* Prevents horizontal scroll due to animations on phone */}
-        <meta
-          name='viewport'
-          content='width=device-width, height=device-height, initial-scale=1.0'
-        />
-      </Head>
+      <SEOHeader
+        tabTitle={'Preguntas frecuentes'}
+        metaName={'Preguntas frecuentes'}
+        description={'Preguntas frecuentes hechas por empresas y estudiantes'}
+      />
 
       <Layout>
         <div>
