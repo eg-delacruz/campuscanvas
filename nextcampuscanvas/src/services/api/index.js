@@ -4,7 +4,7 @@ const API = process.env.NEXT_PUBLIC_API_URL;
 const VERSION = process.env.NEXT_PUBLIC_API_URL_VERSION;
 
 //Befor sending to production, change the API URL to the production one
-const LOCAL_API = process.env.NEXT_PUBLIC_LOCAL_HOST;
+const LOCAL_API = process.env.NEXT_PUBLIC_API_LOCAL;
 
 const endPoints = {
   auth: {

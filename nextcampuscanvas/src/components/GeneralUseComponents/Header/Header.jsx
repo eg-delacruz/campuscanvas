@@ -4,11 +4,19 @@ import Image from 'next/image';
 
 //Assets
 import Logo_Campus_Canvas from '@assets/GeneralUse/Logos/logo.svg';
+import logged_user_icon from '@assets/GeneralUse/IconsAndButtons/logged_user.svg';
 
 //Styles
 import styles from './Header.module.scss';
 
+//Session
+import { useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
+
 function Header() {
+  const { data: session, status } = useSession();
+  const loading = status === 'loading';
+
   const [menu, setMenu] = useState({
     isMenuOn: false,
   });
@@ -22,7 +30,7 @@ function Header() {
   };
 
   return (
-    <React.Fragment>
+    <>
       {/* Burguer Button */}
 
       <i
@@ -40,9 +48,10 @@ function Header() {
       <header className={styles['header']} id='header'>
         {/* Un estilo es scopped y el otro global, tener cuidado */}
         <div className={`${styles['header__container']} container`}>
-          <figure className={styles.header__logo}>
+          {/* Logo + logged user menu */}
+          <div className={styles.header__logo}>
             <Link href='/'>
-              <button>
+              <button className={styles.header__logo_button}>
                 <Image
                   height={55}
                   src={Logo_Campus_Canvas}
@@ -50,7 +59,23 @@ function Header() {
                 />
               </button>
             </Link>
-          </figure>
+
+            {/* Logged in user menu for bigger than 767px */}
+            {session && (
+              <div className={styles.header__logged_user_menu}>
+                <div className={styles.icon}>
+                  <Image src={logged_user_icon} />
+                </div>
+                <p>{session.token.email}</p>
+                <button
+                  onClick={() => signOut()}
+                  className={`${styles.logoutButton} btn button--red `}
+                >
+                  <Link href='/'>Log out</Link>
+                </button>
+              </div>
+            )}
+          </div>
 
           <nav
             onClick={() => hideMenu()}
@@ -60,7 +85,13 @@ function Header() {
                 : styles.menu
             }
           >
-            <ul className={styles.menu__list}>
+            <ul
+              className={
+                session
+                  ? `${styles.menu__list} ${styles['menu__list--logged']}`
+                  : styles.menu__list
+              }
+            >
               <li className={styles.menu__item}>
                 <Link href='/'>Home</Link>
               </li>
@@ -82,22 +113,46 @@ function Header() {
               </li>
             </ul>
 
-            <ul className={styles.menu__user}>
-              <Link href='/login'>
-                <li
-                  className={`${styles.menu__item} ${styles.menu__logButton} btn button--redRedborderTransparentHoverShadowtRed`}
-                >
-                  Login
+            {/* /////////////////////////
+            //     Login buttons      //
+            ///////////////////////// */}
+
+            {!loading && !session && (
+              <ul className={styles.loginMenu}>
+                <Link href='/login'>
+                  <li
+                    className={`${styles.loginMenu__item} ${styles.menu__logButton} btn button--redRedborderTransparentHoverShadowtRed`}
+                  >
+                    Login
+                  </li>
+                </Link>
+                <li className={`${styles.loginMenu__item} btn button--red `}>
+                  <Link href='/registro'>Registrarse</Link>
                 </li>
-              </Link>
-              <li className={`${styles.menu__item} btn button--red `}>
-                <Link href='/registro'>Registrarse</Link>
-              </li>
-            </ul>
+              </ul>
+            )}
+
+            {/* This part only displays in the curtain menu */}
+            {session && (
+              <section className={styles.userMenu__767}>
+                <div className={styles.user__info}>
+                  <div className={styles.user__icon}>
+                    <Image src={logged_user_icon} />
+                  </div>
+                  <p>{session.token.email}</p>
+                </div>
+                <div
+                  onClick={() => signOut()}
+                  className={`${styles.signoutButton} btn button--red `}
+                >
+                  <Link href='/'>Log out</Link>
+                </div>
+              </section>
+            )}
           </nav>
         </div>
       </header>
-    </React.Fragment>
+    </>
   );
 }
 

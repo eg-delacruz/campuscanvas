@@ -11,7 +11,9 @@
 
     .header__logo {
       margin: auto 0;
-      button {
+      display: flex;
+      justify-content: space-between;
+      .header__logo_button {
         background-color: transparent;
         border: 0px;
         cursor: pointer;
@@ -22,15 +24,50 @@
   }
 }
 
-.menu,
-.menu__item {
+/////////////////////////////////
+// logged in user menu (right) //
+/////////////////////////////////
+//Disabled in 767 screen
+.header__logged_user_menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  .icon {
+    margin-right: 8px;
+  }
+  p {
+    margin: 0;
+    font-weight: 700;
+  }
+  .logoutButton {
+    padding: 8px;
+    height: inherit;
+    margin-left: 8px;
+  }
+  .logoutButton a {
+    text-decoration: none;
+    color: $color--white;
+    height: inherit;
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    cursor: pointer;
+  }
+}
+
+/////////////////////////
+//    General menu     //
+/////////////////////////
+
+.menu {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: inherit;
+  height: 40px;
 }
 
-//Estilos menu general
+//Estilos menu general unlogged
 .menu__list {
   display: flex;
   align-items: center;
@@ -39,6 +76,14 @@
   padding: 0;
   height: inherit;
   margin: 0;
+  .menu__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: inherit;
+    margin-right: 85px;
+    cursor: pointer;
+  }
   .menu__item a,
   .menu__item div {
     text-decoration: none;
@@ -47,24 +92,24 @@
     display: flex;
     align-items: center;
     font-weight: 700;
-    margin-right: 85px;
-    cursor: pointer;
   }
 }
 
-//Estilos menu user
-.menu__user {
+/////////////////////////
+//    Login buttons    // (login + registrarse)
+/////////////////////////
+
+.loginMenu {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0;
   margin: 0;
-  .menu__item {
+  .loginMenu__item {
     padding: 10px;
-    height: inherit;
     margin-left: 8px;
   }
-  .menu__item a {
+  .loginMenu__item a {
     text-decoration: none;
     color: $color--white;
     height: inherit;
@@ -76,6 +121,11 @@
   .menu__logButton a {
     color: $color--black;
   }
+}
+
+//Disabling logged in user menu that ONLY DISPLAYS in the 767px menu
+.userMenu__767 {
+  display: none;
 }
 
 .menu__list a:hover,
@@ -117,19 +167,32 @@
 //         MQ          //
 /////////////////////////
 @media screen and (max-width: 930px) {
+  //Estilos menú general unlogged
   .menu__list {
-    .menu__item a,
-    .menu__item div {
-      margin-right: 50px;
+    .menu__item {
+      margin-right: 75px;
+    }
+  }
+  //Estilos menu general logged
+  .menu__list--logged {
+    .menu__item {
+      margin-right: 90px;
     }
   }
 }
 
 @media screen and (max-width: 880px) {
+  //Estilos menú general unlogged
   .menu__list {
-    .menu__item a,
-    .menu__item div {
+    .menu__item {
       margin-right: 45px;
+    }
+  }
+  //Estilos menu general logged, dejar justo de lo estilos para logged
+  //para que este tenga más valor y se sobreescriba
+  .menu__list--logged {
+    .menu__item {
+      margin-right: 100px;
     }
   }
 }
@@ -137,6 +200,10 @@
 @media screen and (max-width: 767px) {
   .burguer__button {
     display: flex;
+  }
+  //Disabling logged in user menu next to logo for screens smaller than 767px
+  .header__logged_user_menu {
+    display: none;
   }
 
   .header .header__container {
@@ -193,23 +260,56 @@
       }
     }
 
-    .menu__user {
+    /////////////////////////
+    //    Login buttons    // (login + registrarse)
+    /////////////////////////
+
+    .loginMenu {
       display: flex;
       flex-direction: column;
       justify-content: center;
       height: auto;
       width: 100%;
+      .loginMenu__item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 4px 0;
+        height: 40px;
+        width: 50%;
+      }
+      .menu__logButton {
+        background-color: $color--white;
+      }
     }
-    .menu__item {
+
+    /////////////////////////
+    //  userMenu for 767   // (userinfo + logout)
+    /////////////////////////
+
+    //Enabling and styling logged in user menu
+    //inside nav for screen smaller than 767px
+    .userMenu__767 {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      margin: 4px 0;
-      height: 40px;
-      width: 50%;
-    }
-    .menu__logButton {
-      background-color: $color--white;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      .user__info {
+        display: flex;
+        align-items: center;
+        .user__icon {
+          margin-right: 8px;
+        }
+        p {
+          font-weight: 700;
+        }
+      }
+      .signoutButton a {
+        color: $color--white;
+        text-decoration: none;
+      }
     }
   }
 
@@ -218,13 +318,26 @@
   }
 }
 @media screen and (max-width: 480px) {
-  .menu__item {
-    width: 70%;
-    height: 60px;
+  .menu {
+    .menu__list {
+      .menu__item {
+        width: 70%;
+      }
+    }
   }
 }
 @media screen and (max-width: 320px) {
-  .menu__item {
-    width: 90%;
+  .menu {
+    .menu__list {
+      .menu__item {
+        width: 90%;
+      }
+    }
+
+    .loginMenu {
+      .loginMenu__item {
+        width: 60%;
+      }
+    }
   }
 }

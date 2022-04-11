@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24.508" height="30.61" viewBox="0 0 24.508 30.61">
+  <g id="Group_675" data-name="Group 675" transform="translate(-944.87 -180)">
+    <g id="Group_674" data-name="Group 674" transform="translate(944.87 180)">
+      <g id="Group_673" data-name="Group 673">
+        <path id="Icon_awesome-user-graduate" data-name="Icon awesome-user-graduate" d="M17.473,17.538l-5.219,5.219L7.035,17.538A7.336,7.336,0,0,0,0,24.858v.525a2.627,2.627,0,0,0,2.626,2.626H21.882a2.627,2.627,0,0,0,2.626-2.626v-.525A7.336,7.336,0,0,0,17.473,17.538ZM.744,4.365l.35.082V7.642A1.264,1.264,0,0,0,1.045,9.83L.191,13.238C.1,13.616.306,14,.607,14H2.894c.3,0,.509-.388.416-.766L2.456,9.83a1.264,1.264,0,0,0-.049-2.188V4.764l3.611.87A6.99,6.99,0,1,0,19.256,8.752a6.877,6.877,0,0,0-.766-3.118l5.268-1.269a.87.87,0,0,0,0-1.723L13.343.125a4.7,4.7,0,0,0-2.172,0L.744,2.636a.874.874,0,0,0,0,1.729Z" transform="translate(0 2.601)" fill="#5b0791"/>
+        <circle id="Ellipse_277" data-name="Ellipse 277" cx="4" cy="4" r="4" transform="translate(11.942)" fill="#49a73d"/>
+      </g>
+    </g>
+  </g>
+</svg>
