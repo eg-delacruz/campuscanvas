@@ -119,7 +119,7 @@ function Header() {
 
             {!loading && !session && (
               <ul className={styles.loginMenu}>
-                <Link href='/login'>
+                <Link href='/auth/login'>
                   <li
                     className={`${styles.loginMenu__item} ${styles.menu__logButton} btn button--redRedborderTransparentHoverShadowtRed`}
                   >
@@ -127,7 +127,7 @@ function Header() {
                   </li>
                 </Link>
                 <li className={`${styles.loginMenu__item} btn button--red `}>
-                  <Link href='/registro'>Registrarse</Link>
+                  <Link href='/auth/registro'>Registrarse</Link>
                 </li>
               </ul>
             )}
