@@ -10,7 +10,6 @@ dbConnect(config.dbURL);
 import User from '@server/components/auth/model';
 
 import { verifyPassword } from '@server/services/auth';
-// TODO: asignar tiempo de expiración de sesión
 export default NextAuth({
   session: {
     strategy: 'jwt',
@@ -53,7 +52,7 @@ export default NextAuth({
       }
       return token;
     },
-    //Session contains the token and some pre-defined properties of the user (name,email, imgae)
+    //Session contains the token and some pre-defined properties of the user (name,email, imagae)
     //It also has the token with the user data we pass to it in the jwt callback
     session: (session, token) => {
       if (token) {
@@ -62,17 +61,15 @@ export default NextAuth({
       return session;
     },
   },
-  //TODO: leer que hace esto
   //Secret is a string that is used to sign the token
   //Only the server knows this secret
-  //TODO:Should be saved in a .env file
-  //generate Secret in keygen.io/#fakeLink --> WEP 256-bit Key
   secret: process.env.JWT_SECRET,
   //jwt
   jwt: {
     secret: process.env.JWT_SECRET,
     encryption: true,
   },
+  //TODO: not sure what this does, try commenting it and see what happens
   pages: {
     signIn: '/registro',
   },

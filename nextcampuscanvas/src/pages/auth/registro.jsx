@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 //Components
 import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
-import EmailPasswordForm from '@components/UsedInSpecificRoutes/register/EmailPasswordForm';
 import FooterSignature from '@components/GeneralUseComponents/FooterSignature/FooterSignature';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
+import EmailPasswordForm from '@components/UsedInSpecificRoutes/register/step1/EmailPasswordForm';
+import DataForm from '@components/UsedInSpecificRoutes/register/step2/DataForm';
 
 //Styles
 import styles from '@pagestyles/Registro.module.scss';
@@ -15,6 +16,7 @@ import * as authActions from '@actions/authActions';
 const { signIn } = authActions;
 
 const login = (props) => {
+  const [step, setStep] = useState(1);
   return (
     <>
       <SEOHeader
@@ -30,10 +32,10 @@ const login = (props) => {
 
         <main className={styles.main}>
           <div className={styles.main__container}>
-            <EmailPasswordForm />
+            {step === 1 && <EmailPasswordForm setStep={setStep} />}
+            {step === 2 && <DataForm setStep={setStep} />}
           </div>
         </main>
-
         <FooterSignature />
       </div>
     </>

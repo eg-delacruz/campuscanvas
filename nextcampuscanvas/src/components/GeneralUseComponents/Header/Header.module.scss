@@ -1,4 +1,5 @@
 @import '../../../styles/Vars.scss';
+@import '../../../styles/Animations/session.module.scss';
 
 /////////////////////////
 //       Header        //
@@ -101,7 +102,12 @@
 /////////////////////////
 //    Login buttons    // (login + registrarse)
 /////////////////////////
-
+.loading {
+  animation: sessionFadeOut();
+}
+.loaded {
+  animation: sessionFadeIn();
+}
 .loginMenu {
   display: flex;
   align-items: center;

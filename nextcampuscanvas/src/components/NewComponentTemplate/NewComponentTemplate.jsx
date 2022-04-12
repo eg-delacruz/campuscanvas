@@ -1,7 +1,7 @@
 import React from 'react';
 
 //Styles
-import './NewComponentTemplate.module.scss';
+import styles from './NewComponentTemplate.module.scss';
 
 const NewComponentTemplate = () => {
   return (

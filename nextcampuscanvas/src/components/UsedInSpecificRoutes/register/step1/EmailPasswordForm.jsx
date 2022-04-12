@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
-import { signIn } from 'next-auth/react';
 
 //Form Validation
 import { useForm } from 'react-hook-form';
@@ -23,7 +22,8 @@ const { register } = authActions;
 
 //Form validation
 const schema = yup.object().shape({
-  //Name of inputs should match these keys
+  //Name and id of inputs, as well
+  //as htmlFor of labels has to match these keys
   correo: yup
     .string()
     .email('Escribe una dirección de correo válida')
@@ -65,7 +65,8 @@ const emailPasswordForm = (props) => {
         if (res?.payload === 'El email ya existe') {
           return false;
         }
-        router.push('/');
+        //router.push('/');
+        props.setStep(2);
       });
     } catch (error) {
       console.log(error);

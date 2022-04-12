@@ -118,7 +118,11 @@ function Header() {
             ///////////////////////// */}
 
             {!loading && !session && (
-              <ul className={styles.loginMenu}>
+              <ul
+                className={`${styles.loginMenu} ${
+                  !session && loading ? styles.loading : styles.loaded
+                }`}
+              >
                 <Link href='/auth/login'>
                   <li
                     className={`${styles.loginMenu__item} ${styles.menu__logButton} btn button--redRedborderTransparentHoverShadowtRed`}
