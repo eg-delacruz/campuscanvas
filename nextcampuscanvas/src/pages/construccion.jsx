@@ -7,6 +7,7 @@ import Construccion_img from '@assets/PagesImages/ConstructionImages/under_const
 
 //Components
 import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
+import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 //Styles
 import styles from '@pagestyles/Construccion.module.scss';

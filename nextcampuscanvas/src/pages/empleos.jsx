@@ -7,6 +7,7 @@ import styles from '@pagestyles/Empleos.module.scss';
 //Components
 import TablaEmpleos from '@components/UsedInSpecificRoutes/Jobs/TablaEmpleos/TablaEmpleos';
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
+import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 function Empleos() {
   const router = useRouter();

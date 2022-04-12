@@ -126,9 +126,11 @@ function Header() {
                     Login
                   </li>
                 </Link>
-                <li className={`${styles.loginMenu__item} btn button--red `}>
-                  <Link href='/auth/registro'>Registrarse</Link>
-                </li>
+                <Link href='/auth/registro'>
+                  <li className={`${styles.loginMenu__item} btn button--red `}>
+                    Registrarse
+                  </li>
+                </Link>
               </ul>
             )}
 
