@@ -38,9 +38,7 @@ export default NextAuth({
           throw new Error('Contraseña incorrecta');
         }
         console.log('Login OK');
-        //No estoy seguro de cómo acceder a esto en el front
         return result;
-        return { email: result.email };
       },
     }),
   ],
@@ -69,10 +67,10 @@ export default NextAuth({
   //Only the server knows this secret
   //TODO:Should be saved in a .env file
   //generate Secret in keygen.io/#fakeLink --> WEP 256-bit Key
-  secret: 'test',
+  secret: process.env.JWT_SECRET,
   //jwt
   jwt: {
-    secret: 'test',
+    secret: process.env.JWT_SECRET,
     encryption: true,
   },
   pages: {

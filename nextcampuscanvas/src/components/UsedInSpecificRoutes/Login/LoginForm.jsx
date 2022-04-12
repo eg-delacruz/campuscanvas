@@ -80,7 +80,7 @@ const LoginForm = (props) => {
         <Link href='/construccion'>¿Olvidaste tu contraseña?</Link>
         <p>
           ¿Aún no tienes una cuenta?{' '}
-          <Link href='/registro'>Regístrate aquí</Link>
+          <Link href='/auth/registro'>Regístrate aquí</Link>
         </p>
         <button type='submit' className='btn button--red'>
           Iniciar sesión

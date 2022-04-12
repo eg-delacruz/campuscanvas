@@ -39,6 +39,9 @@
   p {
     margin: 0;
     font-weight: 700;
+    background-color: $color--light-gray;
+    padding: 0 8px;
+    border-radius: 5px;
   }
   .logoutButton {
     padding: 8px;
@@ -299,16 +302,29 @@
       .user__info {
         display: flex;
         align-items: center;
+        padding: 0px 8px;
+        margin-bottom: 8px;
+        border-radius: 5px;
+        // glasmorphism
+        background: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
         .user__icon {
           margin-right: 8px;
         }
         p {
           font-weight: 700;
+          margin: 0;
         }
       }
-      .signoutButton a {
-        color: $color--white;
-        text-decoration: none;
+      .signoutButton {
+        padding: 8px 30px;
+        a {
+          color: $color--white;
+          text-decoration: none;
+        }
       }
     }
   }

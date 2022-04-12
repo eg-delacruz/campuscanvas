@@ -158,7 +158,7 @@ const emailPasswordForm = (props) => {
           ¿Olvidaste tu contraseña?
         </Link>
         <p>
-          ¿Ya tienes una cuenta? <Link href='/login'>Accede aquí</Link>
+          ¿Ya tienes una cuenta? <Link href='/auth/login'>Accede aquí</Link>
         </p>
         <button type='submit' className='btn button--red'>
           Continuar
