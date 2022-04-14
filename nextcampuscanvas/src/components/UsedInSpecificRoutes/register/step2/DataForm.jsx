@@ -11,6 +11,9 @@ import { useInputValue } from '@hooks/useInputValue';
 //Styles
 import styles from './DataForm.module.scss';
 
+//Databases for datalists
+import studentInfoDatabase from '@databases/studentInfoDatabase';
+
 const DataForm = (props) => {
   //Controlling inputs
   const GENERO = useInputValue('');
@@ -18,17 +21,16 @@ const DataForm = (props) => {
   const UNIVERSIDAD = useInputValue('');
   const FACULTAD = useInputValue('');
 
-  let UNIVERSITIES = ['Complu', 'Juan Carlos', 'Rey Tercero', 'Carlos 3'];
-  let FACULTIES = ['Medicina', 'Fisica', 'Matematicas', 'Ciencias'];
-  let GENDERS = ['Masculino', 'Femenino', 'Diverso'];
+  let UNIVERSITIES = studentInfoDatabase.UNIVERSITIES;
+  let FACULTIES = studentInfoDatabase.FACULTIES;
+  let GENDERS = studentInfoDatabase.GENDERS;
 
   const handleSubmit = (e) => {
-    {
-      /* TODO: Enviar toda esta info a través de redux sin que haya estado de
-      cargando, pues esta info se siempre estará correcta al 
-      estar siendo validada aquí. Directamente actualizar el estado
-      para continuar. Redux no debe hacer ningún tipo de dispatch */
-    }
+    // TODO: Enviar toda esta info a través de redux sin que haya estado de
+    //cargando, pues esta info se siempre estará correcta al
+    //estar siendo validada aquí. Directamente actualizar el estado
+    //para continuar. Redux no debe hacer ningún tipo de dispatch
+
     e.preventDefault();
     setError(null);
     if (!GENDERS.includes(GENERO.value)) {
@@ -43,12 +45,14 @@ const DataForm = (props) => {
       setError('Debes escoger una facultad de la lista');
       return false;
     }
+    //TODO: quitar este console.log al terminar
     console.log({
       Genero: GENERO.value,
       Nombre: NOMBRE.value,
       Universidad: UNIVERSIDAD.value,
       Facultad: FACULTAD.value,
     });
+    props.setStep(3);
   };
 
   const [error, setError] = useState(null);
@@ -67,7 +71,6 @@ const DataForm = (props) => {
       <label htmlFor='genero' className={styles.list_label}>
         <input
           required
-          // className={styles.list__input}
           list='generos'
           id='genero'
           name='genero'
@@ -97,7 +100,6 @@ const DataForm = (props) => {
       <label htmlFor='universidad' className={styles.list_label}>
         <input
           required
-          // className={styles.list__input}
           list='universidades'
           id='universidad'
           name='universidad'
@@ -117,7 +119,6 @@ const DataForm = (props) => {
       <label htmlFor='facultad' className={styles.list_label}>
         <input
           required
-          // className={styles.list__input}
           list='facultades'
           id='facultad'
           name='facultad'

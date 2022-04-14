@@ -8,7 +8,7 @@
       "@actions/*": ["actions/*"],
       "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
-      "@databases/*": ["databases/*"],
+      "@databases/*": ["Databases/*"],
       "@reducers/*": ["reducers/*"],
       "@reduxtypes/*": ["reduxtypes/*"],
       "@utilities/*": ["utilities/*"],

@@ -7,6 +7,7 @@ import FooterSignature from '@components/GeneralUseComponents/FooterSignature/Fo
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 import EmailPasswordForm from '@components/UsedInSpecificRoutes/register/step1/EmailPasswordForm';
 import DataForm from '@components/UsedInSpecificRoutes/register/step2/DataForm';
+import StudentConfirmForm from '@components/UsedInSpecificRoutes/register/step3/StudentConfirmForm';
 
 //Styles
 import styles from '@pagestyles/Registro.module.scss';
@@ -34,6 +35,7 @@ const login = (props) => {
           <div className={styles.main__container}>
             {step === 1 && <EmailPasswordForm setStep={setStep} />}
             {step === 2 && <DataForm setStep={setStep} />}
+            {step === 3 && <StudentConfirmForm setStep={setStep} />}
           </div>
         </main>
         <FooterSignature />

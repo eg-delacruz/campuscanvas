@@ -34,7 +34,13 @@ export default async function handler(req, res) {
         successResponse(req, res, user, 201);
       } catch (error) {
         if (error.message?.includes('duplicate key')) {
-          errorResponse(req, res, 'El email ya existe', 400, error);
+          errorResponse(
+            req,
+            res,
+            'Este email ya ha sido registrado anteriormente',
+            400,
+            error
+          );
         } else if (error.message === 'Los datos son incorrectos') {
           errorResponse(req, res, 'Los datos son incorrectos', 422, error);
         } else {

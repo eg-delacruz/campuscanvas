@@ -8,7 +8,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 //Components
-import Loader from '@components/GeneralUseComponents/Loader/Loader';
 
 //hooks
 import { useInputValue } from '@hooks/useInputValue';
@@ -62,7 +61,7 @@ const emailPasswordForm = (props) => {
   const submitFunction = (e) => {
     try {
       props.register(CORREO.value, CONTRASENA.value).then((res) => {
-        if (res?.payload === 'El email ya existe') {
+        if (res?.payload === 'Este email ya ha sido registrado anteriormente') {
           return false;
         }
         //router.push('/');
@@ -72,8 +71,6 @@ const emailPasswordForm = (props) => {
       console.log(error);
     }
   };
-
-  if (props.loading) return <Loader />;
 
   return (
     <form
@@ -154,14 +151,18 @@ const emailPasswordForm = (props) => {
             //       Buttons        //
             ///////////////////////// */}
       <div className={styles.buttons}>
-        {/* TODO: ver si este _blank funciona con la Link tag */}
-        <Link target='_blank' href='/construccion'>
-          ¿Olvidaste tu contraseña?
-        </Link>
+        <Link href='/construccion'>¿Olvidaste tu contraseña?</Link>
         <p>
           ¿Ya tienes una cuenta? <Link href='/auth/login'>Accede aquí</Link>
         </p>
-        <button type='submit' className='btn button--red'>
+        <button
+          type='submit'
+          className={`${
+            props.loading && styles.buttonLoading
+          }  btn button--red`}
+          disabled={props.loading}
+        >
+          <div className={`${props.loading && styles.dot_flashing} `}></div>
           Continuar
         </button>
       </div>

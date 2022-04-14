@@ -1,0 +1,106 @@
+@import '../../../../styles/Vars.scss';
+
+.form {
+  max-width: 490px;
+  align-self: center;
+  vertical-align: center;
+  /////////////////////////
+  // after sent elements //
+  /////////////////////////
+  .sent__message {
+    margin: 50px auto;
+  }
+  .sent__resendOption {
+    @include font-size(14px);
+    margin: 0;
+    span {
+      font-weight: 700;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+  /////////////////////////////
+  h1 {
+    margin: 0;
+  }
+  h4 {
+    margin: 0;
+  }
+  .form__subtitle {
+    margin: 0;
+    margin-bottom: 15px;
+  }
+
+  input {
+    width: 100%;
+    background-color: $color--secondary-light;
+    border: 1px solid $color--black;
+    height: 45px;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 8px;
+  }
+  .confirmationContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 50px 0;
+    .iconContainer {
+      margin-right: 8px;
+      padding-top: 5px;
+    }
+    label {
+      @include font-size(16px);
+      width: 100%;
+    }
+  }
+
+  //Possitioning validation error messages if value not included in datalists
+  // .list_label {
+  //   position: relative;
+  // }
+
+  .inputText__errors {
+    color: red;
+    margin: 0;
+    position: relative;
+    top: -42px;
+    font-weight: bold;
+    // margin-top: -20px;
+  }
+
+  //Buttons
+  .continueButton {
+    position: relative;
+    .nextArrowContainer {
+      position: absolute;
+      top: 16px;
+      right: 10px;
+    }
+  }
+  .contactButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}

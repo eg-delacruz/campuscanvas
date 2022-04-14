@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
 
 //Components
-import Loader from '@components/GeneralUseComponents/Loader/Loader';
 
 //Styles
 import styles from './LoginForm.module.scss';
@@ -41,7 +40,6 @@ const LoginForm = (props) => {
     }
   };
 
-  if (props.loading) return <Loader />;
   return (
     <form
       onSubmit={handleSubmit}
@@ -52,7 +50,7 @@ const LoginForm = (props) => {
       <h1>¡Bienvenido!</h1>
       <h4>Inicia sesión con tu correo y tu contraseña</h4>
 
-      <label htmlFor='correo'> Correo universitario</label>
+      <label htmlFor='correo'> Correo</label>
 
       <input
         name='correo'
@@ -82,7 +80,14 @@ const LoginForm = (props) => {
           ¿Aún no tienes una cuenta?{' '}
           <Link href='/auth/registro'>Regístrate aquí</Link>
         </p>
-        <button type='submit' className='btn button--red'>
+        <button
+          type='submit'
+          className={`${
+            props.loading && styles.buttonLoading
+          }  btn button--red`}
+          disabled={props.loading}
+        >
+          <div className={`${props.loading && styles.dot_flashing} `}></div>
           Iniciar sesión
         </button>
       </div>

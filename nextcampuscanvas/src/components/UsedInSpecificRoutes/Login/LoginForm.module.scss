@@ -36,6 +36,28 @@
     }
     button {
       margin-top: 10px;
+      position: relative;
+      .dot_flashing {
+        position: absolute;
+        top: -4px;
+        right: -2px;
+        width: 12px;
+        height: 12px;
+        border-radius: 10px;
+        animation: dotFlashing 0.25s infinite ease alternate;
+      }
+      @keyframes dotFlashing {
+        0% {
+          background-color: $color--primary2;
+        }
+        100% {
+          background-color: $color--primary2-light2;
+        }
+      }
+    }
+    .buttonLoading {
+      background-color: rgba(173, 33, 70, 0.4);
+      cursor: default;
     }
   }
 }
