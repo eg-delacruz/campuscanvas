@@ -7,7 +7,7 @@ import config from '@server/config';
 dbConnect(config.dbURL);
 
 //Model
-import User from '@server/components/auth/model';
+import User from '@server/components/user/model';
 
 import { verifyPassword } from '@server/services/auth';
 export default NextAuth({
@@ -69,8 +69,7 @@ export default NextAuth({
     secret: process.env.JWT_SECRET,
     encryption: true,
   },
-  //TODO: not sure what this does, try commenting it and see what happens
-  pages: {
-    signIn: '/registro',
-  },
+  // pages: {
+  //   signIn: '/registro',
+  // },
 });

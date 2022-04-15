@@ -1,0 +1,1 @@
+Change auth.js name to passEncript.js

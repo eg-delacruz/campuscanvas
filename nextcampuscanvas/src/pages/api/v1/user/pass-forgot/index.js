@@ -1,13 +1,12 @@
-//TODO: Este archivo posiblemente se pueda eliminar y pasar lo que
-//está aquí a v1/user/index. Hacerlo luego de haber hecho el
-//get para un user con toda su estructura.
-
 //Response manager
 import { successResponse, errorResponse } from '@server/response';
-import Controller from '@server/components/auth/controller';
+import Controller from '@server/components/user/controller';
+import jwt from 'jsonwebtoken';
 
 //Avoids CORS errors
 import NextCors from 'nextjs-cors';
+
+//TODO: en caso de recibir un query, renombrar este archivo a [pass-forgot].js o [...pass-forgot].js
 
 export default async function handler(req, res) {
   await NextCors(req, res, {
@@ -17,19 +16,32 @@ export default async function handler(req, res) {
     optionsSuccessStatus: 200,
   });
 
-  const { method } = req;
+  const {
+    //query: { user: id },
+    method,
+  } = req;
 
   switch (method) {
-    //Only POST method is allowed
+    //Equeals to the GET forgot-password
+    case 'GET':
+      try {
+        //const user = await Controller.getUser(id);
+        //console.log(user);
+        successResponse(req, res, 'Holi', 201);
+      } catch (error) {
+        errorResponse(req, res, 'Usuario no encontrado', 400, error);
+      }
+
+      break;
+
     case 'POST':
       try {
-        const newUser = await Controller.registerUser(
-          req.body.email,
-          req.body.password
-        );
-        //antes de pasar user borrar el password
-        let user = newUser.toObject();
-        delete user.password;
+        //const newUser = await Controller.registerUser(
+        //req.body.email,
+        //req.body.password
+        //);
+
+        // let user = newUser.toObject();
 
         successResponse(req, res, user, 201);
       } catch (error) {
@@ -41,8 +53,6 @@ export default async function handler(req, res) {
             400,
             error
           );
-        } else if (error.message === 'Los datos son incorrectos') {
-          errorResponse(req, res, 'Los datos son incorrectos', 422, error);
         } else {
           errorResponse(req, res, 'Mensaje interno del servidor', 400, error);
         }

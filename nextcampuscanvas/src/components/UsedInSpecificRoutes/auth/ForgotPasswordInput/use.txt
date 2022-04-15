@@ -1,0 +1,3 @@
+Este archivo es para facilitar la creación de nuevos componentes, pues se pueden copiar y pegar
+los archivos en esta carpeta, para posteriormente hacer los cambios pertinentes y a partir de ellos
+crear componentes.

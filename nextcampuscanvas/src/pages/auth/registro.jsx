@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
 import FooterSignature from '@components/GeneralUseComponents/FooterSignature/FooterSignature';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
-import EmailPasswordForm from '@components/UsedInSpecificRoutes/register/step1/EmailPasswordForm';
-import DataForm from '@components/UsedInSpecificRoutes/register/step2/DataForm';
-import StudentConfirmForm from '@components/UsedInSpecificRoutes/register/step3/StudentConfirmForm';
+import EmailPasswordForm from '@components/UsedInSpecificRoutes/auth/register/step1/EmailPasswordForm';
+import DataForm from '@components/UsedInSpecificRoutes/auth/register/step2/DataForm';
+import StudentConfirmForm from '@components/UsedInSpecificRoutes/auth/register/step3/StudentConfirmForm';
 
 //Styles
 import styles from '@pagestyles/Registro.module.scss';

@@ -5,6 +5,18 @@ dbConnect(config.dbURL);
 //Model
 import User from '@server/components/user/model';
 
+/////////////////////Add user//////////////////////////////
+
+const addUser = async (user) => {
+  return await User.create(user);
+};
+
+/////////////////////Get users//////////////////////////////
+
+const getUsers = async () => {
+  return await User.find({});
+};
+
 /////////////////////Get user//////////////////////////////
 
 const userExists = async (id) => {
@@ -25,5 +37,7 @@ const getUser = async (id) => {
 };
 
 module.exports = {
+  add: addUser,
+  users: getUsers,
   get: getUser,
 };

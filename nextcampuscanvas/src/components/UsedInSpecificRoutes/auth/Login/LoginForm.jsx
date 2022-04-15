@@ -3,6 +3,9 @@ import Image from 'next/image';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
 
+//Session
+import { useSession } from 'next-auth/react';
+
 //Components
 
 //Styles
@@ -19,6 +22,9 @@ import * as authActions from '@actions/authActions';
 const { login } = authActions;
 
 const LoginForm = (props) => {
+  const { data: session, status } = useSession();
+  const loading = status === 'loading';
+
   //console.log(props);
   const router = useRouter();
 
@@ -39,6 +45,10 @@ const LoginForm = (props) => {
       console.log(error);
     }
   };
+
+  if (status !== 'loading' && status === 'authenticated') {
+    router.push('/');
+  }
 
   return (
     <form

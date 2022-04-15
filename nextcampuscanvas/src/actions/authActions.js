@@ -49,8 +49,6 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-export const signOut = () => {};
-
 export const register = (email, password) => async (dispatch) => {
   dispatch({
     type: LOADING,

@@ -1,3 +1,5 @@
+//TODO: Secure this route as shown in TODO.txt
+
 //Response manager
 import { successResponse, errorResponse } from '@server/response';
 import Controller from '@server/components/user/controller';

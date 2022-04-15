@@ -8,7 +8,7 @@ const LOCAL_API = process.env.NEXT_PUBLIC_API_LOCAL;
 
 const endPoints = {
   auth: {
-    login: `${LOCAL_API}/api/auth/signup`,
+    login: `${LOCAL_API}/api/v1/user`,
   },
   user: {
     getProfile: (id) => `${LOCAL_API}/api/${VERSION}/user/${id}`,

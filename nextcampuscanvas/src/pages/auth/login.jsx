@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 //Components
 import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
 import FooterSignature from '@components/GeneralUseComponents/FooterSignature/FooterSignature';
-import LoginForm from '@components/UsedInSpecificRoutes/Login/LoginForm';
+import LoginForm from '@components/UsedInSpecificRoutes/auth/Login/LoginForm';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 //Styles
@@ -18,7 +18,7 @@ const login = (props) => {
   return (
     <>
       <SEOHeader
-        tabTitle={'Login frecuentes'}
+        tabTitle={'Login'}
         metaName={'Login'}
         description={'Inicia sesión para acceder a nuestros servicios'}
       />
