@@ -68,7 +68,8 @@ const LoginForm = (props) => {
         type='email'
         required
         placeholder='Correo'
-        {...CORREO}
+        value={CORREO.value}
+        onChange={CORREO.onChange}
       />
 
       <label htmlFor='contrasena'>Contraseña</label>
@@ -79,13 +80,14 @@ const LoginForm = (props) => {
         type='password'
         required
         placeholder='Contraseña'
-        {...CONTRASENA}
+        value={CONTRASENA.value}
+        onChange={CONTRASENA.onChange}
       />
 
       {props.error && <p className={styles.errorMessage}>{props.error}</p>}
 
       <div className={styles.buttons}>
-        <Link href='/construccion'>¿Olvidaste tu contraseña?</Link>
+        <Link href='/auth/forgot-password'>¿Olvidaste tu contraseña?</Link>
         <p>
           ¿Aún no tienes una cuenta?{' '}
           <Link href='/auth/registro'>Regístrate aquí</Link>

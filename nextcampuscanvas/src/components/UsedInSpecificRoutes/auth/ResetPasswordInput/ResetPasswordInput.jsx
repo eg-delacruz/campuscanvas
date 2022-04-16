@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
 
 //Form Validation
@@ -12,6 +13,13 @@ import { useInputValue } from '@hooks/useInputValue';
 
 //Styles
 import styles from './ResetPasswordInput.module.scss';
+
+//Endpoints
+import endPoints from '@services/api';
+
+//Redux actions
+import * as authActions from '@actions/authActions';
+const { login } = authActions;
 
 //Form validation
 const schema = yup.object().shape({
@@ -28,7 +36,13 @@ const schema = yup.object().shape({
 
 const ResetPasswordInput = (props) => {
   const [sent, setSent] = useState(false);
+  const [error, setError] = useState('');
   const router = useRouter();
+
+  //Getting userEmail
+  const id = router.query['reset-password'][1];
+  const token = router.query['reset-password'][2];
+  const userEmail = router.query['reset-password'][3];
 
   //Connect yup to react-hook-form
   const {
@@ -43,18 +57,55 @@ const ResetPasswordInput = (props) => {
   const CONTRASENA = useInputValue('');
   const REP_CONTRASENA = useInputValue('');
 
-  const submitFunction = (e) => {
-    //TODO: al haber enviado, hacer login y mostrar que contraseña
-    //fue cambiada con éxito por un instante, seguido de una redirección
-    //a home ya con el login hecho. A lo mejor recibir correo que
-    //se mostrará en el título a través de Redux??
-    CONTRASENA.setValue('');
-    REP_CONTRASENA.setValue('');
-    setSent(true);
-    setTimeout(() => {
-      router.push('/');
-    }, 3000);
+  const submitFunction = async (e) => {
+    //TODO: al haber enviado, mostrar que contraseña
+    //fue cambiada con éxito y hacer login. Por un instante, que se muestre
+    //el mensaje, seguido de una redirección
+    //al home ya con el login hecho.
+
+    const respuesta = await fetch(endPoints.auth.resetPassword(id, token), {
+      method: 'POST',
+      headers: {
+        accept: '*/*',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ password: CONTRASENA.value }),
+    });
+    const data = await respuesta.json();
+
+    if (data?.error) {
+      setError(data.error);
+      setTimeout(() => {
+        router.push('/');
+      }, 3500);
+    }
+
+    //TODO: Aquí hacer el login y luego la redirección
+    //usando el usuario y la contraseña
+    try {
+      props.login(userEmail, CONTRASENA.value).then((res) => {
+        if (res?.payload === 'Usuario o contraseña incorrectos') {
+          return false;
+        }
+        setSent(true);
+        CONTRASENA.setValue('');
+        REP_CONTRASENA.setValue('');
+        setTimeout(() => {
+          router.push('/');
+        }, 3000);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
+    //setSent(true);
+    // setTimeout(() => {
+    //   router.push('/');
+    // }, 3000);
   };
+
+  if (error) return <h3 className={styles.modifyPassErr}>{error}</h3>;
+
   return (
     <form
       className={styles.form}
@@ -71,7 +122,7 @@ const ResetPasswordInput = (props) => {
         </>
       ) : (
         <>
-          <h1>Reestablecer contraseña para "email"</h1>
+          <h3>Reestablecer contraseña {userEmail && `para ${userEmail}`}</h3>
           <p className={styles.form__subtitle}>
             {' '}
             Introduce tu nueva contraseña
@@ -90,7 +141,8 @@ const ResetPasswordInput = (props) => {
             placeholder='Contraseña'
             autoComplete='off'
             {...register('contrasena')}
-            {...CONTRASENA}
+            value={CONTRASENA.value}
+            onChange={CONTRASENA.onChange}
           />
 
           <label
@@ -110,7 +162,8 @@ const ResetPasswordInput = (props) => {
             autoComplete='off'
             placeholder='Repita la contraseña'
             {...register('rep_contrasena')}
-            {...REP_CONTRASENA}
+            value={REP_CONTRASENA.value}
+            onChange={REP_CONTRASENA.onChange}
           />
           <button type='submit' className={'btn button--red'}>
             Cambiar contraseña
@@ -124,4 +177,14 @@ const ResetPasswordInput = (props) => {
   );
 };
 
-export default ResetPasswordInput;
+//Map state to props
+const mapStateToProps = (reducers) => {
+  return reducers.authReducer;
+};
+
+//Map actions to props
+const mapDispatchToProps = {
+  login,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ResetPasswordInput);

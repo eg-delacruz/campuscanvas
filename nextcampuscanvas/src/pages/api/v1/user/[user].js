@@ -1,4 +1,6 @@
 //TODO: Secure this route as shown in TODO.txt
+//TODO: Don´t delete, since here would be perfect to
+// modify user data with an id
 
 //Response manager
 import { successResponse, errorResponse } from '@server/response';
@@ -25,7 +27,7 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
-        const user = await Controller.getUser(id);
+        const user = await Controller.getUserById(id);
         successResponse(req, res, user, 201);
       } catch (error) {
         errorResponse(req, res, 'Usuario no encontrado', 400, error);

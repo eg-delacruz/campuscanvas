@@ -75,6 +75,7 @@ export function errorResponse(req, res, message, status, details) {
   //Este log serviría para YO saber qué es lo que ha pasado en el error, pero
   //el usuario no sabrá esta info. En los [] se puede poner eg el nombre del
   //módulo del que viene ese mensaje en consola para identificarlo rápido.
+
   console.error('[response error]' + details);
   res.status(statusCode).send({ error: statusMessage, body: '' });
 }

@@ -26,7 +26,7 @@ const userExists = async (id) => {
   return exists;
 };
 
-const getUser = async (id) => {
+const getUserById = async (id) => {
   const exists = await userExists(id);
   if (exists) {
     const user = await User.findOne({ _id: id });
@@ -36,8 +36,33 @@ const getUser = async (id) => {
   }
 };
 
+const getUserByEmail = async (email) => {
+  const user = await User.findOne({
+    email,
+  });
+  if (!user) {
+    console.log('[db] Usuario no encontrado');
+    throw new Error('Usuario no encontrado');
+  }
+  return user;
+};
+
+const resetPassword = async (id, newPassword) => {
+  const modifiedUser = await User.findById(id, function (error, user) {
+    if (error) {
+      console.log('[db] Error al modificar password', error);
+      throw new Error('Error al modificar password');
+    }
+    user.password = newPassword;
+    user.save();
+    return user;
+  }).clone();
+};
+
 module.exports = {
   add: addUser,
-  users: getUsers,
-  get: getUser,
+  getAll: getUsers,
+  getById: getUserById,
+  getByEmail: getUserByEmail,
+  resetPassword,
 };

@@ -7,15 +7,28 @@ import { useInputValue } from '@hooks/useInputValue';
 //Styles
 import styles from './ForgotPasswordInput.module.scss';
 
+//Endpoints
+import endPoints from '@services/api';
+
 const ForgotPasswordInput = (props) => {
   const [sent, setSent] = useState(false);
 
   //Controlling inputs
   const ACC_EMAIL = useInputValue('');
 
-  const handleSubmit = (e) => {
-    //TODO: show error if email doesn´t exist?
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const respuesta = await fetch(endPoints.auth.forgotPassword, {
+      method: 'POST',
+      headers: {
+        accept: '*/*',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: ACC_EMAIL.value }),
+    });
+    //const data = await respuesta.json();
+
     ACC_EMAIL.setValue('');
     setSent(true);
   };
@@ -57,7 +70,8 @@ const ForgotPasswordInput = (props) => {
             type='email'
             placeholder='correo'
             autoComplete='off'
-            {...ACC_EMAIL}
+            value={ACC_EMAIL.value}
+            onChange={ACC_EMAIL.onChange}
           />
           <button type='submit' className={'btn button--red'}>
             Enviar enlace{' '}

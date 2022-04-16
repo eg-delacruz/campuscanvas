@@ -97,7 +97,8 @@ const emailPasswordForm = (props) => {
         placeholder='Correo'
         autoComplete='off'
         {...register('correo')}
-        {...CORREO}
+        value={CORREO.value}
+        onChange={CORREO.onChange}
       />
       <label className={styles.inputText__label} htmlFor='contrasena'>
         Contraseña{' '}
@@ -110,7 +111,8 @@ const emailPasswordForm = (props) => {
         placeholder='Contraseña'
         {...register('contrasena')}
         autoComplete='off'
-        {...CONTRASENA}
+        value={CONTRASENA.value}
+        onChange={CONTRASENA.onChange}
       />
       <label className={`${styles.inputText__label} `} htmlFor='rep_contrasena'>
         Repita la contraseña
@@ -126,7 +128,8 @@ const emailPasswordForm = (props) => {
         autoComplete='off'
         placeholder='Repita la contraseña'
         {...register('rep_contrasena')}
-        {...REP_CONTRASENA}
+        value={REP_CONTRASENA.value}
+        onChange={REP_CONTRASENA.onChange}
       />
       <input
         className={styles.checkbox}
@@ -151,7 +154,7 @@ const emailPasswordForm = (props) => {
             //       Buttons        //
             ///////////////////////// */}
       <div className={styles.buttons}>
-        <Link href='/construccion'>¿Olvidaste tu contraseña?</Link>
+        <Link href='/auth/forgot-password'>¿Olvidaste tu contraseña?</Link>
         <p>
           ¿Ya tienes una cuenta? <Link href='/auth/login'>Accede aquí</Link>
         </p>

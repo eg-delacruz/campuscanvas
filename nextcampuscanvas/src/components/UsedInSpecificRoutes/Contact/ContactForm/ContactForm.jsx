@@ -28,8 +28,6 @@ const ContactForm = (props) => {
   var SHOW_JOBSELECTION_FIELD;
   var MESSAGE_PLACEHOLDER;
 
-  console.log(typeof data.query.CV);
-
   if (Object.keys(data.query).length === 0) {
     //If its just contact
     FORM_TITLE = 'Formulario de contacto';
@@ -141,7 +139,8 @@ const ContactForm = (props) => {
           placeholder='nombre'
           required
           name='nombre'
-          {...NAME}
+          value={NAME.value}
+          onChange={NAME.onChange}
         />
         <span className={styles.form__inputLabel}>Nombre *</span>
       </label>
@@ -153,7 +152,8 @@ const ContactForm = (props) => {
           placeholder='Apellido *'
           required
           name='Apellido'
-          {...LAST_NAME}
+          value={LAST_NAME.value}
+          onChange={LAST_NAME.onChange}
         />
         <span className={styles.form__inputLabel}>Apellido *</span>
       </label>
@@ -165,8 +165,9 @@ const ContactForm = (props) => {
             className={`${styles.form__input} ${styles.non_transparent_placeholder}`}
             list='job_positions'
             name='Posición de interés'
-            {...JOB_NAME}
             placeholder='Posición de interés'
+            value={JOB_NAME.value}
+            onChange={JOB_NAME.onChange}
           />
           <datalist id='job_positions'>
             {JOB_POSITIONS.map((position, index) => (
@@ -183,7 +184,8 @@ const ContactForm = (props) => {
           placeholder='Correo empresarial *'
           name='email'
           required
-          {...EMAIL}
+          value={EMAIL.value}
+          onChange={EMAIL.onChange}
         />
         <span className={styles.form__inputLabel}>{EMAIL_PLACEHOLDER}</span>
       </label>
@@ -195,7 +197,8 @@ const ContactForm = (props) => {
           placeholder='Empresa'
           name='empresa'
           hidden={SHOW_COMPANY_FIELD}
-          {...COMPANY}
+          value={COMPANY.value}
+          onChange={COMPANY.onChange}
         />
         <span className={styles.form__inputLabel}>Empresa</span>
       </label>
@@ -206,7 +209,8 @@ const ContactForm = (props) => {
           type='tel'
           placeholder='Número de teléfono'
           name='telefono'
-          {...PHONE}
+          value={PHONE.value}
+          onChange={PHONE.onChange}
         />
         <span className={styles.form__inputLabel}>Teléfono</span>
       </label>
@@ -240,7 +244,8 @@ const ContactForm = (props) => {
         name='user_message'
         placeholder={MESSAGE_PLACEHOLDER}
         required
-        {...MESSAGE}
+        value={MESSAGE.value}
+        onChange={MESSAGE.onChange}
       />
       <button className='button--blue btn form__button' type='submit'>
         Enviar

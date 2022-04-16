@@ -66,7 +66,8 @@ const StudentConfirmForm = (props) => {
                 type='email'
                 placeholder='Correo universitario'
                 autoComplete='off'
-                {...STU_EMAIL}
+                value={STU_EMAIL.value}
+                onChange={STU_EMAIL.onChange}
               />
             </div>
           </div>

@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   const { method } = req;
 
   switch (method) {
-    //Only POST method is allowed, since we just register the user
+    //Register a new user. Only POST method is allowed in this file.
     case 'POST':
       try {
         const newUser = await Controller.registerUser(

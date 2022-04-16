@@ -3,7 +3,6 @@ import { signIn } from 'next-auth/react';
 
 //Endpoints
 import endPoints from '@services/api';
-//const localAPI = process.env.NEXT_PUBLIC_SIGNUP;
 
 export const login = (email, password) => async (dispatch) => {
   dispatch({

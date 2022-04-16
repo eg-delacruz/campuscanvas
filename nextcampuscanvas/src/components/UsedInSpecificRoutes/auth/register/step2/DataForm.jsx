@@ -75,7 +75,8 @@ const DataForm = (props) => {
           id='genero'
           name='genero'
           placeholder='Género *'
-          {...GENERO}
+          value={GENERO.value}
+          onChange={GENERO.onChange}
         />
         <datalist id='generos'>
           {GENDERS.map((university, index) => (
@@ -94,7 +95,8 @@ const DataForm = (props) => {
         type='text'
         placeholder='Nombre'
         autoComplete='off'
-        {...NOMBRE}
+        value={NOMBRE.value}
+        onChange={NOMBRE.onChange}
       />
 
       <label htmlFor='universidad' className={styles.list_label}>
@@ -104,7 +106,8 @@ const DataForm = (props) => {
           id='universidad'
           name='universidad'
           placeholder='Universidad *'
-          {...UNIVERSIDAD}
+          value={UNIVERSIDAD.value}
+          onChange={UNIVERSIDAD.onChange}
         />
         <datalist id='universidades'>
           {UNIVERSITIES.map((university, index) => (
@@ -123,7 +126,8 @@ const DataForm = (props) => {
           id='facultad'
           name='facultad'
           placeholder='Facultad *'
-          {...FACULTAD}
+          value={FACULTAD.value}
+          onChange={FACULTAD.onChange}
         />
         <datalist id='facultades'>
           {FACULTIES.map((university, index) => (
