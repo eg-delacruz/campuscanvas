@@ -1,7 +1,7 @@
 //tutorial: https://www.youtube.com/watch?v=-rcRf7yswfM&t=75s
 
-const nodemailer = require('nodemailer');
-const { google } = require('googleapis');
+import nodemailer from 'nodemailer';
+import { google } from 'googleapis';
 
 const CLIENT_ID = process.env.MAILER_CLIENT_ID;
 const CLIENT_SECRET = process.env.MAILER_CLIENT_SECRET;
