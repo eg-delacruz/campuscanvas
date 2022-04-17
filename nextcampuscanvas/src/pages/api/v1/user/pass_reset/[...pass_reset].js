@@ -31,14 +31,11 @@ export default async function handler(req, res) {
           const payload = jwt.verify(token, secret);
 
           //If the token is valid, we send the user to the page to reset the password
-          res
-            .status(200)
-            .redirect(
-              `${process.env.NEXT_PUBLIC_API_LOCAL}/auth/reset-password/${id}/${token}/${user.email}`
-            );
+          res.status(200).redirect(
+            //TODO: change URL when sending to production
+            `${process.env.NEXT_PUBLIC_API_URL}/auth/reset-password/${id}/${token}/${user.email}`
+          );
 
-          //TODO: change response?
-          //successResponse(req, res, 'Éxito', 200);
           console.log(payload);
         } catch (error) {
           errorResponse(
