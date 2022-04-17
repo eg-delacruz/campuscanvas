@@ -1,5 +1,5 @@
 import store from '@server/components/user/store';
-import { hashPassword } from '@server/services/auth';
+import { hashPassword } from '@server/services/passEncript';
 
 //Function used to erase sensitive data, currently not being used
 function cleanUser(user) {

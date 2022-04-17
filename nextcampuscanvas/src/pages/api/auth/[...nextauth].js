@@ -9,7 +9,8 @@ dbConnect(config.dbURL);
 //Model
 import User from '@server/components/user/model';
 
-import { verifyPassword } from '@server/services/auth';
+import { verifyPassword } from '@server/services/passEncript';
+
 export default NextAuth({
   session: {
     strategy: 'jwt',
