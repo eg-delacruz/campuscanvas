@@ -10,10 +10,6 @@ import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 //Styles
 import styles from '@pagestyles/Login.module.scss';
 
-//Redux actions
-import * as authActions from '@actions/authActions';
-const { signIn } = authActions;
-
 const login = (props) => {
   return (
     <>
@@ -37,14 +33,5 @@ const login = (props) => {
     </>
   );
 };
-//Map state to props
-const mapStateToProps = (reducers) => {
-  return reducers.authReducer;
-};
 
-//Map actions to props
-const mapDispatchToProps = {
-  signIn,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(login);
+export default login;

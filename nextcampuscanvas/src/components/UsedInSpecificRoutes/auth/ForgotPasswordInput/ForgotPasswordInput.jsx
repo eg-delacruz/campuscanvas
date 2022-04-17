@@ -19,14 +19,18 @@ const ForgotPasswordInput = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const respuesta = await fetch(endPoints.auth.forgotPassword, {
-      method: 'POST',
-      headers: {
-        accept: '*/*',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email: ACC_EMAIL.value }),
-    });
+    //const respuesta = await fetch(endPoints.auth.forgotPassword, {
+    const respuesta = await fetch(
+      `${process.env.NEXT_PUBLIC_API_LOCAL}/api/${VERSION}/user/pass-forgot`,
+      {
+        method: 'POST',
+        headers: {
+          accept: '*/*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: ACC_EMAIL.value }),
+      }
+    );
     //const data = await respuesta.json();
 
     ACC_EMAIL.setValue('');

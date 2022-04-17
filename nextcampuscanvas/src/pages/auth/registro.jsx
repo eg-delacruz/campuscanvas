@@ -12,11 +12,7 @@ import StudentConfirmForm from '@components/UsedInSpecificRoutes/auth/register/s
 //Styles
 import styles from '@pagestyles/Registro.module.scss';
 
-//Redux actions
-import * as authActions from '@actions/authActions';
-const { signIn } = authActions;
-
-const login = (props) => {
+const registro = (props) => {
   const [step, setStep] = useState(1);
   return (
     <>
@@ -43,14 +39,5 @@ const login = (props) => {
     </>
   );
 };
-//Map state to props
-const mapStateToProps = (reducers) => {
-  return reducers.authReducer;
-};
 
-//Map actions to props
-const mapDispatchToProps = {
-  signIn,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(login);
+export default registro;

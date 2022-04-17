@@ -35,7 +35,7 @@ export default async function handler(req, res) {
         //We put the payload in the token
         const token = jwt.sign(payload, secret, { expiresIn: '15m' });
         //TODO: change this to production URL when uploading to server
-        const link = `${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_URL_VERSION}/user/pass_reset/${user.id}/${token}`;
+        const link = `${process.env.NEXT_PUBLIC_API_LOCAL}/api/${process.env.NEXT_PUBLIC_API_URL_VERSION}/user/pass_reset/${user.id}/${token}`;
 
         //Sending email with link
         sendMail(user.email, link)
