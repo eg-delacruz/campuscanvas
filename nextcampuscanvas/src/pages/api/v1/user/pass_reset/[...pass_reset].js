@@ -3,6 +3,9 @@ import { successResponse, errorResponse } from '@server/response';
 import Controller from '@server/components/user/controller';
 import jwt from 'jsonwebtoken';
 
+//clientEndpoints
+import clientEndPoints from '@server/clientEndPoints';
+
 //Avoids CORS errors
 import NextCors from 'nextjs-cors';
 
@@ -31,10 +34,11 @@ export default async function handler(req, res) {
           const payload = jwt.verify(token, secret);
 
           //If the token is valid, we send the user to the page to reset the password
-          res.status(200).redirect(
-            //TODO: change URL when sending to production
-            `${process.env.NEXT_PUBLIC_API_URL}/auth/reset-password/${id}/${token}/${user.email}`
-          );
+          res
+            .status(200)
+            .redirect(
+              clientEndPoints.user.resetPassword(id, token, user.email)
+            );
 
           console.log(payload);
         } catch (error) {

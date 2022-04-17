@@ -5,6 +5,9 @@ import jwt from 'jsonwebtoken';
 import resetPassEmailLink from '@server/services/mailer/resetPassLink';
 const { sendMail } = resetPassEmailLink;
 
+//clientEndpoints
+import clientEndPoints from '@server/clientEndPoints';
+
 //Avoids CORS errors
 import NextCors from 'nextjs-cors';
 
@@ -34,11 +37,11 @@ export default async function handler(req, res) {
         };
         //We put the payload in the token
         const token = jwt.sign(payload, secret, { expiresIn: '15m' });
-        //TODO: change this to production URL when uploading to server
-        const link = `${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_URL_VERSION}/user/pass_reset/${user.id}/${token}`;
+
+        const link = clientEndPoints.user.forgotPassword(user.id, token);
 
         //Sending email with link
-        sendMail(user.email, link)
+        await sendMail(user.email, link)
           .then((result) => {
             console.log('Email sent...', result);
           })
