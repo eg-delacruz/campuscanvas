@@ -11,13 +11,14 @@ import styles from './ForgotPasswordInput.module.scss';
 import endPoints from '@services/api';
 
 const ForgotPasswordInput = (props) => {
-  const [sent, setSent] = useState(false);
+  const [state, setState] = useState({ sent: false, loading: false });
 
   //Controlling inputs
   const ACC_EMAIL = useInputValue('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setState({ sent: false, loading: true });
 
     const respuesta = await fetch(endPoints.auth.forgotPassword, {
       method: 'POST',
@@ -30,7 +31,7 @@ const ForgotPasswordInput = (props) => {
     //const data = await respuesta.json();
 
     ACC_EMAIL.setValue('');
-    setSent(true);
+    setState({ sent: true, loading: false });
   };
   return (
     <form
@@ -40,7 +41,7 @@ const ForgotPasswordInput = (props) => {
       action=''
       autoComplete='off'
     >
-      {sent ? (
+      {state.sent ? (
         <>
           <h4 className={styles.sent__message}>
             Te hemos enviado un enlace único para reestablecer tu contraseña.
@@ -48,7 +49,9 @@ const ForgotPasswordInput = (props) => {
           </h4>
           <p className={styles.sent__resendOption}>
             ¿No has recibido el enlace?{' '}
-            <span onClick={() => setSent(false)}>Reenviar enlace</span>{' '}
+            <span onClick={() => setState({ sent: false, loading: false })}>
+              Reenviar enlace
+            </span>{' '}
           </p>
         </>
       ) : (
@@ -73,7 +76,14 @@ const ForgotPasswordInput = (props) => {
             value={ACC_EMAIL.value}
             onChange={ACC_EMAIL.onChange}
           />
-          <button type='submit' className={'btn button--red'}>
+          <button
+            type='submit'
+            className={`${
+              state.loading && styles.buttonLoading
+            }  btn button--red`}
+            disabled={state.loading}
+          >
+            <div className={`${state.loading && styles.dot_flashing} `}></div>
             Enviar enlace{' '}
           </button>
         </>

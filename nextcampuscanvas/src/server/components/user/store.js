@@ -47,16 +47,11 @@ const getUserByEmail = async (email) => {
   return user;
 };
 
-const resetPassword = async (id, newPassword) => {
-  const modifiedUser = await User.findById(id, function (error, user) {
-    if (error) {
-      console.log('[db] Error al modificar password', error);
-      throw new Error('Error al modificar password');
-    }
-    user.password = newPassword;
-    user.save();
-    return user;
-  }).clone();
+//User needs to be a mongo object!!
+const resetPassword = async (newPassword, user) => {
+  user.password = newPassword;
+  const modifiedUser = await user.save();
+  return modifiedUser;
 };
 
 module.exports = {

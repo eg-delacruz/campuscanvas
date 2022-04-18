@@ -46,6 +46,7 @@ const LoginForm = (props) => {
     }
   };
 
+  //If logged in, redirect to home
   if (status !== 'loading' && status === 'authenticated') {
     router.push('/');
   }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
@@ -35,8 +35,11 @@ const schema = yup.object().shape({
 });
 
 const ResetPasswordInput = (props) => {
-  const [sent, setSent] = useState(false);
-  const [error, setError] = useState('');
+  const [state, setState] = useState({
+    sent: false,
+    error: '',
+    loading: false,
+  });
   const router = useRouter();
 
   //Getting userEmail
@@ -58,11 +61,7 @@ const ResetPasswordInput = (props) => {
   const REP_CONTRASENA = useInputValue('');
 
   const submitFunction = async (e) => {
-    //TODO: al haber enviado, mostrar que contraseña
-    //fue cambiada con éxito y hacer login. Por un instante, que se muestre
-    //el mensaje, seguido de una redirección
-    //al home ya con el login hecho.
-
+    setState({ ...state, loading: true });
     const respuesta = await fetch(endPoints.auth.resetPassword(id, token), {
       method: 'POST',
       headers: {
@@ -74,37 +73,33 @@ const ResetPasswordInput = (props) => {
     const data = await respuesta.json();
 
     if (data?.error) {
-      setError(data.error);
+      setState({ ...state, loading: false, error: data.error });
       setTimeout(() => {
         router.push('/');
       }, 3500);
     }
 
-    //TODO: Aquí hacer el login y luego la redirección
-    //usando el usuario y la contraseña
+    //Login y redirección a home
     try {
-      props.login(userEmail, CONTRASENA.value).then((res) => {
+      props.login(userEmail, CONTRASENA.value).then(async (res) => {
         if (res?.payload === 'Usuario o contraseña incorrectos') {
           return false;
         }
-        setSent(true);
+        setState({ ...state, sent: true });
         CONTRASENA.setValue('');
         REP_CONTRASENA.setValue('');
-        setTimeout(() => {
-          router.push('/');
+        setState({ ...state, sent: true, loading: false });
+        setTimeout(async () => {
+          await router.push('/');
         }, 3000);
       });
     } catch (error) {
       console.log(error);
     }
-
-    //setSent(true);
-    // setTimeout(() => {
-    //   router.push('/');
-    // }, 3000);
   };
 
-  if (error) return <h3 className={styles.modifyPassErr}>{error}</h3>;
+  if (state.error)
+    return <h3 className={styles.modifyPassErr}>{state.error}</h3>;
 
   return (
     <form
@@ -114,7 +109,7 @@ const ResetPasswordInput = (props) => {
       action=''
       autoComplete='off'
     >
-      {sent ? (
+      {state.sent ? (
         <>
           <h3 className={styles.sent__message}>
             ¡Contraseña modificada con éxito!
@@ -165,7 +160,14 @@ const ResetPasswordInput = (props) => {
             value={REP_CONTRASENA.value}
             onChange={REP_CONTRASENA.onChange}
           />
-          <button type='submit' className={'btn button--red'}>
+          <button
+            type='submit'
+            className={`${
+              state.loading && styles.buttonLoading
+            }  btn button--red`}
+            disabled={state.loading}
+          >
+            <div className={`${state.loading && styles.dot_flashing} `}></div>
             Cambiar contraseña
           </button>
           <div className={styles.contactButton}>

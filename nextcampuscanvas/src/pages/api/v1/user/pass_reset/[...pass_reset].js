@@ -20,7 +20,7 @@ export default async function handler(req, res) {
   const { method } = req;
 
   switch (method) {
-    //We veryfy token and if yes, we send link to email to change password
+    //We veryfy token and if yes, we redirect user to the reset password page
     case 'GET':
       try {
         const id = req.query.pass_reset[0];
@@ -37,10 +37,8 @@ export default async function handler(req, res) {
           res
             .status(200)
             .redirect(
-              clientEndPoints.user.resetPassword(id, token, user.email)
+              clientEndPoints.user.resetPassword(id, token, payload.email)
             );
-
-          console.log(payload);
         } catch (error) {
           errorResponse(
             req,
@@ -67,14 +65,17 @@ export default async function handler(req, res) {
         const secret = process.env.JWT_SECRET + user.password;
 
         try {
-          //We get the payload of the token here
+          //Verify token and get its payload
           const payload = jwt.verify(token, secret);
-          const changePassword = await Controller.resetPassword(
-            payload.id,
-            newPassword
+
+          const modifiedUser = await Controller.resetPassword(
+            newPassword,
+            user
           );
-          //TODO: cambiar response
-          successResponse(req, res, changePassword, 200);
+          console.log(
+            `[NETWORK] Contraseña de ${modifiedUser.email} reestablecida`
+          );
+          successResponse(req, res, 'Operación realizada con éxito', 200);
         } catch (error) {
           errorResponse(
             req,

@@ -65,14 +65,14 @@ const getUserByEmail = async (email) => {
   }
 };
 
-const resetPassword = async (id, newPassword) => {
+//We need to pass a mongo object!!
+const resetPassword = async (newPassword, user) => {
   try {
     //Hashing password
     const encPass = await hashPassword(newPassword, 12);
 
-    //This return undefined allways
-    const modifiedUser = await store.resetPassword(id, encPass);
-    return '[Controller] Has cambiado la contraseña';
+    const modifiedUser = await store.resetPassword(encPass, user);
+    return modifiedUser;
   } catch (error) {
     console.log(error);
     throw new Error(error);
