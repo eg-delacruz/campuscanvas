@@ -1,9 +1,6 @@
 ## Rute de user debe estar protegida, pues solo si ya se ha hecho login
 ## se puede traer al user --> Hacerlo solo para ver ejemplo de cómo se Hacerlo
-
-##Crear archivo para controlar los enpoints de local o producción para no hacer 
-## cada cambio manualmente:
-        [...pass_reste]
-        pass-forgot
-
 Min: 56.50: https://www.youtube.com/watch?v=cOgogGJ6_7M&t=36s --> asegurar rutas next V4
+
+## Al almacenar stu_data(universidad y facultad), pasarla a tolowercase para poder comparar
+## mejor después con los emails. 

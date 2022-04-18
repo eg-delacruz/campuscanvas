@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
+//Session
+import { useSession } from 'next-auth/react';
+
 //Assets
 import arrow_right_white from '@assets/GeneralUse/IconsAndButtons/arrow_right_white.svg';
 
@@ -15,6 +18,13 @@ import styles from './DataForm.module.scss';
 import studentInfoDatabase from '@databases/studentInfoDatabase';
 
 const DataForm = (props) => {
+  const { data: session, status } = useSession();
+  const loading = status === 'loading';
+
+  //Needs to be put with ? after session!!
+  //console.log(session?.token.sub);
+  console.log(session);
+
   //Controlling inputs
   const GENERO = useInputValue('');
   const NOMBRE = useInputValue('');

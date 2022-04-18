@@ -17,7 +17,7 @@ const getUsers = async () => {
   return await User.find({});
 };
 
-/////////////////////Get user//////////////////////////////
+/////////////////////Chack if user exists//////////////////////////////
 
 const userExists = async (id) => {
   const exists = await User.exists({
@@ -25,6 +25,8 @@ const userExists = async (id) => {
   });
   return exists;
 };
+
+/////////////////////Get user by id//////////////////////////////
 
 const getUserById = async (id) => {
   const exists = await userExists(id);
@@ -35,6 +37,8 @@ const getUserById = async (id) => {
     throw new Error('[Store] Usuario no encontrado');
   }
 };
+
+/////////////////////Get user by email//////////////////////////////
 
 const getUserByEmail = async (email) => {
   const user = await User.findOne({
@@ -47,11 +51,11 @@ const getUserByEmail = async (email) => {
   return user;
 };
 
-//User needs to be a mongo object!!
-const resetPassword = async (newPassword, user) => {
-  user.password = newPassword;
-  const modifiedUser = await user.save();
-  return modifiedUser;
+/////////////////////Update user//////////////////////////////
+
+const updateUser = async (user) => {
+  const updatedUser = await user.save();
+  return updatedUser;
 };
 
 module.exports = {
@@ -59,5 +63,5 @@ module.exports = {
   getAll: getUsers,
   getById: getUserById,
   getByEmail: getUserByEmail,
-  resetPassword,
+  update: updateUser,
 };

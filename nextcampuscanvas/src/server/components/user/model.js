@@ -11,15 +11,31 @@ const usersSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Por favor, ingresa una contraseña'],
     minlength: [6, 'La contraseña debe tener al menos 6 caracteres'],
-    //TODO:Ver qué es esto
-    //No incluir maxlength porque el hash es más largo
-    // validate: {
-    //   validator: function (value) {
-    //     return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/.test(
-    //       value
-    //     );
-    //   },
-    // },
+    //No incluir maxlength porque el hash del password es más largo que eso
+  },
+  name: {
+    type: String,
+    default: '',
+  },
+  gender: {
+    type: String,
+    default: '',
+  },
+  stu_verified: {
+    type: Boolean,
+    default: false,
+  },
+  stu_data: {
+    university: {
+      type: String,
+      lowercase: true,
+      default: '',
+    },
+    faculty: {
+      type: String,
+      lowercase: true,
+      default: '',
+    },
   },
   role: {
     type: String,

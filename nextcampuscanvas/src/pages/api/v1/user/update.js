@@ -1,6 +1,6 @@
-//TODO: Secure this route as shown in TODO.txt
-//TODO: Don´t delete, since here would be perfect to
-// modify user data with an id
+//Route secured as shown in https://www.youtube.com/watch?v=cOgogGJ6_7M&t=36s  (min 56)
+//Session
+import { getSession } from 'next-auth/react';
 
 //Response manager
 import { successResponse, errorResponse } from '@server/response';
@@ -10,6 +10,13 @@ import Controller from '@server/components/user/controller';
 import NextCors from 'nextjs-cors';
 
 export default async function handler(req, res) {
+  //Securing page with session
+  const session = await getSession({ req });
+  if (!session) {
+    return errorResponse(req, res, 'Forbidden', 403, '[Network] No hay sesión');
+  }
+
+  //Avoiding CORS errors
   await NextCors(req, res, {
     // Options
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
@@ -19,10 +26,11 @@ export default async function handler(req, res) {
 
   const {
     query: { user: id },
+    body,
     method,
   } = req;
 
-  //Not being used atm, since next-auth gets the user from the session after login.
+  //GET req Not being used atm, since next-auth gets the user from the session after login.
   //To use it, we pass the id through the query of a GET request
   switch (method) {
     case 'GET':
@@ -32,9 +40,18 @@ export default async function handler(req, res) {
       } catch (error) {
         errorResponse(req, res, 'Usuario no encontrado', 400, error);
       }
-
       break;
-    //TODO: aquí irá ruta de modificar user (PATCH), la cual deberá recibir el id por req.query.id --> Ver curso node con mongo params vs query
+
+    //Update student data
+    case 'PATCH':
+      try {
+        const updatedUser = await Controller.updateStuData(body);
+        console.log(`[Network] ${updatedUser.name} updated successfully`);
+        successResponse(req, res, 'Operación realizada con éxito', 200);
+      } catch (error) {
+        errorResponse(req, res, 'Error al actualizar datos', 400, error);
+      }
+      break;
     default:
       errorResponse(req, res, 'Método no soportado', 400);
       break;

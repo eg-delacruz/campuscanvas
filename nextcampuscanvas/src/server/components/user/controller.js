@@ -20,7 +20,7 @@ const registerUser = (email, password) => {
       return reject({ message: 'Los datos son incorrectos' });
     }
 
-    //Admin user
+    //Setting admin user
     let role = 'user';
     if (email === 'eg.cruzvalle@gmail.com') {
       role = 'admin';
@@ -32,6 +32,13 @@ const registerUser = (email, password) => {
     const fullUser = {
       email,
       password: encPass,
+      name: '',
+      gender: '',
+      stu_verified: false,
+      stu_data: {
+        university: '',
+        faculty: '',
+      },
       role: role,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -65,13 +72,34 @@ const getUserByEmail = async (email) => {
   }
 };
 
+const updateStuData = async ({ id, name, gender, university, faculty }) => {
+  try {
+    const user = await store.getById(id);
+
+    user.name = name;
+    user.gender = gender.toLowerCase();
+    user.stu_data.university = university.toLowerCase();
+    user.stu_data.faculty = faculty.toLowerCase();
+    user.updatedAt = new Date();
+
+    const modifiedUser = await store.update(user);
+    return modifiedUser;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+};
+
 //We need to pass a mongo object!!
 const resetPassword = async (newPassword, user) => {
   try {
     //Hashing password
     const encPass = await hashPassword(newPassword, 12);
 
-    const modifiedUser = await store.resetPassword(encPass, user);
+    user.password = encPass;
+    user.updatedAt = new Date();
+
+    const modifiedUser = await store.update(user);
     return modifiedUser;
   } catch (error) {
     console.log(error);
@@ -92,4 +120,5 @@ module.exports = {
   getUsers,
   getUserByEmail,
   resetPassword,
+  updateStuData,
 };

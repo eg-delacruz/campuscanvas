@@ -19,6 +19,7 @@ const StudentConfirmForm = (props) => {
   const loading = status === 'loading';
 
   //Needs to be put with ? after session!!
+  //token.sub is the user id
   console.log(session?.token.sub);
 
   const [sent, setSent] = useState(false);
