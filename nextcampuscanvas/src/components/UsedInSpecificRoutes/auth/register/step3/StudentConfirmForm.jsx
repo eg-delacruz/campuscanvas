@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
+//Session
+import { useSession } from 'next-auth/react';
+
 //Assets
 import sendIcon from '@assets/GeneralUse/IconsAndButtons/send_email.svg';
 
@@ -12,6 +15,12 @@ import { useInputValue } from '@hooks/useInputValue';
 import styles from './StudentConfirmForm.module.scss';
 
 const StudentConfirmForm = (props) => {
+  const { data: session, status } = useSession();
+  const loading = status === 'loading';
+
+  //Needs to be put with ? after session!!
+  console.log(session?.token.sub);
+
   const [sent, setSent] = useState(false);
 
   //Controlling inputs
@@ -25,6 +34,7 @@ const StudentConfirmForm = (props) => {
     STU_EMAIL.setValue('');
     setSent(true);
   };
+
   return (
     <form
       className={styles.form}

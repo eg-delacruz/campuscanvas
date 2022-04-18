@@ -1,0 +1,4 @@
+## Hacer todo el círculo de login SIN REDUX, pues no hay un
+## Estado que tenga que compartir, pues el usuario está en 
+## Cookie. Además hay ciertos conflictos entre los form de login
+## Y el step 1 de registro...

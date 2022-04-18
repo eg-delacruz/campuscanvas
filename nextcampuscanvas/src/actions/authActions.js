@@ -65,7 +65,10 @@ export const register = (email, password) => async (dispatch) => {
     const data = await respuesta.json();
 
     //If user already exists
-    if (data.error === 'Este email ya ha sido registrado anteriormente') {
+    if (
+      data.error ===
+      'Este email ya ha sido registrado, inicia sesión o recupera tu contraseña.'
+    ) {
       return dispatch({
         type: ERROR,
         payload: data.error,

@@ -33,7 +33,9 @@ export default async function handler(req, res) {
           errorResponse(
             req,
             res,
-            'Este email ya ha sido registrado anteriormente',
+            //If this message is modified, it must be modifies in
+            //EmailPasswordForm.jsx and authActions.js in the front as well!!
+            'Este email ya ha sido registrado, inicia sesión o recupera tu contraseña.',
             400,
             error
           );

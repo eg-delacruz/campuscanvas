@@ -13,7 +13,7 @@ import StudentConfirmForm from '@components/UsedInSpecificRoutes/auth/register/s
 import styles from '@pagestyles/Registro.module.scss';
 
 const registro = (props) => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(3);
   return (
     <>
       <SEOHeader

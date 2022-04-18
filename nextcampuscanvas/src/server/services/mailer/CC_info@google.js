@@ -1,4 +1,5 @@
 //tutorial: https://www.youtube.com/watch?v=-rcRf7yswfM&t=75s
+//File to send emails from campuscanvas.info@gmail.com
 
 import nodemailer from 'nodemailer';
 import { google } from 'googleapis';
@@ -17,7 +18,7 @@ oAuth2Client.setCredentials({
   refresh_token: REFRESH_TOKEN,
 });
 
-async function sendMail(receiver, link) {
+async function sendResetPasswordMail(receiver, link) {
   try {
     const accessToken = await oAuth2Client.getAccessToken();
     const transport = nodemailer.createTransport({
@@ -49,8 +50,40 @@ async function sendMail(receiver, link) {
   }
 }
 
+async function sendAuthStudentUserMail(receiver, link) {
+  try {
+    const accessToken = await oAuth2Client.getAccessToken();
+    const transport = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        type: 'OAuth2',
+        user: process.env.MAILER_TRANSPORTER_USER,
+        clientId: CLIENT_ID,
+        clientSecret: CLIENT_SECRET,
+        refreshToken: REFRESH_TOKEN,
+        accessToken: accessToken,
+      },
+    });
+
+    const mailOptions = {
+      from: 'Campus Canvas <campuscanvas.info@gmail.com>',
+      to: receiver,
+      subject: 'Verificación de estudiante || No respondas a este email',
+      //text: link,
+      //HTML is optional
+      html: `<b>Ingresa a este enlace para autenticar tu cuenta de estudiante: ${link}</b>`,
+    };
+
+    const result = await transport.sendMail(mailOptions);
+    return result;
+  } catch (error) {
+    return error;
+  }
+}
+
 module.exports = {
-  sendMail,
+  sendResetPasswordMail,
+  sendAuthStudentUserMail,
 };
 
 // //Poner esto donde se vaya a usar este email:

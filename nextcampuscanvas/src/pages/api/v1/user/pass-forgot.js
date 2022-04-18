@@ -2,8 +2,8 @@
 import { successResponse, errorResponse } from '@server/response';
 import Controller from '@server/components/user/controller';
 import jwt from 'jsonwebtoken';
-import resetPassEmailLink from '@server/services/mailer/resetPassLink';
-const { sendMail } = resetPassEmailLink;
+import CCMailer from '@server/services/mailer/CC_info@google';
+const { sendResetPasswordMail } = CCMailer;
 
 //clientEndpoints
 import clientEndPoints from '@server/clientEndPoints';
@@ -41,15 +41,14 @@ export default async function handler(req, res) {
         const link = clientEndPoints.user.forgotPassword(user.id, token);
 
         //Sending email with link
-        await sendMail(user.email, link)
+        await sendResetPasswordMail(user.email, link)
           .then((result) => {
-            console.log('Email sent...', result);
+            console.log('[Network] Email enviado', result);
           })
           .catch((error) => {
-            console.log('Error sending email...', error);
+            console.log('[Network] Error al enviar el email', error);
           });
 
-        console.log(link);
         successResponse(
           req,
           res,

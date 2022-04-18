@@ -61,7 +61,10 @@ const emailPasswordForm = (props) => {
   const submitFunction = (e) => {
     try {
       props.register(CORREO.value, CONTRASENA.value).then((res) => {
-        if (res?.payload === 'Este email ya ha sido registrado anteriormente') {
+        if (
+          res?.payload ===
+          'Este email ya ha sido registrado, inicia sesión o recupera tu contraseña.'
+        ) {
           return false;
         }
         //router.push('/');
@@ -137,7 +140,8 @@ const emailPasswordForm = (props) => {
         id='terms_cons'
         name='terms_cons'
         autoComplete='off'
-        {...CHECK_BOX}
+        value={CHECK_BOX.value}
+        onChange={CHECK_BOX.onChange}
         {...register('terms_cons')}
       />{' '}
       <label className={styles.checkbox__label} htmlFor='terms_cons'>
