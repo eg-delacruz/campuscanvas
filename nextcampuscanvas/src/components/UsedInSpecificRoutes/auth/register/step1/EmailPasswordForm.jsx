@@ -1,13 +1,14 @@
 import Link from 'next/link';
-import { connect } from 'react-redux';
-import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 //Form Validation
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-//Components
+//Session
+import { useSession } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 
 //hooks
 import { useInputValue } from '@hooks/useInputValue';
@@ -15,9 +16,8 @@ import { useInputValue } from '@hooks/useInputValue';
 //Styles
 import styles from './emailPasswordForm.module.scss';
 
-//Redux actions
-import * as authActions from '@actions/authActions';
-const { register } = authActions;
+//Endpoints
+import endPoints from '@services/api';
 
 //Form validation
 const schema = yup.object().shape({
@@ -41,7 +41,11 @@ const schema = yup.object().shape({
 });
 
 const emailPasswordForm = (props) => {
-  const router = useRouter();
+  const [state, setState] = useState({ loading: false, error: '' });
+
+  //Session
+  const { data: session, status } = useSession();
+  const loading = status === 'loading';
 
   //Controlling inputs
   const CORREO = useInputValue('');
@@ -58,20 +62,59 @@ const emailPasswordForm = (props) => {
     resolver: yupResolver(schema),
   });
 
-  const submitFunction = (e) => {
+  const submitFunction = async (e) => {
     try {
-      props.register(CORREO.value, CONTRASENA.value).then((res) => {
-        if (
-          res?.payload ===
-          'Este email ya ha sido registrado, inicia sesión o recupera tu contraseña.'
-        ) {
-          return false;
-        }
-        //router.push('/');
-        props.setStep(2);
+      setState({ ...state, loading: true });
+
+      //Saving user in DB
+      const respuesta = await fetch(endPoints.auth.login, {
+        method: 'POST',
+        headers: {
+          accept: '*/*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: CORREO.value,
+          password: CONTRASENA.value,
+        }),
       });
+      const data = await respuesta.json();
+
+      //If user already exists
+      if (
+        data.error ===
+        'Este email ya ha sido registrado, inicia sesión o recupera tu contraseña.'
+      ) {
+        setState({ ...state, loading: false, error: data.error });
+        return false;
+      }
+
+      //If user succesfully registered, log in
+      const auth = await signIn('credentials', {
+        redirect: false,
+        email: CORREO.value,
+        password: CONTRASENA.value,
+      });
+
+      if (auth.error) {
+        setState({
+          ...state,
+          error: 'Usuario o contraseña incorrectos',
+          loading: false,
+        });
+        return false;
+      }
+      setState({
+        ...state,
+        loading: false,
+      });
+      props.setStep(2);
     } catch (error) {
-      console.log(error);
+      setState({
+        ...state,
+        error: 'Error al registrar usuario' + error.message,
+        loading: false,
+      });
     }
   };
 
@@ -153,7 +196,7 @@ const emailPasswordForm = (props) => {
         {errors.terms_cons &&
           'Acepta nuestros términos y condiciones para continuar'}
       </p>
-      {props.error && <p className={styles.errorMessage}>{props.error}</p>}
+      {state.error && <p className={styles.errorMessage}>{state.error}</p>}
       {/* /////////////////////////
             //       Buttons        //
             ///////////////////////// */}
@@ -165,11 +208,11 @@ const emailPasswordForm = (props) => {
         <button
           type='submit'
           className={`${
-            props.loading && styles.buttonLoading
+            state.loading && styles.buttonLoading
           }  btn button--red`}
-          disabled={props.loading}
+          disabled={state.loading}
         >
-          <div className={`${props.loading && styles.dot_flashing} `}></div>
+          <div className={`${state.loading && styles.dot_flashing} `}></div>
           Continuar
         </button>
       </div>
@@ -177,14 +220,4 @@ const emailPasswordForm = (props) => {
   );
 };
 
-//Map state to props
-const mapStateToProps = (reducers) => {
-  return reducers.authReducer;
-};
-
-//Map actions to props
-const mapDispatchToProps = {
-  register,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(emailPasswordForm);
+export default emailPasswordForm;

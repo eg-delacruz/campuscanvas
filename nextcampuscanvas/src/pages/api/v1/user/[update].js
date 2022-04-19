@@ -24,19 +24,17 @@ export default async function handler(req, res) {
     optionsSuccessStatus: 200,
   });
 
-  const {
-    query: { user: id },
-    body,
-    method,
-  } = req;
+  const { body, method } = req;
 
   //GET req Not being used atm, since next-auth gets the user from the session after login.
   //To use it, we pass the id through the query of a GET request
   switch (method) {
     case 'GET':
       try {
+        const id = req.query.update;
         const user = await Controller.getUserById(id);
-        successResponse(req, res, user, 201);
+        const cleanUser = Controller.cleanUserForClient(user);
+        successResponse(req, res, cleanUser, 201);
       } catch (error) {
         errorResponse(req, res, 'Usuario no encontrado', 400, error);
       }

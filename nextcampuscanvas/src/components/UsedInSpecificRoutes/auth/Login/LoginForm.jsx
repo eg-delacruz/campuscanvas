@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 //Session
 import { useSession } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 
 //Components
 
@@ -17,15 +18,13 @@ import Divider from '@assets/PagesImages/Login/Divider.svg';
 //hooks
 import { useInputValue } from '@hooks/useInputValue';
 
-//Redux actions
-import * as authActions from '@actions/authActions';
-const { login } = authActions;
+const LoginForm = () => {
+  const [state, setState] = useState({ loading: false, error: '' });
 
-const LoginForm = (props) => {
+  //Session
   const { data: session, status } = useSession();
   const loading = status === 'loading';
 
-  //console.log(props);
   const router = useRouter();
 
   //Controlling inputs
@@ -34,15 +33,33 @@ const LoginForm = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setState({ ...state, loading: true });
     try {
-      props.login(CORREO.value, CONTRASENA.value).then((res) => {
-        if (res?.payload === 'Usuario o contraseña incorrectos') {
-          return false;
-        }
-        router.push('/');
+      const auth = await signIn('credentials', {
+        redirect: false,
+        email: CORREO.value,
+        password: CONTRASENA.value,
       });
+
+      if (auth.error) {
+        setState({
+          ...state,
+          error: 'Usuario o contraseña incorrectos',
+          loading: false,
+        });
+        return false;
+      }
+      setState({
+        ...state,
+        loading: false,
+      });
+      router.push('/');
     } catch (error) {
-      console.log(error);
+      setState({
+        ...state,
+        error: 'Error al iniciar sesión' + error.message,
+        loading: false,
+      });
     }
   };
 
@@ -85,7 +102,7 @@ const LoginForm = (props) => {
         onChange={CONTRASENA.onChange}
       />
 
-      {props.error && <p className={styles.errorMessage}>{props.error}</p>}
+      {state.error && <p className={styles.errorMessage}>{state.error}</p>}
 
       <div className={styles.buttons}>
         <Link href='/auth/forgot-password'>¿Olvidaste tu contraseña?</Link>
@@ -96,11 +113,11 @@ const LoginForm = (props) => {
         <button
           type='submit'
           className={`${
-            props.loading && styles.buttonLoading
+            state.loading && styles.buttonLoading
           }  btn button--red`}
-          disabled={props.loading}
+          disabled={state.loading}
         >
-          <div className={`${props.loading && styles.dot_flashing} `}></div>
+          <div className={`${state.loading && styles.dot_flashing} `}></div>
           Iniciar sesión
         </button>
       </div>
@@ -118,14 +135,4 @@ const LoginForm = (props) => {
   );
 };
 
-//Map state to props
-const mapStateToProps = (reducers) => {
-  return reducers.authReducer;
-};
-
-//Map actions to props
-const mapDispatchToProps = {
-  login,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default LoginForm;

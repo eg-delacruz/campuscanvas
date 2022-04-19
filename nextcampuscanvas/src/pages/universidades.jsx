@@ -1,5 +1,5 @@
 import React from 'react';
-import Head from 'next/head';
+import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 //Styles
 import styles from '@pagestyles/UniList.module.scss';

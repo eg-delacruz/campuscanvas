@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 //Session
 import { useSession } from 'next-auth/react';
+
+//Endpoints
+import endPoints from '@services/api';
 
 //Assets
 import arrow_right_white from '@assets/GeneralUse/IconsAndButtons/arrow_right_white.svg';
@@ -18,12 +22,17 @@ import styles from './DataForm.module.scss';
 import studentInfoDatabase from '@databases/studentInfoDatabase';
 
 const DataForm = (props) => {
+  //const [error, setError] = useState(null);
+  const [state, setState] = useState({
+    error: null,
+    loading: false,
+    responseError: null,
+  });
+  const router = useRouter();
+
+  //Session
   const { data: session, status } = useSession();
   const loading = status === 'loading';
-
-  //Needs to be put with ? after session!!
-  //console.log(session?.token.sub);
-  console.log(session);
 
   //Controlling inputs
   const GENERO = useInputValue('');
@@ -35,37 +44,60 @@ const DataForm = (props) => {
   let FACULTIES = studentInfoDatabase.FACULTIES;
   let GENDERS = studentInfoDatabase.GENDERS;
 
-  const handleSubmit = (e) => {
-    // TODO: Enviar toda esta info a través de redux sin que haya estado de
-    //cargando, pues esta info se siempre estará correcta al
-    //estar siendo validada aquí. Directamente actualizar el estado
-    //para continuar. Redux no debe hacer ningún tipo de dispatch
-
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
+    setState({ ...state, error: null });
+
+    //Handling errors
     if (!GENDERS.includes(GENERO.value)) {
-      setError('Debes escoger un género de la lista');
+      setState({ ...state, error: 'Debes escoger un género de la lista' });
       return false;
     }
     if (!UNIVERSITIES.includes(UNIVERSIDAD.value)) {
-      setError('Debes escoger una universidad de la lista');
+      setState({
+        ...state,
+        error: 'Debes escoger una universidad de la lista',
+      });
       return false;
     }
     if (!FACULTIES.includes(FACULTAD.value)) {
-      setError('Debes escoger una facultad de la lista');
+      setState({ ...state, error: 'Debes escoger una facultad de la lista' });
       return false;
     }
-    //TODO: quitar este console.log al terminar
-    console.log({
-      Genero: GENERO.value,
-      Nombre: NOMBRE.value,
-      Universidad: UNIVERSIDAD.value,
-      Facultad: FACULTAD.value,
-    });
-    props.setStep(3);
+
+    //Updating student info
+    try {
+      setState({ ...state, loading: true });
+      const respuesta = await fetch(endPoints.user.updateStuInfo, {
+        method: 'PATCH',
+        headers: {
+          accept: '*/*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: session.token.sub,
+          name: NOMBRE.value,
+          gender: GENERO.value,
+          university: UNIVERSIDAD.value,
+          faculty: FACULTAD.value,
+        }),
+      });
+      const data = await respuesta.json();
+      if (data.error) {
+        setState({ ...state, responseError: data.error });
+      } else {
+        setState({ ...state, loading: false });
+        props.setStep(3);
+      }
+    } catch (error) {
+      setState = { ...state, responseError: error.message };
+    }
   };
 
-  const [error, setError] = useState(null);
+  //Redirecting if not logged in
+  if (status === 'unauthenticated') {
+    router.push('/auth/login');
+  }
 
   return (
     <form
@@ -93,8 +125,8 @@ const DataForm = (props) => {
             <option key={index} value={university} />
           ))}
         </datalist>
-        {error === 'Debes escoger un género de la lista' && (
-          <p className={styles.inputText__errors}>{error}</p>
+        {state.error === 'Debes escoger un género de la lista' && (
+          <p className={styles.inputText__errors}>{state.error}</p>
         )}
       </label>
 
@@ -124,8 +156,8 @@ const DataForm = (props) => {
             <option key={index} value={university} />
           ))}
         </datalist>
-        {error === 'Debes escoger una universidad de la lista' && (
-          <p className={styles.inputText__errors}>{error}</p>
+        {state.error === 'Debes escoger una universidad de la lista' && (
+          <p className={styles.inputText__errors}>{state.error}</p>
         )}
       </label>
 
@@ -144,15 +176,23 @@ const DataForm = (props) => {
             <option key={index} value={university} />
           ))}
         </datalist>
-        {error === 'Debes escoger una facultad de la lista' && (
-          <p className={styles.inputText__errors}>{error}</p>
+        {state.error === 'Debes escoger una facultad de la lista' && (
+          <p className={styles.inputText__errors}>{state.error}</p>
         )}
       </label>
 
+      {state.responseError && (
+        <p className={styles.responseError}>{state.responseError}</p>
+      )}
+
       <button
         type='submit'
-        className={`${styles.continueButton} btn button--red`}
+        className={`${styles.continueButton} ${
+          state.loading && styles.buttonLoading
+        } btn button--red`}
+        disabled={state.loading}
       >
+        <div className={`${state.loading && styles.dot_flashing} `}></div>
         Continuar{' '}
         <span className={styles.nextArrowContainer}>
           <Image src={arrow_right_white} />

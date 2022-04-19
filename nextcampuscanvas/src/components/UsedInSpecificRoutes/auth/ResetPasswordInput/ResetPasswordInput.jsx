@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
+import { signIn } from 'next-auth/react';
 
 //Form Validation
 import { useForm } from 'react-hook-form';
@@ -17,10 +17,6 @@ import styles from './ResetPasswordInput.module.scss';
 //Endpoints
 import endPoints from '@services/api';
 
-//Redux actions
-import * as authActions from '@actions/authActions';
-const { login } = authActions;
-
 //Form validation
 const schema = yup.object().shape({
   //Name and id of inputs, as well
@@ -34,7 +30,7 @@ const schema = yup.object().shape({
   rep_contrasena: yup.string().oneOf([yup.ref('contrasena'), null]),
 });
 
-const ResetPasswordInput = (props) => {
+const ResetPasswordInput = () => {
   const [state, setState] = useState({
     sent: false,
     error: '',
@@ -81,18 +77,26 @@ const ResetPasswordInput = (props) => {
 
     //Login y redirección a home
     try {
-      props.login(userEmail, CONTRASENA.value).then(async (res) => {
-        if (res?.payload === 'Usuario o contraseña incorrectos') {
-          return false;
-        }
-        setState({ ...state, sent: true });
-        CONTRASENA.setValue('');
-        REP_CONTRASENA.setValue('');
-        setState({ ...state, sent: true, loading: false });
-        setTimeout(async () => {
-          await router.push('/');
-        }, 3000);
+      const auth = await signIn('credentials', {
+        redirect: false,
+        email: userEmail,
+        password: CONTRASENA.value,
       });
+      if (auth.error) {
+        setState({
+          ...state,
+          error: 'Usuario o contraseña incorrectos',
+          loading: false,
+        });
+        return false;
+      }
+      setState({ ...state, sent: true });
+      CONTRASENA.setValue('');
+      REP_CONTRASENA.setValue('');
+      setState({ ...state, sent: true, loading: false });
+      setTimeout(async () => {
+        await router.push('/');
+      }, 3000);
     } catch (error) {
       console.log(error);
     }
@@ -179,14 +183,4 @@ const ResetPasswordInput = (props) => {
   );
 };
 
-//Map state to props
-const mapStateToProps = (reducers) => {
-  return reducers.authReducer;
-};
-
-//Map actions to props
-const mapDispatchToProps = {
-  login,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResetPasswordInput);
+export default ResetPasswordInput;

@@ -30,6 +30,8 @@ const StudentConfirmForm = (props) => {
   const handleSubmit = (e) => {
     //TODO: Al dar click, que aparezca cargando antes de
     //mostrar a usuario si el correo ya existe o no
+    //TODO: Añadir mensaje de que puede seguir después con
+    //la verificación
     e.preventDefault();
     console.log(STU_EMAIL.value);
     STU_EMAIL.setValue('');

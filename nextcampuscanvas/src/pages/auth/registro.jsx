@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
+
+//Assets
+import Logo_Campus_Canvas from '@assets/GeneralUse/Logos/logo.svg';
 
 //Components
-import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
 import FooterSignature from '@components/GeneralUseComponents/FooterSignature/FooterSignature';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 import EmailPasswordForm from '@components/UsedInSpecificRoutes/auth/register/step1/EmailPasswordForm';
@@ -13,7 +16,21 @@ import StudentConfirmForm from '@components/UsedInSpecificRoutes/auth/register/s
 import styles from '@pagestyles/Registro.module.scss';
 
 const registro = (props) => {
-  const [step, setStep] = useState(2);
+  const router = useRouter();
+  const [step, setStep] = useState(1);
+
+  //Render the form depending on the step
+  useEffect(() => {
+    if (router.query.step === '2') {
+      setStep(2);
+      router.query.step = {};
+    }
+    if (router.query.step === '3') {
+      setStep(3);
+      router.query.step = {};
+    }
+  }, [step]);
+
   return (
     <>
       <SEOHeader
@@ -24,8 +41,19 @@ const registro = (props) => {
         }
       />
 
+      {/* Not using generic secondaryHeader to prevent that user goes to home throug
+      verification process without refreshing props.user, since with link, redux props 
+      would be kept without updating them */}
       <div className={styles.login__container}>
-        <SecondaryHeader />
+        <header className={styles.header}>
+          <div className={`${styles.header__container} container`}>
+            <a href='/'>
+              <button>
+                <Image src={Logo_Campus_Canvas} alt='Logo Campus Canvas' />
+              </button>
+            </a>
+          </div>
+        </header>
 
         <main className={styles.main}>
           <div className={styles.main__container}>

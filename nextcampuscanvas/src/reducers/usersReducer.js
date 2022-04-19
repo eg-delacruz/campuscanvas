@@ -1,4 +1,4 @@
-import { AUTH_USER, LOADING, ERROR } from '@reduxtypes/authTypes';
+import { USER, LOADING, ERROR } from '@reduxtypes/usersTypes';
 
 const INITIAL_STATE = {
   user: null,
@@ -8,7 +8,7 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case AUTH_USER:
+    case USER:
       return {
         ...state,
         user: action.payload,

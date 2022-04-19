@@ -16,7 +16,8 @@ const endPoints = {
       `${API}/api/${VERSION}/user/pass_reset/${id}/${token}`,
   },
   user: {
-    getProfile: (id) => `${API}/api/${VERSION}/user/${id}`,
+    getUser: (id) => `${API}/api/${VERSION}/user/${id}`,
+    updateStuInfo: `${API}/api/${VERSION}/user/update`,
   },
 };
 

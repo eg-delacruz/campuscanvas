@@ -15,7 +15,7 @@ class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props;
     return (
-      <SessionProvider>
+      <SessionProvider refetchOnWindowFocus={true}>
         <Provider store={store}>
           <Component {...pageProps} />
         </Provider>

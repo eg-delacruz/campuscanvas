@@ -2,7 +2,7 @@ import store from '@server/components/user/store';
 import { hashPassword } from '@server/services/passEncript';
 
 //Function used to erase sensitive data, currently not being used
-function cleanUser(user) {
+const cleanUserForClient = (user) => {
   let userClean = user.toObject();
   delete userClean.password;
   delete userClean.createdAt;
@@ -10,7 +10,7 @@ function cleanUser(user) {
   delete userClean._id;
   delete userClean.__v;
   return userClean;
-}
+};
 
 const registerUser = (email, password) => {
   return new Promise(async (resolve, reject) => {
@@ -121,4 +121,5 @@ module.exports = {
   getUserByEmail,
   resetPassword,
   updateStuData,
+  cleanUserForClient,
 };

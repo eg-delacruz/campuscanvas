@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { connect } from 'react-redux';
+import { useRouter } from 'next/router';
 
 //Assets
 import Logo_Campus_Canvas from '@assets/GeneralUse/Logos/logo.svg';
@@ -13,9 +15,26 @@ import styles from './Header.module.scss';
 import { useSession } from 'next-auth/react';
 import { signOut } from 'next-auth/react';
 
-function Header() {
+//Redux actions
+import * as usersActions from '@actions/usersActions';
+const { getUser } = usersActions;
+
+function Header(props) {
+  const router = useRouter();
+  //Session
   const { data: session, status } = useSession();
   const loading = status === 'loading';
+
+  //This useEffect gets the user data to display user name
+  //even if user stop verification proces in step 2 or 3
+  useEffect(() => {
+    const setUserName = async () => {
+      if (session && props.user === null) {
+        await props.getUser(session.token.sub);
+      }
+    };
+    setUserName();
+  }, [session]);
 
   const [menu, setMenu] = useState({
     isMenuOn: false,
@@ -27,6 +46,21 @@ function Header() {
 
   const hideMenu = () => {
     setMenu({ isMenuOn: false });
+  };
+
+  const verifyUser = () => {
+    if (!props.user.stu_data.university && !props.user.stu_verified) {
+      router.push(
+        { pathname: '/auth/registro', query: { step: 2 } },
+        'auth/registro'
+      );
+    }
+    if (props.user.stu_data.university && !props.user.stu_verified) {
+      router.push(
+        { pathname: '/auth/registro', query: { step: 3 } },
+        'auth/registro'
+      );
+    }
   };
 
   return (
@@ -61,18 +95,33 @@ function Header() {
             </Link>
 
             {/* Logged in user menu for bigger than 767px */}
-            {session && (
+            {props.user && (
               <div className={styles.header__logged_user_menu}>
-                <div className={styles.icon}>
-                  <Image src={logged_user_icon} />
+                <div className={styles.header__logged_user_menu_container}>
+                  <div className={styles.icon}>
+                    <Image src={logged_user_icon} />
+                  </div>
+                  <p>{props.user.name ? props.user.name : props.user.email}</p>
+                  <button
+                    onClick={() => signOut()}
+                    className={`${styles.logoutButton} btn button--red `}
+                  >
+                    <Link href='/'>Log out</Link>
+                  </button>
                 </div>
-                <p>{session.token.email}</p>
-                <button
-                  onClick={() => signOut()}
-                  className={`${styles.logoutButton} btn button--red `}
-                >
-                  <Link href='/'>Log out</Link>
-                </button>
+                {props.user.stu_verified && (
+                  <p className={styles.verified_text}>Estudiante verificado</p>
+                )}
+                {!props.user.stu_verified && (
+                  <div className={styles.unverif_button_container}>
+                    <button
+                      className={`${styles.unverified_button} btn button--redRedborderTransparentHoverShadowtRed`}
+                      onClick={() => verifyUser()}
+                    >
+                      Verifica tu cuenta
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -139,20 +188,39 @@ function Header() {
             )}
 
             {/* This part only displays in the curtain menu */}
-            {session && (
+            {props.user && (
               <section className={styles.userMenu__767}>
                 <div className={styles.user__info}>
-                  <div className={styles.user__icon}>
-                    <Image src={logged_user_icon} />
+                  <div className={styles.icon_info_container}>
+                    <div className={styles.user__icon}>
+                      <Image src={logged_user_icon} />
+                    </div>
+                    <p>
+                      {props.user.name ? props.user.name : props.user.email}
+                    </p>
                   </div>
-                  <p>{session.token.email}</p>
+                  {props.user.stu_verified && (
+                    <p className={styles.verified_text}>
+                      Estudiante verificado
+                    </p>
+                  )}
+
+                  {!props.user.stu_verified && (
+                    <button
+                      className={`${styles.unverified_button} btn button--redRedborderTransparentHoverShadowtRed`}
+                      onClick={() => verifyUser()}
+                    >
+                      Verifica tu cuenta
+                    </button>
+                  )}
                 </div>
-                <div
+
+                <button
                   onClick={() => signOut()}
                   className={`${styles.signoutButton} btn button--red `}
                 >
                   <Link href='/'>Log out</Link>
-                </div>
+                </button>
               </section>
             )}
           </nav>
@@ -161,5 +229,14 @@ function Header() {
     </>
   );
 }
+//Map state to props
+const mapStateToProps = (reducers) => {
+  return reducers.usersReducer;
+};
 
-export default Header;
+//Map actions to props
+const mapDispatchToProps = {
+  getUser,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
