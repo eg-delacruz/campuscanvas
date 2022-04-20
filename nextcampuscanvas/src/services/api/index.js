@@ -10,14 +10,15 @@ const API = LOCAL_API;
 
 const endPoints = {
   auth: {
-    login: `${API}/api/v1/user`,
     forgotPassword: `${API}/api/${VERSION}/user/pass-forgot`,
     resetPassword: (id, token) =>
       `${API}/api/${VERSION}/user/pass_reset/${id}/${token}`,
+    verifyStuEmail: `${API}/api/${VERSION}/user/verif_email`,
   },
   user: {
+    create: `${API}/api/v1/user/create_user`,
     getUser: (id) => `${API}/api/${VERSION}/user/${id}`,
-    updateStuInfo: `${API}/api/${VERSION}/user/update`,
+    updateStuInfo: `${API}/api/${VERSION}/user/index`,
   },
 };
 

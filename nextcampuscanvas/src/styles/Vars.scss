@@ -45,7 +45,6 @@ $color--confirmation: #49a73d;
 @mixin font-size($size) {
   font-size: $size;
   font-size: pixelToRem($size);
-  //   line-height: pixelToRem($size) * 1.5;
 }
 
 //Paragraphs

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 //Session
 import { useSession } from 'next-auth/react';
@@ -14,28 +15,63 @@ import { useInputValue } from '@hooks/useInputValue';
 //Styles
 import styles from './StudentConfirmForm.module.scss';
 
-const StudentConfirmForm = (props) => {
+//Endpoints
+import endPoints from '@services/api';
+
+const StudentConfirmForm = () => {
   const { data: session, status } = useSession();
   const loading = status === 'loading';
 
-  //Needs to be put with ? after session!!
-  //token.sub is the user id
-  console.log(session?.token.sub);
+  const router = useRouter();
 
-  const [sent, setSent] = useState(false);
+  const [state, setState] = useState({
+    loading: false,
+    error: false,
+    sent: false,
+  });
 
   //Controlling inputs
   const STU_EMAIL = useInputValue('');
 
-  const handleSubmit = (e) => {
-    //TODO: Al dar click, que aparezca cargando antes de
-    //mostrar a usuario si el correo ya existe o no
-    //TODO: Añadir mensaje de que puede seguir después con
-    //la verificación
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(STU_EMAIL.value);
-    STU_EMAIL.setValue('');
-    setSent(true);
+    setState({ ...state, loading: true });
+    const id = session?.token.sub;
+    const stu_email = STU_EMAIL.value;
+
+    try {
+      const response = await fetch(endPoints.auth.verifyStuEmail, {
+        method: 'POST',
+        headers: {
+          accept: '*/*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id, stu_email }),
+      });
+      const data = await response.json();
+
+      if (data.error) {
+        if (data.error === 'No has ingresado tu universidad') {
+          setState({ ...state, error: data.error, loading: false });
+          return setTimeout(() => {
+            router.push('/');
+          }, 2000);
+        }
+        if (
+          data.error ===
+          'Este email ya ha sido utilizado para verificar una cuenta'
+        ) {
+          setState({ ...state, error: data.error, loading: false });
+          return false;
+        }
+      }
+
+      STU_EMAIL.setValue('');
+      setState({ ...state, error: false, loading: false, sent: true });
+    } catch (error) {
+      console.log(error);
+      setState({ ...state, loading: false, error: error.message });
+    }
   };
 
   return (
@@ -46,7 +82,7 @@ const StudentConfirmForm = (props) => {
       action=''
       autoComplete='off'
     >
-      {sent ? (
+      {state.sent ? (
         <>
           <h4 className={styles.sent__message}>
             Te hemos enviado un enlace de verificación. Revisa tu correo
@@ -54,7 +90,9 @@ const StudentConfirmForm = (props) => {
           </h4>
           <p className={styles.sent__resendOption}>
             ¿No has recibido el enlace?{' '}
-            <span onClick={() => setSent(false)}>Reenviar enlace</span>{' '}
+            <span onClick={() => setState({ ...state, sent: false })}>
+              Reenviar enlace
+            </span>{' '}
           </p>
         </>
       ) : (
@@ -84,16 +122,27 @@ const StudentConfirmForm = (props) => {
               />
             </div>
           </div>
-          {props.error && (
-            <p className={styles.inputText__errors}>{props.error}</p>
+          {state.error && (
+            <p className={styles.inputText__errors}>{state.error}</p>
           )}
 
           <button
             type='submit'
-            className={`${styles.continueButton} btn button--red`}
+            className={`${styles.sentLinkButton} ${
+              state.loading && styles.buttonLoading
+            } btn button--red`}
+            disabled={state.loading}
           >
+            <div className={`${state.loading && styles.dot_flashing} `}></div>
             Enviar enlace{' '}
           </button>
+          <p className={styles.pause_verif_process_message}>
+            Si no quieres verificar tu estatus de estudiante ahora, puedes
+            continuar más tarde. Para ello, simplemente inicia sesión con tu
+            dirección de Email y contraseña, y finaliza el proceso de
+            verificación. Ten en cuenta que mientras no te hayas verificado, no
+            tendrás acceso total a nuestras ofertas.
+          </p>
         </>
       )}
 

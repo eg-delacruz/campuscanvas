@@ -1,3 +1,0 @@
-##Rename index.js to create.js
-
-##Rename update.js to [...index].js and secure it

@@ -58,10 +58,19 @@ const updateUser = async (user) => {
   return updatedUser;
 };
 
+/////////////////////Check if stu_email already used before//////////////////////////////
+const checkStuEmail = async (stu_email) => {
+  const user = await User.findOne({
+    stu_email,
+  });
+  return user;
+};
+
 module.exports = {
   add: addUser,
   getAll: getUsers,
   getById: getUserById,
   getByEmail: getUserByEmail,
   update: updateUser,
+  checkStuEmail,
 };

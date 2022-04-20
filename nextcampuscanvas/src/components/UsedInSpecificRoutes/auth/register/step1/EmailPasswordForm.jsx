@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 //Form Validation
 import { useForm } from 'react-hook-form';
@@ -42,6 +43,7 @@ const schema = yup.object().shape({
 
 const emailPasswordForm = (props) => {
   const [state, setState] = useState({ loading: false, error: '' });
+  const router = useRouter();
 
   //Session
   const { data: session, status } = useSession();
@@ -67,7 +69,7 @@ const emailPasswordForm = (props) => {
       setState({ ...state, loading: true });
 
       //Saving user in DB
-      const respuesta = await fetch(endPoints.auth.login, {
+      const respuesta = await fetch(endPoints.user.create, {
         method: 'POST',
         headers: {
           accept: '*/*',
@@ -117,6 +119,9 @@ const emailPasswordForm = (props) => {
       });
     }
   };
+  if (status === 'authenticated') {
+    router.push('/auth/login');
+  }
 
   return (
     <form

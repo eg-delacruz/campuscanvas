@@ -56,22 +56,41 @@
   }
 
   .inputText__errors {
-    color: red;
+    color: $color--primary1;
     margin: 0;
     position: relative;
     top: -42px;
     font-weight: bold;
-    // margin-top: -20px;
   }
 
   //Buttons
-  .continueButton {
+  .sentLinkButton {
     position: relative;
-    .nextArrowContainer {
+    .dot_flashing {
       position: absolute;
-      top: 16px;
-      right: 10px;
+      top: -4px;
+      right: -2px;
+      width: 12px;
+      height: 12px;
+      border-radius: 10px;
+      animation: dotFlashing 0.25s infinite ease alternate;
     }
+    @keyframes dotFlashing {
+      0% {
+        background-color: $color--primary2;
+      }
+      100% {
+        background-color: $color--primary2-light2;
+      }
+    }
+  }
+  .buttonLoading {
+    background-color: rgba(173, 33, 70, 0.4);
+    cursor: default;
+  }
+
+  .pause_verif_process_message {
+    margin-top: 60px;
   }
   .contactButton {
     display: flex;

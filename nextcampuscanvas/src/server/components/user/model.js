@@ -25,6 +25,11 @@ const usersSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  stu_email: {
+    type: String,
+    default: '',
+    lowercase: true,
+  },
   stu_data: {
     university: {
       type: String,

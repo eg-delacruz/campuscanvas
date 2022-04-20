@@ -1,7 +1,11 @@
 import store from '@server/components/user/store';
 import { hashPassword } from '@server/services/passEncript';
+import jwt from 'jsonwebtoken';
 
-//Function used to erase sensitive data, currently not being used
+//clientEndpoints
+import clientEndPoints from '@server/clientEndPoints';
+
+//Function used to erase sensitive data
 const cleanUserForClient = (user) => {
   let userClean = user.toObject();
   delete userClean.password;
@@ -35,6 +39,7 @@ const registerUser = (email, password) => {
       name: '',
       gender: '',
       stu_verified: false,
+      stu_email: '',
       stu_data: {
         university: '',
         faculty: '',
@@ -72,7 +77,7 @@ const getUserByEmail = async (email) => {
   }
 };
 
-const updateStuData = async ({ id, name, gender, university, faculty }) => {
+const updateStuData = async (id, name, gender, university, faculty) => {
   try {
     const user = await store.getById(id);
 
@@ -107,11 +112,71 @@ const resetPassword = async (newPassword, user) => {
   }
 };
 
-//Esta función no se usa, sin embargo, dejarla para ejemplos futuros
+//Esta función no se usa, sin embargo, dejarla para casos futuros
 const getUsers = () => {
   return new Promise((resolve, reject) => {
     resolve(store.getAll());
   });
+};
+
+const verifyStuEmail = async (user, stu_email) => {
+  try {
+    const user_with_same_stu_email = await store.checkStuEmail(stu_email);
+    if (user_with_same_stu_email) {
+      throw new Error(
+        '[Controller] Este email ya ha sido utilizado para verificar una cuenta'
+      );
+    }
+
+    if (user.stu_data.university === '') {
+      //Al modificar errores, modificar en verif_email también
+      throw new Error('[Controller] No has ingresado tu universidad');
+    }
+    if (user.stu_verified) {
+      throw new Error('[Controller] Ya has sido verificado anteriormente');
+    }
+
+    //TODO: create logic to discard hotmail, google, etc here,
+    //throw email if contains those
+
+    //Generating validation link
+    const secret = process.env.JWT_SECRET + user.password;
+    const payload = {
+      id: user.id,
+      stu_email: stu_email,
+    };
+    const token = jwt.sign(payload, secret, { expiresIn: '15m' });
+    const link = clientEndPoints.user.verifyStuEmail(user.id, token);
+
+    //TODO:Este if contendrá toda la lógica que permitirá
+    //enviar el enlace
+    // if (
+    //   user.stu_data.university === 'complu' &&
+    //   stu_email.includes('@hotmail.com')
+    // ) {
+    //   //Return validation link
+    // }
+    return link;
+
+    //TODO: aquí crear if con unhandled email structures
+    //to also send the verif email but save their emails
+    //in a different collection to analyze later
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+const verifyStudentAccount = async (user, stu_email) => {
+  try {
+    user.stu_email = stu_email;
+    user.stu_verified = true;
+    user.updatedAt = new Date();
+
+    const verified_student = await store.update(user);
+    return verified_student;
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
 module.exports = {
@@ -122,4 +187,6 @@ module.exports = {
   resetPassword,
   updateStuData,
   cleanUserForClient,
+  verifyStuEmail,
+  verifyStudentAccount,
 };
