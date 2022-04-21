@@ -86,7 +86,7 @@ module.exports = {
   sendAuthStudentUserMail,
 };
 
-// //Poner esto donde se vaya a usar este email:
+// //Poner esto donde se vaya a usar/enviar este email:
 // sendMail()
 //   .then((result) => {
 //     console.log('Email sent...', result);

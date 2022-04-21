@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 //Components
 import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';

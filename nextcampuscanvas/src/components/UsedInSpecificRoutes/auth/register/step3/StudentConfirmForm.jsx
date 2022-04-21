@@ -57,13 +57,8 @@ const StudentConfirmForm = () => {
             router.push('/');
           }, 2000);
         }
-        if (
-          data.error ===
-          'Este email ya ha sido utilizado para verificar una cuenta'
-        ) {
-          setState({ ...state, error: data.error, loading: false });
-          return false;
-        }
+        setState({ ...state, error: data.error, loading: false });
+        return false;
       }
 
       STU_EMAIL.setValue('');

@@ -1,6 +1,10 @@
 import { successResponse, errorResponse } from '@server/response';
 import Controller from '@server/components/user/controller';
 
+//Mailer
+import CCMailer from '@server/services/mailer/CC_info@google';
+const { sendAuthStudentUserMail } = CCMailer;
+
 //Route secured as shown in https://www.youtube.com/watch?v=cOgogGJ6_7M&t=36s  (min 56)
 //Session
 import { getSession } from 'next-auth/react';
@@ -12,8 +16,7 @@ export default async function handler(req, res) {
   //Securing page with session
   const session = await getSession({ req });
   if (!session) {
-    //TODO: uncomment this
-    //return errorResponse(req, res, 'Forbidden', 403, '[Network] No hay sesión');
+    return errorResponse(req, res, 'Forbidden', 403, '[Network] No hay sesión');
   }
 
   //Avoiding CORS errors
@@ -36,8 +39,16 @@ export default async function handler(req, res) {
         const user = await Controller.getUserById(id);
 
         const validationLink = await Controller.verifyStuEmail(user, stu_email);
-        console.log(validationLink);
-        //TODO: send email
+
+        //Sending email with link
+        await sendAuthStudentUserMail(stu_email, validationLink)
+          .then((result) => {
+            console.log('[Network] Email enviado', result);
+          })
+          .catch((error) => {
+            console.log('[Network] Error al enviar el email', error);
+          });
+
         successResponse(
           req,
           res,
@@ -45,7 +56,7 @@ export default async function handler(req, res) {
           200
         );
       } catch (error) {
-        //Al modificar errores, modificar en controller también
+        //Al modificar errores, modificar en controller y front también
         if (
           error.message ===
           '[Controller] Este email ya ha sido utilizado para verificar una cuenta'

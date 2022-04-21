@@ -119,9 +119,6 @@ const emailPasswordForm = (props) => {
       });
     }
   };
-  if (status === 'authenticated') {
-    router.push('/auth/login');
-  }
 
   return (
     <form

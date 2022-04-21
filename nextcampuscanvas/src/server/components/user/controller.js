@@ -160,12 +160,15 @@ const verifyStuEmail = async (user, stu_email) => {
 
     //TODO: aquí crear if con unhandled email structures
     //to also send the verif email but save their emails
-    //in a different collection to analyze later
+    //in a different collection to analyze later. Ponerle un else
+    //que simplemente devuelva un error(añadirlo al step3 de stu email
+    //en el front).
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
+//Updates stu_email and stu_verified to true
 const verifyStudentAccount = async (user, stu_email) => {
   try {
     user.stu_email = stu_email;

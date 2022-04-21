@@ -17,7 +17,7 @@ import styles from '@pagestyles/Registro.module.scss';
 
 const registro = (props) => {
   const router = useRouter();
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
 
   //Render the form depending on the step
   useEffect(() => {

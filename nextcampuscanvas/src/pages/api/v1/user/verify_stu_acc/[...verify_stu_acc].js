@@ -32,12 +32,7 @@ export default async function handler(req, res) {
           const stu_email = payload.stu_email;
           await Controller.verifyStudentAccount(user, stu_email);
 
-          //TODO: Redirect verified student to a page telling
-          //her/him that her/his account has been verified
-          //this page should redirect to the home page after 3 seconds
-          //Check if the front needs any specific information in URL, like
-          //the id.
-          res.status(200).redirect('/');
+          res.status(200).redirect('/auth/cuenta_verificada');
         } catch (error) {
           errorResponse(
             req,
