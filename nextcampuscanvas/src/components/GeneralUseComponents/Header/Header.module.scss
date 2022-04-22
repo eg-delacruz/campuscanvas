@@ -1,5 +1,6 @@
 @import '../../../styles/Vars.scss';
 @import '../../../styles/Animations/session.module.scss';
+@import '../../../styles/Animations/skeleton.module.scss';
 
 /////////////////////////
 //       Header        //
@@ -28,7 +29,36 @@
 /////////////////////////////////
 // logged in user menu (right) //
 /////////////////////////////////
-//Disabled in 767 screen
+.logged_user_menu__skeleton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  .skeleton_item1 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    .skeleton_item1_1 {
+      height: 31px;
+      width: 25px;
+      border-radius: 5px;
+      animation: setSkeletonLoading();
+    }
+    .skeleton_item1_2 {
+      height: 30px;
+      width: 85px;
+      border-radius: 5px;
+      animation: setSkeletonLoading();
+      margin-left: 8px;
+    }
+  }
+  .skeleton_item2 {
+    height: 30px;
+    width: 175px;
+    border-radius: 5px;
+    animation: setSkeletonLoading();
+  }
+}
 .header__logged_user_menu {
   display: flex;
   flex-direction: column;
@@ -156,6 +186,23 @@
 /////////////////////////
 //    Login buttons    // (login + registrarse)
 /////////////////////////
+.loginMenu__skeleton {
+  display: flex;
+  .loginMenu__skeleton--button1 {
+    height: 41px;
+    width: 65px;
+    border-radius: 5px;
+    animation: setSkeletonLoading();
+  }
+  .loginMenu__skeleton--button2 {
+    height: 41px;
+    width: 110px;
+    margin-left: 8px;
+    border-radius: 5px;
+    animation: setSkeletonLoading();
+  }
+}
+
 .loading {
   animation: sessionFadeOut();
 }
@@ -274,6 +321,12 @@
       align-items: center;
 
       //Logged user menu for 767 and smaller
+
+      .logged_user_menu__skeleton {
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
       .header__logged_user_menu {
         width: 100%;
         align-items: center;

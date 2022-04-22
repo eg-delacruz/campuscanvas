@@ -1,0 +1,14 @@
+@import '../Vars.scss';
+
+@function setSkeletonLoading() {
+  @return (skeletonLoading 0.75s linear infinite alternate);
+}
+
+@keyframes skeletonLoading {
+  0% {
+    background-color: $color--dark-gray;
+  }
+  100% {
+    background-color: $color--light-gray;
+  }
+}

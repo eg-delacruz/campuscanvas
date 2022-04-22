@@ -28,13 +28,17 @@ function Header(props) {
   const { data: session, status } = useSession();
   const loading = status === 'loading';
 
+  const [state, setState] = useState({ gettingUser: false });
+
   //This useEffect gets the user data to display user name
   //even if user stops verification process in step 2 or 3
   useEffect(() => {
     const setUserName = async () => {
+      setState({ ...state, gettingUser: true });
       if (session && props.user === null) {
         await props.getUser(session.token.sub);
       }
+      setState({ ...state, gettingUser: false });
     };
     setUserName();
   }, [session]);
@@ -71,6 +75,31 @@ function Header(props) {
     }
   };
 
+  //Skeletons
+  const loggedUserMenuSkeleton = () => {
+    if (status === 'loading' || state.gettingUser) {
+      return (
+        <div className={styles.logged_user_menu__skeleton}>
+          <div className={styles.skeleton_item1}>
+            <div className={styles.skeleton_item1_1}></div>
+            <div className={styles.skeleton_item1_2}></div>
+          </div>
+          <div className={styles.skeleton_item2}></div>
+        </div>
+      );
+    }
+  };
+  const loginMenuSkeleton = () => {
+    if (status === 'loading' || state.gettingUser) {
+      return (
+        <div className={styles.loginMenu__skeleton}>
+          <div className={styles['loginMenu__skeleton--button1']}></div>
+          <div className={styles['loginMenu__skeleton--button2']}></div>
+        </div>
+      );
+    }
+  };
+
   return (
     <>
       {/* Burguer Button */}
@@ -102,7 +131,9 @@ function Header(props) {
               </button>
             </Link>
 
-            {/* Logged in user menu for bigger than 767px */}
+            {/* Logged in user menu + validated/unvalidated message*/}
+            {loggedUserMenuSkeleton()}
+
             {props.user && (
               <div className={styles.header__logged_user_menu}>
                 <div className={styles.header__logged_user_menu_container}>
@@ -189,6 +220,8 @@ function Header(props) {
             {/* /////////////////////////
             //     Login buttons      //
             ///////////////////////// */}
+
+            {loginMenuSkeleton()}
 
             {!loading && !session && (
               <ul
