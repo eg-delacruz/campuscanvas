@@ -90,7 +90,7 @@ const DataForm = (props) => {
         props.setStep(3);
       }
     } catch (error) {
-      setState = { ...state, responseError: error.message };
+      setState({ ...state, responseError: error.message });
     }
   };
 

@@ -37,7 +37,7 @@ export default async function handler(req, res) {
           errorResponse(
             req,
             res,
-            'El enlace para reestablecer tu contraseña ha expirado',
+            'El enlace de validación ha expirado',
             400,
             error
           );

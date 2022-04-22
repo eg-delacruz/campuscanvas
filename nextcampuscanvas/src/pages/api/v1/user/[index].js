@@ -39,7 +39,7 @@ export default async function handler(req, res) {
       }
       break;
 
-    //Update student data
+    //Save student data
     case 'PATCH':
       try {
         //Body contains id + name, gender, university and faculty
