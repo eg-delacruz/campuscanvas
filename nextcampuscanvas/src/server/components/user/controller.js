@@ -1,6 +1,7 @@
 import store from '@server/components/user/store';
 import { hashPassword } from '@server/services/passEncript';
 import jwt from 'jsonwebtoken';
+import unhandledEmailsController from '@server/components/unhandledEmails/controller';
 
 //clientEndpoints
 import clientEndPoints from '@server/clientEndPoints';
@@ -136,8 +137,18 @@ const verifyStuEmail = async (user, stu_email) => {
       throw new Error('[Controller] Ya has sido verificado anteriormente');
     }
 
-    //TODO: create logic to discard hotmail, google, etc here,
-    //throw email if contains those
+    //TODO:uncomment this
+    // if (
+    //   stu_email.includes('@hotmail') ||
+    //   stu_email.includes('@gmail') ||
+    //   stu_email.includes('@outlook') ||
+    //   stu_email.includes('@yahoo') ||
+    //   stu_email.includes('@live')
+    // ) {
+    //   throw new Error(
+    //     '[Controller] La dirección de correo no pertenece a tu universidad'
+    //   );
+    // }
 
     //Generating validation link
     const secret = process.env.JWT_SECRET + user.password;
@@ -148,21 +159,35 @@ const verifyStuEmail = async (user, stu_email) => {
     const token = jwt.sign(payload, secret, { expiresIn: '15m' });
     const link = clientEndPoints.user.verifyStuEmail(user.id, token);
 
-    //TODO:Este if contendrá toda la lógica que permitirá
-    //enviar el enlace
-    // if (
-    //   user.stu_data.university === 'complu' &&
-    //   stu_email.includes('@hotmail.com')
-    // ) {
-    //   //Return validation link
-    // }
-    return link;
+    //TODO:Uncomment Handled uni_email structures. If uniname is here,
+    //shouldn't be in the following else if!!
 
-    //TODO: aquí crear if con unhandled email structures
-    //to also send the verif email but save their emails
-    //in a different collection to analyze later. Ponerle un else
-    //que simplemente devuelva un error(añadirlo al step3 de stu email
-    //en el front).
+    // if (
+    //   user.stu_data.university === 'universidad rey juan carlos urjc' &&
+    //   stu_email.includes('@urjc.edu.com')
+    // ) {
+    //   //Return link
+    // }
+
+    //TODO:Uncomment Unhandled uni_email structures. If uniname is here,
+    //shuldn't be in handled uni_email structures -if above !!!
+    //else if (
+    //user.stu_data.university === 'unhandledUniName1' ||
+    //user.stu_data.university === 'unhandledUniName2' ||
+    //user.stu_data.university === 'unhandledUniName3'
+    //) {
+    //TODO:save university and unhandled uni_email structure in another collection
+    await unhandledEmailsController.createUnhandledEmailEntry(
+      user.stu_data.university,
+      stu_email
+    );
+    return link;
+    //}
+    //else{
+    // throw new Error(
+    //   '[Controller] La dirección de correo no pertenece a tu universidad'
+    // );
+    //}
   } catch (error) {
     throw new Error(error.message);
   }

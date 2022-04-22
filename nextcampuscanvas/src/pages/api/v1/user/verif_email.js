@@ -92,6 +92,19 @@ export default async function handler(req, res) {
           );
           return false;
         }
+        if (
+          error.message ===
+          '[Controller] La dirección de correo no pertenece a tu universidad'
+        ) {
+          errorResponse(
+            req,
+            res,
+            'La dirección de correo no pertenece a tu universidad',
+            400,
+            error.message
+          );
+          return false;
+        }
         errorResponse(req, res, 'Error al verificar usuario', 400, error);
       }
 
