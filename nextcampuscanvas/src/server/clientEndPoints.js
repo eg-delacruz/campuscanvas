@@ -4,7 +4,7 @@ const PRODUCTION_API = process.env.NEXT_PUBLIC_API_URL;
 const VERSION = process.env.NEXT_PUBLIC_API_URL_VERSION;
 
 //change this to production URL when uploading to server
-const API = LOCAL_API;
+const API = PRODUCTION_API;
 
 const endPoints = {
   user: {
