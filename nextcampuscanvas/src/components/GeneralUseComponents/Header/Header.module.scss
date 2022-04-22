@@ -32,7 +32,7 @@
 .header__logged_user_menu {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   .header__logged_user_menu_container {
     display: flex;
@@ -47,23 +47,55 @@
       font-weight: 700;
       background-color: $color--light-gray;
       padding: 0 8px;
+      padding-right: 12px;
       border-radius: 5px;
-    }
-    .logoutButton {
-      padding: 8px;
-      height: inherit;
-      margin-left: 8px;
-    }
-    .logoutButton a {
-      text-decoration: none;
-      color: $color--white;
-      height: inherit;
-      display: flex;
-      align-items: center;
-      font-weight: 700;
-      cursor: pointer;
+      position: relative;
+      i {
+        position: absolute;
+        right: 3px;
+      }
     }
   }
+  //Dropdown menu
+  .header__logged_user_menu_container:hover + ul,
+  ul:hover {
+    display: block;
+  }
+  ul {
+    display: none;
+    list-style: none;
+    position: absolute;
+    text-align: right;
+    margin: 0;
+    min-width: 100px;
+    top: 50px;
+    padding: 0;
+    border-radius: 5px;
+
+    //strong glasmorphism
+    background: rgba(255, 255, 255, 0.35);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    li {
+      padding-right: 4px;
+      padding: 8px 4px;
+      font-weight: 700;
+      border-bottom: 1px solid $color--light-gray;
+      i {
+        margin-left: 6px;
+      }
+      &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+  }
+  ul li:last-child {
+    border-bottom: none;
+  }
+
   //Verified/unverified message/button
   .verified_text {
     color: $color--confirmation;
@@ -232,15 +264,36 @@
   .burguer__button {
     display: flex;
   }
-  //Disabling logged in user menu next to logo for screens smaller than 767px
-  .header__logged_user_menu {
-    display: none;
-  }
 
   .header .header__container {
     padding: 0;
     display: flex;
     justify-content: center;
+    .header__logo {
+      flex-direction: column;
+      align-items: center;
+
+      //Logged user menu for 767 and smaller
+      .header__logged_user_menu {
+        width: 100%;
+        align-items: center;
+        text-align: center;
+        .header__logged_user_menu_container {
+          width: 100%;
+          justify-content: center;
+        }
+        ul {
+          position: initial;
+          width: 100%;
+          box-shadow: none;
+          border: 1px solid $color--light-gray;
+          text-align: center;
+        }
+        .unverif_button_container {
+          margin-bottom: 15px;
+        }
+      }
+    }
   }
 
   .menu {
@@ -311,64 +364,6 @@
       }
       .menu__logButton {
         background-color: $color--white;
-      }
-    }
-
-    /////////////////////////
-    //  userMenu for 767   // (userinfo + verif acc. + logout)
-    /////////////////////////
-
-    //Enabling and styling logged in user menu
-    //inside nav for screen smaller than 767px
-    .userMenu__767 {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 0;
-      margin: 0;
-      width: 100%;
-      .user__info {
-        .icon_info_container {
-          display: flex;
-        }
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
-        padding: 2px 8px;
-        border-radius: 5px;
-
-        // glasmorphism
-        background: rgba(255, 255, 255, 0.35);
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        .user__icon {
-          margin-right: 8px;
-        }
-        p {
-          font-weight: 700;
-          margin: 0;
-        }
-      }
-
-      .verified_text {
-        color: $color--confirmation;
-        margin: 0;
-        font-weight: bolder;
-      }
-      .unverified_button {
-        color: $color--primary1;
-        padding: 4px 31px;
-      }
-      .signoutButton {
-        margin-top: 40px;
-        padding: 8px 30px;
-        a {
-          color: $color--white;
-          text-decoration: none;
-        }
       }
     }
   }

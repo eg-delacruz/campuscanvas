@@ -7,6 +7,9 @@ import { useRouter } from 'next/router';
 //Assets
 import Logo_Campus_Canvas from '@assets/GeneralUse/Logos/logo.svg';
 import logged_user_icon from '@assets/GeneralUse/IconsAndButtons/logged_user.svg';
+import logout_icon from '@assets/GeneralUse/IconsAndButtons/usedInComponents/Header/logout_icon.svg';
+import profile_icon from '@assets/GeneralUse/IconsAndButtons/usedInComponents/Header/profile_icon.svg';
+import dropdown_menu_arrow from '@assets/GeneralUse/IconsAndButtons/usedInComponents/Header/dropdown_menu_arrow.svg';
 
 //Styles
 import styles from './Header.module.scss';
@@ -26,7 +29,7 @@ function Header(props) {
   const loading = status === 'loading';
 
   //This useEffect gets the user data to display user name
-  //even if user stop verification proces in step 2 or 3
+  //even if user stops verification process in step 2 or 3
   useEffect(() => {
     const setUserName = async () => {
       if (session && props.user === null) {
@@ -48,6 +51,11 @@ function Header(props) {
     setMenu({ isMenuOn: false });
   };
 
+  const redirectTo = (url) => {
+    return router.push(url);
+  };
+
+  //Dirigir a usuario al paso de verificación correspondiente
   const verifyUser = () => {
     if (!props.user.stu_data.university && !props.user.stu_verified) {
       router.push(
@@ -101,17 +109,33 @@ function Header(props) {
                   <div className={styles.icon}>
                     <Image src={logged_user_icon} />
                   </div>
-                  <p>{props.user.name ? props.user.name : props.user.email}</p>
-                  <button
-                    onClick={() => signOut()}
-                    className={`${styles.logoutButton} btn button--red `}
-                  >
-                    <Link href='/'>Log out</Link>
-                  </button>
+                  <p>
+                    {props.user.name ? props.user.name : props.user.email}
+                    <i>
+                      <Image src={dropdown_menu_arrow} />
+                    </i>
+                  </p>
                 </div>
+                <ul className={styles.dropdownMenu}>
+                  <li onClick={() => redirectTo('/construccion')}>
+                    Perfil
+                    <i>
+                      <Image alt='Perfil' src={profile_icon} />
+                    </i>
+                  </li>
+                  <li onClick={() => signOut()}>
+                    {' '}
+                    Log out
+                    <i>
+                      <Image alt='Cerrar sesión' src={logout_icon} />
+                    </i>
+                  </li>
+                </ul>
+                {/* Verified user text */}
                 {props.user.stu_verified && (
                   <p className={styles.verified_text}>Estudiante verificado</p>
                 )}
+                {/* Non-verified user button */}
                 {!props.user.stu_verified && (
                   <div className={styles.unverif_button_container}>
                     <button
@@ -185,43 +209,6 @@ function Header(props) {
                   </li>
                 </Link>
               </ul>
-            )}
-
-            {/* This part only displays in the curtain menu */}
-            {props.user && (
-              <section className={styles.userMenu__767}>
-                <div className={styles.user__info}>
-                  <div className={styles.icon_info_container}>
-                    <div className={styles.user__icon}>
-                      <Image src={logged_user_icon} />
-                    </div>
-                    <p>
-                      {props.user.name ? props.user.name : props.user.email}
-                    </p>
-                  </div>
-                  {props.user.stu_verified && (
-                    <p className={styles.verified_text}>
-                      Estudiante verificado
-                    </p>
-                  )}
-
-                  {!props.user.stu_verified && (
-                    <button
-                      className={`${styles.unverified_button} btn button--redRedborderTransparentHoverShadowtRed`}
-                      onClick={() => verifyUser()}
-                    >
-                      Verifica tu cuenta
-                    </button>
-                  )}
-                </div>
-
-                <button
-                  onClick={() => signOut()}
-                  className={`${styles.signoutButton} btn button--red `}
-                >
-                  <Link href='/'>Log out</Link>
-                </button>
-              </section>
             )}
           </nav>
         </div>
