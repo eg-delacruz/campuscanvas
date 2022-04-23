@@ -72,11 +72,12 @@
     .icon {
       margin-right: 8px;
     }
-    p {
+    button {
+      border: none;
       margin: 0;
       font-weight: 700;
       background-color: $color--light-gray;
-      padding: 0 8px;
+      padding: 6px 8px;
       padding-right: 12px;
       border-radius: 5px;
       position: relative;
@@ -292,14 +293,27 @@
 }
 
 @media screen and (max-width: 880px) {
+  .header .header__container {
+    .header__logo {
+      //Logged user menu for 767(880) and smaller
+      .header__logged_user_menu {
+        ul {
+          display: none;
+        }
+        .dropdow-is-active {
+          display: block;
+        }
+      }
+    }
+  }
+
   //Estilos menú general unlogged
   .menu__list {
     .menu__item {
       margin-right: 45px;
     }
   }
-  //Estilos menu general logged, dejar justo de lo estilos para logged
-  //para que este tenga más valor y se sobreescriba
+  //Estilos menu general logged
   .menu__list--logged {
     .menu__item {
       margin-right: 100px;
@@ -334,14 +348,20 @@
         .header__logged_user_menu_container {
           width: 100%;
           justify-content: center;
+          //pointer-events: none;
         }
+
         ul {
           position: initial;
           width: 100%;
           box-shadow: none;
           border: 1px solid $color--light-gray;
           text-align: center;
+          //display: none;
         }
+        // .dropdow-is-active {
+        //   display: block;
+        // }
         .unverif_button_container {
           margin-bottom: 15px;
         }

@@ -43,16 +43,21 @@ function Header(props) {
     setUserName();
   }, [session]);
 
-  const [menu, setMenu] = useState({
+  const [menus, setMenus] = useState({
     isMenuOn: false,
+    isUserMenuOn: false,
   });
 
   const toggleMenu = (event) => {
-    setMenu({ isMenuOn: !menu.isMenuOn });
+    setMenus({ ...menus, isMenuOn: !menus.isMenuOn });
+  };
+
+  const toggleUserMenu = (event) => {
+    setMenus({ ...menus, isUserMenuOn: !menus.isUserMenuOn });
   };
 
   const hideMenu = () => {
-    setMenu({ isMenuOn: false });
+    setMenus({ ...menus, isMenuOn: false });
   };
 
   const redirectTo = (url) => {
@@ -136,18 +141,28 @@ function Header(props) {
 
             {props.user && (
               <div className={styles.header__logged_user_menu}>
-                <div className={styles.header__logged_user_menu_container}>
+                <div
+                  onClick={() => toggleUserMenu()}
+                  className={styles.header__logged_user_menu_container}
+                >
                   <div className={styles.icon}>
                     <Image src={logged_user_icon} />
                   </div>
-                  <p>
+                  <button>
                     {props.user.name ? props.user.name : props.user.email}
                     <i>
                       <Image src={dropdown_menu_arrow} />
                     </i>
-                  </p>
+                  </button>
                 </div>
-                <ul className={styles.dropdownMenu}>
+                {/* <ul className={styles.dropdownMenu}> */}
+                <ul
+                  className={
+                    menus.isUserMenuOn
+                      ? `${styles.dropdownMenu} ${styles['dropdow-is-active']}`
+                      : styles.dropdownMenu
+                  }
+                >
                   <li onClick={() => redirectTo('/construccion')}>
                     Perfil
                     <i>
@@ -184,7 +199,7 @@ function Header(props) {
           <nav
             onClick={() => hideMenu()}
             className={
-              menu.isMenuOn
+              menus.isMenuOn
                 ? `${styles.menu} ${styles['is-active']}`
                 : styles.menu
             }
