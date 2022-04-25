@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+//import { browserName, CustomView, isBrowser } from 'react-device-detect';
+import DataList from 'react-select';
 
 //Session
 import { useSession } from 'next-auth/react';
@@ -22,7 +24,6 @@ import styles from './DataForm.module.scss';
 import studentInfoDatabase from '@databases/studentInfoDatabase';
 
 const DataForm = (props) => {
-  //const [error, setError] = useState(null);
   const [state, setState] = useState({
     error: null,
     loading: false,
@@ -30,38 +31,90 @@ const DataForm = (props) => {
   });
   const router = useRouter();
 
+  /////////////////////Datalists (start)/////////////////////////////
+  const genderOptions = studentInfoDatabase.GENDERS.map((gender) => ({
+    value: gender,
+    label: gender,
+  }));
+
+  const universityOptions = studentInfoDatabase.UNIVERSITIES.map(
+    (university) => ({
+      value: university,
+      label: university,
+    })
+  );
+
+  const facultyOptions = studentInfoDatabase.FACULTIES.map((faculty) => ({
+    value: faculty,
+    label: faculty,
+  }));
+
+  const [gender, setGender] = useState({});
+  const [university, setUniversity] = useState({});
+  const [faculty, setFaculty] = useState({});
+
+  const DataListTheme = (theme) => {
+    return {
+      ...theme,
+      borderRadius: 5,
+      colors: {
+        ...theme.colors,
+        primary25: '#dee2e6',
+        //Border color
+        neutral20: 'black',
+        //Border color on hover
+        neutral30: 'black',
+      },
+    };
+  };
+
+  const datalistStyles = {
+    selectContainer: (base) => ({
+      ...base,
+      height: '40px',
+    }),
+
+    valueContainer: (base) => ({
+      ...base,
+      padding: '4px',
+    }),
+    control: (base, state) => ({
+      ...base,
+      height: '45px',
+      //$color--secondary-light
+      backgroundColor: '#e3efff',
+    }),
+  };
+
+  /////////////////////Datalists (end)/////////////////////////////
   //Session
   const { data: session, status } = useSession();
   const loading = status === 'loading';
 
   //Controlling inputs
-  const GENERO = useInputValue('');
   const NOMBRE = useInputValue('');
-  const UNIVERSIDAD = useInputValue('');
-  const FACULTAD = useInputValue('');
-
-  let UNIVERSITIES = studentInfoDatabase.UNIVERSITIES;
-  let FACULTIES = studentInfoDatabase.FACULTIES;
-  let GENDERS = studentInfoDatabase.GENDERS;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setState({ ...state, error: null });
 
     //Handling errors
-    if (!GENDERS.includes(GENERO.value)) {
+    if (Object.keys(gender).length === 0) {
       setState({ ...state, error: 'Debes escoger un género de la lista' });
       return false;
     }
-    if (!UNIVERSITIES.includes(UNIVERSIDAD.value)) {
+    if (Object.keys(university).length === 0) {
       setState({
         ...state,
         error: 'Debes escoger una universidad de la lista',
       });
       return false;
     }
-    if (!FACULTIES.includes(FACULTAD.value)) {
-      setState({ ...state, error: 'Debes escoger una facultad de la lista' });
+    if (Object.keys(faculty).length === 0) {
+      setState({
+        ...state,
+        error: 'Debes escoger una facultad de la lista',
+      });
       return false;
     }
 
@@ -77,9 +130,9 @@ const DataForm = (props) => {
         body: JSON.stringify({
           id: session.token.sub,
           name: NOMBRE.value,
-          gender: GENERO.value,
-          university: UNIVERSIDAD.value,
-          faculty: FACULTAD.value,
+          gender: gender.value,
+          university: university.value,
+          faculty: faculty.value,
         }),
       });
       const data = await respuesta.json();
@@ -110,77 +163,74 @@ const DataForm = (props) => {
       <h1>Regístrate gratis</h1>
       <h4>Paso 2 de 3</h4>
 
-      <label htmlFor='genero' className={styles.list_label}>
-        <input
-          required
-          list='generos'
-          id='genero'
-          name='genero'
+      <div className={styles.datalistWrapper}>
+        <DataList
+          theme={DataListTheme}
+          styles={datalistStyles}
+          options={genderOptions}
           placeholder='Género *'
-          value={GENERO.value}
-          onChange={GENERO.onChange}
+          isSearchable
+          autoFocus
+          onChange={setGender}
+          noOptionsMessage={() => 'No hay opciones'}
+          className={styles.datalist_container}
+          id='long-value-select'
+          instanceId='long-value-select'
         />
-        <datalist id='generos'>
-          {GENDERS.map((university, index) => (
-            <option key={index} value={university} />
-          ))}
-        </datalist>
         {state.error === 'Debes escoger un género de la lista' && (
           <p className={styles.inputText__errors}>{state.error}</p>
         )}
-      </label>
+      </div>
 
       <input
+        className={styles.input}
         required
         name='nombre'
         id='nombre'
         type='text'
-        placeholder='Nombre'
+        placeholder='Nombre *'
         autoComplete='off'
         value={NOMBRE.value}
         onChange={NOMBRE.onChange}
       />
 
-      <label htmlFor='universidad' className={styles.list_label}>
-        <input
-          required
-          list='universidades'
-          id='universidad'
-          name='universidad'
+      <div className={styles.datalistWrapper}>
+        <DataList
+          theme={DataListTheme}
+          styles={datalistStyles}
+          options={universityOptions}
           placeholder='Universidad *'
-          value={UNIVERSIDAD.value}
-          onChange={UNIVERSIDAD.onChange}
+          isSearchable
+          autoFocus
+          onChange={setUniversity}
+          noOptionsMessage={() => 'No hay opciones'}
+          className={styles.datalist_container}
+          id='long-value-select-2'
+          instanceId='long-value-select-2'
         />
-        <datalist id='universidades'>
-          {UNIVERSITIES.map((university, index) => (
-            <option key={index} value={university} />
-          ))}
-        </datalist>
         {state.error === 'Debes escoger una universidad de la lista' && (
           <p className={styles.inputText__errors}>{state.error}</p>
         )}
-      </label>
+      </div>
 
-      <label htmlFor='facultad' className={styles.list_label}>
-        <input
-          required
-          list='facultades'
-          id='facultad'
-          name='facultad'
+      <div className={styles.datalistWrapper}>
+        <DataList
+          theme={DataListTheme}
+          styles={datalistStyles}
+          options={facultyOptions}
           placeholder='Facultad *'
-          value={FACULTAD.value}
-          onChange={FACULTAD.onChange}
+          isSearchable
+          autoFocus
+          onChange={setFaculty}
+          noOptionsMessage={() => 'No hay opciones'}
+          className={styles.datalist_container}
+          id='long-value-select-3'
+          instanceId='long-value-select-3'
         />
-        <datalist id='facultades'>
-          {FACULTIES.map((university, index) => (
-            <option key={index} value={university} />
-          ))}
-        </datalist>
         {state.error === 'Debes escoger una facultad de la lista' && (
           <p className={styles.inputText__errors}>{state.error}</p>
         )}
-      </label>
-
+      </div>
       {state.responseError && (
         <p className={styles.responseError}>{state.responseError}</p>
       )}

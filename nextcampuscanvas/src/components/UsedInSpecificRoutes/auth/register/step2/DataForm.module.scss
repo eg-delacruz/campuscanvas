@@ -1,6 +1,7 @@
 @import '../../../../../styles/Vars.scss';
 
 .form {
+  width: 490px;
   max-width: 490px;
   align-self: center;
   vertical-align: center;
@@ -11,12 +12,7 @@
     margin: 0;
     margin-bottom: 30px;
   }
-  label {
-    @include font-size(16px);
-    margin-bottom: 8px;
-    width: 100%;
-  }
-  input {
+  .input {
     width: 100%;
     background-color: $color--secondary-light;
     border: 1px solid $color--black;
@@ -26,16 +22,20 @@
     padding: 10px;
   }
 
-  //Possitioning validation error messages if value not included in datalists
-  .list_label {
+  .datalistWrapper {
     position: relative;
+    .datalist_container {
+      margin-bottom: 35px;
+      width: 100%;
+    }
   }
 
+  //Possitioning validation error messages if value not included in datalists
   .inputText__errors {
     color: $color--primary1;
     margin: 0;
     position: absolute;
-    top: 30px;
+    top: 42px;
     font-weight: bold;
   }
 
