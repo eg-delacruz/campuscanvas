@@ -2,8 +2,7 @@ import { successResponse, errorResponse } from '@server/response';
 import Controller from '@server/components/user/controller';
 
 //Mailer
-import CCMailer from '@server/services/mailer/CC_info@google';
-const { sendAuthStudentUserMail } = CCMailer;
+import { sendAuthStudentUserMail } from '@server/services/mailer/CC_info@google';
 
 //Route secured as shown in https://www.youtube.com/watch?v=cOgogGJ6_7M&t=36s  (min 56)
 //Session

@@ -2,8 +2,7 @@
 import { successResponse, errorResponse } from '@server/response';
 import Controller from '@server/components/user/controller';
 import jwt from 'jsonwebtoken';
-import CCMailer from '@server/services/mailer/CC_info@google';
-const { sendResetPasswordMail } = CCMailer;
+import { sendResetPasswordMail } from '@server/services/mailer/CC_info@google';
 
 //clientEndpoints
 import clientEndPoints from '@server/clientEndPoints';
