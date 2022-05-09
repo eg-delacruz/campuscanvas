@@ -1,7 +1,6 @@
 const withPWA = require('next-pwa');
 
 module.exports = withPWA({
-  //TODO: Ver clase de progressive web apps decurso de next.js para hacer manifest
   pwa: {
     dest: 'public',
     register: true,
@@ -9,6 +8,7 @@ module.exports = withPWA({
     disable: false,
   },
   reactStrictMode: true,
+  //TODO: Allow images from shopify (YouTube: Next.js + Shopify Storefront API (GraphQL) + TailwindCSS Headless Store - Course preview)
   images: {
     //Dominios externos de los que vendrán nuestras imágenes
     // domains: ['placeimg.com'],
