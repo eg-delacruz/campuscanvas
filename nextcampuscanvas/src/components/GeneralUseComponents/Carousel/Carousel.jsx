@@ -1,3 +1,6 @@
+//TODO: Move this component to the unused components folder after
+//changing component in para empresas to the new one
+
 import React, { Component } from 'react';
 import Slider from 'react-slick';
 

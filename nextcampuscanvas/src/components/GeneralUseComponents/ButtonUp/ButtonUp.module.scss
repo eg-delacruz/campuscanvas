@@ -1,4 +1,4 @@
-@import'../../../styles/Vars.scss';
+@import '../../../styles/Vars.scss';
 
 //Animations:
 //FadeIn
@@ -8,7 +8,7 @@
   position: fixed;
   right: 150px;
   bottom: 30px;
-  z-index: 1;
+  z-index: 2;
   display: none;
 }
 .is-active {

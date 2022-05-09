@@ -1,0 +1,41 @@
+@import '../../../styles/Vars.scss';
+
+.swiper {
+  max-width: 100vw;
+}
+
+.slider {
+  background-color: $color--light-gray;
+  &__container {
+    padding: 60px 0 60px;
+  }
+  .title {
+    text-align: center;
+    color: $color--primary2-dark1;
+    margin-top: 0;
+    margin-bottom: 40px;
+  }
+}
+.slider__item_container {
+  display: flex;
+  justify-content: center;
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}

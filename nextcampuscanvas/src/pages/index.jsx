@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -6,21 +5,24 @@ import Link from 'next/link';
 import styles from '@pagestyles/Main.module.scss';
 
 //Assets
-import Hero_image from '@assets/PagesImages/HomeImages/bags_hero.png';
-import MQ_Hero_image from '@assets/PagesImages/HomeImages/3bags_hero.png';
-import Bag_logo from '@assets/GeneralUse/Logos/bag_logo.svg';
-import Bag_example from '@assets/PagesImages/HomeImages/bag.png';
+//TODO:Erase afterwards
+import Distributon_house from '@assets/PagesImages/HomeImages/distribution_house.png';
+
+import Box_logo from '@assets/GeneralUse/Logos/Box_logo.svg';
+import Empty_box from '@assets/PagesImages/HomeImages/box.svg';
+import BoxWithProducts from '@assets/PagesImages/HomeImages/box_and_products.svg';
 import Card_gift from '@assets/GeneralUse/card_gift.png';
 import Card_pages from '@assets/GeneralUse/card_pages.png';
 import Card_coupons from '@assets/GeneralUse/card_coupons.png';
 import Distribution_map from '@assets/PagesImages/HomeImages/distribution_map.png';
-import Distributon_house from '@assets/PagesImages/HomeImages/distribution_house.png';
+import Distributon_ofice from '@assets/PagesImages/HomeImages/distribution_ofice.png';
 
 //Components
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
-import Carousel from '@components/GeneralUseComponents/Carousel/Carousel';
+import Carousely from '@components/GeneralUseComponents/Carousel/Carousel';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
+import SponsorsSlider from '@components/GeneralUseComponents/SponsorsSlider/SponsorsSlider';
 
 export default function Home() {
   return (
@@ -41,22 +43,23 @@ export default function Home() {
             ///////////////////////// */}
 
           <section className={styles.hero}>
-            <div className={`${styles['hero__container']} container`}>
-              <h1 className={styles.hero__title}>
-                ¡La bolsa más esperada por los estudiantes!
-              </h1>
-              <picture
-                className={styles['hero__image-container']}
-                width={1112}
-                height={461}
-              >
-                <source media='(max-width:480px)' srcSet={MQ_Hero_image} />
-                <Image
-                  className={styles.hero__image}
-                  src={Hero_image}
-                  alt='Bolsas Campus Canvas'
-                />
-              </picture>
+            <div className={`${styles.hero__wrapper} container`}>
+              <h1>¡Productos exclusivos a estudiantes!</h1>
+
+              <div className={`${styles['hero__container']}`}>
+                <div className={`${styles['hero__image_container']}`}>
+                  <Image alt='Campus Box' src={BoxWithProducts} />
+                </div>
+                <div className={`${styles.hero__text_button_container}`}>
+                  <p>
+                    Regístrate y verifica tu cuenta estudiantil para obtener tu
+                    caja totalmente gratis
+                  </p>
+                  <Link href='/auth/registro'>
+                    <button className='btn button--red'>Registrarse</button>
+                  </Link>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -64,41 +67,31 @@ export default function Home() {
             //       Main         //
             ///////////////////////// */}
 
-          <main>
+          <main className={styles.main}>
             <div className={`${styles['main__container']} container`}>
-              <figure className={styles['main__title-container']}>
-                <Image src={Bag_logo} alt='Logo Campus Bags' />
+              <figure className={styles.main__box_logo_container}>
+                <Image alt='Logo Campus Box' src={Box_logo} />
               </figure>
-              <section className={styles.main__content}>
-                <figure className={styles['main__content-image']}>
-                  <img
-                    src={Bag_example.src}
-                    width={687}
-                    height={531.3}
-                    alt='Ejemplo de bolsa de Campus Canvas'
-                  />
+              <div className={styles.main__content}>
+                <p className={`${styles['main__content-description']}`}>
+                  Si eres estudiante universitario inscrito en alguna
+                  universidad de España Peninsular, podrás recibir una de
+                  nuestras cajas <b>Campus Box</b> llena de regalos y productos
+                  pensados especialmente para ti de parte de nuestros
+                  patrocinadores. ¡Todo completamente gratis!
+                  <br />
+                  <br />
+                  Enviamos unidades <b>limitadas</b> a lo largo de cada
+                  cuatrimestre estudiantil, con lo cuál deberás ser rápido para
+                  hacerte con la tuya. Puedes estar al tanto de cuándo iniciamos
+                  la distribución a través de nuestras{' '}
+                  <a href='#footer'>redes sociales</a>. ¡No te quedes sin la
+                  tuya!
+                </p>
+                <figure className={styles.main__empty_box_container}>
+                  <img src={Empty_box.src} alt='Campus Box' />
                 </figure>
-                <div className={styles['main__description-container']}>
-                  <p className={styles['main__content-description']}>
-                    Si eres un estudiante de alguna de las principales
-                    universidades de la Comunidad de Madrid, podrás recibir una
-                    de nuestras bolsas
-                    <strong> Campus Bag </strong> llena de regalos y productos
-                    pensados especialmente para ti de parte de nuestros
-                    patrocinadores. ¡Todo completamente gratis!
-                    <br />
-                    <br />
-                    Repartimos las bolsas a lo largo del cuatrimestre
-                    estudiantil, cerca de alguno de los punto de acceso a tu
-                    universidad. Consulta nuestra{' '}
-                    <Link href='/universidades'>
-                      lista de universidades y ubicaciones
-                    </Link>
-                    , donde podrás comprobar si tu campus se encuentra entre
-                    nuestros puntos de repartición. ¡No te quedes sin la tuya!
-                  </p>
-                </div>
-              </section>
+              </div>
             </div>
           </main>
 
@@ -110,8 +103,9 @@ export default function Home() {
             <div className={`${styles.benefits__container} container`}>
               <div className={styles.benefits__cards}>
                 <article className={styles.card}>
-                  <div>
+                  <div className={styles.card__image_container}>
                     <Image
+                      //layout='fill'
                       src={Card_gift}
                       className={styles.card__image}
                       alt='Productos de la bolsa'
@@ -120,15 +114,15 @@ export default function Home() {
                   <div className={styles.card__information}>
                     <h4>Productos</h4>
                     <p>
-                      Encuentra distintos comestibles como galletas,
-                      chocolatinas y golosinas, además de productos que pueden
-                      serte de utilidad en tus estudios.
+                      Encuentra distintos comestibles como galletas, bebidas y
+                      golosinas, además de productos que pueden serte de
+                      utilidad en tus estudios.
                     </p>
                   </div>
                 </article>
 
                 <article className={styles.card}>
-                  <div>
+                  <div className={styles.card__image_container}>
                     <Image
                       src={Card_pages}
                       alt='Ofertas de trabajo'
@@ -146,10 +140,8 @@ export default function Home() {
                 </article>
 
                 <article className={styles.card}>
-                  <div>
+                  <div className={styles.card__image_container}>
                     <Image
-                      // width={300}
-                      // height={300}
                       className={styles.card__image}
                       src={Card_coupons}
                       alt='Cupones y descuentos'
@@ -168,10 +160,11 @@ export default function Home() {
               <div className={styles.benefits__description}>
                 <h2>¡Contenido para todos los gustos!</h2>
                 <p>
-                  El contenido de nuestra Campus Bag puede ser distinto según el
-                  área en la que estudias. Seguro que en la tuya encuentras más
-                  de algún producto interesante para ti, pues nuestras marcas
-                  patrocinadoras provienen de distintas industrias y sectores.
+                  El contenido de nuestra <b>Campus Box</b> puede ser distinto
+                  según el área en la que estudias. Independientemente de la
+                  versión que te toque, siempre encontrarás productos
+                  interesantes para ti, pues nuestras marcas patrocinadoras
+                  provienen de distintas industrias y sectores.
                 </p>
               </div>
             </div>
@@ -183,30 +176,30 @@ export default function Home() {
 
           <section className={styles.distribution}>
             <div className={`${styles.distributionMadrid} container`}>
-              <h2>Espéranos en tu universidad de la Comunidad de Madrid</h2>
+              <h2>Recíbela en cualquier parte de España Peninsulár</h2>
               <figure>
                 <Image
                   src={Distribution_map}
-                  alt='Mapa de distribución en Madrid'
+                  alt='Mapa de distribución en España'
                 />
               </figure>
               <p>
-                Si eres estudiante en una de las universidades de la Comunidad
-                de Madrid, podrás recibir tu Campus Bag en alguna de nuestras
-                visitas a tu campus.
+                Si eres estudiante en alguna universidad Española, puedes pedir
+                una Campus Box exclusiva y totalmente gratuita. ¡Apresúrate! Hay
+                unidades limitadas por cuatrimestre.
               </p>
             </div>
             <div className={`${styles.distributionDelivery} container`}>
-              <h2>... O te la llevamos hasta tu casa!</h2>
+              <h2>... O ven a por la tuya en nuestras oficinas en Madrid</h2>
               <figure>
                 <Image
-                  src={Distributon_house}
-                  alt='Te enviamos la Campus Bag a casa'
+                  src={Distributon_ofice}
+                  alt='Ven a recojer tu Campus Box a nuestras oficinas en Madrid'
                 />
               </figure>
-              <h4>Tú solo pagas el envío</h4>
-              <Link href='/construccion'>
-                <button className='btn button--red'>¡Pedir Campus Bag!</button>
+              <h4>¡De esta manera te ahorras el envío!</h4>
+              <Link href='/auth/registro'>
+                <button className='btn button--red'>Registrarse</button>
               </Link>
             </div>
           </section>
@@ -214,8 +207,7 @@ export default function Home() {
           {/* /////////////////////////
             //   Patrocinadores    //
             ///////////////////////// */}
-
-          <Carousel titulo='Nuestros patrocinadores' />
+          <SponsorsSlider titulo='Nuestros patrocinadores' />
         </div>
       </Layout>
     </>

@@ -2,6 +2,7 @@ import React from 'react';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 //Styles
+//TODO: check if path is correct if used again
 import styles from '@pagestyles/UniList.module.scss';
 
 //Components

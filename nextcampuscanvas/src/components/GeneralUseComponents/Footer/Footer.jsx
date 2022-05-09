@@ -17,7 +17,7 @@ import FooterSignature from '@components/GeneralUseComponents/FooterSignature/Fo
 
 function Footer() {
   return (
-    <footer className={styles.footer}>
+    <footer id='footer' className={styles.footer}>
       <div>
         <section className={styles.footer__navigation}>
           <div className={styles.footer__logo}>
