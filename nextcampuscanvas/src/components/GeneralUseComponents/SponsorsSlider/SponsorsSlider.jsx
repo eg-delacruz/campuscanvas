@@ -23,7 +23,6 @@ const SponsorsSlider = (props) => {
         {/* Slider config */}
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
-          //spaceBetween={10}
           slidesPerView={1}
           slidesPerGroup={1}
           navigation={true}

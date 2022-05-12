@@ -27,7 +27,7 @@ import lowerBenefit5 from '@assets/PagesImages/EmpresasImages/lowerBenefit_img_5
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import Card from '@components/GeneralUseComponents/Card--ImgTitleText/Card';
-import Patrocinadores from '@components/GeneralUseComponents/Carousel/Carousel';
+import SponsorsSlider from '@components/GeneralUseComponents/SponsorsSlider/SponsorsSlider';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 function ParaEmpresas() {
@@ -308,7 +308,7 @@ function ParaEmpresas() {
             </article>
           </section>
 
-          <Patrocinadores titulo='Estas empresas ya confían en nosotros' />
+          <SponsorsSlider titulo='Estas empresas ya confían en nosotros' />
 
           {/* /////////////////////////
           //      Contacto       //

@@ -29,6 +29,7 @@ body {
     justify-content: space-between;
     .hero__text_button_container {
       flex: 0 1 50%;
+      margin-bottom: 75px;
       p {
         @include paragraph--big;
         color: $color--white;
@@ -74,7 +75,8 @@ body {
     align-self: center;
     margin: 0;
     img {
-      width: 136%;
+      //width: 136%;
+      width: 408px;
     }
   }
 }
@@ -210,6 +212,7 @@ body {
       }
       .hero__text_button_container {
         max-width: 470px;
+        margin-bottom: 0;
       }
     }
   }
@@ -333,7 +336,8 @@ body {
   .main {
     &__empty_box_container {
       img {
-        width: 126%;
+        width: 378px;
+        margin-right: -73px;
       }
     }
   }

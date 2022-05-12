@@ -1,13 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 //Styles
 import styles from '@pagestyles/Main.module.scss';
 
 //Assets
-//TODO:Erase afterwards
-import Distributon_house from '@assets/PagesImages/HomeImages/distribution_house.png';
-
 import Box_logo from '@assets/GeneralUse/Logos/Box_logo.svg';
 import Empty_box from '@assets/PagesImages/HomeImages/box.svg';
 import BoxWithProducts from '@assets/PagesImages/HomeImages/box_and_products.svg';
@@ -20,11 +18,37 @@ import Distributon_ofice from '@assets/PagesImages/HomeImages/distribution_ofice
 //Components
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
-import Carousely from '@components/GeneralUseComponents/Carousel/Carousel';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 import SponsorsSlider from '@components/GeneralUseComponents/SponsorsSlider/SponsorsSlider';
 
+//Session
+import { useSession } from 'next-auth/react';
+
 export default function Home() {
+  //Session
+  const { data: session, status } = useSession();
+
+  const router = useRouter();
+
+  //Dirigir a usuario al paso de verificación correspondiente
+  const verifyUser = () => {
+    if (!session) {
+      router.push('/auth/registro');
+    }
+    if (!session?.token.stu_data.university && !session?.token.stu_verified) {
+      router.push(
+        { pathname: '/auth/registro', query: { step: 2 } },
+        'auth/registro'
+      );
+    }
+    if (session?.token.stu_data.university && !session?.token.stu_verified) {
+      router.push(
+        { pathname: '/auth/registro', query: { step: 3 } },
+        'auth/registro'
+      );
+    }
+  };
+
   return (
     <>
       <SEOHeader
@@ -51,13 +75,32 @@ export default function Home() {
                   <Image alt='Campus Box' src={BoxWithProducts} />
                 </div>
                 <div className={`${styles.hero__text_button_container}`}>
-                  <p>
-                    Regístrate y verifica tu cuenta estudiantil para obtener tu
-                    caja totalmente gratis
-                  </p>
-                  <Link href='/auth/registro'>
-                    <button className='btn button--red'>Registrarse</button>
-                  </Link>
+                  {session?.token.stu_verified ? (
+                    <>
+                      <p>
+                        Ya puedes pedir tu <b>Campus Box</b>
+                      </p>
+                      <Link href='/construccion'>
+                        <button className='btn button--red'>
+                          ¡Pedir caja gratuita!
+                        </button>
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <p>
+                        Regístrate y verifica tu cuenta estudiantil para obtener
+                        tu caja totalmente gratis
+                      </p>
+
+                      <button
+                        className='btn button--red'
+                        onClick={() => verifyUser()}
+                      >
+                        Registrarse
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -105,7 +148,6 @@ export default function Home() {
                 <article className={styles.card}>
                   <div className={styles.card__image_container}>
                     <Image
-                      //layout='fill'
                       src={Card_gift}
                       className={styles.card__image}
                       alt='Productos de la bolsa'
@@ -176,7 +218,7 @@ export default function Home() {
 
           <section className={styles.distribution}>
             <div className={`${styles.distributionMadrid} container`}>
-              <h2>Recíbela en cualquier parte de España Peninsulár</h2>
+              <h2>Recíbela en cualquier parte de España Peninsular</h2>
               <figure>
                 <Image
                   src={Distribution_map}
@@ -198,9 +240,25 @@ export default function Home() {
                 />
               </figure>
               <h4>¡De esta manera te ahorras el envío!</h4>
-              <Link href='/auth/registro'>
-                <button className='btn button--red'>Registrarse</button>
-              </Link>
+
+              {session?.token.stu_verified ? (
+                <>
+                  <Link href='/construccion'>
+                    <button className='btn button--red'>
+                      ¡Pedir Campus Box!
+                    </button>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <button
+                    className='btn button--red'
+                    onClick={() => verifyUser()}
+                  >
+                    Registrarse
+                  </button>
+                </>
+              )}
             </div>
           </section>
 
