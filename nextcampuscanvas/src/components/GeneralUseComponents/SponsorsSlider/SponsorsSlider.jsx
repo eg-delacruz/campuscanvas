@@ -15,10 +15,15 @@ import 'swiper/css/autoplay';
 import DecisionHandler from '@assets/GeneralUse/Sponsors/decisionhandler.png';
 
 const SponsorsSlider = (props) => {
+  //If props.lessPadding, slider will have less padding and look smaller (30px 0 30px)
   return (
     <section className={styles.slider}>
-      <div className={`${styles.slider__container} container`}>
-        <h1 className={styles.title}>{props.titulo}</h1>
+      <div
+        className={`${styles.slider__container} container ${
+          props.lessPadding ? styles.slider__lessPadding : ''
+        }`}
+      >
+        {props.titulo && <h1 className={styles.title}>{props.titulo}</h1>}
 
         {/* Slider config */}
         <Swiper

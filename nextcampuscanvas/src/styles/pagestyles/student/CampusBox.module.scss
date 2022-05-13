@@ -1,5 +1,105 @@
 @import '../../Vars.scss';
 
+//Loadint state
+.loaderContainer {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.campusbox {
+  display: grid;
+  padding-top: 60px;
+  padding-bottom: 80px;
+  /////////////////////////
+  //         main         //
+  /////////////////////////
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    figure {
+      margin: 0;
+      margin-left: 8px;
+      padding: 4px;
+      max-width: 600px;
+      min-width: 500px;
+      max-height: 600px;
+      border: 1px solid $color--dark-gray;
+      box-shadow: 10px 10px 18px -18px rgba(0, 0, 0, 0.3);
+    }
+    .details {
+      max-width: 350px;
+      margin: 0 8px 0 8px;
+      h2 {
+        margin: 0;
+      }
+      p {
+        margin: 0;
+      }
+      .vendor {
+        color: $color--dark-gray;
+        margin-top: -4px;
+      }
+      .price {
+        @include font-size(28px);
+        font-weight: 800;
+        margin-top: 16px;
+      }
+      .taxes {
+        margin-bottom: 35px;
+        @include font-size(14px);
+      }
+      .description {
+        margin-bottom: 55px;
+      }
+      button {
+        width: 100%;
+      }
+      .divider {
+        margin-top: 40px;
+        border-bottom: 2px solid $color--dark-gray;
+        margin-bottom: 15px;
+      }
+      .conditions {
+        @include font-size(14px);
+      }
+    }
+  }
+  /////////////////////////
+  //      Sponsors       //
+  /////////////////////////
+  .sponsors {
+    margin-top: 70px;
+    h2 {
+      text-align: center;
+    }
+  }
+
+  /////////////////////////
+  //  Back home button   //
+  /////////////////////////
+  .backhome {
+    margin-top: 60px;
+  }
+}
+
+/////////////////////////
+//  Out of stock page //
+/////////////////////////
+.OutOFStock {
+  padding: 0 8px;
+  figure {
+    display: flex;
+    justify-content: center;
+  }
+  .backhome {
+    margin-top: 60px;
+    margin-bottom: 40px;
+  }
+}
+
 /////////////////////////
 //         MQ         //
 /////////////////////////
@@ -9,10 +109,33 @@
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 767px) {
+  .campusbox {
+    &__container {
+      flex-direction: column;
+      figure {
+        min-width: initial;
+        align-self: center;
+        margin: 8px;
+      }
+      .details {
+        max-width: initial;
+        margin-top: 20px;
+        button {
+          max-width: 480px;
+        }
+      }
+    }
+  }
 }
 ////////////////////////////////////////480/////////////////////////////////////////////
 
 @media screen and (max-width: 480px) {
+  .campusbox {
+    padding-bottom: 60px;
+    .sponsors {
+      margin-top: 40px;
+    }
+  }
 }
 ////////////////////////////////////////320/////////////////////////////////////////////
 

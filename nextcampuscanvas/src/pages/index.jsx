@@ -32,22 +32,95 @@ export default function Home() {
 
   //Dirigir a usuario al paso de verificación correspondiente
   const verifyUser = () => {
-    if (!session) {
-      router.push('/auth/registro');
+    if (status === 'unauthenticated') {
+      return router.push(
+        { pathname: '/auth/registro', query: { step: 1 } },
+        'auth/registro'
+      );
     }
     if (!session?.token.stu_data.university && !session?.token.stu_verified) {
-      router.push(
+      return router.push(
         { pathname: '/auth/registro', query: { step: 2 } },
         'auth/registro'
       );
     }
     if (session?.token.stu_data.university && !session?.token.stu_verified) {
-      router.push(
+      return router.push(
         { pathname: '/auth/registro', query: { step: 3 } },
         'auth/registro'
       );
     }
   };
+
+  //Hero button displayer
+  const HeroButtonDisplayer = () => {
+    if (status === 'loading') {
+      return (
+        <>
+          <button className={`${styles.loadingBtnSpinner} btn button--red`}>
+            Cargando
+          </button>
+        </>
+      );
+    }
+    if (session?.token.stu_verified) {
+      return (
+        <>
+          <p>
+            Ya puedes pedir tu <b>Campus Box</b>
+          </p>
+          <Link href='/student/CampusBox'>
+            <button className='btn button--red'>¡Pedir caja gratuita!</button>
+          </Link>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <p>
+            Regístrate y verifica tu cuenta estudiantil para obtener tu caja
+            totalmente gratis
+          </p>
+
+          <button className='btn button--red' onClick={() => verifyUser()}>
+            Registrarse
+          </button>
+        </>
+      );
+    }
+  };
+
+  //Distribution button displayer
+  const DistributionButtonDisplayer = () => {
+    if (status === 'loading') {
+      return (
+        <>
+          <button className={`${styles.loadingBtnSpinner} btn button--red`}>
+            Cargando
+          </button>
+        </>
+      );
+    }
+    if (session?.token.stu_verified) {
+      return (
+        <>
+          <Link href='/student/CampusBox'>
+            <button className='btn button--red'>¡Pedir Campus Box!</button>
+          </Link>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <button className='btn button--red' onClick={() => verifyUser()}>
+            Registrarse
+          </button>
+        </>
+      );
+    }
+  };
+
+  //TODO: make loading effect on buttons while loading session
 
   return (
     <>
@@ -75,32 +148,7 @@ export default function Home() {
                   <Image alt='Campus Box' src={BoxWithProducts} />
                 </div>
                 <div className={`${styles.hero__text_button_container}`}>
-                  {session?.token.stu_verified ? (
-                    <>
-                      <p>
-                        Ya puedes pedir tu <b>Campus Box</b>
-                      </p>
-                      <Link href='/construccion'>
-                        <button className='btn button--red'>
-                          ¡Pedir caja gratuita!
-                        </button>
-                      </Link>
-                    </>
-                  ) : (
-                    <>
-                      <p>
-                        Regístrate y verifica tu cuenta estudiantil para obtener
-                        tu caja totalmente gratis
-                      </p>
-
-                      <button
-                        className='btn button--red'
-                        onClick={() => verifyUser()}
-                      >
-                        Registrarse
-                      </button>
-                    </>
-                  )}
+                  {HeroButtonDisplayer()}
                 </div>
               </div>
             </div>
@@ -241,24 +289,7 @@ export default function Home() {
               </figure>
               <h4>¡De esta manera te ahorras el envío!</h4>
 
-              {session?.token.stu_verified ? (
-                <>
-                  <Link href='/construccion'>
-                    <button className='btn button--red'>
-                      ¡Pedir Campus Box!
-                    </button>
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <button
-                    className='btn button--red'
-                    onClick={() => verifyUser()}
-                  >
-                    Registrarse
-                  </button>
-                </>
-              )}
+              {DistributionButtonDisplayer()}
             </div>
           </section>
 
