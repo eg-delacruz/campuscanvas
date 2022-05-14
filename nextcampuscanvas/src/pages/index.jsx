@@ -120,8 +120,6 @@ export default function Home() {
     }
   };
 
-  //TODO: make loading effect on buttons while loading session
-
   return (
     <>
       <SEOHeader

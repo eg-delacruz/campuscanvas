@@ -1,12 +1,33 @@
 @import '../../Vars.scss';
+@import '../../Animations/dotLoadingButton.module.scss';
 
-//Loadint state
+//Loadint state while displaying page
 .loaderContainer {
   height: 100vh;
   width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+//button loading state
+.buttonLoading {
+  background-color: rgba(173, 33, 70, 0.4);
+  cursor: default;
+  position: relative;
+}
+.buttonLoading:hover {
+  background-color: rgba(173, 33, 70, 0.4);
+}
+.buttonLoading::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  right: -2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 10px;
+  animation: setDotLoading();
 }
 
 .campusbox {

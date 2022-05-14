@@ -12,6 +12,8 @@ import styles from '@pagestyles/student/CampusBox.module.scss';
 import Box from '@assets/PagesImages/CampusBox/campusbox.png';
 import SoldOut from '@assets/PagesImages/CampusBox/soldout.png';
 
+//TODO: Check if user already ordered its box for the semester (create logic in Mongo)
+
 //Components
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import SponsorsSlider from '@components/GeneralUseComponents/SponsorsSlider/SponsorsSlider';
@@ -22,6 +24,7 @@ const CampusBox = () => {
   const [product, setProduct] = useState({});
   const [state, setState] = useState({
     loading: false,
+    checkoutLoading: false,
     error: '',
   });
 
@@ -49,13 +52,20 @@ const CampusBox = () => {
     }
   }
 
-  //Getting product inventory
+  ///////////////////////////////Getting product information////////////////////////////////
   const id = 'gid://shopify/Product/7509431713980';
   const REQUIRED_BOX_DATA = `
-  query Produc{
+  query Product{
     product(id:"${id}"){
       handle
       totalInventory
+      variants(first: 1) {
+        edges {
+          node {
+            id
+          }
+        }
+      }
     }
   }
   `;
@@ -78,8 +88,55 @@ const CampusBox = () => {
     }
   }, []);
 
+  ///////////////////////////////Getting product information////////////////////////////////(end)
+  /////////////////////////////// Checkout config ////////////////////////////////
+  //const needed to request checkout
+  let variantId = product.data?.product.variants.edges[0].node.id;
+  const checkoutMutation = `
+  mutation CheckoutCreate($variantId:ID!){
+    checkoutCreate(input:{
+      lineItems:{
+        variantId: $variantId,
+        quantity:1
+      }
+    }){
+      checkout{
+        webUrl
+        id
+        requiresShipping
+        availableShippingRates{
+          shippingRates{
+            priceV2{
+              amount
+            }
+          }
+        }
+      }
+    }
+  }
+  `;
+
+  async function getCheckout() {
+    setState({ ...state, checkoutLoading: true });
+    const response = await storefront(checkoutMutation, { variantId });
+    const { webUrl } = response.data.checkoutCreate.checkout;
+    window.location.href = webUrl;
+    setTimeout(() => {
+      setState({ ...state, checkoutLoading: false });
+    }, 1000);
+  }
+  const checkout = () => {
+    try {
+      getCheckout();
+    } catch (error) {
+      console.log(error);
+      setState({ ...state, checkoutLoading: false, error: error });
+    }
+  };
+
+  /////////////////////////////// Checkout config ////////////////////////////////(end)
+
   if (status === 'loading' || !session?.token.stu_verified || state.loading) {
-    //TODO: return a better loading displayer
     return (
       <>
         <div className={styles.loaderContainer}>
@@ -141,9 +198,17 @@ const CampusBox = () => {
               universitarios. Encuentra productos y sorpresas de nuestros
               patrocinadores. ¡Todo totalmente gratis!
             </p>
-            <Link href={'/construccion'}>
-              <button className='btn button--red'>¡Obtener Campus Box!</button>
-            </Link>
+
+            <button
+              className={`${
+                state.checkoutLoading && styles.buttonLoading
+              } btn button--red`}
+              disabled={state.checkoutLoading}
+              onClick={() => checkout()}
+            >
+              ¡Obtener Campus Box!
+            </button>
+
             <div className={styles.divider}></div>
             <p className={styles.conditions}>
               * Debido a las existencias limitadas de la Campus Box, solamente

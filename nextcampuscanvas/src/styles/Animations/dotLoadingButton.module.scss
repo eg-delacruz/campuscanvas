@@ -1,0 +1,14 @@
+@import '../Vars.scss';
+
+@function setDotLoading() {
+  @return (dotFlashing 0.25s infinite ease alternate);
+}
+
+@keyframes dotFlashing {
+  0% {
+    background-color: $color--primary2;
+  }
+  100% {
+    background-color: $color--primary2-light2;
+  }
+}
