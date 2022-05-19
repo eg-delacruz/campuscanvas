@@ -14,7 +14,8 @@ import styles from '@pagestyles/student/CampusBox.module.scss';
 import Box from '@assets/PagesImages/CampusBox/campusbox.png';
 import SoldOut from '@assets/PagesImages/CampusBox/soldout.png';
 
-//TODO: Check if user already ordered its box for the semester (create logic in Mongo)
+//Endpoints
+import endPoints from '@services/api';
 
 //Components
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
@@ -25,6 +26,7 @@ import Loader from '@components/GeneralUseComponents/Loader/Loader';
 const CampusBox = () => {
   const [product, setProduct] = useState({});
   const [state, setState] = useState({
+    allowedToOrder: false,
     loading: false,
     checkoutLoading: false,
     error: '',
@@ -126,9 +128,6 @@ const CampusBox = () => {
     const response = await storefront(checkoutMutation, { variantId });
     const { webUrl } = response.data.checkoutCreate.checkout;
     window.location.href = webUrl;
-    setTimeout(() => {
-      setState({ ...state, checkoutLoading: false });
-    }, 1000);
   }
   const checkout = () => {
     try {
@@ -140,6 +139,34 @@ const CampusBox = () => {
   };
 
   /////////////////////////////// Checkout config ////////////////////////////////(end)
+  /////////////////////////////// Limiting boxes to one per user per semester ////////////////////////////////
+  const isAllowedToOrder = async (userID) => {
+    setState({ ...state, loading: true });
+    const respuesta = await fetch(endPoints.orders.isAllowedToOrder(userID), {
+      method: 'GET',
+      headers: {
+        accept: '*/*',
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await respuesta.json();
+    //console.log('Se permite?', data.body.allowToOrder);
+    setState({
+      ...state,
+      loading: false,
+      allowedToOrder: data.body.allowToOrder,
+    });
+  };
+
+  useEffect(() => {
+    if (session) {
+      const userID = session.token.sub;
+      isAllowedToOrder(userID);
+    }
+  }, [session]);
+  console.log(state);
+
+  /////////////////////////////// Limiting boxes to one per user per semester ////////////////////////////////(end)
 
   if (status === 'loading' || !session?.token.stu_verified || state.loading) {
     return (
@@ -204,6 +231,9 @@ const CampusBox = () => {
               patrocinadores. ¡Todo totalmente gratis!
             </p>
 
+            {/* Renderizar este botón, div y p si tiene permitido pedir. 
+            En caso de que no, renderizar mismos elementos, pero con botón 
+            disabled y opacado, y mensaje diciendo que ya nel en rojo  */}
             <button
               className={`${
                 state.checkoutLoading && styles.buttonLoading

@@ -8,7 +8,6 @@ export const getUser = (id) => async (dispatch) => {
     type: LOADING,
   });
   try {
-    //fetch traer ejemplo de ForgotPasswordInput
     const respuesta = await fetch(endPoints.user.getUser(id), {
       method: 'GET',
       headers: {

@@ -20,7 +20,7 @@ export default async function handler(req, res) {
 
   const { method } = req;
 
-  //Receive order data to register order and limit boxes to one per semester
+  //Receive order data from Shopify to register order and limit boxes to one per semester
   switch (method) {
     case 'POST':
       //Verifying if webhook comes from Shopify

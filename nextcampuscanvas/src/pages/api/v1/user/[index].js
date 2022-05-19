@@ -30,7 +30,6 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
-        console.log('El query', req.query);
         const id = req.query.index;
         const user = await Controller.getUserById(id);
         const cleanUser = Controller.cleanUserForClient(user);
