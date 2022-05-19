@@ -26,10 +26,11 @@ export default async function handler(req, res) {
 
   const { body, method } = req;
 
-  //GET user info
+  //GET user info. Used to update header user name
   switch (method) {
     case 'GET':
       try {
+        console.log('El query', req.query);
         const id = req.query.index;
         const user = await Controller.getUserById(id);
         const cleanUser = Controller.cleanUserForClient(user);
@@ -39,7 +40,7 @@ export default async function handler(req, res) {
       }
       break;
 
-    //Save student data
+    //Save/update student data
     case 'PATCH':
       try {
         //Body contains id + name, gender, university and faculty

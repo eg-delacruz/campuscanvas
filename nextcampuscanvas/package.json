@@ -34,6 +34,7 @@
     "sass": "^1.49.9",
     "slick-carousel": "^1.8.1",
     "swiper": "8.1.4",
+    "verify-shopify-webhook": "1.0.5",
     "yup": "0.32.11"
   },
   "devDependencies": {

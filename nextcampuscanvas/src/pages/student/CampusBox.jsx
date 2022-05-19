@@ -1,3 +1,5 @@
+//Tutorial: https://www.youtube.com/watch?v=xNMYz74zNHM
+
 import { useEffect, useState } from 'react';
 import { storefront } from '@services/storefront';
 import { useSession } from 'next-auth/react';
@@ -98,6 +100,9 @@ const CampusBox = () => {
       lineItems:{
         variantId: $variantId,
         quantity:1
+      },customAttributes:{
+        key:"UserID"
+        value:"${session?.token.sub}"
       }
     }){
       checkout{
@@ -150,7 +155,7 @@ const CampusBox = () => {
     return <ErrorDisplayer message={state.error} />;
   }
 
-  //If out of stock
+  //If product out of stock
   if (product.data?.product.totalInventory <= 0) {
     return (
       <Layout>
@@ -234,3 +239,18 @@ const CampusBox = () => {
 };
 
 export default CampusBox;
+
+// query UnfulfilledOrders {
+//   orders(first: 250,query:"fulfillment_status:unfulfilled") {
+//     edges {
+//       node {
+//         id
+//         fulfillable
+//         customAttributes {
+//           key
+//           value
+//         }
+//       }
+//     }
+//   }
+// }

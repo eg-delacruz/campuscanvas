@@ -1,3 +1,6 @@
+//Component used to analyze emails of students that skip
+//the validation based on email structure, in order to
+//improve verification sistem. These are stored in a separate collection
 import store from '@server/components/unhandledEmails/store';
 
 const createUnhandledEmailEntry = async (university, stu_email) => {
