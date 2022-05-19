@@ -20,7 +20,7 @@ export default async function handler(req, res) {
 
   const { method } = req;
 
-  //Receive order data to limit boxes to one per semester
+  //Receive order data to register order and limit boxes to one per semester
   switch (method) {
     case 'POST':
       //Verifying if webhook comes from Shopify
@@ -40,19 +40,12 @@ export default async function handler(req, res) {
       }
 
       try {
-        //TODO: al terminar, quitar el id alternativo!
-        const userID =
-          body.note_attributes[0]?.value || '62637b29d2dbfbd898a27889';
+        const userID = body.note_attributes[0]?.value;
         const season = process.env.NEXT_PUBLIC_CURRENT_SEASON;
         const shopify_order_number = body.order_number;
-        const box_order = await Controller.createBoxOrder(
-          userID,
-          season,
-          shopify_order_number
-        );
+        await Controller.createBoxOrder(userID, season, shopify_order_number);
 
-        successResponse(req, res, box_order, 200);
-        //successResponse(req, res, 'Orden creada', 200);
+        successResponse(req, res, 'Orden creada', 200);
       } catch (error) {
         errorResponse(req, res, 'Ha habido un error', 400, error);
       }

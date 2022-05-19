@@ -163,6 +163,8 @@ const verifyStuEmail = async (user, stu_email) => {
     //shouldn't be in the following else if!!
 
     // if (
+    //Quitar la primera condición, pues puede ser que usuario no
+    //escogió exactamente su universidad.
     //   user.stu_data.university === 'universidad rey juan carlos urjc' &&
     //   stu_email.includes('@urjc.edu.com')
     // ) {

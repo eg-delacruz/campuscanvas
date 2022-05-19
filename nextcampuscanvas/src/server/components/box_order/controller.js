@@ -22,12 +22,20 @@ const verifyBoxOrderLimit = async (userID) => {
   if (!userID) {
     throw new Error('[boxOrderController] Se necesita un ID de usuario');
   }
-  console.log(userID);
-  console.log(process.env.NEXT_PUBLIC_CURRENT_SEASON);
-
-  //Buscar todos los pedidos de ese usuario
-  //Contar si son más de X pedidos
-  //Si son más de X pedidos, devolver false
+  try {
+    const userOrders = await store.getOrdersByUserID(userID);
+    //Filter orders of current season
+    const seasonOrders = userOrders.filter(
+      (order) => order.season === process.env.NEXT_PUBLIC_CURRENT_SEASON
+    );
+    //If user has more than one order of current season, return false
+    if (seasonOrders.length >= 1) {
+      return false;
+    }
+    return true;
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
 export default {

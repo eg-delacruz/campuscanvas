@@ -33,7 +33,7 @@ export default async function handler(req, res) {
       try {
         const userID = req.query.index;
         const isAllowedToOrder = await Controller.verifyBoxOrderLimit(userID);
-        successResponse(req, res, 'Éxito', 200);
+        successResponse(req, res, { allowToOrder: isAllowedToOrder }, 200);
       } catch (error) {
         errorResponse(req, res, 'Ha habido un problema', 400, error);
       }
