@@ -128,7 +128,6 @@ const StudentConfirmForm = () => {
             } btn button--red`}
             disabled={state.loading}
           >
-            <div className={`${state.loading && styles.dot_flashing} `}></div>
             Enviar enlace{' '}
           </button>
           <p className={styles.pause_verif_process_message}>

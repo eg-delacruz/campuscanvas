@@ -29,6 +29,15 @@
   border-radius: 10px;
   animation: setDotLoading();
 }
+//button--red disabled state
+.buttonDisabled {
+  background-color: rgba(173, 33, 70, 0.4);
+  cursor: default;
+  position: relative;
+}
+.buttonDisabled:hover {
+  background-color: rgba(173, 33, 70, 0.4);
+}
 
 .campusbox {
   display: grid;
@@ -85,6 +94,14 @@
       }
       .conditions {
         @include font-size(14px);
+      }
+      .notAllowedMessage {
+        @include paragraph--big;
+        color: $color--primary1;
+        font-weight: bold;
+        a {
+          color: $color--primary1;
+        }
       }
     }
   }

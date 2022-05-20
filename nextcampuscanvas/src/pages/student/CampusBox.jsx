@@ -22,6 +22,7 @@ import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import SponsorsSlider from '@components/GeneralUseComponents/SponsorsSlider/SponsorsSlider';
 import ErrorDisplayer from '@components/GeneralUseComponents/ErrorDisplayer/ErrorDisplayer';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
+import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 
 const CampusBox = () => {
   const [product, setProduct] = useState({});
@@ -164,7 +165,6 @@ const CampusBox = () => {
       isAllowedToOrder(userID);
     }
   }, [session]);
-  console.log(state);
 
   /////////////////////////////// Limiting boxes to one per user per semester ////////////////////////////////(end)
 
@@ -186,6 +186,7 @@ const CampusBox = () => {
   if (product.data?.product.totalInventory <= 0) {
     return (
       <Layout>
+        <ButtonUp />
         <div className={`${styles.OutOFStock} container`}>
           <h2>Vaya, que pena. No tenemos más Campus Box en inventario... :(</h2>
           <figure>
@@ -215,6 +216,7 @@ const CampusBox = () => {
 
   return (
     <Layout>
+      <ButtonUp />
       <div className={`${styles.campusbox}`}>
         <main className={`${styles.campusbox__container} container`}>
           <figure>
@@ -231,24 +233,46 @@ const CampusBox = () => {
               patrocinadores. ¡Todo totalmente gratis!
             </p>
 
-            {/* Renderizar este botón, div y p si tiene permitido pedir. 
-            En caso de que no, renderizar mismos elementos, pero con botón 
-            disabled y opacado, y mensaje diciendo que ya nel en rojo  */}
-            <button
-              className={`${
-                state.checkoutLoading && styles.buttonLoading
-              } btn button--red`}
-              disabled={state.checkoutLoading}
-              onClick={() => checkout()}
-            >
-              ¡Obtener Campus Box!
-            </button>
+            {state.allowedToOrder ? (
+              //Renders if user is allowed to order
+              <>
+                <button
+                  className={`${
+                    state.checkoutLoading && styles.buttonLoading
+                  } btn button--red`}
+                  disabled={state.checkoutLoading}
+                  onClick={() => checkout()}
+                >
+                  ¡Obtener Campus Box!
+                </button>
 
-            <div className={styles.divider}></div>
-            <p className={styles.conditions}>
-              * Debido a las existencias limitadas de la Campus Box, solamente
-              puedes pedir una caja por semestre.
-            </p>
+                <div className={styles.divider}></div>
+                <p className={styles.conditions}>
+                  * Debido a las existencias limitadas de la Campus Box,
+                  solamente puedes pedir una caja por semestre.
+                </p>
+              </>
+            ) : (
+              //Renders if not allowed to order because of limit of 1 has been reached
+              <>
+                <button
+                  className={`${styles.buttonDisabled} btn button--red`}
+                  disabled='true'
+                >
+                  ¡Obtener Campus Box!
+                </button>
+
+                <div className={styles.divider}></div>
+                <p className={styles.notAllowedMessage}>
+                  ¡Vaya! Parece que ya has pedido tu Campus Box de este
+                  semestre... :(
+                  <br />
+                  Siguenos en 👉<a href='#footer'>redes sociales</a> para
+                  enterarte cuando volvamos con más. O ☎️
+                  <Link href={'/contacto'}>contacta con nosotros</Link>
+                </p>
+              </>
+            )}
           </div>
         </main>
 
@@ -269,18 +293,3 @@ const CampusBox = () => {
 };
 
 export default CampusBox;
-
-// query UnfulfilledOrders {
-//   orders(first: 250,query:"fulfillment_status:unfulfilled") {
-//     edges {
-//       node {
-//         id
-//         fulfillable
-//         customAttributes {
-//           key
-//           value
-//         }
-//       }
-//     }
-//   }
-// }

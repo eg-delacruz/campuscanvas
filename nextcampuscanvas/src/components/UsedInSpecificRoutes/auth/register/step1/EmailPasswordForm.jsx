@@ -179,21 +179,23 @@ const emailPasswordForm = (props) => {
         value={REP_CONTRASENA.value}
         onChange={REP_CONTRASENA.onChange}
       />
-      <input
-        className={styles.checkbox}
-        type='checkbox'
-        id='terms_cons'
-        name='terms_cons'
-        autoComplete='off'
-        value={CHECK_BOX.value}
-        onChange={CHECK_BOX.onChange}
-        {...register('terms_cons')}
-      />{' '}
-      <label className={styles.checkbox__label} htmlFor='terms_cons'>
-        {' '}
-        Acepto los <Link href='/condiciones'>Términos y Condiciones</Link> y la{' '}
-        <Link href='/privacidad'>Política de privacidad</Link>
-      </label>
+      <div className={styles.checkboxContainer}>
+        <input
+          className={styles.checkbox}
+          type='checkbox'
+          id='terms_cons'
+          name='terms_cons'
+          autoComplete='off'
+          value={CHECK_BOX.value}
+          onChange={CHECK_BOX.onChange}
+          {...register('terms_cons')}
+        />{' '}
+        <label className={styles.checkbox__label} htmlFor='terms_cons'>
+          {' '}
+          Acepto los <Link href='/condiciones'>Términos y Condiciones</Link> y
+          la <Link href='/privacidad'>Política de privacidad</Link>
+        </label>
+      </div>
       <p className={styles.inputCheckBox__errors}>
         {errors.terms_cons &&
           'Acepta nuestros términos y condiciones para continuar'}
@@ -214,7 +216,6 @@ const emailPasswordForm = (props) => {
           }  btn button--red`}
           disabled={state.loading}
         >
-          <div className={`${state.loading && styles.dot_flashing} `}></div>
           Continuar
         </button>
       </div>

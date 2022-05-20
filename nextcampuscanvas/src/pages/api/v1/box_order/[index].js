@@ -27,7 +27,6 @@ export default async function handler(req, res) {
 
   const { body, method } = req;
 
-  //GET user info. Used to update header user name
   switch (method) {
     case 'GET':
       try {

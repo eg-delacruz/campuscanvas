@@ -117,7 +117,6 @@ const LoginForm = () => {
           }  btn button--red`}
           disabled={state.loading}
         >
-          <div className={`${state.loading && styles.dot_flashing} `}></div>
           Iniciar sesión
         </button>
       </div>

@@ -242,7 +242,6 @@ const DataForm = (props) => {
         } btn button--red`}
         disabled={state.loading}
       >
-        <div className={`${state.loading && styles.dot_flashing} `}></div>
         Continuar{' '}
         <span className={styles.nextArrowContainer}>
           <Image src={arrow_right_white} />

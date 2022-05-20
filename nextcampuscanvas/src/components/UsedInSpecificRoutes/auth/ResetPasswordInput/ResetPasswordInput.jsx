@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
@@ -171,7 +171,6 @@ const ResetPasswordInput = () => {
             }  btn button--red`}
             disabled={state.loading}
           >
-            <div className={`${state.loading && styles.dot_flashing} `}></div>
             Cambiar contraseña
           </button>
           <div className={styles.contactButton}>
