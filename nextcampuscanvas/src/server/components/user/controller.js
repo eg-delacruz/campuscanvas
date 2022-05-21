@@ -138,17 +138,17 @@ const verifyStuEmail = async (user, stu_email) => {
     }
 
     //TODO:uncomment this
-    if (
-      stu_email.includes('@hotmail') ||
-      stu_email.includes('@gmail') ||
-      stu_email.includes('@outlook') ||
-      stu_email.includes('@yahoo') ||
-      stu_email.includes('@live')
-    ) {
-      throw new Error(
-        '[Controller] La dirección de correo no pertenece a tu universidad'
-      );
-    }
+    // if (
+    //   stu_email.includes('@hotmail') ||
+    //   stu_email.includes('@gmail') ||
+    //   stu_email.includes('@outlook') ||
+    //   stu_email.includes('@yahoo') ||
+    //   stu_email.includes('@live')
+    // ) {
+    //   throw new Error(
+    //     '[Controller] La dirección de correo no pertenece a tu universidad'
+    //   );
+    // }
 
     //Generating validation link
     const secret = process.env.JWT_SECRET + user.password;
