@@ -10,6 +10,7 @@ import logged_user_icon from '@assets/GeneralUse/IconsAndButtons/logged_user.svg
 import logout_icon from '@assets/GeneralUse/IconsAndButtons/usedInComponents/Header/logout_icon.svg';
 import profile_icon from '@assets/GeneralUse/IconsAndButtons/usedInComponents/Header/profile_icon.svg';
 import dropdown_menu_arrow from '@assets/GeneralUse/IconsAndButtons/usedInComponents/Header/dropdown_menu_arrow.svg';
+import Isotype from '@assets/GeneralUse/Logos/isotype.svg';
 
 //Styles
 import styles from './Header.module.scss';
@@ -152,24 +153,32 @@ function Header(props) {
               <div
                 className={`${styles.header__logged_user_menu} ${styles.userMenuStickyState767}`}
               >
-                {/* <div
-                className={`${styles.header__logged_user_menu} ${
-                  userMenuFixer767 ? styles.userMenuStickyState767 : ''
-                }`}
-              > */}
-                <div
-                  onClick={() => toggleUserMenu()}
-                  className={styles.header__logged_user_menu_container}
-                >
-                  <div className={styles.icon}>
-                    <Image src={logged_user_icon} />
+                <div className={styles.header__logged_user_menu_container}>
+                  <Link href={'/'}>
+                    <button className={styles.header__logged_user_menu_logo767}>
+                      <Image
+                        layout={'fixed'}
+                        src={Isotype}
+                        alt={'Campus Canvas logo'}
+                      />
+                    </button>
+                  </Link>
+                  <div
+                    onClick={() => toggleUserMenu()}
+                    className={
+                      styles.header__logged_user_menu_iconButton_container
+                    }
+                  >
+                    <div className={styles.icon}>
+                      <Image src={logged_user_icon} />
+                    </div>
+                    <button>
+                      {props.user.name ? props.user.name : props.user.email}
+                      <i>
+                        <Image src={dropdown_menu_arrow} />
+                      </i>
+                    </button>
                   </div>
-                  <button>
-                    {props.user.name ? props.user.name : props.user.email}
-                    <i>
-                      <Image src={dropdown_menu_arrow} />
-                    </i>
-                  </button>
                 </div>
                 <ul
                   className={`${
