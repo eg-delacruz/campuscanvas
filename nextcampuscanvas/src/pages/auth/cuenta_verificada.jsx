@@ -9,13 +9,26 @@ import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/Se
 import FooterSignature from '@components/GeneralUseComponents/FooterSignature/FooterSignature';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
+//Session
+import { useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
+
 const cuenta_verificada = () => {
   const router = useRouter();
+
+  //Session
+  const { data: session, status } = useSession();
+  console.log(session);
+
   useEffect(() => {
     setTimeout(() => {
-      router.push('/');
-    }, 9000);
+      router.push('/auth/login');
+    }, 7000);
   }, []);
+
+  if (session) {
+    signOut();
+  }
   return (
     <>
       <SEOHeader

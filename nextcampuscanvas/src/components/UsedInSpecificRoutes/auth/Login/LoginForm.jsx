@@ -47,6 +47,7 @@ const LoginForm = () => {
           error: 'Usuario o contraseña incorrectos',
           loading: false,
         });
+        CONTRASENA.setValue('');
         return false;
       }
       setState({
