@@ -331,6 +331,9 @@
     display: flex;
     justify-content: center;
     .header__logo {
+      .disableLogoLoggedUser767 {
+        display: none;
+      }
       flex-direction: column;
       align-items: center;
       width: 100%;
@@ -368,6 +371,10 @@
         z-index: 2;
         padding-top: 10px;
       }
+    }
+    //This height has to be equal to the height of loggedUserMenu
+    .correctHeaderLoggedUser767 {
+      height: 65px;
     }
   }
 
