@@ -8,7 +8,6 @@ import styles from './ButtonUp.module.scss';
 
 function ButtonUp() {
   const [buttonToggler] = useToggleOnScroll(200);
-  //console.log(buttonToggler);
 
   return (
     <div

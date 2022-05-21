@@ -260,7 +260,7 @@
   flex-direction: column;
   top: 5px;
   right: 5px;
-  z-index: 2;
+  z-index: 10;
 }
 
 .icon__line {
@@ -333,9 +333,9 @@
     .header__logo {
       flex-direction: column;
       align-items: center;
+      width: 100%;
 
       //Logged user menu for 767 and smaller
-
       .logged_user_menu__skeleton {
         align-items: center;
         margin-bottom: 15px;
@@ -348,7 +348,6 @@
         .header__logged_user_menu_container {
           width: 100%;
           justify-content: center;
-          //pointer-events: none;
         }
 
         ul {
@@ -357,14 +356,17 @@
           box-shadow: none;
           border: 1px solid $color--light-gray;
           text-align: center;
-          //display: none;
+          max-width: 222px;
         }
-        // .dropdow-is-active {
-        //   display: block;
-        // }
         .unverif_button_container {
           margin-bottom: 15px;
         }
+      }
+      .userMenuStickyState767 {
+        position: fixed;
+        background-color: $color--white;
+        z-index: 2;
+        padding-top: 10px;
       }
     }
   }

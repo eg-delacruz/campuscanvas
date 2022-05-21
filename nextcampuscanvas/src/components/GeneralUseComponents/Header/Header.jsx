@@ -22,6 +22,9 @@ import { signOut } from 'next-auth/react';
 import * as usersActions from '@actions/usersActions';
 const { getUser } = usersActions;
 
+//hooks
+import { useToggleOnScroll } from '@hooks/useToggleEOnScroll';
+
 function Header(props) {
   const router = useRouter();
   //Session
@@ -29,6 +32,9 @@ function Header(props) {
   const loading = status === 'loading';
 
   const [state, setState] = useState({ gettingUser: false });
+
+  //Hook to fix logged user menu at 767px or smaller
+  const [userMenuFixer767] = useToggleOnScroll(80);
 
   //This useEffect gets the user data to display user name
   //even if user stops verification process in step 2 or 3
@@ -140,7 +146,11 @@ function Header(props) {
             {loggedUserMenuSkeleton()}
 
             {props.user && (
-              <div className={styles.header__logged_user_menu}>
+              <div
+                className={`${styles.header__logged_user_menu} ${
+                  userMenuFixer767 ? styles.userMenuStickyState767 : ''
+                }`}
+              >
                 <div
                   onClick={() => toggleUserMenu()}
                   className={styles.header__logged_user_menu_container}
@@ -155,14 +165,22 @@ function Header(props) {
                     </i>
                   </button>
                 </div>
-                {/* <ul className={styles.dropdownMenu}> */}
                 <ul
+                  className={`${
+                    menus.isUserMenuOn ? styles['dropdow-is-active'] : ''
+                  } ${
+                    userMenuFixer767
+                      ? styles.userMenuStickyState767__dropdown
+                      : ''
+                  }`}
+                >
+                  {/* <ul
                   className={
                     menus.isUserMenuOn
                       ? `${styles.dropdownMenu} ${styles['dropdow-is-active']}`
                       : styles.dropdownMenu
                   }
-                >
+                > */}
                   <li onClick={() => redirectTo('/construccion')}>
                     Perfil
                     <i>
