@@ -1,4 +1,4 @@
-const GENDERS = ['Femenino', 'Masculino', 'Diverso'];
+const GENDERS = ['Femenino', 'Masculino'];
 //Ordenarlas de A - Z cuando estén completas
 //o utilizar método .sort() de arrays, que al
 //parecer devuelve el array ordenado de A - Z
