@@ -137,7 +137,6 @@ const verifyStuEmail = async (user, stu_email) => {
       throw new Error('[Controller] Ya has sido verificado anteriormente');
     }
 
-    //TODO: uncomment this
     //Deny access if generic email/not university email
     if (
       stu_email.includes('@hotmail') ||
@@ -160,37 +159,163 @@ const verifyStuEmail = async (user, stu_email) => {
     const token = jwt.sign(payload, secret, { expiresIn: '15m' });
     const link = clientEndPoints.user.verifyStuEmail(user.id, token);
 
-    //TODO: Uncomment this "if" when we have at least one stu_email to handle
-    //If stu_email structure is handled here, it shouldn't be in the following else if!!
+    //If stu_email structure is handled here, it shouldn't be in the if below!!
+    if (stu_email.includes('@ejemplo.com')) {
+      return link;
+    }
 
-    // if (
-    //   stu_email.includes('@urjc.edu.com') ||
-    //   stu_email.includes('@upm.stu.es')
-    // ) {
-    //   return link;
-    // }
-
-    //TODO:Uncomment Unhandled uni_email structures. If uniname is here,
-    //its corresponding stu_email shuldn't be in handled uni_email structures (if above !!!)
-    //else if (
-    //user.stu_data.university === 'unhandledUniName1' ||
-    //user.stu_data.university === 'unhandledUniName2' ||
-    //user.stu_data.university === 'unhandledUniName3'
-    //) {
-
-    //Save university and unhandled uni_email structure in another collection
-    await unhandledEmailsController.createUnhandledEmailEntry(
-      user.stu_data.university,
-      stu_email
-    );
-    return link;
-    //}
-    //TODO: Check how this works before uncommenting
-    //else{
-    // throw new Error(
-    //   '[Controller] La dirección de correo no pertenece a tu universidad'
-    // );
-    //}
+    //If uniname is here, its corresponding stu_email shuldn't
+    //be in handled uni_email structures (if above !!!)
+    //If a new university is added in the university array of the studentInfoDatabase.js
+    //add it here as well, but in lowercase!!!
+    if (
+      user.stu_data.university === 'centro de estudios financieros cef' ||
+      user.stu_data.university === 'cesine centro universitario' ||
+      user.stu_data.university ===
+        'colegio universitario de estudios financieros cunef' ||
+      user.stu_data.university === 'deusto business school' ||
+      user.stu_data.university === 'eada business school' ||
+      user.stu_data.university === 'eae business school' ||
+      user.stu_data.university === 'esade law & business school' ||
+      user.stu_data.university === 'esci-upf' ||
+      user.stu_data.university ===
+        'escola d art i superior de disseny de les illes balears' ||
+      user.stu_data.university === 'escola superior de disseny esdi' ||
+      user.stu_data.university ===
+        'escola universitària d hoteleria i turisme cett' ||
+      user.stu_data.university ===
+        'escuela autónoma de dirección de empresas eade' ||
+      user.stu_data.university === 'escuela de organización industrial eoi' ||
+      user.stu_data.university ===
+        'escuela europea de dirección y empresa eude' ||
+      user.stu_data.university ===
+        'escuela superior de administración y dirección de empresas esade' ||
+      user.stu_data.university ===
+        'escuela superior de gestion comercial y marketing esic' ||
+      user.stu_data.university ===
+        'escuela superior de música de cataluña esmuc' ||
+      user.stu_data.university ===
+        'escuela superior politécnica del tecnocampus' ||
+      user.stu_data.university ===
+        'escuela técnica superior de ingeniería aeronáutica y del espacio' ||
+      user.stu_data.university ===
+        'escuela técnica superior de ingeniería de montes, forestal y del medio natural' ||
+      user.stu_data.university ===
+        'escuela técnica superior de ingenieros agronomos' ||
+      user.stu_data.university ===
+        'escuela técnica superior de ingenieros navales' ||
+      user.stu_data.university ===
+        'escuela universitaria de diseño, innovación y tecnología' ||
+      user.stu_data.university ===
+        'escuela universitaria de fisioterapia once' ||
+      user.stu_data.university === 'florida centro de formación' ||
+      user.stu_data.university === 'fundació universitària del bages fub' ||
+      user.stu_data.university === 'ie universidad' ||
+      user.stu_data.university === 'imf business school' ||
+      user.stu_data.university === 'iqs institut químic de sarrià' ||
+      user.stu_data.university === 'mondragon unibertsitatea' ||
+      user.stu_data.university === 'saint louis university' ||
+      user.stu_data.university === 'unir, universidad en internet' ||
+      user.stu_data.university === 'universidad alfonso x el sabio uax' ||
+      user.stu_data.university === 'universidad antonio de nebrija' ||
+      user.stu_data.university === 'universidad autónoma de madrid uam' ||
+      user.stu_data.university === 'universidad camilo josé cela ucjc' ||
+      user.stu_data.university === 'universidad cardenal herrera ceu' ||
+      user.stu_data.university === 'universidad carlos iii de madrid uc3m' ||
+      user.stu_data.university ===
+        'universidad católica de valencia san vicente mártir' ||
+      user.stu_data.university === 'universidad católica san antonio ucam' ||
+      user.stu_data.university === 'universidad ceu san pablo' ||
+      user.stu_data.university === 'universidad complutense de madrid ucm' ||
+      user.stu_data.university === 'universidad de alcalá de henares uah' ||
+      user.stu_data.university === 'universidad de alicante ua' ||
+      user.stu_data.university === 'universidad de almería ual' ||
+      user.stu_data.university === 'universidad de barcelona ub' ||
+      user.stu_data.university === 'universidad de burgos ubu' ||
+      user.stu_data.university === 'universidad de cádiz uca' ||
+      user.stu_data.university === 'universidad de cantabria unican' ||
+      user.stu_data.university === 'universidad de castilla-la mancha' ||
+      user.stu_data.university === 'universidad de córdoba uco' ||
+      user.stu_data.university === 'universidad de extremadura unex' ||
+      user.stu_data.university === 'universidad de granada ugr' ||
+      user.stu_data.university === 'universidad de huelva uhu' ||
+      user.stu_data.university === 'universidad de jaén ujaen' ||
+      user.stu_data.university === 'universidad de la laguna ull' ||
+      user.stu_data.university === 'universidad de la rioja unirioja' ||
+      user.stu_data.university === 'universidad de las hespérides' ||
+      user.stu_data.university ===
+        'universidad de las palmas de gran canaria ulpgc' ||
+      user.stu_data.university === 'universidad de león unileon' ||
+      user.stu_data.university === 'universidad de málaga' ||
+      user.stu_data.university === 'universidad de marbella' ||
+      user.stu_data.university === 'universidad de murcia um' ||
+      user.stu_data.university === 'universidad de oviedo' ||
+      user.stu_data.university === 'universidad de salamanca usal' ||
+      user.stu_data.university === 'universidad de santiago de compostela' ||
+      user.stu_data.university === 'universidad de sevilla us' ||
+      user.stu_data.university === 'universidad de valladolid uva' ||
+      user.stu_data.university === 'universidad de zaragoza unizar' ||
+      user.stu_data.university === 'universidad del atlántico medio' ||
+      user.stu_data.university ===
+        'universidad del país vasco / euskal herriko unibertsitatea' ||
+      user.stu_data.university === 'universidad eclesiástica san dámaso' ||
+      user.stu_data.university === 'universidad europea de canarias' ||
+      user.stu_data.university === 'universidad europea de madrid uem' ||
+      user.stu_data.university === 'universidad europea del atlántico' ||
+      user.stu_data.university === 'universidad fernando pessoa canarias' ||
+      user.stu_data.university === 'universidad francisco de vitoria ufv' ||
+      user.stu_data.university ===
+        'universidad internacional de andalucía unia' ||
+      user.stu_data.university === 'universidad internacional de la rioja' ||
+      user.stu_data.university === 'universidad internacional de valencia' ||
+      user.stu_data.university ===
+        'universidad internacional isabel i de castilla' ||
+      user.stu_data.university ===
+        'universidad internacional menéndez pelayo uimp' ||
+      user.stu_data.university === 'universidad loyola andalucía' ||
+      user.stu_data.university ===
+        'universidad miguel hernández de elche umh' ||
+      user.stu_data.university ===
+        'universidad nacional de educación a distancia uned' ||
+      user.stu_data.university === 'universidad pablo de olavide upo' ||
+      user.stu_data.university ===
+        'universidad politécnica de cartagena upct' ||
+      user.stu_data.university === 'universidad politécnica de madrid upm' ||
+      user.stu_data.university === 'universidad pontificia comillas' ||
+      user.stu_data.university === 'universidad pontificia de salamanca' ||
+      user.stu_data.university === 'universidad pública de navarra unavarra' ||
+      user.stu_data.university === 'universidad rey juan carlos urjc' ||
+      user.stu_data.university === 'universidad san jorge usj' ||
+      user.stu_data.university === 'universidad villanueva uv' ||
+      user.stu_data.university === 'universidade da coruña udc' ||
+      user.stu_data.university === 'universidade de vigo uvigo' ||
+      user.stu_data.university === 'universitat abat oliba ceu uao' ||
+      user.stu_data.university === 'universitat autónoma de barcelona uab' ||
+      user.stu_data.university === 'universitat de girona udg' ||
+      user.stu_data.university === 'universitat de les illes balears uib' ||
+      user.stu_data.university === 'universitat de lleida udl' ||
+      user.stu_data.university === 'universitat de valencia uv' ||
+      user.stu_data.university === 'universitat de vic uvic' ||
+      user.stu_data.university ===
+        'universitat internacional de catalunya uic' ||
+      user.stu_data.university === 'universitat jaume i uji' ||
+      user.stu_data.university === 'universitat politécnica de catalunya upc' ||
+      user.stu_data.university === 'universitat politécnica de valencia upv' ||
+      user.stu_data.university === 'universitat pompeu fabra upf' ||
+      user.stu_data.university === 'universitat ramon llull url' ||
+      user.stu_data.university === 'universitat rovira i virgilu urv'
+    ) {
+      //Save university and unhandled uni_email structure in another collection
+      await unhandledEmailsController.createUnhandledEmailEntry(
+        user.stu_data.university,
+        stu_email
+      );
+      return link;
+    } else {
+      throw new Error(
+        '[Controller] La dirección de correo no pertenece a tu universidad'
+      );
+    }
   } catch (error) {
     throw new Error(error.message);
   }

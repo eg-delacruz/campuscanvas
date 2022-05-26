@@ -122,7 +122,12 @@ function Header(props) {
         <div className={styles['icon__line']} />
       </i>
 
-      <header className={styles['header']} id='header'>
+      <header
+        className={`${styles['header']} ${
+          props.user && styles.loggedInUserHeader767
+        }`}
+        id='header'
+      >
         {/* Un estilo es scopped y el otro global, tener cuidado */}
         <div className={`${styles['header__container']} container`}>
           {/* Logo + logged user menu */}

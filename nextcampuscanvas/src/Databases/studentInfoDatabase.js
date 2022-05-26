@@ -3,9 +3,10 @@ const GENDERS = ['Femenino', 'Masculino'];
 //o utilizar método .sort() de arrays, que al
 //parecer devuelve el array ordenado de A - Z
 
-//Al modificar este array, modificar también el
-//controller de users, la función que hace la validación
-//del correo estudiantil.
+//IMPORTANTE: Al modificar este array, modificar también el
+//controller de users en la api, en la función que hace la validación
+//del correo estudiantil, añadiéndo la nueva uni
+//en minúsculas!!!
 const UNIVERSITIES = [
   'Centro de Estudios Financieros CEF',
   'CESINE Centro Universitario',

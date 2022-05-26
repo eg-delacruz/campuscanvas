@@ -34,8 +34,6 @@ const CampusBox = () => {
     error: '',
   });
 
-  console.log('Cargando', state.loading);
-
   const router = useRouter();
 
   //Session
