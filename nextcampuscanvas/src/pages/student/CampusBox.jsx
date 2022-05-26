@@ -28,10 +28,13 @@ const CampusBox = () => {
   const [product, setProduct] = useState({});
   const [state, setState] = useState({
     allowedToOrder: false,
+    orderLimitLoading: false,
     loading: false,
     checkoutLoading: false,
     error: '',
   });
+
+  console.log('Cargando', state.loading);
 
   const router = useRouter();
 
@@ -57,7 +60,7 @@ const CampusBox = () => {
     }
   }
 
-  ///////////////////////////////Getting product information////////////////////////////////
+  ///////////////////////////////Getting product information and limiting orders////////////////////////////////
   const id = 'gid://shopify/Product/7509431713980';
   const REQUIRED_BOX_DATA = `
   query Product{
@@ -75,25 +78,43 @@ const CampusBox = () => {
   }
   `;
 
-  async function fetchData() {
+  async function fetchData(userID) {
     setState({ ...state, loading: true });
     const response = await storefront(REQUIRED_BOX_DATA);
     setProduct(response);
-    setState({ ...state, loading: false });
+    setState({ ...state, loading: false, orderLimitLoading: true });
+
+    //Checking order allowance for user
+    const respuesta = await fetch(endPoints.orders.isAllowedToOrder(userID), {
+      method: 'GET',
+      headers: {
+        accept: '*/*',
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await respuesta.json();
+    setState({
+      ...state,
+      orderLimitLoading: false,
+      allowedToOrder: data.body.allowToOrder,
+    });
   }
 
   useEffect(() => {
-    try {
-      if (Object.keys(product).length === 0) {
-        fetchData();
+    if (session) {
+      const userID = session.token.sub;
+      try {
+        if (Object.keys(product).length === 0) {
+          fetchData(userID);
+        }
+      } catch (error) {
+        console.log(error);
+        setState({ ...state, loading: false, error: error });
       }
-    } catch (error) {
-      console.log(error);
-      setState({ ...state, loading: false, error: error });
     }
-  }, []);
+  }, [session]);
 
-  ///////////////////////////////Getting product information////////////////////////////////(end)
+  ///////////////////////////////Getting product information and limiting orders////////////////////////////////(end)
   /////////////////////////////// Checkout config ////////////////////////////////
   //const needed to request checkout
   let variantId = product.data?.product.variants.edges[0].node.id;
@@ -140,31 +161,68 @@ const CampusBox = () => {
   };
 
   /////////////////////////////// Checkout config ////////////////////////////////(end)
-  /////////////////////////////// Limiting boxes to one per user per semester ////////////////////////////////
-  const isAllowedToOrder = async (userID) => {
-    setState({ ...state, loading: true });
-    const respuesta = await fetch(endPoints.orders.isAllowedToOrder(userID), {
-      method: 'GET',
-      headers: {
-        accept: '*/*',
-        'Content-Type': 'application/json',
-      },
-    });
-    const data = await respuesta.json();
-    //console.log('Se permite?', data.body.allowToOrder);
-    setState({
-      ...state,
-      loading: false,
-      allowedToOrder: data.body.allowToOrder,
-    });
-  };
 
-  useEffect(() => {
-    if (session) {
-      const userID = session.token.sub;
-      isAllowedToOrder(userID);
+  //Order limit displayer
+  const orderLimitDisplayer = () => {
+    if (state.orderLimitLoading) {
+      return (
+        <>
+          <button
+            className={`${styles.loadingBtnSpinner} btn button--red`}
+            disabled={true}
+          >
+            Cargando
+          </button>
+
+          <div className={styles.divider}></div>
+        </>
+      );
     }
-  }, [session]);
+    if (!state.allowedToOrder) {
+      return (
+        //Renders if not allowed to order because of limit of 1 box has been reached
+        <>
+          <button
+            className={`${styles.buttonDisabled} btn button--red`}
+            disabled={true}
+          >
+            ¡Obtener Campus Box!
+          </button>
+
+          <div className={styles.divider}></div>
+          <p className={styles.notAllowedMessage}>
+            ¡Vaya! Parece que ya has pedido tu Campus Box de este semestre... :(
+            <br />
+            Siguenos en 👉<a href='#footer'>redes sociales</a> para enterarte
+            cuando volvamos con más. O ☎️
+            <Link href={'/contacto'}>contacta con nosotros</Link>
+          </p>
+        </>
+      );
+    }
+    if (state.allowedToOrder) {
+      return (
+        //Renders if user is allowed to order
+        <>
+          <button
+            className={`${
+              state.checkoutLoading && styles.buttonLoading
+            } btn button--red`}
+            disabled={state.checkoutLoading}
+            onClick={() => checkout()}
+          >
+            ¡Obtener Campus Box!
+          </button>
+
+          <div className={styles.divider}></div>
+          <p className={styles.conditions}>
+            * Debido a las existencias limitadas de la Campus Box, solamente
+            puedes pedir una caja por semestre.
+          </p>
+        </>
+      );
+    }
+  };
 
   /////////////////////////////// Limiting boxes to one per user per semester ////////////////////////////////(end)
 
@@ -233,46 +291,8 @@ const CampusBox = () => {
               patrocinadores. ¡Todo totalmente gratis!
             </p>
 
-            {state.allowedToOrder ? (
-              //Renders if user is allowed to order
-              <>
-                <button
-                  className={`${
-                    state.checkoutLoading && styles.buttonLoading
-                  } btn button--red`}
-                  disabled={state.checkoutLoading}
-                  onClick={() => checkout()}
-                >
-                  ¡Obtener Campus Box!
-                </button>
-
-                <div className={styles.divider}></div>
-                <p className={styles.conditions}>
-                  * Debido a las existencias limitadas de la Campus Box,
-                  solamente puedes pedir una caja por semestre.
-                </p>
-              </>
-            ) : (
-              //Renders if not allowed to order because of limit of 1 has been reached
-              <>
-                <button
-                  className={`${styles.buttonDisabled} btn button--red`}
-                  disabled='true'
-                >
-                  ¡Obtener Campus Box!
-                </button>
-
-                <div className={styles.divider}></div>
-                <p className={styles.notAllowedMessage}>
-                  ¡Vaya! Parece que ya has pedido tu Campus Box de este
-                  semestre... :(
-                  <br />
-                  Siguenos en 👉<a href='#footer'>redes sociales</a> para
-                  enterarte cuando volvamos con más. O ☎️
-                  <Link href={'/contacto'}>contacta con nosotros</Link>
-                </p>
-              </>
-            )}
+            {/* Allows or denies user to order a box depending on the order limit of 1 per user */}
+            {orderLimitDisplayer()}
           </div>
         </main>
 

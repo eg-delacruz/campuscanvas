@@ -54,6 +54,10 @@ body {
   position: relative;
   color: $color--primary1;
 }
+.loadingBtnSpinner:hover {
+  background-color: $color--primary1 !important;
+  cursor: initial;
+}
 .loadingBtnSpinner::after {
   content: '';
   position: absolute;
