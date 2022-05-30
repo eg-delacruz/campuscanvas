@@ -18,9 +18,9 @@
 
 .button-up-container svg {
   border-radius: 5px;
-  box-shadow: 8px 4px 15px -1px rgba(0, 0, 0, 0.5);
-  -webkit-box-shadow: 8px 4px 15px -1px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 8px 4px 15px -1px rgba(0, 0, 0, 0.5);
+  box-shadow: 5px 1px 15px -1px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 5px 1px 15px -1px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 5px 1px 15px -1px rgba(0, 0, 0, 0.4);
 }
 .button-up-container svg:hover .button-up__background {
   fill: $color--white;

@@ -80,7 +80,7 @@ function Nosotros() {
                   por eso que nuestro objetivo número uno es motivarte a ti,
                   estudiante, y hacer de tu tiempo en la universidad una
                   experiencia memorable. Los productos promocionales de nuestras{' '}
-                  <strong>Campus Bag</strong> son cuidadosamente seleccionados
+                  <strong>Campus Box</strong> son cuidadosamente seleccionados
                   para que estos sean de tu agrado y beneficio. Buscamos ser una
                   alternativa publicitaria atractiva y poco intrusiva a
                   comparación de otros medios tradicionales y digitales,

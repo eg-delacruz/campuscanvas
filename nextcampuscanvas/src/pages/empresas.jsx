@@ -1,27 +1,28 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 //Styles
 import styles from '@pagestyles/ParaEmpresas.module.scss';
 
 //assets
-import BagLogo from '@assets/GeneralUse/Logos/bag_logo.svg';
-import Bagsx2 from '@assets/PagesImages/EmpresasImages/2bags.png';
 import SectionDownButton from '@assets/GeneralUse/IconsAndButtons/section_down';
 
 //Images
-import upperBenefit1 from '@assets/PagesImages/EmpresasImages/upperBenefit_img_1.png';
-import Card_gift from '@assets/GeneralUse/card_gift.png';
-import upperBenefit3 from '@assets/PagesImages/EmpresasImages/upperBenefit_img_3.png';
-import upperBenefit4 from '@assets/PagesImages/EmpresasImages/upperBenefit_img_4.png';
-import upperBenefit5 from '@assets/PagesImages/EmpresasImages/upperBenefit_img_5.png';
-import upperBenefit6 from '@assets/PagesImages/EmpresasImages/upperBenefit_img_6.png';
-import lowerBenefit1 from '@assets/PagesImages/EmpresasImages/lowerBenefit_img_1.png';
+import BoxWithProducts from '@assets/PagesImages/HomeImages/box_and_products.svg';
+import upperbenefit1 from '@assets/PagesImages/EmpresasImages/gift.svg';
+import upperBenefit2 from '@assets/PagesImages/EmpresasImages/target.svg';
+import upperBenefit3 from '@assets/PagesImages/EmpresasImages/upperBenefit_img_3.svg';
+import upperBenefit4 from '@assets/PagesImages/EmpresasImages/upperBenefit_img_4.svg';
+import upperBenefit5 from '@assets/PagesImages/EmpresasImages/upperBenefit_img_5.svg';
+import upperBenefit6 from '@assets/PagesImages/EmpresasImages/upperBenefit_img_6.svg';
+import lowerBenefit1 from '@assets/PagesImages/EmpresasImages/spain_map.svg';
 import lowerBenefit2 from '@assets/PagesImages/EmpresasImages/lowerBenefit_img_2.png';
-import lowerBenefit3 from '@assets/PagesImages/EmpresasImages/lowerBenefit_img_3.png';
+import lowerBenefit3 from '@assets/PagesImages/EmpresasImages/social_media.svg';
 import lowerBenefit4 from '@assets/PagesImages/EmpresasImages/lowerBenefit_img_4.png';
 import lowerBenefit5 from '@assets/PagesImages/EmpresasImages/lowerBenefit_img_5.png';
+import Check_icon from '@assets/PagesImages/EmpresasImages/check_icon.svg';
 
 //components
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
@@ -49,23 +50,22 @@ function ParaEmpresas() {
             //       Hero         //
           ///////////////////////// */}
 
-          <figure className={`${styles.pageTitle} container`}>
-            <img src={BagLogo.src} alt='Logo Campus Bag' />
-          </figure>
-
           <section className={styles.hero}>
             <div className={`${styles.hero__container} container`}>
+              <div className={styles.hero__image_container}>
+                <Image
+                  src={BoxWithProducts}
+                  imgAlt='Campus Box con productos'
+                />
+              </div>
               <h1 className={styles.hero__title}>
-                ¡La bolsa más esperada por los estudiantes!
+                ¡Impulsa tu producto con nosotros!
               </h1>
-              <figure>
-                <img src={Bagsx2.src} alt='Ejemplos bolsas Campus Bag' />
-              </figure>
             </div>
             <a href='#paraEmpresas_main'>
               <SectionDownButton
                 className={styles.hero__sectionDown}
-                color='#3a86ff'
+                color='#005EF5'
               />
             </a>
           </section>
@@ -78,62 +78,94 @@ function ParaEmpresas() {
             className={`${styles.main} container`}
             id='paraEmpresas_main'
           >
-            <h2 className={styles.main__title1}>
-              ¡Regala una sonrisa al estudiante!
+            <h2 className={styles.main__title}>
+              Destaca entre los estudiantes universitarios
             </h2>
+            <h4 className={styles.main__subtitle}>
+              Campus Box está dirigido a empresas que quieran promover su marca
+              entre estudiantes universitarios, a través de la distribución de
+              productos como:
+            </h4>
+            <div className={styles.main__distribution_options_container}>
+              <div className={styles.main__distribution_option}>
+                <div
+                  className={styles.main__distribution_option_image_container}
+                >
+                  <Image layout='fixed' src={Check_icon} imgAlt='Opción 1' />
+                </div>
 
-            <p className={styles.main__content1}>
-              Nuestro servicio Campus Bag tiene como principal objetivo
-              obsequiar productos y servicios a los estudiantes universitarios a
-              través de un modelo de patrocinios. A lo largo del cuatrimestre
-              estudiantil nos acercamos a los distintos campus de las
-              universidades madrileñas a entregar bolsas con todo tipo de
-              contenido relevante para los estudiantes. <br /> <br /> Estos van
-              desde productos comestibles como galletas, chocolatinas,
-              chucherías y bebidas de todo tipo, hasta muestras de productos
-              cosméticos, productos de oficina como bolígrafos y útiles
-              escolares, flyers, cupones de descuento e incluso ofertas de
-              empleo y búsqueda de candidatos. Todo con el objetivo de brindar
-              valor a los estudiantes y generar una imagen de marca positiva.
-              <br />
-            </p>
+                <div
+                  className={styles.main__distribution_option_details_container}
+                >
+                  <h5 className={styles.main__distribution_option_title}>
+                    Productos de consumo producidos por tu marca
+                  </h5>
+                  <p className={styles.main__distribution_option_description}>
+                    Productos de muestra, tales como botellas y latas de
+                    refresco, bebidas en polvo, galletas, chocolates, dulces y
+                    cualquier otro tipo de comestibles.{' '}
+                  </p>
+                </div>
+              </div>
 
-            <h2 className={styles.main__title2}>
-              <b> Repartimos </b>por ti los siguientes productos...
-            </h2>
-
-            <ul className={styles.main__content2}>
-              <li>
-                <h4>
-                  Productos funcionales o de consumo producidos por tu marca
-                  (recomendado)
-                </h4>
-                <p>
-                  Productos de muestra producidos por tu marca, como botellas y
-                  latas de refresco, refrescos en polvo, galletas, chocolates,
-                  dulces y cualquier otro tipo de comestibles. También muestras
-                  de productos cosméticos o productos de oficina como bolígrafos
-                  y útiles escolares.
-                </p>
-              </li>
-
-              <li>
-                <h4>Folletos</h4>
-                <p>
-                  Ya sea con la finalidad de promocionar tus productos, dar a
-                  conocer tu marca o encontrar potenciales candidatos para tu
-                  empresa.
-                </p>
-              </li>
-
-              <li>
-                <h4>Tu anuncio impreso directamente en la bolsa</h4>
-                <p>
-                  Puedes anunciarte en una de las caras de las Campus Bag,
-                  formando así, parte de su diseño.
-                </p>
-              </li>
-            </ul>
+              <div className={styles.main__distribution_option}>
+                <div
+                  className={styles.main__distribution_option_image_container}
+                >
+                  <Image layout='fixed' src={Check_icon} imgAlt='Opción 2' />
+                </div>
+                <div
+                  className={styles.main__distribution_option_details_container}
+                >
+                  <h5 className={styles.main__distribution_option_title}>
+                    Folletos
+                  </h5>
+                  <p className={styles.main__distribution_option_description}>
+                    Ya sea con la finalidad de promocionar tus productos, dar a
+                    conocer tu marca o encontrar potenciales candidatos para tu
+                    empresa.
+                  </p>
+                </div>
+              </div>
+              <div className={styles.main__distribution_option}>
+                <div
+                  className={styles.main__distribution_option_image_container}
+                >
+                  <Image layout='fixed' src={Check_icon} imgAlt='Opción 3' />
+                </div>
+                <div
+                  className={styles.main__distribution_option_details_container}
+                >
+                  <h5 className={styles.main__distribution_option_title}>
+                    Cupones de descuento
+                  </h5>
+                  <p className={styles.main__distribution_option_description}>
+                    Impulsa tus productos otorgando descuentos exclusivos en
+                    tecnología, tiendas en línea o eventos de ocio para la
+                    comunidad estudiantil.
+                  </p>
+                </div>
+              </div>
+              <div className={styles.main__distribution_option}>
+                <div
+                  className={styles.main__distribution_option_image_container}
+                >
+                  <Image layout='fixed' src={Check_icon} imgAlt='Opción 4' />
+                </div>
+                <div
+                  className={styles.main__distribution_option_details_container}
+                >
+                  <h5 className={styles.main__distribution_option_title}>
+                    Productos de utilidad para estudiantes
+                  </h5>
+                  <p className={styles.main__distribution_option_description}>
+                    Muestras de productos cosméticos, de higiene y uso personal;
+                    merchandising de tu marca como bolígrafos, agendas, bolsas
+                    ecológicas, etc.
+                  </p>
+                </div>
+              </div>
+            </div>
           </section>
 
           {/* /////////////////////////
@@ -143,24 +175,28 @@ function ParaEmpresas() {
           <section className={styles.upperBenefits}>
             <div className={`${styles.upperBenefits__container} container`}>
               <h2>¿Por qué confiar en nuestro servicio</h2>
+              <h4 className={styles.upperBenefits__subtitle}>
+                Somos la primera empresa publicitaria en España enfocada en
+                estudiantes
+              </h4>
               <div className={styles.beneficios__container}>
                 <Card
-                  image={upperBenefit1}
+                  image={upperbenefit1}
                   imgAlt='Imagen de tarjeta'
                   title='Da una percepción positiva a tu marca'
                 >
-                  Nuestra <b>Campus Bag</b> es un regalo que las distintas
-                  marcas patrocinadoras en conjunto dan a los estudiantes.
+                  Nuestra <b>Campus Box</b> es percibida como un regalo por el
+                  estudiante. ¿Qué mejor manera de promover tus productos?
                 </Card>
 
                 <Card
-                  image={Card_gift}
+                  image={upperBenefit2}
                   imgAlt='Imagen de tarjeta'
                   title='Una forma distinta de hacer publicidad'
                 >
-                  La expectativa generada en los estudiantes por descubrir lo
-                  que hay dentro de nuestras bolsas hace destacar la efectividad
-                  de nuestra publicidad.
+                  Diferénciate de tu competencia al utilizar un medio de
+                  publicidad menos saturado y mejor enfocado a tu cliente
+                  objetivo.
                 </Card>
 
                 <Card
@@ -168,8 +204,9 @@ function ParaEmpresas() {
                   imgAlt='Imagen de tarjeta'
                   title='Contacto directo con estudiantes internacionales'
                 >
-                  Causa una buena impresión de tus productos al constante flujo
-                  de estudiantes internacionales en Madrid.
+                  Las universidades Españolas acogen muchos estudiantes
+                  internacionales a lo largo del año. Dales una buena impresión
+                  de tus productos.
                 </Card>
 
                 <Card
@@ -178,7 +215,7 @@ function ParaEmpresas() {
                   title='Perfecto para nuevas empresas'
                 >
                   Si eres una nueva empresa con productos o servicios
-                  interesantes para estudiantes, haz que te conozcan a través de
+                  interesantes para estudiantes, date a conocer a través de
                   nosotros.
                 </Card>
 
@@ -188,17 +225,16 @@ function ParaEmpresas() {
                   title='Un punto de contacto más con clientes potenciales'
                 >
                   Tener diversos puntos de contacto con tus clientes puede hacer
-                  la diferencia. Nosotros añadimos uno más a tu lista.
+                  la diferencia. Nosotros añadimos un punto más a tu lista.
                 </Card>
 
                 <Card
                   image={upperBenefit6}
                   imgAlt='Imagen de tarjeta'
-                  title='Dedicado a estudiantes'
+                  title='Obtén feedback de tus productos'
                 >
-                  Proveemos un servicio de publicidad enfocado a estudiantes,
-                  facilitando así el contacto directo entre ellos y las
-                  empresas.
+                  Recopilamos información sobre la opinión de los estudiantes
+                  respecto a tu marca a través de encuestas
                 </Card>
               </div>
             </div>
@@ -211,13 +247,13 @@ function ParaEmpresas() {
           <section className={`${styles.underBenefits} container`}>
             <article className={styles.beneficio}>
               <div className={styles.beneficio__informacion}>
-                <h4>Cubrimos toda la comunidad de Madrid</h4>
+                <h4>Cubrimos toda España peninsular </h4>
                 <p>
-                  Con más de 300 000 estudiantes, Madrid ofrece un gran
+                  Con más de 1 500 000 estudiantes, España ofrece un gran
                   potencial para nuestro servicio, pues nuestro objetivo es
-                  hacer entrega de una <b>Campus Bag</b> a cada uno de ellas/os
-                  cada cuatrimestre. La expectativa generada por nuestra bolsa
-                  garantiza a tu empresa una campaña de publicidad efectiva.
+                  promover e impulsar tu marca a través de <b>Campus Bag</b> en
+                  todos los rincones de España mediante campañas publicitarias
+                  efectivas.
                 </p>
               </div>
               <figure className={styles.beneficio__imagen}>
@@ -227,14 +263,16 @@ function ParaEmpresas() {
 
             <hr className={styles.beneficio__hr} />
 
-            <article className={styles.beneficio}>
+            <article
+              className={`${styles.beneficio} ${styles['beneficio--flipped']}`}
+            >
               <div className={styles.beneficio__informacion}>
                 <h4>La forma perfecta de encontrar candidatos</h4>
                 <p>
                   Encuentra a los mejores candidatos para tu empresa
-                  directamente en las universidades. Con nosotros puedes ofrecer
-                  vacantes para estudiantes en prácticas, de media jornada,
-                  jornada completa o de cualquier otro tipo.
+                  directamente en las universidades. A través de nosotros puedes
+                  ofrecer bacantes para estudiantes en prácticas, de media
+                  jornada, jornada completa o del tipo que necesites.
                 </p>
               </div>
               <figure className={styles.beneficio__imagen}>
@@ -246,16 +284,13 @@ function ParaEmpresas() {
 
             <article className={styles.beneficio}>
               <div className={styles.beneficio__informacion}>
-                <h4>Nosotros nos encargamos de la distribución</h4>
+                <h4>Estudiantes, los reyes de las redes sociales</h4>
                 <p>
-                  El equipo de Campus Canvas cuenta con una red de distribución
-                  de Campus Bag en toda la{' '}
-                  <Link href='/universidades'>comunidad de Madrid</Link>,
-                  pudiendo así llegar a los estudiantes de las universidades más
-                  grandes del área. A lo largo de cada cuatrimestre estudiantil,
-                  todas estas universidades son visitadas como mínimo una vez
-                  por nuestro equipo. De esta manera no te tienes que preocupar
-                  por la logística de distribución, ¡déjalo en nuestras manos!
+                  La comunidad estudiantil destaca por su facilidad y
+                  naturalidad del manejo de redes sociales. Promover tus
+                  productos en este segmento aumenta las posibilidades de un
+                  marketing boca a boca efectivo, gracias a la facilidad de
+                  comunicación y envío de información.
                 </p>
               </div>
               <figure
@@ -267,15 +302,16 @@ function ParaEmpresas() {
 
             <hr className={styles.beneficio__hr} />
 
-            <article className={styles.beneficio}>
+            <article
+              className={`${styles.beneficio} ${styles['beneficio--flipped']}`}
+            >
               <div className={styles.beneficio__informacion}>
                 <h4>Diseñamos tu publicidad</h4>
                 <p>
-                  Si no tienes un equipo dedicado al diseño e impresión de tu
-                  publicidad, nosotros lo hacemos por ti. En conjunto contigo,
-                  diseñamos tus volantes publicitarios y nos encargamos de su
-                  impresión con el acabado que más te convenga: impresiones a
-                  una tinta, duo tonos, coated, uncoated, etc.
+                  En conjunto contigo, diseñamos tus folletos publicitarios y
+                  nos encargamos de su impresión. Si lo prefieres, puedes
+                  enviarnos el diseño de tu volante y nosotros continuaremos el
+                  proceso de impresión y distribución a través de Campus Box
                 </p>
               </div>
               <figure
@@ -291,13 +327,13 @@ function ParaEmpresas() {
               <div className={styles.beneficio__informacion}>
                 <h4>Múltiples opciones para tus productos</h4>
                 <p>
-                  Uno de los objetivos de nuestra <b> Campus Bag</b> es
-                  obsequiar valor al estudiante. Por ello, incitamos a nuestros
-                  patrocinadores a contribuir a ella principalmente con
-                  productos interesantes de su marca, y de esta manera generar
-                  una imagen de marca positiva de cara a los estudiantes.
-                  También puedes poner productos como flyers o cupones con
-                  descuentos, ofertas atractivas y ofertas de empleo.
+                  Uno de los objetivos de <b> Campus Box</b> es entregar valor
+                  al estudiante. Por ello, incitamos a nuestros patrocinadores a
+                  contribuir a ella principalmente con productos interesantes de
+                  su marca, y de esta manera generar una{' '}
+                  <b>imagen de marca positiva</b> . Otras maneras de contribuir
+                  es a través de flyers o cupones con descuentos, ofertas
+                  atractivas u ofertas de empleo.
                 </p>
               </div>
               <figure
@@ -315,9 +351,10 @@ function ParaEmpresas() {
           ///////////////////////// */}
           <section className={`${styles.contact} container`}>
             <p>
-              Contacta con nosotros y asegura un lugar para tus productos en la
-              bolsa que se distribuye a todos los estudiantes madrileños, y
-              sorpréndelos con un bonito regalo de parte de tu empresa.
+              Contacta con nosotros, y asegura un lugar para tus productos en la
+              caja que se distribuye a todos los estudiantes universitarios una
+              vez por cuatrimestre, y sorpréndelos con un bonito gesto de parte
+              de tu empresa.
             </p>
 
             <button
