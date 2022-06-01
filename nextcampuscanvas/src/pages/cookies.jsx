@@ -42,15 +42,14 @@ function Cookies() {
       />
 
       <Layout>
-        <div className={styles.body__gridContainer}>
-          <main className={styles.main}>
-            <ButtonUp />
-            <div className={`${styles.main__container} container`}>
-              <h2>Declaración de cookies</h2>
+        <main className={styles.main}>
+          <ButtonUp />
+          <div className={`${styles.main__container} container`}>
+            <h2>Declaración de cookies</h2>
 
-              <div id='script_container'></div>
+            <div id='script_container'></div>
 
-              {/* <p>
+            {/* <p>
                 De momento, la web de Campus Canvas no recopila datos de ningún
                 tipo, por consiguiente no se hace rastreo de "cookies" ni de
                 ningún tipo de dato del usuario. Nuestra web se limita a ser
@@ -62,9 +61,9 @@ function Cookies() {
                 web.
               </p> */}
 
-              {/* //////////////////Descomentar y usar esta estructura en el momento en que se comience a hacer uso de datos, y sustituir lo de arriba/////////////// */}
+            {/* //////////////////Descomentar y usar esta estructura en el momento en que se comience a hacer uso de datos, y sustituir lo de arriba/////////////// */}
 
-              {/* <p>
+            {/* <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
               nisl eros, pulvinar facilisis justo mollis, auctor consequat urna.
               Morbi a bibendum metus. Donec scelerisque sollicitudin enim eu
@@ -301,15 +300,14 @@ function Cookies() {
                 scelerisque sollicitudin
               </li>
             </ul> */}
-              <div className={styles.main__bottom}>
-                <h4>Última actualización: 22/03/2022</h4>
-                <h4>
-                  Copyright ® Campus Canvas 2021. Todos los derechos reservados
-                </h4>
-              </div>
+            <div className={styles.main__bottom}>
+              <h4>Última actualización: 22/03/2022</h4>
+              <h4>
+                Copyright ® Campus Canvas 2022. Todos los derechos reservados
+              </h4>
             </div>
-          </main>
-        </div>
+          </div>
+        </main>
       </Layout>
     </>
   );

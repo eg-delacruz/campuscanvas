@@ -1,10 +1,6 @@
 @import '../Vars.scss';
 @import '../Buttons.scss';
 
-.body__gridContainer {
-  display: grid;
-}
-
 .main {
   @include paragraph--regular;
   color: $color--black;
