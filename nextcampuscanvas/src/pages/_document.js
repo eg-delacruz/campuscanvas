@@ -85,15 +85,6 @@ export default function Document() {
         {/* Es necesario poner el main y NextScript para que la app funcione bien */}
         <Main />
         <NextScript />
-        <script
-          id='CookieDeclaration'
-          src='https://consent.cookiebot.com/56697194-dfde-4726-ae75-dd1721d25c14/cd.js'
-          type='text/javascript'
-          async
-          onError={(e) => {
-            console.error('Script failed to load', e);
-          }}
-        />
       </body>
     </Html>
   );

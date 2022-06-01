@@ -24,7 +24,17 @@ function Cookies() {
             <div className={`${styles.main__container} container`}>
               <h2>Declaración de cookies</h2>
 
-              <p>
+              <script
+                id='CookieDeclaration'
+                src='https://consent.cookiebot.com/56697194-dfde-4726-ae75-dd1721d25c14/cd.js'
+                type='text/javascript'
+                async
+                onError={(e) => {
+                  console.error('Script failed to load', e);
+                }}
+              />
+
+              {/* <p>
                 De momento, la web de Campus Canvas no recopila datos de ningún
                 tipo, por consiguiente no se hace rastreo de "cookies" ni de
                 ningún tipo de dato del usuario. Nuestra web se limita a ser
@@ -34,7 +44,7 @@ function Cookies() {
                 servicios que se vayan añadiendo. Estas actualizaciones e
                 implementaciones serán notificadas en este apartado de nuestra
                 web.
-              </p>
+              </p> */}
 
               {/* //////////////////Descomentar y usar esta estructura en el momento en que se comience a hacer uso de datos, y sustituir lo de arriba/////////////// */}
 
