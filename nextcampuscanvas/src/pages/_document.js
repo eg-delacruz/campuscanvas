@@ -69,14 +69,14 @@ export default function Document() {
         <meta name='robots' content='index' follow='true' />
 
         {/* Cookie consent banner and widget */}
-        <Script
+        <script
           id='Cookiebot'
           src='https://consent.cookiebot.com/uc.js'
           data-cbid='56697194-dfde-4726-ae75-dd1721d25c14'
           data-blockingmode='auto'
           type='text/javascript'
-          onError={(e) => {
-            console.error('Script failed to load', e);
+          onError={() => {
+            console.error('Script failed to load');
           }}
         />
       </Head>
@@ -85,7 +85,7 @@ export default function Document() {
         {/* Es necesario poner el main y NextScript para que la app funcione bien */}
         <Main />
         <NextScript />
-        <Script
+        <script
           id='CookieDeclaration'
           src='https://consent.cookiebot.com/56697194-dfde-4726-ae75-dd1721d25c14/cd.js'
           type='text/javascript'
