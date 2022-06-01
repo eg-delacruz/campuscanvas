@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 //Styles
 import styles from '@pagestyles/Cookies.module.scss';
@@ -10,13 +10,16 @@ import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 function Cookies() {
   const executeScript = (scriptSource, id) => {
-    const script = document.createElement('script');
-    script.id = id;
-    script.src = scriptSource;
-    script.async = true;
-    script.type = 'text/javascript';
-    document.body.appendChild(script);
+    if (typeof window !== 'undefined') {
+      const script = document.createElement('script');
+      script.id = id;
+      script.src = scriptSource;
+      script.async = true;
+      script.type = 'text/javascript';
+      document.body.appendChild(script);
+    }
   };
+
   return (
     <>
       <SEOHeader
