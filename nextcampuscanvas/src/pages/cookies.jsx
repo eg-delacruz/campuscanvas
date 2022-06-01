@@ -9,14 +9,15 @@ import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 function Cookies() {
-  const executeScript = (scriptSource, id) => {
+  const executeScript = (scriptSource, id, HTMLelementID) => {
     if (typeof window !== 'undefined') {
+      const Element = document.getElementById(HTMLelementID);
       const script = document.createElement('script');
       script.id = id;
       script.src = scriptSource;
       script.async = true;
       script.type = 'text/javascript';
-      document.body.appendChild(script);
+      Element.appendChild(script);
     }
   };
 
@@ -35,9 +36,12 @@ function Cookies() {
             <div className={`${styles.main__container} container`}>
               <h2>Declaración de cookies</h2>
 
+              <div id='script_container'></div>
+
               {executeScript(
                 'https://consent.cookiebot.com/56697194-dfde-4726-ae75-dd1721d25c14/cd.js',
-                'CookieDeclaration'
+                'CookieDeclaration',
+                'script_container'
               )}
 
               {/* <p>
