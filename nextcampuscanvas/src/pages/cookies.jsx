@@ -13,7 +13,7 @@ function Cookies() {
     if (typeof window !== 'undefined') {
       const Element = document.getElementById(HTMLelementID);
       const script = document.createElement('script');
-      script.id = id;
+      script.setAttribute('id', id);
       script.src = scriptSource;
       script.async = true;
       script.type = 'text/javascript';
