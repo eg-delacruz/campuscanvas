@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import Script from 'next/script';
+import { useEffect, useState } from 'react';
 
 //Styles
 import styles from '@pagestyles/Cookies.module.scss';
@@ -10,20 +9,10 @@ import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 function Cookies() {
-  const executeScript = () => (
-    <Script
-      strategy='afterInteractive'
-      id='CookieDeclaration'
-      src='https://consent.cookiebot.com/56697194-dfde-4726-ae75-dd1721d25c14/cd.js'
-      type='text/javascript'
-      async
-      onError={(e) => {
-        console.error('Script failed to load', e);
-      }}
-    />
-  );
+  const [executeScript, setExecuteScript] = useState(false);
+
   useEffect(() => {
-    executeScript();
+    setExecuteScript(true);
   }, []);
   return (
     <>
@@ -40,7 +29,17 @@ function Cookies() {
             <div className={`${styles.main__container} container`}>
               <h2>Declaración de cookies</h2>
 
-              {executeScript}
+              {executeScript ? (
+                <script
+                  id='CookieDeclaration'
+                  src='https://consent.cookiebot.com/56697194-dfde-4726-ae75-dd1721d25c14/cd.js'
+                  type='text/javascript'
+                  async
+                  onError={(e) => {
+                    console.error('Script failed to load', e);
+                  }}
+                />
+              ) : null}
 
               {/* <p>
                 De momento, la web de Campus Canvas no recopila datos de ningún
