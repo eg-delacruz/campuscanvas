@@ -1,8 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import Script from 'next/script';
-import prueba from '@services/prueba.js';
 
 //Styles
 import styles from '@pagestyles/Main.module.scss';

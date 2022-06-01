@@ -1,4 +1,5 @@
 import React from 'react';
+import Script from 'next/script';
 
 //Styles
 import styles from '@pagestyles/Cookies.module.scss';
@@ -24,7 +25,7 @@ function Cookies() {
             <div className={`${styles.main__container} container`}>
               <h2>Declaración de cookies</h2>
 
-              <script
+              <Script
                 id='CookieDeclaration'
                 src='https://consent.cookiebot.com/56697194-dfde-4726-ae75-dd1721d25c14/cd.js'
                 type='text/javascript'

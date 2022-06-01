@@ -1,8 +1,6 @@
 //Aquí manejamos el SEO de la página de manera global
 
 import { Html, Head, Main, NextScript } from 'next/document';
-import Script from 'next/script';
-import Prueba from '@services/prueba';
 
 export default function Document() {
   return (
