@@ -9,17 +9,29 @@ import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 function Cookies() {
-  const executeScript = (scriptSource, id, HTMLelementID) => {
+  const executeScript = async (scriptSource, id, HTMLelementID) => {
     if (typeof window !== 'undefined') {
       const Element = document.getElementById(HTMLelementID);
       const script = document.createElement('script');
       script.setAttribute('id', id);
-      script.src = scriptSource;
+      script.src = await scriptSource;
       script.async = true;
       script.type = 'text/javascript';
       Element.appendChild(script);
     }
   };
+
+  useEffect(() => {
+    try {
+      executeScript(
+        'https://consent.cookiebot.com/56697194-dfde-4726-ae75-dd1721d25c14/cd.js',
+        'CookieDeclaration',
+        'script_container'
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   return (
     <>
@@ -37,12 +49,6 @@ function Cookies() {
               <h2>Declaración de cookies</h2>
 
               <div id='script_container'></div>
-
-              {executeScript(
-                'https://consent.cookiebot.com/56697194-dfde-4726-ae75-dd1721d25c14/cd.js',
-                'CookieDeclaration',
-                'script_container'
-              )}
 
               {/* <p>
                 De momento, la web de Campus Canvas no recopila datos de ningún
