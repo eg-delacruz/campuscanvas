@@ -26,6 +26,7 @@ function Cookies() {
               <h2>Declaración de cookies</h2>
 
               <Script
+                strategy='afterInteractive'
                 id='CookieDeclaration'
                 src='https://consent.cookiebot.com/56697194-dfde-4726-ae75-dd1721d25c14/cd.js'
                 type='text/javascript'
