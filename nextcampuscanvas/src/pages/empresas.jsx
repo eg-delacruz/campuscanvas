@@ -53,10 +53,7 @@ function ParaEmpresas() {
           <section className={styles.hero}>
             <div className={`${styles.hero__container} container`}>
               <div className={styles.hero__image_container}>
-                <Image
-                  src={BoxWithProducts}
-                  imgAlt='Campus Box con productos'
-                />
+                <Image src={BoxWithProducts} alt='Campus Box con productos' />
               </div>
               <h1 className={styles.hero__title}>
                 ¡Impulsa tu producto con nosotros!
@@ -91,7 +88,7 @@ function ParaEmpresas() {
                 <div
                   className={styles.main__distribution_option_image_container}
                 >
-                  <Image layout='fixed' src={Check_icon} imgAlt='Opción 1' />
+                  <Image layout='fixed' src={Check_icon} alt='Opción 1' />
                 </div>
 
                 <div
@@ -112,7 +109,7 @@ function ParaEmpresas() {
                 <div
                   className={styles.main__distribution_option_image_container}
                 >
-                  <Image layout='fixed' src={Check_icon} imgAlt='Opción 2' />
+                  <Image layout='fixed' src={Check_icon} alt='Opción 2' />
                 </div>
                 <div
                   className={styles.main__distribution_option_details_container}
@@ -131,7 +128,7 @@ function ParaEmpresas() {
                 <div
                   className={styles.main__distribution_option_image_container}
                 >
-                  <Image layout='fixed' src={Check_icon} imgAlt='Opción 3' />
+                  <Image layout='fixed' src={Check_icon} alt='Opción 3' />
                 </div>
                 <div
                   className={styles.main__distribution_option_details_container}
@@ -150,7 +147,7 @@ function ParaEmpresas() {
                 <div
                   className={styles.main__distribution_option_image_container}
                 >
-                  <Image layout='fixed' src={Check_icon} imgAlt='Opción 4' />
+                  <Image layout='fixed' src={Check_icon} alt='Opción 4' />
                 </div>
                 <div
                   className={styles.main__distribution_option_details_container}
