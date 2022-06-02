@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 //Styles
 import styles from '@pagestyles/Cookies.module.scss';
@@ -7,29 +7,24 @@ import styles from '@pagestyles/Cookies.module.scss';
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
+import Loader from '@components/GeneralUseComponents/Loader/Loader';
+
+//Services
+import { InsertScript } from '@services/InsertScript';
 
 function Cookies() {
-  const executeScript = async (scriptSource, scriptID, HTMLelementID) => {
-    if (typeof window !== 'undefined') {
-      const Element = document.getElementById(HTMLelementID);
-      const script = document.createElement('script');
-      script.setAttribute('id', scriptID);
-      script.src = await scriptSource;
-      script.async = true;
-      script.type = 'text/javascript';
-      Element.appendChild(script);
-    }
-  };
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     try {
-      executeScript(
+      InsertScript(
         'https://consent.cookiebot.com/56697194-dfde-4726-ae75-dd1721d25c14/cd.js',
         'CookieDeclaration',
         'cookiebot_script_container'
       );
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   }, []);
 
@@ -48,6 +43,11 @@ function Cookies() {
             <h2>Declaración de cookies</h2>
 
             <div id='cookiebot_script_container'></div>
+            {loading && (
+              <div className={styles.main__loader}>
+                <Loader />
+              </div>
+            )}
 
             {/* <p>
                 De momento, la web de Campus Canvas no recopila datos de ningún
