@@ -122,8 +122,13 @@
 
 @media screen and (max-width: 480px) {
   .hero {
+    background-size: cover;
+    background-position-y: -6px;
     h1 {
       @include font-size(50px);
+    }
+    &__container {
+      padding-bottom: 12px;
     }
   }
   .main {
