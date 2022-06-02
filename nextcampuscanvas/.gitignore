@@ -30,3 +30,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+#ngrok.exe
+/src/ngrok.exe

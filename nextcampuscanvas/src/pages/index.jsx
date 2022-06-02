@@ -143,7 +143,7 @@ export default function Home() {
 
               <div className={`${styles['hero__container']}`}>
                 <div className={`${styles['hero__image_container']}`}>
-                  <Image alt='Campus Box' src={BoxWithProducts} />
+                  <Image alt='Campus Box' src={BoxWithProducts} priority />
                 </div>
                 <div className={`${styles.hero__text_button_container}`}>
                   {HeroButtonDisplayer()}

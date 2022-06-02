@@ -361,16 +361,11 @@
           justify-content: center;
           .header__logged_user_menu_logo767 {
             display: initial;
-            border-radius: 25px;
-            height: 50px;
-            width: 50px;
             margin-left: 8px;
             position: relative;
             top: -5px;
-            border: 3px solid $color--dark-gray;
-            span {
-              right: 4px;
-            }
+            border: none;
+            background-color: transparent;
           }
           .header__logged_user_menu_iconButton_container {
             margin: 0 auto;

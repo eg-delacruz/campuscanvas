@@ -10,7 +10,7 @@ import logged_user_icon from '@assets/GeneralUse/IconsAndButtons/logged_user.svg
 import logout_icon from '@assets/GeneralUse/IconsAndButtons/usedInComponents/Header/logout_icon.svg';
 import profile_icon from '@assets/GeneralUse/IconsAndButtons/usedInComponents/Header/profile_icon.svg';
 import dropdown_menu_arrow from '@assets/GeneralUse/IconsAndButtons/usedInComponents/Header/dropdown_menu_arrow.svg';
-import Isotype from '@assets/GeneralUse/Logos/isotype.svg';
+import Isotype767 from '@assets/GeneralUse/Logos/header_isotype_767.svg';
 
 //Styles
 import styles from './Header.module.scss';
@@ -162,8 +162,8 @@ function Header(props) {
                   <Link href={'/'}>
                     <button className={styles.header__logged_user_menu_logo767}>
                       <Image
-                        layout={'fixed'}
-                        src={Isotype}
+                        //layout={'fixed'}
+                        src={Isotype767}
                         alt={'Campus Canvas logo'}
                       />
                     </button>

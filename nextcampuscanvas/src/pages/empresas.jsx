@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
@@ -53,7 +52,11 @@ function ParaEmpresas() {
           <section className={styles.hero}>
             <div className={`${styles.hero__container} container`}>
               <div className={styles.hero__image_container}>
-                <Image src={BoxWithProducts} alt='Campus Box con productos' />
+                <Image
+                  src={BoxWithProducts}
+                  alt='Campus Box con productos'
+                  priority
+                />
               </div>
               <h1 className={styles.hero__title}>
                 ¡Impulsa tu producto con nosotros!
