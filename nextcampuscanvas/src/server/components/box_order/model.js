@@ -10,6 +10,10 @@ const boxOrdersSchema = new mongoose.Schema({
     type: String,
     required: [true, 'La temporada es necesaria'],
   },
+  account_email: {
+    type: String,
+    required: [true, 'El correo de la cuenta es necesario'],
+  },
   stu_id: {
     type: String,
     default: '',
