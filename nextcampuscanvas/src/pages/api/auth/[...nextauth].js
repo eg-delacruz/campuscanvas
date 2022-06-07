@@ -52,6 +52,8 @@ export default NextAuth({
         token.stu_data = user.stu_data;
         token.email = user.email;
         token.role = user.role;
+        token.stu_id = user.stu_id;
+        token.stu_email = user.stu_email;
       }
       return token;
     },

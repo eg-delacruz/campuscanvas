@@ -76,20 +76,28 @@ const CampusBox = () => {
   }
   `;
 
-  async function fetchData(userID) {
+  async function fetchData(userID, account_email, stu_id, stu_email) {
     setState({ ...state, loading: true });
     const response = await storefront(REQUIRED_BOX_DATA);
     setProduct(response);
     setState({ ...state, loading: false, orderLimitLoading: true });
 
     //Checking order allowance for user
-    const respuesta = await fetch(endPoints.orders.isAllowedToOrder(userID), {
-      method: 'GET',
-      headers: {
-        accept: '*/*',
-        'Content-Type': 'application/json',
-      },
-    });
+    const respuesta = await fetch(
+      endPoints.orders.isAllowedToOrder(
+        userID,
+        account_email,
+        stu_id,
+        stu_email
+      ),
+      {
+        method: 'GET',
+        headers: {
+          accept: '*/*',
+          'Content-Type': 'application/json',
+        },
+      }
+    );
     const data = await respuesta.json();
     setState({
       ...state,
@@ -100,10 +108,20 @@ const CampusBox = () => {
 
   useEffect(() => {
     if (session) {
+      let stu_id = 'UNDEFINED';
+      let stu_email = 'UNDEFINED';
       const userID = session.token.sub;
+      const account_email = session.token.email;
+      if (session.token.stu_id) {
+        stu_id = session.token.stu_id;
+      }
+      if (session.token.stu_email) {
+        stu_email = session.token.stu_email;
+      }
+
       try {
         if (Object.keys(product).length === 0) {
-          fetchData(userID);
+          fetchData(userID, account_email, stu_id, stu_email);
         }
       } catch (error) {
         console.log(error);

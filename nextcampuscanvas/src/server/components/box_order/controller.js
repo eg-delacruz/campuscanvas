@@ -45,11 +45,22 @@ const createBoxOrder = async (
   }
 };
 
-const verifyBoxOrderLimit = async (userID) => {
-  if (!userID) {
-    throw new Error('[boxOrderController] Se necesita un ID de usuario');
+const verifyBoxOrderLimit = async (
+  userID,
+  account_email,
+  stu_id,
+  stu_email
+) => {
+  if (!userID || !account_email) {
+    throw new Error('[boxOrderController] Los datos son insuficientes');
   }
+  //https://stackoverflow.com/questions/59663929/resolving-multiple-fetch-request-in-parallel
   try {
+    //nótese cómo se desestructura el arreglo de la respuesta
+    await Promise.all([store.getOrdersByUserID(userID)]).then(([res1]) => {
+      console.log('Aquí la respuestaa', res1);
+    });
+
     const userOrders = await store.getOrdersByUserID(userID);
     //Filter orders of current season
     const seasonOrders = userOrders.filter(

@@ -10,7 +10,6 @@ import { successResponse, errorResponse } from '@server/response';
 import NextCors from 'nextjs-cors';
 
 export default async function handler(req, res) {
-  //TODO: uncomment this after finishing. Also try it with insomnia to see the error
   //Securing page with session
   const session = await getSession({ req });
   if (!session) {
@@ -30,8 +29,16 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
-        const userID = req.query.index;
-        const isAllowedToOrder = await Controller.verifyBoxOrderLimit(userID);
+        const userID = req.query.index[0];
+        const account_email = req.query.index[1];
+        const stu_id = req.query.index[2];
+        const stu_email = req.query.index[3];
+        const isAllowedToOrder = await Controller.verifyBoxOrderLimit(
+          userID,
+          account_email,
+          stu_id,
+          stu_email
+        );
         successResponse(req, res, { allowToOrder: isAllowedToOrder }, 200);
       } catch (error) {
         errorResponse(req, res, 'Ha habido un problema', 400, error);
