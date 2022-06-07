@@ -31,6 +31,7 @@ const createBoxOrder = async (
   const box_order = {
     userID,
     season,
+    account_email: email,
     stu_id: STU_ID,
     stu_email: STU_EMAIL,
     shopify_order_number,
