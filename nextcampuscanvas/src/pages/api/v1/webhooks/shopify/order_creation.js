@@ -5,6 +5,7 @@
 import { successResponse, errorResponse } from '@server/response';
 import verifyWebhook from 'verify-shopify-webhook';
 import Controller from '@server/components/box_order/controller';
+import userController from '@server/components/user/controller';
 
 //Avoids CORS errors
 import NextCors from 'nextjs-cors';
@@ -41,9 +42,19 @@ export default async function handler(req, res) {
 
       try {
         const userID = body.note_attributes[0]?.value;
+        const { email, stu_email, stu_id } = await userController.getUserById(
+          userID
+        );
         const season = process.env.NEXT_PUBLIC_CURRENT_SEASON;
         const shopify_order_number = body.order_number;
-        await Controller.createBoxOrder(userID, season, shopify_order_number);
+        await Controller.createBoxOrder(
+          userID,
+          season,
+          shopify_order_number,
+          email,
+          stu_email,
+          stu_id
+        );
 
         successResponse(req, res, 'Orden creada', 200);
       } catch (error) {

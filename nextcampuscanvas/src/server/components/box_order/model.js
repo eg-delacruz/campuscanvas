@@ -10,6 +10,14 @@ const boxOrdersSchema = new mongoose.Schema({
     type: String,
     required: [true, 'La temporada es necesaria'],
   },
+  stu_id: {
+    type: String,
+    default: '',
+  },
+  stu_email: {
+    type: String,
+    default: '',
+  },
   shopify_order_number: {
     type: Number,
     required: [true, 'El número de orden es necesario'],
