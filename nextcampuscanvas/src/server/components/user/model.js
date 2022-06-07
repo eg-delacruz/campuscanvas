@@ -30,6 +30,10 @@ const usersSchema = new mongoose.Schema({
     default: '',
     lowercase: true,
   },
+  stu_id: {
+    type: String,
+    default: '',
+  },
   stu_data: {
     university: {
       type: String,

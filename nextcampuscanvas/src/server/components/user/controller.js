@@ -41,6 +41,7 @@ const registerUser = (email, password) => {
       gender: '',
       stu_verified: false,
       stu_email: '',
+      stu_id: '',
       stu_data: {
         university: '',
         faculty: '',
