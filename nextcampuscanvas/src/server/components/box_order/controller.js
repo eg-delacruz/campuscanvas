@@ -54,20 +54,31 @@ const verifyBoxOrderLimit = async (
   if (!userID || !account_email) {
     throw new Error('[boxOrderController] Los datos son insuficientes');
   }
-  //https://stackoverflow.com/questions/59663929/resolving-multiple-fetch-request-in-parallel
   try {
-    //nótese cómo se desestructura el arreglo de la respuesta
-    await Promise.all([store.getOrdersByUserID(userID)]).then(([res1]) => {
-      console.log('Aquí la respuestaa', res1);
-    });
+    const responses = await Promise.all([
+      store.getOrdersByUserID(userID),
+      store.getOrdersBystu_id(stu_id),
+      store.getOrdersBystu_email(stu_email),
+    ]);
 
-    const userOrders = await store.getOrdersByUserID(userID);
-    //Filter orders of current season
-    const seasonOrders = userOrders.filter(
+    const [ordersByUserID, ordersBystu_id, ordersBystu_email] = responses;
+
+    const seasonOrdersByUserID = ordersByUserID.filter(
       (order) => order.season === process.env.NEXT_PUBLIC_CURRENT_SEASON
     );
+    const seasonOrdersBystu_id = ordersBystu_id.filter(
+      (order) => order.season === process.env.NEXT_PUBLIC_CURRENT_SEASON
+    );
+    const seasonOrdersBystu_email = ordersBystu_email.filter(
+      (order) => order.season === process.env.NEXT_PUBLIC_CURRENT_SEASON
+    );
+
     //If user has more than one order of current season, return false
-    if (seasonOrders.length >= 1) {
+    if (
+      seasonOrdersByUserID.length >= 1 ||
+      seasonOrdersBystu_id.length >= 1 ||
+      seasonOrdersBystu_email.length >= 1
+    ) {
       return false;
     }
     return true;

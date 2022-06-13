@@ -18,7 +18,25 @@ const getOrdersByUserID = async (userID) => {
   }
 };
 
+const getOrdersBystu_id = async (stu_id) => {
+  try {
+    return await boxOrder.find({ stu_id });
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+const getOrdersBystu_email = async (stu_email) => {
+  try {
+    return await boxOrder.find({ stu_email });
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
   add: addBoxOrder,
   getOrdersByUserID,
+  getOrdersBystu_id,
+  getOrdersBystu_email,
 };

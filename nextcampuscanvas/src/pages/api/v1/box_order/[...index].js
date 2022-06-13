@@ -11,10 +11,10 @@ import NextCors from 'nextjs-cors';
 
 export default async function handler(req, res) {
   //Securing page with session
-  const session = await getSession({ req });
-  if (!session) {
-    return errorResponse(req, res, 'Forbidden', 403, '[Network] No hay sesión');
-  }
+  // const session = await getSession({ req });
+  // if (!session) {
+  //   return errorResponse(req, res, 'Forbidden', 403, '[Network] No hay sesión');
+  // }
 
   //Avoiding CORS errors
   await NextCors(req, res, {
