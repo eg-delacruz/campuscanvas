@@ -67,3 +67,4 @@ node_modules/
 
 #production
 /public
+/public/sw.js
