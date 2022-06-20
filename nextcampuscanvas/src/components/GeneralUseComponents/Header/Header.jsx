@@ -191,7 +191,7 @@ function Header(props) {
                   } `}
                 >
                   <li onClick={() => redirectTo('/construccion')}>
-                    Perfil
+                    Cuenta
                     <i>
                       <Image alt='Perfil' src={profile_icon} />
                     </i>
