@@ -1,5 +1,3 @@
-import React from 'react';
-
 //Styles
 import styles from './NewComponentTemplate.module.scss';
 
