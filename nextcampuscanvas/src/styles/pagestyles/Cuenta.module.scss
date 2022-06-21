@@ -1,5 +1,21 @@
 @import '../Vars.scss';
 
+.profile {
+  //This styles are to adjust the sidebar
+  &__container {
+    max-width: 1210px;
+    display: grid;
+    grid-template-columns: 270px 1fr;
+    justify-content: center;
+    margin: 0 auto;
+    grid-gap: 30px;
+    padding: 8px 0 8px;
+  }
+  &__content {
+    background-color: $color--secondary;
+  }
+}
+
 /////////////////////////
 //         MQ         //
 /////////////////////////
