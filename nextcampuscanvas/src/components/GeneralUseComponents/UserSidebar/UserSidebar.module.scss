@@ -2,26 +2,51 @@
 
 .sidebar {
   position: relative;
-  //Eliminate de padding space for a correct height
-  height: calc(100vh - 16px);
-  transition-duration: 0.3s;
+  min-height: calc(100vh - 16px);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   border: 1px solid $color--dark-gray;
   border-radius: 5px;
   box-sizing: border-box;
+  transition: 0.3s;
+  &__header {
+    width: 100%;
+    background-color: $color--light-gray;
+    border-bottom: 1px solid $color--dark-gray;
+    box-shadow: 0 4px 6px 0 #20212447;
+  }
   &__logo {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
     height: 60px;
-    background-color: $color--light-gray;
-    box-shadow: 0 4px 6px 0 #20212447;
-    border-bottom: 1px solid $color--dark-gray;
     cursor: pointer;
+    border-bottom: 1px solid $color--dark-gray;
   }
+  &__user_verify {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin: 4px 0;
+  }
+  &__header_icon {
+    margin-right: 8px;
+  }
+  &__verified_text {
+    color: $color--confirmation;
+    margin: 0;
+    font-weight: bolder;
+  }
+  &__unverified_button {
+    margin: 0;
+    padding: 6px 15px;
+  }
+
+  /////////////////////////
+  //  Sidebar elements   //
+  /////////////////////////
+
   &__options {
     padding: 0;
     margin: 0;
@@ -36,9 +61,12 @@
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    transition-duration: 0.3s;
+    justify-content: space-between;
+    //transition-duration: 0.3s;
     cursor: pointer;
+  }
+  &__option_icon_text {
+    display: flex;
   }
   &__option p {
     margin-left: 8px;
@@ -52,6 +80,10 @@
     background-color: $color--primary2;
     left: -8px;
     border-radius: 0 5px 5px 0;
+  }
+  &__option_black_arrow {
+    display: none;
+    margin-right: 8px;
   }
   &__logout {
     border-top: 1px solid $color--dark-gray;
@@ -71,6 +103,18 @@
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 767px) {
+  .sidebar {
+    position: fixed;
+    z-index: 1;
+    width: calc(100% - 16px);
+    left: 0 + 8px;
+    &__option_black_arrow {
+      display: initial;
+    }
+  }
+  .close {
+    left: -100vw;
+  }
 }
 ////////////////////////////////////////480/////////////////////////////////////////////
 

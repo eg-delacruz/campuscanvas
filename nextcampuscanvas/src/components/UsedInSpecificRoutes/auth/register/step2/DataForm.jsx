@@ -188,7 +188,7 @@ const DataForm = (props) => {
         name='nombre'
         id='nombre'
         type='text'
-        placeholder='Nombre *'
+        placeholder='Nombre de usuario *'
         autoComplete='off'
         value={NOMBRE.value}
         onChange={NOMBRE.onChange}

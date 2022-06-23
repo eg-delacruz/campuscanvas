@@ -1,7 +1,8 @@
 @import '../Vars.scss';
 
 .profile {
-  //This styles are to adjust the sidebar
+  //This styles are to adjust the sidebar (start)
+  padding: 8px;
   &__container {
     max-width: 1210px;
     display: grid;
@@ -9,8 +10,8 @@
     justify-content: center;
     margin: 0 auto;
     grid-gap: 30px;
-    padding: 8px 0 8px;
   }
+  //This styles are to adjust the sidebar (end)
   &__content {
     background-color: $color--secondary;
   }
@@ -25,6 +26,13 @@
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 767px) {
+  //This styles are to adjust the sidebar (start)
+  .profile {
+    &__container {
+      display: initial;
+    }
+    //This styles are to adjust the sidebar (end)
+  }
 }
 ////////////////////////////////////////480/////////////////////////////////////////////
 
