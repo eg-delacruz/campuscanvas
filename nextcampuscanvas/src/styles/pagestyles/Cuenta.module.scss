@@ -1,7 +1,8 @@
 @import '../Vars.scss';
+@import '../Animations/skeleton.module.scss';
 
-.profile {
-  //This styles are to adjust the sidebar (start)
+//This styles are to adjust the sidebar (start)
+.page {
   padding: 8px;
   &__container {
     max-width: 1210px;
@@ -11,11 +12,134 @@
     margin: 0 auto;
     grid-gap: 30px;
   }
-  //This styles are to adjust the sidebar (end)
-  &__content {
-    background-color: $color--secondary;
+}
+//This styles are to adjust the sidebar (end)
+
+.profile {
+  border: 1px solid $color--dark-gray;
+  border-radius: 5px;
+  padding: 10px 32px;
+  &__goback_button {
+    display: none;
+  }
+  &__namedisplayer_loading {
+    margin: 14px 0 6px;
+    height: 30px;
+    width: 140px;
+    border-radius: 5px;
+    animation: setSkeletonLoading();
+  }
+  &__name {
+    color: $color--primary2-dark1;
+    margin: 14px 0 6px;
+  }
+  &__name_underline {
+    height: 1px;
+    max-width: 250px;
+    background-color: $color--dark-gray;
+    margin-bottom: 40px;
   }
 }
+
+/////////////////////////
+//    Shared styles    //
+/////////////////////////
+
+.personal,
+.address,
+.studies {
+  margin-bottom: 50px;
+}
+
+.personal__title_container,
+.address__title_container,
+.studies__title_container {
+  display: flex;
+  align-items: center;
+  color: $color--primary2;
+}
+.personal__title_icon,
+.address__title_icon,
+.studies__title_icon {
+  margin-right: 10px;
+}
+.personal__title,
+.address__title,
+.studies__title {
+  margin: 0;
+}
+
+.personal__inputs,
+.address__inputs,
+.studies__inputs {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 49% 49%;
+  grid-gap: 0 20px;
+}
+
+.input_title {
+  margin: 0 0 8px;
+  @include font-size(14px);
+  display: block;
+}
+
+.input {
+  width: 100%;
+  background-color: $color--secondary-light;
+  border: 1px solid $color--black;
+  height: 40px;
+  border-radius: 5px;
+  margin: 0;
+  margin-bottom: 30px;
+  padding: 10px;
+}
+.edit_button {
+  margin-left: 6px;
+  span {
+    cursor: pointer;
+  }
+}
+.last_input {
+  margin-bottom: 0;
+}
+.fake_input_container {
+  display: flex;
+}
+.fake_input {
+  border: 1px solid $color--dark-gray;
+  background-color: $color--light-gray;
+  cursor: not-allowed;
+}
+.fake_input_placeholder {
+  color: $color--dark-gray;
+}
+.datalist_wrapper {
+  position: relative;
+  margin-bottom: 30px;
+}
+.inputText__errors {
+  color: $color--primary1;
+  margin: 0;
+  position: absolute;
+  top: 36px;
+  font-weight: bold;
+  @include font-size(14px);
+}
+
+/////////////////////////
+//   Datos personales   //
+/////////////////////////
+.personal {
+}
+
+/////////////////////////
+//  Dirección de envío  //
+/////////////////////////
+
+/////////////////////////
+//  Sobre mi estudio  //
+/////////////////////////
 
 /////////////////////////
 //         MQ         //
@@ -27,16 +151,37 @@
 
 @media screen and (max-width: 767px) {
   //This styles are to adjust the sidebar (start)
-  .profile {
+  .page {
     &__container {
       display: initial;
     }
-    //This styles are to adjust the sidebar (end)
+  }
+  //This styles are to adjust the sidebar (end)
+
+  .profile {
+    &__goback_button {
+      display: flex;
+      padding: 10px;
+      margin: 0;
+    }
+    &__black_arrow {
+      transform: scaleX(-1);
+      margin-right: 8px;
+    }
   }
 }
 ////////////////////////////////////////480/////////////////////////////////////////////
 
 @media screen and (max-width: 480px) {
+  .personal__inputs,
+  .address__inputs,
+  .studies__inputs {
+    grid-template-columns: 1fr;
+  }
+
+  .last_input_480 {
+    margin-bottom: 30px;
+  }
 }
 ////////////////////////////////////////320/////////////////////////////////////////////
 

@@ -42,7 +42,7 @@ const UserSidebar = (props) => {
 
   const verifiedUnverifiedButtonDisplayer = () => {
     if (status === 'loading') {
-      return <p>Cargando...</p>;
+      return <div className={styles.sidebar__header_loading}></div>;
     }
     if (session?.token.stu_verified) {
       return (
@@ -124,7 +124,7 @@ const UserSidebar = (props) => {
         </li>
       </ul>
       <div
-        onClick={() => signOut()}
+        onClick={() => signOut({ callbackUrl: '/auth/login' })}
         className={`${styles.sidebar__option} ${styles.sidebar__logout}`}
       >
         <div className={styles.sidebar__option_icon_text}>

@@ -1,8 +1,10 @@
 @import '../../../styles/Vars.scss';
+@import '../../../styles/Animations/skeleton.module.scss';
 
 .sidebar {
   position: relative;
-  min-height: calc(100vh - 16px);
+  max-height: calc(100vh - 16px);
+  min-height: 400px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -10,6 +12,7 @@
   border-radius: 5px;
   box-sizing: border-box;
   transition: 0.3s;
+  backdrop-filter: blur(4px);
   &__header {
     width: 100%;
     background-color: $color--light-gray;
@@ -23,6 +26,12 @@
     height: 60px;
     cursor: pointer;
     border-bottom: 1px solid $color--dark-gray;
+  }
+  &__header_loading {
+    height: 30px;
+    width: 140px;
+    border-radius: 5px;
+    animation: setSkeletonLoading();
   }
   &__user_verify {
     display: flex;
@@ -103,11 +112,17 @@
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 767px) {
+  //TODO: See what to do with the overflow-x, since it's not working
   .sidebar {
     position: fixed;
     z-index: 1;
-    width: calc(100% - 16px);
+    width: calc(100vw - 16px);
+    max-height: 100vh;
     left: 0 + 8px;
+    overflow-x: scroll;
+    top: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.89);
     &__option_black_arrow {
       display: initial;
     }

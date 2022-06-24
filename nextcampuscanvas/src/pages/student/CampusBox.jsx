@@ -23,6 +23,7 @@ import SponsorsSlider from '@components/GeneralUseComponents/SponsorsSlider/Spon
 import ErrorDisplayer from '@components/GeneralUseComponents/ErrorDisplayer/ErrorDisplayer';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
+import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 const CampusBox = () => {
   const [product, setProduct] = useState({});
@@ -289,42 +290,49 @@ const CampusBox = () => {
   }
 
   return (
-    <Layout>
-      <ButtonUp />
-      <div className={`${styles.campusbox}`}>
-        <main className={`${styles.campusbox__container} container`}>
-          <figure>
-            <Image src={Box} alt='Imagen de Campus Box' />
-          </figure>
-          <div className={styles.details}>
-            <h2>Campus Box</h2>
-            <p className={styles.vendor}>Campus Canvas</p>
-            <p className={styles.price}>€0,00 EUR</p>
-            <p className={styles.taxes}>Impuesto incluido</p>
-            <p className={styles.description}>
-              Nuestra <b>Campus Box</b> es exclusiva para estudiantes
-              universitarios. Encuentra productos y sorpresas de nuestros
-              patrocinadores. ¡Todo totalmente gratis!
-            </p>
+    <>
+      <SEOHeader
+        tabTitle={'Campus Box'}
+        metaName={'Campus Box'}
+        description={'Pide tu Campus Box gratuita'}
+      />
+      <Layout>
+        <ButtonUp />
+        <div className={`${styles.campusbox}`}>
+          <main className={`${styles.campusbox__container} container`}>
+            <figure>
+              <Image src={Box} alt='Imagen de Campus Box' />
+            </figure>
+            <div className={styles.details}>
+              <h2>Campus Box</h2>
+              <p className={styles.vendor}>Campus Canvas</p>
+              <p className={styles.price}>€0,00 EUR</p>
+              <p className={styles.taxes}>Impuesto incluido</p>
+              <p className={styles.description}>
+                Nuestra <b>Campus Box</b> es exclusiva para estudiantes
+                universitarios. Encuentra productos y sorpresas de nuestros
+                patrocinadores. ¡Todo totalmente gratis!
+              </p>
 
-            {/* Allows or denies user to order a box depending on the order limit of 1 per user */}
-            {orderLimitDisplayer()}
-          </div>
-        </main>
+              {/* Allows or denies user to order a box depending on the order limit of 1 per user */}
+              {orderLimitDisplayer()}
+            </div>
+          </main>
 
-        <section className={`${styles.sponsors} container`}>
-          <h2>Aquí tus patrocinadores</h2>
-          <SponsorsSlider lessPadding />
-        </section>
-        <Link href={'/'}>
-          <button
-            className={`${styles.backhome} btn button--redRedborderTransparentHoverShadowtRed`}
-          >
-            Volver al home
-          </button>
-        </Link>
-      </div>
-    </Layout>
+          <section className={`${styles.sponsors} container`}>
+            <h2>Aquí tus patrocinadores</h2>
+            <SponsorsSlider lessPadding />
+          </section>
+          <Link href={'/'}>
+            <button
+              className={`${styles.backhome} btn button--redRedborderTransparentHoverShadowtRed`}
+            >
+              Volver al home
+            </button>
+          </Link>
+        </div>
+      </Layout>
+    </>
   );
 };
 
