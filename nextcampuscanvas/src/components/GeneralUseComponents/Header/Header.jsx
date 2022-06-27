@@ -190,7 +190,7 @@ function Header(props) {
                     menus.isUserMenuOn ? styles['dropdow-is-active'] : ''
                   } `}
                 >
-                  <li onClick={() => redirectTo('/construccion')}>
+                  <li onClick={() => redirectTo('/cuenta')}>
                     Cuenta
                     <i>
                       <Image alt='Perfil' src={profile_icon} />

@@ -1,0 +1,141 @@
+@import '../../../styles/Vars.scss';
+@import '../../../styles/Animations/skeleton.module.scss';
+
+.sidebar {
+  position: relative;
+  max-height: calc(100vh - 16px);
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1px solid $color--dark-gray;
+  border-radius: 5px;
+  box-sizing: border-box;
+  transition: 0.3s;
+  backdrop-filter: blur(4px);
+  &__header {
+    width: 100%;
+    background-color: $color--light-gray;
+    border-bottom: 1px solid $color--dark-gray;
+    box-shadow: 0 4px 6px 0 #20212447;
+  }
+  &__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    cursor: pointer;
+    border-bottom: 1px solid $color--dark-gray;
+  }
+  &__header_loading {
+    height: 30px;
+    width: 140px;
+    border-radius: 5px;
+    animation: setSkeletonLoading();
+  }
+  &__user_verify {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin: 4px 0;
+  }
+  &__header_icon {
+    margin-right: 8px;
+  }
+  &__verified_text {
+    color: $color--confirmation;
+    margin: 0;
+    font-weight: bolder;
+  }
+  &__unverified_button {
+    margin: 0;
+    padding: 6px 15px;
+  }
+
+  /////////////////////////
+  //  Sidebar elements   //
+  /////////////////////////
+
+  &__options {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+  li {
+    list-style: none;
+    padding-left: 8px;
+    border-bottom: 1px solid $color--dark-gray;
+  }
+  &__option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    //transition-duration: 0.3s;
+    cursor: pointer;
+  }
+  &__option_icon_text {
+    display: flex;
+  }
+  &__option p {
+    margin-left: 8px;
+    font-weight: bold;
+  }
+  .activeLink::before {
+    position: absolute;
+    content: '';
+    width: 5px;
+    height: 30px;
+    background-color: $color--primary2;
+    left: -8px;
+    border-radius: 0 5px 5px 0;
+  }
+  &__option_black_arrow {
+    display: none;
+    margin-right: 8px;
+  }
+  &__logout {
+    border-top: 1px solid $color--dark-gray;
+    position: absolute;
+    bottom: 0;
+    padding-left: 8px;
+    width: 100%;
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+  //TODO: See what to do with the overflow-x, since it's not working
+  .sidebar {
+    position: fixed;
+    z-index: 1;
+    width: calc(100vw - 16px);
+    max-height: 100vh;
+    left: 0 + 8px;
+    overflow-x: scroll;
+    top: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.89);
+    &__option_black_arrow {
+      display: initial;
+    }
+  }
+  .close {
+    left: -100vw;
+  }
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}

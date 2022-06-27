@@ -1,7 +1,5 @@
 const GENDERS = ['Femenino', 'Masculino'];
-//Ordenarlas de A - Z cuando estén completas
-//o utilizar método .sort() de arrays, que al
-//parecer devuelve el array ordenado de A - Z
+//Ordenadas de A - Z !
 
 //IMPORTANTE: Al modificar este array, modificar también el
 //controller de users en la api, en la función que hace la validación
@@ -153,8 +151,22 @@ const FACULTIES = [
   'Trabajo Social',
 ];
 
+const ACADEMIC_DEGREES = [
+  'Educación primaria',
+  'Educación secundaria ESO',
+  'Bachillerato',
+  'Formación profesional',
+  'Carrera universitaria',
+  'Máster y postgrado',
+  'Doctorado',
+];
+
+const YEARS = [2022, 2023, 2024, 2025, 2026, 2027];
+
 export default {
   UNIVERSITIES,
   FACULTIES,
   GENDERS,
+  ACADEMIC_DEGREES,
+  YEARS,
 };
