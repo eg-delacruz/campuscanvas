@@ -1,5 +1,5 @@
 @import '../Vars.scss';
-@import '../Animations/skeleton.module.scss';
+@import '../Animations/dotLoadingButton.module.scss';
 
 //This styles are to adjust the sidebar (start)
 .page {
@@ -15,19 +15,41 @@
 }
 //This styles are to adjust the sidebar (end)
 
+.Loader__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 16px);
+}
+
+//button loading state after clicking for checkout
+.buttonLoading {
+  background-color: rgba(173, 33, 70, 0.4);
+  cursor: default;
+  position: relative;
+}
+.buttonLoading:hover {
+  background-color: rgba(173, 33, 70, 0.4);
+}
+.buttonLoading::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  right: -2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 10px;
+  animation: setDotLoading();
+}
+
 .profile {
   border: 1px solid $color--dark-gray;
   border-radius: 5px;
-  padding: 10px 32px;
+  &__container {
+    padding: 10px 32px;
+  }
   &__goback_button {
     display: none;
-  }
-  &__namedisplayer_loading {
-    margin: 14px 0 6px;
-    height: 30px;
-    width: 140px;
-    border-radius: 5px;
-    animation: setSkeletonLoading();
   }
   &__name {
     color: $color--primary2-dark1;
@@ -38,6 +60,42 @@
     max-width: 250px;
     background-color: $color--dark-gray;
     margin-bottom: 40px;
+  }
+  &__submit_button_container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 20px 0;
+  }
+  &__submit_button {
+    margin: 0;
+  }
+}
+
+.horizontal_divider {
+  margin: 0 auto;
+  width: 100%;
+  height: 1px;
+  background-color: $color--dark-gray;
+}
+
+/////////////////////////
+// Edit delete section //
+/////////////////////////
+
+.edit_delete {
+  padding: 16px 32px;
+  &__option {
+    display: flex;
+  }
+  &__icon {
+    margin-right: 8px;
+  }
+  &__delete_option {
+    margin-top: 6px;
+  }
+  &__delete_icon {
+    margin-right: 12px;
   }
 }
 
@@ -71,7 +129,8 @@
 
 .personal__inputs,
 .address__inputs,
-.studies__inputs {
+.studies__inputs,
+.finish_studies__inputs {
   margin-top: 40px;
   display: grid;
   grid-template-columns: 49% 49%;
@@ -130,8 +189,6 @@
 /////////////////////////
 //   Datos personales   //
 /////////////////////////
-.personal {
-}
 
 /////////////////////////
 //  Dirección de envío  //
@@ -140,6 +197,25 @@
 /////////////////////////
 //  Sobre mi estudio  //
 /////////////////////////
+/////////////////////////
+//   Fin del estudio   //
+/////////////////////////
+.finish_studies {
+  &__title {
+    color: $color--primary2;
+    max-width: 50%;
+  }
+  &__input_container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  &__radio_input:where([type='radio']) {
+    width: 22px;
+    height: 22px;
+    margin: calc(0.75em - 11px) 0.25rem 0 0;
+  }
+}
 
 /////////////////////////
 //         MQ         //
@@ -173,14 +249,29 @@
 ////////////////////////////////////////480/////////////////////////////////////////////
 
 @media screen and (max-width: 480px) {
+  .profile {
+    &__container {
+      padding: 10px 8px;
+    }
+  }
   .personal__inputs,
   .address__inputs,
-  .studies__inputs {
+  .studies__inputs,
+  .finish_studies__inputs {
     grid-template-columns: 1fr;
   }
 
   .last_input_480 {
     margin-bottom: 30px;
+  }
+
+  .finish_studies {
+    &__title {
+      max-width: 100%;
+    }
+  }
+  .edit_delete {
+    padding: 10px 8px;
   }
 }
 ////////////////////////////////////////320/////////////////////////////////////////////
