@@ -161,6 +161,7 @@ const ACADEMIC_DEGREES = [
   'Doctorado',
 ];
 
+//Allways have the current year and the next five
 const YEARS = [2022, 2023, 2024, 2025, 2026, 2027];
 
 export default {

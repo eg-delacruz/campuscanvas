@@ -40,24 +40,85 @@ export default async function handler(req, res) {
       break;
 
     //Save/update student data
+    //Always needs to receive the website location to proceed
     case 'PATCH':
       try {
-        //Body contains id + name, gender, university and faculty
-        const id = body.id;
-        const name = body.name;
-        const gender = body.gender;
-        const university = body.university;
-        const faculty = body.faculty;
+        if (!body.website_location) {
+          console.log(`[Network] No website location received`);
+          return errorResponse(
+            req,
+            res,
+            'Hubo un error al procesar la solicitud',
+            400
+          );
+        }
 
-        const updatedUser = await Controller.updateStuData(
-          id,
-          name,
-          gender,
-          university,
-          faculty
-        );
-        console.log(`[Network] ${updatedUser.name} updated successfully`);
-        successResponse(req, res, 'Operación realizada con éxito', 200);
+        //Info from register step 2
+        if (body.website_location === 'register_step_2') {
+          const id = body.id;
+          const nickname = body.nickname;
+          const gender = body.gender;
+          const university = body.university;
+          const faculty = body.faculty;
+
+          const updatedUser = await Controller.updateStuData(
+            id,
+            nickname,
+            gender,
+            university,
+            faculty
+          );
+          console.log(`[Network] ${updatedUser.name} updated successfully`);
+          return successResponse(
+            req,
+            res,
+            'Operación realizada con éxito',
+            200
+          );
+        }
+
+        //Info from profile editing (/cuenta)
+        if (body.website_location === 'edit_profile') {
+          const {
+            id,
+            gender,
+            nickname,
+            birthdate,
+            phone,
+            street,
+            city,
+            house_number,
+            postal_code,
+            observations,
+            country,
+            faculty,
+            university,
+            last_uni_year,
+            last_uni_semester,
+            academic_degree,
+          } = body;
+
+          const updatedUser = await Controller.editProfile(
+            id,
+            gender,
+            nickname,
+            birthdate,
+            phone,
+            street,
+            city,
+            house_number,
+            postal_code,
+            observations,
+            country,
+            faculty,
+            university,
+            last_uni_year,
+            last_uni_semester,
+            academic_degree
+          );
+          console.log(`[Network] ${updatedUser.nickname} updated successfully`);
+          successResponse(req, res, 'Operación realizada con éxito', 200);
+        }
       } catch (error) {
         errorResponse(req, res, 'Error al actualizar datos', 400, error);
       }

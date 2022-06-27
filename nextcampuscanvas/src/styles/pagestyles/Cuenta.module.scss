@@ -42,6 +42,12 @@
   animation: setDotLoading();
 }
 
+.responseError {
+  color: $color--primary1;
+  margin: 0;
+  font-weight: bold;
+}
+
 .profile {
   border: 1px solid $color--dark-gray;
   border-radius: 5px;
@@ -169,6 +175,10 @@
   border: 1px solid $color--dark-gray;
   background-color: $color--light-gray;
   cursor: not-allowed;
+  //Truncating text if too long:
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .fake_input_placeholder {
   color: $color--dark-gray;
@@ -263,6 +273,10 @@
 
   .last_input_480 {
     margin-bottom: 30px;
+  }
+
+  .fake_input {
+    white-space: initial;
   }
 
   .finish_studies {

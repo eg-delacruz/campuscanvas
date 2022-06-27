@@ -178,7 +178,9 @@ function Header(props) {
                       <Image src={logged_user_icon} />
                     </div>
                     <button>
-                      {props.user.name ? props.user.name : props.user.email}
+                      {props.user.nickname
+                        ? props.user.nickname
+                        : props.user.email}
                       <i>
                         <Image src={dropdown_menu_arrow} />
                       </i>

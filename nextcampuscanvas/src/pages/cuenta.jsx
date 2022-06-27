@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import DataList from 'react-select';
@@ -32,43 +32,61 @@ import { useSession } from 'next-auth/react';
 //Databases for datalists
 import studentInfoDatabase from '@databases/studentInfoDatabase';
 
-const cuenta = () => {
+//Endpoints
+import endPoints from '@services/api';
+
+//Redux actions
+import { connect } from 'react-redux';
+import * as usersActions from '@actions/usersActions';
+const { getUser } = usersActions;
+
+//Services
+import { capitalizeEachLetter } from '@services/capitalizeEachLetter.js';
+
+const cuenta = (props) => {
   const [state, setState] = useState({
     pageLoading: false,
     submitLoading: false,
     error: null,
+    responseError: null,
+    gettingUser: false,
   });
   const router = useRouter();
 
   //Session
   const { data: session, status } = useSession();
 
+  useEffect(() => {
+    const setUserName = async () => {
+      setState({ ...state, gettingUser: true });
+      if (session) {
+        await props.getUser(session.token.sub);
+      }
+      setState({ ...state, gettingUser: false });
+    };
+    setUserName();
+  }, [session]);
+
+  useEffect(() => {
+    if (props.user) {
+      NOMBRE.setValue(props.user.nickname);
+      BIRTHDATE.setValue(props.user.birthdate);
+      PHONE.setValue(props.user.phone);
+      STREET.setValue(props.user.delivery_address.street);
+      CITY.setValue(props.user.delivery_address.city);
+      HOUSE_NUMBER.setValue(props.user.delivery_address.house_number);
+      POSTAL_CODE.setValue(props.user.delivery_address.postal_code);
+      COUNTRY.setValue(props.user.delivery_address.country);
+      SELECTED_END_SEASON.setValue(props.user.stu_data.last_uni_semester);
+      OBSERVATIONS.setValue(props.user.delivery_address.observations);
+    }
+  }, [props]);
+
   //Securing route
   if (status === 'unauthenticated') {
     router.push('/auth/login');
   }
-
-  //TODO: get actual data from the actual session
-  const FAKESESSION = {
-    name: 'Gerar',
-    gender: 'Masculino',
-    birthdate: '1996-07-31',
-    phone: '611516396',
-    email: 'netoxas3107@hotmail.com',
-    stu_id: '123456',
-    stu_email: 'noseque@stu.urjc.es',
-    street: 'Los Planes',
-    city: '',
-    house_number: '',
-    postal_code: '1234',
-    observations: '',
-    country: 'España',
-    faculty: 'Mediseina',
-    degree: 'Bachelor',
-    university: 'URJC',
-    finish_study_year: '2029',
-    season: 'autumn',
-  };
+  //TODO: change password and delete account
 
   //Send state to UserSidebar to open and close it
   const [openSidebar, setOpenSidebar] = useState(true);
@@ -146,16 +164,16 @@ const cuenta = () => {
   /////////////////////Datalists (end)/////////////////////////////
 
   //Controlling inputs handled without datalist
-  const NOMBRE = useInputValue(FAKESESSION.name);
-  const BIRTHDATE = useInputValue(FAKESESSION.birthdate);
-  const PHONE = useInputValue(FAKESESSION.phone);
-  const STREET = useInputValue(FAKESESSION.street);
-  const CITY = useInputValue(FAKESESSION.city);
-  const HOUSE_NUMBER = useInputValue(FAKESESSION.house_number);
-  const POSTAL_CODE = useInputValue(FAKESESSION.postal_code);
-  const OBSERVATIONS = useInputValue(FAKESESSION.observations);
-  const COUNTRY = useInputValue(FAKESESSION.country);
-  const SELECTED_END_SEASON = useInputValue(FAKESESSION.season);
+  const NOMBRE = useInputValue('');
+  const BIRTHDATE = useInputValue('');
+  const PHONE = useInputValue('');
+  const STREET = useInputValue('');
+  const CITY = useInputValue('');
+  const HOUSE_NUMBER = useInputValue('');
+  const POSTAL_CODE = useInputValue('');
+  const OBSERVATIONS = useInputValue('');
+  const COUNTRY = useInputValue('');
+  const SELECTED_END_SEASON = useInputValue('');
 
   //Functions/handlers
   const handleSubmit = async (e) => {
@@ -195,10 +213,10 @@ const cuenta = () => {
       });
       return false;
     }
-    const data = {
-      gender:
-        Object.keys(gender).length > 0 ? gender.value : FAKESESSION.gender,
-      name: NOMBRE.value,
+    const profileData = {
+      id: session.token.sub,
+      gender: Object.keys(gender).length > 0 ? gender.value : props.user.gender,
+      nickname: NOMBRE.value,
       birthdate: BIRTHDATE.value,
       phone: PHONE.value,
       street: STREET.value,
@@ -206,26 +224,47 @@ const cuenta = () => {
       house_number: HOUSE_NUMBER.value,
       postal_code: POSTAL_CODE.value,
       observations: OBSERVATIONS.value,
-      country: 'España',
+      country: COUNTRY.value,
       faculty:
-        Object.keys(faculty).length > 0 ? faculty.value : FAKESESSION.faculty,
+        Object.keys(faculty).length > 0
+          ? faculty.value
+          : props.user.stu_data.faculty,
       academic_degree:
-        Object.keys(degree).length > 0 ? degree.value : FAKESESSION.degree,
+        Object.keys(degree).length > 0
+          ? degree.value
+          : props.user.stu_data.academic_degree,
       university:
         Object.keys(university).length > 0
           ? university.value
-          : FAKESESSION.university,
-      year:
+          : props.user.stu_data.university,
+      last_uni_year:
         Object.keys(year).length > 0
           ? year.value
-          : FAKESESSION.finish_study_year,
-      season: SELECTED_END_SEASON.value,
-      website_location: 'edit_account',
+          : props.user.stu_data.last_uni_year,
+      last_uni_semester: SELECTED_END_SEASON.value,
+      website_location: 'edit_profile',
     };
-    console.log(data);
-    //Reload location to refresh uploaded data
-    //TODO: uncomment
-    //location.reload();
+
+    try {
+      setState({ ...state, submitLoading: true });
+      const respuesta = await fetch(endPoints.user.updateStuInfo, {
+        method: 'PATCH',
+        headers: {
+          accept: '*/*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(profileData),
+      });
+      const responseData = await respuesta.json();
+      if (responseData.error) {
+        return setState({ ...state, responseError: responseData.error });
+      }
+      setState({ ...state, submitLoading: false });
+      await props.getUser(session.token.sub);
+    } catch (error) {
+      setState({ ...state, responseError: error.message });
+    }
+    window.scrollTo(0, 0);
   };
 
   const isRadioSelected = (value) => SELECTED_END_SEASON.value === value;
@@ -255,7 +294,7 @@ const cuenta = () => {
         ///////////////////////// */}
 
           <main className={styles.profile}>
-            {status === 'loading' ? (
+            {(status === 'loading') & (props.loading === true) ? (
               <div className={styles.Loader__container}>
                 <Loader />
               </div>
@@ -274,16 +313,16 @@ const cuenta = () => {
                   </button>
                   <h3 className={styles.profile__name}>
                     Hola{' '}
-                    {session?.token.name
-                      ? session?.token.name
-                      : session?.token.email}
+                    {props.user?.nickname
+                      ? props.user?.nickname
+                      : props.user?.email}
                     !
                   </h3>
                   <div className={styles.profile__name_underline}></div>
 
                   {/* /////////////////////////
-          //    Datos personales     //
-        ///////////////////////// */}
+                   //    Datos personales     //
+                  ///////////////////////// */}
 
                   <form
                     className={styles.profile__form}
@@ -309,7 +348,7 @@ const cuenta = () => {
                         {activateGenderDatalist ? (
                           <div>
                             <label
-                              for='gender'
+                              htmlFor='gender'
                               className={`${styles.input_title}`}
                             >
                               Género
@@ -347,12 +386,12 @@ const cuenta = () => {
                                 className={`${styles.input} ${
                                   styles.fake_input
                                 } ${
-                                  !FAKESESSION.gender &&
+                                  !props.user?.gender &&
                                   styles.fake_input_placeholder
                                 }`}
                               >
-                                {FAKESESSION.gender
-                                  ? FAKESESSION.gender
+                                {props.user?.gender
+                                  ? props.user?.gender
                                   : 'Selecciona tu género'}
                               </div>
                               <div
@@ -369,14 +408,13 @@ const cuenta = () => {
 
                         <div>
                           <label
-                            for='nombre'
+                            htmlFor='nombre'
                             className={`${styles.input_title}`}
                           >
                             Nombre de usuario
                           </label>
                           <input
                             className={`${styles.input}`}
-                            required
                             name='nombre'
                             id='nombre'
                             type='text'
@@ -391,7 +429,7 @@ const cuenta = () => {
 
                         <div>
                           <label
-                            for='birthdate'
+                            htmlFor='birthdate'
                             className={`${styles.input_title}`}
                           >
                             Fecha de nacimiento
@@ -412,7 +450,7 @@ const cuenta = () => {
 
                         <div>
                           <label
-                            for='phone'
+                            htmlFor='phone'
                             className={`${styles.input_title}`}
                           >
                             Número de teléfono
@@ -438,7 +476,7 @@ const cuenta = () => {
                           <div
                             className={`${styles.last_input_480} ${styles.input} ${styles.fake_input} ${styles.last_input}`}
                           >
-                            {FAKESESSION.email}
+                            {props.user?.email}
                           </div>
                         </div>
 
@@ -452,19 +490,16 @@ const cuenta = () => {
                             className={`${styles.input} ${styles.fake_input} ${
                               styles.last_input
                             } ${
-                              !FAKESESSION.stu_id & !FAKESESSION.stu_email &&
+                              !props.user?.stu_id & !props.user?.stu_email &&
                               styles.fake_input_placeholder
                             }`}
                           >
-                            {/* {FAKESESSION.stu_id
-                              ? FAKESESSION.stu_id
-                              : 'Verifica tu cuenta'} */}
-                            {!FAKESESSION.stu_id & !FAKESESSION.stu_email
+                            {!props.user?.stu_id & !props.user?.stu_email
                               ? 'Verifica tu cuenta'
                               : `${
-                                  FAKESESSION.stu_id
-                                    ? FAKESESSION.stu_id
-                                    : FAKESESSION.stu_email
+                                  props.user.stu_id
+                                    ? props.user?.stu_id
+                                    : props.user?.stu_email
                                 }`}
                           </div>
                         </div>
@@ -472,8 +507,8 @@ const cuenta = () => {
                     </section>
 
                     {/* /////////////////////////
-          //   Dirección de envío    //
-        ///////////////////////// */}
+                    //   Dirección de envío    //
+                     ///////////////////////// */}
 
                     <section
                       className={`${styles.profile__address} ${styles.address}`}
@@ -492,7 +527,7 @@ const cuenta = () => {
 
                         <div>
                           <label
-                            for='calle'
+                            htmlFor='calle'
                             className={`${styles.input_title}`}
                           >
                             Calle
@@ -513,7 +548,7 @@ const cuenta = () => {
 
                         <div>
                           <label
-                            for='ciudad'
+                            htmlFor='ciudad'
                             className={`${styles.input_title}`}
                           >
                             Ciudad
@@ -534,7 +569,7 @@ const cuenta = () => {
 
                         <div>
                           <label
-                            for='numero_casa'
+                            htmlFor='numero_casa'
                             className={`${styles.input_title}`}
                           >
                             Número de casa
@@ -555,7 +590,7 @@ const cuenta = () => {
 
                         <div>
                           <label
-                            for='codigo_postal'
+                            htmlFor='codigo_postal'
                             className={`${styles.input_title}`}
                           >
                             Código postal
@@ -576,7 +611,7 @@ const cuenta = () => {
 
                         <div>
                           <label
-                            for='observations'
+                            htmlFor='observations'
                             className={`${styles.input_title}`}
                           >
                             Observaciones
@@ -609,8 +644,8 @@ const cuenta = () => {
                     </section>
 
                     {/* /////////////////////////
-          //    Sobre mi estudio     //
-        ///////////////////////// */}
+                    //    Sobre mi estudio     //
+                    ///////////////////////// */}
 
                     <section
                       className={`${styles.profile__studies} ${styles.studies}`}
@@ -630,7 +665,7 @@ const cuenta = () => {
                         {activateFacultyDatalist ? (
                           <div>
                             <label
-                              for='faculty'
+                              htmlFor='faculty'
                               className={`${styles.input_title}`}
                             >
                               Facultad
@@ -668,13 +703,15 @@ const cuenta = () => {
                                 className={`${styles.input} ${
                                   styles.fake_input
                                 } ${
-                                  !FAKESESSION.faculty &&
+                                  !props.user?.stu_data?.faculty &&
                                   styles.fake_input_placeholder
                                 }`}
                               >
-                                {FAKESESSION.faculty
-                                  ? FAKESESSION.faculty
-                                  : 'Selecciona tu género'}
+                                {props.user?.stu_data?.faculty
+                                  ? capitalizeEachLetter(
+                                      props.user?.stu_data?.faculty
+                                    )
+                                  : 'Selecciona tu facultad'}
                               </div>
                               <div
                                 className={styles.edit_button}
@@ -691,7 +728,7 @@ const cuenta = () => {
                         {activateDegreeDatalist ? (
                           <div>
                             <label
-                              for='degree'
+                              htmlFor='degree'
                               className={`${styles.input_title}`}
                             >
                               Grado académico
@@ -729,12 +766,14 @@ const cuenta = () => {
                                 className={`${styles.input} ${
                                   styles.fake_input
                                 } ${
-                                  !FAKESESSION.degree &&
+                                  !props.user?.stu_data?.academic_degree &&
                                   styles.fake_input_placeholder
                                 }`}
                               >
-                                {FAKESESSION.degree
-                                  ? FAKESESSION.degree
+                                {props.user?.stu_data?.academic_degree
+                                  ? capitalizeEachLetter(
+                                      props.user?.stu_data?.academic_degree
+                                    )
                                   : 'Seleccionar grado'}
                               </div>
                               <div
@@ -752,7 +791,7 @@ const cuenta = () => {
                         {activateUniversityDatalist ? (
                           <div>
                             <label
-                              for='university'
+                              htmlFor='university'
                               className={`${styles.input_title}`}
                             >
                               Universidad
@@ -790,12 +829,14 @@ const cuenta = () => {
                                 className={`${styles.input} ${
                                   styles.fake_input
                                 } ${
-                                  !FAKESESSION.university &&
+                                  !props.user?.stu_data?.university &&
                                   styles.fake_input_placeholder
                                 }`}
                               >
-                                {FAKESESSION.university
-                                  ? FAKESESSION.university
+                                {props.user?.stu_data?.university
+                                  ? capitalizeEachLetter(
+                                      props.user?.stu_data?.university
+                                    )
                                   : 'Seleccionar universidad'}
                               </div>
                               <div
@@ -861,7 +902,7 @@ const cuenta = () => {
                         {activateYearDatalist ? (
                           <div>
                             <label
-                              for='year'
+                              htmlFor='year'
                               className={`${styles.input_title}`}
                             >
                               Año
@@ -898,12 +939,12 @@ const cuenta = () => {
                                 className={`${styles.input} ${
                                   styles.fake_input
                                 } ${
-                                  !FAKESESSION.finish_study_year &&
+                                  !props.user?.stu_data?.last_uni_year &&
                                   styles.fake_input_placeholder
                                 }`}
                               >
-                                {FAKESESSION.finish_study_year
-                                  ? FAKESESSION.finish_study_year
+                                {props.user?.stu_data?.last_uni_year
+                                  ? props.user?.stu_data?.last_uni_year
                                   : 'Selecciona un año'}
                               </div>
                               <div
@@ -917,6 +958,16 @@ const cuenta = () => {
                         )}
                       </div>
                     </section>
+
+                    {state.responseError && (
+                      <p className={styles.responseError}>
+                        {state.responseError}
+                      </p>
+                    )}
+
+                    {props.error && (
+                      <p className={styles.responseError}>{props.error}</p>
+                    )}
                     <div className={styles.profile__submit_button_container}>
                       <button
                         type='submit'
@@ -960,4 +1011,14 @@ const cuenta = () => {
   );
 };
 
-export default cuenta;
+//Map state to props
+const mapStateToProps = (reducers) => {
+  return reducers.usersReducer;
+};
+
+//Map actions to props
+const mapDispatchToProps = {
+  getUser,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(cuenta);

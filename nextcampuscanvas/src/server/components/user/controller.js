@@ -37,7 +37,7 @@ const registerUser = (email, password) => {
     const fullUser = {
       email,
       password: encPass,
-      name: '',
+      nickname: '',
       gender: '',
       stu_verified: false,
       stu_email: '',
@@ -45,6 +45,19 @@ const registerUser = (email, password) => {
       stu_data: {
         university: '',
         faculty: '',
+        academic_degree: '',
+        last_uni_semester: '',
+        last_uni_year: '',
+      },
+      birthdate: '',
+      phone: '',
+      delivery_address: {
+        street: '',
+        city: '',
+        house_number: '',
+        postal_code: '',
+        observations: '',
+        country: 'España',
       },
       role: role,
       createdAt: new Date(),
@@ -79,11 +92,11 @@ const getUserByEmail = async (email) => {
   }
 };
 
-const updateStuData = async (id, name, gender, university, faculty) => {
+const updateStuData = async (id, nickname, gender, university, faculty) => {
   try {
     const user = await store.getById(id);
 
-    user.name = name;
+    user.nickname = nickname;
     user.gender = gender.toLowerCase();
     user.stu_data.university = university.toLowerCase();
     user.stu_data.faculty = faculty.toLowerCase();
@@ -92,8 +105,54 @@ const updateStuData = async (id, name, gender, university, faculty) => {
     const modifiedUser = await store.update(user);
     return modifiedUser;
   } catch (error) {
-    console.log(error);
-    throw new Error(error);
+    throw new Error('[Use controller error]', error);
+  }
+};
+
+const editProfile = async (
+  id,
+  gender,
+  nickname,
+  birthdate,
+  phone,
+  street,
+  city,
+  house_number,
+  postal_code,
+  observations,
+  country,
+  faculty,
+  university,
+  last_uni_year,
+  last_uni_semester,
+  academic_degree
+) => {
+  try {
+    const user = await store.getById(id);
+
+    user.gender = gender.toLowerCase();
+    user.nickname = nickname;
+    user.birthdate = birthdate;
+    user.phone = phone;
+    //Stu_data
+    user.stu_data.university = university.toLowerCase();
+    user.stu_data.faculty = faculty.toLowerCase();
+    user.stu_data.last_uni_semester = last_uni_semester.toLowerCase();
+    user.stu_data.last_uni_year = last_uni_year;
+    user.stu_data.academic_degree = academic_degree.toLowerCase();
+    //Delivery_address
+    user.delivery_address.street = street;
+    user.delivery_address.city = city;
+    user.delivery_address.house_number = house_number;
+    user.delivery_address.postal_code = postal_code;
+    user.delivery_address.observations = observations;
+    user.delivery_address.country = country;
+    user.updatedAt = new Date();
+
+    const modifiedUser = await store.update(user);
+    return modifiedUser;
+  } catch (error) {
+    throw new Error('[Use controller error]', error);
   }
 };
 
@@ -346,4 +405,5 @@ module.exports = {
   cleanUserForClient,
   verifyStuEmail,
   verifyStudentAccount,
+  editProfile,
 };
