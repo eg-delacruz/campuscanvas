@@ -23,7 +23,14 @@ import { signOut } from 'next-auth/react';
 import * as usersActions from '@actions/usersActions';
 const { getUser } = usersActions;
 
+//Services
+import { truncateText } from '@services/truncateText.js';
+
+//Hooks
+import useWindowDimensions from '@hooks/useWindowDimensions';
+
 function Header(props) {
+  const { width, height } = useWindowDimensions();
   const router = useRouter();
   //Session
   const { data: session, status } = useSession();
@@ -179,7 +186,9 @@ function Header(props) {
                     </div>
                     <button>
                       {props.user.nickname
-                        ? props.user.nickname
+                        ? width < 369
+                          ? truncateText(props.user.nickname, 15)
+                          : props.user.nickname
                         : props.user.email}
                       <i>
                         <Image src={dropdown_menu_arrow} />

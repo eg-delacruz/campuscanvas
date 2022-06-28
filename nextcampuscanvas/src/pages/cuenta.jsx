@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import DataList from 'react-select';
 import Link from 'next/link';
+import Swal from 'sweetalert2';
 
 //TODO: Uncomment cookiebot script in _document.js when finished
 
@@ -17,6 +18,7 @@ import studies_icon from '@assets/PagesImages/Cuenta/studies_icon.svg';
 import edit_icon from '@assets/PagesImages/Cuenta/edit_icon.svg';
 import key_icon from '@assets/GeneralUse/IconsAndButtons/key.svg';
 import delete_icon from '@assets/GeneralUse/IconsAndButtons/delete.svg';
+import delete_account_image from '@assets/PagesImages/Cuenta/delete_account.svg';
 
 //hooks
 import { useInputValue } from '@hooks/useInputValue';
@@ -41,7 +43,7 @@ import * as usersActions from '@actions/usersActions';
 const { getUser } = usersActions;
 
 //Services
-import { capitalizeEachLetter } from '@services/capitalizeEachLetter.js';
+import capitalize from '@services/capitalize.js';
 
 const cuenta = (props) => {
   const [state, setState] = useState({
@@ -87,6 +89,34 @@ const cuenta = (props) => {
     router.push('/auth/login');
   }
   //TODO: change password and delete account
+
+  //Modal to handle delete account
+  const showDeleteModal = () => {
+    const customModal = Swal.mixin({
+      customClass: {
+        confirmButton: `${styles.delete_button} btn button--unwantedOption`,
+        cancelButton: 'btn button--red',
+      },
+      buttonsStyling: false,
+    });
+
+    customModal
+      .fire({
+        title: 'Eliminar cuenta',
+        text: '¿Estás seguro que quieres eliminar tu cuenta? Perderás toda la información, incluyendo tu validación de estudiante y los datos que hayas ingresado en tu perfil. No podrás revertir esta acción.',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Eliminar cuenta',
+        reverseButtons: true,
+        imageUrl: delete_account_image.src,
+        footer: '<b> Campus Canvas </b>',
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          handleDeleteAccount();
+        }
+      });
+  };
 
   //Send state to UserSidebar to open and close it
   const [openSidebar, setOpenSidebar] = useState(true);
@@ -273,6 +303,16 @@ const cuenta = (props) => {
     SELECTED_END_SEASON.setValue(e.currentTarget.value);
   };
 
+  const handleDeleteAccount = async () => {
+    console.log(session.token.sub);
+    //Cerrar sessión
+    //Eliminar cuenta
+    //Redireccionar a página donde se confirme que
+    //la cuenta fue borrada correctamente
+
+    //Esa página tiene que redireccionar pasados unos segundos al home
+  };
+
   //Displayer functions
 
   return (
@@ -391,7 +431,9 @@ const cuenta = (props) => {
                                 }`}
                               >
                                 {props.user?.gender
-                                  ? props.user?.gender
+                                  ? capitalize.capitalizeFirstLetter(
+                                      props.user?.gender
+                                    )
                                   : 'Selecciona tu género'}
                               </div>
                               <div
@@ -404,7 +446,7 @@ const cuenta = (props) => {
                           </div>
                         )}
 
-                        {/* Name input */}
+                        {/* Nickname input */}
 
                         <div>
                           <label
@@ -548,15 +590,15 @@ const cuenta = (props) => {
 
                         <div>
                           <label
-                            htmlFor='ciudad'
+                            htmlFor='city'
                             className={`${styles.input_title}`}
                           >
                             Ciudad
                           </label>
                           <input
                             className={`${styles.input}`}
-                            name='ciudad'
-                            id='ciudad'
+                            name='city'
+                            id='city'
                             type='text'
                             placeholder='Ciudad'
                             autoComplete='off'
@@ -569,15 +611,15 @@ const cuenta = (props) => {
 
                         <div>
                           <label
-                            htmlFor='numero_casa'
+                            htmlFor='house_number'
                             className={`${styles.input_title}`}
                           >
                             Número de casa
                           </label>
                           <input
                             className={`${styles.input}`}
-                            name='numero_casa'
-                            id='numero_casa'
+                            name='house_number'
+                            id='house_number'
                             type='text'
                             placeholder='Número de casa'
                             autoComplete='off'
@@ -590,15 +632,15 @@ const cuenta = (props) => {
 
                         <div>
                           <label
-                            htmlFor='codigo_postal'
+                            htmlFor='postal_code'
                             className={`${styles.input_title}`}
                           >
                             Código postal
                           </label>
                           <input
                             className={`${styles.input}`}
-                            name='codigo_postal'
-                            id='codigo_postal'
+                            name='postal_code'
+                            id='postal_code'
                             type='text'
                             placeholder='Código postal'
                             autoComplete='off'
@@ -617,7 +659,7 @@ const cuenta = (props) => {
                             Observaciones
                           </label>
                           <input
-                            className={`${styles.input} ${styles.last_input}`}
+                            className={`${styles.input} ${styles.last_input} ${styles.last_input_480}`}
                             name='observations'
                             id='observations'
                             type='text'
@@ -708,7 +750,7 @@ const cuenta = (props) => {
                                 }`}
                               >
                                 {props.user?.stu_data?.faculty
-                                  ? capitalizeEachLetter(
+                                  ? capitalize.capitalizeEachLetter(
                                       props.user?.stu_data?.faculty
                                     )
                                   : 'Selecciona tu facultad'}
@@ -771,7 +813,7 @@ const cuenta = (props) => {
                                 }`}
                               >
                                 {props.user?.stu_data?.academic_degree
-                                  ? capitalizeEachLetter(
+                                  ? capitalize.capitalizeEachLetter(
                                       props.user?.stu_data?.academic_degree
                                     )
                                   : 'Seleccionar grado'}
@@ -834,7 +876,7 @@ const cuenta = (props) => {
                                 }`}
                               >
                                 {props.user?.stu_data?.university
-                                  ? capitalizeEachLetter(
+                                  ? capitalize.capitalizeEachLetter(
                                       props.user?.stu_data?.university
                                     )
                                   : 'Seleccionar universidad'}
@@ -999,7 +1041,12 @@ const cuenta = (props) => {
                     >
                       <Image src={delete_icon} />
                     </div>
-                    <Link href={'/construccion'}>Eliminar mi cuenta</Link>
+                    <div
+                      className={styles.edit_delete__delete_text}
+                      onClick={showDeleteModal}
+                    >
+                      Eliminar mi cuenta
+                    </div>
                   </div>
                 </section>
               </>

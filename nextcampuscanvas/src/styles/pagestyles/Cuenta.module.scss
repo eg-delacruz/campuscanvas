@@ -103,6 +103,15 @@
   &__delete_icon {
     margin-right: 12px;
   }
+  &__delete_text {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+//Delete account modal
+.delete_button {
+  margin-left: 30px;
 }
 
 /////////////////////////
@@ -175,10 +184,9 @@
   border: 1px solid $color--dark-gray;
   background-color: $color--light-gray;
   cursor: not-allowed;
-  //Truncating text if too long:
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  height: auto;
 }
 .fake_input_placeholder {
   color: $color--dark-gray;
@@ -286,6 +294,11 @@
   }
   .edit_delete {
     padding: 10px 8px;
+  }
+
+  .delete_button {
+    margin-left: 10px;
+    padding: 14px 10px;
   }
 }
 ////////////////////////////////////////320/////////////////////////////////////////////
