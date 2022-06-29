@@ -5,9 +5,6 @@ import DataList from 'react-select';
 import Link from 'next/link';
 import Swal from 'sweetalert2';
 
-//TODO: Uncomment cookiebot script in _document.js when finished
-//TODO: change password and delete account
-
 //Styles
 import styles from '@styles/pagestyles/Cuenta.module.scss';
 
@@ -1045,7 +1042,9 @@ const cuenta = (props) => {
                     <div className={styles.edit_delete__icon}>
                       <Image src={key_icon} />
                     </div>
-                    <Link href={'/construccion'}>Cambiar contraseña</Link>
+                    <Link href={'/auth/cambiar_password'}>
+                      Cambiar contraseña
+                    </Link>
                   </div>
                   <div
                     className={`${styles.edit_delete__option} ${styles.edit_delete__delete_option}`}

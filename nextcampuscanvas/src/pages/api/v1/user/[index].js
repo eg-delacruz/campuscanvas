@@ -53,7 +53,7 @@ export default async function handler(req, res) {
           );
         }
 
-        //Info from register step 2
+        /////////////PATCH: Info from register step 2 (auth/registro)
         if (body.website_location === 'register_step_2') {
           const id = body.id;
           const nickname = body.nickname;
@@ -77,7 +77,7 @@ export default async function handler(req, res) {
           );
         }
 
-        //Info from profile editing (/cuenta)
+        /////////////PATCH: Info from profile editing (/cuenta)
         if (body.website_location === 'edit_profile') {
           const {
             id,
@@ -117,6 +117,12 @@ export default async function handler(req, res) {
             academic_degree
           );
           console.log(`[Network] ${updatedUser.nickname} updated successfully`);
+          successResponse(req, res, 'Operación realizada con éxito', 200);
+        }
+        /////////////PATCH: Change password (/auth/cambiar_password
+        if (body.website_location === 'change_password') {
+          const { userID, currentPassword, newPassword } = body;
+          await Controller.changePassword(userID, currentPassword, newPassword);
           successResponse(req, res, 'Operación realizada con éxito', 200);
         }
       } catch (error) {

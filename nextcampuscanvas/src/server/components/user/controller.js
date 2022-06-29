@@ -1,5 +1,5 @@
 import store from '@server/components/user/store';
-import { hashPassword } from '@server/services/passEncript';
+import { hashPassword, verifyPassword } from '@server/services/passEncript';
 import jwt from 'jsonwebtoken';
 import unhandledEmailsController from '@server/components/unhandledEmails/controller';
 
@@ -395,6 +395,35 @@ const verifyStudentAccount = async (user, stu_email) => {
   }
 };
 
+const changePassword = async (userID, currentPassword, newPassword) => {
+  if (!userID || !currentPassword || !newPassword) {
+    throw new Error('[user Controller] Faltan datos');
+  }
+
+  try {
+    const user = await store.getById(userID);
+
+    //Checking if current password is correct
+    const checkCurrentPassword = await verifyPassword(
+      currentPassword,
+      user.password
+    );
+    if (!checkCurrentPassword) {
+      throw new Error('[user Controller] El password actual es incorrecto');
+    }
+
+    //Hashing new password
+    const encPass = await hashPassword(newPassword, 12);
+
+    user.password = encPass;
+
+    const modifiedUser = await store.update(user);
+    return modifiedUser;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 const deleteUser = async (id) => {
   try {
     const user = await store.getById(id);
@@ -416,5 +445,6 @@ module.exports = {
   verifyStuEmail,
   verifyStudentAccount,
   editProfile,
+  changePassword,
   deleteUser,
 };
