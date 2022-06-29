@@ -2,32 +2,22 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 //Styles
-import styles from '@pagestyles/Cuenta_verificada.module.scss';
+import styles from '@pagestyles/Cuenta_eliminada.module.scss';
 
 //Components
 import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
 import FooterSignature from '@components/GeneralUseComponents/FooterSignature/FooterSignature';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
-//Session
-import { useSession } from 'next-auth/react';
-import { signOut } from 'next-auth/react';
-
 const cuenta_verificada = () => {
   const router = useRouter();
 
-  //Session
-  const { data: session, status } = useSession();
-
   useEffect(() => {
     setTimeout(() => {
-      router.push('/auth/login');
+      router.push('/');
     }, 7000);
   }, []);
 
-  if (session) {
-    signOut();
-  }
   return (
     <>
       <SEOHeader
@@ -40,12 +30,12 @@ const cuenta_verificada = () => {
 
         <main className={styles.main}>
           <div className={`${styles.main__container} container`}>
-            <h2>¡Felicidades!</h2>
-            <h3>Has verificado tu cuenta de estudiante exitosamente</h3>
+            <h2>Cuenta eliminada</h2>
+            <h3>Has eliminado tu cuenta.</h3>
             <p>
-              Inicia sesión con tu cuenta si aún no lo has hecho para acceder a
-              todos los beneficios que ofrecemos exclusivamente a estudiantes
-              universitarios.
+              Lamentamos verte partir, pero siempre puedes volver en el
+              futuro.😉 <br /> Serás redirigido a la página principal en unos
+              segundos.
             </p>
           </div>
         </main>

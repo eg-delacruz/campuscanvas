@@ -19,6 +19,7 @@ const endPoints = {
     create: `${API}/api/v1/user/create_user`,
     getUser: (id) => `${API}/api/${VERSION}/user/${id}`,
     updateStuInfo: `${API}/api/${VERSION}/user/index`,
+    deleteUser: (id) => `${API}/api/${VERSION}/user/${id}`,
   },
   orders: {
     isAllowedToOrder: (userID, account_email, stu_id, stu_email) =>

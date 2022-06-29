@@ -395,6 +395,16 @@ const verifyStudentAccount = async (user, stu_email) => {
   }
 };
 
+const deleteUser = async (id) => {
+  try {
+    const user = await store.getById(id);
+    const deleted_user = await store.deleteUser(user);
+    return deleted_user;
+  } catch (error) {
+    throw new Error('[Use controller error]', error);
+  }
+};
+
 module.exports = {
   getUserById,
   registerUser,
@@ -406,4 +416,5 @@ module.exports = {
   verifyStuEmail,
   verifyStudentAccount,
   editProfile,
+  deleteUser,
 };

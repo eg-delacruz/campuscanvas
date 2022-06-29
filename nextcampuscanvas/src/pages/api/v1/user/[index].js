@@ -123,6 +123,15 @@ export default async function handler(req, res) {
         errorResponse(req, res, 'Error al actualizar datos', 400, error);
       }
       break;
+    case 'DELETE':
+      try {
+        const id = req.query.index;
+        await Controller.deleteUser(id);
+        successResponse(req, res, 'Usuario eliminado', 200);
+      } catch (error) {
+        errorResponse(req, res, 'Error al eliminar usuario', 400, error);
+      }
+      break;
     default:
       errorResponse(req, res, 'Método no soportado', 400);
       break;

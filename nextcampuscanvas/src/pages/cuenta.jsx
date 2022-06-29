@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Swal from 'sweetalert2';
 
 //TODO: Uncomment cookiebot script in _document.js when finished
+//TODO: change password and delete account
 
 //Styles
 import styles from '@styles/pagestyles/Cuenta.module.scss';
@@ -27,9 +28,11 @@ import { useInputValue } from '@hooks/useInputValue';
 import UserSidebar from '@components/GeneralUseComponents/UserSidebar/UserSidebar';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
+import FooterSignature from '@components/GeneralUseComponents/FooterSignature/FooterSignature';
 
 //Session
 import { useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 
 //Databases for datalists
 import studentInfoDatabase from '@databases/studentInfoDatabase';
@@ -88,7 +91,6 @@ const cuenta = (props) => {
   if (status === 'unauthenticated') {
     router.push('/auth/login');
   }
-  //TODO: change password and delete account
 
   //Modal to handle delete account
   const showDeleteModal = () => {
@@ -304,13 +306,25 @@ const cuenta = (props) => {
   };
 
   const handleDeleteAccount = async () => {
-    console.log(session.token.sub);
-    //Cerrar sessión
-    //Eliminar cuenta
-    //Redireccionar a página donde se confirme que
-    //la cuenta fue borrada correctamente
-
-    //Esa página tiene que redireccionar pasados unos segundos al home
+    try {
+      const respuesta = await fetch(
+        endPoints.user.deleteUser(session.token.sub),
+        {
+          method: 'DELETE',
+          headers: {
+            accept: '*/*',
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      const data = await respuesta.json();
+      if (data.error) {
+        return setState({ ...state, responseError: data.error });
+      }
+    } catch (error) {
+      setState({ ...state, responseError: error.message });
+    }
+    signOut({ callbackUrl: '/auth/cuenta_eliminada' });
   };
 
   //Displayer functions
@@ -1054,6 +1068,7 @@ const cuenta = (props) => {
           </main>
         </div>
       </div>
+      <FooterSignature />
     </>
   );
 };

@@ -1,0 +1,37 @@
+@import '../Vars.scss';
+
+.main {
+  min-height: calc(100vh - 159px);
+  &__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 800px;
+    padding: 40px 8px;
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+  .main {
+    min-height: calc(100vh - 221px);
+  }
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+  .main__container {
+    padding: 0 8px;
+  }
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}

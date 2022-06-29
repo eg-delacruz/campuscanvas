@@ -66,6 +66,13 @@ const checkStuEmail = async (stu_email) => {
   return user;
 };
 
+/////////////////////Eliminate user//////////////////////////////
+
+const deleteUser = async (user) => {
+  const deletedUser = await user.deleteOne();
+  return deletedUser;
+};
+
 module.exports = {
   add: addUser,
   getAll: getUsers,
@@ -73,4 +80,5 @@ module.exports = {
   getByEmail: getUserByEmail,
   update: updateUser,
   checkStuEmail,
+  deleteUser,
 };
