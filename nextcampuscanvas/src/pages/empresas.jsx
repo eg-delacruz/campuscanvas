@@ -251,7 +251,7 @@ function ParaEmpresas() {
                 <p>
                   Con más de 1 500 000 estudiantes, España ofrece un gran
                   potencial para nuestro servicio, pues nuestro objetivo es
-                  promover e impulsar tu marca a través de <b>Campus Bag</b> en
+                  promover e impulsar tu marca a través de <b>Campus Box</b> en
                   todos los rincones de España mediante campañas publicitarias
                   efectivas.
                 </p>
