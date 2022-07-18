@@ -331,7 +331,7 @@ function ParaEmpresas() {
                   al estudiante. Por ello, incitamos a nuestros patrocinadores a
                   contribuir a ella principalmente con productos interesantes de
                   su marca, y de esta manera generar una{' '}
-                  <b>imagen de marca positiva</b> . Otras maneras de contribuir
+                  <b>imagen de marca positiva</b>. Otras maneras de contribuir
                   es a través de flyers o cupones con descuentos, ofertas
                   atractivas u ofertas de empleo.
                 </p>
