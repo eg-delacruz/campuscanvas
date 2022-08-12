@@ -179,6 +179,13 @@ const emailPasswordForm = (props) => {
         value={REP_CONTRASENA.value}
         onChange={REP_CONTRASENA.onChange}
       />
+      <p className={styles.form__personal_data_text}>
+        <strong>Protección de datos personales</strong>
+        <br />
+        Utilizaremos tus datos para gestionar la cuenta de usuario. Para más
+        información sobre el tratamiento y sus derechos, consulte la política de
+        privacidad.
+      </p>
       <div className={styles.checkboxContainer}>
         <input
           className={styles.checkbox}
@@ -193,7 +200,9 @@ const emailPasswordForm = (props) => {
         <label className={styles.checkbox__label} htmlFor='terms_cons'>
           {' '}
           Acepto los <Link href='/condiciones'>Términos y Condiciones</Link> y
-          la <Link href='/privacidad'>Política de privacidad</Link>
+          la <Link href='/privacidad'>Política de privacidad</Link>, así como el
+          tratamiento de mis datos personales para gestionar la cuenta de
+          usuario
         </label>
       </div>
       <p className={styles.inputCheckBox__errors}>

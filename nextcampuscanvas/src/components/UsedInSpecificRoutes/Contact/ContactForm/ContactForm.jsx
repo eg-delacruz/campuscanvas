@@ -1,4 +1,4 @@
-//Ver si lógica de que se muestren unas cosas u otras funciona
+import Link from 'next/link';
 
 import React, { useState, useRef } from 'react';
 import { connect } from 'react-redux';
@@ -49,7 +49,6 @@ const ContactForm = (props) => {
   }
 
   if (data.query.CV === 'true') {
-    //console.log('Log2' + data.query.CV);
     //If its job application
     FORM_TITLE = 'Aplica al empleo';
     UPLOAD_TEXT = 'Sube tu CV aquí';
@@ -78,8 +77,6 @@ const ContactForm = (props) => {
       return position.JobTitle;
     });
   }
-
-  //console.log(JOB_POSITIONS);
   ///////////////////////Show jobs in datalist in case of job application////////////////////////
 
   ////////////////////////////////////////////// Input File logic////////////////////////////////////////
@@ -247,6 +244,35 @@ const ContactForm = (props) => {
         value={MESSAGE.value}
         onChange={MESSAGE.onChange}
       />
+
+      <div className={styles.form__data_warning}>
+        <p>
+          <strong>Protección de datos personales</strong>
+          <br />
+          Utilizaremos sus datos para ponernos en contacto con usted. Para más
+          información sobre el tratamiento y sus derechos, consulte la{' '}
+          <Link href={'/privacidad'}>política de privacidad</Link>.
+        </p>
+
+        <div className={styles.checkboxContainer}>
+          <input
+            className={styles.checkbox}
+            type='checkbox'
+            id='terms_cons'
+            name='terms_cons'
+            autoComplete='off'
+            required
+          />{' '}
+          <label className={styles.checkbox__label} htmlFor='terms_cons'>
+            {' '}
+            Acepto el tratamiento de mis datos para que Campus Canvas se ponga
+            en contacto conmigo.
+          </label>
+        </div>
+      </div>
+
+      <br />
+
       <button className='button--blue btn form__button' type='submit'>
         Enviar
       </button>

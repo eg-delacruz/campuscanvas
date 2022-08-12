@@ -137,6 +137,12 @@
       }
     }
   }
+
+  &__data_warning,
+  &__data_warning p {
+    @include font-size(12px);
+    line-height: 1.2;
+  }
 }
 
 /////////////////////////
