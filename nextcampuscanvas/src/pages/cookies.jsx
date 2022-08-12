@@ -216,8 +216,137 @@ function Cookies() {
               navegación y la utilización de las diferentes opciones o servicios
               que se ofrecen.
             </p>
-            <h3>CÓMO GESTIONAR LAS COOKIES DESDE EL NAVEGADOR</h3>
-            {/* Insertar tablas del pdf */}
+            <br />
+            <table className={styles.manage_cookies}>
+              <thead>
+                <tr>
+                  <th colspan='2'>
+                    CÓMO GESTIONAR LAS COOKIES DESDE EL NAVEGADOR
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td className={styles.manage_cookies__column1}>
+                    Eliminar las cookies del dispositivo
+                  </td>
+                  <td>
+                    Las cookies que ya están en un dispositivo se pueden
+                    eliminar borrando el historial del navegador, con lo que se
+                    suprimen las cookies de todos los sitios web visitados. Sin
+                    embargo, también se puede perder parte de la información
+                    guardada (por ejemplo, los datos de inicio de sesión o las
+                    preferencias de sitio web).
+                  </td>
+                </tr>
+                <tr>
+                  <td className={styles.manage_cookies__column1}>
+                    Gestionar las cookies específicas del sitio
+                  </td>
+                  <td>
+                    Para tener un control más preciso de las cookies específicas
+                    de cada sitio, los usuarios pueden ajustar su configuración
+                    de privacidad y cookies en el navegador.
+                  </td>
+                </tr>
+                <tr>
+                  <td className={styles.manage_cookies__column1}>
+                    Bloquear las cookies
+                  </td>
+                  <td>
+                    Aunque la mayoría de los navegadores modernos se pueden
+                    configurar para evitar que se instalen cookies en los
+                    dispositivos, eso puede obligar al ajuste manual de
+                    determinadas preferencias cada vez que se visite un sitio o
+                    página. Además, algunos servicios y características pueden
+                    no funcionar correctamente (por ejemplo, los inicios de
+                    sesión con perfil).
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br />
+            <br />
+            <table className={styles.manage_cookies}>
+              <thead>
+                <tr>
+                  <th colspan='2'>
+                    CÓMO ELIMINAR LAS COOKIES DE LOS NAVEGADORES MÁS COMUNES
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td className={styles.manage_cookies__column1}>Chrome</td>
+                  <td>
+                    <a
+                      href='https://support.google.com/chrome/answer/95647?hl=es'
+                      target='_blank'
+                    >
+                      https://support.google.com/chrome/answer/95647?hl=es
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td className={styles.manage_cookies__column1}>Edge</td>
+                  <td>
+                    <a
+                      href='https://support.microsoft.com/es-es/microsoft-edge/eliminar-las-cookies-en-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09'
+                      target='_blank'
+                    >
+                      https://support.microsoft.com/es-es/microsoft-edge/eliminar-las-cookies-en-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td className={styles.manage_cookies__column1}>Explorer</td>
+                  <td>
+                    <a
+                      href='https://support.microsoft.com/es-es/topic/c%C3%B3mo-eliminar-archivos-de-cookies-en-internet-explorer-bca9446f-d873-78de-77ba-d42645fa52fc'
+                      target='_blank'
+                    >
+                      https://support.microsoft.com/es-es/topic/c%C3%B3mo-eliminar-archivos-de-cookies-en-internet-explorer-bca9446f-d873-78de-77ba-d42645fa52fc
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td className={styles.manage_cookies__column1}>Firefox</td>
+                  <td>
+                    <a
+                      href='https://www.mozilla.org/es-ES/privacy/websites/#cookies'
+                      target='_blank'
+                    >
+                      https://www.mozilla.org/es-ES/privacy/websites/#cookies
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td className={styles.manage_cookies__column1}>Safari</td>
+                  <td>
+                    <a
+                      href='https://support.apple.com/es-es/guide/safari/sfri11471/mac'
+                      target='_blank'
+                    >
+                      https://support.apple.com/es-es/guide/safari/sfri11471/mac
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td className={styles.manage_cookies__column1}>Opera</td>
+                  <td>
+                    <a
+                      href='https://help.opera.com/en/latest/security-and-privacy/#clearBrowsingData'
+                      target='_blank'
+                    >
+                      https://help.opera.com/en/latest/security-and-privacy/#clearBrowsingData
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br />
             <h3>GESTIÓN DE TUS PREFERENCIAS</h3>
             {/* /////////////////////////
             //    Cookiebot script     //
@@ -229,7 +358,7 @@ function Cookies() {
               </div>
             )}
             <div className={styles.main__bottom}>
-              <h4>Última actualización: 11/08/2022</h4>
+              <h4>Última actualización: 12/08/2022</h4>
               <h4>
                 Copyright ® Campus Canvas 2022. Todos los derechos reservados
               </h4>
