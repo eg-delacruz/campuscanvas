@@ -280,7 +280,7 @@ function Cookies() {
               <tbody>
                 <tr>
                   <td className={styles.manage_cookies__column1}>Chrome</td>
-                  <td>
+                  <td className={styles.manage_cookies__column2}>
                     <a
                       href='https://support.google.com/chrome/answer/95647?hl=es'
                       target='_blank'
@@ -291,7 +291,7 @@ function Cookies() {
                 </tr>
                 <tr>
                   <td className={styles.manage_cookies__column1}>Edge</td>
-                  <td>
+                  <td className={styles.manage_cookies__column2}>
                     <a
                       href='https://support.microsoft.com/es-es/microsoft-edge/eliminar-las-cookies-en-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09'
                       target='_blank'
@@ -302,7 +302,7 @@ function Cookies() {
                 </tr>
                 <tr>
                   <td className={styles.manage_cookies__column1}>Explorer</td>
-                  <td>
+                  <td className={styles.manage_cookies__column2}>
                     <a
                       href='https://support.microsoft.com/es-es/topic/c%C3%B3mo-eliminar-archivos-de-cookies-en-internet-explorer-bca9446f-d873-78de-77ba-d42645fa52fc'
                       target='_blank'
@@ -313,7 +313,7 @@ function Cookies() {
                 </tr>
                 <tr>
                   <td className={styles.manage_cookies__column1}>Firefox</td>
-                  <td>
+                  <td className={styles.manage_cookies__column2}>
                     <a
                       href='https://www.mozilla.org/es-ES/privacy/websites/#cookies'
                       target='_blank'
@@ -324,7 +324,7 @@ function Cookies() {
                 </tr>
                 <tr>
                   <td className={styles.manage_cookies__column1}>Safari</td>
-                  <td>
+                  <td className={styles.manage_cookies__column2}>
                     <a
                       href='https://support.apple.com/es-es/guide/safari/sfri11471/mac'
                       target='_blank'
@@ -335,7 +335,7 @@ function Cookies() {
                 </tr>
                 <tr>
                   <td className={styles.manage_cookies__column1}>Opera</td>
-                  <td>
+                  <td className={styles.manage_cookies__column2}>
                     <a
                       href='https://help.opera.com/en/latest/security-and-privacy/#clearBrowsingData'
                       target='_blank'
