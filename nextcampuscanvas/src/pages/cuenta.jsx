@@ -45,6 +45,8 @@ const { getUser } = usersActions;
 //Services
 import capitalize from '@services/capitalize.js';
 
+//TODO: Check if the getUser action already has a user to avoid unnecessary requests
+
 const cuenta = (props) => {
   const [state, setState] = useState({
     pageLoading: false,
@@ -89,7 +91,7 @@ const cuenta = (props) => {
     router.push('/auth/login');
   }
 
-  //Modal to handle delete account
+  //Modal to handles delete account
   const showDeleteModal = () => {
     const customModal = Swal.mixin({
       customClass: {
