@@ -333,6 +333,9 @@ const CampusBox = () => {
               {/* Allows or denies user to order a box depending on the order limit of 1 per user */}
               {orderLimitDisplayer()}
 
+              <p>
+                <strong>Comparte:</strong>
+              </p>
               <div className={styles.share_buttons}>
                 <div className={styles.button_container}>
                   <FacebookShareButton width={50} height={50} color='#4867AA' />
