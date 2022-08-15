@@ -145,8 +145,23 @@
           color: $color--primary1;
         }
       }
+
+      .share_buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 16px;
+
+        .circulo_placeholder {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          background-color: $color--dark-gray;
+          margin-bottom: 20px;
+        }
+      }
     }
   }
+
   /////////////////////////
   //      Sponsors       //
   /////////////////////////
@@ -205,6 +220,14 @@
         }
       }
     }
+    .details {
+      .share_buttons {
+        justify-content: flex-start;
+        .button_container {
+          margin-right: 30px;
+        }
+      }
+    }
   }
 }
 ////////////////////////////////////////480/////////////////////////////////////////////
@@ -220,4 +243,14 @@
 ////////////////////////////////////////320/////////////////////////////////////////////
 
 @media screen and (max-width: 320px) {
+  .campusbox {
+    .details {
+      .share_buttons {
+        justify-content: space-between;
+        .button_container {
+          margin-right: 0;
+        }
+      }
+    }
+  }
 }

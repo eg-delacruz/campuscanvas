@@ -68,6 +68,7 @@ const Contacto = () => {
               </h2>
 
               <div className={styles.contactInfo__details}>
+                {/* Don't erase this in case useful in the future */}
                 {/* <div className={styles.contactInfo__address}>
                   <LocationIcon
                     className={styles.contactInfo__addressIcon}
