@@ -46,6 +46,7 @@ const { getUser } = usersActions;
 import capitalize from '@services/capitalize.js';
 
 //TODO: Check if the getUser action already has a user to avoid unnecessary requests
+//TODO: Set a loading status when the user is loading
 
 const cuenta = (props) => {
   const [state, setState] = useState({

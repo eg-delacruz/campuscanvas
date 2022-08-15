@@ -6,9 +6,19 @@ const createBoxOrder = async (
   shopify_order_number,
   email,
   stu_email,
-  stu_id
+  stu_id,
+  order_created_in_shopify_at,
+  status_URL,
+  total_paid
 ) => {
-  if (!userID || !season || !shopify_order_number || !email) {
+  if (
+    !userID ||
+    !season ||
+    !shopify_order_number ||
+    !email ||
+    !order_created_in_shopify_at ||
+    !status_URL
+  ) {
     throw new Error('[boxOrderController] Los datos son insuficientes');
   }
 
@@ -35,8 +45,12 @@ const createBoxOrder = async (
     stu_id: STU_ID,
     stu_email: STU_EMAIL,
     shopify_order_number,
+    total_paid: total_paid || '0',
+    status_URL,
     createdAt: new Date(),
+    order_created_in_shopify_at,
   };
+
   try {
     const createdBoxOrder = await store.add(box_order);
     return createdBoxOrder;
