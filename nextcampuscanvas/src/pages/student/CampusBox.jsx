@@ -317,7 +317,7 @@ const CampusBox = () => {
                 <StaticProgressBar
                   MaxAmount={18000}
                   units='unidades'
-                  left={product.data.product.totalInventory}
+                  left={product.data?.product.totalInventory}
                 />
               </div>
 
