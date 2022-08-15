@@ -24,6 +24,7 @@ import ErrorDisplayer from '@components/GeneralUseComponents/ErrorDisplayer/Erro
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
+import StaticProgressBar from '@components/GeneralUseComponents/StaticProgressBar/StaticProgressBar';
 
 const CampusBox = () => {
   const [product, setProduct] = useState({});
@@ -308,6 +309,18 @@ const CampusBox = () => {
               <p className={styles.vendor}>Campus Canvas</p>
               <p className={styles.price}>€0,00 EUR</p>
               <p className={styles.taxes}>Impuesto incluido</p>
+
+              <div className={styles.progressBarContainer}>
+                <div className={styles.progressBarTitle}>
+                  ¡No te quedes sin la tuya! Quedan:
+                </div>
+                <StaticProgressBar
+                  MaxAmount={18000}
+                  units='unidades'
+                  left={product.data.product.totalInventory}
+                />
+              </div>
+
               <p className={styles.description}>
                 Nuestra <b>Campus Box</b> es exclusiva para estudiantes
                 universitarios. Encuentra productos y sorpresas de nuestros

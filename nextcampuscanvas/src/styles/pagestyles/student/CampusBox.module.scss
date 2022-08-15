@@ -113,8 +113,15 @@
         margin-top: 16px;
       }
       .taxes {
-        margin-bottom: 35px;
+        margin-bottom: 20px;
         @include font-size(14px);
+      }
+      .progressBarContainer {
+        margin: 15px 0;
+      }
+      .progressBarTitle {
+        @include font-size(14px);
+        margin-bottom: 5px;
       }
       .description {
         margin-bottom: 55px;
