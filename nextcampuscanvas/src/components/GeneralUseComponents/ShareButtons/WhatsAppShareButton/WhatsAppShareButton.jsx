@@ -3,10 +3,12 @@ const WhatsAppShareButton = ({
   height = 50,
   color = '#f5f5f5f5',
   postTitle = '',
+  URL = 'https://www.campuscanvas.net/',
 }) => {
-  const currentURL = encodeURI(window.location.href);
+  //Pass this in props if we want to share the current page
+  //const currentURL = encodeURI(window.location.href);
 
-  const ShareURL = `https://api.whatsapp.com/send?text=${postTitle} ${currentURL}`;
+  const ShareURL = `https://api.whatsapp.com/send?text=${postTitle} ${URL}`;
   return (
     <div>
       <a href={ShareURL} target={'_blank'}>

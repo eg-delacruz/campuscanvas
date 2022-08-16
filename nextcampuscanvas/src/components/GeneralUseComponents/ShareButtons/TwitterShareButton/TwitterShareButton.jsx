@@ -3,10 +3,12 @@ const TwitterShareButton = ({
   height = 50,
   color = '#f5f5f5f5',
   postTitle = '',
+  URL = 'https://www.campuscanvas.net/',
 }) => {
-  const currentURL = encodeURI(window.location.href);
+  //Pass this in props if we want to share the current page
+  //const currentURL = encodeURI(window.location.href);
 
-  const ShareURL = `https://twitter.com/share?url=${currentURL}&text=${postTitle}`;
+  const ShareURL = `https://twitter.com/share?url=${URL}&text=${postTitle}`;
 
   return (
     <div>
