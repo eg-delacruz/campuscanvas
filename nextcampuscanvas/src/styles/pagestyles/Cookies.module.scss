@@ -24,6 +24,49 @@
     align-items: center;
   }
 }
+
+//////////////////////////////////////
+// Manage and delete cookies tables //
+//////////////////////////////////////
+
+.manage_cookies {
+  margin: 0 auto;
+  border-collapse: collapse;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 14px 21px 20px -15px rgba(0, 0, 0, 0.3);
+  @include font-size(14px);
+  thead tr {
+    background-color: $color--primary1;
+    color: $color--white;
+    text-align: center;
+    font-weight: bold;
+    @include font-size(16px);
+  }
+  th,
+  td {
+    padding: 8px 15px;
+  }
+  tbody tr {
+    border-bottom: 1px solid $color--dark-gray;
+  }
+  //Use this class within a tbody tr to highlight a row as subtitle
+  .tsubtitle {
+    background-color: $color--light-gray;
+    font-weight: bold;
+  }
+  &__column1 {
+    width: 20%;
+    font-weight: bold;
+  }
+  &__column2 {
+    word-break: break-all;
+  }
+  tbody tr:last-of-type {
+    border-bottom: 2px solid $color--primary1;
+  }
+}
+
 /////////////////////////
 //         MQ         //
 /////////////////////////

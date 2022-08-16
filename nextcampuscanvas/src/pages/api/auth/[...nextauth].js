@@ -47,13 +47,17 @@ export default NextAuth({
       //The user we get after validation is available here with all its properties and we can pass all properties
       //needed to the token, which is available in the token object in the frontend
       if (user) {
-        token.name = user.name;
+        token.name = user.nickname;
+        token.gender = user.gender;
         token.stu_verified = user.stu_verified;
         token.stu_data = user.stu_data;
         token.email = user.email;
         token.role = user.role;
         token.stu_id = user.stu_id;
         token.stu_email = user.stu_email;
+        token.birthdate = user.birthdate;
+        token.phone = user.phone;
+        token.delivery_address = user.delivery_address;
       }
       return token;
     },

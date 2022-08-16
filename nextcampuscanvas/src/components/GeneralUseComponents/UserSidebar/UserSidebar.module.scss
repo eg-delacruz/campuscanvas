@@ -112,19 +112,29 @@
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 767px) {
-  //TODO: See what to do with the overflow-x, since it's not working
   .sidebar {
     position: fixed;
     z-index: 1;
     width: calc(100vw - 16px);
     max-height: 100vh;
+    min-height: initial;
     left: 0 + 8px;
     overflow-x: scroll;
+    overflow-y: scroll;
     top: 0;
     bottom: 0;
     background: rgba(255, 255, 255, 0.89);
+    &__header {
+      display: flex;
+      flex-direction: column;
+    }
     &__option_black_arrow {
       display: initial;
+    }
+    &__logout {
+      position: initial;
+      display: block;
+      margin-top: auto;
     }
   }
   .close {

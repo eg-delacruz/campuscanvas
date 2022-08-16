@@ -129,10 +129,11 @@ const DataForm = (props) => {
         },
         body: JSON.stringify({
           id: session.token.sub,
-          name: NOMBRE.value,
+          nickname: NOMBRE.value,
           gender: gender.value,
           university: university.value,
           faculty: faculty.value,
+          website_location: 'register_step_2',
         }),
       });
       const data = await respuesta.json();

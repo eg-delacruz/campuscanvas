@@ -26,9 +26,19 @@ const boxOrdersSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'El número de orden es necesario'],
   },
+  total_paid: {
+    type: String,
+  },
+  status_URL: {
+    type: String,
+    required: [true, 'El status URL es necesario'],
+  },
   createdAt: {
     type: Date,
     immutable: true,
+  },
+  order_created_in_shopify_at: {
+    type: Date,
   },
 });
 

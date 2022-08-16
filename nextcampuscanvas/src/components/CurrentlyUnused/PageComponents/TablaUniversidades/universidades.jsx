@@ -2,8 +2,7 @@ import React from 'react';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 //Styles
-//TODO: check if path is correct if used again
-import styles from '@pagestyles/UniList.module.scss';
+import styles from '@components/CurrentlyUnused/PageComponents/TablaUniversidades/UniList.module.scss';
 
 //Components
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
@@ -31,7 +30,7 @@ const UniList = () => {
 
             <tbody>
               <tr>
-                <td className={styles.Uni}>Universidad Rey Juan Carlos URJC</td>
+                <th className={styles.Uni}>Universidad Rey Juan Carlos URJC</th>
               </tr>
               <tr>
                 <td className={styles.Campus}>Campus Alcorcón</td>
@@ -46,9 +45,9 @@ const UniList = () => {
                 <td className={styles.Campus}>Paseo de los artilleros</td>
               </tr>
               <tr>
-                <td className={styles.Uni}>
+                <th className={styles.Uni}>
                   Universidad Complutense de Madrid
-                </td>
+                </th>
               </tr>
               <tr>
                 <td className={styles.Campus}>Campus Av. Séneca</td>

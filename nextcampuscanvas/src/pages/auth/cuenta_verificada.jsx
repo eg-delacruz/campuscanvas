@@ -18,7 +18,6 @@ const cuenta_verificada = () => {
 
   //Session
   const { data: session, status } = useSession();
-  console.log(session);
 
   useEffect(() => {
     setTimeout(() => {

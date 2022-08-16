@@ -1,4 +1,4 @@
-//make localhost live: https://www.youtube.com/watch?v=AJkyLymyTpc
+//make localhost online: See notion/Campus Canvas/
 //Verify shopify webhook: https://www.npmjs.com/package/verify-shopify-webhook
 
 //Response manager
@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     optionsSuccessStatus: 200,
   });
 
-  const { method } = req;
+  const { method, body } = req;
 
   //Receive order data from Shopify to register order and limit boxes to one per semester
   switch (method) {
@@ -45,15 +45,23 @@ export default async function handler(req, res) {
         const { email, stu_email, stu_id } = await userController.getUserById(
           userID
         );
+
         const season = process.env.NEXT_PUBLIC_CURRENT_SEASON;
         const shopify_order_number = body.order_number;
+        const order_created_in_shopify_at = body.created_at;
+        const status_URL = body.order_status_url;
+        const total_paid = body.total_price;
+
         await Controller.createBoxOrder(
           userID,
           season,
           shopify_order_number,
           email,
           stu_email,
-          stu_id
+          stu_id,
+          order_created_in_shopify_at,
+          status_URL,
+          total_paid
         );
 
         successResponse(req, res, 'Orden creada', 200);
@@ -71,7 +79,8 @@ export default async function handler(req, res) {
 
 //Esto hace que el body no se pueda leer directamente
 //ya que necesitamos que body no se parsee, pues se
-//necesita raw para verificar origen de shopify
+//necesita raw para verificar origen de shopify. Comes
+//from next js
 export const config = {
   api: {
     bodyParser: false,

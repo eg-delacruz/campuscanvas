@@ -6,7 +6,7 @@ const PRODUCTION_API = process.env.NEXT_PUBLIC_API_URL;
 const VERSION = process.env.NEXT_PUBLIC_API_URL_VERSION;
 
 //Befor sending to production and npm build, change the API URL to the production one
-const API = LOCAL_API;
+const API = PRODUCTION_API;
 
 const endPoints = {
   auth: {
@@ -19,6 +19,8 @@ const endPoints = {
     create: `${API}/api/v1/user/create_user`,
     getUser: (id) => `${API}/api/${VERSION}/user/${id}`,
     updateStuInfo: `${API}/api/${VERSION}/user/index`,
+    deleteUser: (id) => `${API}/api/${VERSION}/user/${id}`,
+    changePassword: `${API}/api/${VERSION}/user/index`,
   },
   orders: {
     isAllowedToOrder: (userID, account_email, stu_id, stu_email) =>

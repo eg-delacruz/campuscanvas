@@ -24,6 +24,10 @@ import ErrorDisplayer from '@components/GeneralUseComponents/ErrorDisplayer/Erro
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
+import StaticProgressBar from '@components/GeneralUseComponents/StaticProgressBar/StaticProgressBar';
+import FacebookShareButton from '@components/GeneralUseComponents/ShareButtons/FacebookShareButton/FacebookShareButton';
+import TwitterShareButton from '@components/GeneralUseComponents/ShareButtons/TwitterShareButton/TwitterShareButton';
+import WhatsAppShareButton from '@components/GeneralUseComponents/ShareButtons/WhatsAppShareButton/WhatsAppShareButton';
 
 const CampusBox = () => {
   const [product, setProduct] = useState({});
@@ -308,6 +312,18 @@ const CampusBox = () => {
               <p className={styles.vendor}>Campus Canvas</p>
               <p className={styles.price}>€0,00 EUR</p>
               <p className={styles.taxes}>Impuesto incluido</p>
+
+              <div className={styles.progressBarContainer}>
+                <div className={styles.progressBarTitle}>
+                  ¡No te quedes sin la tuya! Quedan:
+                </div>
+                <StaticProgressBar
+                  MaxAmount={18000}
+                  units='unidades'
+                  left={product.data?.product.totalInventory}
+                />
+              </div>
+
               <p className={styles.description}>
                 Nuestra <b>Campus Box</b> es exclusiva para estudiantes
                 universitarios. Encuentra productos y sorpresas de nuestros
@@ -316,6 +332,31 @@ const CampusBox = () => {
 
               {/* Allows or denies user to order a box depending on the order limit of 1 per user */}
               {orderLimitDisplayer()}
+
+              <p>
+                <strong>Comparte:</strong>
+              </p>
+              <div className={styles.share_buttons}>
+                <div className={styles.button_container}>
+                  <FacebookShareButton width={50} height={50} color='#4867AA' />
+                </div>
+                <div className={styles.button_container}>
+                  <TwitterShareButton
+                    width={50}
+                    height={50}
+                    color='#1D9BF0'
+                    postTitle='¡Pide tu Campus Box gratuita!'
+                  />
+                </div>
+                <div className={styles.button_container}>
+                  <WhatsAppShareButton
+                    width={50}
+                    height={50}
+                    color='#2AB13F'
+                    postTitle='¡Pide tu Campus Box gratuita!'
+                  />
+                </div>
+              </div>
             </div>
           </main>
 

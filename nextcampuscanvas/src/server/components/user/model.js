@@ -13,7 +13,7 @@ const usersSchema = new mongoose.Schema({
     minlength: [6, 'La contraseña debe tener al menos 6 caracteres'],
     //No incluir maxlength porque el hash del password es más largo que eso
   },
-  name: {
+  nickname: {
     type: String,
     default: '',
   },
@@ -45,6 +45,21 @@ const usersSchema = new mongoose.Schema({
       lowercase: true,
       default: '',
     },
+    academic_degree: {
+      type: String,
+      lowercase: true,
+      default: '',
+    },
+    last_uni_semester: {
+      type: String,
+      lowercase: true,
+      default: '',
+    },
+    last_uni_year: {
+      type: String,
+      lowercase: true,
+      default: '',
+    },
   },
   role: {
     type: String,
@@ -56,6 +71,40 @@ const usersSchema = new mongoose.Schema({
   },
   updatedAt: {
     type: Date,
+  },
+  birthdate: {
+    type: String,
+    default: '',
+  },
+  phone: {
+    type: String,
+    default: '',
+  },
+  delivery_address: {
+    street: {
+      type: String,
+      default: '',
+    },
+    city: {
+      type: String,
+      default: '',
+    },
+    house_number: {
+      type: String,
+      default: '',
+    },
+    postal_code: {
+      type: String,
+      default: '',
+    },
+    observations: {
+      type: String,
+      default: '',
+    },
+    country: {
+      type: String,
+      default: '',
+    },
   },
 });
 

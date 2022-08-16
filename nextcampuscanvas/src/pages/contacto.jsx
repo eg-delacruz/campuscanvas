@@ -68,7 +68,8 @@ const Contacto = () => {
               </h2>
 
               <div className={styles.contactInfo__details}>
-                <div className={styles.contactInfo__address}>
+                {/* Don't erase this in case useful in the future */}
+                {/* <div className={styles.contactInfo__address}>
                   <LocationIcon
                     className={styles.contactInfo__addressIcon}
                     alt='Dirección'
@@ -78,9 +79,9 @@ const Contacto = () => {
                     rel='noreferrer'
                     target='_blank'
                   >
-                    C/ Juan Montalvo 29 <br /> 28040 Madrid
+                    Dirección oficina <br /> 28040 Madrid
                   </a>
-                </div>
+                </div> */}
 
                 <div className={styles.contactInfo__phone}>
                   <PhoneIcon

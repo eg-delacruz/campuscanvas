@@ -33,7 +33,7 @@
     margin: 50px 0 30px;
   }
   max-width: 515px;
-  &__address,
+  // &__address,
   &__phone {
     display: flex;
     align-items: center;
@@ -44,7 +44,7 @@
       font-weight: bold;
     }
   }
-  &__addressIcon,
+  // &__addressIcon,
   &__phoneIcon {
     transform: scale(0.8);
     margin-right: 8px;

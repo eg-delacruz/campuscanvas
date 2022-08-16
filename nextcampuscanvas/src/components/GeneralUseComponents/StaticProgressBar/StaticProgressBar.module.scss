@@ -1,0 +1,43 @@
+@import '../../../styles/Vars.scss';
+
+.container {
+  height: 20px;
+  width: 100%;
+  background-color: $color--dark-gray;
+  border-radius: 50px;
+  margin: 50;
+  position: relative;
+}
+
+.filler {
+  height: 100%;
+  background-color: $color--primary1;
+  border-radius: inherit;
+  text-align: right;
+}
+
+.label {
+  padding: 5px;
+  color: $color--white;
+  font-weight: bold;
+  top: -4px;
+  position: absolute;
+}
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}

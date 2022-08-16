@@ -42,9 +42,16 @@
   animation: setDotLoading();
 }
 
+.responseError {
+  color: $color--primary1;
+  margin: 0;
+  font-weight: bold;
+}
+
 .profile {
   border: 1px solid $color--dark-gray;
   border-radius: 5px;
+  margin-bottom: 30px;
   &__container {
     padding: 10px 32px;
   }
@@ -97,6 +104,15 @@
   &__delete_icon {
     margin-right: 12px;
   }
+  &__delete_text {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+//Delete account modal
+.delete_button {
+  margin-left: 30px;
 }
 
 /////////////////////////
@@ -169,6 +185,9 @@
   border: 1px solid $color--dark-gray;
   background-color: $color--light-gray;
   cursor: not-allowed;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: auto;
 }
 .fake_input_placeholder {
   color: $color--dark-gray;
@@ -229,7 +248,7 @@
   //This styles are to adjust the sidebar (start)
   .page {
     &__container {
-      display: initial;
+      display: flex;
     }
   }
   //This styles are to adjust the sidebar (end)
@@ -265,6 +284,10 @@
     margin-bottom: 30px;
   }
 
+  .fake_input {
+    white-space: initial;
+  }
+
   .finish_studies {
     &__title {
       max-width: 100%;
@@ -272,6 +295,11 @@
   }
   .edit_delete {
     padding: 10px 8px;
+  }
+
+  .delete_button {
+    margin-left: 10px;
+    padding: 14px 10px;
   }
 }
 ////////////////////////////////////////320/////////////////////////////////////////////

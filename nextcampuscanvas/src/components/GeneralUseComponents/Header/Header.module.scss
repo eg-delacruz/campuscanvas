@@ -402,6 +402,7 @@
 
   .menu {
     position: fixed;
+    overflow-y: scroll;
 
     //light glasmorphism
     background: rgba(255, 255, 255, 0.25);

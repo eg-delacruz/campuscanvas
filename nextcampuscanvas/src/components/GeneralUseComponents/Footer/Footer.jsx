@@ -52,6 +52,9 @@ function Footer() {
             <h5>Legal</h5>
             <ul>
               <li>
+                <Link href='/legal'>Aviso legal</Link>
+              </li>
+              <li>
                 <Link href='/privacidad'>Política de privacidad</Link>
               </li>
               <li>
