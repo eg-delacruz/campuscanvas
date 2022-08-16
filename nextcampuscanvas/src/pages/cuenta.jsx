@@ -46,7 +46,6 @@ const { getUser } = usersActions;
 import capitalize from '@services/capitalize.js';
 
 //TODO: Check if the getUser action already has a user to avoid unnecessary requests
-//TODO: Set a loading status when the user is loading
 
 const cuenta = (props) => {
   const [state, setState] = useState({
@@ -292,6 +291,14 @@ const cuenta = (props) => {
         return setState({ ...state, responseError: responseData.error });
       }
       setState({ ...state, submitLoading: false });
+
+      //Reset datalist states
+      setActivateDegreeDatalist(false);
+      setActivateFacultyDatalist(false);
+      setActivateGenderDatalist(false);
+      setActivateUniversityDatalist(false);
+      setActivateYearDatalist(false);
+
       await props.getUser(session.token.sub);
     } catch (error) {
       setState({ ...state, responseError: error.message });
@@ -346,9 +353,8 @@ const cuenta = (props) => {
           {/* /////////////////////////
           //    Main content     //
         ///////////////////////// */}
-
           <main className={styles.profile}>
-            {(status === 'loading') & (props.loading === true) ? (
+            {status === 'loading' || props.loading === true ? (
               <div className={styles.Loader__container}>
                 <Loader />
               </div>
