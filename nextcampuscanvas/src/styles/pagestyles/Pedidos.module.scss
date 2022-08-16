@@ -1,1 +1,66 @@
 @import '../Vars.scss';
+
+//This styles are to adjust the sidebar (start)
+.page {
+  padding: 8px;
+  &__container {
+    max-width: 1210px;
+    display: grid;
+    grid-template-columns: 270px 1fr;
+    justify-content: center;
+    margin: 0 auto;
+    grid-gap: 30px;
+  }
+}
+//This styles are to adjust the sidebar (end)
+
+.pedidos {
+  border: 1px solid $color--dark-gray;
+  border-radius: 5px;
+  margin-bottom: 30px;
+  min-height: calc(100vh - 30px);
+  &__container {
+    padding: 10px 32px;
+  }
+  &__goback_button {
+    display: none;
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+  //This styles are to adjust the sidebar (start)
+  .page {
+    &__container {
+      display: flex;
+    }
+  }
+  //This styles are to adjust the sidebar (end)
+
+  .pedidos {
+    &__goback_button {
+      display: flex;
+      padding: 10px;
+      margin: 0;
+    }
+    &__black_arrow {
+      transform: scaleX(-1);
+      margin-right: 8px;
+    }
+  }
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}

@@ -122,6 +122,28 @@ const UserSidebar = (props) => {
             </div>
           </Link>
         </li>
+        <li
+          onClick={() => {
+            props.setOpenSidebar(false);
+          }}
+        >
+          <Link href='/pedidos' passHref>
+            <div
+              className={`${styles.sidebar__option} ${
+                router.pathname === '/pedidos' ? styles.activeLink : ''
+              }`}
+            >
+              <div className={styles.sidebar__option_icon_text}>
+                {/* TODO: Change icon */}
+                <Image src={user_icon} alt='Cuenta' />
+                <p>Pedidos </p>
+              </div>
+              <span className={styles.sidebar__option_black_arrow}>
+                <Image src={arrow_right_black} />
+              </span>
+            </div>
+          </Link>
+        </li>
       </ul>
       <div
         onClick={() => signOut({ callbackUrl: '/auth/login' })}

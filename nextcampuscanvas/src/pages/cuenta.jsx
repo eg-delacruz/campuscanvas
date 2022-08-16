@@ -120,7 +120,7 @@ const cuenta = (props) => {
   };
 
   //Send state to UserSidebar to open and close it
-  const [openSidebar, setOpenSidebar] = useState(true);
+  const [openSidebar, setOpenSidebar] = useState(false);
 
   /////////////////////Datalists (start)/////////////////////////////
   const genderOptions = studentInfoDatabase.GENDERS.map((gender) => ({
