@@ -154,7 +154,7 @@ const pedidos = (props) => {
       <div className={styles.order}>
         <h4
           className={styles.order__number}
-        >{`Orden #${order.shopify_order_number}`}</h4>
+        >{`Pedido #${order.shopify_order_number}`}</h4>
         <div className={styles.order__information}>
           <div>
             <p>
