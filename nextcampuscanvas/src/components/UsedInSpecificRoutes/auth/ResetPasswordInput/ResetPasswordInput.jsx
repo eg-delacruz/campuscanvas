@@ -39,9 +39,14 @@ const ResetPasswordInput = () => {
   const router = useRouter();
 
   //Getting userEmail
-  const id = router.query['reset-password'][1];
-  const token = router.query['reset-password'][2];
-  const userEmail = router.query['reset-password'][3];
+  let id;
+  let token;
+  let userEmail;
+  if (router.query['reset-password']) {
+    id = router.query['reset-password'][1];
+    token = router.query['reset-password'][2];
+    userEmail = router.query['reset-password'][3];
+  }
 
   //Connect yup to react-hook-form
   const {
