@@ -9,6 +9,7 @@ import styles from './UserSidebar.module.scss';
 //Assets
 import user_icon from '@assets/GeneralUse/IconsAndButtons/usedInComponents/UserSidebar/user.svg';
 import home_icon from '@assets/GeneralUse/IconsAndButtons/usedInComponents/UserSidebar/home.svg';
+import order_icon from '@assets/GeneralUse/IconsAndButtons/usedInComponents/UserSidebar/order.svg';
 import cc_logo from '@assets/GeneralUse/IconsAndButtons/usedInComponents/UserSidebar/campus_canvas.svg';
 import logout_icon from '@assets/GeneralUse/IconsAndButtons/usedInComponents/UserSidebar/logout.svg';
 import logged_user_icon from '@assets/GeneralUse/IconsAndButtons/logged_user.svg';
@@ -134,8 +135,7 @@ const UserSidebar = (props) => {
               }`}
             >
               <div className={styles.sidebar__option_icon_text}>
-                {/* TODO: Change icon */}
-                <Image src={user_icon} alt='Cuenta' />
+                <Image src={order_icon} alt='Cuenta' />
                 <p>Pedidos </p>
               </div>
               <span className={styles.sidebar__option_black_arrow}>

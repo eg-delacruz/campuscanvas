@@ -132,7 +132,6 @@ export default function Home() {
         <ButtonUp />
 
         <div className={styles.body__gridContainer}>
-          <ButtonUp />
           {/* /////////////////////////
             //       Hero        //
             ///////////////////////// */}

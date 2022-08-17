@@ -26,6 +26,7 @@ import UserSidebar from '@components/GeneralUseComponents/UserSidebar/UserSideba
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import FooterSignature from '@components/GeneralUseComponents/FooterSignature/FooterSignature';
+import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 
 //Session
 import { useSession } from 'next-auth/react';
@@ -45,8 +46,6 @@ const { getUser } = usersActions;
 //Services
 import capitalize from '@services/capitalize.js';
 
-//TODO: Check if the getUser action already has a user to avoid unnecessary requests
-
 const cuenta = (props) => {
   const [state, setState] = useState({
     pageLoading: false,
@@ -63,7 +62,7 @@ const cuenta = (props) => {
   useEffect(() => {
     const setUserName = async () => {
       setState({ ...state, gettingUser: true });
-      if (session) {
+      if (session && !props.user) {
         await props.getUser(session.token.sub);
       }
       setState({ ...state, gettingUser: false });
@@ -344,6 +343,7 @@ const cuenta = (props) => {
         description={'Edita los datos de tu cuenta'}
       />
       <div className={styles.page}>
+        <ButtonUp />
         <div className={styles.page__container}>
           <UserSidebar
             setOpenSidebar={setOpenSidebar}

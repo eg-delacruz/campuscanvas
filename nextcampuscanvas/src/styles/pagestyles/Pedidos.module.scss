@@ -14,16 +14,70 @@
 }
 //This styles are to adjust the sidebar (end)
 
+.Loader__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 16px);
+}
+
 .pedidos {
   border: 1px solid $color--dark-gray;
   border-radius: 5px;
   margin-bottom: 30px;
   min-height: calc(100vh - 30px);
+  width: 100%;
   &__container {
     padding: 10px 32px;
   }
   &__goback_button {
     display: none;
+  }
+  &__title {
+    color: $color--primary2-dark1;
+    margin: 14px 0 6px;
+  }
+  &__title_underline {
+    height: 1px;
+    max-width: 250px;
+    background-color: $color--dark-gray;
+    margin-bottom: 40px;
+  }
+  .contact {
+    @include font-size(14px);
+  }
+}
+
+.order {
+  background-color: $color--light-gray;
+  border-radius: 8px;
+  border: 1px solid $color--dark-gray;
+  padding: 20px 20px 16px;
+  margin-bottom: 20px;
+  box-shadow: 14px 21px 20px -15px rgba(0, 0, 0, 0.1);
+
+  &__number {
+    margin: 0;
+    color: $color--primary1;
+  }
+  &__information {
+    display: flex;
+    justify-content: space-between;
+  }
+  p {
+    margin: 0;
+  }
+
+  .paid_container {
+    p {
+      font-weight: bold;
+    }
+    div {
+      font-weight: bold;
+      @include font-size(30px);
+      text-align: center;
+      margin-top: 20px;
+    }
   }
 }
 
@@ -59,6 +113,22 @@
 ////////////////////////////////////////480/////////////////////////////////////////////
 
 @media screen and (max-width: 480px) {
+  .pedidos {
+    &__container {
+      padding: 10px 8px;
+    }
+  }
+  .order {
+    &__number {
+      margin-bottom: 16px;
+    }
+    &__information {
+      flex-direction: column;
+    }
+    .paid_container {
+      margin-top: 10px;
+    }
+  }
 }
 ////////////////////////////////////////320/////////////////////////////////////////////
 

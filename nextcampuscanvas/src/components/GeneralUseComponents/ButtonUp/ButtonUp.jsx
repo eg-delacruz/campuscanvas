@@ -17,7 +17,7 @@ function ButtonUp() {
           : styles['button-up-container']
       }
     >
-      <a href='#header'>
+      <a href='#'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           width='40'
