@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { createWrapper } from 'next-redux-wrapper';
 import configureStore from '../services/configureStore';
 import { SessionProvider } from 'next-auth/react';
+import Script from 'next/script';
 
 //Globas styles
 import '@styles/Globals.scss';
@@ -15,11 +16,32 @@ class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props;
     return (
-      <SessionProvider refetchOnWindowFocus={true}>
-        <Provider store={store}>
-          <Component {...pageProps} />
-        </Provider>
-      </SessionProvider>
+      <>
+        <Script
+          strategy='afterInteractive'
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+        />
+        <Script
+          id='gtag-init'
+          strategy='afterInteractive'
+          dangerouslySetInnerHTML={{
+            __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
+              page_path: window.location.pathname,
+            });
+          `,
+          }}
+        />
+
+        <SessionProvider refetchOnWindowFocus={true}>
+          <Provider store={store}>
+            <Component {...pageProps} />
+          </Provider>
+        </SessionProvider>
+      </>
     );
   }
 }
