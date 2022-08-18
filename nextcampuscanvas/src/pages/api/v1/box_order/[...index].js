@@ -27,6 +27,7 @@ export default async function handler(req, res) {
   const { body, method } = req;
 
   switch (method) {
+    //Check if user is allowed to create an order
     case 'GET':
       try {
         const userID = req.query.index[0];
@@ -45,6 +46,13 @@ export default async function handler(req, res) {
       }
       break;
 
+    //TODO:
+    //Create a POST request to create orders without using payment gateway
+    //But pickup in store. This needs to be accessed by the admin area only (validate it).
+    //To generate the order number, generate a date and eliminate its hyphens, convert it
+    //to string and only leave the date + hour, mins, secs.
+    //A total paid ponerlo en 0.00 y status_URL: 'Recogida sin pasarela de pagos',
+    //ambos created at serán el mismo
     default:
       errorResponse(req, res, 'Método no soportado', 400);
       break;

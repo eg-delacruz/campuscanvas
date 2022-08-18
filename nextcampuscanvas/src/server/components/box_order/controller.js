@@ -1,4 +1,5 @@
 import store from '@server/components/box_order/store';
+import userController from '@server/components/user/controller';
 
 const createBoxOrder = async (
   userID,
@@ -9,7 +10,8 @@ const createBoxOrder = async (
   stu_id,
   order_created_in_shopify_at,
   status_URL,
-  total_paid
+  total_paid,
+  description
 ) => {
   if (
     !userID ||
@@ -17,7 +19,8 @@ const createBoxOrder = async (
     !shopify_order_number ||
     !email ||
     !order_created_in_shopify_at ||
-    !status_URL
+    !status_URL ||
+    !description
   ) {
     throw new Error('[boxOrderController] Los datos son insuficientes');
   }
@@ -49,6 +52,7 @@ const createBoxOrder = async (
     status_URL,
     createdAt: new Date(),
     order_created_in_shopify_at,
+    description,
   };
 
   try {
@@ -101,7 +105,24 @@ const verifyBoxOrderLimit = async (
   }
 };
 
+const getBoxOrdersByUser = async (userID) => {
+  if (!userID) {
+    throw new Error('[boxOrderController] Los datos son insuficientes');
+  }
+  try {
+    const userExists = await userController.checkIfUserExists(userID);
+    if (userExists === false) {
+      throw new Error('[boxOrderController] El usuario no existe');
+    }
+    const boxOrders = await store.getOrdersByUserID(userID);
+    return boxOrders;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 export default {
   createBoxOrder,
   verifyBoxOrderLimit,
+  getBoxOrdersByUser,
 };

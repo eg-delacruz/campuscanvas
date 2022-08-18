@@ -21,6 +21,20 @@
   height: calc(100vh - 16px);
 }
 
+.no_orders_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  p {
+    @include font-size(20px);
+    font-weight: bold;
+  }
+  figure {
+    margin: 0;
+  }
+}
+
 .pedidos {
   border: 1px solid $color--dark-gray;
   border-radius: 5px;

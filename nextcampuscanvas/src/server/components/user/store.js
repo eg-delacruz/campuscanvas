@@ -17,13 +17,16 @@ const getUsers = async () => {
   return await User.find({});
 };
 
-/////////////////////Chack if user exists//////////////////////////////
+/////////////////////Check if user exists//////////////////////////////
 
 const userExists = async (id) => {
   const exists = await User.exists({
     _id: id,
   });
-  return exists;
+  if (exists) {
+    return true;
+  }
+  return false;
 };
 
 /////////////////////Get user by id//////////////////////////////
@@ -81,4 +84,5 @@ module.exports = {
   update: updateUser,
   checkStuEmail,
   deleteUser,
+  userExists,
 };

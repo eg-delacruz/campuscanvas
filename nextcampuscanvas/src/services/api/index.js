@@ -6,7 +6,7 @@ const PRODUCTION_API = process.env.NEXT_PUBLIC_API_URL;
 const VERSION = process.env.NEXT_PUBLIC_API_URL_VERSION;
 
 //Befor sending to production and npm build, change the API URL to the production one
-const API = LOCAL_API;
+const API = PRODUCTION_API;
 
 const endPoints = {
   auth: {
@@ -25,6 +25,8 @@ const endPoints = {
   orders: {
     isAllowedToOrder: (userID, account_email, stu_id, stu_email) =>
       `${API}/api/${VERSION}/box_order/${userID}/${account_email}/${stu_id}/${stu_email}`,
+    getUserOrders: (userID) =>
+      `${API}/api/${VERSION}/box_order/orders/${userID}`,
   },
 };
 

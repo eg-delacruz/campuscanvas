@@ -1,4 +1,4 @@
-//make localhost online: See notion/Campus Canvas/
+//make localhost online: See notion/Campus Canvas/Procesos, duración y términos/Campus Box
 //Verify shopify webhook: https://www.npmjs.com/package/verify-shopify-webhook
 
 //Response manager
@@ -47,10 +47,11 @@ export default async function handler(req, res) {
         );
 
         const season = process.env.NEXT_PUBLIC_CURRENT_SEASON;
-        const shopify_order_number = body.order_number;
+        const shopify_order_number = body.order_number.toString();
         const order_created_in_shopify_at = body.created_at;
         const status_URL = body.order_status_url;
         const total_paid = body.total_price;
+        const description = 'Campus Box';
 
         await Controller.createBoxOrder(
           userID,
@@ -61,7 +62,8 @@ export default async function handler(req, res) {
           stu_id,
           order_created_in_shopify_at,
           status_URL,
-          total_paid
+          total_paid,
+          description
         );
 
         successResponse(req, res, 'Orden creada', 200);

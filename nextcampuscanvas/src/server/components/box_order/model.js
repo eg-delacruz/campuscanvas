@@ -23,8 +23,12 @@ const boxOrdersSchema = new mongoose.Schema({
     default: '',
   },
   shopify_order_number: {
-    type: Number,
+    type: String,
     required: [true, 'El número de orden es necesario'],
+  },
+  description: {
+    type: String,
+    required: [true, 'La descripción es necesaria'],
   },
   total_paid: {
     type: String,

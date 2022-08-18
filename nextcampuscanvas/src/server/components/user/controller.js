@@ -434,6 +434,12 @@ const deleteUser = async (id) => {
   }
 };
 
+const checkIfUserExists = async (userID) => {
+  const userExists = await store.userExists(userID);
+  //returns true or false
+  return userExists;
+};
+
 module.exports = {
   getUserById,
   registerUser,
@@ -447,4 +453,5 @@ module.exports = {
   editProfile,
   changePassword,
   deleteUser,
+  checkIfUserExists,
 };
