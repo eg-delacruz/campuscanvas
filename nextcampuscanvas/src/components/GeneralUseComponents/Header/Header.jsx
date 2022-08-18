@@ -22,6 +22,8 @@ import { signOut } from 'next-auth/react';
 //Redux actions
 import * as usersActions from '@actions/usersActions';
 const { getUser } = usersActions;
+import * as globalStateActions from '@actions/globalStateActions';
+const { open_sidebar } = globalStateActions;
 
 //Services
 import { truncateText } from '@services/truncateText.js';
@@ -43,7 +45,7 @@ function Header(props) {
   useEffect(() => {
     const setUserName = async () => {
       setState({ ...state, gettingUser: true });
-      if (session && props.user === null) {
+      if (session && props.usersReducer.user === null) {
         await props.getUser(session.token.sub);
       }
       setState({ ...state, gettingUser: false });
@@ -72,15 +74,26 @@ function Header(props) {
     return router.push(url);
   };
 
+  const handleOpenAccountPage = (url) => {
+    props.open_sidebar(true);
+    redirectTo(url);
+  };
+
   //Dirigir a usuario al paso de verificación correspondiente
   const verifyUser = () => {
-    if (!props.user.stu_data.university && !props.user.stu_verified) {
+    if (
+      !props.usersReducer.user.stu_data.university &&
+      !props.usersReducer.user.stu_verified
+    ) {
       router.push(
         { pathname: '/auth/registro', query: { step: 2 } },
         'auth/registro'
       );
     }
-    if (props.user.stu_data.university && !props.user.stu_verified) {
+    if (
+      props.usersReducer.user.stu_data.university &&
+      !props.usersReducer.user.stu_verified
+    ) {
       router.push(
         { pathname: '/auth/registro', query: { step: 3 } },
         'auth/registro'
@@ -131,7 +144,7 @@ function Header(props) {
 
       <header
         className={`${styles['header']} ${
-          props.user && styles.loggedInUserHeader767
+          props.usersReducer.user && styles.loggedInUserHeader767
         }`}
         id='header'
       >
@@ -141,13 +154,13 @@ function Header(props) {
 
           <div
             className={`${styles.header__logo} ${
-              props.user ? styles.correctHeaderLoggedUser767 : ''
+              props.usersReducer.user ? styles.correctHeaderLoggedUser767 : ''
             }`}
           >
             <Link href='/'>
               <button
                 className={`${styles.header__logo_button} ${
-                  props.user ? styles.disableLogoLoggedUser767 : ''
+                  props.usersReducer.user ? styles.disableLogoLoggedUser767 : ''
                 }`}
               >
                 <Image
@@ -161,7 +174,7 @@ function Header(props) {
             {/* Logged in user menu + validated/unvalidated message*/}
             {loggedUserMenuSkeleton()}
 
-            {props.user && (
+            {props.usersReducer.user && (
               <div
                 className={`${styles.header__logged_user_menu} ${styles.userMenuStickyState767}`}
               >
@@ -185,11 +198,11 @@ function Header(props) {
                       <Image src={logged_user_icon} />
                     </div>
                     <button>
-                      {props.user.nickname
+                      {props.usersReducer.user.nickname
                         ? width < 369
-                          ? truncateText(props.user.nickname, 15)
-                          : props.user.nickname
-                        : props.user.email}
+                          ? truncateText(props.usersReducer.user.nickname, 15)
+                          : props.usersReducer.user.nickname
+                        : props.usersReducer.user.email}
                       <i>
                         <Image src={dropdown_menu_arrow} />
                       </i>
@@ -201,7 +214,7 @@ function Header(props) {
                     menus.isUserMenuOn ? styles['dropdow-is-active'] : ''
                   } `}
                 >
-                  <li onClick={() => redirectTo('/cuenta')}>
+                  <li onClick={() => handleOpenAccountPage('/cuenta')}>
                     Cuenta
                     <i>
                       <Image alt='Perfil' src={profile_icon} />
@@ -216,11 +229,11 @@ function Header(props) {
                   </li>
                 </ul>
                 {/* Verified user text */}
-                {props.user.stu_verified && (
+                {props.usersReducer.user.stu_verified && (
                   <p className={styles.verified_text}>Estudiante verificado</p>
                 )}
                 {/* Non-verified user button */}
-                {!props.user.stu_verified && (
+                {!props.usersReducer.user.stu_verified && (
                   <div className={styles.unverif_button_container}>
                     <button
                       className={`${styles.unverified_button} btn button--redRedborderTransparentHoverShadowtRed`}
@@ -303,13 +316,14 @@ function Header(props) {
   );
 }
 //Map state to props
-const mapStateToProps = (reducers) => {
-  return reducers.usersReducer;
+const mapStateToProps = ({ usersReducer, globalStateReducer }) => {
+  return { usersReducer, globalStateReducer };
 };
 
 //Map actions to props
 const mapDispatchToProps = {
   getUser,
+  open_sidebar,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

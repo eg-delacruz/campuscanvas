@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { connect } from 'react-redux';
 
 //Styles
 import styles from './UserSidebar.module.scss';
@@ -18,6 +19,10 @@ import arrow_right_black from '@assets/GeneralUse/IconsAndButtons/arrow_right_bl
 //Session
 import { useSession } from 'next-auth/react';
 import { signOut } from 'next-auth/react';
+
+//Redux actions
+import * as globalStateActions from '@actions/globalStateActions';
+const { close_sidebar, open_sidebar } = globalStateActions;
 
 const UserSidebar = (props) => {
   const router = useRouter();
@@ -71,7 +76,10 @@ const UserSidebar = (props) => {
           ///////////////////////// */}
       <div className={styles.sidebar__header}>
         <Link href='/' passHref>
-          <div className={styles.sidebar__logo}>
+          <div
+            onClick={() => props.open_sidebar()}
+            className={styles.sidebar__logo}
+          >
             <Image src={cc_logo} alt='Logo Campus Canvas' />
           </div>
         </Link>
@@ -88,7 +96,7 @@ const UserSidebar = (props) => {
           //  Sidebar elements   //
           ///////////////////////// */}
       <ul className={styles.sidebar__options}>
-        <li>
+        <li onClick={() => props.open_sidebar()}>
           <Link href='/' passHref>
             <div
               className={`${styles.sidebar__option} ${
@@ -104,7 +112,7 @@ const UserSidebar = (props) => {
         </li>
         <li
           onClick={() => {
-            props.setOpenSidebar(false);
+            props.close_sidebar();
           }}
         >
           <Link href='/cuenta' passHref>
@@ -125,7 +133,7 @@ const UserSidebar = (props) => {
         </li>
         <li
           onClick={() => {
-            props.setOpenSidebar(false);
+            props.close_sidebar();
           }}
         >
           <Link href='/pedidos' passHref>
@@ -158,9 +166,15 @@ const UserSidebar = (props) => {
   );
 };
 
-export default UserSidebar;
-
-UserSidebar.propTypes = {
-  setOpenSidebar: PropTypes.func.isRequired,
-  openSidebar: PropTypes.bool.isRequired,
+//Map state to props
+const mapStateToProps = (reducer) => {
+  return reducer.globalStateReducer;
 };
+
+//Map actions to props
+const mapDispatchToProps = {
+  open_sidebar,
+  close_sidebar,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserSidebar);

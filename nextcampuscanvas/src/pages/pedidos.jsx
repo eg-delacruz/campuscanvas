@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { connect } from 'react-redux';
 
 //Styles
 import styles from '@styles/pagestyles/Pedidos.module.scss';
@@ -23,6 +24,10 @@ import { useSession } from 'next-auth/react';
 //Endpoints
 import endPoints from '@services/api';
 
+//Redux actions
+import * as globalStateActions from '@actions/globalStateActions';
+const { open_sidebar } = globalStateActions;
+
 const pedidos = (props) => {
   //Session
   const { data: session, status } = useSession();
@@ -33,9 +38,6 @@ const pedidos = (props) => {
   if (status === 'unauthenticated') {
     router.push('/auth/login');
   }
-
-  //Send state to UserSidebar to open and close it
-  const [openSidebar, setOpenSidebar] = useState(false);
 
   const [state, setState] = useState({
     orders: 'initial_state',
@@ -82,7 +84,7 @@ const pedidos = (props) => {
             {/* Back button for mobile */}
             <button
               className={`${styles.pedidos__goback_button}  btn button--redRedborderTransparentHoverShadowtRed`}
-              onClick={() => setOpenSidebar(true)}
+              onClick={() => props.open_sidebar()}
             >
               <span className={styles.pedidos__black_arrow}>
                 <Image src={arrow_right_black} />
@@ -232,10 +234,7 @@ const pedidos = (props) => {
       <div className={styles.page}>
         <ButtonUp />
         <div className={styles.page__container}>
-          <UserSidebar
-            setOpenSidebar={setOpenSidebar}
-            openSidebar={openSidebar}
-          />
+          <UserSidebar />
 
           {/* /////////////////////////
           //    Main content     //
@@ -249,7 +248,7 @@ const pedidos = (props) => {
                   {/* Back button for mobile */}
                   <button
                     className={`${styles.pedidos__goback_button}  btn button--redRedborderTransparentHoverShadowtRed`}
-                    onClick={() => setOpenSidebar(true)}
+                    onClick={() => props.open_sidebar()}
                   >
                     <span className={styles.pedidos__black_arrow}>
                       <Image src={arrow_right_black} />
@@ -278,4 +277,14 @@ const pedidos = (props) => {
   );
 };
 
-export default pedidos;
+//Map state to props
+const mapStateToProps = (reducer) => {
+  return reducer.globalStateReducer;
+};
+
+//Map actions to props
+const mapDispatchToProps = {
+  open_sidebar,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(pedidos);

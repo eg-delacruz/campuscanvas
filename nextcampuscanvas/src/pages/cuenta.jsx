@@ -46,6 +46,10 @@ const { getUser } = usersActions;
 //Services
 import capitalize from '@services/capitalize.js';
 
+//Redux actions
+import * as globalStateActions from '@actions/globalStateActions';
+const { open_sidebar } = globalStateActions;
+
 const cuenta = (props) => {
   const [state, setState] = useState({
     pageLoading: false,
@@ -62,7 +66,7 @@ const cuenta = (props) => {
   useEffect(() => {
     const setUserName = async () => {
       setState({ ...state, gettingUser: true });
-      if (session && !props.user) {
+      if (session && !props.usersReducer.user) {
         await props.getUser(session.token.sub);
       }
       setState({ ...state, gettingUser: false });
@@ -71,17 +75,25 @@ const cuenta = (props) => {
   }, [session]);
 
   useEffect(() => {
-    if (props.user) {
-      NOMBRE.setValue(props.user.nickname);
-      BIRTHDATE.setValue(props.user.birthdate);
-      PHONE.setValue(props.user.phone);
-      STREET.setValue(props.user.delivery_address.street);
-      CITY.setValue(props.user.delivery_address.city);
-      HOUSE_NUMBER.setValue(props.user.delivery_address.house_number);
-      POSTAL_CODE.setValue(props.user.delivery_address.postal_code);
-      COUNTRY.setValue(props.user.delivery_address.country);
-      SELECTED_END_SEASON.setValue(props.user.stu_data.last_uni_semester);
-      OBSERVATIONS.setValue(props.user.delivery_address.observations);
+    if (props.usersReducer.user) {
+      NOMBRE.setValue(props.usersReducer.user.nickname);
+      BIRTHDATE.setValue(props.usersReducer.user.birthdate);
+      PHONE.setValue(props.usersReducer.user.phone);
+      STREET.setValue(props.usersReducer.user.delivery_address.street);
+      CITY.setValue(props.usersReducer.user.delivery_address.city);
+      HOUSE_NUMBER.setValue(
+        props.usersReducer.user.delivery_address.house_number
+      );
+      POSTAL_CODE.setValue(
+        props.usersReducer.user.delivery_address.postal_code
+      );
+      COUNTRY.setValue(props.usersReducer.user.delivery_address.country);
+      SELECTED_END_SEASON.setValue(
+        props.usersReducer.user.stu_data.last_uni_semester
+      );
+      OBSERVATIONS.setValue(
+        props.usersReducer.user.delivery_address.observations
+      );
     }
   }, [props]);
 
@@ -117,9 +129,6 @@ const cuenta = (props) => {
         }
       });
   };
-
-  //Send state to UserSidebar to open and close it
-  const [openSidebar, setOpenSidebar] = useState(false);
 
   /////////////////////Datalists (start)/////////////////////////////
   const genderOptions = studentInfoDatabase.GENDERS.map((gender) => ({
@@ -245,7 +254,10 @@ const cuenta = (props) => {
     }
     const profileData = {
       id: session.token.sub,
-      gender: Object.keys(gender).length > 0 ? gender.value : props.user.gender,
+      gender:
+        Object.keys(gender).length > 0
+          ? gender.value
+          : props.usersReducer.user.gender,
       nickname: NOMBRE.value,
       birthdate: BIRTHDATE.value,
       phone: PHONE.value,
@@ -258,19 +270,19 @@ const cuenta = (props) => {
       faculty:
         Object.keys(faculty).length > 0
           ? faculty.value
-          : props.user.stu_data.faculty,
+          : props.usersReducer.user.stu_data.faculty,
       academic_degree:
         Object.keys(degree).length > 0
           ? degree.value
-          : props.user.stu_data.academic_degree,
+          : props.usersReducer.user.stu_data.academic_degree,
       university:
         Object.keys(university).length > 0
           ? university.value
-          : props.user.stu_data.university,
+          : props.usersReducer.user.stu_data.university,
       last_uni_year:
         Object.keys(year).length > 0
           ? year.value
-          : props.user.stu_data.last_uni_year,
+          : props.usersReducer.user.stu_data.last_uni_year,
       last_uni_semester: SELECTED_END_SEASON.value,
       website_location: 'edit_profile',
     };
@@ -345,16 +357,13 @@ const cuenta = (props) => {
       <div className={styles.page}>
         <ButtonUp />
         <div className={styles.page__container}>
-          <UserSidebar
-            setOpenSidebar={setOpenSidebar}
-            openSidebar={openSidebar}
-          />
+          <UserSidebar />
 
           {/* /////////////////////////
           //    Main content     //
         ///////////////////////// */}
           <main className={styles.profile}>
-            {status === 'loading' || props.loading === true ? (
+            {status === 'loading' || props.usersReducer.loading === true ? (
               <div className={styles.Loader__container}>
                 <Loader />
               </div>
@@ -364,7 +373,7 @@ const cuenta = (props) => {
                   {/* Back button for mobile */}
                   <button
                     className={`${styles.profile__goback_button}  btn button--redRedborderTransparentHoverShadowtRed`}
-                    onClick={() => setOpenSidebar(true)}
+                    onClick={() => props.open_sidebar()}
                   >
                     <span className={styles.profile__black_arrow}>
                       <Image src={arrow_right_black} />
@@ -373,9 +382,9 @@ const cuenta = (props) => {
                   </button>
                   <h3 className={styles.profile__name}>
                     Hola{' '}
-                    {props.user?.nickname
-                      ? props.user?.nickname
-                      : props.user?.email}
+                    {props.usersReducer.user?.nickname
+                      ? props.usersReducer.user?.nickname
+                      : props.usersReducer.user?.email}
                     !
                   </h3>
                   <div className={styles.profile__name_underline}></div>
@@ -446,13 +455,13 @@ const cuenta = (props) => {
                                 className={`${styles.input} ${
                                   styles.fake_input
                                 } ${
-                                  !props.user?.gender &&
+                                  !props.usersReducer.user?.gender &&
                                   styles.fake_input_placeholder
                                 }`}
                               >
-                                {props.user?.gender
+                                {props.usersReducer.user?.gender
                                   ? capitalize.capitalizeFirstLetter(
-                                      props.user?.gender
+                                      props.usersReducer.user?.gender
                                     )
                                   : 'Selecciona tu género'}
                               </div>
@@ -538,7 +547,7 @@ const cuenta = (props) => {
                           <div
                             className={`${styles.last_input_480} ${styles.input} ${styles.fake_input} ${styles.last_input}`}
                           >
-                            {props.user?.email}
+                            {props.usersReducer.user?.email}
                           </div>
                         </div>
 
@@ -552,16 +561,18 @@ const cuenta = (props) => {
                             className={`${styles.input} ${styles.fake_input} ${
                               styles.last_input
                             } ${
-                              !props.user?.stu_id & !props.user?.stu_email &&
+                              !props.usersReducer.user?.stu_id &
+                                !props.usersReducer.user?.stu_email &&
                               styles.fake_input_placeholder
                             }`}
                           >
-                            {!props.user?.stu_id & !props.user?.stu_email
+                            {!props.usersReducer.user?.stu_id &
+                            !props.usersReducer.user?.stu_email
                               ? 'Verifica tu cuenta'
                               : `${
-                                  props.user.stu_id
-                                    ? props.user?.stu_id
-                                    : props.user?.stu_email
+                                  props.usersReducer.user.stu_id
+                                    ? props.usersReducer.user?.stu_id
+                                    : props.usersReducer.user?.stu_email
                                 }`}
                           </div>
                         </div>
@@ -765,13 +776,13 @@ const cuenta = (props) => {
                                 className={`${styles.input} ${
                                   styles.fake_input
                                 } ${
-                                  !props.user?.stu_data?.faculty &&
+                                  !props.usersReducer.user?.stu_data?.faculty &&
                                   styles.fake_input_placeholder
                                 }`}
                               >
-                                {props.user?.stu_data?.faculty
+                                {props.usersReducer.user?.stu_data?.faculty
                                   ? capitalize.capitalizeEachLetter(
-                                      props.user?.stu_data?.faculty
+                                      props.usersReducer.user?.stu_data?.faculty
                                     )
                                   : 'Selecciona tu facultad'}
                               </div>
@@ -828,13 +839,16 @@ const cuenta = (props) => {
                                 className={`${styles.input} ${
                                   styles.fake_input
                                 } ${
-                                  !props.user?.stu_data?.academic_degree &&
+                                  !props.usersReducer.user?.stu_data
+                                    ?.academic_degree &&
                                   styles.fake_input_placeholder
                                 }`}
                               >
-                                {props.user?.stu_data?.academic_degree
+                                {props.usersReducer.user?.stu_data
+                                  ?.academic_degree
                                   ? capitalize.capitalizeEachLetter(
-                                      props.user?.stu_data?.academic_degree
+                                      props.usersReducer.user?.stu_data
+                                        ?.academic_degree
                                     )
                                   : 'Seleccionar grado'}
                               </div>
@@ -891,13 +905,15 @@ const cuenta = (props) => {
                                 className={`${styles.input} ${
                                   styles.fake_input
                                 } ${
-                                  !props.user?.stu_data?.university &&
+                                  !props.usersReducer.user?.stu_data
+                                    ?.university &&
                                   styles.fake_input_placeholder
                                 }`}
                               >
-                                {props.user?.stu_data?.university
+                                {props.usersReducer.user?.stu_data?.university
                                   ? capitalize.capitalizeEachLetter(
-                                      props.user?.stu_data?.university
+                                      props.usersReducer.user?.stu_data
+                                        ?.university
                                     )
                                   : 'Seleccionar universidad'}
                               </div>
@@ -1001,12 +1017,15 @@ const cuenta = (props) => {
                                 className={`${styles.input} ${
                                   styles.fake_input
                                 } ${
-                                  !props.user?.stu_data?.last_uni_year &&
+                                  !props.usersReducer.user?.stu_data
+                                    ?.last_uni_year &&
                                   styles.fake_input_placeholder
                                 }`}
                               >
-                                {props.user?.stu_data?.last_uni_year
-                                  ? props.user?.stu_data?.last_uni_year
+                                {props.usersReducer.user?.stu_data
+                                  ?.last_uni_year
+                                  ? props.usersReducer.user?.stu_data
+                                      ?.last_uni_year
                                   : 'Selecciona un año'}
                               </div>
                               <div
@@ -1027,8 +1046,10 @@ const cuenta = (props) => {
                       </p>
                     )}
 
-                    {props.error && (
-                      <p className={styles.responseError}>{props.error}</p>
+                    {props.usersReducer.error && (
+                      <p className={styles.responseError}>
+                        {props.usersReducer.error}
+                      </p>
                     )}
                     <div className={styles.profile__submit_button_container}>
                       <button
@@ -1082,13 +1103,14 @@ const cuenta = (props) => {
 };
 
 //Map state to props
-const mapStateToProps = (reducers) => {
-  return reducers.usersReducer;
+const mapStateToProps = ({ usersReducer, globalStateReducer }) => {
+  return { usersReducer, globalStateReducer };
 };
 
 //Map actions to props
 const mapDispatchToProps = {
   getUser,
+  open_sidebar,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(cuenta);
