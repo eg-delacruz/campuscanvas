@@ -110,15 +110,7 @@ const pedidos = (props) => {
         <div>
           <div className={styles.pedidos__container}>
             {/* Back button for mobile */}
-            <button
-              className={`${styles.pedidos__goback_button}  btn button--redRedborderTransparentHoverShadowtRed`}
-              onClick={() => setOpenSidebar(true)}
-            >
-              <span className={styles.pedidos__black_arrow}>
-                <Image src={arrow_right_black} />
-              </span>
-              <div>Atrás</div>
-            </button>
+
             <div className={styles.no_orders_container}>
               <p className={styles.no_orders_text}>
                 No has realizado ningún pedido aún
