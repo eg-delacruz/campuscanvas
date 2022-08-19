@@ -14,24 +14,6 @@ import '@styles/Buttons.scss';
 
 const store = configureStore();
 
-// class MyApp extends App {
-//   render() {
-//     const { Component, pageProps } = this.props;
-//     return (
-//       <SessionProvider refetchOnWindowFocus={true}>
-//         <Provider store={store}>
-//           <Component {...pageProps} />
-//         </Provider>
-//       </SessionProvider>
-//     );
-//   }
-// }
-
-// const makestore = () => store;
-// const wrapper = createWrapper(makestore);
-
-// export default wrapper.withRedux(MyApp);
-
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
