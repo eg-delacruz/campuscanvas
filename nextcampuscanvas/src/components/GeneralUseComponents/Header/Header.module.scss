@@ -188,6 +188,9 @@
     align-items: center;
     font-weight: 700;
   }
+  .menu__item_empresas {
+    max-width: 138px;
+  }
 }
 
 /////////////////////////
@@ -446,6 +449,9 @@
         margin: 0;
         width: 100%;
         justify-content: center;
+      }
+      .menu__item_empresas {
+        max-width: initial;
       }
     }
 

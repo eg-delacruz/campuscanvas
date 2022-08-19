@@ -268,12 +268,10 @@ function Header(props) {
               <li className={styles.menu__item}>
                 <Link href='/nosotros'>Nosotros</Link>
               </li>
-              <li className={styles.menu__item}>
-                <Link href='/empresas'>
-                  <div>
-                    Información <br /> para empresas
-                  </div>
-                </Link>
+              <li
+                className={`${styles.menu__item} ${styles.menu__item_empresas}`}
+              >
+                <Link href='/empresas'>Información para empresas</Link>
               </li>
               <li className={styles.menu__item}>
                 <Link href='/blog'>Blog</Link>
