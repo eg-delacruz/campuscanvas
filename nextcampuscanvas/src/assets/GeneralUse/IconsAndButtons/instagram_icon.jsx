@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 function SvgComponent({ color = '#f5f5f5', ...props }) {
   return (
     <svg

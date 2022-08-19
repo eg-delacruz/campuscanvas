@@ -10,7 +10,7 @@ import Logo_footer from '@assets/GeneralUse/Logos/logo_footer.svg';
 import Youtube from '@assets/GeneralUse/IconsAndButtons/youtube_icon.svg';
 import Facebook from '@assets/GeneralUse/IconsAndButtons/facebook_icon.svg';
 import Instagram from '@assets/GeneralUse/IconsAndButtons/instagram_icon.svg';
-import LinkedIn from '@assets/GeneralUse/IconsAndButtons/linkedin_icon.svg';
+import TikTok from '@assets/GeneralUse/IconsAndButtons/tiktok_icon.svg';
 
 //Components
 import FooterSignature from '@components/GeneralUseComponents/FooterSignature/FooterSignature';
@@ -81,11 +81,11 @@ function Footer() {
               <Image src={Facebook} alt='Enlace a nuestro Facebook' />
             </a>
             <a
-              href='https://www.linkedin.com/company/campus-canvas/'
+              href='https://www.tiktok.com/@campuscanvas?is_from_webapp=1&sender_device=pc'
               rel='noreferrer'
               target='_blank'
             >
-              <Image src={LinkedIn} alt='Enlace a nuestro Linkedin' />
+              <Image src={TikTok} alt='Enlace a nuestro Linkedin' />
             </a>
             <a
               href='https://www.youtube.com/channel/UCZj1h0L7x1QEY-Fx5VwS8Lg'

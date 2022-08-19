@@ -10,7 +10,7 @@ import ContactForm from '@components/UsedInSpecificRoutes/Contact/ContactForm/Co
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 //Assets
-import LinkedIn from '@assets/GeneralUse/IconsAndButtons/linkedIn_icon';
+import TikTok from '@assets/GeneralUse/IconsAndButtons/tiktok_icon';
 import Facebook from '@assets/GeneralUse/IconsAndButtons/facebook_icon';
 import Instagram from '@assets/GeneralUse/IconsAndButtons/instagram_icon';
 import Youtube from '@assets/GeneralUse/IconsAndButtons/youtube_icon';
@@ -119,11 +119,11 @@ const Contacto = () => {
                     />
                   </a>
                   <a
-                    href='https://www.linkedin.com/company/campus-canvas/'
+                    href='https://www.tiktok.com/@campuscanvas?is_from_webapp=1&sender_device=pc'
                     rel='noreferrer'
                     target='_blank'
                   >
-                    <LinkedIn
+                    <TikTok
                       className={styles.contactInfo__mediaIcon}
                       color='#5B0791'
                       alt='Enlace a nuestro LinkedIn'
