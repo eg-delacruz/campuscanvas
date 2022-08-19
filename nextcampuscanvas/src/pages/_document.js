@@ -98,6 +98,10 @@ export default function Document() {
         />
 
         {/* Facebook Pixel */}
+        <meta
+          name='facebook-domain-verification'
+          content='3qz9uu9j751op1snjiaemodbjgc0mt'
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `!(function (f, b, e, v, n, t, s) {
