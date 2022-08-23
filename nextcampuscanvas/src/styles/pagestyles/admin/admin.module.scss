@@ -1,0 +1,63 @@
+@import '../../Vars.scss';
+
+//Loadint state while displaying page
+.loaderContainer {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  padding: 0 8px;
+}
+
+.routes {
+  border: 1px solid $color--dark-gray;
+  border-radius: 5px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  padding: 8px;
+
+  li {
+    border: 1px solid $color--black;
+    width: 250px;
+    border-radius: 3px;
+    margin: 8px 0;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 14px 21px 20px -15px rgb(0, 0, 0, 0.1);
+    background-color: $color--primary2;
+    color: $color--white;
+    @include font-size(25px);
+    font-weight: bold;
+  }
+  button {
+    margin-top: 50px;
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 //Styles
 import styles from '@pagestyles/Main.module.scss';
@@ -29,6 +30,15 @@ export default function Home() {
   const { data: session, status } = useSession();
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (
+      session?.token.role === 'super_admin' ||
+      session?.token.role === 'admin'
+    ) {
+      router.push('/admin');
+    }
+  }, [session]);
 
   //Dirigir a usuario al paso de verificación correspondiente
   const verifyUser = () => {

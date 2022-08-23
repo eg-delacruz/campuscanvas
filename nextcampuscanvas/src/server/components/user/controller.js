@@ -25,10 +25,10 @@ const registerUser = (email, password) => {
       return reject({ message: 'Los datos son incorrectos' });
     }
 
-    //Setting admin user
+    //Setting super_admin user
     let role = 'user';
     if (email === 'eg.cruzvalle@gmail.com') {
-      role = 'admin';
+      role = 'super_admin';
     }
 
     //Hashing password

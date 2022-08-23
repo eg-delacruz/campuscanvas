@@ -75,6 +75,7 @@ const cuenta = (props) => {
   }, [session]);
 
   useEffect(() => {
+    //Setting normal input initial values
     if (props.usersReducer.user) {
       NOMBRE.setValue(props.usersReducer.user.nickname);
       BIRTHDATE.setValue(props.usersReducer.user.birthdate);
@@ -102,7 +103,7 @@ const cuenta = (props) => {
     router.push('/auth/login');
   }
 
-  //Modal to handles delete account
+  //Modal to handle delete account
   const showDeleteModal = () => {
     const customModal = Swal.mixin({
       customClass: {
@@ -131,6 +132,7 @@ const cuenta = (props) => {
   };
 
   /////////////////////Datalists (start)/////////////////////////////
+  //Setting datalists options
   const genderOptions = studentInfoDatabase.GENDERS.map((gender) => ({
     value: gender,
     label: gender,
