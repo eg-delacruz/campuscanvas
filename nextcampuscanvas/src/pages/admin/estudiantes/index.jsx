@@ -1,17 +1,20 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import Image from 'next/image';
+
+//Session
+import { useSession } from 'next-auth/react';
+
+//Styles
+import styles from '@pagestyles/admin/students.module.scss';
 
 //Components
 import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 
-//Session
-import { useSession } from 'next-auth/react';
-import { signOut } from 'next-auth/react';
-
-//Styles
-import styles from '@pagestyles/admin/admin.module.scss';
+//Assets
+import arrow_right_black from '@assets/GeneralUse/IconsAndButtons/arrow_right_white.svg';
 
 const index = () => {
   const [state, setState] = useState({
@@ -58,25 +61,15 @@ const index = () => {
     <>
       <SecondaryHeader />
       <div className={`${styles.container} container`}>
-        <h1>Administración</h1>
-        <ul className={styles.routes}>
-          {/* TODO:
-            In this route show all admin persons. Secure it so that only super_admin can see it. Make option to create admin account */}
-          {session?.token.role === 'super_admin' && (
-            <Link href={'/admin/master'}>
-              <li>Admin</li>
-            </Link>
-          )}
-          <Link href={'/admin/clientes'}>
-            <li>Clientes</li>
-          </Link>
-          <Link href={'/admin/estudiantes'}>
-            <li>Estudiantes</li>
-          </Link>
-          <button onClick={() => signOut()} className='btn button--red'>
-            Log out
+        <h1>Estudiantes</h1>
+        <Link href={'/admin'}>
+          <button className={`${styles.button_back} btn button--red`}>
+            <span>
+              <Image src={arrow_right_black} />
+            </span>
+            <div>Atrás</div>
           </button>
-        </ul>
+        </Link>
       </div>
     </>
   );

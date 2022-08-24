@@ -1,0 +1,24 @@
+@import '../../Vars.scss';
+
+//Loadint state while displaying page
+.loaderContainer {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  padding: 0 8px;
+}
+
+.button_back {
+  display: flex;
+  padding: 10px;
+  margin: 0;
+  margin-top: 32px;
+  span {
+    transform: rotate(90deg);
+    margin-right: 8px;
+  }
+}
