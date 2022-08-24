@@ -1,4 +1,5 @@
 @import '../../Vars.scss';
+@import '../../Animations/dotLoadingButton.module.scss';
 
 //Loadint state while displaying page
 .loaderContainer {
@@ -21,4 +22,69 @@
     transform: rotate(90deg);
     margin-right: 8px;
   }
+}
+//button loading state after submit (start)
+.buttonLoading {
+  background-color: rgba(173, 33, 70, 0.4);
+  cursor: default;
+  position: relative;
+}
+.buttonLoading:hover {
+  background-color: rgba(173, 33, 70, 0.4);
+}
+.buttonLoading::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  right: -2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 10px;
+  animation: setDotLoading();
+}
+//button loading state after submit (end)
+.inputs_container {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 49% 49%;
+  grid-gap: 0 20px;
+}
+
+.input_title {
+  margin: 0 0 8px;
+  @include font-size(14px);
+  display: block;
+}
+
+.input {
+  width: 100%;
+  background-color: $color--secondary-light;
+  border: 1px solid $color--black;
+  height: 40px;
+  border-radius: 5px;
+  margin: 0;
+  margin-bottom: 30px;
+  padding: 10px;
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+  .inputs_container {
+    grid-template-columns: 1fr;
+  }
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
 }

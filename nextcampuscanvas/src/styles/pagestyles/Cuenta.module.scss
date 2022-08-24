@@ -22,7 +22,7 @@
   height: calc(100vh - 16px);
 }
 
-//button loading state after clicking for checkout
+//button loading state after submit (start)
 .buttonLoading {
   background-color: rgba(173, 33, 70, 0.4);
   cursor: default;
@@ -41,6 +41,7 @@
   border-radius: 10px;
   animation: setDotLoading();
 }
+//button loading state after submit (end)
 
 .responseError {
   color: $color--primary1;
