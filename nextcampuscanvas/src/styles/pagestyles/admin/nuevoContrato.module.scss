@@ -50,6 +50,11 @@
   grid-gap: 0 20px;
 }
 
+.flex_inputs_container {
+  display: flex;
+  justify-content: space-around;
+}
+
 .input_title {
   margin: 0 0 8px;
   @include font-size(14px);
@@ -66,7 +71,36 @@
   margin-bottom: 30px;
   padding: 10px;
 }
+.radio_input_container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.radio_input:where([type='radio']) {
+  width: 22px;
+  height: 22px;
+  margin: calc(0.75em - 11px) 0.25rem 0 0;
+}
 
+.info_displayer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: $color--light-gray;
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid $color--dark-gray;
+  font-weight: bold;
+}
+
+.fake_label {
+  @include font-size(14px);
+  margin: 0 0 8px;
+}
+
+.submit_button {
+  margin-bottom: 50px;
+}
 /////////////////////////
 //         MQ         //
 /////////////////////////
@@ -82,6 +116,9 @@
 @media screen and (max-width: 480px) {
   .inputs_container {
     grid-template-columns: 1fr;
+  }
+  .flex_inputs_container {
+    flex-direction: column;
   }
 }
 ////////////////////////////////////////320/////////////////////////////////////////////

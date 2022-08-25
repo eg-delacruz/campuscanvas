@@ -51,7 +51,29 @@ function dateToLetterswithOutDay(date) {
   return DATE;
 }
 
+const monthAndYearOfDate = (date) => {
+  let months = [
+    'Enero',
+    'Febrero',
+    'Marzo',
+    'Abril',
+    'Mayo',
+    'Junio',
+    'Julio',
+    'Agosto',
+    'Septiembre',
+    'Octubre',
+    'Noviembre',
+    'Diciembre',
+  ];
+  const DATE = `${months[new Date(date).getMonth()]} de ${new Date(
+    date
+  ).getFullYear()}`;
+  return DATE;
+};
+
 export default {
   dateToLetterswithDay,
   dateToLetterswithOutDay,
+  monthAndYearOfDate,
 };
