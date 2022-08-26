@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { saveAs } from 'file-saver';
 
 //Session
 import { useSession } from 'next-auth/react';
@@ -22,6 +23,9 @@ import { useInputValue } from '@hooks/useInputValue';
 //Services
 import dateToLetters from '@services/dateToLetters.js';
 import { NumberAsString } from '@services/numberAsString';
+
+//Endpoints
+import endPoints from '@services/api';
 
 const nuevoContrato = () => {
   const [state, setState] = useState({
@@ -152,7 +156,7 @@ const nuevoContrato = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setState({ ...state, error: null });
+    setState({ ...state, error: null, submitLoading: true });
     const DATA = {
       cliente: {
         tipo: TIPO_DE_CLIENTE.value,
@@ -194,7 +198,35 @@ const nuevoContrato = () => {
         ),
       },
     };
-    console.log(DATA);
+
+    try {
+      //Creating pdf and storing on in server
+      await fetch(endPoints.admin.createPdfContract, {
+        method: 'POST',
+        headers: {
+          accept: '*/*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(DATA),
+      });
+
+      //Getting the generated pdf
+      const response = await fetch(endPoints.admin.getPdfContract);
+      const data = await response.blob();
+      const pdfBlob = new Blob([data], { type: 'application/pdf' });
+      saveAs(pdfBlob, 'contrato.pdf');
+
+      setState({
+        ...state,
+        submitLoading: false,
+      });
+    } catch (error) {
+      setState({
+        ...state,
+        error: 'Error al generar contrato' + error.message,
+        submitLoading: false,
+      });
+    }
   };
 
   if (state.loading) {

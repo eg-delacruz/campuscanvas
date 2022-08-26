@@ -28,6 +28,10 @@ const endPoints = {
     getUserOrders: (userID) =>
       `${API}/api/${VERSION}/box_order/orders/${userID}`,
   },
+  admin: {
+    createPdfContract: `${API}/api/${VERSION}/admin/clientes/contract/contract`,
+    getPdfContract: `${API}/api/${VERSION}/admin/clientes/contract/contract`,
+  },
 };
 
 export default endPoints;
