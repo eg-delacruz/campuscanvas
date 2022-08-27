@@ -34,3 +34,6 @@ yarn-error.log*
 
 #ngrok.exe
 /src/ngrok.exe
+
+#Ignoring pdf files
+*.pdf

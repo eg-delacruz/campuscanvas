@@ -158,11 +158,11 @@ const nuevoContrato = () => {
     e.preventDefault();
     setState({ ...state, error: null, submitLoading: true });
     const DATA = {
-      //TODO: send more data to be stored in DB
-      //to easily find contract numbres based on
-      //different parameters
       cliente: {
+        nombre: NOMBRE_CLIENTE.value,
         tipo: TIPO_DE_CLIENTE.value,
+        dni: DNI.value,
+        empresa_representada: EMPRESA_REPRESENTADA.value,
         texto_datos: createClientDataText(),
         actividad: ACTIVIDAD_CLIENTE.value,
         correo: CORREO_CLIENTE.value,

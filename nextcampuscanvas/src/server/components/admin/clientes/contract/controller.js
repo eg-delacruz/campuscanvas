@@ -1,9 +1,11 @@
+import store from '@server/components/admin/clientes/contract/store';
 import { createPublicityContract } from '@server/services/createPublicityContract';
 import pdf from 'html-pdf';
 
 const generateContract = async (data) => {
+  console.log(data);
+  //TODO: Pass al required data to lowercase
   try {
-    console.log(data);
     //TODO: Save Contract data in DB to generate contract number!!
     const contractNumber = 1234;
     pdf
