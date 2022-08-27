@@ -225,7 +225,8 @@ const CampusBox = () => {
       return (
         //Renders if user is allowed to order
         <>
-          <button
+          {/* TODO: Uncomment this when ready to send to students */}
+          {/* <button
             className={`${
               state.checkoutLoading && styles.buttonLoading
             } btn button--red`}
@@ -233,7 +234,11 @@ const CampusBox = () => {
             onClick={() => checkout()}
           >
             ¡Obtener Campus Box!
-          </button>
+          </button> */}
+
+          <div className={styles.proximamente_anouncement}>
+            Obtenla próximamente...
+          </div>
 
           <div className={styles.divider}></div>
           <p className={styles.conditions}>
@@ -317,10 +322,18 @@ const CampusBox = () => {
                 <div className={styles.progressBarTitle}>
                   ¡No te quedes sin la tuya! Quedan:
                 </div>
-                <StaticProgressBar
+                {/* TODO: Uncomment this when ready to send to students */}
+                {/* <StaticProgressBar
                   MaxAmount={18000}
                   units='unidades'
                   left={product.data?.product.totalInventory}
+                /> */}
+
+                {/* TODO: Erase this StaticProgressBar when ready to send to students */}
+                <StaticProgressBar
+                  MaxAmount={18000}
+                  units='unidades'
+                  left={0}
                 />
               </div>
 

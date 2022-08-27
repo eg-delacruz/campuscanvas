@@ -158,6 +158,9 @@ const nuevoContrato = () => {
     e.preventDefault();
     setState({ ...state, error: null, submitLoading: true });
     const DATA = {
+      //TODO: send more data to be stored in DB
+      //to easily find contract numbres based on
+      //different parameters
       cliente: {
         tipo: TIPO_DE_CLIENTE.value,
         texto_datos: createClientDataText(),
