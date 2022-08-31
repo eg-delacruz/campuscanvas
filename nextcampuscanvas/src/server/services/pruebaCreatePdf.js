@@ -10,22 +10,6 @@ const pruebaCreatePdf = () => {
     </style>
   </head>
        <body>
-        <div id="pageHeader-first"></div>
-
-
-        <div id="pageFooter-first" style="display: none;"></div>
-
-        <div id="pageFooter" style="color: #1e0230; border-top: 1px solid #ad2146; padding-top: 10px">
-        <p style="width: 50%; margin: 0; padding-bottom: 5px; text-align: right; font-family: sans-serif; float: left;">{{page}}</p>
-        <p style="margin: 0; padding-right: 52px; padding-top: 10px; text-align: right; font-family: sans-serif;">
-          <img
-            src="https://i.imgur.com/pOdDmpi.png"
-            style="max-width: 25%"
-            alt="Campus Canvas logo"
-          />
-        </p>
-        </div>
-
           <div class="cover_container">
           <h1 class="cover_title">CONTRATO DE SERVICIOS DE PUBLICIDAD</h1>
           <h2 class="cover_subtitle">[OTOÑO-INVIERNO 2022]</h2>

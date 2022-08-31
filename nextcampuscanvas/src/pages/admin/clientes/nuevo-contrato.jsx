@@ -215,26 +215,45 @@ const nuevoContrato = () => {
 
       //Getting the generated pdf
 
-      const get_contract = async () => {
-        const response = await fetch(endPoints.admin.getPdfContract);
-        const data = await response.blob();
-        const pdfBlob = new Blob([data], { type: 'application/pdf' });
-        saveAs(pdfBlob, 'contrato.pdf');
+      // const get_contract = async () => {
+      //   const response = await fetch(endPoints.admin.getPdfContract);
+      //   const data = await response.blob();
+      //   const pdfBlob = new Blob([data], { type: 'application/pdf' });
+      //   saveAs(pdfBlob, 'contrato.pdf');
 
-        //Reseting some input values to avoid errors in server
-        NOMBRE_CLIENTE.setValue('');
-        DIRECCION_CLIENTE.setValue('');
-        DNI.setValue('');
-        EMPRESA_REPRESENTADA.setValue('');
-        CORREO_CLIENTE.setValue('');
-        ACTIVIDAD_CLIENTE.setValue('');
-        PRODUCTO_A_PROMOVER.setValue('');
-        setState({
-          ...state,
-          submitLoading: false,
-        });
-      };
-      setTimeout(get_contract, 1000);
+      //   //Reseting some input values to avoid errors in server
+      //   NOMBRE_CLIENTE.setValue('');
+      //   DIRECCION_CLIENTE.setValue('');
+      //   DNI.setValue('');
+      //   EMPRESA_REPRESENTADA.setValue('');
+      //   CORREO_CLIENTE.setValue('');
+      //   ACTIVIDAD_CLIENTE.setValue('');
+      //   PRODUCTO_A_PROMOVER.setValue('');
+      //   setState({
+      //     ...state,
+      //     submitLoading: false,
+      //   });
+      // };
+
+      const response = await fetch(endPoints.admin.getPdfContract);
+      const data = await response.blob();
+      const pdfBlob = new Blob([data], { type: 'application/pdf' });
+      saveAs(pdfBlob, 'contrato.pdf');
+
+      //Reseting some input values to avoid errors in server
+      NOMBRE_CLIENTE.setValue('');
+      DIRECCION_CLIENTE.setValue('');
+      DNI.setValue('');
+      EMPRESA_REPRESENTADA.setValue('');
+      CORREO_CLIENTE.setValue('');
+      ACTIVIDAD_CLIENTE.setValue('');
+      PRODUCTO_A_PROMOVER.setValue('');
+      setState({
+        ...state,
+        submitLoading: false,
+      });
+
+      //setTimeout(get_contract, 1000);
     } catch (error) {
       setState({
         ...state,
