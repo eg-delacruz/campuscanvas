@@ -1136,6 +1136,6 @@ const createPublicityContract = (
     `;
 };
 
-module.exports = {
+export default {
   createPublicityContract,
 };

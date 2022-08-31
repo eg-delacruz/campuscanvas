@@ -234,7 +234,7 @@ const nuevoContrato = () => {
           submitLoading: false,
         });
       };
-      setTimeout(get_contract, 10000);
+      setTimeout(get_contract, 1000);
     } catch (error) {
       setState({
         ...state,
