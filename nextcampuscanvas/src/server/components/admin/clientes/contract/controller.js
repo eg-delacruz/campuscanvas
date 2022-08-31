@@ -33,9 +33,11 @@ const generateContract = async ({ cliente, campana, contrato }) => {
       creation_date: new Date(),
     };
 
-    const created_contract = await store.add(contract_info);
+    //const created_contract = await store.add(contract_info);
 
-    const contractNumber = created_contract.number;
+    //const contractNumber = created_contract.number;
+
+    const contractNumber = 20;
 
     //PDF options
     const options = {
