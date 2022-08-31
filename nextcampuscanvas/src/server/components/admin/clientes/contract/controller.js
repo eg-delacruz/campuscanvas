@@ -1,6 +1,6 @@
 import store from '@server/components/admin/clientes/contract/store';
 //import { createPublicityContract } from '@server/services/createPublicityContract';
-import { createPublicityContract } from '@server/services/pruebaCreatePdf';
+import { pruebaCreatePdf } from '@server/services/pruebaCreatePdf';
 //https://openbase.com/js/html-pdf/documentation
 import pdf from 'html-pdf';
 
@@ -54,7 +54,8 @@ const generateContract = async ({ cliente, campana, contrato }) => {
     };
     pdf
       .create(
-        createPublicityContract(contractNumber, cliente, campana, contrato),
+        //createPublicityContract(contractNumber, cliente, campana, contrato),
+        pruebaCreatePdf(contractNumber, contrato),
         options
       )
       .toFile('contrato.pdf', (error) => {
