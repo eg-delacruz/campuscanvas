@@ -56,7 +56,8 @@ const generateContract = async ({ cliente, campana, contrato }) => {
       .create(
         //createPublicityContract(contractNumber, cliente, campana, contrato),
         pruebaCreatePdf(contractNumber, contrato),
-        options
+        {}
+        //options
       )
       .toFile('contrato.pdf', (error) => {
         if (error) {
