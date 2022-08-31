@@ -67,3 +67,6 @@ node_modules/
 
 #production
 /public/sw.js
+
+# HTML contract example
+contrato.html

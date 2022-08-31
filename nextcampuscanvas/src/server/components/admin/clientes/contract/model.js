@@ -24,6 +24,7 @@ const usersSchema = new mongoose.Schema({
   company: {
     type: String,
     default: '',
+    lowercase: true,
   },
   campaign_type: {
     type: String,

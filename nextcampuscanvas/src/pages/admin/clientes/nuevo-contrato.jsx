@@ -141,7 +141,7 @@ const nuevoContrato = () => {
     let campaignDataText;
 
     if (TIPO_DE_CAMPANA.value === 'producto') {
-      campaignDataText = `El publicista se compromete, de ser requerido, a recoger ${UNIDADES_A_DISTRIBUIR.value} unidades del producto “${PRODUCTO.value}” de la marca ${MARCA.value} en el lugar que el cliente indique dentro de la Comunidad de Madrid y en la fecha estipulada en la cláusula número 7 de este contrato, para su empaquetamiento en cajas de cartón con el logo del servicio Campus Box y su posterior distribución exclusivamente a estudiantes universitarios en España peninsular, con mayor enfoque en la Comunidad De Madrid, a través de correo postal, o bien a través de la recogida hecha personalmente por el estudiante en nuestras instalaciones. Dicho servicio pretende no tener coste alguno para el estudiante, exceptuando los costes de envío de la caja a través de correo postal en caso el estudiante optase por dicha forma de entrega. `;
+      campaignDataText = `El publicista se compromete, de ser requerido, a recoger ${UNIDADES_A_DISTRIBUIR.value} unidades del producto “${PRODUCTO.value}” de la marca "${MARCA.value}" en el lugar que el cliente indique dentro de la Comunidad de Madrid y en la fecha estipulada en la cláusula número 7 de este contrato, para su empaquetamiento en cajas de cartón con el logo del servicio Campus Box y su posterior distribución exclusivamente a estudiantes universitarios en España peninsular, con mayor enfoque en la Comunidad De Madrid, a través de correo postal, o bien a través de la recogida hecha personalmente por el estudiante en nuestras instalaciones. Dicho servicio pretende no tener coste alguno para el estudiante, exceptuando los costes de envío de la caja a través de correo postal en caso el estudiante optase por dicha forma de entrega. `;
       return campaignDataText;
     }
     if (TIPO_DE_CAMPANA.value === 'folletos') {
@@ -214,15 +214,27 @@ const nuevoContrato = () => {
       });
 
       //Getting the generated pdf
-      const response = await fetch(endPoints.admin.getPdfContract);
-      const data = await response.blob();
-      const pdfBlob = new Blob([data], { type: 'application/pdf' });
-      saveAs(pdfBlob, 'contrato.pdf');
 
-      setState({
-        ...state,
-        submitLoading: false,
-      });
+      const get_contract = async () => {
+        const response = await fetch(endPoints.admin.getPdfContract);
+        const data = await response.blob();
+        const pdfBlob = new Blob([data], { type: 'application/pdf' });
+        saveAs(pdfBlob, 'contrato.pdf');
+
+        //Reseting some input values to avoid errors in server
+        NOMBRE_CLIENTE.setValue('');
+        DIRECCION_CLIENTE.setValue('');
+        DNI.setValue('');
+        EMPRESA_REPRESENTADA.setValue('');
+        CORREO_CLIENTE.setValue('');
+        ACTIVIDAD_CLIENTE.setValue('');
+        PRODUCTO_A_PROMOVER.setValue('');
+        setState({
+          ...state,
+          submitLoading: false,
+        });
+      };
+      setTimeout(get_contract, 5000);
     } catch (error) {
       setState({
         ...state,
