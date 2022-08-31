@@ -36,4 +36,5 @@ yarn-error.log*
 /src/ngrok.exe
 
 #Ignoring pdf files
+contrato.pdf
 *.pdf
