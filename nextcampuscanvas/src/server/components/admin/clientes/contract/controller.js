@@ -55,7 +55,7 @@ const generateContract = async ({ cliente, campana, contrato }) => {
     pdf
       .create(
         //createPublicityContract(contractNumber, cliente, campana, contrato),
-        pruebaCreatePdf(contractNumber, contrato),
+        pruebaCreatePdf(),
         {}
         //options
       )

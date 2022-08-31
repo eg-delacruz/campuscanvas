@@ -1,4 +1,4 @@
-const pruebaCreatePdf = (contractNumber, contrato) => {
+const pruebaCreatePdf = () => {
   return `
     <!doctype html>
     <html>
@@ -28,11 +28,11 @@ const pruebaCreatePdf = (contractNumber, contrato) => {
 
           <div class="cover_container">
           <h1 class="cover_title">CONTRATO DE SERVICIOS DE PUBLICIDAD</h1>
-          <h2 class="cover_subtitle">${contrato.periodo}</h2>
+          <h2 class="cover_subtitle">[OTOÑO-INVIERNO 2022]</h2>
           <!-- Imagen de Cover -->
     
           <div class="information_container">
-              <p class="contract_number">Número de contrato: <span>${contractNumber}</span></p>
+              <p class="contract_number">Número de contrato: <span>[NUMERO DE CONTRATO]</span></p>
               <table class="table_information" cellpadding="0" cellspacing="0">
               <tr>
                 <td>
@@ -48,7 +48,7 @@ const pruebaCreatePdf = (contractNumber, contrato) => {
               </tr>
               <tr class="information">
                 <td>
-                    <div class="cover_left_information">${contrato.fecha_de_creacion}, ${contrato.lugar_de_creacion}</div>
+                    <div class="cover_left_information">[MADRID, 23 DE ENERO DE 2934]</div>
                 </td>
                 <td class="cover_right_information">
                     <strong>Tel:</strong>
