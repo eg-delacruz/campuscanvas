@@ -1,5 +1,6 @@
 import store from '@server/components/admin/clientes/contract/store';
-import { createPublicityContract } from '@server/services/createPublicityContract';
+//import { createPublicityContract } from '@server/services/createPublicityContract';
+import { createPublicityContract } from '@server/services/pruebaCreatePdf';
 //https://openbase.com/js/html-pdf/documentation
 import pdf from 'html-pdf';
 

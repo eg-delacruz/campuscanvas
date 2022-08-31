@@ -4,48 +4,6 @@ const createPublicityContract = (
   campana,
   contrato
 ) => {
-  const destinatario =
-    cliente.tipo === 'juridica'
-      ? cliente.empresa_representada
-      : cliente.tipo === 'fisica'
-      ? cliente.nombre
-      : '';
-
-  const opcion_de_pago =
-    contrato.modalidad_de_pago === 'pago_unico'
-      ? `<p>
-          El Cliente satisfará el pago del precio fijo a más tardar el ${contrato.fecha_pago_unico} mediante transferencia bancaria a la siguiente cuenta
-          bancaria facilitada por el Publicista:
-        </p>`
-      : contrato.modalidad_de_pago === 'pago_cuotas'
-      ? `<p>
-          El pago en favor del publicista se realizará en 4 cuotas iguales, por un valor de ${contrato.valor_por_cuota} € c/u, pagaderas los siguientes días:
-        </p>
-        <ul>
-          <li>
-            Pago 1 previo a la fecha de inicio de distribución: ${contrato.fecha_primera_cuota}
-          </li>
-          <li>
-            Pago 2: primeros 5 días del mes de ${contrato.fecha_segunda_cuota}
-          </li>
-          <li>
-          	Pago 3: primeros 5 días del mes de ${contrato.fecha_tercera_cuota}
-          </li>
-          <li>
-          	Pago 4: primeros 5 días del mes de  ${contrato.fecha_cuarta_cuota}
-          </li>
-        </ul>
-        <p>
-          El Cliente satisfará cada pago mediante transferencias bancarias a la siguiente cuenta bancaria facilitada por el Publicista:
-        </p>
-        `
-      : '';
-
-  const empresa_representada =
-    cliente.tipo === 'juridica'
-      ? `<p>En representación de ${cliente.empresa_representada}</p>`
-      : '';
-
   return `
     <!doctype html>
     <html>
@@ -170,7 +128,7 @@ const createPublicityContract = (
               <tr>
                 <td>
                     <div class="cover_left_information">
-                    <strong>${destinatario}</strong>
+                    <strong>[DESTINATARIO]</strong>
                     </div>
                 </td>
                 <td class="cover_right_information">
@@ -493,7 +451,7 @@ const createPublicityContract = (
             Campaña publicitaria, sin incluir los impuestos que pudieran derivar de
             esta operación.
           </p>
-          <div>${opcion_de_pago}</div>
+          <div>[OPCION DE PAGO]</div>
           <p>Entidad bancaria: Banco Bilbao Vizcaya Argentaria (BBVA)</p>
           <p>IBAN: ES78 0182 1275 1202 0210 1647</p>
           <p>
@@ -1128,7 +1086,7 @@ const createPublicityContract = (
           <br />
           <p>..........................................</p>
           <p>${cliente.nombre}</p>
-          ${empresa_representada}
+          [EMPRESA REPRESENTADA]
         </div>
         </div>
        </body>
