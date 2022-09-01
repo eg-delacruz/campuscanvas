@@ -2,6 +2,8 @@ import store from '@server/components/admin/clientes/contract/store';
 import { createPublicityContract } from '@server/services/createPublicityContract';
 //https://openbase.com/js/html-pdf/documentation
 import pdf from 'html-pdf';
+import path from 'path';
+import fs from 'fs';
 
 const generateContract = async ({ cliente, campana, contrato }) => {
   if (
@@ -37,6 +39,8 @@ const generateContract = async ({ cliente, campana, contrato }) => {
 
     const contractNumber = created_contract.number;
 
+    //const contractNumber = 222;
+
     //PDF options
     const options = {
       format: 'A4',
@@ -59,13 +63,26 @@ const generateContract = async ({ cliente, campana, contrato }) => {
         createPublicityContract(contractNumber, cliente, campana, contrato),
         options
       )
-      .toFile('contrato.pdf', (error, response) => {
+      .toBuffer((error, buffer) => {
         if (error) {
-          throw new Error('[Client/contract controller]', error);
+          throw new Error('[Client/contract controller]' + error);
         }
+        fs.writeFile('contrato.pdf', buffer, function (error) {
+          if (error) {
+            console.error('[contract/controller, generateContract]', error);
+          }
+          console.log(
+            '[contract/controller, generateContract] File created succesfully'
+          );
+        });
       });
+    // .toFile('contrato.pdf', (error, response) => {
+    //   if (error) {
+    //     throw new Error('[Client/contract controller]', error);
+    //   }
+    // });
   } catch (error) {
-    throw new Error('[Client/contract controller]', error);
+    throw new Error('[Client/contract controller]' + error);
   }
 };
 
