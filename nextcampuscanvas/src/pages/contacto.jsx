@@ -14,6 +14,7 @@ import TikTok from '@assets/GeneralUse/IconsAndButtons/tiktok_icon';
 import Facebook from '@assets/GeneralUse/IconsAndButtons/facebook_icon';
 import Instagram from '@assets/GeneralUse/IconsAndButtons/instagram_icon';
 import Youtube from '@assets/GeneralUse/IconsAndButtons/youtube_icon';
+import Twitter from '@assets/GeneralUse/IconsAndButtons/twitter_icon';
 
 import PhoneIcon from '@assets/GeneralUse/IconsAndButtons/phone_icon';
 import LocationIcon from '@assets/GeneralUse/IconsAndButtons/location_icon';
@@ -138,6 +139,17 @@ const Contacto = () => {
                       className={styles.contactInfo__mediaIcon}
                       color='#5B0791'
                       alt='Enlace a nuestro YouTube'
+                    />
+                  </a>
+                  <a
+                    href='https://twitter.com/campuscanvases'
+                    rel='noreferrer'
+                    target='_blank'
+                  >
+                    <Twitter
+                      className={styles.contactInfo__mediaIcon}
+                      color='#5B0791'
+                      alt='Enlace a nuestro Twitter'
                     />
                   </a>
                 </div>

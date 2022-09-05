@@ -11,6 +11,7 @@ import Youtube from '@assets/GeneralUse/IconsAndButtons/youtube_icon.svg';
 import Facebook from '@assets/GeneralUse/IconsAndButtons/facebook_icon.svg';
 import Instagram from '@assets/GeneralUse/IconsAndButtons/instagram_icon.svg';
 import TikTok from '@assets/GeneralUse/IconsAndButtons/tiktok_icon.svg';
+import Twitter from '@assets/GeneralUse/IconsAndButtons/twitter_icon.svg';
 
 //Components
 import FooterSignature from '@components/GeneralUseComponents/FooterSignature/FooterSignature';
@@ -93,6 +94,13 @@ function Footer() {
               target='_blank'
             >
               <Image src={Youtube} alt='Enlace a nuestro youtube' />
+            </a>
+            <a
+              href='https://twitter.com/campuscanvases'
+              rel='noreferrer'
+              target='_blank'
+            >
+              <Image src={Twitter} alt='Enlace a nuestro Twitter' />
             </a>
           </div>
         </section>

@@ -39,7 +39,7 @@
     padding: 10px;
   }
   &__social a {
-    margin: 12px;
+    margin: 10px;
   }
 
   &__navigation ul li a {
@@ -91,11 +91,9 @@
     }
     &__platform {
       grid-area: plataforma;
-      // justify-self: end;
     }
     &__legal {
       grid-area: legal;
-      // justify-self: start;
     }
     &__social {
       grid-area: social;

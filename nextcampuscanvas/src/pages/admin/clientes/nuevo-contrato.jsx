@@ -222,13 +222,13 @@ const nuevoContrato = () => {
         saveAs(pdfBlob, 'contrato.pdf');
 
         //Reseting some input values to avoid errors in server
-        NOMBRE_CLIENTE.setValue('');
-        DIRECCION_CLIENTE.setValue('');
-        DNI.setValue('');
-        EMPRESA_REPRESENTADA.setValue('');
-        CORREO_CLIENTE.setValue('');
-        ACTIVIDAD_CLIENTE.setValue('');
-        PRODUCTO_A_PROMOVER.setValue('');
+        // NOMBRE_CLIENTE.setValue('');
+        // DIRECCION_CLIENTE.setValue('');
+        // DNI.setValue('');
+        // EMPRESA_REPRESENTADA.setValue('');
+        // CORREO_CLIENTE.setValue('');
+        // ACTIVIDAD_CLIENTE.setValue('');
+        // PRODUCTO_A_PROMOVER.setValue('');
         setState({
           ...state,
           submitLoading: false,

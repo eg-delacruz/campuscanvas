@@ -39,8 +39,6 @@ const generateContract = async ({ cliente, campana, contrato }) => {
 
     const contractNumber = created_contract.number;
 
-    //const contractNumber = 222;
-
     //PDF options
     const options = {
       format: 'A4',
