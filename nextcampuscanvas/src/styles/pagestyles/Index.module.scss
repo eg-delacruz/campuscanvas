@@ -257,12 +257,6 @@ body {
     &__container {
       padding-bottom: 30px;
     }
-    &__empty_box_container {
-      margin-left: -76px;
-      // img {
-      //   width: 136%;
-      // }
-    }
     &__content {
       flex-direction: column;
     }
@@ -318,7 +312,9 @@ body {
       padding-bottom: 30px;
     }
     &__empty_box_container {
-      margin-left: -76px;
+      img {
+        max-width: 308px;
+      }
     }
     &__content {
       flex-direction: column;
@@ -369,6 +365,7 @@ body {
 
   .main {
     &__empty_box_container {
+      margin-left: -76px;
       img {
         width: 378px;
         margin-right: -73px;

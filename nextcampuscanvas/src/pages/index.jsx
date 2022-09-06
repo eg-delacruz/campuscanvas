@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 //Styles
-import styles from '@pagestyles/Main.module.scss';
+import styles from '@pagestyles/Index.module.scss';
 
 //Assets
 import Box_logo from '@assets/GeneralUse/Logos/Box_logo.svg';
