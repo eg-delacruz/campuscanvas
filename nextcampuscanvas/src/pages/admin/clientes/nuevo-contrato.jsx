@@ -202,8 +202,10 @@ const nuevoContrato = () => {
       },
     };
 
+    //TODO: Uncomment resetting values and configure right fetch url
     try {
-      //Creating pdf and storing on in server
+      console.log(endPoints.admin.createPdfContract);
+      //Creating pdf and storing on server
       await fetch(endPoints.admin.createPdfContract, {
         method: 'POST',
         headers: {
@@ -217,6 +219,7 @@ const nuevoContrato = () => {
 
       const get_contract = async () => {
         const response = await fetch(endPoints.admin.getPdfContract);
+
         const data = await response.blob();
         const pdfBlob = new Blob([data], { type: 'application/pdf' });
         saveAs(pdfBlob, 'contrato.pdf');

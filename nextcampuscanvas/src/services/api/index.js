@@ -2,11 +2,18 @@
 
 const LOCAL_API = process.env.NEXT_PUBLIC_API_LOCAL;
 const PRODUCTION_API = process.env.NEXT_PUBLIC_API_URL;
-
 const VERSION = process.env.NEXT_PUBLIC_API_URL_VERSION;
 
 //Befor sending to production and npm build, change the API URL to the production one
-const API = PRODUCTION_API;
+const API = LOCAL_API;
+
+//Node server api
+const LOCAL_NODE_SERVER_API = process.env.NEXT_PUBLIC_NODE_SERVER_API_LOCAL;
+const PRODUCTION_NODE_SERVER_API =
+  process.env.NEXT_PUBLIC_PRODUCTION_NODE_SERVER_API;
+const NODE_SERVER_VERSION = process.env.NEXT_PUBLIC_NODE_SERVER_API_URL_VERSION;
+
+const NODE_SERVER_API = PRODUCTION_NODE_SERVER_API;
 
 const endPoints = {
   auth: {
@@ -29,8 +36,8 @@ const endPoints = {
       `${API}/api/${VERSION}/box_order/orders/${userID}`,
   },
   admin: {
-    createPdfContract: `${API}/api/${VERSION}/admin/clientes/contract/contract`,
-    getPdfContract: `${API}/api/${VERSION}/admin/clientes/contract/contract`,
+    createPdfContract: `${NODE_SERVER_API}/api/${NODE_SERVER_VERSION}/admin/clientes/contract`,
+    getPdfContract: `${NODE_SERVER_API}/api/${NODE_SERVER_VERSION}/admin/clientes/contract`,
   },
 };
 

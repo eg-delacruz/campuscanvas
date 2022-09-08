@@ -68,7 +68,7 @@ function Footer() {
           </div>
           <div className={styles.footer__social}>
             <a
-              href='https://www.instagram.com/cc_campuscanvas/'
+              href='https://www.instagram.com/campuscanvas.es/'
               rel='noreferrer'
               target='_blank'
             >
