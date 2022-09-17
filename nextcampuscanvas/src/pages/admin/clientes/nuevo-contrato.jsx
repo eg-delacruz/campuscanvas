@@ -1084,6 +1084,9 @@ const nuevoContrato = () => {
             Enviar
           </button>
         </form>
+        {/* TODO: If contract number exists, display a button to
+        see that contract. After clicking on enviar, reset the global state
+        to store the new information of the new contract there */}
       </div>
     </>
   );

@@ -39,8 +39,8 @@ const endPoints = {
       `${API}/api/${VERSION}/box_order/orders/${userID}`,
   },
   admin: {
-    createPdfContract: `${API}/api/${NODE_SERVER_VERSION}/admin/clientes/contract/contract`,
-    getPdfContract: `${API}/api/${NODE_SERVER_VERSION}/admin/clientes/contract/contract`,
+    createPdfContract: `${API}/api/${VERSION}/admin/clientes/contract/contract`,
+    getPdfContract: `${API}/api/${VERSION}/admin/clientes/contract/contract`,
   },
 };
 
