@@ -204,7 +204,6 @@ const nuevoContrato = () => {
 
     //TODO: Uncomment resetting values and configure right fetch url
     try {
-      console.log(endPoints.admin.createPdfContract);
       //Creating pdf and storing on server
       await fetch(endPoints.admin.createPdfContract, {
         method: 'POST',
@@ -213,6 +212,12 @@ const nuevoContrato = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(DATA),
+      });
+
+      //TODO: erase this setState
+      setState({
+        ...state,
+        submitLoading: false,
       });
 
       //Getting the generated pdf
@@ -237,7 +242,8 @@ const nuevoContrato = () => {
           submitLoading: false,
         });
       };
-      setTimeout(get_contract, 5000);
+      //TODO: Uncomment this
+      //setTimeout(get_contract, 10000);
     } catch (error) {
       setState({
         ...state,
