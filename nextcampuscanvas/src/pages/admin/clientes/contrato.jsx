@@ -1,3 +1,6 @@
+import { Document, Page, View, Text, PDFViewer } from '@react-pdf/renderer';
+import { useState, useEffect } from 'react';
+
 const contrato = (contract) => {
   //TODO:
   // FIRST: Check if pdf library works, and if it shows a pdf viewer!!
@@ -8,13 +11,107 @@ const contrato = (contract) => {
   // - Clean info sent to API (leave only needed info)
   // - Delete unused libraries on API and in nuevo-contrato.jsx
   // - Delete unnecessary code on API
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
-    <div>
-      <h1>
-        Aquí se mostrará el contrato si en el estado global está la info. Si no,
-        redirect
-      </h1>
-    </div>
+    <>
+      {isClient && (
+        <div style={{ minHeight: '100vh' }}>
+          <PDFViewer style={{ width: '100%', height: '100vh' }}>
+            <Document>
+              <Page size={'A4'}>
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: '42px',
+                      fontWeight: 'bold',
+                      marginBottom: '20px',
+                    }}
+                  >
+                    Aquí se mostrará el contrato si en el estado global está la
+                    info. Si no, redirect
+                  </Text>
+
+                  <Text>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Suscipit mollitia recusandae corporis voluptates reiciendis
+                    obcaecati facere? Quas rerum itaque iusto laborum
+                    repellendus esse, eius pariatur veritatis odit aliquam
+                    impedit non? Lorem ipsum dolor sit amet consectetur,
+                    adipisicing elit. Suscipit mollitia recusandae corporis
+                    voluptates reiciendis obcaecati facere? Quas rerum itaque
+                    iusto laborum repellendus esse, eius pariatur veritatis odit
+                    aliquam impedit non? Lorem ipsum dolor sit amet consectetur,
+                    adipisicing elit. Suscipit mollitia recusandae corporis
+                    voluptates reiciendis obcaecati facere? Quas rerum itaque
+                    iusto laborum repellendus esse, eius pariatur veritatis odit
+                    aliquam impedit non? Lorem ipsum dolor sit amet consectetur,
+                    adipisicing elit. Suscipit mollitia recusandae corporis
+                    voluptates reiciendis obcaecati facere? Quas rerum itaque
+                    iusto laborum repellendus esse, eius pariatur veritatis odit
+                    aliquam impedit non? Lorem ipsum dolor sit amet consectetur,
+                    adipisicing elit. Suscipit mollitia recusandae corporis
+                    voluptates reiciendis obcaecati facere? Quas rerum itaque
+                    iusto laborum repellendus esse, eius pariatur veritatis odit
+                    aliquam impedit non? Lorem ipsum dolor sit amet consectetur,
+                    adipisicing elit. Suscipit mollitia recusandae corporis
+                    voluptates reiciendis obcaecati facere? Quas rerum itaque
+                    iusto laborum repellendus esse, eius pariatur veritatis odit
+                    aliquam impedit non? Lorem ipsum dolor sit amet consectetur,
+                    adipisicing elit. Suscipit mollitia recusandae corporis
+                    voluptates reiciendis obcaecati facere? Quas rerum itaque
+                    iusto laborum repellendus esse, eius pariatur veritatis odit
+                    aliquam impedit non? Lorem ipsum dolor sit amet consectetur,
+                    adipisicing elit. Suscipit mollitia recusandae corporis
+                    voluptates reiciendis obcaecati facere? Quas rerum itaque
+                    iusto laborum repellendus esse, eius pariatur veritatis odit
+                    aliquam impedit non? aliquam impedit non? Lorem ipsum dolor
+                    sit amet consectetur, adipisicing elit. Suscipit mollitia
+                    recusandae corporis voluptates reiciendis obcaecati facere?
+                    Quas rerum itaque iusto laborum repellendus esse, eius
+                    pariatur veritatis odit aliquam impedit non? aliquam impedit
+                    non? Lorem ipsum dolor sit amet consectetur, adipisicing
+                    elit. Suscipit mollitia recusandae corporis voluptates
+                    reiciendis obcaecati facere? Quas rerum itaque iusto laborum
+                    repellendus esse, eius pariatur veritatis odit aliquam
+                    impedit non? aliquam impedit non? Lorem ipsum dolor sit amet
+                    consectetur, adipisicing elit. Suscipit mollitia recusandae
+                    corporis voluptates reiciendis obcaecati facere? Quas rerum
+                    itaque iusto laborum repellendus esse, eius pariatur
+                    veritatis odit aliquam impedit non? aliquam impedit non?
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Suscipit mollitia recusandae corporis voluptates reiciendis
+                    obcaecati facere? Quas rerum itaque iusto laborum
+                    repellendus esse, eius pariatur veritatis odit aliquam
+                    impedit non? aliquam impedit non? Lorem ipsum dolor sit amet
+                    consectetur, adipisicing elit. Suscipit mollitia recusandae
+                    corporis voluptates reiciendis obcaecati facere? Quas rerum
+                    itaque iusto laborum repellendus esse, eius pariatur
+                    veritatis odit aliquam impedit non? aliquam impedit non?
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Suscipit mollitia recusandae corporis voluptates reiciendis
+                    obcaecati facere? Quas rerum itaque iusto laborum
+                    repellendus esse, eius pariatur veritatis odit aliquam
+                    impedit non?
+                  </Text>
+                </View>
+              </Page>
+            </Document>
+          </PDFViewer>
+        </div>
+      )}
+    </>
   );
 };
 
