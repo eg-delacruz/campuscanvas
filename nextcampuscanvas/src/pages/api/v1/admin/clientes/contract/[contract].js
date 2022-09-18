@@ -53,9 +53,9 @@ export default async function handler(req, res) {
       try {
         //This saves the pdf in the server. If the name does never change
         //when a new contract is created, the previous file is erased
-        await Controller.generateContract(body);
+        const contract_number = await Controller.generateContract(body);
 
-        successResponse(req, res, 'Contrato generado', 200);
+        successResponse(req, res, contract_number, 200);
       } catch (error) {
         errorResponse(
           req,

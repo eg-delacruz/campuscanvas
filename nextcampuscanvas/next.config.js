@@ -1,6 +1,7 @@
 const withPWA = require('next-pwa')({
   dest: 'public',
 });
+const withFonts = require('next-fonts');
 
 module.exports = withPWA({
   pwa: {
@@ -16,3 +17,5 @@ module.exports = withPWA({
     // domains: ['placeimg.com'],
   },
 });
+
+module.exports = withFonts();

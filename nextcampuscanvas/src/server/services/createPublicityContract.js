@@ -1,3 +1,6 @@
+//Currently not being used, since pdf is
+//generated client-side
+
 const createPublicityContract = (
   contractNumber,
   cliente,

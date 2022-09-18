@@ -1,9 +1,4 @@
 import store from '@server/components/admin/clientes/contract/store';
-import { createPublicityContract } from '@server/services/createPublicityContract';
-//https://openbase.com/js/html-pdf/documentation
-import pdf from 'html-pdf';
-import path from 'path';
-import fs from 'fs';
 
 const generateContract = async ({ cliente, campana, contrato }) => {
   if (
@@ -35,50 +30,15 @@ const generateContract = async ({ cliente, campana, contrato }) => {
       creation_date: new Date(),
     };
 
-    const created_contract = await store.add(contract_info);
+    //TODO: Uncomment these lines
+    //const created_contract = await store.add(contract_info);
 
-    const contractNumber = created_contract.number;
+    //const contractNumber = created_contract.number;
 
-    //PDF options
-    const options = {
-      format: 'A4',
-      paginationOffset: 2,
-      timeout: 30000,
-      phantomPath: path.resolve(
-        process.cwd(),
-        'node_modules/phantomjs-prebuilt/lib/phantom/bin/phantomjs'
-      ),
-      header: {
-        height: '20mm',
-        contents: `<div style="font-family: 'Open Sans', sans-serif; padding-right: 52px; padding-top: 10px; font-size: 12px; text-align: right;"><strong>No. Contrato: </strong>${contractNumber}<br><br><br></div>`,
-      },
-      footer: {
-        height: '20mm',
-      },
-    };
-    pdf
-      .create(
-        createPublicityContract(contractNumber, cliente, campana, contrato),
-        options
-      )
-      .toBuffer((error, buffer) => {
-        if (error) {
-          throw new Error('[Client/contract controller]' + error);
-        }
-        fs.writeFile('contrato.pdf', buffer, function (error) {
-          if (error) {
-            console.error('[contract/controller, generateContract]', error);
-          }
-          console.log(
-            '[contract/controller, generateContract] File created succesfully'
-          );
-        });
-      });
-    // .toFile('contrato.pdf', (error, response) => {
-    //   if (error) {
-    //     throw new Error('[Client/contract controller]', error);
-    //   }
-    // });
+    //TODO: erase this fake contractNumber
+    const contractNumber = 'XXX';
+
+    return contractNumber;
   } catch (error) {
     throw new Error('[Client/contract controller]' + error);
   }

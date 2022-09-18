@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { saveAs } from 'file-saver';
 
 //Session
 import { useSession } from 'next-auth/react';
@@ -157,93 +156,107 @@ const nuevoContrato = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setState({ ...state, error: null, submitLoading: true });
-    const DATA = {
+
+    //Clean localstorage to save new contract info
+    localStorage.clear();
+
+    const PARTIAL_CONTRACT_DATA = {
       cliente: {
         nombre: NOMBRE_CLIENTE.value,
         tipo: TIPO_DE_CLIENTE.value,
         dni: DNI.value,
         empresa_representada: EMPRESA_REPRESENTADA.value,
-        texto_datos: createClientDataText(),
-        actividad: ACTIVIDAD_CLIENTE.value,
-        correo: CORREO_CLIENTE.value,
       },
       campana: {
-        producto_a_promover: PRODUCTO_A_PROMOVER.value,
         tipo_de_campana: TIPO_DE_CAMPANA.value,
-        texto_datos_campana: createCampaignDataText(),
       },
       contrato: {
         lugar_de_creacion: LUGAR_DE_CREACION.value,
-        fecha_de_creacion: FECHA_DE_CREACION.value,
-        periodo: PERIODO.value,
-        fecha_inicio: dateToLetters.dateToLetterswithOutDay(
-          INICIO_CONTRATO.value
-        ),
-        fecha_fin: dateToLetters.dateToLetterswithOutDay(FIN_CONTRATO.value),
-        precio: PRECIO.value,
-        precio_letras: PRECIO_LETRAS,
-        modalidad_de_pago: MODALIDAD_DE_PAGO.value,
-        fecha_pago_unico: dateToLetters.dateToLetterswithOutDay(
-          FECHA_PAGO_UNICO.value
-        ),
-        valor_por_cuota: VALOR_POR_CUOTA,
-        fecha_primera_cuota: dateToLetters.dateToLetterswithOutDay(
-          FECHA_PRIMERA_CUOTA.value
-        ),
-        fecha_segunda_cuota: dateToLetters.monthAndYearOfDate(
-          FECHA_SEGUNDA_CUOTA.value
-        ),
-        fecha_tercera_cuota: dateToLetters.monthAndYearOfDate(
-          FECHA_TERCERA_CUOTA.value
-        ),
-        fecha_cuarta_cuota: dateToLetters.monthAndYearOfDate(
-          FECHA_CUARTA_CUOTA.value
-        ),
       },
     };
 
-    //TODO: Uncomment resetting values and configure right fetch url
     try {
-      //Creating pdf and storing on server
-      await fetch(endPoints.admin.createPdfContract, {
+      //Storing pdf info in db
+      const response = await fetch(endPoints.admin.createPdfContract, {
         method: 'POST',
         headers: {
           accept: '*/*',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(DATA),
+        body: JSON.stringify(PARTIAL_CONTRACT_DATA),
       });
 
-      //TODO: erase this setState
+      const data = await response.json();
+
+      const COMPLETE_CONTRACT_DATA = {
+        cliente: {
+          nombre: NOMBRE_CLIENTE.value,
+          tipo: TIPO_DE_CLIENTE.value,
+          dni: DNI.value,
+          empresa_representada: EMPRESA_REPRESENTADA.value,
+          texto_datos: createClientDataText(),
+          actividad: ACTIVIDAD_CLIENTE.value,
+          correo: CORREO_CLIENTE.value,
+        },
+        campana: {
+          producto_a_promover: PRODUCTO_A_PROMOVER.value,
+          tipo_de_campana: TIPO_DE_CAMPANA.value,
+          texto_datos_campana: createCampaignDataText(),
+        },
+        contrato: {
+          numero_contrato: data.body,
+          lugar_de_creacion: LUGAR_DE_CREACION.value,
+          fecha_de_creacion: FECHA_DE_CREACION.value,
+          periodo: PERIODO.value,
+          fecha_inicio: dateToLetters.dateToLetterswithOutDay(
+            INICIO_CONTRATO.value
+          ),
+          fecha_fin: dateToLetters.dateToLetterswithOutDay(FIN_CONTRATO.value),
+          precio: PRECIO.value,
+          precio_letras: PRECIO_LETRAS,
+          modalidad_de_pago: MODALIDAD_DE_PAGO.value,
+          fecha_pago_unico: dateToLetters.dateToLetterswithOutDay(
+            FECHA_PAGO_UNICO.value
+          ),
+          valor_por_cuota: VALOR_POR_CUOTA,
+          fecha_primera_cuota: dateToLetters.dateToLetterswithOutDay(
+            FECHA_PRIMERA_CUOTA.value
+          ),
+          fecha_segunda_cuota: dateToLetters.monthAndYearOfDate(
+            FECHA_SEGUNDA_CUOTA.value
+          ),
+          fecha_tercera_cuota: dateToLetters.monthAndYearOfDate(
+            FECHA_TERCERA_CUOTA.value
+          ),
+          fecha_cuarta_cuota: dateToLetters.monthAndYearOfDate(
+            FECHA_CUARTA_CUOTA.value
+          ),
+        },
+      };
+
+      localStorage.setItem('DATA', JSON.stringify(COMPLETE_CONTRACT_DATA));
+
+      //TODO: Uncomment resetting values
+      //Reseting some input values to avoid errors in server
+      // NOMBRE_CLIENTE.setValue('');
+      // DIRECCION_CLIENTE.setValue('');
+      // DNI.setValue('');
+      // EMPRESA_REPRESENTADA.setValue('');
+      // CORREO_CLIENTE.setValue('');
+      // ACTIVIDAD_CLIENTE.setValue('');
+      // PRODUCTO_A_PROMOVER.setValue('');
+
       setState({
         ...state,
         submitLoading: false,
       });
 
-      //Getting the generated pdf
+      const currentURL = encodeURI(window.location.href);
+      const contractURL = currentURL.replace('nuevo-contrato', 'contrato');
 
-      const get_contract = async () => {
-        const response = await fetch(endPoints.admin.getPdfContract);
+      window.open(contractURL, '_blank');
 
-        const data = await response.blob();
-        const pdfBlob = new Blob([data], { type: 'application/pdf' });
-        saveAs(pdfBlob, 'contrato.pdf');
-
-        //Reseting some input values to avoid errors in server
-        // NOMBRE_CLIENTE.setValue('');
-        // DIRECCION_CLIENTE.setValue('');
-        // DNI.setValue('');
-        // EMPRESA_REPRESENTADA.setValue('');
-        // CORREO_CLIENTE.setValue('');
-        // ACTIVIDAD_CLIENTE.setValue('');
-        // PRODUCTO_A_PROMOVER.setValue('');
-        setState({
-          ...state,
-          submitLoading: false,
-        });
-      };
-      //TODO: Uncomment this
-      //setTimeout(get_contract, 10000);
+      console.log(contractURL);
     } catch (error) {
       setState({
         ...state,
@@ -1084,9 +1097,6 @@ const nuevoContrato = () => {
             Enviar
           </button>
         </form>
-        {/* TODO: If contract number exists, display a button to
-        see that contract. After clicking on enviar, reset the global state
-        to store the new information of the new contract there */}
       </div>
     </>
   );
