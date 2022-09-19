@@ -30,13 +30,9 @@ const generateContract = async ({ cliente, campana, contrato }) => {
       creation_date: new Date(),
     };
 
-    //TODO: Uncomment these lines
-    //const created_contract = await store.add(contract_info);
+    const created_contract = await store.add(contract_info);
 
-    //const contractNumber = created_contract.number;
-
-    //TODO: erase this fake contractNumber
-    const contractNumber = 'XXX';
+    const contractNumber = created_contract.number;
 
     return contractNumber;
   } catch (error) {

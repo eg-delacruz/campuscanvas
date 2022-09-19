@@ -10,9 +10,6 @@ import Controller from '@server/components/admin/clientes/contract/controller';
 //Avoids CORS errors
 import NextCors from 'nextjs-cors';
 
-import path from 'path';
-import fileSystem from 'fs';
-
 export default async function handler(req, res) {
   //Securing page with session
   const session = await getSession({ req });
@@ -51,8 +48,7 @@ export default async function handler(req, res) {
     //PDF Contract - Generation and fetching of the data
     case 'POST':
       try {
-        //This saves the pdf in the server. If the name does never change
-        //when a new contract is created, the previous file is erased
+        //This saves the pdf information in db, and returns the new contract number
         const contract_number = await Controller.generateContract(body);
 
         successResponse(req, res, contract_number, 200);
@@ -68,28 +64,6 @@ export default async function handler(req, res) {
 
       break;
 
-    //Send generated PDF to the client
-    case 'GET':
-      try {
-        const dir_name = process.cwd('/nextcampuscanvas/');
-        const filePath = path.join(dir_name, 'contrato.pdf');
-        const stat = fileSystem.statSync(filePath);
-
-        res.writeHead(200, {
-          'Content-Type': 'application/pdf',
-          'Content-Length': stat.size,
-        });
-
-        const readStream = fileSystem.createReadStream(filePath);
-        // We replaced all the event handlers with a simple call to readStream.pipe()
-        await new Promise(function (resolve) {
-          readStream.pipe(res);
-          readStream.on('end', resolve);
-        });
-        console.log('[Response] Contrato enviado');
-      } catch (error) {
-        errorResponse(req, res, 'Usuario no encontrado', 400, error);
-      }
       break;
     default:
       errorResponse(req, res, 'Método no soportado', 400);
