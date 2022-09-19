@@ -76,35 +76,36 @@ const contrato = () => {
     }
   }, [isClient]);
 
+  console.log(contract);
   ///////////////////////////Dynamic elements (start)//////////////////////////
   const destinatario =
-    contract.cliente?.tipo === 'juridica'
-      ? contract.cliente?.empresa_representada
-      : contract.cliente?.tipo === 'fisica'
-      ? contract.cliente?.nombre
+    contract?.cliente?.tipo === 'juridica'
+      ? contract?.cliente?.empresa_representada
+      : contract?.cliente?.tipo === 'fisica'
+      ? contract?.cliente?.nombre
       : '';
 
   const opcion_de_pago =
-    contract.contrato?.modalidad_de_pago === 'pago_unico'
-      ? `El Cliente satisfará el pago del precio fijo a más tardar el ${contract.contrato?.fecha_pago_unico} mediante transferencia bancaria a la siguiente cuenta bancaria facilitada por el Publicista: `
-      : contract.contrato?.modalidad_de_pago === 'pago_cuotas'
-      ? `El pago en favor del publicista se realizará en 4 cuotas iguales, por un valor de ${contract.contrato?.valor_por_cuota} € c/u, pagaderas los siguientes días:
+    contract?.contrato?.modalidad_de_pago === 'pago_unico'
+      ? `El Cliente satisfará el pago del precio fijo a más tardar el ${contract?.contrato?.fecha_pago_unico} mediante transferencia bancaria a la siguiente cuenta bancaria facilitada por el Publicista: `
+      : contract?.contrato?.modalidad_de_pago === 'pago_cuotas'
+      ? `El pago en favor del publicista se realizará en 4 cuotas iguales, por un valor de ${contract?.contrato?.valor_por_cuota} € c/u, pagaderas los siguientes días:
     
-          Pago 1 previo a la fecha de inicio de distribución: ${contract.contrato?.fecha_primera_cuota}
+          Pago 1 previo a la fecha de inicio de distribución: ${contract?.contrato?.fecha_primera_cuota}
         
-          Pago 2: primeros 5 días del mes de ${contract.contrato?.fecha_segunda_cuota}
+          Pago 2: primeros 5 días del mes de ${contract?.contrato?.fecha_segunda_cuota}
           
-          Pago 3: primeros 5 días del mes de ${contract.contrato?.fecha_tercera_cuota}
+          Pago 3: primeros 5 días del mes de ${contract?.contrato?.fecha_tercera_cuota}
           
-          Pago 4: primeros 5 días del mes de  ${contract.contrato?.fecha_cuarta_cuota}
+          Pago 4: primeros 5 días del mes de  ${contract?.contrato?.fecha_cuarta_cuota}
           
       El Cliente satisfará cada pago mediante transferencias bancarias a la siguiente cuenta bancaria facilitada por el Publicista: 
       `
       : '';
 
   const empresa_representada =
-    contract.cliente?.tipo === 'juridica'
-      ? `En representación de ${contract.cliente?.empresa_representada}`
+    contract?.cliente?.tipo === 'juridica'
+      ? `En representación de ${contract?.cliente?.empresa_representada}`
       : '';
   ///////////////////////////Dynamic elements (end)//////////////////////////
 
@@ -241,7 +242,7 @@ const contrato = () => {
               <Page size={'A4'} style={styles.document_content}>
                 <Text style={styles.header} fixed>
                   <Text style={styles.bold_open_sans}>No. contrato: </Text>
-                  {contract.contrato?.numero_contrato}
+                  {contract?.contrato?.numero_contrato}
                 </Text>
 
                 {/* Cover (start) */}
@@ -249,7 +250,7 @@ const contrato = () => {
                   CONTRATO DE SERVICIOS DE PUBLICIDAD
                 </Text>
                 <Text style={styles.cover_subtitle}>
-                  {contract.contrato?.periodo}
+                  {contract?.contrato?.periodo}
                 </Text>
 
                 <Image src={coverImage.src} styles={{ marginBottom: 40 }} />
@@ -257,7 +258,7 @@ const contrato = () => {
 
                 <View style={styles.cover_bottom_information}>
                   <Text style={styles.bold_open_sans}>
-                    Número de contrato: {contract.contrato?.numero_contrato}
+                    Número de contrato: {contract?.contrato?.numero_contrato}
                   </Text>
                   <View style={{ display: 'flex', flexDirection: 'row' }}>
                     <View style={{ width: '49%' }}>
@@ -265,8 +266,8 @@ const contrato = () => {
                         {destinatario}
                       </Text>
                       <Text style={styles.cover_highlight_info}>
-                        {contract.contrato?.fecha_de_creacion},{' '}
-                        {contract.contrato?.lugar_de_creacion}
+                        {contract?.contrato?.fecha_de_creacion},{' '}
+                        {contract?.contrato?.lugar_de_creacion}
                       </Text>
                     </View>
                     <View style={{ width: '49%' }}>
@@ -293,8 +294,8 @@ const contrato = () => {
                 <Text
                   style={[styles.paragraph_regular, { textAlign: 'right' }]}
                 >
-                  En {contract.contrato?.lugar_de_creacion}, a{' '}
-                  {contract.contrato?.fecha_de_creacion}
+                  En {contract?.contrato?.lugar_de_creacion}, a{' '}
+                  {contract?.contrato?.fecha_de_creacion}
                 </Text>
                 <Text style={[styles.content_h5, { textAlign: 'center' }]}>
                   REUNIDOS
@@ -319,7 +320,7 @@ const contrato = () => {
                   De otra parte,
                 </Text>
                 <Text style={styles.paragraph_regular}>
-                  {contract.cliente?.texto_datos}
+                  {contract?.cliente?.texto_datos}
                 </Text>
                 <Text style={styles.paragraph_regular}>
                   En adelante, el{' '}
@@ -358,7 +359,7 @@ const contrato = () => {
                   se dedica a la siguiente actividad:
                 </Text>
                 <Text style={styles.paragraph_regular}>
-                  {contract.cliente?.actividad}
+                  {contract?.cliente?.actividad}
                 </Text>
                 <Text style={styles.paragraph_regular}>
                   <Text style={styles.bold_open_sans}>IV. </Text>Que el Cliente
@@ -366,7 +367,7 @@ const contrato = () => {
                   para realizar la promoción de:
                 </Text>
                 <Text style={styles.paragraph_regular}>
-                  {contract.campana?.producto_a_promover}
+                  {contract?.campana?.producto_a_promover}
                 </Text>
                 <Text style={styles.paragraph_regular}>
                   <Text style={styles.bold_open_sans}>V. </Text>Que, con el fin
@@ -463,7 +464,7 @@ const contrato = () => {
                   atendiendo a las siguientes instrucciones del Cliente:
                 </Text>
                 <Text style={styles.paragraph_regular}>
-                  {contract.campana?.texto_datos_campana}
+                  {contract?.campana?.texto_datos_campana}
                 </Text>
                 <Text style={styles.paragraph_regular}>
                   Estas características serán, a su vez, necesariamente
@@ -550,7 +551,7 @@ const contrato = () => {
                 </Text>
                 <Text style={styles.bleeding_text}>
                   <Text style={styles.bold_open_sans}>I. </Text>
-                  {contract.contrato?.fecha_inicio}, se deberá completar lo
+                  {contract?.contrato?.fecha_inicio}, se deberá completar lo
                   siguiente:
                 </Text>
                 <Text style={styles.bleeding_text}>
@@ -568,7 +569,7 @@ const contrato = () => {
                 </Text>
                 <Text style={styles.bleeding_text}>
                   <Text style={styles.bold_open_sans}>II. </Text>
-                  {contract.contrato?.fecha_fin}, se deberá completar lo
+                  {contract?.contrato?.fecha_fin}, se deberá completar lo
                   siguiente:
                 </Text>
                 <Text style={styles.bleeding_text}>
@@ -628,9 +629,9 @@ const contrato = () => {
                 </Text>
                 <Text style={styles.paragraph_regular}>
                   La Campaña publicitaria se extenderá durante un período
-                  comprendido entre el {contract.contrato?.fecha_inicio}, fecha
+                  comprendido entre el {contract?.contrato?.fecha_inicio}, fecha
                   de entrada en vigor del Contrato, y el{' '}
-                  {contract.contrato?.fecha_fin}, fecha en la que termina el
+                  {contract?.contrato?.fecha_fin}, fecha en la que termina el
                   Contrato.
                 </Text>
                 <Text style={styles.br}></Text>
@@ -640,8 +641,8 @@ const contrato = () => {
                 </Text>
                 <Text style={styles.paragraph_regular}>
                   Las Partes acuerdan el pago de una cantidad ascendiente a{' '}
-                  {contract.contrato?.precio_letras} (
-                  {contract.contrato?.precio} €) como remuneración de la
+                  {contract?.contrato?.precio_letras} (
+                  {contract?.contrato?.precio} €) como remuneración de la
                   ejecución de la Campaña publicitaria, sin incluir los
                   impuestos que pudieran derivar de esta operación.
                 </Text>
@@ -1246,7 +1247,7 @@ const contrato = () => {
                 </Text>
                 <Text style={styles.paragraph_regular}>El CLIENTE:</Text>
                 <Text style={styles.bleeding_text}>
-                  {contract.cliente?.correo}
+                  {contract?.cliente?.correo}
                 </Text>
                 <Text style={styles.br}></Text>
 
@@ -1338,7 +1339,7 @@ const contrato = () => {
                     ..........................................................
                   </Text>
                   <Text style={styles.paragraph_regular}>
-                    {contract.cliente?.nombre}
+                    {contract?.cliente?.nombre}
                   </Text>
                   <Text style={styles.paragraph_regular}>
                     {empresa_representada}
