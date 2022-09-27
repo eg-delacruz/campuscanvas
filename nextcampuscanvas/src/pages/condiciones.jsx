@@ -80,7 +80,7 @@ function TerminosCondiciones() {
                 <p>
                   Por un lado, el PRESTADOR de los productos y servicios
                   contratados por el USUARIO es Campus Canvas, S.L., con
-                  domicilio social en Calle de Juan Montalvo, 29 - 28040 Madrid
+                  domicilio social en Calle de Juan Duque, 20 - 28005 Madrid
                   (Madrid), NIF B09762238 y con teléfono de atención al cliente
                   611516396.
                 </p>
@@ -252,6 +252,44 @@ function TerminosCondiciones() {
                   respecto al procedimiento que debe seguir para realizar esta
                   descarga.
                 </p>
+
+                {/* This part was written by Gerardo De La Cruz, it is not in the RBH Global documents (start) */}
+                <h4>
+                  Falta de ejecución del contrato por recogida por parte del
+                  USUARIO en las instalaciones del PRESTADOR
+                </h4>
+                <p>
+                  En caso de que el USUARIO opte por hacer personalmente la
+                  recogida del producto solicitado en las instalaciones del
+                  PRESTADOR, y el USUARIO no haya pagado ningún importe debido a
+                  la naturaleza de patrocinios del producto a recoger, el
+                  producto se reservará para el USUARIO un máximo de 15 días
+                  naturales a partir del día en que se hizo la reserva. En el
+                  caso de que el usuario requiera de más tiempo o no le sea
+                  posible recoger el producto en el tiempo estipulado, este
+                  podrá ponerse en contacto con el PRESTADOR y hacerle saber
+                  acerca de su intención de retirar el producto. El PRESTADOR
+                  podrá extender el plazo de reserva hasta un máximo de 15 días
+                  hábiles extra.
+                </p>
+                <p>
+                  En caso de no recogida del producto por parte del USUARIO al
+                  finalizar el plazo de reserva, dicho producto dejará de estar
+                  reservado y pasará a estar disponible para otros USUARIOS que
+                  quieran adquirirlo.
+                </p>
+                <p>
+                  El USUARIO que haya hecho una reserva para recoger el producto
+                  y no lo haya podido recoger, podrá volver a hacer una nueva
+                  reserva, para lo cual tendrá que ponerse en contacto con el
+                  PRESTADOR a través del correo{' '}
+                  <strong>campuscanvas.info@gmail.com</strong> o a través del{' '}
+                  <Link href={'/contacto'}>formulario de contacto</Link>, y de
+                  esta manera poder habilitar un nuevo pedido en la cuenta del
+                  USUARIO.
+                </p>
+                {/* This part was written by Gerardo De La Cruz, it is not in the RBH Global documents (end) */}
+
                 <h3>3. DERECHO DE DESISTIMIENTO</h3>
                 <p>
                   Formulario de desistimiento:{' '}
@@ -324,8 +362,8 @@ function TerminosCondiciones() {
                   Una vez el USUARIO haya recibido el número de devolución, hará
                   llegar el producto al PRESTADOR, indicando este número en la
                   carta de envío, con los gastos de transporte a su cargo, en el
-                  domicilio de Campus Canvas, S.L., Calle de Juan Montalvo, 29 -
-                  28040 Madrid (Madrid)
+                  domicilio de Campus Canvas, S.L., Calle de Juan Duque, 20 -
+                  28005 Madrid (Madrid)
                 </p>
                 <h3>4. RECLAMACIONES Y RESOLUCIÓN DE LITIGIOS EN LÍNEA</h3>
                 <p>
@@ -333,8 +371,8 @@ function TerminosCondiciones() {
                   atendida a la mayor brevedad posible, pudiéndose realizar en
                   las siguientes direcciones de contacto: <br />
                   <br />
-                  Postal: Campus Canvas, S.L., Calle de Juan Montalvo, 29 -
-                  28040 Madrid (Madrid) <br />
+                  Postal: Campus Canvas, S.L., Calle de Juan Duque, 20 - 28005
+                  Madrid (Madrid) <br />
                   Teléfono: 611516396 <br />
                   E-mail: campuscanvas.info@gmail.com <br />
                 </p>

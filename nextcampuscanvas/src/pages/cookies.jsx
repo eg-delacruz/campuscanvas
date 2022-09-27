@@ -199,7 +199,7 @@ function Cookies() {
             </ul>
             <strong>Datos de contacto para ejercer sus derechos:</strong> <br />
             <br />
-            Campus Canvas, S.L.. Calle de Juan Montalvo, 29 - 28040 Madrid
+            Campus Canvas, S.L.. Calle de Juan Duque, 20 - 28005 Madrid
             (Madrid). E-mail: campuscanvas.info@gmail.com
             <br />
             <br />

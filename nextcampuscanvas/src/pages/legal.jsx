@@ -46,7 +46,7 @@ const legal = () => {
             <strong>Nombre comercial: </strong> Campus Canvas SL <br />
             <strong>Denominación social: </strong> Campus Canvas, S.L. <br />
             <strong>NIF: </strong> B09762238 <br />
-            <strong>Domicilio social: </strong> Calle de Juan Montalvo 29 <br />
+            <strong>Domicilio social: </strong> Calle de Juan Duque 20 <br />
             <strong>Teléfono </strong> 611 516 396 <br />
             <strong>E-mail: </strong> campuscanvas.info@gmail.com <br />
             <h3>2. DERECHOS DE PROPIEDAD INTELECTUAL E INDUSTRIAL</h3>

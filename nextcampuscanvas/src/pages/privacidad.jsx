@@ -110,7 +110,7 @@ function politicasPrivacidad() {
                 <strong>Datos de contacto para ejercer sus derechos:</strong>
               </p>
               <p>
-                Campus Canvas, S.L.. Calle de Juan Montalvo, 29 - 28040 Madrid
+                Campus Canvas, S.L.. Calle de Juan Duque, 20 - 28005 Madrid
                 (Madrid). E-mail: campuscanvas.info@gmail.com
               </p>
 
@@ -161,7 +161,7 @@ function politicasPrivacidad() {
               <p>
                 Para más información sobre las garantías de privacidad, puedes
                 dirigirte al RESPONSABLE a través de Campus Canvas, S.L.. Calle
-                de Juan Montalvo, 29 - 28040 Madrid (Madrid). E-mail:
+                de Juan Duque, 20 - 28005 Madrid (Madrid). E-mail:
                 campuscanvas.info@gmail.com
               </p>
               <br />
@@ -261,7 +261,7 @@ function politicasPrivacidad() {
                 terceros fuera de la red social salvo, si fuese imprescindible
                 para el desarrollo y ejecución de las finalidades del
                 tratamiento, a nuestros proveedores de servicios 12-08-2022 P. 2
-                Campus Canvas, S.L. Calle de Juan Montalvo, 29 - 28040 Madrid
+                Campus Canvas, S.L. Calle de Juan Duque, 20 - 28005 Madrid
                 (Madrid) relacionados con comunicaciones, con los cuales el
                 RESPONSABLE tiene suscritos los contratos de confidencialidad y
                 de encargado de tratamiento exigidos por la normativa vigente de
@@ -292,7 +292,7 @@ function politicasPrivacidad() {
                 <strong>Datos de contacto para ejercer sus derechos:</strong>
               </p>
               <p>
-                Campus Canvas, S.L.. Calle de Juan Montalvo, 29 - 28040 Madrid
+                Campus Canvas, S.L.. Calle de Juan Duque, 20 - 28005 Madrid
                 (Madrid). E-mail: campuscanvas.info@gmail.com
               </p>
 
