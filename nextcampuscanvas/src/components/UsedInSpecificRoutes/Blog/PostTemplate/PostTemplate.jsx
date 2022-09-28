@@ -1,5 +1,3 @@
-import React from 'react';
-
 //Styles
 import styles from './PostTemplate.module.scss';
 
@@ -11,6 +9,10 @@ const PostTemplate = ({
   Title,
   PubDate,
 }) => {
+  function createHTMLElement(string) {
+    return { __html: string };
+  }
+
   return (
     <div className='Post container'>
       <picture className={styles.Post__image}>
@@ -20,7 +22,8 @@ const PostTemplate = ({
 
       <span className={styles.Post__author}>
         {' '}
-        <strong>Autor:</strong> {Author}{' '}
+        <strong>Autor:</strong>{' '}
+        <span dangerouslySetInnerHTML={createHTMLElement(Author)} />{' '}
       </span>
       <br />
       <span className={styles.Post__PubDate}>
@@ -32,7 +35,7 @@ const PostTemplate = ({
       <h2 className={styles.Post__title}>{Title}</h2>
       {Content.map((paragraph, index) => (
         <div key={index}>
-          <p>{paragraph}</p>
+          <p dangerouslySetInnerHTML={createHTMLElement(paragraph)} />
           <br />
         </div>
       ))}

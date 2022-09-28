@@ -40,7 +40,7 @@ function FAQs() {
 
                 <h4>¿Cómo puedo obtener mi Campus Box?</h4>
                 <p>
-                  Si eres estudiante de España peninsular, puedes solicitar tu
+                  Si eres estudiante de España peninsular, puedes solicitar tu{' '}
                   <strong>Campus Box</strong> cada semestre. Para ello, debes
                   completar el proceso de registro y verificación en{' '}
                   <Link href={'/auth/registro'}>nuestra web</Link> y listo, ¡ya
@@ -57,7 +57,7 @@ function FAQs() {
                       <strong>En nuestras oficinas en Madrid:</strong> Una vez
                       que hayas solicitado tu <strong>Campus Box</strong>,
                       recibirás un mensaje de confirmación con la fecha y
-                      dirección en la que puedes ir a retirar personalmente tu
+                      dirección en la que puedes ir a retirar personalmente tu{' '}
                       <strong>Campus Box</strong> totalmente gratis.
                     </li>
                     <li>
@@ -84,10 +84,8 @@ function FAQs() {
                   listado de universidades. Estamos constantemente en expansión
                   y seguramente en un futuro próximo también tu universidad será
                   incluida en nuestra lista. También nos lo puedes comentar a
-                  través de <a href='#footer'>redes sociales</a>. o utilizar
-                  nuestro <Link href='/contacto'> formulario de contacto </Link>
-                  . Con mucho gusto te enviaremos toda la información que
-                  necesites.
+                  través de <a href='#footer'>redes sociales</a> y con mucho
+                  gusto te enviaremos toda la información que necesites.
                 </p>
 
                 <h4>

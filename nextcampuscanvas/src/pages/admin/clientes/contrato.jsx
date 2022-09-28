@@ -1,3 +1,5 @@
+//This component displays the new generated contract in a pdf reader in browser
+
 //See https://www.youtube.com/watch?v=D05ptoe7brY
 import {
   Document,
