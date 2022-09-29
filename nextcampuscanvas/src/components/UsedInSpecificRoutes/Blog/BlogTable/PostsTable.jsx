@@ -63,10 +63,10 @@ const PostsTable = (props) => {
           {MAIN_POST.map((post) => (
             <div key={post.id} className={styles.MainPost}>
               <figure className={styles.MainPost__image}>
-                <Image src={post.SmallImage} alt='Imagen de la publicación' />
+                <Image src={post.LargeImage} alt='Imagen de la publicación' />
               </figure>
               <h1>{post.Title}</h1>
-              <p>{truncateText(post.Content[0], 350)}</p>
+              <p>{truncateText(post.Content[0], 398)}</p>
               <button
                 onClick={() => {
                   router.push(
