@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { useState } from 'react';
-import { useRouter } from 'next/router';
 
 //Form Validation
 import { useForm } from 'react-hook-form';
@@ -8,7 +7,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 //Session
-import { useSession } from 'next-auth/react';
 import { signIn } from 'next-auth/react';
 
 //hooks
@@ -43,17 +41,13 @@ const schema = yup.object().shape({
 
 const emailPasswordForm = (props) => {
   const [state, setState] = useState({ loading: false, error: '' });
-  const router = useRouter();
-
-  //Session
-  const { data: session, status } = useSession();
-  const loading = status === 'loading';
 
   //Controlling inputs
   const CORREO = useInputValue('');
   const CONTRASENA = useInputValue('');
   const REP_CONTRASENA = useInputValue('');
-  const CHECK_BOX = useInputValue('');
+  const TERMS_CHECK_BOX = useInputValue('');
+  const NEWSLETTER_CHECK_BOX = useInputValue(false);
 
   //Connect yup to react-hook-form
   const {
@@ -64,7 +58,7 @@ const emailPasswordForm = (props) => {
     resolver: yupResolver(schema),
   });
 
-  const submitFunction = async (e) => {
+  const submitFunction = async () => {
     try {
       setState({ ...state, loading: true });
 
@@ -78,6 +72,7 @@ const emailPasswordForm = (props) => {
         body: JSON.stringify({
           email: CORREO.value,
           password: CONTRASENA.value,
+          newsletter: NEWSLETTER_CHECK_BOX.value,
         }),
       });
       const data = await respuesta.json();
@@ -179,6 +174,23 @@ const emailPasswordForm = (props) => {
         value={REP_CONTRASENA.value}
         onChange={REP_CONTRASENA.onChange}
       />
+
+      <label className={styles.newsletter__checkbox_container}>
+        Quiero recibir notificaciones por Email para enterarme de la
+        disponibilidad de la <strong>Campus Box</strong> y de otras promociones.
+        📧🎁
+        <input
+          className={styles.checkbox}
+          type='checkbox'
+          autoComplete='off'
+          defaultChecked={NEWSLETTER_CHECK_BOX.value}
+          onChange={() =>
+            NEWSLETTER_CHECK_BOX.setValue(!NEWSLETTER_CHECK_BOX.value)
+          }
+        />
+        <span className={styles.checkmark}></span>
+      </label>
+
       <p className={styles.form__personal_data_text}>
         <strong>Protección de datos personales</strong>
         <br />
@@ -186,25 +198,24 @@ const emailPasswordForm = (props) => {
         información sobre el tratamiento y sus derechos, consulte la política de
         privacidad.
       </p>
-      <div className={styles.checkboxContainer}>
+
+      <label className={styles.terms__checkbox_container}>
+        Acepto los <Link href='/condiciones'>Términos y Condiciones</Link> y la{' '}
+        <Link href='/privacidad'>Política de privacidad</Link>, así como el
+        tratamiento de mis datos personales para gestionar la cuenta de usuario
         <input
           className={styles.checkbox}
           type='checkbox'
           id='terms_cons'
           name='terms_cons'
           autoComplete='off'
-          value={CHECK_BOX.value}
-          onChange={CHECK_BOX.onChange}
+          value={TERMS_CHECK_BOX.value}
+          onChange={TERMS_CHECK_BOX.onChange}
           {...register('terms_cons')}
-        />{' '}
-        <label className={styles.checkbox__label} htmlFor='terms_cons'>
-          {' '}
-          Acepto los <Link href='/condiciones'>Términos y Condiciones</Link> y
-          la <Link href='/privacidad'>Política de privacidad</Link>, así como el
-          tratamiento de mis datos personales para gestionar la cuenta de
-          usuario
-        </label>
-      </div>
+        />
+        <span className={styles.checkmark}></span>
+      </label>
+
       <p className={styles.inputCheckBox__errors}>
         {errors.terms_cons &&
           'Acepta nuestros términos y condiciones para continuar'}

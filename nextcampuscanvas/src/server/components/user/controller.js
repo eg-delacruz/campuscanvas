@@ -3,6 +3,9 @@ import { hashPassword, verifyPassword } from '@server/services/passEncript';
 import jwt from 'jsonwebtoken';
 import unhandledEmailsController from '@server/components/unhandledEmails/controller';
 
+//Sendinblue api (for email marketing)
+import sendinblue from '@server/services/sendinblue/sendinblue';
+
 //clientEndpoints
 import clientEndPoints from '@server/clientEndPoints';
 
@@ -17,12 +20,17 @@ const cleanUserForClient = (user) => {
   return userClean;
 };
 
-const registerUser = (email, password) => {
+const registerUser = (email, password, newsletter) => {
   return new Promise(async (resolve, reject) => {
     if (!email || !password || !email.includes('@')) {
       console.error('[userController] No hay email o password');
       //Usamos return para parar ejecución
       return reject({ message: 'Los datos son incorrectos' });
+    }
+
+    //Subscribing to newsletter if newsletter = true
+    if (newsletter) {
+      sendinblue.createContact(email);
     }
 
     //Setting super_admin user

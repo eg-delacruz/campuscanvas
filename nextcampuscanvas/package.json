@@ -34,6 +34,7 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
     "sass": "^1.54.9",
+    "sib-api-v3-sdk": "8.4.2",
     "sweetalert2": "11.4.19",
     "swiper": "8.1.4",
     "verify-shopify-webhook": "1.0.5",

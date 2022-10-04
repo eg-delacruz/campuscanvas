@@ -21,9 +21,10 @@ export default async function handler(req, res) {
       try {
         const newUser = await Controller.registerUser(
           req.body.email,
-          req.body.password
+          req.body.password,
+          req.body.newsletter
         );
-        //antes de pasar user borrar el password
+        //before passing user, password is deleted
         let user = newUser.toObject();
         delete user.password;
 
