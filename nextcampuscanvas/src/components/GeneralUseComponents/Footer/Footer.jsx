@@ -30,11 +30,17 @@ function Footer() {
   const NEWSLETTER = useInputValue('');
 
   const handleNewsletter = async () => {
-    setState({ ...state, newsletter_error: '', newsletter_success: '' });
+    setState({
+      ...state,
+      newsletter_error: '',
+      newsletter_success: '',
+      newsletter_loading: true,
+    });
     if (!NEWSLETTER.value) {
       return setState({
         ...state,
         newsletter_success: '',
+        newsletter_loading: false,
         newsletter_error: 'Introduce un correo',
       });
     }
@@ -42,6 +48,7 @@ function Footer() {
       return setState({
         ...state,
         newsletter_success: '',
+        newsletter_loading: false,
         newsletter_error: 'Introduce un correo válido',
       });
     }
@@ -67,6 +74,7 @@ function Footer() {
         return setState({
           ...state,
           newsletter_success: '',
+          newsletter_loading: false,
           newsletter_error: 'Hubo un error, vuelve a intentarlo',
         });
       }
@@ -74,12 +82,14 @@ function Footer() {
       setState({
         ...state,
         newsletter_error: '',
+        newsletter_loading: false,
         newsletter_success: '¡Te has suscrito correctamente!',
       });
     } catch (error) {
       setState({
         ...state,
         newsletter_success: '',
+        newsletter_loading: false,
         newsletter_error: 'Error al suscribir usuario',
       });
       console.log(error.message);
