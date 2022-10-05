@@ -1,6 +1,9 @@
-import React from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+
+//hooks
+import { useInputValue } from '@hooks/useInputValue';
 
 //Styles
 import styles from './Footer.module.scss';
@@ -17,6 +20,72 @@ import Twitter from '@assets/GeneralUse/IconsAndButtons/twitter_icon.svg';
 import FooterSignature from '@components/GeneralUseComponents/FooterSignature/FooterSignature';
 
 function Footer() {
+  const [state, setState] = useState({
+    newsletter_loading: false,
+    newsletter_error: '',
+    newsletter_success: '',
+  });
+
+  //Controlling inputs
+  const NEWSLETTER = useInputValue('');
+
+  const handleNewsletter = async () => {
+    setState({ ...state, newsletter_error: '', newsletter_success: '' });
+    if (!NEWSLETTER.value) {
+      return setState({
+        ...state,
+        newsletter_success: '',
+        newsletter_error: 'Introduce un correo',
+      });
+    }
+    if (!NEWSLETTER.value.includes('@')) {
+      return setState({
+        ...state,
+        newsletter_success: '',
+        newsletter_error: 'Introduce un correo válido',
+      });
+    }
+
+    const URL = 'https://api.sendinblue.com/v3/contacts';
+    const APIKEY = process.env.NEXT_PUBLIC_SENDINBLUE_CC_API_KEY;
+
+    try {
+      const respuesta = await fetch(URL, {
+        method: 'POST',
+        headers: {
+          accept: 'application/json',
+          'content-type': 'application/json',
+          'api-key': APIKEY,
+        },
+        body: JSON.stringify({
+          updateEnabled: false,
+          email: NEWSLETTER.value,
+        }),
+      });
+
+      if (!respuesta.ok) {
+        return setState({
+          ...state,
+          newsletter_success: '',
+          newsletter_error: 'Hubo un error, vuelve a intentarlo',
+        });
+      }
+
+      setState({
+        ...state,
+        newsletter_error: '',
+        newsletter_success: '¡Te has suscrito correctamente!',
+      });
+    } catch (error) {
+      setState({
+        ...state,
+        newsletter_success: '',
+        newsletter_error: 'Error al suscribir usuario',
+      });
+      console.log(error.message);
+    }
+  };
+
   return (
     <footer id='footer' className={styles.footer}>
       <div>
@@ -25,6 +94,47 @@ function Footer() {
             <figure>
               <Image src={Logo_footer} alt='Logo footer' />
             </figure>
+
+            <div className={styles.newsletter}>
+              <p className={styles.newsletter__description}>
+                ¡Suscríbete a nuestra newsletter!
+              </p>
+              <div className={styles.newsletter__inputs}>
+                <input
+                  name='email'
+                  id='email'
+                  type='email'
+                  placeholder='Introduce tu email...'
+                  autoComplete='off'
+                  value={NEWSLETTER.value}
+                  onChange={NEWSLETTER.onChange}
+                />
+                {state.newsletter_loading ? (
+                  <button
+                    className={`${styles.loadingBtnSpinner} btn button--red`}
+                  >
+                    Cargando
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleNewsletter}
+                    className='btn button--red'
+                  >
+                    Suscribirme
+                  </button>
+                )}
+              </div>
+              {state.newsletter_error && (
+                <p className={styles.newsletter__error_displayer}>
+                  {state.newsletter_error}
+                </p>
+              )}
+              {state.newsletter_success && (
+                <p className={styles.newsletter__success_displayer}>
+                  {state.newsletter_success}
+                </p>
+              )}
+            </div>
           </div>
           <div className={styles.footer__platform}>
             <h5>Plataforma</h5>

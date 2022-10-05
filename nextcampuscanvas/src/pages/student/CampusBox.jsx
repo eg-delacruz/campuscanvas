@@ -7,6 +7,9 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 
+//hooks
+import { useInputValue } from '@hooks/useInputValue';
+
 //Styles
 import styles from '@pagestyles/student/CampusBox.module.scss';
 
@@ -36,10 +39,16 @@ const CampusBox = () => {
     orderLimitLoading: false,
     loading: false,
     checkoutLoading: false,
+    newsletter_error: '',
+    newsletter_success: '',
     error: '',
   });
 
   const router = useRouter();
+
+  //Toggle this const to render different things
+  //deppending if box is being sent or still not
+  const BoxAvailable = false;
 
   //Session
   const { data: session, status } = useSession();
@@ -183,6 +192,66 @@ const CampusBox = () => {
 
   /////////////////////////////// Checkout config ////////////////////////////////(end)
 
+  //Controlling inputs
+  const NEWSLETTER = useInputValue('');
+
+  const handleNewsletter = async () => {
+    setState({ ...state, newsletter_error: '', newsletter_success: '' });
+    if (!NEWSLETTER.value) {
+      return setState({
+        ...state,
+        newsletter_success: '',
+        newsletter_error: 'Introduce un correo',
+      });
+    }
+    if (!NEWSLETTER.value.includes('@')) {
+      return setState({
+        ...state,
+        newsletter_success: '',
+        newsletter_error: 'Introduce un correo válido',
+      });
+    }
+
+    const URL = 'https://api.sendinblue.com/v3/contacts';
+    const APIKEY = process.env.NEXT_PUBLIC_SENDINBLUE_CC_API_KEY;
+
+    try {
+      const respuesta = await fetch(URL, {
+        method: 'POST',
+        headers: {
+          accept: 'application/json',
+          'content-type': 'application/json',
+          'api-key': APIKEY,
+        },
+        body: JSON.stringify({
+          updateEnabled: false,
+          email: NEWSLETTER.value,
+        }),
+      });
+
+      if (!respuesta.ok) {
+        return setState({
+          ...state,
+          newsletter_success: '',
+          newsletter_error: 'Hubo un error, vuelve a intentarlo',
+        });
+      }
+
+      setState({
+        ...state,
+        newsletter_error: '',
+        newsletter_success: '¡Te has suscrito correctamente!',
+      });
+    } catch (error) {
+      setState({
+        ...state,
+        newsletter_success: '',
+        newsletter_error: 'Error al suscribir usuario',
+      });
+      console.log(error.message);
+    }
+  };
+
   //Order limit displayer
   const orderLimitDisplayer = () => {
     if (state.orderLimitLoading) {
@@ -225,20 +294,53 @@ const CampusBox = () => {
       return (
         //Renders if user is allowed to order
         <>
-          {/* TODO: Uncomment this when ready to send to students */}
-          {/* <button
-            className={`${
-              state.checkoutLoading && styles.buttonLoading
-            } btn button--red`}
-            disabled={state.checkoutLoading}
-            onClick={() => checkout()}
-          >
-            ¡Obtener Campus Box!
-          </button> */}
-
-          <div className={styles.proximamente_anouncement}>
-            Obtenla próximamente...
-          </div>
+          {/* Displays one thing or the other depending on box availability */}
+          {BoxAvailable ? (
+            <button
+              className={`${
+                state.checkoutLoading && styles.buttonLoading
+              } btn button--red`}
+              disabled={state.checkoutLoading}
+              onClick={() => checkout()}
+            >
+              ¡Obtener Campus Box!
+            </button>
+          ) : (
+            <>
+              <div className={styles.proximamente_anouncement}>
+                Obtenla próximamente...
+              </div>
+              <div className={styles.newsletter}>
+                <p className={styles.newsletter__description}>
+                  ¡Suscríbete a nuestra newsletter y entérate de la próxima
+                  distribución!
+                </p>
+                <div className={styles.newsletter__inputs}>
+                  <input
+                    name='email'
+                    id='email'
+                    type='email'
+                    placeholder='Introduce tu email...'
+                    autoComplete='off'
+                    value={NEWSLETTER.value}
+                    onChange={NEWSLETTER.onChange}
+                  />
+                  <button
+                    onClick={handleNewsletter}
+                    className='btn button--red'
+                  >
+                    Suscribirme
+                  </button>
+                </div>
+                {state.newsletter_error && (
+                  <p className='error__message'>{state.newsletter_error}</p>
+                )}
+                {state.newsletter_success && (
+                  <p className='success__message'>{state.newsletter_success}</p>
+                )}
+              </div>
+            </>
+          )}
 
           <div className={styles.divider}></div>
           <p className={styles.conditions}>
@@ -322,19 +424,21 @@ const CampusBox = () => {
                 <div className={styles.progressBarTitle}>
                   ¡No te quedes sin la tuya! Quedan:
                 </div>
-                {/* TODO: Uncomment this when ready to send to students */}
-                {/* <StaticProgressBar
-                  MaxAmount={18000}
-                  units='unidades'
-                  left={product.data?.product.totalInventory}
-                /> */}
 
-                {/* TODO: Erase this StaticProgressBar when ready to send to students */}
-                <StaticProgressBar
-                  MaxAmount={18000}
-                  units='unidades'
-                  left={0}
-                />
+                {/* Displays one thing or the other depending on box availability */}
+                {BoxAvailable ? (
+                  <StaticProgressBar
+                    MaxAmount={18000}
+                    units='unidades'
+                    left={product.data?.product.totalInventory}
+                  />
+                ) : (
+                  <StaticProgressBar
+                    MaxAmount={18000}
+                    units='unidades'
+                    left={0}
+                  />
+                )}
               </div>
 
               <p className={styles.description}>

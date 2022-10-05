@@ -134,12 +134,43 @@
         background-color: rgba(173, 33, 70, 0.8);
         color: white;
         border-radius: 5px;
-        padding: 32px 16px;
+        padding: 10px;
         font-weight: bold;
         border: 5px dashed $color--white;
         text-align: center;
         @include font-size(22px);
+        margin-top: -24px;
       }
+
+      .newsletter {
+        margin-top: 12px;
+        &__description {
+          margin-top: 24px;
+          @include font-size(14px);
+          font-weight: bold;
+          line-height: 24px;
+        }
+        &__inputs {
+          display: flex;
+          input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid $color--light-gray;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            box-shadow: 14px 21px 20px -15px rgba(0, 0, 0, 0.2);
+          }
+          button {
+            width: initial;
+            padding: 12px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
+        }
+      }
+
       .divider {
         margin-top: 40px;
         border-bottom: 2px solid $color--dark-gray;
@@ -177,7 +208,7 @@
   //      Sponsors       //
   /////////////////////////
   .sponsors {
-    margin-top: 70px;
+    margin-top: 15px;
     h2 {
       text-align: center;
     }
