@@ -5,6 +5,9 @@ import jwt from 'jsonwebtoken';
 //Avoids CORS errors
 import NextCors from 'nextjs-cors';
 
+//Get request IP Address
+import requestIp from 'request-ip';
+
 export default async function handler(req, res) {
   await NextCors(req, res, {
     // Options
@@ -19,6 +22,7 @@ export default async function handler(req, res) {
     //We veryfy token and if yes, validate student account
     case 'GET':
       try {
+        const IP_Address = requestIp.getClientIp(req);
         const id = req.query.verify_stu_acc[0];
         const token = req.query.verify_stu_acc[1];
         const user = await Controller.getUserById(id);
@@ -27,10 +31,11 @@ export default async function handler(req, res) {
         const secret = process.env.JWT_SECRET + user.password;
         try {
           const payload = jwt.verify(token, secret);
-
           //If the token is valid, we verify studen account
+
           const stu_email = payload.stu_email;
-          await Controller.verifyStudentAccount(user, stu_email);
+
+          await Controller.verifyStudentAccount(user, stu_email, IP_Address);
 
           res.status(200).redirect('/auth/cuenta_verificada');
         } catch (error) {

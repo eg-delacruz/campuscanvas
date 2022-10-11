@@ -23,6 +23,10 @@ import styles from './DataForm.module.scss';
 //Databases for datalists
 import studentInfoDatabase from '@databases/studentInfoDatabase';
 
+//Browser identifyer
+import identifyBrowser from '@services/identifyBrowser';
+const { getBrowserName } = identifyBrowser;
+
 const DataForm = (props) => {
   const [state, setState] = useState({
     error: null,
@@ -134,6 +138,7 @@ const DataForm = (props) => {
           university: university.value,
           faculty: faculty.value,
           website_location: 'register_step_2',
+          browserName: getBrowserName(navigator.userAgent),
         }),
       });
       const data = await respuesta.json();

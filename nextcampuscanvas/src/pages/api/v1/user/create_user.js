@@ -5,6 +5,9 @@ import Controller from '@server/components/user/controller';
 //Avoids CORS errors
 import NextCors from 'nextjs-cors';
 
+//Get request IP Address
+import requestIp from 'request-ip';
+
 export default async function handler(req, res) {
   await NextCors(req, res, {
     // Options
@@ -19,10 +22,13 @@ export default async function handler(req, res) {
     //Register a new user. Only POST method is allowed in this file.
     case 'POST':
       try {
+        const IP_Address = requestIp.getClientIp(req);
         const newUser = await Controller.registerUser(
           req.body.email,
           req.body.password,
-          req.body.newsletter
+          req.body.newsletter,
+          IP_Address,
+          req.body.browserName
         );
         //before passing user, password is deleted
         let user = newUser.toObject();

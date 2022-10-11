@@ -32,6 +32,13 @@ import FacebookShareButton from '@components/GeneralUseComponents/ShareButtons/F
 import TwitterShareButton from '@components/GeneralUseComponents/ShareButtons/TwitterShareButton/TwitterShareButton';
 import WhatsAppShareButton from '@components/GeneralUseComponents/ShareButtons/WhatsAppShareButton/WhatsAppShareButton';
 
+//Facebook conversions API
+import FB_Conversions_order_box_page_view from '@services/fbConversionsAPI/order_box_page_view_content';
+const { FB_Conversions_order_box_page_views } =
+  FB_Conversions_order_box_page_view;
+import identifyBrowser from '@services/identifyBrowser';
+const { getBrowserName } = identifyBrowser;
+
 const CampusBox = () => {
   const [product, setProduct] = useState({});
   const [state, setState] = useState({
@@ -122,6 +129,13 @@ const CampusBox = () => {
 
   useEffect(() => {
     if (session) {
+      //Sending data of page views to FB Conversions API (Start)
+      FB_Conversions_order_box_page_views(
+        session,
+        getBrowserName(navigator.userAgent)
+      );
+      //Sending data of page views to FB Conversions API (End)
+
       let stu_id = 'UNDEFINED';
       let stu_email = 'UNDEFINED';
       const userID = session.token.sub;

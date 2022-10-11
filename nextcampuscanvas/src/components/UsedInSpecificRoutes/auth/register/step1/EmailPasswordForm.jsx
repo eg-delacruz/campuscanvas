@@ -18,6 +18,10 @@ import styles from './emailPasswordForm.module.scss';
 //Endpoints
 import endPoints from '@services/api';
 
+//Browser identifyer
+import identifyBrowser from '@services/identifyBrowser';
+const { getBrowserName } = identifyBrowser;
+
 //Form validation
 const schema = yup.object().shape({
   //Name and id of inputs, as well
@@ -73,6 +77,7 @@ const emailPasswordForm = (props) => {
           email: CORREO.value,
           password: CONTRASENA.value,
           newsletter: NEWSLETTER_CHECK_BOX.value,
+          browserName: getBrowserName(navigator.userAgent),
         }),
       });
       const data = await respuesta.json();

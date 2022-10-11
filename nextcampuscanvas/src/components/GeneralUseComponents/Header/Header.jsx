@@ -31,6 +31,13 @@ import { truncateText } from '@services/truncateText.js';
 //Hooks
 import useWindowDimensions from '@hooks/useWindowDimensions';
 
+//Facebook conversions API
+import FB_Conversions_RegisterButton_ViewContent from '@services/fbConversionsAPI/register_buttons_clicks';
+const { FB_Conversions_register_button_clicks } =
+  FB_Conversions_RegisterButton_ViewContent;
+import identifyBrowser from '@services/identifyBrowser';
+const { getBrowserName } = identifyBrowser;
+
 function Header(props) {
   const { width, height } = useWindowDimensions();
   const router = useRouter();
@@ -124,6 +131,10 @@ function Header(props) {
         </div>
       );
     }
+  };
+
+  const sendToFB_Conversions_API = () => {
+    FB_Conversions_register_button_clicks(getBrowserName(navigator.userAgent));
   };
 
   return (
@@ -301,7 +312,10 @@ function Header(props) {
                   </li>
                 </Link>
                 <Link href='/auth/registro'>
-                  <li className={`${styles.loginMenu__item} btn button--red `}>
+                  <li
+                    onClick={sendToFB_Conversions_API}
+                    className={`${styles.loginMenu__item} btn button--red `}
+                  >
                     Registrarse
                   </li>
                 </Link>

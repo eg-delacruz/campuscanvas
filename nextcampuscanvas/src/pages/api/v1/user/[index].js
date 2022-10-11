@@ -6,6 +6,9 @@ import { getSession } from 'next-auth/react';
 import { successResponse, errorResponse } from '@server/response';
 import Controller from '@server/components/user/controller';
 
+//Get request IP Address
+import requestIp from 'request-ip';
+
 //Avoids CORS errors
 import NextCors from 'nextjs-cors';
 
@@ -54,21 +57,27 @@ export default async function handler(req, res) {
         }
 
         /////////////PATCH: Info from register step 2 (auth/registro)
+
+        const IP_Address = requestIp.getClientIp(req);
         if (body.website_location === 'register_step_2') {
           const id = body.id;
           const nickname = body.nickname;
           const gender = body.gender;
           const university = body.university;
           const faculty = body.faculty;
+          const browserName = body.browserName;
 
           const updatedUser = await Controller.updateStuData(
             id,
             nickname,
             gender,
             university,
-            faculty
+            faculty,
+            browserName,
+            IP_Address
           );
-          console.log(`[Network] ${updatedUser.name} updated successfully`);
+
+          console.log(`[Network] ${updatedUser.nickname} updated successfully`);
           return successResponse(
             req,
             res,

@@ -18,6 +18,10 @@ import styles from './StudentConfirmForm.module.scss';
 //Endpoints
 import endPoints from '@services/api';
 
+//Browser identifyer
+import identifyBrowser from '@services/identifyBrowser';
+const { getBrowserName } = identifyBrowser;
+
 const StudentConfirmForm = () => {
   const { data: session, status } = useSession();
   const loading = status === 'loading';
@@ -46,7 +50,11 @@ const StudentConfirmForm = () => {
           accept: '*/*',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id, stu_email }),
+        body: JSON.stringify({
+          id,
+          stu_email,
+          browserName: getBrowserName(navigator.userAgent),
+        }),
       });
       const data = await response.json();
 

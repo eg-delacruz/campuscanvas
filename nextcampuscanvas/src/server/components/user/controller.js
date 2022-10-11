@@ -9,6 +9,12 @@ import sendinblue from '@server/services/sendinblue/sendinblue';
 //clientEndpoints
 import clientEndPoints from '@server/clientEndPoints';
 
+//FB Conversions API
+import { successful_step_1_register_process } from '@server/services/fbConversionsAPI/step_1_register_process';
+import { successful_step_2_register_process } from '@server/services/fbConversionsAPI/step_2_register_process';
+import { successful_step_3_register_process } from '@server/services/fbConversionsAPI/step_3_register_process';
+import { last_step_successful_stu_validation } from '@server/services/fbConversionsAPI/last_step_successful_stu_validation';
+
 //Function used to erase sensitive data
 const cleanUserForClient = (user) => {
   let userClean = user.toObject();
@@ -20,7 +26,7 @@ const cleanUserForClient = (user) => {
   return userClean;
 };
 
-const registerUser = (email, password, newsletter) => {
+const registerUser = (email, password, newsletter, IP_Address, browserName) => {
   return new Promise(async (resolve, reject) => {
     if (!email || !password || !email.includes('@')) {
       console.error('[userController] No hay email o password');
@@ -74,6 +80,16 @@ const registerUser = (email, password, newsletter) => {
 
     try {
       const addedUser = await store.add(fullUser);
+
+      //Send FB Conversions API info here (Start)
+      successful_step_1_register_process(
+        IP_Address,
+        email,
+        addedUser,
+        browserName
+      );
+      //Send FB Conversions API info here (End)
+
       resolve(addedUser);
     } catch (error) {
       return reject(error);
@@ -100,7 +116,15 @@ const getUserByEmail = async (email) => {
   }
 };
 
-const updateStuData = async (id, nickname, gender, university, faculty) => {
+const updateStuData = async (
+  id,
+  nickname,
+  gender,
+  university,
+  faculty,
+  browserName,
+  IP_Address
+) => {
   try {
     const user = await store.getById(id);
 
@@ -111,6 +135,10 @@ const updateStuData = async (id, nickname, gender, university, faculty) => {
     user.updatedAt = new Date();
 
     const modifiedUser = await store.update(user);
+
+    //Send FB Conversions API info here (Start)
+    successful_step_2_register_process(IP_Address, modifiedUser, browserName);
+    //Send FB Conversions API info here (End)
     return modifiedUser;
   } catch (error) {
     throw new Error('[Use controller error]', error);
@@ -188,7 +216,7 @@ const getUsers = () => {
   });
 };
 
-const verifyStuEmail = async (user, stu_email) => {
+const verifyStuEmail = async (user, stu_email, IP_Address, browserName) => {
   try {
     const user_with_same_stu_email = await store.checkStuEmail(stu_email);
     if (user_with_same_stu_email) {
@@ -226,6 +254,10 @@ const verifyStuEmail = async (user, stu_email) => {
     };
     const token = jwt.sign(payload, secret, { expiresIn: '15m' });
     const link = clientEndPoints.user.verifyStuEmail(user.id, token);
+
+    //Send FB Conversions API info here (Start)
+    successful_step_3_register_process(IP_Address, user, browserName);
+    //Send FB Conversions API info here (end)
 
     //If stu_email structure is handled here, it shouldn't be in the if below!!
     if (stu_email.includes('@ejemplo.com')) {
@@ -390,13 +422,18 @@ const verifyStuEmail = async (user, stu_email) => {
 };
 
 //Updates stu_email and stu_verified to true
-const verifyStudentAccount = async (user, stu_email) => {
+const verifyStudentAccount = async (user, stu_email, IP_Address) => {
   try {
     user.stu_email = stu_email;
     user.stu_verified = true;
     user.updatedAt = new Date();
 
     const verified_student = await store.update(user);
+
+    //Send FB Conversions API info here (Start)
+    last_step_successful_stu_validation(IP_Address, user);
+    //Send FB Conversions API info here (end)
+
     return verified_student;
   } catch (error) {
     throw new Error(error.message);

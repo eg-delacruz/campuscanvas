@@ -11,6 +11,9 @@ import { getSession } from 'next-auth/react';
 //Avoids CORS errors
 import NextCors from 'nextjs-cors';
 
+//Get request IP Address
+import requestIp from 'request-ip';
+
 export default async function handler(req, res) {
   //Securing page with session
   const session = await getSession({ req });
@@ -32,14 +35,21 @@ export default async function handler(req, res) {
     //Verify student data and student email to generate and send verification email
     case 'POST':
       try {
+        const IP_Address = requestIp.getClientIp(req);
         const id = body.id;
         const stu_email = body.stu_email;
+        const browserName = body.browserName;
 
         const user = await Controller.getUserById(id);
 
-        const validationLink = await Controller.verifyStuEmail(user, stu_email);
+        const validationLink = await Controller.verifyStuEmail(
+          user,
+          stu_email,
+          IP_Address,
+          browserName
+        );
 
-        //Sending email with link
+        // //Sending email with link
         await sendAuthStudentUserMail(stu_email, validationLink)
           .then((result) => {
             console.log('[Network] Email enviado', result);

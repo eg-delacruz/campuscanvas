@@ -25,6 +25,13 @@ import SponsorsSlider from '@components/GeneralUseComponents/SponsorsSlider/Spon
 //Session
 import { useSession } from 'next-auth/react';
 
+//Facebook conversions API
+import FB_Conversions_RegisterButton_ViewContent from '@services/fbConversionsAPI/register_buttons_clicks';
+const { FB_Conversions_register_button_clicks } =
+  FB_Conversions_RegisterButton_ViewContent;
+import identifyBrowser from '@services/identifyBrowser';
+const { getBrowserName } = identifyBrowser;
+
 export default function Home() {
   //Session
   const { data: session, status } = useSession();
@@ -43,6 +50,10 @@ export default function Home() {
   //Dirigir a usuario al paso de verificación correspondiente
   const verifyUser = () => {
     if (status === 'unauthenticated') {
+      //Only execute this function when user is unauthenticated!
+      FB_Conversions_register_button_clicks(
+        getBrowserName(navigator.userAgent)
+      );
       return router.push(
         { pathname: '/auth/registro', query: { step: 1 } },
         'auth/registro'

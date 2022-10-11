@@ -1,0 +1,7 @@
+Useful links:
+
+//Timestamp unix: https://bobbyhadz.com/blog/javascript-get-unix-timestamp-from-date-string
+//Hash to 256: https://remarkablemark.medium.com/how-to-generate-a-sha-256-hash-with-javascript-d3b2696382fd
+//Generate unique ID: https://dev.to/rahmanfadhil/how-to-generate-unique-id-in-javascript-1b13
+//FB payload helper: https://developers.facebook.com/docs/marketing-api/conversions-api/payload-helper?data=[%7B%22event_name%22%3A%22ViewContent%22%2C%22event_time%22%3A1665392662%2C%22action_source%22%3A%22website%22%2C%22event_id%22%3A%22xxxx%22%2C%22event_source_url%22%3A%22www.campuscanvas.net%22%2C%22user_data%22%3A%7B%22client_ip_address%22%3A%22192.19.9.8%22%2C%22client_user_agent%22%3A%22test_user_agent%22%2C%22fbp%22%3Anull%7D%7D]&selectedProduct=Website
+//FB Graph API explorer: https://developers.facebook.com/tools/explorer/?method=POST&path=771964337451446%2Fevents&version=v15.0&data=[%0A%20%20%7B%0A%20%20%20%20%22event_name%22%3A%20%22ViewContent%22%2C%0A%20%20%20%20%22event_time%22%3A%201665392662%2C%0A%20%20%20%20%22action_source%22%3A%20%22website%22%2C%0A%20%20%20%20%22event_id%22%3A%20%22xxxx%22%2C%0A%20%20%20%20%22event_source_url%22%3A%20%22www.campuscanvas.net%22%2C%0A%20%20%20%20%22user_data%22%3A%20%7B%0A%20%20%20%20%20%20%22client_ip_address%22%3A%20%22192.19.9.8%22%2C%0A%20%20%20%20%20%20%22client_user_agent%22%3A%20%22test_user_agent%22%2C%0A%20%20%20%20%20%20%22fbp%22%3A%20null%0A%20%20%20%20%7D%0A%20%20%7D%0A]&test_event_code=TEST49684
