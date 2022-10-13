@@ -22,6 +22,7 @@ export default async function handler(req, res) {
     //Register a new user. Only POST method is allowed in this file.
     case 'POST':
       try {
+        //IP required for FB Conversions API
         const IP_Address = requestIp.getClientIp(req);
         const newUser = await Controller.registerUser(
           req.body.email,

@@ -9,6 +9,9 @@ import sendinblue from '@server/services/sendinblue/sendinblue';
 //clientEndpoints
 import clientEndPoints from '@server/clientEndPoints';
 
+//Add/delete accounts from unverified student accounts collection in DB
+import unfinished_verif_process_emails_Controller from '@server/components/unfinished_verif_process_emails/controller';
+
 //FB Conversions API
 import { successful_step_1_register_process } from '@server/services/fbConversionsAPI/step_1_register_process';
 import { successful_step_2_register_process } from '@server/services/fbConversionsAPI/step_2_register_process';
@@ -80,6 +83,12 @@ const registerUser = (email, password, newsletter, IP_Address, browserName) => {
 
     try {
       const addedUser = await store.add(fullUser);
+
+      //Adding user to unverified accounts collection for retarget email sending
+      //in case the user leaves verification process
+      await unfinished_verif_process_emails_Controller.createUnverifAccEntry(
+        addedUser.email
+      );
 
       //Send FB Conversions API info here (Start)
       successful_step_1_register_process(
@@ -429,6 +438,12 @@ const verifyStudentAccount = async (user, stu_email, IP_Address) => {
     user.updatedAt = new Date();
 
     const verified_student = await store.update(user);
+
+    //Deleting user from unverified accounts collection to avoid sending
+    //an email to finish verification process, since student already verified
+    await unfinished_verif_process_emails_Controller.deleteUnverifAccEntry(
+      user.email
+    );
 
     //Send FB Conversions API info here (Start)
     last_step_successful_stu_validation(IP_Address, user);
