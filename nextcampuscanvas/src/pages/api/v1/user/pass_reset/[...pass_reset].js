@@ -54,6 +54,14 @@ export default async function handler(req, res) {
       break;
 
     case 'POST':
+      //Securing route with headers secret key
+      //Route is secured here and not before because the get won´t have any headers
+      if (
+        req.headers.app_secret_key !=
+        process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY
+      ) {
+        return errorResponse(req, res, 'Forbidden', 403, 'Forbidden user');
+      }
       try {
         const id = req.query.pass_reset[0];
         const token = req.query.pass_reset[1];

@@ -31,8 +31,17 @@ export default async function handler(req, res) {
 
   const { method, body } = req;
 
+  //Securing route with headers secret key
+  if (
+    req.headers.app_secret_key !=
+    process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY
+  ) {
+    return errorResponse(req, res, 'Forbidden', 403, 'Forbidden user');
+  }
+
   switch (method) {
     //Verify student data and student email to generate and send verification email
+    //Information comes from step 3 of register process
     case 'POST':
       try {
         const IP_Address = requestIp.getClientIp(req);

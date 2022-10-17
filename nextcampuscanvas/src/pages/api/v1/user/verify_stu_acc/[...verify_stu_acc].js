@@ -18,8 +18,11 @@ export default async function handler(req, res) {
 
   const { method } = req;
 
+  //Route doesn´t need to be secured with app secret key
+
   switch (method) {
     //We veryfy token and if yes, validate student account
+    //Info comes from link sent to university email
     case 'GET':
       try {
         const IP_Address = requestIp.getClientIp(req);

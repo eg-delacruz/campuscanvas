@@ -68,6 +68,7 @@ const ResetPasswordInput = () => {
       headers: {
         accept: '*/*',
         'Content-Type': 'application/json',
+        app_secret_key: process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
       },
       body: JSON.stringify({ password: CONTRASENA.value }),
     });

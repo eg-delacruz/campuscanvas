@@ -29,6 +29,14 @@ export default async function handler(req, res) {
 
   const { body, method } = req;
 
+  //Securing route with headers secret key
+  if (
+    req.headers.app_secret_key !=
+    process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY
+  ) {
+    return errorResponse(req, res, 'Forbidden', 403, 'Forbidden user');
+  }
+
   //GET user info. Used to update header user name
   switch (method) {
     case 'GET':

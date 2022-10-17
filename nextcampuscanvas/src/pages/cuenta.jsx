@@ -296,6 +296,7 @@ const cuenta = (props) => {
         headers: {
           accept: '*/*',
           'Content-Type': 'application/json',
+          app_secret_key: process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
         },
         body: JSON.stringify(profileData),
       });
@@ -334,6 +335,8 @@ const cuenta = (props) => {
           headers: {
             accept: '*/*',
             'Content-Type': 'application/json',
+            app_secret_key:
+              process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
           },
         }
       );
