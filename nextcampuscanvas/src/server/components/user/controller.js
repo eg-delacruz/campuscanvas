@@ -412,7 +412,7 @@ const verifyStuEmail = async (user, stu_email, IP_Address, browserName) => {
       user.stu_data.university === 'universitat politécnica de valencia upv' ||
       user.stu_data.university === 'universitat pompeu fabra upf' ||
       user.stu_data.university === 'universitat ramon llull url' ||
-      user.stu_data.university === 'universitat rovira i virgilu urv'
+      user.stu_data.university === 'universitat rovira i virgili urv'
     ) {
       //Save university and unhandled uni_email structure in another collection
       await unhandledEmailsController.createUnhandledEmailEntry(

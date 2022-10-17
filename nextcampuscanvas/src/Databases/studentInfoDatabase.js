@@ -115,7 +115,7 @@ const UNIVERSITIES = [
   'Universitat Politécnica de Valencia UPV',
   'Universitat Pompeu Fabra UPF',
   'Universitat Ramon Llull URL',
-  'Universitat Rovira i Virgilu URV',
+  'Universitat Rovira i Virgili URV',
 ];
 
 const FACULTIES = [
