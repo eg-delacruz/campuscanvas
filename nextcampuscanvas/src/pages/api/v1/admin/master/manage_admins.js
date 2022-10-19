@@ -74,6 +74,22 @@ export default async function handler(req, res) {
 
     //Get all admins
     case 'GET':
+      try {
+        const master_admin = req.headers.master_admin;
+        const AllAdmins = await Controller.getAllAdmins(master_admin);
+        const AllAdmins_Clean = AllAdmins.map((admin) => {
+          return Controller.cleanUserForClient(admin);
+        });
+        successResponse(req, res, AllAdmins_Clean, 200);
+      } catch (error) {
+        errorResponse(
+          req,
+          res,
+          'Hubo un error al traer los admins',
+          400,
+          error
+        );
+      }
       break;
 
     case 'DELETE':

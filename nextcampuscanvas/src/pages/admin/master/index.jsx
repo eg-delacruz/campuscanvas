@@ -18,9 +18,6 @@ import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import arrow_right_black from '@assets/GeneralUse/IconsAndButtons/arrow_right_white.svg';
 
 const index = () => {
-  //TODO:
-  // show all admin persons below
-
   const [state, setState] = useState({
     loading: true,
   });
@@ -70,7 +67,7 @@ const index = () => {
         </Link>
 
         <ul className={styles.routes}>
-          <Link href={'/admin/master/nuevo-admin'}>
+          <Link href={'/admin/master/manage-admins'}>
             <li>Gestionar roles admin</li>
           </Link>
         </ul>

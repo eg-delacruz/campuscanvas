@@ -520,9 +520,13 @@ const createAdmin = async (master_id, new_admin_email, master_password) => {
   }
 
   //Create new admin
-  const new_admin = await getUserByEmail(new_admin_email);
-  new_admin.role = 'admin';
-  await store.update(new_admin);
+  try {
+    const new_admin = await getUserByEmail(new_admin_email);
+    new_admin.role = 'admin';
+    await store.update(new_admin);
+  } catch (error) {
+    throw new Error('[Use controller error]', error);
+  }
 };
 
 const revokeAdmin = async (
@@ -532,6 +536,11 @@ const revokeAdmin = async (
 ) => {
   const masterAdmin = await getUserByEmail('eg.cruzvalle@gmail.com');
   const masterAdminId = masterAdmin._id.toString();
+
+  //Avoid revoking master admin
+  if (to_revoke_admin_email === masterAdmin.email) {
+    throw new Error('[Use controller error] Action not allowed');
+  }
 
   //Checking if Master admin is opperating
   if (masterAdminId != master_id) {
@@ -547,13 +556,33 @@ const revokeAdmin = async (
     throw new Error('[Use controller error] Password incorrecto');
   }
 
-  //Revoke admin
-  const admin_to_revoke = await getUserByEmail(to_revoke_admin_email);
-  admin_to_revoke.role = 'user';
-  await store.update(admin_to_revoke);
+  try {
+    //Revoke admin
+    const admin_to_revoke = await getUserByEmail(to_revoke_admin_email);
+    admin_to_revoke.role = 'user';
+    await store.update(admin_to_revoke);
+  } catch (error) {
+    throw new Error('[User controller error]', error);
+  }
 };
 
-const getAllAdmins = async () => {};
+const getAllAdmins = async (master_id) => {
+  const masterAdmin = await getUserByEmail('eg.cruzvalle@gmail.com');
+  const masterAdminId = masterAdmin._id.toString();
+
+  //Checking if Master admin is opperating
+  if (masterAdminId != master_id) {
+    throw new Error('[Use controller error] Forbidden user');
+  }
+
+  //Getting all admins
+  try {
+    const admins = await store.getAdmins();
+    return admins;
+  } catch (error) {
+    throw new Error('[User controller error]', error);
+  }
+};
 
 module.exports = {
   getUserById,

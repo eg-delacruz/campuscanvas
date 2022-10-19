@@ -76,6 +76,18 @@ const deleteUser = async (user) => {
   return deletedUser;
 };
 
+/////////////////////Getting all admins//////////////////////////////
+const getAdmins = async () => {
+  try {
+    const admins = await User.find({
+      $or: [{ role: 'super_admin' }, { role: 'admin' }],
+    });
+    return admins;
+  } catch (error) {
+    throw new Error('[User store error]', error);
+  }
+};
+
 module.exports = {
   add: addUser,
   getAll: getUsers,
@@ -85,4 +97,5 @@ module.exports = {
   checkStuEmail,
   deleteUser,
   userExists,
+  getAdmins,
 };

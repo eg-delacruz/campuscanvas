@@ -6,7 +6,7 @@ import Image from 'next/image';
 //Session
 import { useSession } from 'next-auth/react';
 
-import styles from '@styles/pagestyles/admin/nuevoAdmin.module.scss';
+import styles from '@styles/pagestyles/admin/ManageAdmins.module.scss';
 
 //Components
 import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
@@ -21,7 +21,7 @@ import { useInputValue } from '@hooks/useInputValue';
 //Endpoints
 import endPoints from '@services/api';
 
-const nuevoAdmin = () => {
+const manageAdmins = () => {
   const [state, setState] = useState({
     submitLoading: false,
     loading: true,
@@ -29,16 +29,11 @@ const nuevoAdmin = () => {
     responses: '',
   });
 
-  const administradores = [
-    {
-      nickname: 'Gerardo',
-      email: 'eg.cruzvalle@gmail.com',
-    },
-    {
-      nickname: 'Valeria',
-      email: 'valeria1608@hotmail.com',
-    },
-  ];
+  const [admins, setAdmins] = useState({
+    all: [],
+    gettingAdmins: true,
+    error: null,
+  });
 
   //Session
   const { data: session, status } = useSession();
@@ -62,7 +57,12 @@ const nuevoAdmin = () => {
   }, [session]);
   //Securing route (end)
 
-  //TODO: put useEffect here to fetch current admins data
+  //Getting all current admins at page load
+  useEffect(() => {
+    if (session) {
+      getAdmins();
+    }
+  }, [session]);
 
   //Controlling inputs
   const CREAR_DESTITUIR = useInputValue('');
@@ -118,8 +118,33 @@ const nuevoAdmin = () => {
   };
 
   const getAdmins = async () => {
-    console.log('Aquí se trae a los admins con un try catch');
-    //put admins in a state (not same var as state)
+    setAdmins({
+      ...admins,
+      error: null,
+      gettingAdmins: true,
+    });
+    try {
+      const respuesta = await fetch(endPoints.admin.manageAdmins, {
+        method: 'GET',
+        headers: {
+          accept: '*/*',
+          'Content-Type': 'application/json',
+          app_secret_key: process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
+          master_admin: session.token.sub,
+        },
+      });
+      const data = await respuesta.json();
+      setAdmins({
+        ...admins,
+        all: data.body,
+        error: null,
+        gettingAdmins: false,
+      });
+
+      return data;
+    } catch (error) {
+      setAdmins({ ...admins, error: error, gettingAdmins: false });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -149,6 +174,12 @@ const nuevoAdmin = () => {
 
         if (data.error) {
           setState({ ...state, error: data.error });
+
+          //Clearing important fields
+          CREAR_DESTITUIR.setValue('');
+          CONTRASENA.setValue('');
+          REP_CONTRASENA.setValue('');
+
           return false;
         }
         setState({
@@ -157,7 +188,16 @@ const nuevoAdmin = () => {
           submitLoading: false,
           responses: data.body,
         });
-        //TODO: Clear all fields after admin is created/revoked
+
+        //Clearing important fields
+        CREAR_DESTITUIR.setValue('');
+        CONTRASENA.setValue('');
+        REP_CONTRASENA.setValue('');
+
+        //Reset admins table values
+        getAdmins();
+
+        //Reseting state ti stop seeing response message
         setTimeout(() => {
           setState({
             ...state,
@@ -165,8 +205,6 @@ const nuevoAdmin = () => {
             error: null,
           });
         }, 3000);
-
-        //TODO: Correr función para hacer display a todos los admins
       }
 
       //Revoke admin
@@ -175,6 +213,12 @@ const nuevoAdmin = () => {
 
         if (data.error) {
           setState({ ...state, error: data.error });
+
+          //Clearing important fields
+          CREAR_DESTITUIR.setValue('');
+          CONTRASENA.setValue('');
+          REP_CONTRASENA.setValue('');
+
           return false;
         }
 
@@ -185,7 +229,15 @@ const nuevoAdmin = () => {
           responses: data.body,
         });
 
-        //TODO: Clear all fields after admin is created/revoked
+        //Clearing important fields
+        CREAR_DESTITUIR.setValue('');
+        CONTRASENA.setValue('');
+        REP_CONTRASENA.setValue('');
+
+        //Reset admins table values
+        getAdmins();
+
+        //Reseting state ti stop seeing response message
         setTimeout(() => {
           setState({
             ...state,
@@ -193,8 +245,6 @@ const nuevoAdmin = () => {
             error: null,
           });
         }, 3000);
-
-        //TODO: Correr función para hacer display a todos los admins
       }
     } catch (error) {
       setState({
@@ -212,8 +262,6 @@ const nuevoAdmin = () => {
       </div>
     );
   }
-
-  console.log(state);
 
   return (
     <>
@@ -271,14 +319,14 @@ const nuevoAdmin = () => {
 
           <div className={styles.input_container}>
             <label htmlFor='email_admin' className={`${styles.input_title}`}>
-              E-mail nuevo rol admin
+              E-mail de cuenta administrativa
             </label>
             <input
               className={`${styles.input}`}
               name='email_admin'
               id='email_admin'
               type='email'
-              placeholder='E-mail nuevo rol admin'
+              placeholder='E-mail de cuenta administrativa'
               autoComplete='off'
               value={EMAIL_ADMIN.value}
               onChange={EMAIL_ADMIN.onChange}
@@ -349,28 +397,40 @@ const nuevoAdmin = () => {
             //      Admins table   //
             ///////////////////////// */}
 
-        {/* TODO: Show a loading status in this table */}
         <h3>Administradores actuales</h3>
-        <table className={styles.current_admins}>
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Email</th>
-            </tr>
-          </thead>
+        {admins.gettingAdmins ? (
+          <Loader />
+        ) : (
+          <>
+            <table className={styles.current_admins}>
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Email</th>
+                </tr>
+              </thead>
 
-          <tbody>
-            {administradores.map((admin, index) => (
-              <tr key={index}>
-                <td>{admin.nickname}</td>
-                <td>{admin.email}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+              <tbody>
+                {admins.all.map((admin, index) => (
+                  <tr key={index}>
+                    <td className={styles.current_admins__column1}>
+                      {admin.nickname}
+                    </td>
+                    <td>{admin.email}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
+        )}
+        {admins.error && (
+          <p className={`${styles.error_displayer} error__message`}>
+            {admins.error}
+          </p>
+        )}
       </div>
     </>
   );
 };
 
-export default nuevoAdmin;
+export default manageAdmins;

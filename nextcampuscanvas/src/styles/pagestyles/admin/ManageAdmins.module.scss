@@ -90,6 +90,7 @@
 //////////////////////////
 
 .current_admins {
+  margin: auto;
   border-collapse: collapse;
   border-radius: 5px 5px 0 0;
   overflow: hidden;
@@ -113,6 +114,9 @@
   //Use this class within a tbody tr to highlight a row as subtitle
   .tsubtitle {
     background-color: $color--light-gray;
+    font-weight: bold;
+  }
+  &__column1 {
     font-weight: bold;
   }
   tbody tr:last-of-type {
