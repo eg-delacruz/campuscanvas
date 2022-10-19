@@ -505,6 +505,11 @@ const createAdmin = async (master_id, new_admin_email, master_password) => {
   const masterAdmin = await getUserByEmail('eg.cruzvalle@gmail.com');
   const masterAdminId = masterAdmin._id.toString();
 
+  //Avoid revoking master admin
+  if (new_admin_email === masterAdmin.email) {
+    throw new Error('[Use controller error] Action not allowed');
+  }
+
   //Checking if Master admin is opperating
   if (masterAdminId != master_id) {
     throw new Error('[Use controller error] Forbidden user');
