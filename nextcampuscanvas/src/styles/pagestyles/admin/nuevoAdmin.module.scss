@@ -1,0 +1,142 @@
+@import '../../Vars.scss';
+@import '../../Animations/dotLoadingButton.module.scss';
+
+//Loadint state while displaying page
+.loaderContainer {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  padding: 0 8px;
+}
+
+.button_back {
+  display: flex;
+  padding: 10px;
+  margin: 0;
+  margin-top: 32px;
+  span {
+    transform: rotate(90deg);
+    margin-right: 8px;
+  }
+}
+
+.form {
+  margin: 0 auto;
+  max-width: 450px;
+  border-radius: 5px;
+  border: 1px solid $color--dark-gray;
+  padding: 5px;
+}
+
+.input_container {
+  margin-top: 40px;
+}
+
+.inputs_container {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex_inputs_container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.input_title {
+  margin: 0 0 8px;
+  @include font-size(14px);
+  display: block;
+}
+
+.input {
+  width: 100%;
+  background-color: $color--secondary-light;
+  border: 1px solid $color--black;
+  height: 40px;
+  border-radius: 5px;
+  margin: 0;
+  margin-bottom: 30px;
+  padding: 10px;
+}
+.radio_input_container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.radio_input:where([type='radio']) {
+  width: 22px;
+  height: 22px;
+  margin: calc(0.75em - 11px) 0.25rem 0 0;
+}
+
+.error_displayer {
+  margin: -30px 0 0;
+}
+.success_response_displayer {
+  margin: -30px 0 0;
+}
+
+.submit_button {
+  margin-bottom: 50px;
+}
+
+///////////////////////////
+// Current admins table //
+//////////////////////////
+
+.current_admins {
+  border-collapse: collapse;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 14px 21px 20px -15px rgba(0, 0, 0, 0.3);
+  @include font-size(14px);
+  margin-bottom: 50px;
+  thead tr {
+    background-color: $color--primary1;
+    color: $color--white;
+    text-align: center;
+    font-weight: bold;
+    @include font-size(16px);
+  }
+  th,
+  td {
+    padding: 8px 15px;
+  }
+  tbody tr {
+    border-bottom: 1px solid $color--dark-gray;
+  }
+  //Use this class within a tbody tr to highlight a row as subtitle
+  .tsubtitle {
+    background-color: $color--light-gray;
+    font-weight: bold;
+  }
+  tbody tr:last-of-type {
+    border-bottom: 2px solid $color--primary1;
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 880px) {
+}
+
+@media screen and (max-width: 767px) {
+}
+
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+}
+
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}

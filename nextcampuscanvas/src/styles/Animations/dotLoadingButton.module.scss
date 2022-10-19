@@ -12,3 +12,24 @@
     background-color: $color--primary2-light2;
   }
 }
+
+//button loading state after submit (start)
+.buttonLoading {
+  background-color: rgba(173, 33, 70, 0.4);
+  cursor: default;
+  position: relative;
+}
+.buttonLoading:hover {
+  background-color: rgba(173, 33, 70, 0.4);
+}
+.buttonLoading::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  right: -2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 10px;
+  animation: setDotLoading();
+}
+//button loading state after submit (end)

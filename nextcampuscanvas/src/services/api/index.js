@@ -40,6 +40,7 @@ const endPoints = {
   },
   admin: {
     createPdfContract: `${API}/api/${VERSION}/admin/clientes/contract/contract`,
+    manageAdmins: `${API}/api/${VERSION}/admin/master/manage_admins`,
   },
 };
 

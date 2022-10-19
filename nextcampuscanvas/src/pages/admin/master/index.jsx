@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { signOut } from 'next-auth/react';
 
 //Session
 import { useSession } from 'next-auth/react';
@@ -19,7 +20,6 @@ import arrow_right_black from '@assets/GeneralUse/IconsAndButtons/arrow_right_wh
 const index = () => {
   //TODO:
   // show all admin persons below
-  // Make option to create admin account
 
   const [state, setState] = useState({
     loading: true,
@@ -30,7 +30,7 @@ const index = () => {
 
   const router = useRouter();
 
-  //Securing route
+  //Securing route (start)
   if (status === 'unauthenticated') {
     router.push('/auth/login');
   }
@@ -45,6 +45,7 @@ const index = () => {
       setState({ ...state, loading: false });
     }
   }, [session]);
+  //Securing route (end)
 
   if (state.loading) {
     return (
@@ -67,6 +68,18 @@ const index = () => {
             <div>Atrás</div>
           </button>
         </Link>
+
+        <ul className={styles.routes}>
+          <Link href={'/admin/master/nuevo-admin'}>
+            <li>Gestionar roles admin</li>
+          </Link>
+        </ul>
+        <button
+          onClick={() => signOut()}
+          className={`${styles.button_logout} btn button--red`}
+        >
+          Log out
+        </button>
       </div>
     </>
   );

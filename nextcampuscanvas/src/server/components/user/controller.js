@@ -213,7 +213,7 @@ const resetPassword = async (newPassword, user) => {
     const modifiedUser = await store.update(user);
     return modifiedUser;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error(error);
   }
 };
@@ -500,6 +500,61 @@ const checkIfUserExists = async (userID) => {
   return userExists;
 };
 
+//To create an admin, an account needs to be created first
+const createAdmin = async (master_id, new_admin_email, master_password) => {
+  const masterAdmin = await getUserByEmail('eg.cruzvalle@gmail.com');
+  const masterAdminId = masterAdmin._id.toString();
+
+  //Checking if Master admin is opperating
+  if (masterAdminId != master_id) {
+    throw new Error('[Use controller error] Forbidden user');
+  }
+
+  //Checking if master password is correct
+  const checkPassword = await verifyPassword(
+    master_password,
+    masterAdmin.password
+  );
+  if (!checkPassword) {
+    throw new Error('[Use controller error] Password incorrecto');
+  }
+
+  //Create new admin
+  const new_admin = await getUserByEmail(new_admin_email);
+  new_admin.role = 'admin';
+  await store.update(new_admin);
+};
+
+const revokeAdmin = async (
+  master_id,
+  to_revoke_admin_email,
+  master_password
+) => {
+  const masterAdmin = await getUserByEmail('eg.cruzvalle@gmail.com');
+  const masterAdminId = masterAdmin._id.toString();
+
+  //Checking if Master admin is opperating
+  if (masterAdminId != master_id) {
+    throw new Error('[Use controller error] Forbidden user');
+  }
+
+  //Checking if master password is correct
+  const checkPassword = await verifyPassword(
+    master_password,
+    masterAdmin.password
+  );
+  if (!checkPassword) {
+    throw new Error('[Use controller error] Password incorrecto');
+  }
+
+  //Revoke admin
+  const admin_to_revoke = await getUserByEmail(to_revoke_admin_email);
+  admin_to_revoke.role = 'user';
+  await store.update(admin_to_revoke);
+};
+
+const getAllAdmins = async () => {};
+
 module.exports = {
   getUserById,
   registerUser,
@@ -514,4 +569,7 @@ module.exports = {
   changePassword,
   deleteUser,
   checkIfUserExists,
+  createAdmin,
+  revokeAdmin,
+  getAllAdmins,
 };

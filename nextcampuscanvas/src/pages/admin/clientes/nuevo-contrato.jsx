@@ -38,7 +38,7 @@ const nuevoContrato = () => {
 
   const router = useRouter();
 
-  //Securing route
+  //Securing route (start)
   if (status === 'unauthenticated') {
     router.push('/auth/login');
   }
@@ -60,6 +60,7 @@ const nuevoContrato = () => {
       setState({ ...state, loading: false });
     }
   }, [session]);
+  //Securing route (end)
 
   //Controlling inputs
   const LUGAR_DE_CREACION = useInputValue('Madrid');
@@ -260,7 +261,7 @@ const nuevoContrato = () => {
     } catch (error) {
       setState({
         ...state,
-        error: 'Error al generar contrato' + error.message,
+        error: 'Error al generar contrato. ' + error.message,
         submitLoading: false,
       });
     }

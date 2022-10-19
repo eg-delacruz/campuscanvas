@@ -22,6 +22,42 @@
   }
 }
 
+.routes {
+  border: 1px solid $color--dark-gray;
+  border-radius: 5px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  padding: 8px;
+  li {
+    border: 1px solid $color--black;
+    width: 250px;
+    max-width: 250px;
+    border-radius: 3px;
+    margin: 6px 0;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 14px 21px 20px -15px rgb(0, 0, 0, 0.1);
+    background-color: $color--primary2;
+    color: $color--white;
+    @include font-size(16px);
+    font-weight: bold;
+  }
+  li:hover {
+    background-color: rgba(91, 7, 145, 0.8);
+  }
+}
+
+.button_logout {
+  margin-right: 0;
+  padding: 8px 15px;
+}
+
 /////////////////////////
 //         MQ         //
 /////////////////////////
