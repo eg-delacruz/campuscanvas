@@ -1,0 +1,27 @@
+@import '../../../../../styles/Vars.scss';
+@import '../../../../../styles/Animations/dotLoadingButton.module.scss';
+
+.container {
+  max-width: 490px;
+
+  .button_back {
+    display: flex;
+    padding: 10px;
+    margin: 0 0 16px;
+    span {
+      transform: rotate(90deg);
+      margin-right: 8px;
+    }
+  }
+
+  h1 {
+    margin: 0;
+  }
+  h4 {
+    margin: 0;
+  }
+  .subtitle {
+    margin: 0;
+    margin-bottom: 15px;
+  }
+}
