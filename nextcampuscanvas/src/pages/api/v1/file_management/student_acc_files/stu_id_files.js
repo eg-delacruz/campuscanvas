@@ -14,7 +14,6 @@ import requestIp from 'request-ip';
 //Avoids CORS errors
 import NextCors from 'nextjs-cors';
 
-//TODO: upload this route to next.js to test it before uploading things
 //TODO: continue with help of this blog: https://betterprogramming.pub/upload-files-to-next-js-with-api-routes-839ce9f28430
 //TODO: continue with help of https://www.youtube.com/watch?v=jwp4U6v-3h4&list=WL&index=6&t=484s
 //Testing
