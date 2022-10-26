@@ -1,4 +1,6 @@
-//https://github.com/hoangvvo/next-connect
+//https://github.com/hoangvvo/next-connect (next-connect library documentation)
+import multer from 'multer';
+
 //Session
 import { getSession } from 'next-auth/react';
 
@@ -16,12 +18,15 @@ import NextCors from 'nextjs-cors';
 
 //TODO: continue with help of this blog: https://betterprogramming.pub/upload-files-to-next-js-with-api-routes-839ce9f28430
 //TODO: continue with help of https://www.youtube.com/watch?v=jwp4U6v-3h4&list=WL&index=6&t=484s
-//Testing
+//TODO:Don´t forget to implement FB Conversions API in server
+
+//Multer middleware
+const upload = multer({ dest: 'uploads/' });
+
 const router = createRouter();
 
 router
-  //Optional .use function.
-  //In this case, used for multiple things
+  //.use function used for multiple things
   .use(async (req, res, next) => {
     //Securing route with headers secret key
     if (
@@ -59,15 +64,28 @@ router
   })
 
   //Uploading student id files
-  .post(async (req, res) => {
+  .post(expressWrapper(upload.single('files')), async (req, res) => {
     const { body, method } = req;
     const session = await getSession({ req });
-    console.log(body);
+
+    //TODO: send email after validation and redirect student to
+    //auth/cuenta_verificada , say something like "haz click en el enlace para que la validación se efectúe correctamente" so that
+    //session closes and user has to login again
+    //TODO: also send email in case student cannot be validated
+
     try {
       const user_acc_id = session.token.sub;
       const email_acc = session.token.email;
 
       successResponse(req, res, 'Todo increiblísimo', 201);
+    } catch (error) {
+      errorResponse(req, res, 'Error al almacenar archivos', 400, error);
+    }
+  })
+  //Testing endpoint
+  .put(async (req, res) => {
+    try {
+      successResponse(req, res, 'Todo increiblísimo desde put', 201);
     } catch (error) {
       errorResponse(req, res, 'Error al almacenar archivos', 400, error);
     }

@@ -48,12 +48,7 @@ const StudentConfirmForm = () => {
   }
 
   if (verificationMethod === 'stu_id') {
-    return (
-      <StuIdVerification
-        setVerificationMethod={setVerificationMethod}
-        user_id={session?.token.sub}
-      />
-    );
+    return <StuIdVerification setVerificationMethod={setVerificationMethod} />;
   }
 
   {

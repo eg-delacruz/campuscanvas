@@ -1,6 +1,6 @@
-//TODO:Don´t forget to implement FB Conversions API in server
 import Image from 'next/image';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 //Styles
 import styles from './StuIdVerification.module.scss';
@@ -14,12 +14,15 @@ import DragDropUploadArea from '@components/GeneralUseComponents/DragDropUploadA
 //Endpoints
 import endPoints from '@services/api';
 
-const StuIdVerification = ({ user_id, setVerificationMethod }) => {
+const StuIdVerification = ({ setVerificationMethod }) => {
   const [files, setFiles] = useState([]);
   const [state, setState] = useState({
     error: null,
     loading: false,
+    sent: false,
   });
+
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,22 +40,18 @@ const StuIdVerification = ({ user_id, setVerificationMethod }) => {
           method: 'POST',
           headers: {
             accept: '*/*',
-            //TODO: not sure if erase this or not for file upload
-            //'Content-Type': 'application/json',
             app_secret_key:
               process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
           },
-          //TODO: verify id JSON.stringify(formData) needed
-          //body: JSON.stringify(formData),
           body: formData,
         }
       );
 
-      console.log(respuesta);
-      const data = await respuesta.json();
-      console.log(data);
+      setState({ ...state, error: null, loading: false, sent: true });
 
-      setState({ ...state, error: null, loading: false });
+      setTimeout(() => {
+        router.push('/');
+      }, 10000);
     } catch (error) {
       setState({ ...state, error: error, loading: false });
     }
@@ -62,6 +61,22 @@ const StuIdVerification = ({ user_id, setVerificationMethod }) => {
   const onFileChange = (files) => {
     setFiles(files);
   };
+
+  if (state.sent) {
+    return (
+      <div className={styles.container}>
+        <h1>Documentos enviados 🗎</h1>
+        <p>
+          Hemos recibido tus documentos. Los evaluaremos y daremos de alta tu
+          cuenta en caso estos sean válidos. Ten en cuenta que la verificación
+          tardará aproximadamente un día laboral.
+        </p>
+        <p>
+          <strong>🕒 En breve serás redirigido al Home</strong>
+        </p>
+      </div>
+    );
+  }
 
   return (
     <form
@@ -109,8 +124,11 @@ const StuIdVerification = ({ user_id, setVerificationMethod }) => {
       />
 
       {files.length > 0 && (
-        //TODO: loading state + disabled
-        <button type='submit' className={`btn button--red`}>
+        <button
+          type='submit'
+          className={`${state.loading && styles.buttonLoading} btn button--red`}
+          disabled={state.loading}
+        >
           Enviar
         </button>
       )}
