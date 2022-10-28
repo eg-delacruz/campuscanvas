@@ -46,12 +46,14 @@ const StuIdVerification = ({ setVerificationMethod }) => {
           body: formData,
         }
       );
+      setState({ ...state, error: null, loading: false });
 
-      setState({ ...state, error: null, loading: false, sent: true });
+      //TODO: uncomment this
+      // setState({ ...state, error: null, loading: false, sent: true });
 
-      setTimeout(() => {
-        router.push('/');
-      }, 10000);
+      // setTimeout(() => {
+      //   router.push('/');
+      // }, 10000);
     } catch (error) {
       setState({ ...state, error: error, loading: false });
     }
