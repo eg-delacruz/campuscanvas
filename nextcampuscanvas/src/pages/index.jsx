@@ -184,16 +184,16 @@ export default function Home() {
               <div className={styles.main__content}>
                 <p className={`${styles['main__content-description']}`}>
                   Si eres estudiante universitario inscrito en alguna
-                  universidad de España Peninsular, podrás recibir una de
-                  nuestras cajas <b>Campus Box</b> llena de regalos y productos
-                  pensados especialmente para ti de parte de nuestros
-                  patrocinadores. ¡Todo completamente gratis!
+                  universidad española, podrás recibir una de nuestras cajas{' '}
+                  <b>Campus Box</b> llena de regalos y productos pensados
+                  especialmente para ti de parte de nuestros patrocinadores.
+                  ¡Todo completamente gratis!
                   <br />
                   <br />
                   Enviamos unidades <b>limitadas</b> a lo largo de cada
-                  cuatrimestre estudiantil, con lo cuál deberás ser rápido para
-                  hacerte con la tuya. Puedes estar al tanto de cuándo iniciamos
-                  la distribución a través de nuestras{' '}
+                  cuatrimestre, con lo cual deberás ser rápido para hacerte con
+                  la tuya. Puedes estar al tanto de cuándo iniciamos la
+                  distribución a través de nuestras{' '}
                   <a href='#footer'>redes sociales</a>. ¡No te quedes sin la
                   tuya!
                 </p>
@@ -293,7 +293,7 @@ export default function Home() {
               </figure>
               <p>
                 Si eres estudiante en alguna universidad Española, puedes pedir
-                una Campus Box exclusiva y totalmente gratuita. ¡Apresúrate! Hay
+                una Campus Box exclusiva y totalmente gratuita. ¡Date prisa! Hay
                 unidades limitadas por cuatrimestre.
               </p>
             </div>
