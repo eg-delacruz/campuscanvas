@@ -46,14 +46,24 @@ const StuIdVerification = ({ setVerificationMethod }) => {
           body: formData,
         }
       );
+
+      const data = await respuesta.json();
+      //Handling server errors
+      if (data.error) {
+        setState({ ...state, error: data.error, loading: false });
+        setTimeout(() => {
+          setState({ ...state, error: null });
+        }, 3000);
+        return false;
+      }
+
       setState({ ...state, error: null, loading: false });
 
-      //TODO: uncomment this
-      // setState({ ...state, error: null, loading: false, sent: true });
+      setState({ ...state, error: null, loading: false, sent: true });
 
-      // setTimeout(() => {
-      //   router.push('/');
-      // }, 10000);
+      setTimeout(() => {
+        router.push('/');
+      }, 10000);
     } catch (error) {
       setState({ ...state, error: error, loading: false });
     }
@@ -124,6 +134,8 @@ const StuIdVerification = ({ setVerificationMethod }) => {
           'pptx',
         ]}
       />
+
+      {state.error && <p className={'error__messagev2'}>{state.error}</p>}
 
       {files.length > 0 && (
         <button

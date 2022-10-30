@@ -1,5 +1,8 @@
 //https://github.com/hoangvvo/next-connect (next-connect library documentation)
+//https://www.youtube.com/watch?v=jwp4U6v-3h4&list=WL&index=6&t=484s (upload to AWS3 guide)
+//In case next-connect doesn´t work in production, try: https://vercel.com/guides/how-can-i-use-aws-s3-with-vercel
 import multer from 'multer';
+import Controller from '@server/components/stu_id_files/controller';
 
 //Session
 import { getSession } from 'next-auth/react';
@@ -16,34 +19,16 @@ import requestIp from 'request-ip';
 //Avoids CORS errors
 import NextCors from 'nextjs-cors';
 
-//TODO: continue with help of this blog: https://betterprogramming.pub/upload-files-to-next-js-with-api-routes-839ce9f28430
-//TODO: continue with help of https://www.youtube.com/watch?v=jwp4U6v-3h4&list=WL&index=6&t=484s
-//TODO:Don´t forget to implement FB Conversions API in server
+//TODO:Don´t forget to implement FB Conversions API after stu_validation
 //TODO: send email after validation and redirect student to
 //auth/cuenta_verificada , say something like "haz click en el enlace para que la validación se efectúe correctamente" so that
 //session closes and user has to login again
 //TODO: also send email in case student cannot be validated
 
-//For file naming:
-const generate_random_8_digits_id = () => {
-  return Math.floor(10000000 + Math.random() * 90000000);
-};
-const date_ISO8601 = new Date().toISOString().split('T')[0]; //For file naming
-
 //Multer middleware (start)
-const storage = multer.diskStorage({
-  destination: (req, file, callback) => {
-    callback(null, 'uploads');
-  },
-  filename: (req, file, callback) => {
-    const { originalname } = file;
-    callback(
-      null,
-      `${date_ISO8601}-${generate_random_8_digits_id()}-${originalname}`
-    );
-  },
-});
-const upload = multer({ storage, limits: { fileSize: 4194304, files: 1 } });
+//MemoryStorage needed for AWS3 upload (instead of diskStorage)
+const storage = multer.memoryStorage();
+const upload = multer({ storage, limits: { fileSize: 4194304, files: 2 } });
 //Multer middleware (end)
 
 const router = createRouter();
@@ -87,18 +72,28 @@ router
 
   //POST:Uploading student id files
   //.array -> Allows multiple files
-  //second parameter -> maximum file number
-  .post(expressWrapper(upload.array('files', 2)), async (req, res) => {
+  .post(expressWrapper(upload.array('files')), async (req, res) => {
     //req.files has info of the file thanks to multer
     const { body, method, files } = req;
     const session = await getSession({ req });
 
     try {
       const user_acc_id = session.token.sub;
-      const email_acc = session.token.email;
-
-      successResponse(req, res, 'Todo increiblísimo', 201);
+      await Controller.uploadStudentIdFiles(files, user_acc_id);
+      successResponse(req, res, 'Archivos subidos exitosamente', 201);
     } catch (error) {
+      if (
+        error.message ===
+        'El usuario ya ha subido su identificación anteriormente.'
+      ) {
+        return errorResponse(
+          req,
+          res,
+          'Ya has subido tu identificación anteriormente, espera a ser verificado',
+          400,
+          error.message
+        );
+      }
       errorResponse(req, res, 'Error al almacenar archivos', 400, error);
     }
   });
