@@ -77,7 +77,7 @@ const verifyBoxOrderLimit = async (
       store.getOrdersByUserID(userID),
       //TODO: Check if a uni has this stu_id, not only check the stu_id,
       //because it can be that that stu_id also belongs to another
-      //university student
+      //university student (also pass the university) --> do it in store.js
       store.getOrdersBystu_id(stu_id),
       store.getOrdersBystu_email(stu_email),
     ]);

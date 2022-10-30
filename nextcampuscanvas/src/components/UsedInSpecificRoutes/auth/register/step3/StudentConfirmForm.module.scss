@@ -1,88 +1,47 @@
 @import '../../../../../styles/Vars.scss';
-@import '../../../../../styles/Animations/dotLoadingButton.module.scss';
 
-.form {
+.container {
   max-width: 490px;
-  align-self: center;
-  vertical-align: center;
-  /////////////////////////
-  // after sent elements //
-  /////////////////////////
-  .sent__message {
-    margin: 50px auto;
-  }
-  .sent__resendOption {
-    @include font-size(14px);
-    margin: 0;
-    span {
-      font-weight: 700;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-  }
-  /////////////////////////////
+
   h1 {
     margin: 0;
   }
   h4 {
     margin: 0;
   }
-  .form__subtitle {
+  .subtitle {
     margin: 0;
     margin-bottom: 15px;
   }
-
-  input {
-    width: 100%;
-    background-color: $color--secondary-light;
-    border: 1px solid $color--black;
-    height: 45px;
-    border-radius: 5px;
-    padding: 10px;
-    margin-top: 8px;
-  }
-  .confirmationContainer {
+  .options {
+    list-style: none;
     display: flex;
+    flex-direction: column;
+    justify-items: center;
     align-items: center;
-    justify-content: center;
-    margin: 50px 0;
-    .iconContainer {
-      margin-right: 8px;
-      padding-top: 5px;
-    }
-    label {
-      @include font-size(16px);
-      width: 100%;
-    }
-  }
-
-  .inputText__errors {
-    color: $color--primary1;
     margin: 0;
-    position: relative;
-    top: -42px;
-    font-weight: bold;
+    padding: 0;
+    li {
+      border: 2px solid $color--primary2;
+      cursor: pointer;
+      width: 100%;
+      margin: 8px 0;
+      height: 100px;
+      box-shadow: 14px 21px 20px -15px rgb(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      border-radius: 5px;
+      padding: 15px 0 15px 15px;
+      .iconContainer {
+        margin-right: 6px;
+      }
+      p {
+        margin: 0;
+        color: $color--primary2;
+      }
+    }
   }
-
-  //Buttons
-  .sentLinkButton {
-    position: relative;
-  }
-  .buttonLoading {
-    background-color: rgba(173, 33, 70, 0.4);
-    cursor: default;
-  }
-  .buttonLoading::after {
-    content: '';
-    position: absolute;
-    top: -4px;
-    right: -2px;
-    width: 12px;
-    height: 12px;
-    border-radius: 10px;
-    animation: setDotLoading();
-  }
-
   .pause_verif_process_message {
     margin-top: 60px;
   }
@@ -105,8 +64,21 @@
 @media screen and (max-width: 767px) {
 }
 ////////////////////////////////////////480/////////////////////////////////////////////
-
 @media screen and (max-width: 480px) {
+  .container {
+    .options {
+      li {
+        height: fit-content;
+        padding: 8px;
+        .iconContainer {
+          min-width: 60px;
+        }
+      }
+    }
+    .pause_verif_process_message {
+      margin-top: 40px;
+    }
+  }
 }
 ////////////////////////////////////////320/////////////////////////////////////////////
 

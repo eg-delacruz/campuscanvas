@@ -15,7 +15,7 @@ import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/Se
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 
 //Assets
-import arrow_right_black from '@assets/GeneralUse/IconsAndButtons/arrow_right_white.svg';
+import arrow_right_white from '@assets/GeneralUse/IconsAndButtons/arrow_right_white.svg';
 
 const index = () => {
   const [state, setState] = useState({
@@ -60,7 +60,7 @@ const index = () => {
         <Link href={'/admin'}>
           <button className={`${styles.button_back} btn button--red`}>
             <span>
-              <Image src={arrow_right_black} />
+              <Image src={arrow_right_white} />
             </span>
             <div>Atrás</div>
           </button>

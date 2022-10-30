@@ -42,6 +42,11 @@ const endPoints = {
     createPdfContract: `${API}/api/${VERSION}/admin/clientes/contract/contract`,
     manageAdmins: `${API}/api/${VERSION}/admin/master/manage_admins`,
   },
+  file_management: {
+    student_acc_files: {
+      stu_id_files: `${API}/api/${VERSION}/file_management/student_acc_files/stu_id_files`,
+    },
+  },
 };
 
 export default endPoints;

@@ -4,6 +4,7 @@
 /////////////////////////
 //       Globals       //
 /////////////////////////
+/// ////////////////////////////////////v1///////////////////////////////////////
 
 * {
   box-sizing: border-box;
@@ -107,4 +108,14 @@ p {
   color: $color--confirmation;
   @include font-size(16px);
   font-weight: 600;
+}
+
+////////////////////////////////////v2///////////////////////////////////////
+//Created to not modify previous styles and affect whole app
+//Preferably use these ones
+.error__messagev2 {
+  color: $color--primary1;
+  @include font-size(16px);
+  font-weight: 600;
+  margin: 0;
 }

@@ -14,8 +14,6 @@ import TrashIcon from '@assets/PagesImages/ContactoImages/TrashIcon.png';
 //hooks
 import { useInputValue } from '@hooks/useInputValue';
 
-//
-
 const ContactForm = (props) => {
   const data = useRouter();
   //Activates access to data.state.propertyName sent with Link tag
@@ -96,7 +94,6 @@ const ContactForm = (props) => {
       value: e.target.value,
       uploadedFiles: elemRef.current.files,
     }));
-    console.log(elemRef.current.files);
   };
 
   const deleteUploadedFile = (key) => {
