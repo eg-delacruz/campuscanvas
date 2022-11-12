@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 
 //Styles
-import styles from '@pagestyles/admin/nuevoContrato.module.scss';
+import styles from '@pagestyles/admin/clients/nuevoContrato.module.scss';
 
 //Components
 import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
@@ -256,8 +256,6 @@ const nuevoContrato = () => {
       const contractURL = currentURL.replace('nuevo-contrato', 'contrato');
 
       window.open(contractURL, '_blank');
-
-      console.log(contractURL);
     } catch (error) {
       setState({
         ...state,

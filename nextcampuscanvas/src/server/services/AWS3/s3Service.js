@@ -1,3 +1,6 @@
+//https://www.youtube.com/watch?v=jwp4U6v-3h4
+//Guide of how to upload filest to AWS3
+
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 
 const generateUniqueFileName = (file) => {
@@ -24,16 +27,21 @@ export async function s3Uploadv3_stu_id_files(files) {
       },
     });
 
+    //This object will be maped to send each file
     const params = files.map((file) => {
       const unique_file_name = generateUniqueFileName(file);
+      //Saving storage reference
       uploaded_files.push({
         name: unique_file_name,
         URL: `${AWS_STUDENT_IDS_BASE_URL}${unique_file_name}`,
       });
+
       return {
         Bucket: process.env.CC_AWS_BUCKET_NAME,
-        //Base strage folder/name of the file
+        //Base storage folder/name of the file
         Key: `student_ids/${unique_file_name}`,
+        ContentDisposition: 'inline',
+        ContentType: file.mimetype,
         Body: file.buffer,
       };
     });
@@ -42,7 +50,7 @@ export async function s3Uploadv3_stu_id_files(files) {
     await Promise.all(
       params.map((param) => s3client.send(new PutObjectCommand(param)))
     );
-    //Also check what other info is required to erase a file and return it here
+    //TODO: Also check what other info is required to erase a file and return it here
     return uploaded_files;
   } catch (error) {
     throw new Error(error.message);
@@ -52,4 +60,4 @@ export async function s3Uploadv3_stu_id_files(files) {
 //OBSERVATION:
 //Consider that the uploaded files to this bucket are all available for public
 //access. It shouldn't be like this in case we need to store contracts in AWS,
-//since sensitive data
+//since sensitive data.

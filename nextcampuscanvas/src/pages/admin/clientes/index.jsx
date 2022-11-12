@@ -8,7 +8,7 @@ import { signOut } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
 
 //Styles
-import styles from '@pagestyles/admin/clients.module.scss';
+import styles from '@pagestyles/admin/clients/clients.module.scss';
 
 //Components
 import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';

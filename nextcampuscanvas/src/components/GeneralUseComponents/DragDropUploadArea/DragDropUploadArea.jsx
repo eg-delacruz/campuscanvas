@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import propTypes from 'prop-types';
 import Image from 'next/image';
-import { ToUploadImageConfig } from './ToUploadImageConfig';
 
 //Styles
 import styles from './DragDropUploadArea.module.scss';
@@ -11,6 +10,7 @@ import uploadImg from '@assets/GeneralUse/IconsAndButtons/usedInComponents/DragD
 import TrashIcon from '@assets/PagesImages/ContactoImages/TrashIcon.png';
 
 //Services
+import { ToUploadImageConfig } from '@services/ToUploadImageConfig';
 import formatBytes from '@services/bytesToMb.js';
 
 const DragDropUploadArea = ({

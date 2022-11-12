@@ -6,7 +6,7 @@ import Image from 'next/image';
 //Session
 import { useSession } from 'next-auth/react';
 
-import styles from '@styles/pagestyles/admin/ManageAdmins.module.scss';
+import styles from '@styles/pagestyles/admin/master/ManageAdmins.module.scss';
 
 //Components
 import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';

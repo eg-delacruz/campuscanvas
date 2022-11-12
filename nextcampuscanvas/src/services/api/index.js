@@ -31,6 +31,7 @@ const endPoints = {
     updateStuInfo: `${API}/api/${VERSION}/user/index`,
     deleteUser: (id) => `${API}/api/${VERSION}/user/${id}`,
     changePassword: `${API}/api/${VERSION}/user/index`,
+    getPendingStuIdValidations: `${API}/api/${VERSION}/user/verify_by_stu_id`,
   },
   orders: {
     isAllowedToOrder: (userID, account_email, stu_id, stu_email) =>

@@ -1,7 +1,7 @@
 let mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const stuIdFilesSchema = new mongoose.Schema({
+const stuIdFileSchema = new mongoose.Schema({
   //Account id
   userID: {
     type: Schema.ObjectId,
@@ -12,7 +12,11 @@ const stuIdFilesSchema = new mongoose.Schema({
     type: Array,
     required: true,
   },
+  createdAt: {
+    type: Date,
+    immutable: true,
+  },
 });
 
-export default mongoose.models.stuIdFiles ||
-  mongoose.model('stuIdFiles', stuIdFilesSchema);
+export default mongoose.models.StuIdFile ||
+  mongoose.model('StuIdFile', stuIdFileSchema);

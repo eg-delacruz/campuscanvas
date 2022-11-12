@@ -1,0 +1,192 @@
+@import '../../../Vars.scss';
+@import '../../../Animations/dotLoadingButton.module.scss';
+
+//Loadint state while displaying page
+.loaderContainer {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  padding: 0 8px;
+}
+
+.button_back {
+  display: flex;
+  padding: 10px;
+  margin: 0;
+  margin-top: 32px;
+  span {
+    transform: rotate(90deg);
+    margin-right: 8px;
+  }
+}
+
+/////////////////////////
+//  Validation field   //
+/////////////////////////
+
+.validation_field {
+  border: 1px solid $color--dark-gray;
+  padding: 6px;
+  border-radius: 5px;
+  .email_container {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    div {
+      font-weight: bold;
+      @include font-size(18px);
+      background-color: $color--light-gray;
+      padding: 4px 6px;
+      border-radius: 5px;
+      min-width: 130px;
+      margin-left: 6px;
+      min-height: 28.69px;
+    }
+  }
+  max-width: 600px;
+  margin: 0 auto;
+
+  .input {
+    width: 100%;
+    background-color: $color--secondary-light;
+    border: 1px solid $color--black;
+    height: 40px;
+    border-radius: 5px;
+    margin: 0;
+    margin-bottom: 8px;
+    padding: 10px;
+  }
+  .submit_validation {
+    padding: 10px;
+  }
+}
+
+/////////////////////////
+// Pending validations //
+/////////////////////////
+
+.pending_validations {
+  max-width: 600px;
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
+  li {
+    background-color: $color--light-gray;
+    border: 1px solid $color--dark-gray;
+    border-radius: 8px;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-shadow: 14px 14px 20px -15px rgb(0, 0, 0, 0.1);
+  }
+  &__file_name {
+    margin: 0;
+  }
+  &__user_email {
+    @include font-size(18px);
+  }
+
+  &__files {
+    border-top: 1px solid $color--dark-gray;
+  }
+  &__file_container {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+  }
+  &__file_image {
+    max-width: 30px;
+    display: flex;
+    align-items: center;
+    padding-right: 5px;
+  }
+  &__file_name,
+  &__file_URL {
+    @include font-size(14px);
+  }
+  &__file_URL {
+    margin: -11px 0 0;
+    span {
+      margin: 0;
+      cursor: pointer;
+      text-decoration: underline;
+      color: blue;
+      @include font-size(14px);
+    }
+  }
+}
+
+.user_info {
+  display: flex;
+  justify-content: space-between;
+  .user_info_texts {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: -12px;
+    p,
+    h5 {
+      margin: 0;
+    }
+  }
+}
+
+.validate_button {
+  padding: 6px;
+  margin: 0;
+  width: 86px;
+}
+.reject_button {
+  margin: 5px 0 5px;
+  padding: 6px;
+  width: 86px;
+}
+
+.load_more_button {
+  padding: 6px;
+  margin: 0 auto 16px;
+}
+.buttonLoading {
+  background-color: $color--white;
+}
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+  .pending_validations {
+    li {
+      padding-top: 14px;
+    }
+  }
+
+  .user_info {
+    flex-direction: column;
+    align-items: center;
+    .user_info_buttons {
+      width: 100%;
+      margin: 12px auto;
+      display: flex;
+      max-height: 40px;
+      justify-content: space-evenly;
+      .validate_button {
+        margin: 5px 0 5px;
+      }
+    }
+  }
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}

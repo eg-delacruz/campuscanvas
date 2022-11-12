@@ -30,7 +30,8 @@ import boldPoppins from '@assets/Fonts/Poppins-Bold.ttf';
 
 const contrato = () => {
   const [state, setState] = useState({
-    submitLoading: false,
+    //NOTE: this loading was "Submitloading" before. If error, check this
+    loading: false,
     error: null,
   });
   const [isClient, setIsClient] = useState(false);
@@ -63,10 +64,10 @@ const contrato = () => {
       setState({ ...state, loading: false });
     }
   }, [session]);
-
   //Securing route (end)
 
   useEffect(() => {
+    //Needed for NextJS to work only if we are in a browser
     setIsClient(true);
   }, []);
 
@@ -78,7 +79,6 @@ const contrato = () => {
     }
   }, [isClient]);
 
-  console.log(contract);
   ///////////////////////////Dynamic elements (start)//////////////////////////
   const destinatario =
     contract?.cliente?.tipo === 'juridica'

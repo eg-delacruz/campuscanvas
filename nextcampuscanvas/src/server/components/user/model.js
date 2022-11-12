@@ -13,6 +13,8 @@ const usersSchema = new mongoose.Schema({
     minlength: [6, 'La contraseña debe tener al menos 6 caracteres'],
     //No incluir maxlength porque el hash del password es más largo que eso
   },
+  //WARNING: Although this is stored as nickname, since before it was
+  //called "name", it returns it as "name", and not as nickname!!
   nickname: {
     type: String,
     default: '',

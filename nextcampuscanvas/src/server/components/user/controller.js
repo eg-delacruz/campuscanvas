@@ -485,6 +485,7 @@ const changePassword = async (userID, currentPassword, newPassword) => {
 };
 
 const deleteUser = async (id) => {
+  //TODO: check and erase entries from unverifaccs collection to avoid error of not allowed to create a new account with same password
   try {
     const user = await store.getById(id);
     const deleted_user = await store.deleteUser(user);

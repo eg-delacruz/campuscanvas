@@ -19,12 +19,6 @@ import requestIp from 'request-ip';
 //Avoids CORS errors
 import NextCors from 'nextjs-cors';
 
-//TODO:Don´t forget to implement FB Conversions API after stu_validation
-//TODO: send email after validation and redirect student to
-//auth/cuenta_verificada , say something like "haz click en el enlace para que la validación se efectúe correctamente" so that
-//session closes and user has to login again
-//TODO: also send email in case student cannot be validated
-
 //Multer middleware (start)
 //MemoryStorage needed for AWS3 upload (instead of diskStorage)
 const storage = multer.memoryStorage();
@@ -79,7 +73,14 @@ router
 
     try {
       const user_acc_id = session.token.sub;
-      await Controller.uploadStudentIdFiles(files, user_acc_id);
+      const account_email = session.token.email;
+      //IMPORTANT: Since in step 3 of validation, session
+      //still hasn´t stored the user nickname in it,
+      //when he/she uploads a file and sends the nickname
+      //stored in its session, it is undefined untill user logs in again
+      //this is why nickname has to be taken from db and not from user
+
+      await Controller.uploadStudentIdFiles(files, user_acc_id, account_email);
       successResponse(req, res, 'Archivos subidos exitosamente', 201);
     } catch (error) {
       if (
@@ -89,7 +90,7 @@ router
         return errorResponse(
           req,
           res,
-          'Ya has subido tu identificación anteriormente, espera a ser verificado',
+          'Ya has subido tu identificación anteriormente. Te notificaremos por Email cuando hayas sido verificado',
           400,
           error.message
         );
