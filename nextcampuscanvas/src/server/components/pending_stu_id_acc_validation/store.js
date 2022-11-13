@@ -53,8 +53,18 @@ const validationsAvailable = async () => {
   }
 };
 
+const deletePendingValidation = async (userID) => {
+  const entry = await pendingStuIdAccValidation.findOne({
+    userID,
+  });
+  if (entry) {
+    await entry.deleteOne();
+  }
+};
+
 module.exports = {
   add: createNewPendingValidation,
   getFifteenOldest,
   validationsAvailable,
+  delete: deletePendingValidation,
 };

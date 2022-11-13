@@ -1,7 +1,6 @@
 import store from '@server/components/user/store';
 import { hashPassword, verifyPassword } from '@server/services/passEncript';
 import jwt from 'jsonwebtoken';
-import unhandledEmailsController from '@server/components/unhandledEmails/controller';
 
 //Sendinblue api (for email marketing)
 import sendinblue from '@server/services/sendinblue/sendinblue';
@@ -9,8 +8,23 @@ import sendinblue from '@server/services/sendinblue/sendinblue';
 //clientEndpoints
 import clientEndPoints from '@server/clientEndPoints';
 
+//Other controllers
 //Add/delete accounts from unverified student accounts collection in DB
 import unfinished_verif_process_emails_Controller from '@server/components/unfinished_verif_process_emails/controller';
+import unhandledEmailsController from '@server/components/unhandledEmails/controller';
+
+//Stores (imported becaus controllers cannot be imported inside eachother)
+import pendingStuIdAccValidationStore from '@server/components/pending_stu_id_acc_validation/store';
+import stuIdFilesStore from '@server/components/stu_id_files/store';
+
+//Mailer
+import {
+  sendAccValidatedByStuIdMail,
+  sendRejectedAccValidationByStuId,
+} from '@server/services/mailer/CC_info@google';
+
+//AWS3
+import { s3Deletev3_stu_id_files } from '@server/services/AWS3/s3Service';
 
 //FB Conversions API
 import { successful_step_1_register_process } from '@server/services/fbConversionsAPI/step_1_register_process';
@@ -486,6 +500,7 @@ const changePassword = async (userID, currentPassword, newPassword) => {
 
 const deleteUser = async (id) => {
   //TODO: check and erase entries from unverifaccs collection to avoid error of not allowed to create a new account with same password
+  //TODO: Erase files of that user
   try {
     const user = await store.getById(id);
     const deleted_user = await store.deleteUser(user);
@@ -590,6 +605,94 @@ const getAllAdmins = async (master_id) => {
   }
 };
 
+//TODO: implement FB conversions api
+const manuallyVerifyStuAccByStuId = async (userID, stu_id) => {
+  try {
+    const user = await getUserById(userID);
+    //Check if student hasn´t been validated before
+    //If this function is implemented in a Network.js, handle this error and respond accordingly
+    if (user.stu_verified) {
+      console.log(
+        '[User controller] Esta cuenta ya ha sido verificada anteriormente'
+      );
+      return 'Already verified';
+    }
+
+    //If this function is implemented in a Network.js, handle this error and respond accordingly
+    if (user.stu_data.university === '') {
+      console.log('[User controller error] Register step 2 missing');
+      return 'Register step 2 missing';
+    }
+
+    //Check if student id has already been used for that uni
+    const IDLegitimacy = await store.verifyStuIdLegitimacy(user, stu_id);
+
+    //If this function is implemented in a Network.js, handle this error and respond accordingly
+    if (IDLegitimacy === 'Invalid ID') {
+      console.log('[User controller error] Invalid ID');
+      return 'Invalid ID';
+    }
+
+    //Validate user
+    user.stu_id = stu_id;
+    user.stu_verified = true;
+    user.updatedAt = new Date();
+
+    await store.update(user);
+
+    //Erase user from pending validations (if applies)
+    await pendingStuIdAccValidationStore.delete(userID);
+
+    //Erase from unfinished verif process acc valid (if applies)
+    await unfinished_verif_process_emails_Controller.deleteUnverifAccEntry(
+      user.email
+    );
+
+    //Send confirmation email to user
+    await sendAccValidatedByStuIdMail(user.email);
+  } catch (error) {
+    console.log('[User controller]', error);
+    throw new Error(error);
+  }
+};
+
+const manuallyRejectAccVerifByStuId = async (
+  userID,
+  user_email,
+  reject_reason
+) => {
+  try {
+    //Erase user from pending validations (if applies)
+    await pendingStuIdAccValidationStore.delete(userID);
+
+    //Erase files from stuidfiles collection in DB (if applies)
+    const erased_files = await stuIdFilesStore.delete(userID);
+    const erased_files_array = erased_files.stu_id_files;
+
+    //Erase files from AWS3
+    await s3Deletev3_stu_id_files(erased_files_array);
+
+    //Send email depending on reject reason
+    let body_reason;
+    if (reject_reason === 'Error al abrir documento') {
+      body_reason =
+        'Al intentar abrir los archivos, no hemos podido visualizarlos.';
+    }
+    if (reject_reason === 'El documento no es un ID de estudiante') {
+      body_reason =
+        'El documento que nos has enviado no es un ID de estudiante.';
+    }
+    if (reject_reason === 'Documento no valido') {
+      body_reason = 'El documento que nos has enviado no es válido.';
+    }
+
+    await sendRejectedAccValidationByStuId(user_email, body_reason);
+  } catch (error) {
+    console.log('[User controller]', error);
+    throw new Error(error);
+  }
+};
+
 module.exports = {
   getUserById,
   registerUser,
@@ -607,4 +710,6 @@ module.exports = {
   createAdmin,
   revokeAdmin,
   getAllAdmins,
+  manuallyVerifyStuAccByStuId,
+  manuallyRejectAccVerifByStuId,
 };

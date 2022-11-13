@@ -1,3 +1,4 @@
+//This network handles the acc verification by student email
 import { successResponse, errorResponse } from '@server/response';
 import Controller from '@server/components/user/controller';
 import jwt from 'jsonwebtoken';

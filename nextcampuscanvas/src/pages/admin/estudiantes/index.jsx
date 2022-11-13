@@ -65,15 +65,19 @@ const index = () => {
   const getPendingValitadionsAvailable = async () => {
     setState({ ...state, error: null });
     try {
-      const respuesta = await fetch(endPoints.user.getPendingStuIdValidations, {
-        method: 'GET',
-        headers: {
-          accept: '*/*',
-          'Content-Type': 'application/json',
-          app_secret_key: process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
-          website_location: 'admin_estudiantes_index',
-        },
-      });
+      const respuesta = await fetch(
+        endPoints.admin.getPendingStuIdValidations,
+        {
+          method: 'GET',
+          headers: {
+            accept: '*/*',
+            'Content-Type': 'application/json',
+            app_secret_key:
+              process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
+            website_location: 'admin_estudiantes_index',
+          },
+        }
+      );
 
       const data = await respuesta.json();
 

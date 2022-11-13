@@ -15,6 +15,11 @@ const pendingStuIdAccValidationSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  university: {
+    type: String,
+    lowercase: true,
+    required: [true, 'La universidad es necesaria'],
+  },
   createdAt: {
     type: Date,
     immutable: true,

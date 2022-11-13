@@ -11,6 +11,11 @@
 }
 .container {
   padding: 0 8px;
+
+  .server_responses_displayer {
+    max-width: 600px;
+    margin: 0 auto;
+  }
 }
 
 .button_back {
@@ -42,9 +47,7 @@
       background-color: $color--light-gray;
       padding: 4px 6px;
       border-radius: 5px;
-      min-width: 130px;
       margin-left: 6px;
-      min-height: 28.69px;
     }
   }
   max-width: 600px;
@@ -62,6 +65,9 @@
   }
   .submit_validation {
     padding: 10px;
+  }
+  .buttonLoading {
+    background-color: rgba(173, 33, 70, 0.5);
   }
 }
 
@@ -131,6 +137,10 @@
     h5 {
       margin: 0;
     }
+    .pending_validations__user_uni {
+      margin: -8px 0 4px;
+      @include font-size(18px);
+    }
   }
 }
 
@@ -151,6 +161,14 @@
 }
 .buttonLoading {
   background-color: $color--white;
+}
+
+.modal_cancel_button {
+  margin-left: 30px;
+}
+.modal_cancel_button,
+.modal_reject_button {
+  padding: 10px;
 }
 /////////////////////////
 //         MQ         //

@@ -23,6 +23,7 @@ const createNewStuIdAccPendingValidationEntry = async (
       userID: user_acc_id,
       account_email,
       nickname: user.nickname,
+      university: user.stu_data.university,
       createdAt: new Date(),
       stu_id_files: stu_id_files._id.toString(),
     };
@@ -54,8 +55,21 @@ const getPendingValidationsAvailavility = async () => {
   }
 };
 
+const deleteValidationEntry = async (userID) => {
+  //TODO: check if this function works properly
+  try {
+    await store.delete(userID);
+  } catch (error) {
+    console.log(
+      '[pending_stu_id_acc_validation controller error]' + error.message
+    );
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
   createNewStuIdAccPendingValidationEntry,
   getOldestEntries,
   getPendingValidationsAvailavility,
+  deleteValidationEntry,
 };

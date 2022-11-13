@@ -1,7 +1,11 @@
 //https://www.youtube.com/watch?v=jwp4U6v-3h4
 //Guide of how to upload filest to AWS3
 
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import {
+  PutObjectCommand,
+  S3Client,
+  DeleteObjectCommand,
+} from '@aws-sdk/client-s3';
 
 const generateUniqueFileName = (file) => {
   const generate_random_8_digits_id = () => {
@@ -15,17 +19,22 @@ const generateUniqueFileName = (file) => {
   return unique_name;
 };
 
+//Create service client object
+const s3client = new S3Client({
+  region: process.env.CC_AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.CC_AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.CC_AWS_SECRET_ACCESS_KEY,
+  },
+});
+
+//Files must be an array. The "v" comes from version
 export async function s3Uploadv3_stu_id_files(files) {
   try {
+    //Will return the URLs to store in DB
     let uploaded_files = [];
+    //Needed for URL generation
     const AWS_STUDENT_IDS_BASE_URL = process.env.AWS_STUDENT_IDS_BASE_URL;
-    const s3client = new S3Client({
-      region: process.env.CC_AWS_REGION,
-      credentials: {
-        accessKeyId: process.env.CC_AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.CC_AWS_SECRET_ACCESS_KEY,
-      },
-    });
 
     //This object will be maped to send each file
     const params = files.map((file) => {
@@ -50,9 +59,30 @@ export async function s3Uploadv3_stu_id_files(files) {
     await Promise.all(
       params.map((param) => s3client.send(new PutObjectCommand(param)))
     );
-    //TODO: Also check what other info is required to erase a file and return it here
     return uploaded_files;
   } catch (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+}
+
+//Files must be an array. The "v" comes from version
+export async function s3Deletev3_stu_id_files(files) {
+  try {
+    //This object will be maped to delete each file
+    const params = files.map((file) => {
+      return {
+        Bucket: process.env.CC_AWS_BUCKET_NAME,
+        //Base storage folder/name of the file
+        Key: `student_ids/${file.name}`,
+      };
+    });
+
+    await Promise.all(
+      params.map((param) => s3client.send(new DeleteObjectCommand(param)))
+    );
+  } catch (error) {
+    console.log(error);
     throw new Error(error.message);
   }
 }

@@ -314,7 +314,8 @@ export default function Home() {
           {/* /////////////////////////
             //   Patrocinadores    //
             ///////////////////////// */}
-          <SponsorsSlider titulo='Nuestros patrocinadores' />
+          {/* TODO: uncomment when I already have sponsors */}
+          {/* <SponsorsSlider titulo='Nuestros patrocinadores' /> */}
         </div>
       </Layout>
     </>

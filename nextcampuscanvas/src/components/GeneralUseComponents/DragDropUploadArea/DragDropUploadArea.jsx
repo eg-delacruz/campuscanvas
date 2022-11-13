@@ -88,6 +88,8 @@ const DragDropUploadArea = ({
     onFileChange(updatedList);
   };
 
+  console.log(fileList);
+
   return (
     <>
       {/* ///////////////////
@@ -138,7 +140,7 @@ const DragDropUploadArea = ({
               <div className={styles.drop_file_preview__item_image_container}>
                 <Image
                   src={
-                    ToUploadImageConfig[item.type.split('/')[1]] ||
+                    ToUploadImageConfig[item.name.split('.').slice(-1)] ||
                     ToUploadImageConfig['default']
                   }
                 />

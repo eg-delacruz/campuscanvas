@@ -21,8 +21,10 @@ const createUnverifAccEntry = async (email) => {
 const deleteUnverifAccEntry = async (email) => {
   try {
     const account = await store.getByEmail(email);
-    await store.delete(account);
-    return 'Account erased successfully';
+    if (account) {
+      await store.delete(account);
+      return 'Account erased successfully';
+    }
   } catch (error) {
     console.error('[unfinished_verif_process_emails]', error);
     throw new Error(error.message);

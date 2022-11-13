@@ -12,7 +12,7 @@ import requestIp from 'request-ip';
 
 //Avoids CORS errors
 import NextCors from 'nextjs-cors';
-import controller from '@server/components/box_order/controller';
+import Controller from '@server/components/user/controller';
 
 export default async function handler(req, res) {
   //Securing page with session
@@ -83,26 +83,75 @@ export default async function handler(req, res) {
         );
       }
       break;
-    case 'PATCH':
-      //TODO: create patch rout that can handle verification by email (has to get the USER ID), and also handles directly by the user id
-      //-> Before verification, check if user id has already been used for that uni
-      //-> Crate a route to get user by its stu_id (stu_id and university needed!)(not in this network, but in the one to get user by ____)(not really needed by the patch, but for future implementations. Now, just the controller verification funcion needed)
-      //-> Erase user from pending validations and from unverified stu acc collection
 
+    //Manual verification of acc by uploaded student id file
+    case 'PATCH':
       try {
-        //Use user Id and stu_id here
-        successResponse(req, res, 'Todo Okii', 200);
+        const userID = req.body.userID;
+        const stu_id = req.body.stu_id;
+
+        const validation = await Controller.manuallyVerifyStuAccByStuId(
+          userID,
+          stu_id
+        );
+        if (validation === 'Already verified') {
+          errorResponse(
+            req,
+            res,
+            'Esta cuenta ya ha sido verificada',
+            400,
+            'Already verified'
+          );
+          return false;
+        }
+
+        if (validation === 'Invalid ID') {
+          errorResponse(
+            req,
+            res,
+            'Este ID ya ha sido utilizado para esta universidad',
+            400,
+            'Invalid ID'
+          );
+          return false;
+        }
+
+        if (validation === 'Register step 2 missing') {
+          errorResponse(
+            req,
+            res,
+            'No se ha completado el paso 2 de verificación de la cuenta',
+            400,
+            'Register step 2 missing'
+          );
+          return false;
+        }
+
+        successResponse(req, res, 'Estudiante validado correctamente', 200);
       } catch (error) {
-        errorResponse(req, res, 'Erroooor', 400, error);
+        errorResponse(
+          req,
+          res,
+          'No se pudo validar, revisar datos de la cuenta',
+          400,
+          error
+        );
       }
       break;
     case 'DELETE':
-      //TODO: create Delete to handle rejected validations
-      //->erase from pending validations,
-      //erase its files in amazon and in stuidfiles collection
-      // don´t erase from unverif stu acc collection
+      //Handle rejected student ID validations
       try {
-        successResponse(req, res, 'Todo Okii', 200);
+        const userID = req.query.id;
+        const user_email = req.query.email;
+        const reject_reason = req.query.reject_reason;
+
+        await Controller.manuallyRejectAccVerifByStuId(
+          userID,
+          user_email,
+          reject_reason
+        );
+
+        successResponse(req, res, 'Operación realizada con éxito', 200);
       } catch (error) {
         errorResponse(req, res, 'Erroooor', 400, error);
       }

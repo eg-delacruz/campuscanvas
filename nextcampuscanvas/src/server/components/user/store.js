@@ -88,6 +88,22 @@ const getAdmins = async () => {
   }
 };
 
+/////////////////////Verify stu_id legitimacy//////////////////////////////
+const verifyStuIdLegitimacy = async (user, stu_id) => {
+  try {
+    const found = await User.find({
+      'stu_data.university': user.stu_data.university,
+      stu_id: stu_id,
+    });
+    //If this error string gets changed, also change in controller and network
+    if (found.length >= 1) {
+      return 'Invalid ID';
+    }
+  } catch (error) {
+    throw new Error('[User store]', error);
+  }
+};
+
 module.exports = {
   add: addUser,
   getAll: getUsers,
@@ -98,4 +114,5 @@ module.exports = {
   deleteUser,
   userExists,
   getAdmins,
+  verifyStuIdLegitimacy,
 };

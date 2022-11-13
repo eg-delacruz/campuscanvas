@@ -31,7 +31,6 @@ const endPoints = {
     updateStuInfo: `${API}/api/${VERSION}/user/index`,
     deleteUser: (id) => `${API}/api/${VERSION}/user/${id}`,
     changePassword: `${API}/api/${VERSION}/user/index`,
-    getPendingStuIdValidations: `${API}/api/${VERSION}/user/verify_by_stu_id`,
   },
   orders: {
     isAllowedToOrder: (userID, account_email, stu_id, stu_email) =>
@@ -42,6 +41,10 @@ const endPoints = {
   admin: {
     createPdfContract: `${API}/api/${VERSION}/admin/clientes/contract/contract`,
     manageAdmins: `${API}/api/${VERSION}/admin/master/manage_admins`,
+    getPendingStuIdValidations: `${API}/api/${VERSION}/admin/estudiantes/verify_by_stu_id`,
+    validateByStuId: `${API}/api/${VERSION}/admin/estudiantes/verify_by_stu_id`,
+    rejectStuIdValidation: (userID, user_email, reject_reason) =>
+      `${API}/api/${VERSION}/admin/estudiantes/verify_by_stu_id?id=${userID}&email=${user_email}&reject_reason=${reject_reason}`,
   },
   file_management: {
     student_acc_files: {

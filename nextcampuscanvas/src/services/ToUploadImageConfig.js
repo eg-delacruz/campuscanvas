@@ -16,4 +16,5 @@ export const ToUploadImageConfig = {
   ppt: filePowerpoint,
   pptx: filePowerpoint,
   jpg: fileJpg,
+  jpeg: fileJpg,
 };

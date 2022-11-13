@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Swal from 'sweetalert2';
 
 //Session
 import { useSession } from 'next-auth/react';
@@ -26,22 +27,28 @@ import { useInputValue } from '@hooks/useInputValue';
 //Endpoints
 import endPoints from '@services/api';
 
-//TODO: work on "reject" button handler
-
+//ONLY ONE PERSON SHOULD WORK ON THIS SCREEN - If more than one admin is validating students, this can generate problems, since if one validated student has to be validated again, the second time, the other admin will get an error
 const validaciones_por_id_pendientes = () => {
   const [state, setState] = useState({
     loading: false,
-    error: null,
     gettingValidations: true,
     gettingValidationsError: null,
     validating: false,
     validatingError: false,
+    validatingSuccess: null,
+    rejectionError: false,
+    //rejectionSuccess: null,
   });
 
   const [pendingValidations, setPendingValidations] = useState([]);
-  const [pendingValidationsLeft, setPendingValidationsLeft] = useState(0);
+  const [pendingValidationsLeft, setPendingValidationsLeft] = useState();
 
   const [validateAcc, setValidateAcc] = useState({
+    user_email: '',
+    userID: '',
+  });
+
+  const [rejectAcc, setRejectAcc] = useState({
     user_email: '',
     userID: '',
   });
@@ -88,17 +95,27 @@ const validaciones_por_id_pendientes = () => {
       ...state,
       gettingValidations: true,
       gettingValidationsError: null,
+      validatingError: null,
     });
+
+    //Clean validation field and validate acc info
+    setValidateAcc({ ...validateAcc, user_email: '', userID: '' });
+    STU_ID.setValue('');
+
     try {
-      const respuesta = await fetch(endPoints.user.getPendingStuIdValidations, {
-        method: 'GET',
-        headers: {
-          accept: '*/*',
-          'Content-Type': 'application/json',
-          app_secret_key: process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
-          website_location: 'admin_pending_validations',
-        },
-      });
+      const respuesta = await fetch(
+        endPoints.admin.getPendingStuIdValidations,
+        {
+          method: 'GET',
+          headers: {
+            accept: '*/*',
+            'Content-Type': 'application/json',
+            app_secret_key:
+              process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
+            website_location: 'admin_pending_validations',
+          },
+        }
+      );
 
       const data = await respuesta.json();
 
@@ -135,19 +152,60 @@ const validaciones_por_id_pendientes = () => {
       });
     }
 
+    //Data needed to validate account
     const VALIDATION_DATA = {
       userID: validateAcc.userID,
       stu_id: STU_ID.value,
     };
 
-    console.log(VALIDATION_DATA);
+    const respuesta = await fetch(endPoints.admin.validateByStuId, {
+      method: 'PATCH',
+      headers: {
+        accept: '*/*',
+        'Content-Type': 'application/json',
+        app_secret_key: process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
+      },
+      body: JSON.stringify(VALIDATION_DATA),
+    });
 
-    //TODO: patch validation data
-    //TODO: check if no errors
-    //TODO: clean validation field
-    //TODO: erase entry from array and from pendingvalidations collection
-    //TODO: decrease the left entries by -1
-    setState({ ...state, validatingError: null, validating: false });
+    const data = await respuesta.json();
+
+    //Handling possible validation errors
+    if (data.error) {
+      setState({
+        ...state,
+        validatingError: data.error,
+        validating: false,
+      });
+      setTimeout(() => {
+        setState({ ...state, validatingError: null });
+      }, 5000);
+      return false;
+    }
+
+    //Clean validation field and validate acc info
+    setValidateAcc({ ...validateAcc, user_email: '', userID: '' });
+    STU_ID.setValue('');
+
+    //Erase the validated account from current entries in client
+    const leftPendingValidations = pendingValidations.filter(
+      (entry) => entry.userID !== validateAcc.userID
+    );
+    setPendingValidations(leftPendingValidations);
+    //Decrease validations in client by 1
+    setPendingValidationsLeft(pendingValidationsLeft - 1);
+
+    setState({
+      ...state,
+      validatingError: null,
+      validating: false,
+      validatingSuccess: data.body,
+    });
+
+    //Clenaing success validation message
+    setTimeout(() => {
+      setState({ ...state, validatingSuccess: null });
+    }, 5000);
   };
 
   const displayStuIdDocument = (ID_URL) => {
@@ -160,6 +218,164 @@ const validaciones_por_id_pendientes = () => {
     );
 
     window.open(fileURL, '_blank');
+  };
+
+  //useEffect monitors if rejectAcc state changes to display the reject modal
+  useEffect(async () => {
+    if (rejectAcc.user_email) {
+      //Modal
+      const customModal = Swal.mixin({
+        customClass: {
+          confirmButton: `${styles.modal_reject_button} btn button--unwantedOption`,
+          cancelButton: `${styles.modal_cancel_button} btn button--red`,
+        },
+        buttonsStyling: false,
+      });
+      //  invalid stu id (it has already been used for this uni)
+      const { value } = await customModal.fire({
+        title: `Rechazar validación de ${rejectAcc.user_email}`,
+        input: 'select',
+        //IMPORTANT: if this options change, they should be changed in the
+        //DELETE method of vefify_by_stu_id.js, since an email
+        //is sent based on the reject reason
+        inputOptions: {
+          'Error al abrir documento': 'Error al abrir documento',
+          'El documento no es un ID de estudiante':
+            'El documento no es un ID de estudiante',
+          'Documento no valido': 'Documento no valido',
+        },
+        icon: 'warning',
+        inputPlaceholder: 'Elige una razón',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Rechazar',
+        showLoaderOnConfirm: true,
+        inputValidator: (value) => {
+          return new Promise(async (resolve) => {
+            if (value) {
+              resolve();
+            } else {
+              resolve('Debes seleccionar una razón');
+            }
+          });
+        },
+      });
+      if (value) {
+        await rejectValidation(value);
+      }
+    }
+  }, [rejectAcc]);
+
+  const showRejectModal = (account_email, userID) => {
+    //If this state changes, the useEffect above will monitor the change of state
+    //and display modal. This is needed since useState is async.
+    setRejectAcc({
+      ...rejectAcc,
+      user_email: account_email,
+      userID: userID,
+    });
+  };
+
+  const rejectValidation = async (reject_reason) => {
+    const LoadingSwal = Swal.mixin({
+      showConfirmButton: false,
+    });
+    LoadingSwal.fire({
+      title: 'Espera un momento...',
+      showClass: {
+        popup: 'animate__fadeIn',
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    });
+    //Data needed to reject account
+    const REJECTION_DATA = {
+      userID: rejectAcc.userID,
+      user_email: rejectAcc.user_email,
+      reject_reason,
+    };
+
+    try {
+      //Send rejection
+      const respuesta = await fetch(
+        endPoints.admin.rejectStuIdValidation(
+          REJECTION_DATA.userID,
+          REJECTION_DATA.user_email,
+          REJECTION_DATA.reject_reason
+        ),
+        {
+          method: 'DELETE',
+          headers: {
+            accept: '*/*',
+            'Content-Type': 'application/json',
+            app_secret_key:
+              process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
+          },
+        }
+      );
+
+      const data = await respuesta.json();
+
+      //Handle possible validation errors (show it in a swal)
+      if (data.error) {
+        //Leave this console.log here
+        console.log(data.error);
+        const ErrorSwal = Swal.mixin({
+          customClass: {
+            confirmButton: `btn button--red`,
+          },
+          buttonsStyling: false,
+        });
+        ErrorSwal.fire({
+          title: 'Hubo un error al rechazar validación. Ver consola',
+          showClass: {
+            popup: 'animate__fadeIn',
+          },
+        });
+      }
+
+      //Clean validation field and validate acc info
+      setValidateAcc({ ...validateAcc, user_email: '', userID: '' });
+      STU_ID.setValue('');
+
+      //Erase the validated account from current entries in client
+      const leftPendingValidations = pendingValidations.filter(
+        (entry) => entry.userID !== rejectAcc.userID
+      );
+      setPendingValidations(leftPendingValidations);
+
+      //Decrease validations in client by 1
+      setPendingValidationsLeft(pendingValidationsLeft - 1);
+
+      //Display reject confirmation display response message
+      const SuccessSwal = Swal.mixin({
+        customClass: {
+          confirmButton: `btn button--red`,
+        },
+        buttonsStyling: false,
+      });
+      SuccessSwal.fire({
+        title: `${data.body}`,
+        timer: 2000,
+        showClass: {
+          popup: 'animate__fadeIn',
+        },
+      });
+    } catch (error) {
+      //Leave this console.log here
+      console.log(error);
+      const ErrorSwal = Swal.mixin({
+        customClass: {
+          confirmButton: `btn button--red`,
+        },
+        buttonsStyling: false,
+      });
+      ErrorSwal.fire({
+        title: 'Hubo un error al rechazar validación',
+        showClass: {
+          popup: 'animate__fadeIn',
+        },
+      });
+    }
   };
 
   if (state.loading) {
@@ -183,6 +399,10 @@ const validaciones_por_id_pendientes = () => {
           </button>
         </Link>
         <h1>Validaciones por identificación de estudiante pendientes</h1>
+        <p>
+          Revisar que lo documentos sean identificaciones de estudiante válidas,
+          y que además concuerden con la universidad.
+        </p>
 
         {/* /////////////////////////
            //  Validation field   //
@@ -221,10 +441,15 @@ const validaciones_por_id_pendientes = () => {
           >
             Validar
           </button>
+        </form>
+        <div className={styles.server_responses_displayer}>
           {state.validatingError && (
             <p className={`error__messagev2`}>{state.validatingError}</p>
           )}
-        </form>
+          {state.validatingSuccess && (
+            <p className={`success__messagev2`}>{state.validatingSuccess}</p>
+          )}
+        </div>
 
         {state.gettingValidationsError ? (
           <p className={`error__messagev2`}>{state.gettingValidationsError}</p>
@@ -233,6 +458,11 @@ const validaciones_por_id_pendientes = () => {
             <h4>
               <strong>{pendingValidationsLeft}</strong> restantes
             </h4>
+
+            {/* ///////////////////////////
+           //Pending validations table //
+           /////////////////////////// */}
+
             {pendingValidations.length > 0 && (
               <ul className={styles.pending_validations}>
                 {pendingValidations.map((item) => (
@@ -242,6 +472,10 @@ const validaciones_por_id_pendientes = () => {
                         <p className={styles.pending_validations__user_email}>
                           <strong>Email: </strong>
                           {item.account_email}
+                        </p>
+                        <p className={styles.pending_validations__user_uni}>
+                          <strong>Universidad: </strong>
+                          {item.university}
                         </p>
                         <h5>
                           <strong>Fecha de creación: </strong>
@@ -266,6 +500,9 @@ const validaciones_por_id_pendientes = () => {
                         </button>
                         <button
                           className={`${styles.reject_button} btn button--purple`}
+                          onClick={() =>
+                            showRejectModal(item.account_email, item.userID)
+                          }
                         >
                           Rechazar
                         </button>
@@ -302,8 +539,6 @@ const validaciones_por_id_pendientes = () => {
                               {file.name}
                             </p>
                             <p className={styles.pending_validations__file_URL}>
-                              {/* <strong>Archivo: </strong> */}
-
                               <span
                                 onClick={() => displayStuIdDocument(file.URL)}
                               >

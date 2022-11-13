@@ -41,6 +41,9 @@ const createBoxOrder = async (
     STU_EMAIL = stu_email;
   }
 
+  //TODO: add university email to orders (see TODO of verifyBoxOrderLimit)
+  //TODO: populate user instead of only putting its ID (importatnt for metrics for clients!!!)
+
   const box_order = {
     userID,
     season,
@@ -77,7 +80,8 @@ const verifyBoxOrderLimit = async (
       store.getOrdersByUserID(userID),
       //TODO: Check if a uni has this stu_id, not only check the stu_id,
       //because it can be that that stu_id also belongs to another
-      //university student (also pass the university) --> do it in store.js
+      //university student (also pass the university) --> do it in store.js.
+      //For this, structure of boxorders has to include the university, so that I can find if there are existing orders of an id that belongs to a uni
       store.getOrdersBystu_id(stu_id),
       store.getOrdersBystu_email(stu_email),
     ]);
