@@ -344,7 +344,8 @@ function ParaEmpresas() {
             </article>
           </section>
 
-          <SponsorsSlider titulo='Estas empresas ya confían en nosotros' />
+          {/* TODO: uncomment when I already have sponsors */}
+          {/* <SponsorsSlider titulo='Estas empresas ya confían en nosotros' /> */}
 
           {/* /////////////////////////
           //      Contacto       //
