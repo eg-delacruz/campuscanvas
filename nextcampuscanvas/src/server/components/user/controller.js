@@ -643,7 +643,7 @@ const manuallyVerifyStuAccByStuId = async (userID, stu_id) => {
     //Erase user from pending validations (if applies)
     await pendingStuIdAccValidationStore.delete(userID);
 
-    //Erase from unfinished verif process acc valid (if applies)
+    //Erase from unverifAccs collection (if applies)
     await unfinished_verif_process_emails_Controller.deleteUnverifAccEntry(
       user.email
     );

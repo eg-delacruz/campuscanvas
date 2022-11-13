@@ -60,7 +60,7 @@ async function sendAccValidatedByStuIdMail(userEmail) {
     html: `
     <h3>¡Ya puedes disfrutar de tus beneficios de estudiante!</h3>
     <p>Hemos revisado tu documento de estudiante y te hemos dado de alta en nuestra plataforma.</p>
-    <p>Para completar la verificación, hay click en el siguiente enlace a nuestra plataforma e inicia sesión: </p>
+    <p>Para completar la verificación, haz click en el siguiente enlace a nuestra plataforma e inicia sesión: </p>
 
     <table cellspacing="0" cellpadding="0">
       <tr>
