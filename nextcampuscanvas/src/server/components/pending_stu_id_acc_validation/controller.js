@@ -56,7 +56,6 @@ const getPendingValidationsAvailavility = async () => {
 };
 
 const deleteValidationEntry = async (userID) => {
-  //TODO: check if this function works properly
   try {
     await store.delete(userID);
   } catch (error) {

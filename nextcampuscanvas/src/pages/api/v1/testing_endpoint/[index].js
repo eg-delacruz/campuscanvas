@@ -8,6 +8,8 @@ import { successResponse, errorResponse } from '@server/response';
 //Avoids CORS errors
 import NextCors from 'nextjs-cors';
 
+// import Controller from '@server/components/unfinished_verif_process_emails/controller';
+
 export default async function handler(req, res) {
   //Avoiding CORS errors
   await NextCors(req, res, {
@@ -30,7 +32,8 @@ export default async function handler(req, res) {
   switch (method) {
     case 'POST':
       try {
-        successResponse(req, res, 'Todo OK', 201);
+        //const addedAcc = await Controller.createUnverifAccEntry(req.body.email);
+        successResponse(req, res, 'Todo Ok', 201);
       } catch (error) {
         errorResponse(req, res, 'Error', 400, error.message);
       }
