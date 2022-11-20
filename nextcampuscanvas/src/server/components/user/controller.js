@@ -523,13 +523,16 @@ const deleteUser = async (id) => {
       pendingStuIdValidationsStoreResponse,
     ] = responses;
 
-    const erased_files_array = erased_files.stu_id_files;
+    if (erased_files) {
+      const erased_files_array = erased_files.stu_id_files;
 
-    //Erase files from AWS3
-    await s3Deletev3_stu_id_files(erased_files_array);
+      //Erase files from AWS3
+      await s3Deletev3_stu_id_files(erased_files_array);
+    }
 
     return deleted_user;
   } catch (error) {
+    console.log('[Use controller error]', error);
     throw new Error('[Use controller error]', error);
   }
 };
