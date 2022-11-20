@@ -41,7 +41,7 @@ const createBoxOrder = async (
     STU_EMAIL = stu_email;
   }
 
-  //TODO: add university email to orders (see TODO of verifyBoxOrderLimit)
+  //TODO: add university to orders (see TODO of verifyBoxOrderLimit)
   //TODO: populate user instead of only putting its ID (importatnt for metrics for clients!!!)
 
   const box_order = {

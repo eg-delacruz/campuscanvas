@@ -499,11 +499,35 @@ const changePassword = async (userID, currentPassword, newPassword) => {
 };
 
 const deleteUser = async (id) => {
-  //TODO: check and erase entries from unverifaccs collection to avoid error of not allowed to create a new account with same password
-  //TODO: Erase files of that user
   try {
     const user = await store.getById(id);
-    const deleted_user = await store.deleteUser(user);
+
+    const responses = await Promise.all([
+      //Delete user
+      store.deleteUser(user),
+      //Erase from unverifAccs collection (if applies)
+      unfinished_verif_process_emails_Controller.deleteUnverifAccEntry(
+        user.email
+      ),
+      //Erase stu id files
+      stuIdFilesStore.delete(id),
+
+      //Erase user from pending validations (if applies)
+      pendingStuIdAccValidationStore.delete(id),
+    ]);
+
+    const [
+      deleted_user,
+      unverif_acc_coll_response,
+      erased_files,
+      pendingStuIdValidationsStoreResponse,
+    ] = responses;
+
+    const erased_files_array = erased_files.stu_id_files;
+
+    //Erase files from AWS3
+    await s3Deletev3_stu_id_files(erased_files_array);
+
     return deleted_user;
   } catch (error) {
     throw new Error('[Use controller error]', error);
