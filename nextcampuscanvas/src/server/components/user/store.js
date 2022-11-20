@@ -6,7 +6,6 @@ dbConnect(config.dbURL);
 import User from '@server/components/user/model';
 
 /////////////////////Add user//////////////////////////////
-
 const addUser = async (user) => {
   return await User.create(user);
 };
