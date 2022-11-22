@@ -1,3 +1,7 @@
+//This event is triggered when a user successfully passes the
+//first stu_email validation to send the verification link,
+//and also after successfully uploading student id files to be verified
+
 import { hash } from '@server/services/hash_to_256';
 
 export async function successful_step_3_register_process(

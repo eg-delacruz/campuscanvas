@@ -11,6 +11,10 @@ import arrow_right_white from '@assets/GeneralUse/IconsAndButtons/arrow_right_wh
 //Components
 import DragDropUploadArea from '@components/GeneralUseComponents/DragDropUploadArea/DragDropUploadArea';
 
+//Browser identifyer
+import identifyBrowser from '@services/identifyBrowser';
+const { getBrowserName } = identifyBrowser;
+
 //Endpoints
 import endPoints from '@services/api';
 
@@ -42,6 +46,7 @@ const StuIdVerification = ({ setVerificationMethod }) => {
             accept: '*/*',
             app_secret_key:
               process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
+            browserName: getBrowserName(navigator.userAgent),
           },
           body: formData,
         }

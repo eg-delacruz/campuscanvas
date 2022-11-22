@@ -21,9 +21,6 @@ const createUnverifAccEntry = async (email) => {
 const deleteUnverifAccEntry = async (email) => {
   try {
     const account = await store.getByEmail(email);
-    if (!account) {
-      throw new Error('Account not found');
-    }
     if (account) {
       await store.delete(account);
       return 'Account erased successfully';

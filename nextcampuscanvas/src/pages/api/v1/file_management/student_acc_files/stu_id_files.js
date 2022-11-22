@@ -13,7 +13,7 @@ import { createRouter, expressWrapper } from 'next-connect';
 //Response manager
 import { successResponse, errorResponse } from '@server/response';
 
-//Get request IP Address
+//Get request IP Address (for FB Conversions API)
 import requestIp from 'request-ip';
 
 //Avoids CORS errors
@@ -68,19 +68,29 @@ router
   //.array -> Allows multiple files
   .post(expressWrapper(upload.array('files')), async (req, res) => {
     //req.files has info of the file thanks to multer
-    const { body, method, files } = req;
+    const { body, headers, method, files } = req;
     const session = await getSession({ req });
 
     try {
+      const IP_Address = requestIp.getClientIp(req);
       const user_acc_id = session.token.sub;
       const account_email = session.token.email;
+      const browserName = headers.browsername;
+
       //IMPORTANT: Since in step 3 of validation, session
       //still hasn´t stored the user nickname in it,
       //when he/she uploads a file and sends the nickname
       //stored in its session, it is undefined untill user logs in again
-      //this is why nickname has to be taken from db and not from user
+      //this is why nickname has to be taken from db and not from user.
+      //Leave this note, but currently, nickname isn´t being used.
 
-      await Controller.uploadStudentIdFiles(files, user_acc_id, account_email);
+      await Controller.uploadStudentIdFiles(
+        files,
+        user_acc_id,
+        account_email,
+        IP_Address,
+        browserName
+      );
       successResponse(req, res, 'Archivos subidos exitosamente', 201);
     } catch (error) {
       if (

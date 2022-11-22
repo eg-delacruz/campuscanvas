@@ -1,8 +1,18 @@
 import { s3Uploadv3_stu_id_files } from '@server/services/AWS3/s3Service';
 import store from '@server/components/stu_id_files/store';
 import pending_stu_id_acc_validation_Controller from '@server/components/pending_stu_id_acc_validation/controller';
+import user_Controller from '@server/components/user/controller';
 
-const uploadStudentIdFiles = async (files, user_acc_id, account_email) => {
+//FB Conversions API
+import { successful_step_3_register_process } from '@server/services/fbConversionsAPI/step_3_register_process';
+
+const uploadStudentIdFiles = async (
+  files,
+  user_acc_id,
+  account_email,
+  IP_Address,
+  browserName
+) => {
   if (!user_acc_id) {
     console.log(
       '[stu_id_files controller error] El id de usuario es necesario'
@@ -39,6 +49,11 @@ const uploadStudentIdFiles = async (files, user_acc_id, account_email) => {
       account_email,
       stu_id_files
     );
+
+    //Send FB Conversions API info here (Start)
+    const user = await user_Controller.getUserById(user_acc_id);
+    successful_step_3_register_process(IP_Address, user, browserName);
+    //Send FB Conversions API info here (end)
   } catch (error) {
     console.log('[stu_id_files controller error]' + error.message);
     throw new Error(error.message);

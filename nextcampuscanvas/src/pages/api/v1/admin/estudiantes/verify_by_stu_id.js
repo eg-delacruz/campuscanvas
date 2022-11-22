@@ -6,8 +6,7 @@ import { getSession } from 'next-auth/react';
 //Response manager
 import { successResponse, errorResponse } from '@server/response';
 
-//TODO: Use for FB Conv. API
-//Get request IP Address
+//Get request IP Address (for FB Conversions API)
 import requestIp from 'request-ip';
 
 //Avoids CORS errors
@@ -57,6 +56,7 @@ export default async function handler(req, res) {
   }
 
   switch (method) {
+    //Gets the 15 oldest pending student id validations to display in client
     case 'GET':
       try {
         //Check if there are pending validatins (returns true/false)
@@ -87,12 +87,14 @@ export default async function handler(req, res) {
     //Manual verification of acc by uploaded student id file
     case 'PATCH':
       try {
+        const IP_Address = requestIp.getClientIp(req);
         const userID = req.body.userID;
         const stu_id = req.body.stu_id;
 
         const validation = await Controller.manuallyVerifyStuAccByStuId(
           userID,
-          stu_id
+          stu_id,
+          IP_Address
         );
         if (validation === 'Already verified') {
           errorResponse(

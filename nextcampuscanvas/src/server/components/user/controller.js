@@ -634,8 +634,7 @@ const getAllAdmins = async (master_id) => {
   }
 };
 
-//TODO: implement FB conversions api
-const manuallyVerifyStuAccByStuId = async (userID, stu_id) => {
+const manuallyVerifyStuAccByStuId = async (userID, stu_id, IP_Address) => {
   try {
     const user = await getUserById(userID);
     //Check if student hasn´t been validated before
@@ -676,6 +675,10 @@ const manuallyVerifyStuAccByStuId = async (userID, stu_id) => {
     await unfinished_verif_process_emails_Controller.deleteUnverifAccEntry(
       user.email
     );
+
+    //Send FB Conversions API info here (Start)
+    last_step_successful_stu_validation(IP_Address, user);
+    //Send FB Conversions API info here (end)
 
     //Send confirmation email to user
     await sendAccValidatedByStuIdMail(user.email);
