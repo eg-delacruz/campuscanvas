@@ -400,8 +400,9 @@ const validaciones_por_id_pendientes = () => {
         </Link>
         <h1>Validaciones por identificación de estudiante pendientes</h1>
         <p>
-          Revisar que lo documentos sean identificaciones de estudiante válidas,
-          y que además concuerden con la universidad.
+          Revisar que los documentos sean identificaciones de estudiante
+          válidas, vigentes, y que además concuerden con la universidad.
+          Solamente un administrador debería operar a la vez.
         </p>
 
         {/* /////////////////////////

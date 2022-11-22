@@ -16,7 +16,6 @@ export async function successful_step_1_register_process(
   const uniqueID = Math.floor(Math.random() * Date.now());
 
   ('use strict');
-  //This might cause error in nextjs
   const bizSdk = require('facebook-nodejs-business-sdk');
   const ServerEvent = bizSdk.ServerEvent;
   const EventRequest = bizSdk.EventRequest;

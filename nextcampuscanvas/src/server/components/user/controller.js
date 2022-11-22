@@ -262,7 +262,9 @@ const verifyStuEmail = async (user, stu_email, IP_Address, browserName) => {
       stu_email.includes('@gmail') ||
       stu_email.includes('@outlook') ||
       stu_email.includes('@yahoo') ||
-      stu_email.includes('@live')
+      stu_email.includes('@live') ||
+      //In the long run, erase this (@lacasa.es)
+      stu_email.includes('@lacasa.es')
     ) {
       throw new Error(
         '[Controller] La dirección de correo no pertenece a tu universidad'
