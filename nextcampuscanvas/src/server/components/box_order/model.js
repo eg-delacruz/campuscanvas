@@ -2,9 +2,11 @@ let mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const boxOrdersSchema = new mongoose.Schema({
+  //eventhoug this is called "userID" and not only "user", this will populate the user (keep in mind)
   userID: {
     type: Schema.ObjectId,
     required: [true, 'El ID del usuario es necesario'],
+    ref: 'user',
   },
   season: {
     type: String,

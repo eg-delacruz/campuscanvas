@@ -42,6 +42,7 @@ export default async function handler(req, res) {
         const account_email = req.query.index[1];
         const stu_id = req.query.index[2];
         const stu_email = req.query.index[3];
+        //TODO: pass university from session
         const isAllowedToOrder = await Controller.verifyBoxOrderLimit(
           userID,
           account_email,

@@ -1,6 +1,14 @@
 import store from '@server/components/box_order/store';
 import userController from '@server/components/user/controller';
 
+//Function used to erase sensitive data in orders
+const cleanOrderForClient = (order) => {
+  let orderClean = order.toObject();
+  delete orderClean.userID.password;
+  delete orderClean.userID.__v;
+  return orderClean;
+};
+
 const createBoxOrder = async (
   userID,
   season,
@@ -42,7 +50,6 @@ const createBoxOrder = async (
   }
 
   //TODO: add university to orders (see TODO of verifyBoxOrderLimit)
-  //TODO: populate user instead of only putting its ID (importatnt for metrics for clients!!!)
 
   const box_order = {
     userID,
@@ -66,6 +73,7 @@ const createBoxOrder = async (
   }
 };
 
+//TODO: get university to verify it with the stu id
 const verifyBoxOrderLimit = async (
   userID,
   account_email,
@@ -122,7 +130,10 @@ const getBoxOrdersByUser = async (userID) => {
       throw new Error('[boxOrderController] El usuario no existe');
     }
     const boxOrders = await store.getOrdersByUserID(userID);
-    return boxOrders;
+    const cleanBoxOrders = boxOrders.map((order) => {
+      return cleanOrderForClient(order);
+    });
+    return cleanBoxOrders;
   } catch (error) {
     throw new Error(error.message);
   }

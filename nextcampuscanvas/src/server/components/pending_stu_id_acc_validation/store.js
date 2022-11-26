@@ -1,10 +1,12 @@
-//Model
-import pendingStuIdAccValidation from '@server/components/pending_stu_id_acc_validation/model';
-import StuIdFile from '@server/components/stu_id_files/model';
-
 import dbConnect from '@server/dbConnect';
 import config from '@server/config';
 dbConnect(config.dbURL);
+
+//Model
+import pendingStuIdAccValidation from '@server/components/pending_stu_id_acc_validation/model';
+//This model will be populated
+import StuIdFile from '@server/components/stu_id_files/model';
+
 /////////////////////Create new pending validation//////////////////////////////
 const createNewPendingValidation = async (userData) => {
   //Since the userID has to be unique, Mongo does not let
@@ -18,7 +20,9 @@ const getFifteenOldest = async () => {
   try {
     const responses = await Promise.all([
       pendingStuIdAccValidation
+        //Gets all documents
         .find()
+        //Get the oldest documents first
         .sort({ _id: 1 })
         .limit(15)
         .populate({ path: 'stu_id_files', model: StuIdFile })
