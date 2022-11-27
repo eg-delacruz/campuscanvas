@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import Link from 'next/link';
 
 //Assets
 import sendIcon from '@assets/GeneralUse/IconsAndButtons/send_email.svg';
@@ -74,81 +75,88 @@ const EmailVerification = ({ user_id, setVerificationMethod }) => {
   };
 
   return (
-    <form
-      className={styles.form}
-      method='POST'
-      onSubmit={handleSubmit}
-      action=''
-      autoComplete='off'
-    >
-      {state.sent ? (
-        <>
-          <h4 className={styles.sent__message}>
-            Te hemos enviado un enlace de verificación. Revisa tu correo
-            universitario, incluyendo el buzón de spam.
-          </h4>
-          <p className={styles.sent__resendOption}>
-            ¿No has recibido el enlace?{' '}
-            <span onClick={() => setState({ ...state, sent: false })}>
-              Reenviar enlace
-            </span>{' '}
-          </p>
-        </>
-      ) : (
-        <>
-          <button
-            onClick={() => {
-              setVerificationMethod('');
-            }}
-            className={`${styles.button_back} btn button--red`}
-          >
-            <span>
-              <Image src={arrow_right_white} />
-            </span>
-            <div>Otro método</div>
-          </button>
+    <>
+      <form
+        className={styles.form}
+        method='POST'
+        onSubmit={handleSubmit}
+        action=''
+        autoComplete='off'
+      >
+        {state.sent ? (
+          <>
+            <h4 className={styles.sent__message}>
+              Te hemos enviado un enlace de verificación. Revisa tu correo
+              universitario, incluyendo el buzón de spam.
+            </h4>
+            <p className={styles.sent__resendOption}>
+              ¿No has recibido el enlace?{' '}
+              <span onClick={() => setState({ ...state, sent: false })}>
+                Reenviar enlace
+              </span>{' '}
+            </p>
+          </>
+        ) : (
+          <>
+            <button
+              onClick={() => {
+                setVerificationMethod('');
+              }}
+              className={`${styles.button_back} btn button--red`}
+            >
+              <span>
+                <Image src={arrow_right_white} />
+              </span>
+              <div>Otro método</div>
+            </button>
 
-          <h1>Regístrate gratis</h1>
-          <h4>Paso 3 de 3</h4>
-          <p className={styles.form__subtitle}>
-            Para verificar tu estatus de estudiante, introduce tu correo
-            universitario y te enviaremos un enlace de confirmación.
-          </p>
+            <h1>Regístrate gratis</h1>
+            <h4>Paso 3 de 3</h4>
+            <p className={styles.form__subtitle}>
+              Para verificar tu estatus de estudiante, introduce tu correo
+              universitario y te enviaremos un enlace de confirmación.
+            </p>
 
-          <div className={styles.confirmationContainer}>
-            <div className={styles.iconContainer}>
-              <Image layout='fixed' src={sendIcon} />
+            <div className={styles.confirmationContainer}>
+              <div className={styles.iconContainer}>
+                <Image layout='fixed' src={sendIcon} />
+              </div>
+              <div>
+                <label htmlFor='email'>Correo universitario</label>
+                <input
+                  required
+                  name='email'
+                  id='email'
+                  type='email'
+                  placeholder='Correo universitario'
+                  autoComplete='off'
+                  value={STU_EMAIL.value}
+                  onChange={STU_EMAIL.onChange}
+                />
+              </div>
             </div>
-            <div>
-              <label htmlFor='email'>Correo universitario</label>
-              <input
-                required
-                name='email'
-                id='email'
-                type='email'
-                placeholder='Correo universitario'
-                autoComplete='off'
-                value={STU_EMAIL.value}
-                onChange={STU_EMAIL.onChange}
-              />
-            </div>
-          </div>
-          {state.error && (
-            <p className={styles.inputText__errors}>{state.error}</p>
-          )}
+            {state.error && (
+              <p className={styles.inputText__errors}>{state.error}</p>
+            )}
 
-          <button
-            type='submit'
-            className={`${styles.sentLinkButton} ${
-              state.loading && styles.buttonLoading
-            } btn button--red`}
-            disabled={state.loading}
-          >
-            Enviar enlace{' '}
-          </button>
-        </>
-      )}
-    </form>
+            <button
+              type='submit'
+              className={`${styles.sentLinkButton} ${
+                state.loading && styles.buttonLoading
+              } btn button--red`}
+              disabled={state.loading}
+            >
+              Enviar enlace{' '}
+            </button>
+            <p className={styles.bottom_message}>
+              En caso tengas problemas para verificarte, considera hacerlo
+              mediante tu identificación de estudiante o consulta nuestras{' '}
+              <Link href='/FAQs'>FAQs</Link>.
+            </p>
+          </>
+        )}
+      </form>
+    </>
   );
 };
 

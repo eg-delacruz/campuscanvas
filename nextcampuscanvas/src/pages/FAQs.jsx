@@ -71,22 +71,43 @@ function FAQs() {
                 </p>
 
                 <h4>
-                  ¿No puedo completar mi proceso de verificación y registro para
-                  obtener mi Campus Box? ¿Qué hago?
+                  No puedo completar mi proceso de verificación y registro a
+                  través de mi email universitario. ¿Qué hago?
                 </h4>
-                <p>
-                  Posiblemente tu universidad no se encuentra en nuestra lista,
-                  ¡pero no te desanimes! Escríbemos un Email a{' '}
-                  <a href='mailto:campuscanvas.info@gmail.com'>
-                    <span>campuscanvas.info@gmail.com</span>
-                  </a>{' '}
-                  y coméntanos cuál es tu universidad para añadirla a nuestro
-                  listado de universidades. Estamos constantemente en expansión
-                  y seguramente en un futuro próximo también tu universidad será
-                  incluida en nuestra lista. También nos lo puedes comentar a
-                  través de <a href='#footer'>redes sociales</a> y con mucho
-                  gusto te enviaremos toda la información que necesites.
-                </p>
+                <ul>
+                  <li>
+                    <h5>No encuentro mi universidad</h5>
+                    <p>
+                      Posiblemente tu universidad no se encuentra en nuestra
+                      lista, ¡pero no te desanimes! Escríbemos un Email a{' '}
+                      <a href='mailto:campuscanvas.info@gmail.com'>
+                        <span>campuscanvas.info@gmail.com</span>
+                      </a>{' '}
+                      y coméntanos cuál es tu universidad para añadirla a
+                      nuestro listado de universidades. Estamos constantemente
+                      en expansión y seguramente en un futuro próximo también tu
+                      universidad será incluida en nuestra lista. También nos lo
+                      puedes comentar a través de{' '}
+                      <a href='#footer'>redes sociales</a> y con mucho gusto te
+                      enviaremos toda la información que necesites.
+                    </p>
+                  </li>
+                  <li>
+                    <h5>Me equivoqué al introducir mi universidad</h5>
+                    <p>
+                      Si al momento de introducir tu correo universitario en el
+                      paso 3 de verificación recibes el mensaje{' '}
+                      <strong>
+                        "La dirección de correo no pertenece a tu universidad"
+                      </strong>
+                      , y crees que al ingresar tu universidad en el paso 2 te
+                      equivocaste, tendrás que eliminar tu cuenta y volver a
+                      iniciar el proceso de registro. Pare ello, dirígete al
+                      apartado "cuenta" del menú desplegable de tu perfil y
+                      selecciona la opción "Eliminar mi cuenta"
+                    </p>
+                  </li>
+                </ul>
 
                 <h4>
                   ¿No llegó tu Campus Box a tu domicilio o no pudiste recogerla

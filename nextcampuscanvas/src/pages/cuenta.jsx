@@ -135,16 +135,6 @@ const cuenta = (props) => {
 
   /////////////////////Datalists (start)/////////////////////////////
   //Setting datalists options
-  const genderOptions = studentInfoDatabase.GENDERS.map((gender) => ({
-    value: gender,
-    label: gender,
-  }));
-  const universityOptions = studentInfoDatabase.UNIVERSITIES.map(
-    (university) => ({
-      value: university,
-      label: university,
-    })
-  );
   const facultyOptions = studentInfoDatabase.FACULTIES.map((faculty) => ({
     value: faculty,
     label: faculty,
@@ -159,16 +149,11 @@ const cuenta = (props) => {
   }));
 
   //States to save datalists data
-  const [gender, setGender] = useState({});
-  const [university, setUniversity] = useState({});
   const [faculty, setFaculty] = useState({});
   const [degree, setDegree] = useState({});
   const [year, setYear] = useState({});
 
   //States to modify datalist values
-  const [activateGenderDatalist, setActivateGenderDatalist] = useState(false);
-  const [activateUniversityDatalist, setActivateUniversityDatalist] =
-    useState(false);
   const [activateFacultyDatalist, setActivateFacultyDatalist] = useState(false);
   const [activateDegreeDatalist, setActivateDegreeDatalist] = useState(false);
   const [activateYearDatalist, setActivateYearDatalist] = useState(false);
@@ -224,10 +209,6 @@ const cuenta = (props) => {
     setState({ ...state, error: null });
 
     //Handling errors
-    if (activateGenderDatalist && Object.keys(gender).length === 0) {
-      setState({ ...state, error: 'Debes escoger un género de la lista' });
-      return false;
-    }
     if (activateFacultyDatalist && Object.keys(faculty).length === 0) {
       setState({
         ...state,
@@ -242,13 +223,6 @@ const cuenta = (props) => {
       });
       return false;
     }
-    if (activateUniversityDatalist && Object.keys(university).length === 0) {
-      setState({
-        ...state,
-        error: 'Debes escoger una universidad',
-      });
-      return false;
-    }
     if (activateYearDatalist && Object.keys(year).length === 0) {
       setState({
         ...state,
@@ -258,10 +232,7 @@ const cuenta = (props) => {
     }
     const profileData = {
       id: session.token.sub,
-      gender:
-        Object.keys(gender).length > 0
-          ? gender.value
-          : props.usersReducer.user.gender,
+      gender: props.usersReducer.user.gender,
       nickname: NOMBRE.value,
       birthdate: BIRTHDATE.value,
       phone: PHONE.value,
@@ -279,10 +250,7 @@ const cuenta = (props) => {
         Object.keys(degree).length > 0
           ? degree.value
           : props.usersReducer.user.stu_data.academic_degree,
-      university:
-        Object.keys(university).length > 0
-          ? university.value
-          : props.usersReducer.user.stu_data.university,
+      university: props.usersReducer.user.stu_data.university,
       last_uni_year:
         Object.keys(year).length > 0
           ? year.value
@@ -311,8 +279,6 @@ const cuenta = (props) => {
       //Reset datalist states
       setActivateDegreeDatalist(false);
       setActivateFacultyDatalist(false);
-      setActivateGenderDatalist(false);
-      setActivateUniversityDatalist(false);
       setActivateYearDatalist(false);
 
       await props.getUser(session.token.sub);
@@ -421,66 +387,28 @@ const cuenta = (props) => {
 
                       <div className={styles.personal__inputs}>
                         {/* Gender input */}
-                        {activateGenderDatalist ? (
-                          <div>
-                            <label
-                              htmlFor='gender'
-                              className={`${styles.input_title}`}
+
+                        <div>
+                          <label className={`${styles.input_title}`}>
+                            Género
+                          </label>
+                          <div className={styles.fake_input_container}>
+                            <div
+                              className={`${styles.input} ${
+                                styles.fake_input
+                              } ${
+                                !props.usersReducer.user?.gender &&
+                                styles.fake_input_placeholder
+                              }`}
                             >
-                              Género
-                            </label>
-                            <div className={styles.datalist_wrapper}>
-                              <DataList
-                                name='gender'
-                                theme={DataListTheme}
-                                styles={datalistStyles}
-                                options={genderOptions}
-                                placeholder='Género *'
-                                isSearchable
-                                autoFocus
-                                onChange={setGender}
-                                noOptionsMessage={() => 'No hay opciones'}
-                                className={styles.datalist}
-                                id='long-value-select'
-                                instanceId='long-value-select'
-                              />
-                              {state.error ===
-                                'Debes escoger un género de la lista' && (
-                                <p className={styles.inputText__errors}>
-                                  {state.error}
-                                </p>
-                              )}
+                              {props.usersReducer.user?.gender
+                                ? capitalize.capitalizeFirstLetter(
+                                    props.usersReducer.user?.gender
+                                  )
+                                : 'No se ha seleccionado'}
                             </div>
                           </div>
-                        ) : (
-                          <div>
-                            <label className={`${styles.input_title}`}>
-                              Género
-                            </label>
-                            <div className={styles.fake_input_container}>
-                              <div
-                                className={`${styles.input} ${
-                                  styles.fake_input
-                                } ${
-                                  !props.usersReducer.user?.gender &&
-                                  styles.fake_input_placeholder
-                                }`}
-                              >
-                                {props.usersReducer.user?.gender
-                                  ? capitalize.capitalizeFirstLetter(
-                                      props.usersReducer.user?.gender
-                                    )
-                                  : 'Selecciona tu género'}
-                              </div>
-                              <div
-                                className={styles.edit_button}
-                                onClick={() => setActivateGenderDatalist(true)}
-                              >
-                                <Image src={edit_icon} />
-                              </div>
-                            </div>
-                          </div>
-                        )}
+                        </div>
 
                         {/* Nickname input */}
 
@@ -871,70 +799,28 @@ const cuenta = (props) => {
 
                         {/* University input */}
 
-                        {activateUniversityDatalist ? (
-                          <div>
-                            <label
-                              htmlFor='university'
-                              className={`${styles.input_title}`}
+                        <div>
+                          <label className={`${styles.input_title}`}>
+                            Universidad
+                          </label>
+                          <div className={styles.fake_input_container}>
+                            <div
+                              className={`${styles.input} ${
+                                styles.fake_input
+                              } ${
+                                !props.usersReducer.user?.stu_data
+                                  ?.university && styles.fake_input_placeholder
+                              }`}
                             >
-                              Universidad
-                            </label>
-                            <div className={styles.datalist_wrapper}>
-                              <DataList
-                                name='university'
-                                theme={DataListTheme}
-                                styles={datalistStyles}
-                                options={universityOptions}
-                                placeholder='Universidad'
-                                isSearchable
-                                autoFocus
-                                onChange={setUniversity}
-                                noOptionsMessage={() => 'No hay opciones'}
-                                className={styles.datalist}
-                                id='long-value-select'
-                                instanceId='long-value-select'
-                              />
-                              {state.error ===
-                                'Debes escoger una universidad' && (
-                                <p className={styles.inputText__errors}>
-                                  {state.error}
-                                </p>
-                              )}
+                              {props.usersReducer.user?.stu_data?.university
+                                ? capitalize.capitalizeEachLetter(
+                                    props.usersReducer.user?.stu_data
+                                      ?.university
+                                  )
+                                : 'No se ha seleccionado'}
                             </div>
                           </div>
-                        ) : (
-                          <div>
-                            <label className={`${styles.input_title}`}>
-                              Universidad
-                            </label>
-                            <div className={styles.fake_input_container}>
-                              <div
-                                className={`${styles.input} ${
-                                  styles.fake_input
-                                } ${
-                                  !props.usersReducer.user?.stu_data
-                                    ?.university &&
-                                  styles.fake_input_placeholder
-                                }`}
-                              >
-                                {props.usersReducer.user?.stu_data?.university
-                                  ? capitalize.capitalizeEachLetter(
-                                      props.usersReducer.user?.stu_data
-                                        ?.university
-                                    )
-                                  : 'Seleccionar universidad'}
-                              </div>
-                              <div
-                                className={styles.edit_button}
-                                onClick={() =>
-                                  setActivateUniversityDatalist(true)
-                                }
-                              >
-                                <Image src={edit_icon} />
-                              </div>
-                            </div>
-                          </div>
-                        )}
+                        </div>
                       </div>
                     </section>
 
