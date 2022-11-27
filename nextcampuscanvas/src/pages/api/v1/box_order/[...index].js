@@ -42,12 +42,13 @@ export default async function handler(req, res) {
         const account_email = req.query.index[1];
         const stu_id = req.query.index[2];
         const stu_email = req.query.index[3];
-        //TODO: pass university from session
+        const university = session.token.stu_data.university;
         const isAllowedToOrder = await Controller.verifyBoxOrderLimit(
           userID,
           account_email,
           stu_id,
-          stu_email
+          stu_email,
+          university
         );
         successResponse(req, res, { allowToOrder: isAllowedToOrder }, 200);
       } catch (error) {

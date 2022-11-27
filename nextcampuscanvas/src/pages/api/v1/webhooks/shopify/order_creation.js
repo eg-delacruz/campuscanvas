@@ -42,9 +42,8 @@ export default async function handler(req, res) {
 
       try {
         const userID = body.note_attributes[0]?.value;
-        const { email, stu_email, stu_id } = await userController.getUserById(
-          userID
-        );
+        const { email, stu_email, stu_id, stu_data } =
+          await userController.getUserById(userID);
 
         const season = process.env.NEXT_PUBLIC_CURRENT_SEASON;
         const shopify_order_number = body.order_number.toString();
@@ -52,7 +51,9 @@ export default async function handler(req, res) {
         const status_URL = body.order_status_url;
         const total_paid = body.total_price;
         const description = 'Campus Box';
+        const university = stu_data.university;
 
+        //TODO: verify if orders are storing the university when shopify not paused anymore (check controller and model)
         await Controller.createBoxOrder(
           userID,
           season,
@@ -63,7 +64,8 @@ export default async function handler(req, res) {
           order_created_in_shopify_at,
           status_URL,
           total_paid,
-          description
+          description,
+          university
         );
 
         successResponse(req, res, 'Orden creada', 200);

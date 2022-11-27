@@ -46,6 +46,10 @@ const boxOrdersSchema = new mongoose.Schema({
   order_created_in_shopify_at: {
     type: Date,
   },
+  university: {
+    type: String,
+    lowercase: true,
+  },
 });
 
 export default mongoose.models.boxOrder ||

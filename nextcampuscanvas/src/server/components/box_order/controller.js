@@ -19,7 +19,8 @@ const createBoxOrder = async (
   order_created_in_shopify_at,
   status_URL,
   total_paid,
-  description
+  description,
+  university
 ) => {
   if (
     !userID ||
@@ -28,7 +29,8 @@ const createBoxOrder = async (
     !email ||
     !order_created_in_shopify_at ||
     !status_URL ||
-    !description
+    !description ||
+    !university
   ) {
     throw new Error('[boxOrderController] Los datos son insuficientes');
   }
@@ -49,8 +51,6 @@ const createBoxOrder = async (
     STU_EMAIL = stu_email;
   }
 
-  //TODO: add university to orders (see TODO of verifyBoxOrderLimit)
-
   const box_order = {
     userID,
     season,
@@ -63,6 +63,7 @@ const createBoxOrder = async (
     createdAt: new Date(),
     order_created_in_shopify_at,
     description,
+    university,
   };
 
   try {
@@ -73,24 +74,24 @@ const createBoxOrder = async (
   }
 };
 
-//TODO: get university to verify it with the stu id
 const verifyBoxOrderLimit = async (
   userID,
   account_email,
   stu_id,
-  stu_email
+  stu_email,
+  university
 ) => {
-  if (!userID || !account_email) {
+  if (!userID || !account_email || !university) {
     throw new Error('[boxOrderController] Los datos son insuficientes');
   }
   try {
     const responses = await Promise.all([
       store.getOrdersByUserID(userID),
-      //TODO: Check if a uni has this stu_id, not only check the stu_id,
+      //TODO: check if the getOrersBysty_id() works after shopify isn´t paused anymore
+      //Check if a uni has this stu_id, not only check the stu_id,
       //because it can be that that stu_id also belongs to another
-      //university student (also pass the university) --> do it in store.js.
-      //For this, structure of boxorders has to include the university, so that I can find if there are existing orders of an id that belongs to a uni
-      store.getOrdersBystu_id(stu_id),
+      //university student from a different university
+      store.getOrdersBystu_id(stu_id, university),
       store.getOrdersBystu_email(stu_email),
     ]);
 

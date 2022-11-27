@@ -23,9 +23,10 @@ const getOrdersByUserID = async (userID) => {
   }
 };
 
-const getOrdersBystu_id = async (stu_id) => {
+const getOrdersBystu_id = async (stu_id, university) => {
   try {
-    return await boxOrder.find({ stu_id });
+    //Looks for orders belonging to a stu_id of a specific university
+    return await boxOrder.find({ university, stu_id });
   } catch (error) {
     throw new Error(error.message);
   }
