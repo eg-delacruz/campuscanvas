@@ -20,6 +20,7 @@ import Distributon_ofice from '@assets/PagesImages/HomeImages/distribution_ofice
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
+import AnimatedBox from '@components/GeneralUseComponents/AnimatedBox/AnimatedBox';
 import SponsorsSlider from '@components/GeneralUseComponents/SponsorsSlider/SponsorsSlider';
 
 //Session
@@ -163,7 +164,8 @@ export default function Home() {
 
               <div className={`${styles['hero__container']}`}>
                 <div className={`${styles['hero__image_container']}`}>
-                  <Image alt='Campus Box' src={BoxWithProducts} priority />
+                  {/* <Image alt='Campus Box' src={BoxWithProducts} priority /> */}
+                  <AnimatedBox />
                 </div>
                 <div className={`${styles.hero__text_button_container}`}>
                   {HeroButtonDisplayer()}

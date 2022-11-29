@@ -27,6 +27,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    .hero__image_container {
+      flex: 0 1 50%;
+    }
     .hero__text_button_container {
       flex: 0 1 50%;
       margin-bottom: 75px;
@@ -242,7 +245,7 @@ body {
     &__container {
       flex-direction: column;
       .hero__image_container {
-        max-width: 450px;
+        width: 100%;
       }
       .hero__text_button_container {
         max-width: 470px;
