@@ -45,76 +45,76 @@
 }
 
 .star1 {
-  @include moveAndDisapearMixin(star1, 150px, 30px, 0.1s);
+  @include moveAndDisapearMixin(star1, 150px, 30px, 1s);
 }
 .star2 {
-  @include moveAndDisapearMixin(star2, 0px, 80px, 0.2s);
+  @include moveAndDisapearMixin(star2, 0px, 80px, 3s);
 }
 .star3 {
-  @include moveAndDisapearMixin(star3, 0px, 130px, 0.3s);
+  @include moveAndDisapearMixin(star3, 0px, 130px, 4.4s);
 }
 .star4 {
-  @include moveAndDisapearMixin(star4, 0px, 180px, 0.4s);
+  @include moveAndDisapearMixin(star4, 0px, 180px, 2.6s);
 }
 .star5 {
-  @include moveAndDisapearMixin(star5, 0px, 230px, 0.6s);
+  @include moveAndDisapearMixin(star5, 0px, 230px, 1.6s);
 }
 .star6 {
-  @include moveAndDisapearMixin(star6, 0px, 280px, 0.7s);
+  @include moveAndDisapearMixin(star6, 0px, 280px, 3.8s);
 }
 .star7 {
-  @include moveAndDisapearMixin(star7, 0px, 330px, 0.5s);
+  @include moveAndDisapearMixin(star7, 0px, 330px, 1.8s);
 }
 .star8 {
-  @include moveAndDisapearMixin(star8, 0px, 380px, 0.3s);
+  @include moveAndDisapearMixin(star8, 0px, 380px, 3.6s);
 }
 .star9 {
-  @include moveAndDisapearMixin(star9, 50px, 25px, 0.5s);
+  @include moveAndDisapearMixin(star9, 50px, 25px, 0.4s);
 }
 .star10 {
-  @include moveAndDisapearMixin(star10, 30px, 75px, 0.9s);
+  @include moveAndDisapearMixin(star10, 30px, 75px, 4.2s);
 }
 .star11 {
-  @include moveAndDisapearMixin(star11, 0px, 125px, 0.6s);
+  @include moveAndDisapearMixin(star11, 0px, 125px, 2.4s);
 }
 .star12 {
-  @include moveAndDisapearMixin(star12, 0px, 175px, 0.1s);
+  @include moveAndDisapearMixin(star12, 0px, 175px, 0.8s);
 }
 .star13 {
-  @include moveAndDisapearMixin(star13, 0px, 225px, 0.7s);
+  @include moveAndDisapearMixin(star13, 0px, 225px, 2.8s);
 }
 .star14 {
-  @include moveAndDisapearMixin(star14, 0px, 275px, 0.2s);
+  @include moveAndDisapearMixin(star14, 0px, 275px, 1.2s);
 }
 .star15 {
-  @include moveAndDisapearMixin(star15, 0px, 325px, 0.2s);
+  @include moveAndDisapearMixin(star15, 0px, 325px, 4.6s);
 }
 .star16 {
-  @include moveAndDisapearMixin(star16, 0px, 375px, 0.3s);
+  @include moveAndDisapearMixin(star16, 0px, 375px, 2s);
 }
 .star17 {
-  @include moveAndDisapearMixin(star17, 30px, 425px, 0.1s);
+  @include moveAndDisapearMixin(star17, 30px, 425px, 0.2s);
 }
 .star18 {
-  @include moveAndDisapearMixin(star18, 55px, 425px, 0.8s);
+  @include moveAndDisapearMixin(star18, 55px, 425px, 3.2s);
 }
 .star19 {
-  @include moveAndDisapearMixin(star19, 100px, 425px, 0.8s);
+  @include moveAndDisapearMixin(star19, 100px, 425px, 1.4s);
 }
 .star20 {
-  @include moveAndDisapearMixin(star20, 130px, 425px, 0.8s);
+  @include moveAndDisapearMixin(star20, 130px, 425px, 3.4s);
 }
 .star21 {
-  @include moveAndDisapearMixin(star21, 150px, 425px, 0.8s);
+  @include moveAndDisapearMixin(star21, 150px, 425px, 4.8s);
 }
 .star22 {
-  @include moveAndDisapearMixin(star22, 190px, 425px, 0.8s);
+  @include moveAndDisapearMixin(star22, 190px, 425px, 0.6s);
 }
 .star23 {
-  @include moveAndDisapearMixin(star23, 190px, 30px, 0.3s);
+  @include moveAndDisapearMixin(star23, 190px, 30px, 4s);
 }
 .star24 {
-  @include moveAndDisapearMixin(star24, 220px, 80px, 0.6s);
+  @include moveAndDisapearMixin(star24, 220px, 80px, 2.2s);
 }
 
 /////////////////////////
@@ -166,76 +166,76 @@
   }
 
   .star1 {
-    @include moveAndDisapearMixin(star1, 150px, 30px, 0.1s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star1, 150px, 30px, 1s, 5s, 300px, 180px);
   }
   .star2 {
-    @include moveAndDisapearMixin(star2, 0px, 80px, 0.2s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star2, 0px, 80px, 3s, 5s, 300px, 180px);
   }
   .star3 {
-    @include moveAndDisapearMixin(star3, 0px, 130px, 0.3s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star3, 0px, 130px, 4.4s, 5s, 300px, 180px);
   }
   .star4 {
-    @include moveAndDisapearMixin(star4, 0px, 180px, 0.4s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star4, 0px, 180px, 2.6s, 5s, 300px, 180px);
   }
   .star5 {
-    @include moveAndDisapearMixin(star5, 0px, 230px, 0.6s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star5, 0px, 230px, 1.6s, 5s, 300px, 180px);
   }
   .star6 {
-    @include moveAndDisapearMixin(star6, 0px, 280px, 0.7s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star6, 0px, 280px, 3.8s, 5s, 300px, 180px);
   }
   .star7 {
-    @include moveAndDisapearMixin(star7, 0px, 330px, 0.5s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star7, 0px, 330px, 1.8s, 5s, 300px, 180px);
   }
   .star8 {
-    @include moveAndDisapearMixin(star8, 0px, 380px, 0.3s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star8, 0px, 380px, 4.2s, 5s, 300px, 180px);
   }
   .star9 {
-    @include moveAndDisapearMixin(star9, 50px, 25px, 0.5s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star9, 50px, 25px, 2.4s, 5s, 300px, 180px);
   }
   .star10 {
-    @include moveAndDisapearMixin(star10, 30px, 75px, 0.9s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star10, 30px, 75px, 0.8s, 5s, 300px, 180px);
   }
   .star11 {
-    @include moveAndDisapearMixin(star11, 0px, 125px, 0.6s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star11, 0px, 125px, 2.8s, 5s, 300px, 180px);
   }
   .star12 {
-    @include moveAndDisapearMixin(star12, 0px, 175px, 0.1s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star12, 0px, 175px, 1.2s, 5s, 300px, 180px);
   }
   .star13 {
-    @include moveAndDisapearMixin(star13, 0px, 225px, 0.7s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star13, 0px, 225px, 4.6s, 5s, 300px, 180px);
   }
   .star14 {
-    @include moveAndDisapearMixin(star14, 0px, 275px, 0.2s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star14, 0px, 275px, 2s, 5s, 300px, 180px);
   }
   .star15 {
     @include moveAndDisapearMixin(star15, 0px, 325px, 0.2s, 5s, 300px, 180px);
   }
   .star16 {
-    @include moveAndDisapearMixin(star16, 0px, 375px, 0.3s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star16, 0px, 375px, 3.2s, 5s, 300px, 180px);
   }
   .star17 {
-    @include moveAndDisapearMixin(star17, 30px, 425px, 0.1s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star17, 30px, 425px, 1.4s, 5s, 300px, 180px);
   }
   .star18 {
-    @include moveAndDisapearMixin(star18, 55px, 425px, 0.8s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star18, 55px, 425px, 3.4s, 5s, 300px, 180px);
   }
   .star19 {
-    @include moveAndDisapearMixin(star19, 100px, 425px, 0.8s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star19, 100px, 425px, 4.8s, 5s, 300px, 180px);
   }
   .star20 {
-    @include moveAndDisapearMixin(star20, 130px, 425px, 0.8s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star20, 130px, 425px, 0.6s, 5s, 300px, 180px);
   }
   .star21 {
-    @include moveAndDisapearMixin(star21, 150px, 425px, 0.8s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star21, 150px, 425px, 4s, 5s, 300px, 180px);
   }
   .star22 {
-    @include moveAndDisapearMixin(star22, 190px, 425px, 0.8s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star22, 190px, 425px, 2s, 5s, 300px, 180px);
   }
   .star23 {
-    @include moveAndDisapearMixin(star23, 190px, 30px, 0.3s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star23, 190px, 30px, 1.2s, 5s, 300px, 180px);
   }
   .star24 {
-    @include moveAndDisapearMixin(star24, 220px, 80px, 0.6s, 5s, 300px, 180px);
+    @include moveAndDisapearMixin(star24, 220px, 80px, 0.4s, 5s, 300px, 180px);
   }
 }
 
@@ -352,6 +352,78 @@
   .box_front {
     top: 237px;
     left: 44px;
+  }
+  .star1 {
+    @include moveAndDisapearMixin(star1, 150px, 30px, 1s, 5s, 300px, 180px);
+  }
+  .star2 {
+    @include moveAndDisapearMixin(star2, 50px, 80px, 3s, 5s, 300px, 180px);
+  }
+  .star3 {
+    @include moveAndDisapearMixin(star3, 50px, 130px, 4.4s, 5s, 300px, 180px);
+  }
+  .star4 {
+    @include moveAndDisapearMixin(star4, 50px, 180px, 2.6s, 5s, 300px, 180px);
+  }
+  .star5 {
+    @include moveAndDisapearMixin(star5, 50px, 230px, 1.6s, 5s, 300px, 180px);
+  }
+  .star6 {
+    @include moveAndDisapearMixin(star6, 50px, 280px, 3.8s, 5s, 300px, 180px);
+  }
+  .star7 {
+    @include moveAndDisapearMixin(star7, 50px, 330px, 1.8s, 5s, 300px, 180px);
+  }
+  .star8 {
+    @include moveAndDisapearMixin(star8, 50px, 380px, 4.2s, 5s, 300px, 180px);
+  }
+  .star9 {
+    @include moveAndDisapearMixin(star9, 50px, 25px, 2.4s, 5s, 300px, 180px);
+  }
+  .star10 {
+    @include moveAndDisapearMixin(star10, 40px, 75px, 0.8s, 5s, 300px, 180px);
+  }
+  .star11 {
+    @include moveAndDisapearMixin(star11, 50px, 125px, 2.8s, 5s, 300px, 180px);
+  }
+  .star12 {
+    @include moveAndDisapearMixin(star12, 50px, 175px, 1.2s, 5s, 300px, 180px);
+  }
+  .star13 {
+    @include moveAndDisapearMixin(star13, 50px, 225px, 4.6s, 5s, 300px, 180px);
+  }
+  .star14 {
+    @include moveAndDisapearMixin(star14, 50px, 275px, 2s, 5s, 300px, 180px);
+  }
+  .star15 {
+    @include moveAndDisapearMixin(star15, 50px, 325px, 0.2s, 5s, 300px, 180px);
+  }
+  .star16 {
+    @include moveAndDisapearMixin(star16, 50px, 375px, 3.2s, 5s, 300px, 180px);
+  }
+  .star17 {
+    @include moveAndDisapearMixin(star17, 40px, 425px, 1.4s, 5s, 300px, 180px);
+  }
+  .star18 {
+    @include moveAndDisapearMixin(star18, 55px, 425px, 3.4s, 5s, 300px, 180px);
+  }
+  .star19 {
+    @include moveAndDisapearMixin(star19, 100px, 425px, 4.8s, 5s, 300px, 180px);
+  }
+  .star20 {
+    @include moveAndDisapearMixin(star20, 130px, 425px, 0.6s, 5s, 300px, 180px);
+  }
+  .star21 {
+    @include moveAndDisapearMixin(star21, 150px, 425px, 4s, 5s, 300px, 180px);
+  }
+  .star22 {
+    @include moveAndDisapearMixin(star22, 190px, 425px, 2s, 5s, 300px, 180px);
+  }
+  .star23 {
+    @include moveAndDisapearMixin(star23, 190px, 30px, 1.2s, 5s, 300px, 180px);
+  }
+  .star24 {
+    @include moveAndDisapearMixin(star24, 220px, 80px, 0.4s, 5s, 300px, 180px);
   }
 }
 @media screen and (max-width: 400px) {
