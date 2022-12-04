@@ -87,7 +87,7 @@ const EmailVerification = ({ user_id, setVerificationMethod }) => {
           <>
             <h4 className={styles.sent__message}>
               Te hemos enviado un enlace de verificación. Revisa tu correo
-              universitario, incluyendo el buzón de spam.
+              universitario, incluyendo el buzón de SPAM.
             </h4>
             <p className={styles.sent__resendOption}>
               ¿No has recibido el enlace?{' '}

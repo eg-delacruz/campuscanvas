@@ -10,7 +10,7 @@ import SectionDownButton from '@assets/GeneralUse/IconsAndButtons/section_down';
 
 //Images
 import BoxWithProducts from '@assets/PagesImages/HomeImages/box_and_products.svg';
-import upperbenefit1 from '@assets/PagesImages/EmpresasImages/gift.svg';
+import upperbenefit1 from '@assets/PagesImages/EmpresasImages/gift_girl.svg';
 import upperBenefit2 from '@assets/PagesImages/EmpresasImages/target.svg';
 import upperBenefit3 from '@assets/PagesImages/EmpresasImages/upperBenefit_img_3.svg';
 import upperBenefit4 from '@assets/PagesImages/EmpresasImages/upperBenefit_img_4.svg';
@@ -289,8 +289,8 @@ function ParaEmpresas() {
                   La comunidad estudiantil destaca por su facilidad y
                   naturalidad del manejo de redes sociales. Promover tus
                   productos en este segmento aumenta las posibilidades de un
-                  marketing boca a boca efectivo, gracias a la facilidad de
-                  comunicación y envío de información.
+                  <strong> marketing boca a boca efectivo</strong>, gracias a la
+                  facilidad de comunicación y envío de información.
                 </p>
               </div>
               <figure
@@ -306,18 +306,21 @@ function ParaEmpresas() {
               className={`${styles.beneficio} ${styles['beneficio--flipped']}`}
             >
               <div className={styles.beneficio__informacion}>
-                <h4>Diseñamos tu publicidad</h4>
+                <h4>Máxima atención a tu producto</h4>
                 <p>
-                  En conjunto contigo, diseñamos tus folletos publicitarios y
-                  nos encargamos de su impresión. Si lo prefieres, puedes
-                  enviarnos el diseño de tu volante y nosotros continuaremos el
-                  proceso de impresión y distribución a través de Campus Box
+                  El efecto sorpresa al sacar los productos de la caja, además
+                  del entorno sin distracciones del domicilio de los estudiantes
+                  garantizan toda su atención, gracias a la curiosidad de
+                  explorar su contenido.
                 </p>
               </div>
               <figure
                 className={`${styles.beneficio__imagen} ${styles.beneficio__imgSizeModif}`}
               >
-                <img src={lowerBenefit4.src} alt='Comunidad de Madrid' />
+                <img
+                  src={lowerBenefit4.src}
+                  alt='Máxima atención a tu producto.'
+                />
               </figure>
             </article>
 
