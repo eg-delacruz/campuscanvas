@@ -119,7 +119,7 @@ const index = () => {
         </Link>
 
         <ul className={styles.routes}>
-          <Link href={'#'}>
+          <Link href={'/admin/estudiantes/obtener-datos-usuarios'}>
             <li>Obtener datos de estudiante</li>
           </Link>
           <Link href={'/admin/estudiantes/validaciones-por-id-pendientes'}>

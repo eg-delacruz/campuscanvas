@@ -1,7 +1,7 @@
 import store from '@server/components/box_order/store';
 import userController from '@server/components/user/controller';
 
-//Function used to erase sensitive data in orders
+//Function used to erase sensitive data in orders, since orders have the complete user data, with sensitive info
 const cleanOrderForClient = (order) => {
   let orderClean = order.toObject();
   delete orderClean.userID.password;

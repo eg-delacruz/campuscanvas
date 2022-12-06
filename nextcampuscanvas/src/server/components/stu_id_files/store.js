@@ -23,6 +23,17 @@ const userAlreadyHasStuIdFiles = async (userID) => {
   return false;
 };
 
+/////////////Get all stuIdFiles by userID//////////////////////
+const getStuIdFilesByUserID = async (userID) => {
+  //let erased_files;
+  const files = await StuIdFiles.findOne({
+    userID,
+  });
+  if (!files) {
+    return {};
+  }
+  return files;
+};
 /////////////Delete stuIdFiles from DB//////////////////////
 const deleteStuIdFiles = async (userID) => {
   let erased_files;
@@ -39,4 +50,5 @@ module.exports = {
   add: createStuIdFiles,
   userAlreadyHasStuIdFiles,
   delete: deleteStuIdFiles,
+  getStuIdFilesByUserID,
 };

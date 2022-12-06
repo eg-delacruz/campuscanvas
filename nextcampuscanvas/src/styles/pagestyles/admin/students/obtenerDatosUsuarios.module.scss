@@ -1,0 +1,404 @@
+@import '../../../Vars.scss';
+@import '../../../Animations/dotLoadingButton.module.scss';
+
+//Loadint state while displaying page
+.loaderContainer {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  padding: 0 8px;
+  .server_errors_displayer {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+.button_back {
+  display: flex;
+  padding: 10px;
+  margin: 0;
+  margin-top: 32px;
+
+  span {
+    transform: rotate(90deg);
+    margin-right: 8px;
+  }
+}
+
+/////////////////////////
+//  Validation field   //
+/////////////////////////
+
+.email_form {
+  border: 1px solid $color--dark-gray;
+  padding: 6px;
+  border-radius: 5px;
+  max-width: 600px;
+  margin: 0 auto;
+  .email_tag {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+  }
+  .input {
+    width: 100%;
+    background-color: $color--secondary-light;
+    border: 1px solid $color--black;
+    height: 40px;
+    border-radius: 5px;
+    margin: 0;
+    margin-bottom: 8px;
+    padding: 10px;
+  }
+  .submit_validation {
+    padding: 10px;
+  }
+  .buttonLoading {
+    background-color: rgba(173, 33, 70, 0.5);
+  }
+}
+
+/////////////////////////
+//  Display user data   //
+/////////////////////////
+
+.acc_data_container {
+  width: 100%;
+  display: flex;
+  border: 1px solid $color--light-gray;
+  border-radius: 5px;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+  .gray_tag {
+    color: $color--dark-gray;
+  }
+  /////////////////////////
+  //   Left user data    //
+  /////////////////////////
+  .left_side_data {
+    flex: 1;
+    border-right: 1px solid $color--light-gray;
+    padding: 8px 24px;
+    padding-bottom: 16px;
+    p {
+      margin: 0;
+    }
+    .user_acc_email {
+      text-align: center;
+      font-weight: bold;
+      @include font-size(18px);
+    }
+    .verified_stu_displayer {
+      margin-top: 12px;
+      .title {
+        text-align: center;
+      }
+      .green_circle {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background-color: $color--confirmation;
+        margin: 24px auto;
+        box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: $color--white;
+        font-weight: bold;
+      }
+    }
+    .unverified_stu_displayer {
+      margin-top: 12px;
+      .title {
+        text-align: center;
+      }
+      .red_circle {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background-color: $color--primary1;
+        margin: 24px auto;
+        box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: $color--white;
+        font-weight: bold;
+      }
+      .red_circle:hover {
+        cursor: pointer;
+        background-color: rgba(173, 33, 70, 0.8);
+      }
+    }
+    .dates_info_container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 24px;
+    }
+    .dates_info_container_left {
+      margin-right: 4px;
+    }
+    .dates_info {
+      margin: 0;
+      margin-bottom: -10px;
+      @include paragraph--small;
+    }
+  }
+
+  /////////////////////////
+  //   Right user data    //
+  /////////////////////////
+  .right_side_data {
+    flex: 2;
+    .row1,
+    .row2,
+    .row4,
+    .row5,
+    .row6 {
+      display: flex;
+      padding: 8px;
+    }
+    .row1 {
+      border-bottom: 1px solid $color--light-gray;
+      .gender,
+      .birthdate {
+        flex: 1;
+        margin: 8px 0;
+      }
+    }
+    .row2 {
+      border-bottom: 1px solid $color--light-gray;
+      .stu_email,
+      .stu_id {
+        flex: 1;
+        p {
+          margin: 0;
+        }
+      }
+    }
+    .row3 {
+      font-weight: bold;
+      padding: 0 8px;
+      margin: 0;
+      text-decoration: underline;
+    }
+    .row4 {
+      padding-top: 0;
+      padding-bottom: 0;
+      .university,
+      .faculty {
+        flex: 1;
+        p {
+          margin: 0;
+        }
+      }
+    }
+    .row5 {
+      padding-top: 0;
+      padding-bottom: 0;
+      .academic_degree,
+      .empty {
+        flex: 1;
+        p {
+          margin: 0;
+        }
+      }
+    }
+    .row6 {
+      padding-top: 0;
+      .last_uni_semester,
+      .last_uni_year {
+        flex: 1;
+        p {
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+////////////////////////////
+//Display delivery address//
+////////////////////////////
+
+.delivery_address_container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  p {
+    margin: 0;
+  }
+  strong {
+    color: $color--dark-gray;
+  }
+}
+
+/////////////////////////
+// Display stu_id_files //
+/////////////////////////
+.stu_id_files_container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 8px 8px;
+  background-color: $color--light-gray;
+  border: 1px solid $color--dark-gray;
+  border-radius: 5px;
+  box-shadow: 14px 14px 20px -15px rgb(0, 0, 0, 0.1);
+  p {
+    margin: 0;
+  }
+  .upload_date {
+    margin: 0;
+    border-bottom: 1px solid $color--dark-gray;
+    @include paragraph--small;
+  }
+  .file_container {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+  }
+  .file_image {
+    max-width: 30px;
+    display: flex;
+    align-items: center;
+    padding-right: 5px;
+  }
+  .file_name,
+  .file_URL {
+    @include font-size(14px);
+  }
+  .file_URL {
+    margin: -11px 0 0;
+    span {
+      margin: 0;
+      cursor: pointer;
+      text-decoration: underline;
+      color: blue;
+      @include font-size(14px);
+    }
+  }
+}
+
+/////////////////////////
+//  Display box_orders  //
+/////////////////////////
+.box_orders_container {
+  .order {
+    margin: 0 auto;
+    max-width: 600px;
+    padding: 8px;
+    background-color: $color--light-gray;
+    border-radius: 5px;
+    border: 1px solid $color--dark-gray;
+    margin-bottom: 20px;
+    box-shadow: 14px 14px 20px -15px rgb(0, 0, 0, 0.1);
+
+    &__number {
+      margin: 0;
+      color: $color--primary1;
+    }
+    &__information {
+      display: flex;
+      justify-content: space-between;
+    }
+    p {
+      margin: 0;
+    }
+
+    .paid_container {
+      p {
+        font-weight: bold;
+      }
+      div {
+        font-weight: bold;
+        @include font-size(30px);
+        text-align: center;
+        margin-top: 20px;
+      }
+    }
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+  /////////////////////////
+  //  Display user data   //
+  /////////////////////////
+
+  .acc_data_container {
+    flex-direction: column;
+
+    /////////////////////////
+    //   Upper user data    //
+    /////////////////////////
+    .left_side_data {
+      flex: auto;
+      padding: 8px;
+      border-bottom: 1px solid $color--light-gray;
+    }
+
+    /////////////////////////
+    //   Under user data    //
+    /////////////////////////
+    .right_side_data {
+      flex: auto;
+    }
+  }
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+  /////////////////////////
+  //  Display user data   //
+  /////////////////////////
+  .acc_data_container {
+    /////////////////////////
+    //   Under user data    //
+    /////////////////////////
+    .right_side_data {
+      .row1,
+      .row2,
+      .row4,
+      .row5,
+      .row6 {
+        flex-direction: column;
+      }
+    }
+  }
+
+  .delivery_address_container {
+    grid-template-columns: 1fr;
+  }
+
+  /////////////////////////
+  //  Display box_orders  //
+  /////////////////////////
+  .order {
+    &__number {
+      margin-bottom: 16px;
+    }
+    &__information {
+      flex-direction: column;
+    }
+    .paid_container {
+      margin-top: 10px;
+    }
+  }
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}
