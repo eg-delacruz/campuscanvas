@@ -14,7 +14,7 @@ module.exports = withPWA({
   //TODO: Allow images from shopify (YouTube: Next.js + Shopify Storefront API (GraphQL) + TailwindCSS Headless Store - Course preview)
   images: {
     //Dominios externos de los que vendrán nuestras imágenes
-    // domains: ['placeimg.com'],
+    domains: ['i.imgur.com'],
   },
 });
 

@@ -93,6 +93,9 @@
       max-height: 600px;
       border: 1px solid $color--dark-gray;
       box-shadow: 10px 10px 18px -18px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .details {
       max-width: 350px;

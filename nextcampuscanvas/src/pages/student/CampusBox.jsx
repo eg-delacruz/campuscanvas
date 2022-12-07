@@ -14,6 +14,7 @@ import { useInputValue } from '@hooks/useInputValue';
 import styles from '@pagestyles/student/CampusBox.module.scss';
 
 //Assets
+//Leave this here in case box image doesn´t work if taken from imgur
 import Box from '@assets/PagesImages/CampusBox/campusbox.png';
 import SoldOut from '@assets/PagesImages/CampusBox/soldout.png';
 
@@ -427,7 +428,13 @@ const CampusBox = () => {
         <div className={`${styles.campusbox}`}>
           <main className={`${styles.campusbox__container} container`}>
             <figure>
-              <Image src={Box} alt='Imagen de Campus Box' />
+              <Image
+                src='https://i.imgur.com/CftTF3j.png'
+                width={600}
+                height={600}
+                alt='Imagen de Campus Box'
+                unoptimized={true}
+              />
             </figure>
             <div className={styles.details}>
               <h2>Campus Box</h2>
