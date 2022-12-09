@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Swal from 'sweetalert2';
 
 //Styles
 import styles from '@styles/pagestyles/admin/students/obtenerDatosUsuarios.module.scss';
@@ -69,23 +70,18 @@ const obtener_datos_de_usuarios = () => {
   //Controlling inputs
   const ACC_EMAIL = useInputValue('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const getUserData = async (acc_email) => {
     setState({ ...state, error: null, submitLoading: true });
     setUserData(null);
     try {
-      const respuesta = await fetch(
-        endPoints.admin.getUserData(ACC_EMAIL.value),
-        {
-          method: 'GET',
-          headers: {
-            accept: '*/*',
-            'Content-Type': 'application/json',
-            app_secret_key:
-              process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
-          },
-        }
-      );
+      const respuesta = await fetch(endPoints.admin.getUserData(acc_email), {
+        method: 'GET',
+        headers: {
+          accept: '*/*',
+          'Content-Type': 'application/json',
+          app_secret_key: process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
+        },
+      });
 
       const data = await respuesta.json();
 
@@ -115,10 +111,80 @@ const obtener_datos_de_usuarios = () => {
     }
   };
 
-  //TODO: handle verification
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await getUserData(ACC_EMAIL.value);
+  };
+
   const handleVerification = async () => {
-    console.log('Hay que verificar');
-    //Display a swal to do the validation
+    const customModal = Swal.mixin({
+      customClass: {
+        confirmButton: `${styles.modal_reject_button} btn button--unwantedOption`,
+        cancelButton: `${styles.modal_cancel_button} btn button--red`,
+      },
+      buttonsStyling: false,
+    });
+
+    customModal
+      .fire({
+        title: `Validar a ${userData.user.email}`,
+        input: 'text',
+        inputAttributes: {
+          autocapitalize: 'off',
+        },
+        inputPlaceholder: 'ID de estudiante',
+        showCancelButton: true,
+        confirmButtonText: 'Validar',
+        showLoaderOnConfirm: true,
+        allowOutsideClick: () => !Swal.isLoading(),
+        inputValidator: (value) => {
+          if (!value) {
+            return 'Debes ingresar un ID de estudiante válido';
+          }
+        },
+        preConfirm: async (stu_id) => {
+          //Data needed to validate account
+          const VALIDATION_DATA = {
+            userID: userData?.user._id,
+            stu_id: stu_id,
+          };
+
+          try {
+            const response = await fetch(endPoints.admin.validateByStuId, {
+              method: 'PATCH',
+              headers: {
+                accept: '*/*',
+                'Content-Type': 'application/json',
+                app_secret_key:
+                  process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
+              },
+              body: JSON.stringify(VALIDATION_DATA),
+            });
+            const data = await response.json();
+            if (data.error) {
+              throw new Error(data.error);
+            }
+            return await data;
+          } catch (error) {
+            Swal.showValidationMessage(`${error}`);
+          }
+        },
+      })
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          await getUserData(userData.user.email);
+          //Display validation confirmation display response message
+          const SuccessSwal = Swal.mixin({
+            customClass: {
+              confirmButton: `btn button--red`,
+            },
+            buttonsStyling: false,
+          });
+          SuccessSwal.fire({
+            title: `${result.value.body}`,
+          });
+        }
+      });
   };
 
   const displayStuIdDocument = (ID_URL) => {
@@ -190,6 +256,7 @@ const obtener_datos_de_usuarios = () => {
       </div>
     );
   }
+
   return (
     <>
       <SecondaryHeader />
@@ -502,7 +569,9 @@ const obtener_datos_de_usuarios = () => {
           ///////////////////////// */}
             <h4>Pedidos Campus Box</h4>
             {userData.boxOrders.length === 0 ? (
-              <div>No se ha hecho ningún pedido.</div>
+              <p className={styles.no_orders_message}>
+                No se ha hecho ningún pedido.
+              </p>
             ) : (
               <div className={styles.box_orders_container}>
                 {adaptedOrders.map((order) => (

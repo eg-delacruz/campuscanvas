@@ -288,6 +288,9 @@
 /////////////////////////
 //  Display box_orders  //
 /////////////////////////
+.no_orders_message {
+  margin: 0 auto 30px;
+}
 .box_orders_container {
   .order {
     margin: 0 auto;
@@ -323,6 +326,12 @@
       }
     }
   }
+}
+
+.modal_cancel_button,
+.modal_reject_button {
+  padding: 10px;
+  margin: 0 10px;
 }
 
 /////////////////////////
