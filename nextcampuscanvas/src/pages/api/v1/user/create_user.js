@@ -34,6 +34,7 @@ export default async function handler(req, res) {
         const IP_Address = requestIp.getClientIp(req);
         const newUser = await Controller.registerUser(
           req.body.email,
+          req.body.user_name,
           req.body.password,
           req.body.newsletter,
           IP_Address,

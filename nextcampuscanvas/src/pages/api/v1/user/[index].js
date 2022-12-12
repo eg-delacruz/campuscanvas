@@ -69,18 +69,18 @@ export default async function handler(req, res) {
         const IP_Address = requestIp.getClientIp(req);
         if (body.website_location === 'register_step_2') {
           const id = body.id;
-          const nickname = body.nickname;
           const gender = body.gender;
           const university = body.university;
           const faculty = body.faculty;
+          const academic_degree = body.academic_degree;
           const browserName = body.browserName;
 
           const updatedUser = await Controller.updateStuData(
             id,
-            nickname,
             gender,
             university,
             faculty,
+            academic_degree,
             browserName,
             IP_Address
           );

@@ -68,7 +68,6 @@ const ContactForm = (props) => {
   const MESSAGE = useInputValue('');
 
   ///////////////////////Show jobs in datalist in case of job application////////////////////////
-  // TODO: Hacer que esta parte del código solo se ejecute cuando se necesita form de Jobs/CV
   let JOB_POSITIONS = [];
   if (typeof props.jobs === 'object') {
     JOB_POSITIONS = props.jobs.map((position) => {
@@ -79,7 +78,6 @@ const ContactForm = (props) => {
 
   ////////////////////////////////////////////// Input File logic////////////////////////////////////////
 
-  //TODO: Count pages of PDF files: https://stackoverflow.com/questions/58079660/how-to-get-the-number-of-pages-in-pdf-file
   //Controlling files input
   const elemRef = useRef(null);
   const [files, setFiles] = useState({

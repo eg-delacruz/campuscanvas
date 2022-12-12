@@ -30,6 +30,11 @@ const schema = yup.object().shape({
     .string()
     .email('Escribe una dirección de correo válida')
     .required('Escribe tu correo'),
+  user_name: yup
+    .string()
+    .min(6, 'El nombre de usuario debe tener almenos 6 caracteres')
+    .max(20, 'El nombre de usuario debe tener como máximo 16 caracteres')
+    .required('Escribe un nombre de usuario'),
   contrasena: yup
     .string()
     .min(6, 'La contraseña debe tener almenos 6 caracteres')
@@ -48,6 +53,7 @@ const emailPasswordForm = (props) => {
 
   //Controlling inputs
   const CORREO = useInputValue('');
+  const USER_NAME = useInputValue('');
   const CONTRASENA = useInputValue('');
   const REP_CONTRASENA = useInputValue('');
   const TERMS_CHECK_BOX = useInputValue('');
@@ -76,6 +82,7 @@ const emailPasswordForm = (props) => {
         },
         body: JSON.stringify({
           email: CORREO.value,
+          user_name: USER_NAME.value,
           password: CONTRASENA.value,
           newsletter: NEWSLETTER_CHECK_BOX.value,
           browserName: getBrowserName(navigator.userAgent),
@@ -148,6 +155,20 @@ const emailPasswordForm = (props) => {
         {...register('correo')}
         value={CORREO.value}
         onChange={CORREO.onChange}
+      />
+      <label className={styles.inputText__label} htmlFor='correo_universitario'>
+        Nombre de usuario
+        <p className={styles.inputText__errors}>{errors.user_name?.message}</p>
+      </label>
+      <input
+        name='user_name'
+        id='user_name'
+        type='text'
+        placeholder='Nombre de usuario'
+        autoComplete='off'
+        {...register('user_name')}
+        value={USER_NAME.value}
+        onChange={USER_NAME.onChange}
       />
       <label className={styles.inputText__label} htmlFor='contrasena'>
         Contraseña{' '}

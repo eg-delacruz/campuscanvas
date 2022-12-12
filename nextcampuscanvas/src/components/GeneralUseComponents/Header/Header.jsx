@@ -192,11 +192,7 @@ function Header(props) {
                 <div className={styles.header__logged_user_menu_container}>
                   <Link href={'/'}>
                     <button className={styles.header__logged_user_menu_logo767}>
-                      <Image
-                        //layout={'fixed'}
-                        src={Isotype767}
-                        alt={'Campus Canvas logo'}
-                      />
+                      <Image src={Isotype767} alt={'Campus Canvas logo'} />
                     </button>
                   </Link>
                   <div
@@ -209,11 +205,9 @@ function Header(props) {
                       <Image src={logged_user_icon} />
                     </div>
                     <button>
-                      {props.usersReducer.user.nickname
-                        ? width < 369
-                          ? truncateText(props.usersReducer.user.nickname, 15)
-                          : props.usersReducer.user.nickname
-                        : props.usersReducer.user.email}
+                      {width < 369
+                        ? truncateText(props.usersReducer.user.nickname, 15)
+                        : props.usersReducer.user.nickname}
                       <i>
                         <Image src={dropdown_menu_arrow} />
                       </i>

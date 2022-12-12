@@ -43,10 +43,17 @@ const cleanUserForClient = (user) => {
   return userClean;
 };
 
-const registerUser = (email, password, newsletter, IP_Address, browserName) => {
+const registerUser = (
+  email,
+  user_name,
+  password,
+  newsletter,
+  IP_Address,
+  browserName
+) => {
   return new Promise(async (resolve, reject) => {
-    if (!email || !password || !email.includes('@')) {
-      console.error('[userController] No hay email o password');
+    if (!email || !user_name || !password || !email.includes('@')) {
+      console.error('[userController] No hay email, nickname o password');
       //Usamos return para parar ejecución
       return reject({ message: 'Los datos son incorrectos' });
     }
@@ -68,7 +75,7 @@ const registerUser = (email, password, newsletter, IP_Address, browserName) => {
     const fullUser = {
       email,
       password: encPass,
-      nickname: '',
+      nickname: user_name,
       gender: '',
       stu_verified: false,
       stu_email: '',
@@ -141,20 +148,20 @@ const getUserByEmail = async (email) => {
 
 const updateStuData = async (
   id,
-  nickname,
   gender,
   university,
   faculty,
+  academic_degree,
   browserName,
   IP_Address
 ) => {
   try {
     const user = await store.getById(id);
 
-    user.nickname = nickname;
     user.gender = gender.toLowerCase();
     user.stu_data.university = university.toLowerCase();
     user.stu_data.faculty = faculty.toLowerCase();
+    user.stu_data.academic_degree = academic_degree.toLowerCase();
     user.updatedAt = new Date();
 
     const modifiedUser = await store.update(user);

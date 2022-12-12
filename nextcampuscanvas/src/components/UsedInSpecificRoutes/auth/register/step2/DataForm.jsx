@@ -14,9 +14,6 @@ import endPoints from '@services/api';
 //Assets
 import arrow_right_white from '@assets/GeneralUse/IconsAndButtons/arrow_right_white.svg';
 
-//hooks
-import { useInputValue } from '@hooks/useInputValue';
-
 //Styles
 import styles from './DataForm.module.scss';
 
@@ -53,9 +50,17 @@ const DataForm = (props) => {
     label: faculty,
   }));
 
+  const academicDegreeOptions = studentInfoDatabase.ACADEMIC_DEGREES.map(
+    (academic_degree) => ({
+      value: academic_degree,
+      label: academic_degree,
+    })
+  );
+
   const [gender, setGender] = useState({});
   const [university, setUniversity] = useState({});
   const [faculty, setFaculty] = useState({});
+  const [academicDegree, setAcademicDegree] = useState({});
 
   const DataListTheme = (theme) => {
     return {
@@ -85,7 +90,6 @@ const DataForm = (props) => {
     control: (base, state) => ({
       ...base,
       height: '45px',
-      //$color--secondary-light
       backgroundColor: '#e3efff',
     }),
   };
@@ -93,10 +97,6 @@ const DataForm = (props) => {
   /////////////////////Datalists (end)/////////////////////////////
   //Session
   const { data: session, status } = useSession();
-  const loading = status === 'loading';
-
-  //Controlling inputs
-  const NOMBRE = useInputValue('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -121,6 +121,13 @@ const DataForm = (props) => {
       });
       return false;
     }
+    if (Object.keys(academicDegree).length === 0) {
+      setState({
+        ...state,
+        error: 'Debes escoger un grado académico',
+      });
+      return false;
+    }
 
     //Updating student info
     try {
@@ -134,10 +141,10 @@ const DataForm = (props) => {
         },
         body: JSON.stringify({
           id: session.token.sub,
-          nickname: NOMBRE.value,
           gender: gender.value,
           university: university.value,
           faculty: faculty.value,
+          academic_degree: academicDegree.value,
           website_location: 'register_step_2',
           browserName: getBrowserName(navigator.userAgent),
         }),
@@ -189,18 +196,6 @@ const DataForm = (props) => {
         )}
       </div>
 
-      <input
-        className={styles.input}
-        required
-        name='nombre'
-        id='nombre'
-        type='text'
-        placeholder='Nombre de usuario *'
-        autoComplete='off'
-        value={NOMBRE.value}
-        onChange={NOMBRE.onChange}
-      />
-
       <div className={styles.datalistWrapper}>
         <DataList
           theme={DataListTheme}
@@ -235,6 +230,25 @@ const DataForm = (props) => {
           instanceId='long-value-select-3'
         />
         {state.error === 'Debes escoger una facultad de la lista' && (
+          <p className={styles.inputText__errors}>{state.error}</p>
+        )}
+      </div>
+
+      <div className={styles.datalistWrapper}>
+        <DataList
+          theme={DataListTheme}
+          styles={datalistStyles}
+          options={academicDegreeOptions}
+          placeholder='Grado académico *'
+          isSearchable
+          autoFocus
+          onChange={setAcademicDegree}
+          noOptionsMessage={() => 'No hay opciones'}
+          className={styles.datalist_container}
+          id='long-value-select-4'
+          instanceId='long-value-select-4'
+        />
+        {state.error === 'Debes escoger un grado académico' && (
           <p className={styles.inputText__errors}>{state.error}</p>
         )}
       </div>
