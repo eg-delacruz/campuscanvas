@@ -1,5 +1,3 @@
-import React from 'react';
-import Link from 'next/link';
 import { connect } from 'react-redux';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -24,7 +22,12 @@ const PostsTable = (props) => {
   if (props.posts.length === 0) {
     props.getPosts();
   }
-  if (props.loading) return <Loader />;
+  if (props.loading)
+    return (
+      <div className={styles.loader_container}>
+        <Loader />
+      </div>
+    );
   if (props.error) return <ErrorDisplayer message={props.error} />;
 
   //Main post = last post in array
@@ -51,6 +54,10 @@ const PostsTable = (props) => {
     return shortenedText;
   }
 
+  function createHTMLElement(string) {
+    return { __html: string };
+  }
+
   return (
     <div className={styles.Posts}>
       {/*   /////////////////////////
@@ -66,7 +73,11 @@ const PostsTable = (props) => {
                 <Image src={post.LargeImage} alt='Imagen de la publicación' />
               </figure>
               <h1>{post.Title}</h1>
-              <p>{truncateText(post.Content[0], 398)}</p>
+              <p
+                dangerouslySetInnerHTML={createHTMLElement(
+                  truncateText(post.Content[0], 398)
+                )}
+              ></p>
               <button
                 onClick={() => {
                   router.push(
@@ -94,34 +105,37 @@ const PostsTable = (props) => {
         <hr />
 
         <div className={styles.AllPostsGrid}>
-          {ALL_POSTS.map((post) => (
-            <div key={post.id} className={styles.post}>
-              <figure>
-                <Image src={post.SmallImage} alt='Portada del post' />
-              </figure>
-              <h4>{post.Title}</h4>
-              <p className={styles.post__description}>
-                {truncateText(post.Content[0], 170)}
-              </p>
+          {/* Slice and reverse needed to map array from last to first, in order to show newest posts first */}
+          {ALL_POSTS.slice(0)
+            .reverse()
+            .map((post) => (
+              <div key={post.id} className={styles.post}>
+                <figure>
+                  <Image src={post.SmallImage} alt='Portada del post' />
+                </figure>
+                <h4>{post.Title}</h4>
+                <p className={styles.post__description}>
+                  {truncateText(post.Content[0], 170)}
+                </p>
 
-              <button
-                onClick={() => {
-                  router.push(
-                    {
-                      pathname: `/blog/post/${post.id}`,
-                      query: { id: post.id },
-                    },
-                    `/blog/post/${post.id}`
-                  );
-                }}
-                className='btn button--redRedborderTransparent'
-              >
-                Leer más
-              </button>
+                <button
+                  onClick={() => {
+                    router.push(
+                      {
+                        pathname: `/blog/post/${post.id}`,
+                        query: { id: post.id },
+                      },
+                      `/blog/post/${post.id}`
+                    );
+                  }}
+                  className='btn button--redRedborderTransparent'
+                >
+                  Leer más
+                </button>
 
-              <hr />
-            </div>
-          ))}
+                <hr />
+              </div>
+            ))}
         </div>
       </section>
     </div>

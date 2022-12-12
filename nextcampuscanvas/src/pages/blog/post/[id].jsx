@@ -37,7 +37,9 @@ const BlogPost = (props) => {
   if (props.loading)
     return (
       <Layout>
-        <Loader />
+        <div className={styles.loader_container}>
+          <Loader />
+        </div>
       </Layout>
     );
 

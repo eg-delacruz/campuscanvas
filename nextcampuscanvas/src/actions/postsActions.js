@@ -6,7 +6,7 @@ export const getPosts = () => (dispatch) => {
     type: LOADING,
   });
   try {
-    setTimeout(function() {
+    setTimeout(function () {
       dispatch({
         type: GET_ALL,
         payload: POSTS,

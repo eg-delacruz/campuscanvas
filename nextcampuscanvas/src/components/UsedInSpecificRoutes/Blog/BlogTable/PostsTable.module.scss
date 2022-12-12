@@ -1,4 +1,11 @@
 @import '../../../../styles/Vars.scss';
+.loader_container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40vh;
+}
 
 /////////////////////////
 //      Main Post      //
@@ -30,8 +37,7 @@
     display: flex;
     margin: 0;
     align-items: center;
-    // background-color: rgba(222, 226, 230, 0.9);
-    background-color: $color--secondary-light;
+    //background-color: $color--secondary-light;
     img {
       max-width: 100%;
       border-radius: 3px;
