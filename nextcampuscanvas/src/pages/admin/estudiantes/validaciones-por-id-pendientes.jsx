@@ -220,8 +220,7 @@ const validaciones_por_id_pendientes = () => {
     window.open(fileURL, '_blank');
   };
 
-  //useEffect monitors if rejectAcc state changes to display the reject modal
-  useEffect(async () => {
+  const displayRejectModal = async () => {
     if (rejectAcc.user_email) {
       //Modal
       const customModal = Swal.mixin({
@@ -264,6 +263,10 @@ const validaciones_por_id_pendientes = () => {
         await rejectValidation(value);
       }
     }
+  };
+  //useEffect monitors if rejectAcc state changes to display the reject modal
+  useEffect(() => {
+    displayRejectModal();
   }, [rejectAcc]);
 
   const showRejectModal = (account_email, userID) => {
