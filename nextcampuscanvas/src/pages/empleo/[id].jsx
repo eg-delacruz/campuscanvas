@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
 //Components
@@ -10,41 +10,44 @@ import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 //Redux actions
-import * as jobsActions from '../../actions/jobsActions';
-const { getJobs } = jobsActions;
+import { getJobs, selectJobs } from '@redux/jobsSlice';
 
 const JobDescription = (props) => {
-  const router = useRouter();
+  //Allows us to manipulate the appropriate slice/action
+  const dispatch = useDispatch();
 
-  console.log(props);
+  //Reducers
+  const jobsReducer = useSelector(selectJobs);
+
+  const router = useRouter();
 
   const {
     query: { id },
   } = router;
 
-  if (props.jobs.length === 0) {
-    props.getJobs();
+  if (jobsReducer.jobs.length === 0) {
+    dispatch(getJobs());
   }
 
-  if (props.jobs === 'no_jobs') {
+  if (jobsReducer.jobs === 'no_jobs') {
     router.push('/notfound');
   }
 
-  const DESCRIPTION = props.jobs.find((item) => {
+  const DESCRIPTION = jobsReducer.jobs.find((item) => {
     return item.id === Number(id);
   });
 
-  if (props.loading)
+  if (jobsReducer.loading)
     return (
       <Layout>
         <Loader />
       </Layout>
     );
 
-  if (props.error)
+  if (jobsReducer.error)
     return (
       <Layout>
-        <ErrorDisplayer message={props.error} />
+        <ErrorDisplayer message={jobsReducer.error} />
       </Layout>
     );
 
@@ -63,14 +66,4 @@ const JobDescription = (props) => {
   );
 };
 
-//Map state to props
-const mapStateToProps = (reducers) => {
-  return reducers.jobsReducer;
-};
-
-//Map actions to props
-const mapDispatchToProps = {
-  getJobs,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(JobDescription);
+export default JobDescription;

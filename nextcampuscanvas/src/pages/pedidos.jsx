@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 //Styles
 import styles from '@styles/pagestyles/Pedidos.module.scss';
@@ -25,10 +25,9 @@ import { useSession } from 'next-auth/react';
 import endPoints from '@services/api';
 
 //Redux actions
-import * as globalStateActions from '@actions/globalStateActions';
-const { open_sidebar } = globalStateActions;
+import { openSidebar } from '@redux/globalStateSlice';
 
-const pedidos = (props) => {
+const pedidos = () => {
   //Session
   const { data: session, status } = useSession();
 
@@ -44,6 +43,9 @@ const pedidos = (props) => {
     loading: true,
     error: false,
   });
+
+  //Allows us to manipulate the appropriate slice/action
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getOrders = async () => {
@@ -86,7 +88,7 @@ const pedidos = (props) => {
             {/* Back button for mobile */}
             <button
               className={`${styles.pedidos__goback_button}  btn button--redRedborderTransparentHoverShadowtRed`}
-              onClick={() => props.open_sidebar()}
+              onClick={() => dispatch(openSidebar())}
             >
               <span className={styles.pedidos__black_arrow}>
                 <Image src={arrow_right_black} />
@@ -250,7 +252,7 @@ const pedidos = (props) => {
                   {/* Back button for mobile */}
                   <button
                     className={`${styles.pedidos__goback_button}  btn button--redRedborderTransparentHoverShadowtRed`}
-                    onClick={() => props.open_sidebar()}
+                    onClick={() => dispatch(openSidebar())}
                   >
                     <span className={styles.pedidos__black_arrow}>
                       <Image src={arrow_right_black} />
@@ -279,14 +281,4 @@ const pedidos = (props) => {
   );
 };
 
-//Map state to props
-const mapStateToProps = (reducer) => {
-  return reducer.globalStateReducer;
-};
-
-//Map actions to props
-const mapDispatchToProps = {
-  open_sidebar,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(pedidos);
+export default pedidos;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 //Styles
 import styles from './TablaEmpleos.module.scss';
@@ -10,20 +10,24 @@ import Loader from '@components/GeneralUseComponents/Loader/Loader.jsx';
 import ErrorDisplayer from '@components/GeneralUseComponents/ErrorDisplayer/ErrorDisplayer';
 
 //Redux actions
-import * as jobsActions from '../../../../actions/jobsActions';
-const { getJobs } = jobsActions;
+import { getJobs, selectJobs } from '@redux/jobsSlice';
 
 function TablaEmpleos(props) {
-  //console.log(props);
+  //Allows us to manipulate the appropriate slice/action
+  const dispatch = useDispatch();
+
+  //Reducers
+  const jobsReducer = useSelector(selectJobs);
+
   const router = useRouter();
 
-  if (props.jobs.length === 0) {
-    props.getJobs();
+  if (jobsReducer.jobs.length === 0) {
+    dispatch(getJobs());
   }
 
-  if (props.loading) return <Loader />;
-  if (props.error) return <ErrorDisplayer message={props.error} />;
-  if (props.jobs === 'no_jobs')
+  if (jobsReducer.loading) return <Loader />;
+  if (jobsReducer.error) return <ErrorDisplayer message={jobsReducer.error} />;
+  if (jobsReducer.jobs === 'no_jobs')
     return (
       <h4 className={styles.notAvailableJobs}>
         De momento, no estamos ofreciendo ninguna posición. <br /> Sin embargo,
@@ -33,7 +37,7 @@ function TablaEmpleos(props) {
     );
 
   const displayOffers = () =>
-    props.jobs.map((oferta) => (
+    jobsReducer.jobs.map((oferta) => (
       <article key={oferta.id} className={styles.jobCard}>
         <h4 className={styles.jobCardTitle}>{oferta.JobTitle}</h4>
         <p>{oferta.CardDescription}</p>
@@ -56,20 +60,10 @@ function TablaEmpleos(props) {
     ));
 
   return (
-    <React.Fragment>
+    <>
       <section className={styles.main__jobs}>{displayOffers()}</section>
-    </React.Fragment>
+    </>
   );
 }
 
-//Map state to props
-const mapStateToProps = (reducers) => {
-  return reducers.jobsReducer;
-};
-
-//Map actions to props
-const mapDispatchToProps = {
-  getJobs,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TablaEmpleos);
+export default TablaEmpleos;

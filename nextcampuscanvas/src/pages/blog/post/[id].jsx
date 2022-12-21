@@ -1,5 +1,4 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
@@ -17,24 +16,29 @@ import ErrorDisplayer from '@components/GeneralUseComponents/ErrorDisplayer/Erro
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 
 //Redux actions
-import * as postsActions from '../../../actions/postsActions';
-const { getPosts } = postsActions;
+import { getPosts, selectPosts } from '@redux/postsSlice';
 
-const BlogPost = (props) => {
+const BlogPost = () => {
+  //Allows us to manipulate the appropriate slice/action
+  const dispatch = useDispatch();
+
+  //Reducers
+  const postsReducer = useSelector(selectPosts);
+
   const router = useRouter();
   const {
     query: { id },
   } = router;
 
-  if (props.posts.length === 0 || props.posts === undefined) {
-    props.getPosts();
+  if (postsReducer.posts.length === 0 || postsReducer.posts === undefined) {
+    dispatch(getPosts());
   }
 
-  const POST = props.posts.find((post) => {
+  const POST = postsReducer.posts.find((post) => {
     return post.id === id;
   });
 
-  if (props.loading)
+  if (postsReducer.loading)
     return (
       <Layout>
         <div className={styles.loader_container}>
@@ -43,10 +47,10 @@ const BlogPost = (props) => {
       </Layout>
     );
 
-  if (props.error)
+  if (postsReducer.error)
     return (
       <Layout>
-        <ErrorDisplayer message={props.error} />
+        <ErrorDisplayer message={postsReducer.error} />
       </Layout>
     );
 
@@ -76,14 +80,5 @@ const BlogPost = (props) => {
     </>
   );
 };
-//Map state to props
-const mapStateToProps = (reducers) => {
-  return reducers.postsReducer;
-};
 
-//Map actions to props
-const mapDispatchToProps = {
-  getPosts,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(BlogPost);
+export default BlogPost;

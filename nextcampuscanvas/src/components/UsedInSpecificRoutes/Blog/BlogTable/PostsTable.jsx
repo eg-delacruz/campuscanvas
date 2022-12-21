@@ -1,6 +1,6 @@
-import { connect } from 'react-redux';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
 
 //Styles
 import styles from './PostsTable.module.scss';
@@ -12,31 +12,41 @@ import Loader from '@components/GeneralUseComponents/Loader/Loader.jsx';
 import ErrorDisplayer from '@components/GeneralUseComponents/ErrorDisplayer/ErrorDisplayer';
 
 //Redux actions
-import * as postsActions from '../../../../actions/postsActions';
-const { getPosts } = postsActions;
+import { getPosts, selectPosts } from '@redux/postsSlice';
 
-const PostsTable = (props) => {
+const PostsTable = () => {
+  //Allows us to manipulate the appropriate slice/action
+  const dispatch = useDispatch();
+
+  //Reducers
+  const postsReducer = useSelector(selectPosts);
+
   //To send the id of the post to the post page
   const router = useRouter();
 
-  if (props.posts.length === 0) {
-    props.getPosts();
+  if (postsReducer.posts.length === 0) {
+    dispatch(getPosts());
   }
-  if (props.loading)
+  if (postsReducer.loading)
     return (
       <div className={styles.loader_container}>
         <Loader />
       </div>
     );
-  if (props.error) return <ErrorDisplayer message={props.error} />;
+  if (postsReducer.error)
+    return <ErrorDisplayer message={postsReducer.error} />;
 
   //Main post = last post in array
   const MAIN_POST =
-    props.posts.length > 0 ? [props.posts[props.posts.length - 1]] : [];
+    postsReducer.posts.length > 0
+      ? [postsReducer.posts[postsReducer.posts.length - 1]]
+      : [];
 
   //All posts without main post
   const ALL_POSTS =
-    props.posts.length > 0 ? createAllPostsArray(props.posts) : [];
+    postsReducer.posts.length > 0
+      ? createAllPostsArray(postsReducer.posts)
+      : [];
   function createAllPostsArray(posts_array) {
     const ALL_POSTS = [...posts_array];
     ALL_POSTS.pop();
@@ -142,14 +152,4 @@ const PostsTable = (props) => {
   );
 };
 
-//Map state to props
-const mapStateToProps = (reducers) => {
-  return reducers.postsReducer;
-};
-
-//Map actions to props
-const mapDispatchToProps = {
-  getPosts,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostsTable);
+export default PostsTable;

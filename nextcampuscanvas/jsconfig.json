@@ -15,7 +15,8 @@
       "@styles/*": ["styles/*"],
       "@pagestyles/*": ["styles/pagestyles/*"],
       "@services/*": ["services/*"],
-      "@server/*": ["server/*"]
+      "@server/*": ["server/*"],
+      "@redux/*": ["redux/*"]
     }
   }
 }

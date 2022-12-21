@@ -1,8 +1,7 @@
-import App from 'next/app';
-import React from 'react';
 import { Provider } from 'react-redux';
 import { createWrapper } from 'next-redux-wrapper';
-import configureStore from '../services/configureStore';
+//import configureStore from '../services/configureStore';
+import { store } from '@services/configureStore';
 import { SessionProvider } from 'next-auth/react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -11,8 +10,6 @@ import * as ga from '../services/googleAnalytics/index';
 //Globas styles
 import '@styles/Globals.scss';
 import '@styles/Buttons.scss';
-
-const store = configureStore();
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();

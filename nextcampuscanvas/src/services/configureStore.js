@@ -1,23 +1,19 @@
-import { applyMiddleware, createStore } from 'redux';
-import reduxThunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { configureStore } from '@reduxjs/toolkit';
 
-import reducers from '../reducers';
+//Reducers
+import jobsReducer from '@redux/jobsSlice';
+import postsReducer from '@redux/postsSlice';
+import usersReducer from '@redux/usersSlice';
+import globalStateReducer from '@redux/globalStateSlice';
 
-export default function configureStore(preloadedState = {}) {
-  const middlewares = [reduxThunk];
-  const middlewareEnhancer = applyMiddleware(...middlewares);
+export const store = configureStore({
+  //We pass the reducer to the store. This names have to be the same as the exported selector of the slice.js files to correctly access the desired state.
+  reducer: {
+    jobs: jobsReducer,
+    posts: postsReducer,
+    user: usersReducer,
+    globalState: globalStateReducer,
+  },
+});
 
-  const enhancers = [middlewareEnhancer];
-  const composedEnhancers = composeWithDevTools(...enhancers);
-
-  const store = createStore(reducers, preloadedState, composedEnhancers);
-
-  return store;
-}
-
-//Configuración de react redux:
-//Creamos initial state, aplicamos middlewares, proveemos los reducers a la app
-//y aplicamos los enhancers, en este caso para tener acceso a las redux dev tools
-//en navegador, pero se podrían añadir más.
-//Documentation: https://redux.js.org/usage/configuring-your-store
+//https://redux-toolkit.js.org/tutorials/quick-start

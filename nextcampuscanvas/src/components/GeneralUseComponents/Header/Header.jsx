@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 
 //Assets
@@ -20,10 +20,8 @@ import { useSession } from 'next-auth/react';
 import { signOut } from 'next-auth/react';
 
 //Redux actions
-import * as usersActions from '@actions/usersActions';
-const { getUser } = usersActions;
-import * as globalStateActions from '@actions/globalStateActions';
-const { open_sidebar } = globalStateActions;
+import { getUser, selectUser } from '@redux/usersSlice';
+import { openSidebar } from '@redux/globalStateSlice';
 
 //Services
 import { truncateText } from '@services/truncateText.js';
@@ -38,12 +36,18 @@ const { FB_Conversions_register_button_clicks } =
 import identifyBrowser from '@services/identifyBrowser';
 const { getBrowserName } = identifyBrowser;
 
-function Header(props) {
+function Header() {
   const { width, height } = useWindowDimensions();
   const router = useRouter();
   //Session
   const { data: session, status } = useSession();
   const loading = status === 'loading';
+
+  //Allows us to manipulate the appropriate slice/action
+  const dispatch = useDispatch();
+
+  //Reducers
+  const usersReducer = useSelector(selectUser);
 
   const [state, setState] = useState({ gettingUser: false });
 
@@ -52,8 +56,8 @@ function Header(props) {
   useEffect(() => {
     const setUserName = async () => {
       setState({ ...state, gettingUser: true });
-      if (session && props.usersReducer.user === null) {
-        await props.getUser(session.token.sub);
+      if (session && usersReducer.user === null) {
+        await dispatch(getUser(session.token.sub));
       }
       setState({ ...state, gettingUser: false });
     };
@@ -82,15 +86,15 @@ function Header(props) {
   };
 
   const handleOpenAccountPage = (url) => {
-    props.open_sidebar(true);
+    dispatch(openSidebar(true));
     redirectTo(url);
   };
 
   //Dirigir a usuario al paso de verificación correspondiente
   const verifyUser = () => {
     if (
-      !props.usersReducer.user.stu_data.university &&
-      !props.usersReducer.user.stu_verified
+      !usersReducer.user.stu_data.university &&
+      !usersReducer.user.stu_verified
     ) {
       router.push(
         { pathname: '/auth/registro', query: { step: 2 } },
@@ -98,8 +102,8 @@ function Header(props) {
       );
     }
     if (
-      props.usersReducer.user.stu_data.university &&
-      !props.usersReducer.user.stu_verified
+      usersReducer.user.stu_data.university &&
+      !usersReducer.user.stu_verified
     ) {
       router.push(
         { pathname: '/auth/registro', query: { step: 3 } },
@@ -155,7 +159,7 @@ function Header(props) {
 
       <header
         className={`${styles['header']} ${
-          props.usersReducer.user && styles.loggedInUserHeader767
+          usersReducer.user && styles.loggedInUserHeader767
         }`}
         id='header'
       >
@@ -165,13 +169,13 @@ function Header(props) {
 
           <div
             className={`${styles.header__logo} ${
-              props.usersReducer.user ? styles.correctHeaderLoggedUser767 : ''
+              usersReducer.user ? styles.correctHeaderLoggedUser767 : ''
             }`}
           >
             <Link href='/'>
               <button
                 className={`${styles.header__logo_button} ${
-                  props.usersReducer.user ? styles.disableLogoLoggedUser767 : ''
+                  usersReducer.user ? styles.disableLogoLoggedUser767 : ''
                 }`}
               >
                 <Image
@@ -185,7 +189,7 @@ function Header(props) {
             {/* Logged in user menu + validated/unvalidated message*/}
             {loggedUserMenuSkeleton()}
 
-            {props.usersReducer.user && (
+            {usersReducer.user && (
               <div
                 className={`${styles.header__logged_user_menu} ${styles.userMenuStickyState767}`}
               >
@@ -206,8 +210,8 @@ function Header(props) {
                     </div>
                     <button>
                       {width < 369
-                        ? truncateText(props.usersReducer.user.nickname, 15)
-                        : props.usersReducer.user.nickname}
+                        ? truncateText(usersReducer.user.nickname, 15)
+                        : usersReducer.user.nickname}
                       <i>
                         <Image src={dropdown_menu_arrow} />
                       </i>
@@ -234,11 +238,11 @@ function Header(props) {
                   </li>
                 </ul>
                 {/* Verified user text */}
-                {props.usersReducer.user.stu_verified && (
+                {usersReducer.user.stu_verified && (
                   <p className={styles.verified_text}>Estudiante verificado</p>
                 )}
                 {/* Non-verified user button */}
-                {!props.usersReducer.user.stu_verified && (
+                {!usersReducer.user.stu_verified && (
                   <div className={styles.unverif_button_container}>
                     <button
                       className={`${styles.unverified_button} btn button--redRedborderTransparentHoverShadowtRed`}
@@ -321,15 +325,5 @@ function Header(props) {
     </>
   );
 }
-//Map state to props
-const mapStateToProps = ({ usersReducer, globalStateReducer }) => {
-  return { usersReducer, globalStateReducer };
-};
 
-//Map actions to props
-const mapDispatchToProps = {
-  getUser,
-  open_sidebar,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header;

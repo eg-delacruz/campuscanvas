@@ -1,8 +1,7 @@
-import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 //Styles
 import styles from './UserSidebar.module.scss';
@@ -21,14 +20,23 @@ import { useSession } from 'next-auth/react';
 import { signOut } from 'next-auth/react';
 
 //Redux actions
-import * as globalStateActions from '@actions/globalStateActions';
-const { close_sidebar, open_sidebar } = globalStateActions;
+import {
+  openSidebar,
+  closeSidebar,
+  selectGlobalState,
+} from '@redux/globalStateSlice';
 
-const UserSidebar = (props) => {
+const UserSidebar = () => {
   const router = useRouter();
 
   //Session
   const { data: session, status } = useSession();
+
+  //Allows us to manipulate the appropriate slice/action
+  const dispatch = useDispatch();
+
+  //Reducers
+  const globalStateReducer = useSelector(selectGlobalState);
 
   //Dirigir a usuario al paso de verificación correspondiente
   const verifyUser = () => {
@@ -70,14 +78,18 @@ const UserSidebar = (props) => {
   };
 
   return (
-    <nav className={`${styles.sidebar} ${!props.openSidebar && styles.close}`}>
+    <nav
+      className={`${styles.sidebar} ${
+        !globalStateReducer.openSidebar && styles.close
+      }`}
+    >
       {/* /////////////////////////
           //    Logo + user     //
           ///////////////////////// */}
       <div className={styles.sidebar__header}>
         <Link href='/' passHref>
           <div
-            onClick={() => props.open_sidebar()}
+            onClick={() => dispatch(openSidebar())}
             className={styles.sidebar__logo}
           >
             <Image src={cc_logo} alt='Logo Campus Canvas' />
@@ -96,7 +108,7 @@ const UserSidebar = (props) => {
           //  Sidebar elements   //
           ///////////////////////// */}
       <ul className={styles.sidebar__options}>
-        <li onClick={() => props.open_sidebar()}>
+        <li onClick={() => dispatch(openSidebar())}>
           <Link href='/' passHref>
             <div
               className={`${styles.sidebar__option} ${
@@ -112,7 +124,7 @@ const UserSidebar = (props) => {
         </li>
         <li
           onClick={() => {
-            props.close_sidebar();
+            dispatch(closeSidebar());
           }}
         >
           <Link href='/cuenta' passHref>
@@ -133,7 +145,7 @@ const UserSidebar = (props) => {
         </li>
         <li
           onClick={() => {
-            props.close_sidebar();
+            dispatch(closeSidebar());
           }}
         >
           <Link href='/pedidos' passHref>
@@ -166,15 +178,4 @@ const UserSidebar = (props) => {
   );
 };
 
-//Map state to props
-const mapStateToProps = (reducer) => {
-  return reducer.globalStateReducer;
-};
-
-//Map actions to props
-const mapDispatchToProps = {
-  open_sidebar,
-  close_sidebar,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserSidebar);
+export default UserSidebar;
