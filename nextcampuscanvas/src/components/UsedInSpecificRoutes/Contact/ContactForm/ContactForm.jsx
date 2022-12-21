@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
 import React, { useState, useRef } from 'react';
-import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
 //Styles
 import styles from './ContactForm.module.scss';
@@ -14,7 +14,13 @@ import TrashIcon from '@assets/PagesImages/ContactoImages/TrashIcon.png';
 //hooks
 import { useInputValue } from '@hooks/useInputValue';
 
-const ContactForm = (props) => {
+//Redux actions
+import { selectJobs } from '@redux/jobsSlice';
+
+const ContactForm = () => {
+  //Reducers
+  const jobsReducer = useSelector(selectJobs);
+
   const data = useRouter();
   //Activates access to data.state.propertyName sent with Link tag
 
@@ -69,8 +75,8 @@ const ContactForm = (props) => {
 
   ///////////////////////Show jobs in datalist in case of job application////////////////////////
   let JOB_POSITIONS = [];
-  if (typeof props.jobs === 'object') {
-    JOB_POSITIONS = props.jobs.map((position) => {
+  if (typeof jobsReducer.jobs === 'object') {
+    JOB_POSITIONS = jobsReducer.jobs.map((position) => {
       return position.JobTitle;
     });
   }
@@ -275,11 +281,7 @@ const ContactForm = (props) => {
   );
 };
 
-const mapStateToProps = (reducers) => {
-  return reducers.jobsReducer;
-};
-
-export default connect(mapStateToProps)(ContactForm);
+export default ContactForm;
 
 //El servicio para recibir la info por correo solo admite
 //subir y enviar un solo archivo.

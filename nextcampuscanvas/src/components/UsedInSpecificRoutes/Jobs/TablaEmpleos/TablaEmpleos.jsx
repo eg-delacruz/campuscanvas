@@ -12,7 +12,7 @@ import ErrorDisplayer from '@components/GeneralUseComponents/ErrorDisplayer/Erro
 //Redux actions
 import { getJobs, selectJobs } from '@redux/jobsSlice';
 
-function TablaEmpleos(props) {
+function TablaEmpleos() {
   //Allows us to manipulate the appropriate slice/action
   const dispatch = useDispatch();
 
