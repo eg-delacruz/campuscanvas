@@ -22,6 +22,10 @@ import endPoints from '@services/api';
 import identifyBrowser from '@services/identifyBrowser';
 const { getBrowserName } = identifyBrowser;
 
+//Assets
+import allowedToSeeIcon from '@assets/GeneralUse/IconsAndButtons/usedInComponents/RegisterStep1/allowed_to_see.svg';
+import notAllowedToSeeIcon from '@assets/GeneralUse/IconsAndButtons/usedInComponents/RegisterStep1/not_allowed_to_see.svg';
+
 //Form validation
 const schema = yup.object().shape({
   //Name and id of inputs, as well
@@ -40,8 +44,6 @@ const schema = yup.object().shape({
     .min(6, 'La contraseña debe tener almenos 6 caracteres')
     .max(16, 'La contraseña debe tener como máximo 16 caracteres')
     .required('Escribe una contraseña'),
-  //This checks if the two passwords match
-  rep_contrasena: yup.string().oneOf([yup.ref('contrasena'), null]),
   terms_cons: yup
     .boolean()
     .required('Acepta nuestros términos y condiciones para continuar')
@@ -50,12 +52,12 @@ const schema = yup.object().shape({
 
 const emailPasswordForm = (props) => {
   const [state, setState] = useState({ loading: false, error: '' });
+  const [allowSeePass, setAllowSeePass] = useState(false);
 
   //Controlling inputs
   const CORREO = useInputValue('');
   const USER_NAME = useInputValue('');
   const CONTRASENA = useInputValue('');
-  const REP_CONTRASENA = useInputValue('');
   const TERMS_CHECK_BOX = useInputValue('');
   const NEWSLETTER_CHECK_BOX = useInputValue(false);
 
@@ -174,33 +176,29 @@ const emailPasswordForm = (props) => {
         Contraseña{' '}
         <p className={styles.inputText__errors}>{errors.contrasena?.message}</p>
       </label>
-      <input
-        name='contrasena'
-        id='contrasena'
-        type='password'
-        placeholder='Contraseña'
-        {...register('contrasena')}
-        autoComplete='off'
-        value={CONTRASENA.value}
-        onChange={CONTRASENA.onChange}
-      />
-      <label className={`${styles.inputText__label} `} htmlFor='rep_contrasena'>
-        Repita la contraseña
-        <p className={styles.inputText__errors}>
-          {errors.rep_contrasena && 'La contraseña debe coincidir'}
-        </p>
-      </label>
-      <input
-        className={styles.inputText__RepPassword}
-        name='rep_contrasena'
-        id='rep_contrasena'
-        type='password'
-        autoComplete='off'
-        placeholder='Repita la contraseña'
-        {...register('rep_contrasena')}
-        value={REP_CONTRASENA.value}
-        onChange={REP_CONTRASENA.onChange}
-      />
+      <div className={styles.password_input_container}>
+        <input
+          name='contrasena'
+          id='contrasena'
+          type={allowSeePass ? 'text' : 'password'}
+          placeholder='Contraseña'
+          {...register('contrasena')}
+          autoComplete='off'
+          value={CONTRASENA.value}
+          onChange={CONTRASENA.onChange}
+        />
+        {allowSeePass ? (
+          <img
+            onClick={() => setAllowSeePass(!allowSeePass)}
+            src={notAllowedToSeeIcon.src}
+          />
+        ) : (
+          <img
+            onClick={() => setAllowSeePass(!allowSeePass)}
+            src={allowedToSeeIcon.src}
+          />
+        )}
+      </div>
 
       <label className={styles.newsletter__checkbox_container}>
         Quiero recibir notificaciones por Email para enterarme de la
