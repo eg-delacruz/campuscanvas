@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps }) {
   //Google Analytics (end)
 
   return (
-    <SessionProvider refetchOnWindowFocus={true}>
+    <SessionProvider>
       <Provider store={store}>
         <Component {...pageProps} />
       </Provider>

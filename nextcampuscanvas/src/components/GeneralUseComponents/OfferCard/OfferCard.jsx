@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import styles from './OfferCard.module.scss';
 
 //Assets
-import white_background_svg from '@assets/PagesImages/Prueba/white_svg_background.svg';
+import white_background_svg from '@assets/GeneralUse/UsedInComponents/OfferCard/white_svg_background.svg';
 
 //CLARIFICATIONS
 //1. Brand logos have to be svg. Apply viewBox="0 0 200 200" to the svg tag.

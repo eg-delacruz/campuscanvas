@@ -5,21 +5,14 @@
   background-color: $color--tertiary-white;
 }
 
-.slider {
-  width: 100%;
-  height: 400px;
-  background-color: $color--light-gray;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  max-width: 1200px;
-}
+/////////////////////////
+//      Sugeridos      //
+/////////////////////////
 
-.main_discounts {
-  padding: 40px 0;
+.suggested_discounts {
+  //padding: 0px 0px 40px;
   max-width: 1200px;
-  .main_discounts_grid {
+  .suggested_discounts_grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 30px 20px;
@@ -27,12 +20,52 @@
 }
 
 /////////////////////////
+//      Novedades      //
+/////////////////////////
+
+.novedades_discounts {
+  max-width: 1200px;
+  .novedades_discounts_grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 30px 20px;
+  }
+}
+
+/////////////////////////
+//    Más descuentos    //
+/////////////////////////
+
+.more_discounts {
+  padding: 0px 0px 40px;
+  max-width: 1200px;
+  h2 {
+    margin: 40px 0;
+    text-align: center;
+  }
+  .more_discounts_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 30px 20px;
+  }
+}
+
+.view_all_btn {
+  margin-top: 0;
+}
+
+/////////////////////////
 //         MQ         //
 /////////////////////////
 @media screen and (max-width: 1100px) {
-  .main_discounts {
-    .main_discounts_grid {
-      grid-template-columns: repeat(3, 1fr);
+  .suggested_discounts {
+    .suggested_discounts_grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .novedades_discounts {
+    .novedades_discounts_grid {
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 }
@@ -43,8 +76,8 @@
   .container {
     padding: 40px 0px;
   }
-  .main_discounts {
-    .main_discounts_grid {
+  .suggested_discounts {
+    .suggested_discounts_grid {
       padding: 16px 0;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       grid-auto-flow: column;
@@ -52,11 +85,31 @@
       overflow-x: auto;
     }
   }
+  .novedades_discounts {
+    .novedades_discounts_grid {
+      padding: 16px 0;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(280px, 1fr);
+      overflow-x: auto;
+    }
+  }
+
+  .more_discounts {
+    .more_discounts_grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
 }
 
 ////////////////////////////////////////480/////////////////////////////////////////////
 
 @media screen and (max-width: 480px) {
+  .more_discounts {
+    .more_discounts_grid {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
 }
 ////////////////////////////////////////320/////////////////////////////////////////////
 
