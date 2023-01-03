@@ -59,7 +59,6 @@ const SliderOffers = [
 const HomeSlider = () => {
   //TODO: Slider must get info either SSR or from database in client
   //TODO: Info to pass to each slide/get from server: imageBrand, bannerBig, bannerSmall, offerUrl.
-  //TODO: Increase slide speed of slider?
 
   return (
     <section className={`${styles.slider_container} container`}>
@@ -68,11 +67,13 @@ const HomeSlider = () => {
         slidesPerView={1}
         slidesPerGroup={1}
         spaceBetween={20}
+        effect={'fade'}
         loop={true}
-        speed={1400}
+        speed={800}
         autoplay={{
           delay: 2500,
           disableOnInteraction: false,
+          pauseOnMouseEnter: true,
           waitForTransition: true,
         }}
         keyboard={{

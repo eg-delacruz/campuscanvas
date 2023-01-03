@@ -1,8 +1,48 @@
 @import '../Vars.scss';
 
 .container {
-  padding: 40px 8px;
   background-color: $color--tertiary-white;
+  .header_wrapper {
+    background-color: $color--white;
+  }
+  main {
+    padding: 40px 8px;
+  }
+}
+
+/////////////////////////
+//   Parallax effect   //
+/////////////////////////
+//https://keithclark.co.uk/articles/pure-css-parallax-websites/
+
+.parallax {
+  perspective: 1px;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  .parallax__layer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  .parallax__back {
+    background-image: url('../../assets/GeneralUse/BG_sticker_1.svg'),
+      url('../../assets/GeneralUse/BG_sticker_2.svg'),
+      url('../../assets/GeneralUse/BG_sticker_3.svg'),
+      url('../../assets/GeneralUse/BG_sticker_4.svg'),
+      url('../../assets/GeneralUse/BG_sticker_5.svg'),
+      url('../../assets/GeneralUse/BG_sticker_6.svg'),
+      url('../../assets/GeneralUse/BG_sticker_7.svg');
+    background-repeat: no-repeat;
+    background-position: 10% 65%, 85% 25%, 70% 100%, 60% 70%, 30% 85%, 38% 50%,
+      60% 53%;
+    transform: translateZ(-6px) scale(7);
+  }
+  .parallax__front {
+    transform: translateZ(0);
+  }
 }
 
 /////////////////////////
@@ -10,7 +50,6 @@
 /////////////////////////
 
 .suggested_discounts {
-  //padding: 0px 0px 40px;
   max-width: 1200px;
   .suggested_discounts_grid {
     display: grid;
