@@ -1,3 +1,6 @@
+//Sanitysing dangerouslySetInnerHTML as in: https://www.npmjs.com/package/isomorphic-dompurify
+import DOMPurify from 'isomorphic-dompurify';
+
 //Styles
 import styles from './PostTemplate.module.scss';
 
@@ -10,7 +13,7 @@ const PostTemplate = ({
   PubDate,
 }) => {
   function createHTMLElement(string) {
-    return { __html: string };
+    return { __html: DOMPurify.sanitize(string) };
   }
 
   return (

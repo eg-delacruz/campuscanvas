@@ -10,6 +10,7 @@ import white_background_svg from '@assets/GeneralUse/UsedInComponents/OfferCard/
 //CLARIFICATIONS
 //1. Brand logos have to be svg. Apply viewBox="0 0 200 200" to the svg tag.
 //2. Description does not have to have more than 40 Characters
+//3. Banner image has to be jpg and 640 x 320 px
 const OfferCard = ({
   bannerImg,
   brandName,
