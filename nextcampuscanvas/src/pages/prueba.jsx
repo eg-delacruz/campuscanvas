@@ -69,11 +69,13 @@ export default function Home() {
             //       Discounts        //
           ///////////////////////// */}
 
-            <section className={`${styles.suggested_discounts} } container`}>
+            <section className={`${styles.suggested_discounts} container`}>
               {/* /////////////////////////
             //       Sugeridos        //
           ///////////////////////// */}
-              <h2>Sugeridos para ti</h2>
+              <div className={styles.subtitle_glass_container}>
+                <h2>Sugeridos para ti</h2>
+              </div>
               <div className={styles.suggested_discounts_grid}>
                 <OfferCard
                   bannerImg={banner1.src}
@@ -110,7 +112,9 @@ export default function Home() {
               {/* /////////////////////////
             //       Novedades        //
           ///////////////////////// */}
-              <h2>Novedades</h2>
+              <div className={styles.subtitle_glass_container}>
+                <h2>Novedades</h2>
+              </div>
               <div className={styles.novedades_discounts_grid}>
                 <OfferCard
                   bannerImg={banner1.src}
@@ -147,7 +151,9 @@ export default function Home() {
               {/* /////////////////////////
             //    Más descuentos     //
           ///////////////////////// */}
-              <h2>Más descuentos para estudiantes</h2>
+              <div className={styles.subtitle_glass_container}>
+                <h2>Más descuentos para estudiantes</h2>
+              </div>
               <div className={styles.more_discounts_grid}>
                 <OfferCard
                   bannerImg={banner1.src}

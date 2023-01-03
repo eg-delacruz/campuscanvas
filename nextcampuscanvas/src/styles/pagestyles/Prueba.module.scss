@@ -7,6 +7,17 @@
   }
   main {
     padding: 40px 8px;
+    .subtitle_glass_container {
+      background: rgba(255, 255, 255, 0.55);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 5px;
+      margin: 8px 0;
+      h2 {
+        margin: 20px 0 20px 4px;
+      }
+    }
   }
 }
 
@@ -28,16 +39,29 @@
     left: 0;
   }
   .parallax__back {
-    background-image: url('../../assets/GeneralUse/BG_sticker_1.svg'),
-      url('../../assets/GeneralUse/BG_sticker_2.svg'),
-      url('../../assets/GeneralUse/BG_sticker_3.svg'),
-      url('../../assets/GeneralUse/BG_sticker_4.svg'),
-      url('../../assets/GeneralUse/BG_sticker_5.svg'),
-      url('../../assets/GeneralUse/BG_sticker_6.svg'),
-      url('../../assets/GeneralUse/BG_sticker_7.svg');
+    background-image: url('../../assets/GeneralUse/ParallaxBackgroundImages/cc_logo.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/basin.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/candy.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/discount.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/graduation_cap.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/heart_bag.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/heart_basin.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/lolly.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/long_lollipop.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/square_cookie.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/triangles_candy.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/star.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/star.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/star.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/bubble.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/bubble.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/bubble.svg');
     background-repeat: no-repeat;
-    background-position: 10% 65%, 85% 25%, 70% 100%, 60% 70%, 30% 85%, 38% 50%,
-      60% 53%;
+    background-position: 0% 18%, 86% 21%, 70% 100%, 22% 70%, 30% 90%, 32% 42%,
+      60% 53%, 91% 66%, 46% 88%, 53% 29%, 8% 100%, 95% 90%, 73% 37%, 19% 47%,
+      78% 99%, 100% 44%, 0% 66%;
+
+    opacity: 0.45;
     transform: translateZ(-6px) scale(7);
   }
   .parallax__front {
@@ -51,6 +75,7 @@
 
 .suggested_discounts {
   max-width: 1200px;
+  margin-top: 40px;
   .suggested_discounts_grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -64,6 +89,7 @@
 
 .novedades_discounts {
   max-width: 1200px;
+  margin-top: 40px;
   .novedades_discounts_grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -78,6 +104,7 @@
 .more_discounts {
   padding: 0px 0px 40px;
   max-width: 1200px;
+  margin-top: 80px;
   h2 {
     margin: 40px 0;
     text-align: center;
@@ -86,6 +113,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 30px 20px;
+    margin-top: 20px;
   }
 }
 
@@ -114,8 +142,29 @@
 @media screen and (max-width: 767px) {
   .container {
     padding: 40px 0px;
+    main {
+      padding: 20px 8px;
+      .subtitle_glass_container {
+        background: transparent;
+        box-shadow: none;
+        h2 {
+          margin: 0;
+        }
+      }
+    }
   }
+
+  /////////////////////////
+  //   Parallax effect   //
+  /////////////////////////
+  .parallax {
+    .parallax__back {
+      display: none;
+    }
+  }
+
   .suggested_discounts {
+    margin-top: 20px;
     .suggested_discounts_grid {
       padding: 16px 0;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -125,6 +174,7 @@
     }
   }
   .novedades_discounts {
+    margin-top: 20px;
     .novedades_discounts_grid {
       padding: 16px 0;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -135,6 +185,7 @@
   }
 
   .more_discounts {
+    margin-top: 40px;
     .more_discounts_grid {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -153,4 +204,33 @@
 ////////////////////////////////////////320/////////////////////////////////////////////
 
 @media screen and (max-width: 320px) {
+  /////////////////////////
+  //      Sugeridos      //
+  /////////////////////////
+
+  .suggested_discounts {
+    .suggested_discounts_grid {
+      grid-gap: 30px 10px;
+    }
+  }
+
+  /////////////////////////
+  //      Novedades      //
+  /////////////////////////
+
+  .novedades_discounts {
+    .novedades_discounts_grid {
+      grid-gap: 30px 10px;
+    }
+  }
+
+  /////////////////////////
+  //    Más descuentos    //
+  /////////////////////////
+
+  .more_discounts {
+    .more_discounts_grid {
+      grid-gap: 30px 10px;
+    }
+  }
 }
