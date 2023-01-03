@@ -14,9 +14,6 @@ import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 import 'swiper/css/effect-fade';
 
-//Hooks
-import useWindowDimensions from '@hooks/useWindowDimensions';
-
 //assets
 import banner1 from '@assets/GeneralUse/UsedInComponents/HomeSlider/banner1.jpeg';
 import banner2 from '@assets/GeneralUse/UsedInComponents/HomeSlider/banner2.jpeg';
@@ -62,8 +59,7 @@ const SliderOffers = [
 const HomeSlider = () => {
   //TODO: Slider must get info either SSR or from database in client
   //TODO: Info to pass to each slide/get from server: imageBrand, bannerBig, bannerSmall, offerUrl.
-
-  const WindowDimensions = useWindowDimensions();
+  //TODO: Increase slide speed of slider?
 
   return (
     <section className={`${styles.slider_container} container`}>
