@@ -158,111 +158,113 @@ const nuevoContrato = () => {
     e.preventDefault();
     setState({ ...state, error: null, submitLoading: true });
 
-    //Clean localstorage to save new contract info
-    localStorage.clear();
+    // //Clean localstorage to save new contract info
+    // localStorage.clear();
 
-    const PARTIAL_CONTRACT_DATA = {
-      cliente: {
-        nombre: NOMBRE_CLIENTE.value,
-        tipo: TIPO_DE_CLIENTE.value,
-        dni: DNI.value,
-        empresa_representada: EMPRESA_REPRESENTADA.value,
-      },
-      campana: {
-        tipo_de_campana: TIPO_DE_CAMPANA.value,
-      },
-      contrato: {
-        lugar_de_creacion: LUGAR_DE_CREACION.value,
-      },
-    };
+    // const PARTIAL_CONTRACT_DATA = {
+    //   cliente: {
+    //     nombre: NOMBRE_CLIENTE.value,
+    //     tipo: TIPO_DE_CLIENTE.value,
+    //     dni: DNI.value,
+    //     empresa_representada: EMPRESA_REPRESENTADA.value,
+    //   },
+    //   campana: {
+    //     tipo_de_campana: TIPO_DE_CAMPANA.value,
+    //   },
+    //   contrato: {
+    //     lugar_de_creacion: LUGAR_DE_CREACION.value,
+    //   },
+    // };
 
-    try {
-      //Storing pdf info in db
-      const response = await fetch(endPoints.admin.createPdfContract, {
-        method: 'POST',
-        headers: {
-          accept: '*/*',
-          'Content-Type': 'application/json',
-          app_secret_key: process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
-        },
-        body: JSON.stringify(PARTIAL_CONTRACT_DATA),
-      });
+    // try {
+    //   //Storing pdf info in db
+    //   const response = await fetch(endPoints.admin.createPdfContract, {
+    //     method: 'POST',
+    //     headers: {
+    //       accept: '*/*',
+    //       'Content-Type': 'application/json',
+    //       app_secret_key: process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
+    //     },
+    //     body: JSON.stringify(PARTIAL_CONTRACT_DATA),
+    //   });
 
-      const data = await response.json();
+    //   const data = await response.json();
 
-      const COMPLETE_CONTRACT_DATA = {
-        cliente: {
-          nombre: NOMBRE_CLIENTE.value,
-          tipo: TIPO_DE_CLIENTE.value,
-          dni: DNI.value,
-          empresa_representada: EMPRESA_REPRESENTADA.value,
-          texto_datos: createClientDataText(),
-          actividad: ACTIVIDAD_CLIENTE.value,
-          correo: CORREO_CLIENTE.value,
-        },
-        campana: {
-          producto_a_promover: PRODUCTO_A_PROMOVER.value,
-          tipo_de_campana: TIPO_DE_CAMPANA.value,
-          texto_datos_campana: createCampaignDataText(),
-        },
-        contrato: {
-          numero_contrato: data.body,
-          lugar_de_creacion: LUGAR_DE_CREACION.value,
-          fecha_de_creacion: FECHA_DE_CREACION.value,
-          periodo: PERIODO.value,
-          fecha_inicio: dateToLetters.dateToLetterswithOutDay(
-            INICIO_CONTRATO.value
-          ),
-          fecha_fin: dateToLetters.dateToLetterswithOutDay(FIN_CONTRATO.value),
-          precio: PRECIO.value,
-          precio_letras: PRECIO_LETRAS,
-          modalidad_de_pago: MODALIDAD_DE_PAGO.value,
-          fecha_pago_unico: dateToLetters.dateToLetterswithOutDay(
-            FECHA_PAGO_UNICO.value
-          ),
-          valor_por_cuota: VALOR_POR_CUOTA,
-          fecha_primera_cuota: dateToLetters.dateToLetterswithOutDay(
-            FECHA_PRIMERA_CUOTA.value
-          ),
-          fecha_segunda_cuota: dateToLetters.monthAndYearOfDate(
-            FECHA_SEGUNDA_CUOTA.value
-          ),
-          fecha_tercera_cuota: dateToLetters.monthAndYearOfDate(
-            FECHA_TERCERA_CUOTA.value
-          ),
-          fecha_cuarta_cuota: dateToLetters.monthAndYearOfDate(
-            FECHA_CUARTA_CUOTA.value
-          ),
-        },
-      };
+    //   const COMPLETE_CONTRACT_DATA = {
+    //     cliente: {
+    //       nombre: NOMBRE_CLIENTE.value,
+    //       tipo: TIPO_DE_CLIENTE.value,
+    //       dni: DNI.value,
+    //       empresa_representada: EMPRESA_REPRESENTADA.value,
+    //       texto_datos: createClientDataText(),
+    //       actividad: ACTIVIDAD_CLIENTE.value,
+    //       correo: CORREO_CLIENTE.value,
+    //     },
+    //     campana: {
+    //       producto_a_promover: PRODUCTO_A_PROMOVER.value,
+    //       tipo_de_campana: TIPO_DE_CAMPANA.value,
+    //       texto_datos_campana: createCampaignDataText(),
+    //     },
+    //     contrato: {
+    //       numero_contrato: data.body,
+    //       lugar_de_creacion: LUGAR_DE_CREACION.value,
+    //       fecha_de_creacion: FECHA_DE_CREACION.value,
+    //       periodo: PERIODO.value,
+    //       fecha_inicio: dateToLetters.dateToLetterswithOutDay(
+    //         INICIO_CONTRATO.value
+    //       ),
+    //       fecha_fin: dateToLetters.dateToLetterswithOutDay(FIN_CONTRATO.value),
+    //       precio: PRECIO.value,
+    //       precio_letras: PRECIO_LETRAS,
+    //       modalidad_de_pago: MODALIDAD_DE_PAGO.value,
+    //       fecha_pago_unico: dateToLetters.dateToLetterswithOutDay(
+    //         FECHA_PAGO_UNICO.value
+    //       ),
+    //       valor_por_cuota: VALOR_POR_CUOTA,
+    //       fecha_primera_cuota: dateToLetters.dateToLetterswithOutDay(
+    //         FECHA_PRIMERA_CUOTA.value
+    //       ),
+    //       fecha_segunda_cuota: dateToLetters.monthAndYearOfDate(
+    //         FECHA_SEGUNDA_CUOTA.value
+    //       ),
+    //       fecha_tercera_cuota: dateToLetters.monthAndYearOfDate(
+    //         FECHA_TERCERA_CUOTA.value
+    //       ),
+    //       fecha_cuarta_cuota: dateToLetters.monthAndYearOfDate(
+    //         FECHA_CUARTA_CUOTA.value
+    //       ),
+    //     },
+    //   };
 
-      localStorage.setItem('DATA', JSON.stringify(COMPLETE_CONTRACT_DATA));
+    //   localStorage.setItem('DATA', JSON.stringify(COMPLETE_CONTRACT_DATA));
 
-      //Reseting some input values to avoid errors in server
-      NOMBRE_CLIENTE.setValue('');
-      DIRECCION_CLIENTE.setValue('');
-      DNI.setValue('');
-      EMPRESA_REPRESENTADA.setValue('');
-      CORREO_CLIENTE.setValue('');
-      ACTIVIDAD_CLIENTE.setValue('');
-      PRODUCTO_A_PROMOVER.setValue('');
+    //   //Reseting some input values to avoid errors in server
+    //   NOMBRE_CLIENTE.setValue('');
+    //   DIRECCION_CLIENTE.setValue('');
+    //   DNI.setValue('');
+    //   EMPRESA_REPRESENTADA.setValue('');
+    //   CORREO_CLIENTE.setValue('');
+    //   ACTIVIDAD_CLIENTE.setValue('');
+    //   PRODUCTO_A_PROMOVER.setValue('');
 
-      setState({
-        ...state,
-        submitLoading: false,
-      });
+    //   setState({
+    //     ...state,
+    //     submitLoading: false,
+    //   });
 
-      const currentURL = encodeURI(window.location.href);
-      const contractURL = currentURL.replace('nuevo-contrato', 'contrato');
+    //   const currentURL = encodeURI(window.location.href);
+    //   const contractURL = currentURL.replace('nuevo-contrato', 'contrato');
 
-      window.open(contractURL, '_blank');
-    } catch (error) {
-      setState({
-        ...state,
-        error: 'Error al generar contrato. ' + error.message,
-        submitLoading: false,
-      });
-    }
+    //   window.open(contractURL, '_blank');
+    // } catch (error) {
+    //   setState({
+    //     ...state,
+    //     error: 'Error al generar contrato. ' + error.message,
+    //     submitLoading: false,
+    //   });
+    // }
+
+    alert('Corregir error con react 18 y librería para generar pdfs');
   };
 
   if (state.loading) {
