@@ -1,38 +1,33 @@
-import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import Link from 'next/link';
 
 //Styles
 import styles from '@pagestyles/Index.module.scss';
 
 //Assets
-import Box_logo from '@assets/GeneralUse/Logos/Box_logo.svg';
-import Empty_box from '@assets/PagesImages/HomeImages/box.svg';
-import BoxWithProducts from '@assets/PagesImages/HomeImages/box_and_products.svg';
-import Card_gift from '@assets/GeneralUse/card_gift.png';
-import Card_pages from '@assets/GeneralUse/card_pages.png';
-import Card_coupons from '@assets/GeneralUse/card_coupons.png';
-import Distribution_map from '@assets/PagesImages/HomeImages/distribution_map.png';
-import Distributon_ofice from '@assets/PagesImages/HomeImages/distribution_ofice.png';
+import banner1 from '@assets/PagesImages/Prueba/banner1.jpg';
+import banner2 from '@assets/PagesImages/Prueba/banner2.jpg';
+import banner3 from '@assets/PagesImages/Prueba/banner3.jpg';
+import banner4 from '@assets/PagesImages/Prueba/banner4.jpg';
+
+import brand_logo_1 from '@assets/PagesImages/Prueba/brand1.svg';
+import brand_logo_2 from '@assets/PagesImages/Prueba/brand2.svg';
+import brand_logo_3 from '@assets/PagesImages/Prueba/brand3.svg';
+import brand_logo_4 from '@assets/PagesImages/Prueba/brand4.svg';
 
 //Components
-import Layout from '@components/GeneralUseComponents/Layout/Layout';
-import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
+import Header from '@components/GeneralUseComponents/Header/Header';
+import Footer from '@components/GeneralUseComponents/Footer/Footer';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
-import AnimatedBox from '@components/GeneralUseComponents/AnimatedBox/AnimatedBox';
-import SponsorsSlider from '@components/GeneralUseComponents/SponsorsSlider/SponsorsSlider';
+import OfferCard from '@components/GeneralUseComponents/OfferCard/OfferCard';
+import HomeSlider from '@components/UsedInSpecificRoutes/Home/HomeSlider/HomeSlider';
 
 //Session
 import { useSession } from 'next-auth/react';
 
-//Facebook conversions API
-import FB_Conversions_RegisterButton_ViewContent from '@services/fbConversionsAPI/register_buttons_clicks';
-const { FB_Conversions_register_button_clicks } =
-  FB_Conversions_RegisterButton_ViewContent;
-import identifyBrowser from '@services/identifyBrowser';
-const { getBrowserName } = identifyBrowser;
-
+//CLARIFICAIONS:
+//1. Don´t use the button up component because it does not work with the parallax background effect, since the window.scrollY does not work, because of the scroll of the parallax container.
 export default function Home() {
   //Session
   const { data: session, status } = useSession();
@@ -48,278 +43,212 @@ export default function Home() {
     }
   }, [session]);
 
-  //Dirigir a usuario al paso de verificación correspondiente
-  const verifyUser = () => {
-    if (status === 'unauthenticated') {
-      //Only execute this function when user is unauthenticated!
-      FB_Conversions_register_button_clicks(
-        getBrowserName(navigator.userAgent)
-      );
-      return router.push(
-        { pathname: '/auth/registro', query: { step: 1 } },
-        'auth/registro'
-      );
-    }
-    if (!session?.token.stu_data.university && !session?.token.stu_verified) {
-      return router.push(
-        { pathname: '/auth/registro', query: { step: 2 } },
-        'auth/registro'
-      );
-    }
-    if (session?.token.stu_data.university && !session?.token.stu_verified) {
-      return router.push(
-        { pathname: '/auth/registro', query: { step: 3 } },
-        'auth/registro'
-      );
-    }
-  };
-
-  //Hero button displayer
-  const HeroButtonDisplayer = () => {
-    if (status === 'loading') {
-      return (
-        <>
-          <button className={`${styles.loadingBtnSpinner} btn button--red`}>
-            Cargando
-          </button>
-        </>
-      );
-    }
-    if (session?.token.stu_verified) {
-      return (
-        <>
-          <p>
-            Ya puedes pedir tu <b>Campus Box</b>
-          </p>
-          <Link href='/student/CampusBox'>
-            <button className='btn button--red'>¡Pedir caja gratuita!</button>
-          </Link>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <p>
-            Regístrate y verifica tu cuenta estudiantil para obtener tu caja
-            totalmente gratis
-          </p>
-
-          <button className='btn button--red' onClick={() => verifyUser()}>
-            Registrarse
-          </button>
-        </>
-      );
-    }
-  };
-
-  //Distribution button displayer
-  const DistributionButtonDisplayer = () => {
-    if (status === 'loading') {
-      return (
-        <>
-          <button className={`${styles.loadingBtnSpinner} btn button--red`}>
-            Cargando
-          </button>
-        </>
-      );
-    }
-    if (session?.token.stu_verified) {
-      return (
-        <>
-          <Link href='/student/CampusBox'>
-            <button className='btn button--red'>¡Pedir Campus Box!</button>
-          </Link>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <button className='btn button--red' onClick={() => verifyUser()}>
-            Registrarse
-          </button>
-        </>
-      );
-    }
-  };
-
   return (
     <>
       <SEOHeader
         tabTitle={'Home'}
-        metaName={'Campus Canvas'}
-        description={'Bolsas publicitarias gratuitas para estudiantes'}
+        metaName={'Descuentos a estudiantes en España'}
+        description={
+          'Descuentos exclusivos para estudiantes universitarios en España'
+        }
       />
 
-      <Layout>
-        <ButtonUp />
+      <div className={`${styles.container} ${styles.parallax}`}>
+        <div
+          className={`${styles.parallax__layer} ${styles.parallax__back}`}
+        ></div>
+        <div className={`${styles.parallax__layer} ${styles.parallax__front}`}>
+          <div className={`${styles.header_wrapper} header_wrapper`}>
+            <Header />
+          </div>
 
-        <div className={styles.body__gridContainer}>
-          {/* /////////////////////////
-            //       Hero        //
-            ///////////////////////// */}
+          <main>
+            <HomeSlider />
 
-          <section className={styles.hero}>
-            <div className={`${styles.hero__wrapper} container`}>
-              <h1>¡Productos exclusivos a estudiantes!</h1>
+            {/* /////////////////////////
+            //       Discounts        //
+          ///////////////////////// */}
 
-              <div className={`${styles['hero__container']}`}>
-                <div className={`${styles['hero__image_container']}`}>
-                  {/* <Image alt='Campus Box' src={BoxWithProducts} priority /> */}
-                  <AnimatedBox />
-                </div>
-                <div className={`${styles.hero__text_button_container}`}>
-                  {HeroButtonDisplayer()}
-                </div>
+            <section className={`${styles.suggested_discounts} container`}>
+              {/* /////////////////////////
+            //       Sugeridos        //
+          ///////////////////////// */}
+              <div className={styles.subtitle_glass_container}>
+                <h2>Sugeridos para ti</h2>
               </div>
-            </div>
-          </section>
-
-          {/* /////////////////////////
-            //       Main         //
-            ///////////////////////// */}
-
-          <main className={styles.main}>
-            <div className={`${styles['main__container']} container`}>
-              <figure className={styles.main__box_logo_container}>
-                <Image alt='Logo Campus Box' src={Box_logo} />
-              </figure>
-              <div className={styles.main__content}>
-                <p className={`${styles['main__content-description']}`}>
-                  Si eres estudiante universitario inscrito en alguna
-                  universidad española, podrás recibir una de nuestras cajas{' '}
-                  <b>Campus Box</b> llena de regalos y productos pensados
-                  especialmente para ti de parte de nuestros patrocinadores.
-                  ¡Todo completamente gratis!
-                  <br />
-                  <br />
-                  Enviamos unidades <b>limitadas</b> a lo largo de cada
-                  cuatrimestre, con lo cual deberás ser rápido para hacerte con
-                  la tuya. Puedes estar al tanto de cuándo iniciamos la
-                  distribución a través de nuestras{' '}
-                  <a href='#footer'>redes sociales</a>. ¡No te quedes sin la
-                  tuya!
-                </p>
-                <figure className={styles.main__empty_box_container}>
-                  <img src={Empty_box.src} alt='Campus Box' />
-                </figure>
+              <div className={styles.suggested_discounts_grid}>
+                <OfferCard
+                  bannerImg={banner1.src}
+                  brandName={'Grover'}
+                  brandLogoSvg={brand_logo_1.src}
+                  description={'5% de descuento en Grover'}
+                  offerID={31512335}
+                />
+                <OfferCard
+                  bannerImg={banner2.src}
+                  brandName={'Adidas'}
+                  brandLogoSvg={brand_logo_2.src}
+                  description={'30% descuento en tiendas físicas Adidas'}
+                  offerID={31512335}
+                />
+                <OfferCard
+                  bannerImg={banner3.src}
+                  brandName={'ASOS'}
+                  brandLogoSvg={brand_logo_3.src}
+                  description={'15% descuento en ASOS'}
+                  offerID={31512335}
+                />
+                <OfferCard
+                  bannerImg={banner4.src}
+                  brandName={'Efeee'}
+                  brandLogoSvg={brand_logo_4.src}
+                  description={'Rebajas de hasta un 60% + 10% descuento'}
+                  offerID={31512335}
+                />
               </div>
-            </div>
+            </section>
+
+            <section className={`${styles.novedades_discounts} container`}>
+              {/* /////////////////////////
+            //       Novedades        //
+          ///////////////////////// */}
+              <div className={styles.subtitle_glass_container}>
+                <h2>Novedades</h2>
+              </div>
+              <div className={styles.novedades_discounts_grid}>
+                <OfferCard
+                  bannerImg={banner1.src}
+                  brandName={'Grover'}
+                  brandLogoSvg={brand_logo_1.src}
+                  description={'5% de descuento en Grover'}
+                  offerID={31512335}
+                />
+                <OfferCard
+                  bannerImg={banner2.src}
+                  brandName={'Adidas'}
+                  brandLogoSvg={brand_logo_2.src}
+                  description={'30% descuento en tiendas físicas Adidas'}
+                  offerID={31512335}
+                />
+                <OfferCard
+                  bannerImg={banner3.src}
+                  brandName={'ASOS'}
+                  brandLogoSvg={brand_logo_3.src}
+                  description={'15% descuento en ASOS'}
+                  offerID={31512335}
+                />
+                <OfferCard
+                  bannerImg={banner4.src}
+                  brandName={'Efeee'}
+                  brandLogoSvg={brand_logo_4.src}
+                  description={'Rebajas de hasta un 60% + 10% descuento'}
+                  offerID={31512335}
+                />
+              </div>
+            </section>
+
+            <section className={`${styles.more_discounts} container`}>
+              {/* /////////////////////////
+            //    Más descuentos     //
+          ///////////////////////// */}
+              <div className={styles.subtitle_glass_container}>
+                <h2>Más descuentos para estudiantes</h2>
+              </div>
+              <div className={styles.more_discounts_grid}>
+                <OfferCard
+                  bannerImg={banner1.src}
+                  brandName={'Grover'}
+                  brandLogoSvg={brand_logo_1.src}
+                  description={'5% de descuento en Grover'}
+                  offerID={31512335}
+                />
+                <OfferCard
+                  bannerImg={banner2.src}
+                  brandName={'Adidas'}
+                  brandLogoSvg={brand_logo_2.src}
+                  description={'30% descuento en tiendas físicas Adidas'}
+                  offerID={31512335}
+                />
+                <OfferCard
+                  bannerImg={banner3.src}
+                  brandName={'ASOS'}
+                  brandLogoSvg={brand_logo_3.src}
+                  description={'15% descuento en ASOS'}
+                  offerID={31512335}
+                />
+                <OfferCard
+                  bannerImg={banner4.src}
+                  brandName={'Efeee'}
+                  brandLogoSvg={brand_logo_4.src}
+                  description={'Rebajas de hasta un 60% + 10% descuento'}
+                  offerID={31512335}
+                />
+                <OfferCard
+                  bannerImg={banner1.src}
+                  brandName={'Grover'}
+                  brandLogoSvg={brand_logo_1.src}
+                  description={'5% de descuento en Grover'}
+                  offerID={31512335}
+                />
+                <OfferCard
+                  bannerImg={banner2.src}
+                  brandName={'Adidas'}
+                  brandLogoSvg={brand_logo_2.src}
+                  description={'30% descuento en tiendas físicas Adidas'}
+                  offerID={31512335}
+                />
+                <OfferCard
+                  bannerImg={banner3.src}
+                  brandName={'ASOS'}
+                  brandLogoSvg={brand_logo_3.src}
+                  description={'15% descuento en ASOS'}
+                  offerID={31512335}
+                />
+                <OfferCard
+                  bannerImg={banner4.src}
+                  brandName={'Efeee'}
+                  brandLogoSvg={brand_logo_4.src}
+                  description={'Rebajas de hasta un 60% + 10% descuento'}
+                  offerID={31512335}
+                />
+                <OfferCard
+                  bannerImg={banner1.src}
+                  brandName={'Grover'}
+                  brandLogoSvg={brand_logo_1.src}
+                  description={'5% de descuento en Grover'}
+                  offerID={31512335}
+                />
+                <OfferCard
+                  bannerImg={banner2.src}
+                  brandName={'Adidas'}
+                  brandLogoSvg={brand_logo_2.src}
+                  description={'30% descuento en tiendas físicas Adidas'}
+                  offerID={31512335}
+                />
+                <OfferCard
+                  bannerImg={banner3.src}
+                  brandName={'ASOS'}
+                  brandLogoSvg={brand_logo_3.src}
+                  description={'15% descuento en ASOS'}
+                  offerID={31512335}
+                />
+                <OfferCard
+                  bannerImg={banner4.src}
+                  brandName={'Efeee'}
+                  brandLogoSvg={brand_logo_4.src}
+                  description={'Rebajas de hasta un 60% + 10% descuento'}
+                  offerID={31512335}
+                />
+              </div>
+            </section>
+
+            <button className={`${styles.view_all_btn} btn button--red`}>
+              Ver todos
+            </button>
           </main>
-
-          {/* /////////////////////////
-            //      Benefits       //
-            ///////////////////////// */}
-
-          <section className={styles.benefits}>
-            <div className={`${styles.benefits__container} container`}>
-              <div className={styles.benefits__cards}>
-                <article className={styles.card}>
-                  <div className={styles.card__image_container}>
-                    <Image
-                      src={Card_gift}
-                      className={styles.card__image}
-                      alt='Productos de la bolsa'
-                    />
-                  </div>
-                  <div className={styles.card__information}>
-                    <h4>Productos</h4>
-                    <p>
-                      Encuentra distintos comestibles como galletas, bebidas y
-                      golosinas, además de productos que pueden serte de
-                      utilidad en tus estudios.
-                    </p>
-                  </div>
-                </article>
-
-                <article className={styles.card}>
-                  <div className={styles.card__image_container}>
-                    <Image
-                      src={Card_pages}
-                      alt='Ofertas de trabajo'
-                      className={styles.card__image}
-                    />
-                  </div>
-                  <div className={styles.card__information}>
-                    <h4>Ofertas de trabajo</h4>
-                    <p>
-                      Ya sean ofertas de estudiantes en prácticas, jornadas de
-                      medio tiempo o a tiempo completo, conecta de primera mano
-                      con tus empresas favoritas.
-                    </p>
-                  </div>
-                </article>
-
-                <article className={styles.card}>
-                  <div className={styles.card__image_container}>
-                    <Image
-                      className={styles.card__image}
-                      src={Card_coupons}
-                      alt='Cupones y descuentos'
-                    />
-                  </div>
-                  <div className={styles.card__information}>
-                    <h4>Cupones y descuentos</h4>
-                    <p>
-                      Ahorra dinero con nosotros a través de códigos de
-                      descuento exclusivos para distintos productos, eventos y
-                      otras actividades.
-                    </p>
-                  </div>
-                </article>
-              </div>
-              <div className={styles.benefits__description}>
-                <h2>¡Contenido para todos los gustos!</h2>
-                <p>
-                  El contenido de nuestra <b>Campus Box</b> puede ser distinto
-                  según el área en la que estudias. Independientemente de la
-                  versión que te toque, siempre encontrarás productos
-                  interesantes para ti, pues nuestras marcas patrocinadoras
-                  provienen de distintas industrias y sectores.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          {/* /////////////////////////
-            //    Distribution     //
-            ///////////////////////// */}
-
-          <section className={styles.distribution}>
-            <div className={`${styles.distributionMadrid} container`}>
-              <h2>Recíbela en cualquier parte de España Peninsular</h2>
-              <figure>
-                <Image
-                  src={Distribution_map}
-                  alt='Mapa de distribución en España'
-                />
-              </figure>
-              <p>
-                Si eres estudiante en alguna universidad Española, puedes pedir
-                una Campus Box exclusiva y totalmente gratuita. ¡Date prisa! Hay
-                unidades limitadas por cuatrimestre.
-              </p>
-            </div>
-            <div className={`${styles.distributionDelivery} container`}>
-              <h2>... O ven a por la tuya en nuestras oficinas en Madrid</h2>
-              <figure>
-                <Image
-                  src={Distributon_ofice}
-                  alt='Ven a recojer tu Campus Box a nuestras oficinas en Madrid'
-                />
-              </figure>
-              <h4>¡De esta manera te ahorras el envío!</h4>
-
-              {DistributionButtonDisplayer()}
-            </div>
-          </section>
-
-          {/* /////////////////////////
-            //   Patrocinadores    //
-            ///////////////////////// */}
-          {/* TODO: uncomment when I already have sponsors */}
-          {/* <SponsorsSlider titulo='Nuestros patrocinadores' /> */}
+          <Footer />
         </div>
-      </Layout>
+      </div>
     </>
   );
 }

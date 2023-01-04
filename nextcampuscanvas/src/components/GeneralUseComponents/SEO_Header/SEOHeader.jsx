@@ -1,9 +1,11 @@
 import Head from 'next/head';
 
 const SEOHeader = ({ tabTitle, metaName, description }) => {
+  //Should be done like this instead of having the title tag with so many nodes/words
+  const message = `${tabTitle} | Campus Canvas`;
   return (
     <Head>
-      <title>{tabTitle} | Campus Canvas</title>
+      <title>{message}</title>
       <meta name={metaName} content={description} />
       {/* Prevents horizontal scroll due to animations on phone */}
       <meta

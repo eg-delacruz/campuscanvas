@@ -1,0 +1,171 @@
+@import '../../../styles/Vars.scss';
+
+//Neumorphism as in: https://codepen.io/caesura/pen/QWNjvOX
+
+/////////////////////////
+//     Offer card     //
+/////////////////////////
+
+.offer_card {
+  cursor: pointer;
+  box-shadow: 8px 8px 12px -2px rgb(72 79 96 / 40%), -6px -6px 12px -1px white;
+  line-height: 18px;
+  position: relative;
+  border: 3px solid rgba(255, 255, 255, 0);
+  outline: none;
+  background-color: $color--tertiary-white;
+  transition: all 250ms ease-in-out;
+  border-radius: 7px;
+  .offer_card_container {
+    background-color: $color--tertiary-white;
+    padding-bottom: 12px;
+  }
+  .offer_image_container {
+    position: relative;
+    border-radius: 5px 5px 0px 0px;
+    overflow: hidden;
+    background-color: rgb(210, 214, 214);
+    height: 170px;
+    span {
+      box-sizing: border-box;
+      display: block;
+      overflow: hidden;
+      width: initial;
+      height: initial;
+      background: none;
+      opacity: 1;
+      border: 0px;
+      margin: 0px;
+      padding: 0px;
+      position: absolute;
+      inset: 0px;
+    }
+    img {
+      position: absolute;
+      inset: 0px;
+      box-sizing: border-box;
+      padding: 0px;
+      border: none;
+      margin: auto;
+      display: block;
+      width: 0px;
+      height: 0px;
+      min-width: 100%;
+      max-width: 100%;
+      min-height: 100%;
+      max-height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .offer_info_container {
+    .offer_logo_container {
+      z-index: 2;
+      width: 90px;
+      height: 90px;
+      border-radius: 3px;
+      box-shadow: 11px 5px 17px -8px rgb(0 0 0 / 30%);
+      background-color: rgb(255, 255, 255);
+      position: relative;
+      margin: -50px auto 0px;
+      overflow: hidden;
+      .span_container {
+        box-sizing: border-box;
+        display: inline-block;
+        overflow: hidden;
+        width: initial;
+        height: initial;
+        background: none;
+        opacity: 1;
+        border: 0px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        max-width: 100%;
+        span {
+          box-sizing: border-box;
+          display: block;
+          width: initial;
+          height: initial;
+          background: none;
+          opacity: 1;
+          border: 0px;
+          margin: 0px;
+          padding: 0px;
+          max-width: 100%;
+          img {
+            display: block;
+            max-width: 100%;
+            width: initial;
+            height: initial;
+            background: none;
+            opacity: 1;
+            border: 0px;
+            margin: 0px;
+            padding: 0px;
+          }
+        }
+        .brand_img {
+          position: absolute;
+          inset: 0px;
+          box-sizing: border-box;
+          padding: 0px;
+          border: none;
+          margin: auto;
+          display: block;
+          width: 0px;
+          height: 0px;
+          min-width: 100%;
+          max-width: 100%;
+          min-height: 100%;
+          max-height: 100%;
+          object-fit: fill;
+        }
+      }
+    }
+
+    .offer_info_details {
+      padding: 0px 10px;
+      width: 100%;
+      margin: 12px 0px;
+      overflow: hidden;
+      white-space: normal;
+      text-align: center;
+      max-height: 60px;
+      h4 {
+        margin: 0;
+        @include font-size(20px);
+      }
+    }
+  }
+}
+.offer_card:hover {
+  box-shadow: none;
+  border-color: $color--white;
+  //border-color: $color--primary1;
+}
+
+.offer_card:active {
+  box-shadow: inset -4px -4px 6px -1px white,
+    inset 2px 2px 8px -1px rgb(72 79 96 / 50%);
+  border-color: rgba(255, 255, 255, 0);
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}

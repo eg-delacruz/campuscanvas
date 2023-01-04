@@ -179,7 +179,8 @@ function Header() {
                 }`}
               >
                 <Image
-                  height={55}
+                  //height={55}
+                  width={280}
                   src={Logo_Campus_Canvas}
                   alt='Logo Campus Canvas'
                 />
@@ -275,13 +276,9 @@ function Header() {
                 <Link href='/'>Home</Link>
               </li>
               <li className={styles.menu__item}>
-                <Link href='/nosotros'>Nosotros</Link>
+                <Link href='/campusbox'>Campus Box</Link>
               </li>
-              <li
-                className={`${styles.menu__item} ${styles.menu__item_empresas}`}
-              >
-                <Link href='/empresas'>Información para empresas</Link>
-              </li>
+              {/* TODO: Pasar Blog al final de la lista y en vez de FAQs (dejarlas solo en footer), Poner "Descuentos" y en esa pestaña mostrar todos los descuentos */}
               <li className={styles.menu__item}>
                 <Link href='/blog'>Blog</Link>
               </li>

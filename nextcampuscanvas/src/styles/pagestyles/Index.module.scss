@@ -1,378 +1,262 @@
 @import '../Vars.scss';
 
-body {
-  .body__gridContainer {
-    display: grid;
+.container {
+  background-color: $color--tertiary-white;
+  .header_wrapper {
+    background-color: $color--white;
   }
-}
-
-/////////////////////////
-//         Hero         //
-/////////////////////////
-
-.hero {
-  background-color: $color--primary2;
-  &__wrapper {
-    padding: 0 8px;
-  }
-  h1 {
-    color: $color--white;
-    @include font-size(50px);
-    text-align: center;
-    line-height: 65px;
-    margin: 40px 0 60px;
-  }
-
-  &__container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    .hero__image_container {
-      flex: 0 1 50%;
-    }
-    .hero__text_button_container {
-      flex: 0 1 50%;
-      margin-bottom: 75px;
-      p {
-        @include paragraph--big;
-        color: $color--white;
-        font-weight: bold;
+  main {
+    padding: 40px 8px;
+    .subtitle_glass_container {
+      //background: rgba(255, 255, 255, 0.65);
+      background: rgba(235, 236, 240, 0.65);
+      //box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      box-shadow: 8px 8px 12px -2px rgb(72 79 96 / 40%),
+        -6px -6px 12px -1px white;
+      backdrop-filter: blur(4px);
+      //border: 1px solid rgba(255, 255, 255, 0.18);
+      border: 3px solid rgba(255, 255, 255, 0);
+      border-radius: 5px;
+      margin: 8px 0;
+      h2 {
+        margin: 20px 0 20px 4px;
         text-align: center;
-      }
-      button {
-        box-shadow: 0 0 43px -9px rgba(245, 245, 245, 0.5);
-      }
-      button:hover {
-        background-color: #bf264f;
+        color: $color--black;
       }
     }
   }
 }
 
 /////////////////////////
-//       Main         //
+//   Parallax effect   //
 /////////////////////////
-//Skeleton/loading state
-.loadingBtnSpinner {
-  position: relative;
-  color: $color--primary1;
-}
-.loadingBtnSpinner:hover {
-  background-color: $color--primary1 !important;
-  cursor: initial;
-}
-.loadingBtnSpinner::after {
-  content: '';
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  border: 4px solid transparent;
-  border-top-color: #ffffff;
-  border-radius: 50%;
-  animation: button-loading-spinner 1s ease infinite;
-}
+//https://keithclark.co.uk/articles/pure-css-parallax-websites/
 
-@keyframes button-loading-spinner {
-  from {
-    transform: rotate(0turn);
+.parallax {
+  perspective: 1px;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  .parallax__layer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 
-  to {
-    transform: rotate(1turn);
+  .parallax__back {
+    background-image: url('../../assets/GeneralUse/ParallaxBackgroundImages/cc_logo.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/basin.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/candy.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/discount.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/graduation_cap.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/heart_bag.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/heart_basin.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/lolly.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/long_lollipop.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/square_cookie.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/triangles_candy.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/star.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/star.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/star.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/bubble.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/bubble.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/bubble.svg');
+    background-repeat: no-repeat;
+    background-position: 15% 18%, 85% 21%, 70% 100%, 22% 70%, 30% 90%, 32% 42%,
+      60% 53%, 82% 66%, 46% 88%, 53% 29%, 14% 85%, 85% 90%, 73% 37%, 14% 52%,
+      78% 99%, 86% 44%, 14% 100%;
+
+    opacity: 0.45;
+    transform: translateZ(-6px) scale(7);
+  }
+  .parallax__front {
+    transform: translateZ(0);
   }
 }
 
-.main {
-  background-image: url('../../assets/PagesImages/HomeImages/BG_products.svg');
-  background-position: 10px;
+/////////////////////////
+//      Sugeridos      //
+/////////////////////////
 
-  &__container {
-    padding: 60px 8px 60px;
+.suggested_discounts {
+  max-width: 1200px;
+  margin-top: 40px;
+  .suggested_discounts_grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 30px 20px;
   }
+}
 
-  &__box_logo_container {
+/////////////////////////
+//      Novedades      //
+/////////////////////////
+
+.novedades_discounts {
+  max-width: 1200px;
+  margin-top: 40px;
+  .novedades_discounts_grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 30px 20px;
+  }
+}
+
+/////////////////////////
+//    Más descuentos    //
+/////////////////////////
+
+.more_discounts {
+  padding: 0px 0px 40px;
+  max-width: 1200px;
+  margin-top: 80px;
+  h2 {
+    margin: 40px 0;
     text-align: center;
-    margin: 0 0 40px;
   }
-
-  &__content {
-    display: flex;
-  }
-
-  &__content-description {
-    flex: 0 1 50%;
-  }
-
-  &__empty_box_container {
-    align-self: center;
-    margin: 0;
-    img {
-      //width: 136%;
-      width: 408px;
-    }
+  .more_discounts_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 30px 20px;
+    margin-top: 20px;
   }
 }
 
-/////////////////////////
-//      Benefits       //
-/////////////////////////
-
-.benefits {
-  background-color: $color--primary1;
-  &__container {
-    display: flex;
-  }
-  &__cards {
-    width: 48%;
-    padding: 10px;
-    margin: 0 1%;
-  }
-  &__description {
-    color: $color--white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 48%;
-    margin: 0 1%;
-    @include paragraph--big;
-    h2 {
-      color: $color--white;
-    }
-  }
-}
-
-.card {
-  background-color: $color--white;
-  border-radius: 10px;
-  box-shadow: 10px 20px 20px 0 #00000029;
-  display: flex;
-  margin: 30px 0;
-  align-items: center;
-  padding: 10px;
-  color: $color--primary2-dark1;
-  &__image_container {
-    position: relative;
-    min-width: 100px;
-  }
-  &__information {
-    padding: 10px;
-  }
-  &__information h4 {
-    margin: 0;
-    margin-bottom: 10px;
-  }
-  &__information p {
-    @include paragraph--regular;
-    margin: 0;
-  }
-}
-
-/////////////////////////
-//    Distribution     //
-/////////////////////////
-
-.distribution {
-  text-align: center;
-  padding: 10px;
-  padding-top: 60px;
-  padding-bottom: 80px;
-  & h2 {
-    color: $color--primary2-dark1;
-  }
-  & figure {
-    margin: 0;
-  }
-  & img {
-    max-width: 100%;
-  }
-
-  .distributionMadrid {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    & h2 {
-      margin: 0;
-      margin-bottom: 30px;
-    }
-    & figure {
-      max-width: 76%;
-    }
-    & p {
-      @include paragraph--big;
-      color: $color--black;
-      margin: 0;
-      margin-top: 30px;
-    }
-  }
-
-  .distributionDelivery {
-    & h2 {
-      margin: 50px 0px;
-    }
-
-    & h4 {
-      margin: 50px 0 70px 0;
-    }
-  }
+.view_all_btn {
+  margin-top: 0;
 }
 
 /////////////////////////
 //         MQ         //
 /////////////////////////
+@media screen and (max-width: 1100px) {
+  .suggested_discounts {
+    .suggested_discounts_grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .novedades_discounts {
+    .novedades_discounts_grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
 
 ////////////////////////////////////////767/////////////////////////////////////////////
+
 @media screen and (max-width: 767px) {
-  /////////////////////////
-  //         Hero         //
-  /////////////////////////
-
-  .hero {
-    &__wrapper {
-      padding-bottom: 50px;
-    }
-    h1 {
-      margin-bottom: 30px;
-    }
-
-    &__container {
-      flex-direction: column;
-      .hero__image_container {
-        width: 100%;
-      }
-      .hero__text_button_container {
-        max-width: 470px;
-        margin-bottom: 0;
-      }
-    }
-  }
-  /////////////////////////
-  //       Main         //
-  /////////////////////////
-  .main {
-    &__container {
-      padding-bottom: 30px;
-    }
-    &__content {
-      flex-direction: column;
-    }
-
-    &__content-description {
-      padding: 10px;
+  .container {
+    padding: 40px 0px;
+    main {
+      padding: 20px 8px;
     }
   }
 
   /////////////////////////
-  //      Benefits       //
+  //   Parallax effect   //
   /////////////////////////
+  .parallax {
+    perspective: none;
+    background-image: url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/cc_logo.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/basin.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/candy.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/discount.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/graduation_cap.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/heart_bag.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/heart_basin.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/lolly.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/long_lollipop.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/square_cookie.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/triangles_candy.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/star.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/star.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/star.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/bubble.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/bubble.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/bubble.svg');
+    background-repeat: no-repeat;
+    background-position: 15% 18%, 85% 21%, 70% 100%, 22% 70%, 30% 90%, 32% 42%,
+      60% 53%, 82% 66%, 46% 88%, 53% 29%, 14% 100%, 85% 90%, 73% 37%, 14% 52%,
+      78% 99%, 86% 44%, 14% 100%;
+    background-attachment: fixed;
+    .parallax__front {
+      transform: initial;
+    }
+    .parallax__back {
+      display: none;
+    }
+  }
 
-  .benefits {
-    &__container {
-      flex-direction: column-reverse;
-      padding: 10px;
-      align-items: center;
+  .suggested_discounts {
+    margin-top: 20px;
+    .suggested_discounts_grid {
+      padding: 16px 0;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(280px, 1fr);
+      overflow-x: auto;
     }
-    &__cards {
-      width: 70%;
+  }
+  .novedades_discounts {
+    margin-top: 20px;
+    .novedades_discounts_grid {
+      padding: 16px 0;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(280px, 1fr);
+      overflow-x: auto;
     }
-    .card {
-      &__image_container {
-        margin-right: 8px;
-      }
-    }
-    &__description {
-      width: 100%;
-      text-align: center;
+  }
+
+  .more_discounts {
+    margin-top: 40px;
+    .more_discounts_grid {
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 }
 
 ////////////////////////////////////////480/////////////////////////////////////////////
+
 @media screen and (max-width: 480px) {
-  /////////////////////////
-  //         Hero         //
-  /////////////////////////
-  .hero {
-    h1 {
-      margin-top: 30px;
-      @include font-size(40px);
+  .more_discounts {
+    .more_discounts_grid {
+      grid-template-columns: repeat(1, 1fr);
     }
-  }
-
-  /////////////////////////
-  //       Main         //
-  /////////////////////////
-
-  .main {
-    &__container {
-      padding-bottom: 30px;
-    }
-    &__empty_box_container {
-      img {
-        max-width: 308px;
-      }
-    }
-    &__content {
-      flex-direction: column;
-    }
-
-    &__content-description {
-      text-align: center;
-    }
-  }
-
-  /////////////////////////
-  //      Benefits       //
-  /////////////////////////
-
-  .benefits {
-    &__cards {
-      width: 100%;
-    }
-
-    .card {
-      flex-direction: column;
-      &__image_container {
-        margin-right: 0;
-        max-width: 150px;
-      }
-    }
-  }
-
-  /////////////////////////
-  //    Distribution     //
-  /////////////////////////
-
-  .distribution {
-    padding: 30px 10px 40px;
   }
 }
-
 ////////////////////////////////////////320/////////////////////////////////////////////
 
 @media screen and (max-width: 320px) {
   /////////////////////////
-  //         Hero         //
+  //      Sugeridos      //
   /////////////////////////
 
+  .suggested_discounts {
+    .suggested_discounts_grid {
+      grid-gap: 30px 10px;
+    }
+  }
+
   /////////////////////////
-  //       Main         //
+  //      Novedades      //
   /////////////////////////
 
-  .main {
-    &__empty_box_container {
-      margin-left: -76px;
-      img {
-        width: 378px;
-        margin-right: -73px;
-      }
+  .novedades_discounts {
+    .novedades_discounts_grid {
+      grid-gap: 30px 10px;
+    }
+  }
+
+  /////////////////////////
+  //    Más descuentos    //
+  /////////////////////////
+
+  .more_discounts {
+    .more_discounts_grid {
+      grid-gap: 30px 10px;
     }
   }
 }
