@@ -73,7 +73,7 @@ const HomeSlider = () => {
         autoplay={{
           delay: 2500,
           disableOnInteraction: false,
-          pauseOnMouseEnter: true,
+          //pauseOnMouseEnter: true,
           waitForTransition: true,
         }}
         keyboard={{
