@@ -153,6 +153,9 @@ function Footer() {
                 <Link href='/'>Home</Link>
               </li>
               <li>
+                <Link href='/campusbox'>Campus Box</Link>
+              </li>
+              <li>
                 <Link href='/nosotros'>Nosotros</Link>
               </li>
               <li>

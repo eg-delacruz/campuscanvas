@@ -20,7 +20,7 @@
         border: 0px;
         cursor: pointer;
         padding: 0;
-        margin: 10px 0;
+        margin-top: 20px;
       }
     }
   }
@@ -173,13 +173,14 @@
   padding: 0;
   height: inherit;
   margin: 0;
+  gap: 85px;
   .menu__item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: inherit;
-    margin-right: 85px;
     cursor: pointer;
+    padding: 0 6px;
   }
   .menu__item a,
   .menu__item div {
@@ -250,9 +251,12 @@
   display: none;
 }
 
-.menu__list a:hover,
-.menu__list div:hover {
-  color: $color--primary1;
+.menu__list li:hover {
+  background-color: $color--primary2;
+  border-radius: 5px;
+  a {
+    color: $color--white;
+  }
 }
 
 /////////////////////////
@@ -288,20 +292,6 @@
 /////////////////////////
 //         MQ          //
 /////////////////////////
-@media screen and (max-width: 930px) {
-  //Estilos menú general unlogged
-  .menu__list {
-    .menu__item {
-      margin-right: 75px;
-    }
-  }
-  //Estilos menu general logged
-  .menu__list--logged {
-    .menu__item {
-      margin-right: 90px;
-    }
-  }
-}
 
 @media screen and (max-width: 880px) {
   .header .header__container {
@@ -315,19 +305,6 @@
           display: block;
         }
       }
-    }
-  }
-
-  //Estilos menú general unlogged
-  .menu__list {
-    .menu__item {
-      margin-right: 45px;
-    }
-  }
-  //Estilos menu general logged
-  .menu__list--logged {
-    .menu__item {
-      margin-right: 100px;
     }
   }
 }
@@ -344,6 +321,9 @@
     display: flex;
     justify-content: center;
     .header__logo {
+      .header__logo_button {
+        margin: 12px 0 8px;
+      }
       .disableLogoLoggedUser767 {
         display: none;
       }
@@ -435,6 +415,7 @@
       flex-direction: column;
       height: auto;
       width: 100%;
+      gap: initial;
       .menu__item {
         display: flex;
         align-items: center;
