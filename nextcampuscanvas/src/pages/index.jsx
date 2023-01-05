@@ -62,7 +62,7 @@ export default function Home() {
             <Header />
           </div>
 
-          <main>
+          <main className={session && styles.main__loggedInStyles}>
             <HomeSlider />
 
             {/* /////////////////////////

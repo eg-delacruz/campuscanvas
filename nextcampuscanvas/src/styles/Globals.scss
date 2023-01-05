@@ -102,6 +102,17 @@ p {
   display: none;
 }
 
+@media screen and (max-width: 767px) {
+  //CLARIFICATION:
+  //Used to disable arrows in smaller screens (767 and below) of a Swiper. To use it, wrap the <Swiper/> component inside an element with 'noArrows767' className.
+  .noArrows767 .swiper-button-next {
+    display: none !important ;
+  }
+  .noArrows767 .swiper-button-prev {
+    display: none !important;
+  }
+}
+
 /////////////////////////
 //       Globals       //
 /////////////////////////

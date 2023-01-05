@@ -46,27 +46,40 @@
   }
 
   .parallax__back {
-    background-image: url('../../assets/GeneralUse/ParallaxBackgroundImages/cc_logo.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/basin.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/candy.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/discount.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/graduation_cap.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/heart_bag.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/heart_basin.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/lolly.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/long_lollipop.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/square_cookie.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/triangles_candy.svg'),
+    //TODO: erase unused large background images
+    background-image: 
+      // url('../../assets/GeneralUse/ParallaxBackgroundImages/cc_logo.svg'),
+      // url('../../assets/GeneralUse/ParallaxBackgroundImages/basin.svg'),
+      // url('../../assets/GeneralUse/ParallaxBackgroundImages/candy.svg'),
+      // url('../../assets/GeneralUse/ParallaxBackgroundImages/discount.svg'),
+      // url('../../assets/GeneralUse/ParallaxBackgroundImages/graduation_cap.svg'),
+      // url('../../assets/GeneralUse/ParallaxBackgroundImages/heart_bag.svg'),
+      // url('../../assets/GeneralUse/ParallaxBackgroundImages/heart_basin.svg'),
+      // url('../../assets/GeneralUse/ParallaxBackgroundImages/lolly.svg'),
+      // url('../../assets/GeneralUse/ParallaxBackgroundImages/long_lollipop.svg'),
+      // url('../../assets/GeneralUse/ParallaxBackgroundImages/square_cookie.svg'),
+      // url('../../assets/GeneralUse/ParallaxBackgroundImages/triangles_candy.svg'),
       url('../../assets/GeneralUse/ParallaxBackgroundImages/star.svg'),
       url('../../assets/GeneralUse/ParallaxBackgroundImages/star.svg'),
       url('../../assets/GeneralUse/ParallaxBackgroundImages/star.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/star.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/star.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/star.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/star.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/star.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/bubble.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/bubble.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/bubble.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/bubble.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/bubble.svg'),
+      url('../../assets/GeneralUse/ParallaxBackgroundImages/bubble.svg'),
       url('../../assets/GeneralUse/ParallaxBackgroundImages/bubble.svg'),
       url('../../assets/GeneralUse/ParallaxBackgroundImages/bubble.svg'),
       url('../../assets/GeneralUse/ParallaxBackgroundImages/bubble.svg');
     background-repeat: no-repeat;
-    background-position: 15% 18%, 85% 21%, 70% 100%, 22% 70%, 30% 90%, 32% 42%,
-      60% 53%, 82% 66%, 46% 88%, 53% 29%, 14% 85%, 85% 90%, 73% 37%, 14% 52%,
-      78% 99%, 86% 44%, 14% 100%;
+    background-position: 15% 18%, 85% 21%, 70% 100%, 19% 76%, 30% 90%, 32% 42%,
+      60% 53%, 82% 66%, 46% 88%, 53% 29%, 43% 63%, 85% 90%, 73% 37%, 10% 52%,
+      65% 78%, 86% 44%, 14% 100%;
 
     opacity: 0.45;
     transform: translateZ(-6px) scale(7);
@@ -149,8 +162,33 @@
 @media screen and (max-width: 767px) {
   .container {
     padding: 40px 0px;
+    .main__loggedInStyles {
+      padding-top: 40px;
+    }
     main {
       padding: 20px 8px;
+      background-image: url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/cc_logo.svg'),
+        url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/basin.svg'),
+        url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/candy.svg'),
+        url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/discount.svg'),
+        url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/graduation_cap.svg'),
+        url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/heart_bag.svg'),
+        url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/heart_basin.svg'),
+        url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/lolly.svg'),
+        url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/long_lollipop.svg'),
+        url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/square_cookie.svg'),
+        url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/triangles_candy.svg'),
+        url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/star.svg'),
+        url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/star.svg'),
+        url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/star.svg'),
+        url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/bubble.svg'),
+        url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/bubble.svg'),
+        url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/bubble.svg');
+      background-repeat: no-repeat;
+      background-position: 15% 18%, 85% 21%, 70% 100%, 22% 70%, 42% 90%, 32% 42%,
+        60% 53%, 82% 66%, 46% 74%, 53% 29%, 14% 91%, 85% 90%, 73% 37%, 14% 52%,
+        78% 99%, 86% 44%, 14% 100%;
+      background-attachment: fixed;
     }
   }
 
@@ -159,28 +197,7 @@
   /////////////////////////
   .parallax {
     perspective: none;
-    background-image: url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/cc_logo.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/basin.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/candy.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/discount.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/graduation_cap.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/heart_bag.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/heart_basin.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/lolly.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/long_lollipop.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/square_cookie.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/triangles_candy.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/star.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/star.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/star.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/bubble.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/bubble.svg'),
-      url('../../assets/GeneralUse/ParallaxBackgroundImages/smaller_images/bubble.svg');
-    background-repeat: no-repeat;
-    background-position: 15% 18%, 85% 21%, 70% 100%, 22% 70%, 30% 90%, 32% 42%,
-      60% 53%, 82% 66%, 46% 88%, 53% 29%, 14% 100%, 85% 90%, 73% 37%, 14% 52%,
-      78% 99%, 86% 44%, 14% 100%;
-    background-attachment: fixed;
+
     .parallax__front {
       transform: initial;
     }

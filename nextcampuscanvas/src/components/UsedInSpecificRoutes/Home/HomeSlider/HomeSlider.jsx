@@ -61,7 +61,8 @@ const HomeSlider = () => {
   //TODO: Info to pass to each slide/get from server: imageBrand, bannerBig, bannerSmall, offerUrl.
 
   return (
-    <section className={`${styles.slider_container} container`}>
+    //noArrow767 class comes from Globals, and is to disable arrows at 767 and smaller if needed.
+    <section className={`${styles.slider_container} container noArrows767`}>
       <Swiper
         modules={[Pagination, Navigation, Autoplay, EffectFade, Keyboard]}
         slidesPerView={1}
@@ -73,7 +74,6 @@ const HomeSlider = () => {
         autoplay={{
           delay: 2500,
           disableOnInteraction: false,
-          //pauseOnMouseEnter: true,
           waitForTransition: true,
         }}
         keyboard={{
