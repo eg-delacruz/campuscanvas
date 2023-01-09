@@ -87,6 +87,10 @@ p {
   background-size: auto;
   background-position: center;
   width: 36px !important;
+  display: none !important;
+}
+.swiper:hover .swiper-button-next {
+  display: initial !important;
 }
 .swiper-button-next::after {
   display: none;
@@ -97,6 +101,10 @@ p {
   background-size: auto;
   background-position: center;
   width: 36px !important;
+  display: none !important;
+}
+.swiper:hover .swiper-button-prev {
+  display: initial !important;
 }
 .swiper-button-prev::after {
   display: none;

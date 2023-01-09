@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 
 //Styles
@@ -52,23 +51,22 @@ function FAQs() {
                   Una vez completado el proceso de registro y verificación,
                   existen dos maneras en las que puedes recibir tu{' '}
                   <strong>Campus Box</strong>:
-                  <ol>
-                    <li>
-                      <strong>En nuestras oficinas en Madrid:</strong> Una vez
-                      que hayas solicitado tu <strong>Campus Box</strong>,
-                      recibirás un mensaje de confirmación con la fecha y
-                      dirección en la que puedes ir a retirar personalmente tu{' '}
-                      <strong>Campus Box</strong> totalmente gratis.
-                    </li>
-                    <li>
-                      <strong>A través de correo postal:</strong> ¿Vives fuera
-                      de Madrid o no puedes retirarla personalmente? ¡No te
-                      preocupes! También puedes solicitar que tu Campus Box
-                      llegue hasta la puerta de tu casa. ¡Tú solo pagas el
-                      envió!
-                    </li>
-                  </ol>
                 </p>
+                <ol>
+                  <li>
+                    <strong>En nuestras oficinas en Madrid:</strong> Una vez que
+                    hayas solicitado tu <strong>Campus Box</strong>, recibirás
+                    un mensaje de confirmación con la fecha y dirección en la
+                    que puedes ir a retirar personalmente tu{' '}
+                    <strong>Campus Box</strong> totalmente gratis.
+                  </li>
+                  <li>
+                    <strong>A través de correo postal:</strong> ¿Vives fuera de
+                    Madrid o no puedes retirarla personalmente? ¡No te
+                    preocupes! También puedes solicitar que tu Campus Box llegue
+                    hasta la puerta de tu casa. ¡Tú solo pagas el envió!
+                  </li>
+                </ol>
 
                 <h4>
                   No puedo completar mi proceso de verificación y registro a

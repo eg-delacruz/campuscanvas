@@ -272,19 +272,19 @@ function Header() {
                   : styles.menu__list
               }
             >
-              <li className={styles.menu__item}>
-                <Link href='/'>Home</Link>
-              </li>
-              <li className={styles.menu__item}>
-                <Link href='/campusbox'>Campus Box</Link>
-              </li>
+              <Link href='/'>
+                <li className={styles.menu__item}>Home</li>
+              </Link>
+              <Link href='/campusbox'>
+                <li className={styles.menu__item}>Campus Box</li>
+              </Link>
               {/* TODO: Pasar Blog al final de la lista y en vez de FAQs (dejarlas solo en footer), Poner "Descuentos" y en esa pestaña mostrar todos los descuentos */}
-              <li className={styles.menu__item}>
-                <Link href='/blog'>Blog</Link>
-              </li>
-              <li className={styles.menu__item}>
-                <Link href='/FAQs'>FAQs</Link>
-              </li>
+              <Link href='/blog'>
+                <li className={styles.menu__item}>Blog</li>
+              </Link>
+              <Link href='/FAQs'>
+                <li className={styles.menu__item}>FAQs</li>
+              </Link>
             </ul>
 
             {/* /////////////////////////

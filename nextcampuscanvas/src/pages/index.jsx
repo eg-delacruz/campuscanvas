@@ -5,16 +5,8 @@ import Link from 'next/link';
 //Styles
 import styles from '@pagestyles/Index.module.scss';
 
-//Assets
-import banner1 from '@assets/PagesImages/Prueba/banner1.jpg';
-import banner2 from '@assets/PagesImages/Prueba/banner2.jpg';
-import banner3 from '@assets/PagesImages/Prueba/banner3.jpg';
-import banner4 from '@assets/PagesImages/Prueba/banner4.jpg';
-
-import brand_logo_1 from '@assets/PagesImages/Prueba/brand1.svg';
-import brand_logo_2 from '@assets/PagesImages/Prueba/brand2.svg';
-import brand_logo_3 from '@assets/PagesImages/Prueba/brand3.svg';
-import brand_logo_4 from '@assets/PagesImages/Prueba/brand4.svg';
+//Databases
+import { OFFER_CARDS } from '@databases/offers/offerCardsDatabase.js';
 
 //Components
 import Header from '@components/GeneralUseComponents/Header/Header';
@@ -77,34 +69,16 @@ export default function Home() {
                 <h2>Sugeridos para ti</h2>
               </div>
               <div className={styles.suggested_discounts_grid}>
-                <OfferCard
-                  bannerImg={banner1.src}
-                  brandName={'Grover'}
-                  brandLogoSvg={brand_logo_1.src}
-                  description={'5% de descuento en Grover'}
-                  offerID={31512335}
-                />
-                <OfferCard
-                  bannerImg={banner2.src}
-                  brandName={'Adidas'}
-                  brandLogoSvg={brand_logo_2.src}
-                  description={'30% descuento en tiendas físicas Adidas'}
-                  offerID={31512335}
-                />
-                <OfferCard
-                  bannerImg={banner3.src}
-                  brandName={'ASOS'}
-                  brandLogoSvg={brand_logo_3.src}
-                  description={'15% descuento en ASOS'}
-                  offerID={31512335}
-                />
-                <OfferCard
-                  bannerImg={banner4.src}
-                  brandName={'Efeee'}
-                  brandLogoSvg={brand_logo_4.src}
-                  description={'Rebajas de hasta un 60% + 10% descuento'}
-                  offerID={31512335}
-                />
+                {OFFER_CARDS.map((card) => (
+                  <OfferCard
+                    key={card.offer_id}
+                    banner={card.banner}
+                    brand_name={card.brand_name}
+                    brand_logo={card.brand_logo}
+                    title={card.title}
+                    offer_id={card.offer_id}
+                  />
+                ))}
               </div>
             </section>
 
@@ -116,34 +90,16 @@ export default function Home() {
                 <h2>Novedades</h2>
               </div>
               <div className={styles.novedades_discounts_grid}>
-                <OfferCard
-                  bannerImg={banner1.src}
-                  brandName={'Grover'}
-                  brandLogoSvg={brand_logo_1.src}
-                  description={'5% de descuento en Grover'}
-                  offerID={31512335}
-                />
-                <OfferCard
-                  bannerImg={banner2.src}
-                  brandName={'Adidas'}
-                  brandLogoSvg={brand_logo_2.src}
-                  description={'30% descuento en tiendas físicas Adidas'}
-                  offerID={31512335}
-                />
-                <OfferCard
-                  bannerImg={banner3.src}
-                  brandName={'ASOS'}
-                  brandLogoSvg={brand_logo_3.src}
-                  description={'15% descuento en ASOS'}
-                  offerID={31512335}
-                />
-                <OfferCard
-                  bannerImg={banner4.src}
-                  brandName={'Efeee'}
-                  brandLogoSvg={brand_logo_4.src}
-                  description={'Rebajas de hasta un 60% + 10% descuento'}
-                  offerID={31512335}
-                />
+                {OFFER_CARDS.map((card) => (
+                  <OfferCard
+                    key={card.offer_id}
+                    banner={card.banner}
+                    brand_name={card.brand_name}
+                    brand_logo={card.brand_logo}
+                    title={card.title}
+                    offer_id={card.offer_id}
+                  />
+                ))}
               </div>
             </section>
 
@@ -155,90 +111,36 @@ export default function Home() {
                 <h2>Más descuentos para estudiantes</h2>
               </div>
               <div className={styles.more_discounts_grid}>
-                <OfferCard
-                  bannerImg={banner1.src}
-                  brandName={'Grover'}
-                  brandLogoSvg={brand_logo_1.src}
-                  description={'5% de descuento en Grover'}
-                  offerID={31512335}
-                />
-                <OfferCard
-                  bannerImg={banner2.src}
-                  brandName={'Adidas'}
-                  brandLogoSvg={brand_logo_2.src}
-                  description={'30% descuento en tiendas físicas Adidas'}
-                  offerID={31512335}
-                />
-                <OfferCard
-                  bannerImg={banner3.src}
-                  brandName={'ASOS'}
-                  brandLogoSvg={brand_logo_3.src}
-                  description={'15% descuento en ASOS'}
-                  offerID={31512335}
-                />
-                <OfferCard
-                  bannerImg={banner4.src}
-                  brandName={'Efeee'}
-                  brandLogoSvg={brand_logo_4.src}
-                  description={'Rebajas de hasta un 60% + 10% descuento'}
-                  offerID={31512335}
-                />
-                <OfferCard
-                  bannerImg={banner1.src}
-                  brandName={'Grover'}
-                  brandLogoSvg={brand_logo_1.src}
-                  description={'5% de descuento en Grover'}
-                  offerID={31512335}
-                />
-                <OfferCard
-                  bannerImg={banner2.src}
-                  brandName={'Adidas'}
-                  brandLogoSvg={brand_logo_2.src}
-                  description={'30% descuento en tiendas físicas Adidas'}
-                  offerID={31512335}
-                />
-                <OfferCard
-                  bannerImg={banner3.src}
-                  brandName={'ASOS'}
-                  brandLogoSvg={brand_logo_3.src}
-                  description={'15% descuento en ASOS'}
-                  offerID={31512335}
-                />
-                <OfferCard
-                  bannerImg={banner4.src}
-                  brandName={'Efeee'}
-                  brandLogoSvg={brand_logo_4.src}
-                  description={'Rebajas de hasta un 60% + 10% descuento'}
-                  offerID={31512335}
-                />
-                <OfferCard
-                  bannerImg={banner1.src}
-                  brandName={'Grover'}
-                  brandLogoSvg={brand_logo_1.src}
-                  description={'5% de descuento en Grover'}
-                  offerID={31512335}
-                />
-                <OfferCard
-                  bannerImg={banner2.src}
-                  brandName={'Adidas'}
-                  brandLogoSvg={brand_logo_2.src}
-                  description={'30% descuento en tiendas físicas Adidas'}
-                  offerID={31512335}
-                />
-                <OfferCard
-                  bannerImg={banner3.src}
-                  brandName={'ASOS'}
-                  brandLogoSvg={brand_logo_3.src}
-                  description={'15% descuento en ASOS'}
-                  offerID={31512335}
-                />
-                <OfferCard
-                  bannerImg={banner4.src}
-                  brandName={'Efeee'}
-                  brandLogoSvg={brand_logo_4.src}
-                  description={'Rebajas de hasta un 60% + 10% descuento'}
-                  offerID={31512335}
-                />
+                {OFFER_CARDS.map((card) => (
+                  <OfferCard
+                    key={card.offer_id}
+                    banner={card.banner}
+                    brand_name={card.brand_name}
+                    brand_logo={card.brand_logo}
+                    title={card.title}
+                    offer_id={card.offer_id}
+                  />
+                ))}
+                {OFFER_CARDS.map((card) => (
+                  <OfferCard
+                    key={card.offer_id}
+                    banner={card.banner}
+                    brand_name={card.brand_name}
+                    brand_logo={card.brand_logo}
+                    title={card.title}
+                    offer_id={card.offer_id}
+                  />
+                ))}
+                {OFFER_CARDS.map((card) => (
+                  <OfferCard
+                    key={card.offer_id}
+                    banner={card.banner}
+                    brand_name={card.brand_name}
+                    brand_logo={card.brand_logo}
+                    title={card.title}
+                    offer_id={card.offer_id}
+                  />
+                ))}
               </div>
             </section>
 

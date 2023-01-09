@@ -14,7 +14,7 @@ import { verifyPassword } from '@server/services/passEncript';
 export default NextAuth({
   session: {
     strategy: 'jwt',
-    maxAge: 60 * 60 * 2 * 1, // 2 hours
+    maxAge: 60 * 60 * 24 * 2, // 2 days
   },
   providers: [
     CredentialsProvider({

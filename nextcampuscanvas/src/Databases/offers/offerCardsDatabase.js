@@ -1,0 +1,76 @@
+//Assets
+import banner1 from '@assets/PagesImages/Prueba/banner1.jpg';
+import banner2 from '@assets/PagesImages/Prueba/banner2.jpg';
+import banner3 from '@assets/PagesImages/Prueba/banner3.jpg';
+import banner4 from '@assets/PagesImages/Prueba/banner4.jpg';
+
+import brand_logo_1 from '@assets/PagesImages/Prueba/brand1.svg';
+import brand_logo_2 from '@assets/PagesImages/Prueba/brand2.svg';
+import brand_logo_3 from '@assets/PagesImages/Prueba/brand3.svg';
+import brand_logo_4 from '@assets/PagesImages/Prueba/brand4.svg';
+
+export const OFFER_CARDS = [
+  {
+    //The generated one by Mongo DB
+    offer_id: 1,
+    //Not longer than 40 characters
+    title: '5% de descuento en Grover',
+    brand_logo: brand_logo_1.src,
+    banner: banner1.src,
+    category: 'Beauty',
+    brand_name: 'Grover',
+    location: {
+      country: 'Spain',
+      state: ['Madrid'],
+    },
+    click_count: 1,
+    // suggested | new | most_sold | home_featured |
+    display_as: '',
+    exclusiv_tag: false,
+  },
+  {
+    offer_id: 2,
+    title: '30% descuento en tiendas físicas Adidas',
+    brand_name: 'Adidas',
+    brand_logo: brand_logo_2.src,
+    banner: banner2.src,
+    category: 'Beauty',
+    location: {
+      country: 'Spain',
+      state: ['Madrid'],
+    },
+    click_count: 1,
+    display_as: '',
+    exclusiv_tag: false,
+  },
+  {
+    offer_id: 3,
+    title: '15% descuento en ASOS',
+    brand_name: 'ASOS',
+    brand_logo: brand_logo_3.src,
+    banner: banner3.src,
+    category: 'Beauty',
+    location: {
+      country: 'Spain',
+      state: ['Madrid'],
+    },
+    click_count: 1,
+    display_as: '',
+    exclusiv_tag: false,
+  },
+  {
+    offer_id: 4,
+    title: 'Rebajas de hasta un 60% + 10% descuento',
+    brand_name: 'Efeee',
+    brand_logo: brand_logo_4.src,
+    banner: banner4.src,
+    category: 'Beauty',
+    location: {
+      country: 'Spain',
+      state: ['Madrid'],
+    },
+    click_count: 1,
+    display_as: '',
+    exclusiv_tag: false,
+  },
+];

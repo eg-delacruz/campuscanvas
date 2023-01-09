@@ -181,9 +181,6 @@
     height: inherit;
     cursor: pointer;
     padding: 0 6px;
-  }
-  .menu__item a,
-  .menu__item div {
     text-decoration: none;
     color: $color--black;
     height: inherit;
@@ -191,6 +188,7 @@
     align-items: center;
     font-weight: 700;
   }
+
   .menu__item_empresas {
     max-width: 138px;
   }
@@ -254,9 +252,8 @@
 .menu__list li:hover {
   background-color: $color--primary2;
   border-radius: 5px;
-  a {
-    color: $color--white;
-  }
+
+  color: $color--white;
 }
 
 /////////////////////////
@@ -426,13 +423,7 @@
         border: 1px solid $color--white;
         border-radius: 5px;
         background: rgba(91, 7, 145, 0.9);
-      }
-      .menu__item a,
-      .menu__item div {
         color: $color--white;
-        margin: 0;
-        width: 100%;
-        justify-content: center;
       }
       .menu__item_empresas {
         max-width: initial;
