@@ -19,7 +19,7 @@ import arrow_right_white from '@assets/GeneralUse/IconsAndButtons/arrow_right_wh
 
 //Services
 import { ToUploadImageConfig } from '@services/ToUploadImageConfig';
-import dateToLetters from '@services/dateToLetters';
+import dateToLetters from '@services/dateFormat';
 
 //hooks
 import { useInputValue } from '@hooks/useInputValue';

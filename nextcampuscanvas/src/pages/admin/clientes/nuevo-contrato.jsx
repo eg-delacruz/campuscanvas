@@ -20,7 +20,7 @@ import arrow_right_white from '@assets/GeneralUse/IconsAndButtons/arrow_right_wh
 import { useInputValue } from '@hooks/useInputValue';
 
 //Services
-import dateToLetters from '@services/dateToLetters.js';
+import dateToLetters from '@services/dateFormat.js';
 import { NumberAsString } from '@services/numberAsString';
 
 //Endpoints

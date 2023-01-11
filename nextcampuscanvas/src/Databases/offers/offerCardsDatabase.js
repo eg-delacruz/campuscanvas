@@ -13,7 +13,7 @@ export const OFFER_CARDS = [
   {
     //The generated one by Mongo DB
     offer_id: 1,
-    //Not longer than 40 characters
+    //Not longer than 40 characters. Has to include Brand Name for better SEO
     title: '5% de descuento en Grover',
     brand_logo: brand_logo_1.src,
     banner: banner1.src,
@@ -60,7 +60,7 @@ export const OFFER_CARDS = [
   },
   {
     offer_id: 4,
-    title: 'Rebajas de hasta un 60% + 10% descuento',
+    title: 'Rebajas del 60% + 10% descuento en Efeee',
     brand_name: 'Efeee',
     brand_logo: brand_logo_4.src,
     banner: banner4.src,

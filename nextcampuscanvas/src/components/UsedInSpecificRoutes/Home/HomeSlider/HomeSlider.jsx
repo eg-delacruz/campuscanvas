@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 //Swiper required modules
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -23,7 +23,24 @@ import { SLIDER_BANNERS } from '@databases/offers/sliderBannersDatabase.js';
 
 const HomeSlider = () => {
   //TODO: Slider must get info either SSR or from database in client
-  //TODO: Info to pass to each slide/get from server: imageBrand, bannerBig, bannerSmall, offerUrl.
+
+  //TODO: The SSRed array has to be shuffled IN THE FRONT END with this function
+  //Randomly change to object order inside array
+  const shuffleArray = (array) => {
+    const shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = shuffledArray[i];
+      shuffledArray[i] = shuffledArray[j];
+      shuffledArray[j] = temp;
+    }
+    return shuffledArray;
+  };
+
+  const SHUFFLED_SLIDER_BANNERS = shuffleArray(SLIDER_BANNERS);
+
+  //To send the id of the post to the post page
+  const router = useRouter();
 
   return (
     //noArrow767 class comes from Globals, and is to disable arrows at 767 and smaller of the Swiper.
@@ -48,21 +65,30 @@ const HomeSlider = () => {
         navigation={true}
         className={styles.swiper}
       >
-        {SLIDER_BANNERS.map((item) => (
-          <SwiperSlide key={item.offer_id} className={styles.slider_item}>
-            {/* TODO: onClick, redirect to needed URL according to offer_id */}
-            <Link href={'#'}>
-              <picture>
-                <source
-                  media='(min-width: 767px)'
-                  srcSet={item.slider_banner_big_screen}
-                />
-                <img
-                  src={item.slider_banner_small_screen}
-                  alt={item.offer_brand}
-                />
-              </picture>
-            </Link>
+        {SHUFFLED_SLIDER_BANNERS.map((item) => (
+          <SwiperSlide
+            onClick={() => {
+              router.push(
+                {
+                  pathname: `/ofertas/${item.offer_id}`,
+                  query: { id: item.offer_id },
+                },
+                `/ofertas/${item.offer_id}`
+              );
+            }}
+            key={item.offer_id}
+            className={styles.slider_item}
+          >
+            <picture>
+              <source
+                media='(min-width: 767px)'
+                srcSet={item.slider_banner_big_screen}
+              />
+              <img
+                src={item.slider_banner_small_screen}
+                alt={item.offer_brand}
+              />
+            </picture>
           </SwiperSlide>
         ))}
       </Swiper>

@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <>
       <SEOHeader
-        tabTitle={'Home'}
+        tabTitle={'Descuentos a estudiantes España'}
         metaName={'Descuentos a estudiantes en España'}
         description={
           'Descuentos exclusivos para estudiantes universitarios en España'

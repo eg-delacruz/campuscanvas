@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
 
 //Styles
 import styles from './OfferCard.module.scss';
@@ -22,36 +22,47 @@ const OfferCard = ({ banner, brand_name, brand_logo, title, offer_id }) => {
   };
 
   checkDescriptionLength(title);
+
+  //To send the id of the post to the post page
+  const router = useRouter();
+
   return (
     <>
-      {/* TODO: open and display according to the offerID */}
-      {/* TODO: Change OfferCard  properties according to DB object names. description -> card_title, brandName -> brand_name, brandName -> brand_name, bannerImg -> banner, brandLogoSvg -> brand_logo, offerID -> id*/}
-      <Link href='#'>
-        <article className={styles.offer_card}>
-          <div className={styles.offer_image_container}>
-            <span>
-              <img src={banner} alt={brand_name} />
+      <article
+        onClick={() => {
+          router.push(
+            {
+              pathname: `/ofertas/${offer_id}`,
+              query: { id: offer_id },
+            },
+            `/ofertas/${offer_id}`
+          );
+        }}
+        className={styles.offer_card}
+      >
+        <div className={styles.offer_image_container}>
+          <span>
+            <img src={banner} alt={brand_name} />
+          </span>
+        </div>
+        <div className={styles.offer_info_container}>
+          <div className={styles.offer_logo_container}>
+            <span className={styles.span_container}>
+              <span>
+                <img src={white_background_svg.src} alt='Grover' />
+              </span>
+              <img
+                className={styles.brand_img}
+                src={brand_logo}
+                alt={brand_name}
+              />
             </span>
           </div>
-          <div className={styles.offer_info_container}>
-            <div className={styles.offer_logo_container}>
-              <span className={styles.span_container}>
-                <span>
-                  <img src={white_background_svg.src} alt='Grover' />
-                </span>
-                <img
-                  className={styles.brand_img}
-                  src={brand_logo}
-                  alt={brand_name}
-                />
-              </span>
-            </div>
-            <div className={styles.offer_info_details}>
-              <h4>{title}</h4>
-            </div>
+          <div className={styles.offer_info_details}>
+            <h4>{title}</h4>
           </div>
-        </article>
-      </Link>
+        </div>
+      </article>
     </>
   );
 };

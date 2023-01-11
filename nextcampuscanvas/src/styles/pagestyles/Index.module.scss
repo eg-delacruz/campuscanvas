@@ -199,6 +199,7 @@
   /////////////////////////
   .parallax {
     perspective: none;
+    background: none;
 
     .parallax__front {
       transform: initial;
@@ -216,6 +217,7 @@
       grid-auto-flow: column;
       grid-auto-columns: minmax(280px, 1fr);
       overflow-x: auto;
+      margin-top: 0;
     }
   }
   .novedades_discounts {
@@ -226,6 +228,7 @@
       grid-auto-flow: column;
       grid-auto-columns: minmax(280px, 1fr);
       overflow-x: auto;
+      margin-top: 0;
     }
   }
 
@@ -233,6 +236,7 @@
     margin-top: 40px;
     .more_discounts_grid {
       grid-template-columns: repeat(2, 1fr);
+      margin-top: 0;
     }
   }
 }
@@ -240,6 +244,19 @@
 ////////////////////////////////////////480/////////////////////////////////////////////
 
 @media screen and (max-width: 480px) {
+  .container {
+    main {
+      .subtitle_glass_container {
+        margin: 0;
+      }
+      .more_discounts {
+        .subtitle_glass_container {
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+
   .more_discounts {
     .more_discounts_grid {
       grid-template-columns: repeat(1, 1fr);
