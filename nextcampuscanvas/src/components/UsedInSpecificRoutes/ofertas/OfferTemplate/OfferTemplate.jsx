@@ -11,9 +11,9 @@ import dateFormat from '@services/dateFormat.js';
 
 //Components
 import RateOfferSnippet from '../RateOfferSnippet/RateOfferSnippet';
-import FacebookShareButton from '@components/GeneralUseComponents/ShareButtons/FacebookShareButton/FacebookShareButton';
-import TwitterShareButton from '@components/GeneralUseComponents/ShareButtons/TwitterShareButton/TwitterShareButton';
-import WhatsappShareButton from '@components/GeneralUseComponents/ShareButtons/WhatsappShareButton/WhatsappShareButton';
+import FacebookShareButton from '@components/GeneralUseComponents/ShareButtons/FacebookShareButton/FacebookShareButton.jsx';
+import TwitterShareButton from '@components/GeneralUseComponents/ShareButtons/TwitterShareButton/TwitterShareButton.jsx';
+import WhatsAppShareButton from '@components/GeneralUseComponents/ShareButtons/WhatsAppShareButton/WhatsAppShareButton';
 
 const OfferTemplate = ({ offer, children }) => {
   const handleTermsCons = () => {
