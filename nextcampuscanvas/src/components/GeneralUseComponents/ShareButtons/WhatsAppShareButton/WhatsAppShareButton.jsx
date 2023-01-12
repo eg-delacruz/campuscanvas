@@ -1,7 +1,7 @@
 const WhatsAppShareButton = ({
   width = 50,
   height = 50,
-  color = '#f5f5f5f5',
+  color = '#2AB13F',
   postTitle = '',
   URL = 'https://www.campuscanvas.net/',
 }) => {

@@ -1,10 +1,10 @@
 const FacebookShareButton = ({
   width = 50,
   height = 50,
-  color = '#f5f5f5f5',
+  color = '#4867AA',
   URL = 'https://www.campuscanvas.net/',
 }) => {
-  //Pass this in props if we want to share the current page
+  //Pass this in props if we want to share the current page:
   //const currentURL = encodeURI(window.location.href);
 
   const ShareURL = `https://www.facebook.com/sharer.php?u=${URL}`;

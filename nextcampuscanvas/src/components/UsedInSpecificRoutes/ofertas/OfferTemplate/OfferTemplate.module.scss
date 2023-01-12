@@ -1,9 +1,12 @@
 @import '../../../../styles/Vars.scss';
 @import '../../../../styles/Buttons.scss';
 
+.wrapper {
+  padding: 0 8px;
+}
+
 .container {
   margin: 20px auto 20px;
-  //padding: 0 8px;
   padding: 0;
   border: 1px solid $color--dark-gray;
   border-radius: 5px;
@@ -142,7 +145,7 @@
 /////////////////////////
 
 .valid_period {
-  margin-top: -15px;
+  margin: -15px 0 0;
   text-align: center;
   @include paragraph--small;
   color: $color--dark-gray;
@@ -174,6 +177,25 @@
   }
 }
 
+.brand_info {
+  border-top: 1px solid $color--dark-gray;
+  padding: 8px;
+  h4 {
+    margin: 0;
+  }
+  p {
+    margin: 0;
+  }
+}
+
+.share_section {
+  display: flex;
+  border-top: 1px solid $color--dark-gray;
+  padding: 6px 8px 2px;
+  justify-content: center;
+  gap: 20px;
+}
+
 /////////////////////////
 //     Offer info     //
 /////////////////////////
@@ -187,6 +209,18 @@
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 767px) {
+  .wrapper {
+    padding: 40px 8px;
+  }
+
+  .container {
+    margin: 0px auto 0px;
+  }
+
+  .info_container {
+    padding: 0 8px;
+  }
+
   .banner_logo_container {
     .logo_container {
       margin-top: -115px;
@@ -198,6 +232,10 @@
 ////////////////////////////////////////480/////////////////////////////////////////////
 
 @media screen and (max-width: 480px) {
+  .wrapper {
+    padding: 20px 8px;
+  }
+
   .banner_logo_container {
     .logo_container {
       margin-top: -96px;
@@ -209,6 +247,11 @@
 ////////////////////////////////////////320/////////////////////////////////////////////
 
 @media screen and (max-width: 320px) {
+  .upper_offer_info {
+    h2 {
+      @include font-size(26px);
+    }
+  }
   .banner_logo_container {
     .logo_container {
       margin-top: -90px;

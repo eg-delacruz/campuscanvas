@@ -8,7 +8,7 @@ import styles from '@styles/pagestyles/ofertas/OffersDisplayer.module.scss';
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 import OfferTemplate from '@components/UsedInSpecificRoutes/ofertas/OfferTemplate/OfferTemplate';
-import DiscountDisplayer from '@components/UsedInSpecificRoutes/ofertas/DiscountDisplayer/DiscountDisplayer';
+import DiscountDisplayerBtn from '@components/UsedInSpecificRoutes/ofertas/DiscountDisplayerBtn/DiscountDisplayerBtn';
 
 //Databases
 import { OFFERS } from '@databases/offers/offersInfoDatabase.js';
@@ -29,6 +29,8 @@ const Offer = () => {
     setOffer(OFFER);
   }, [router?.isReady]);
 
+  //TODO: Create a loading state if needed as in /blog
+
   return (
     <>
       <SEOHeader
@@ -40,10 +42,7 @@ const Offer = () => {
         {Object.keys(offer).length > 0 && (
           <div className={`${styles.container}`}>
             <OfferTemplate offer={offer}>
-              {/*/////////////////////////
-              //   Discount displayer //
-               /////////////////////////*/}
-              <DiscountDisplayer offer={offer} />
+              <DiscountDisplayerBtn offer={offer} />
             </OfferTemplate>
           </div>
         )}

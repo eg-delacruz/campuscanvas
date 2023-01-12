@@ -477,23 +477,13 @@ const CampusBox = () => {
               </p>
               <div className={styles.share_buttons}>
                 <div className={styles.button_container}>
-                  <FacebookShareButton width={50} height={50} color='#4867AA' />
+                  <FacebookShareButton />
                 </div>
                 <div className={styles.button_container}>
-                  <TwitterShareButton
-                    width={50}
-                    height={50}
-                    color='#1D9BF0'
-                    postTitle='¡Pide tu Campus Box gratuita!'
-                  />
+                  <TwitterShareButton postTitle='¡Pide tu Campus Box gratuita!' />
                 </div>
                 <div className={styles.button_container}>
-                  <WhatsAppShareButton
-                    width={50}
-                    height={50}
-                    color='#2AB13F'
-                    postTitle='¡Pide tu Campus Box gratuita!'
-                  />
+                  <WhatsAppShareButton postTitle='¡Pide tu Campus Box gratuita!' />
                 </div>
               </div>
             </div>

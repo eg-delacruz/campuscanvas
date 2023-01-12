@@ -1,5 +1,5 @@
 //Styles
-import styles from './DiscountDisplayer.module.scss';
+import styles from './DiscountDisplayerBtn.module.scss';
 
 //Session
 import { useSession } from 'next-auth/react';
@@ -11,7 +11,7 @@ import useSecureUnverifRoutesInsideFunction from '@hooks/useSecureUnverifRouteIn
 //CLARIFICATION
 //This component renders a different button if the offer is affiliate_link type or discount_code type. Each button has a different behavior depending on the case, which can be opening the affiliate link in both cases, or opening the affiliate link and showing/generating the discount code in a different route, since this route can be accessed by anyone.
 
-const DiscountDisplayer = ({ offer }) => {
+const DiscountDisplayerBtn = ({ offer }) => {
   //Session
   const { data: session, status } = useSession();
 
@@ -21,7 +21,7 @@ const DiscountDisplayer = ({ offer }) => {
     redirectUnverifUser();
     if (session?.token.stu_verified) {
       //Open and focus on this one, since browser will focus in the new opened tab (cc page with generated code)
-      //IMPORTANT: in production, the baseURL has to be 'https://www.campuscanvas.net/' !!!
+      //TODO: IMPORTANT: in production, the baseURL has to be 'https://www.campuscanvas.net/' !!!
       const baseURL = 'http://localhost:3000/';
       const path = 'student/ofertas/';
       const URL = baseURL + path + offer.offer_id;
@@ -52,13 +52,19 @@ const DiscountDisplayer = ({ offer }) => {
     <>
       {offer.type === 'discount_code' ? (
         <>
-          <button onClick={handleDiscount} className='btn button--red'>
+          <button
+            onClick={handleDiscount}
+            className={`${styles.button} btn button--red`}
+          >
             Mostrar cupón y abrir tienda
           </button>
         </>
       ) : (
         <>
-          <button onClick={handleAffiliateLink} className='btn button--red'>
+          <button
+            onClick={handleAffiliateLink}
+            className={`${styles.button} btn button--red`}
+          >
             {offer.action_btn_phrase
               ? offer.action_btn_phrase
               : 'Ir a la tienda'}
@@ -69,4 +75,4 @@ const DiscountDisplayer = ({ offer }) => {
   );
 };
 
-export default DiscountDisplayer;
+export default DiscountDisplayerBtn;

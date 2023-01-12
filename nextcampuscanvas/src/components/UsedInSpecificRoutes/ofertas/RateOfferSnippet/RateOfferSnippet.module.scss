@@ -1,2 +1,87 @@
 @import '../../../../styles/Vars.scss';
 @import '../../../../styles/Buttons.scss';
+
+.container {
+  max-width: 340px;
+  margin: 20px auto;
+}
+
+.unrated_title {
+  margin: 0;
+  text-align: center;
+}
+
+.buttons_container {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin: 10px 0;
+  .button {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background-color: $color--light-gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include font-size(20px);
+    opacity: 0.8;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .thumbUp {
+    border: 3px solid $color--confirmation;
+
+    span {
+      margin-bottom: 5px;
+    }
+  }
+  .thumbDown {
+    border: 3px solid $color--primary1;
+  }
+}
+
+.after_feedback_container {
+  .button:hover {
+    cursor: default;
+  }
+  .thumbVanished {
+    opacity: 0.2;
+    border: 3px solid $color--dark-gray;
+  }
+}
+
+.after_feedback_message_container {
+  border: 3px dashed $color--primary2-light1;
+  border-radius: 5px;
+  padding: 10px 4px;
+  h5 {
+    margin: 0;
+    text-align: center;
+  }
+  p {
+    margin: 0;
+    text-align: center;
+    line-height: 30px;
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}

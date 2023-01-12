@@ -13,6 +13,8 @@ import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import useSecureUnverifRouteOnMount from '@hooks/useSecureUnverifRouteOnMount';
 
 const VerifDiscountDisplayer = () => {
+  //TODO: Take into account what will happen for affiliate_link type offers inside this route -> Redirect to
+  //Securing route only for verified students
   const { verifyingSession } = useSecureUnverifRouteOnMount();
 
   // //Get offer id

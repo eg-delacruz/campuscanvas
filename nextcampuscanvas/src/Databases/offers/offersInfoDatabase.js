@@ -39,7 +39,7 @@ export const OFFERS = [
     //If there is no code, send the needed info to the required API to generate the code and put it in a state
     discount_code: '',
     //TODO: see if template html or markdown is better for this. Also chech how to store it in DB
-    terms_and_conds: `<p>Set inner HTML. Allow p-tags and ul-tags only</p>`,
+    terms_and_conds: `<p>Set inner HTML. Allow p-tags and ul-tags only</p><ul><li>Condición 1, la cual debería tener mucho texto para que se vea bien. Pero este es un texto de ejemplo</li><li>Condición 2</li><li>Condición 1, la cual debería tener mucho texto para que se vea bien. Pero este es un texto de ejemplo</li><li>Condición 2</li><li>Condición 1, la cual debería tener mucho texto para que se vea bien. Pero este es un texto de ejemplo</li><li>Condición 2</li><li>Condición 1, la cual debería tener mucho texto para que se vea bien. Pero este es un texto de ejemplo</li><li>Condición 2</li><li>Condición 1, la cual debería tener mucho texto para que se vea bien. Pero este es un texto de ejemplo</li><li>Condición 2</li><li>Condición 1, la cual debería tener mucho texto para que se vea bien. Pero este es un texto de ejemplo</li><li>Condición 2</li></ul>`,
     creation_date: new Date(),
     valid_from: new Date(),
     valid_till: new Date(),
