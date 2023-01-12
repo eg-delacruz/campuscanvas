@@ -28,7 +28,6 @@ const OfferTemplate = ({ offer, children }) => {
       title: 'Términos y condiciones',
       html: offer.terms_and_conds,
       confirmButtonText: 'Aceptar',
-      confirmButtonColor: '#f5a623',
     });
   };
 
@@ -99,7 +98,7 @@ const OfferTemplate = ({ offer, children }) => {
             URL={currentURL}
             postTitle={offer.SEO_meta_title}
           />
-          <WhatsappShareButton
+          <WhatsAppShareButton
             width={40}
             height={40}
             postTitle={offer.SEO_meta_title}
