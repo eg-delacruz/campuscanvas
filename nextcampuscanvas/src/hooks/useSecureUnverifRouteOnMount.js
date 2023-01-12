@@ -8,8 +8,6 @@ const useSecureUnverifRouteOnMount = () => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log('session', session);
-    console.log('status', status);
     if (status === 'unauthenticated') {
       return router.push({ pathname: 'auth/login' }, 'auth/login');
     }

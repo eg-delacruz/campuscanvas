@@ -40,11 +40,9 @@ const Offer = () => {
       />
       <Layout>
         {Object.keys(offer).length > 0 && (
-          <div className={`${styles.container}`}>
-            <OfferTemplate offer={offer}>
-              <DiscountDisplayerBtn offer={offer} />
-            </OfferTemplate>
-          </div>
+          <OfferTemplate offer={offer}>
+            <DiscountDisplayerBtn offer={offer} />
+          </OfferTemplate>
         )}
       </Layout>
     </>

@@ -41,7 +41,7 @@ const DiscountDisplayerBtn = ({ offer }) => {
   const handleAffiliateLink = () => {
     redirectUnverifUser();
     if (session?.token.stu_verified) {
-      //Open affiliate_link in background and same tab we were in previously.
+      //Open affiliate_link in new tab
       const currentTabWindow = window.open(offer.affiliate_link, '_blank');
 
       if (currentTabWindow) currentTabWindow.opener = null;
