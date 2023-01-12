@@ -22,7 +22,7 @@ const DiscountDisplayerBtn = ({ offer }) => {
     if (session?.token.stu_verified) {
       //Open and focus on this one, since browser will focus in the new opened tab (cc page with generated code)
       //TODO: IMPORTANT: in production, the baseURL has to be 'https://www.campuscanvas.net/' !!!
-      const baseURL = 'http://localhost:3000/';
+      const baseURL = 'https://www.campuscanvas.net/';
       const path = 'student/ofertas/';
       const URL = baseURL + path + offer.offer_id;
       const newTabWindow = window.open(URL, '_blank', 'noopener, noreferrer');
