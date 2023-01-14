@@ -18,9 +18,6 @@ import FacebookShareButton from '@components/GeneralUseComponents/ShareButtons/F
 import TwitterShareButton from '@components/GeneralUseComponents/ShareButtons/TwitterShareButton/TwitterShareButton.jsx';
 import WhatsAppShareButton from '@components/GeneralUseComponents/ShareButtons/WhatsAppShareButton/WhatsAppShareButton';
 
-//TODO: Review ShareButtons: Facebook has an undefined, twitter page doesn´t load, WhatsApp seems to work well
-//TODO: Implement loading state if needed
-
 const OfferTemplate = ({ offer, children }) => {
   const handleTermsCons = () => {
     //Display modal with sweetalert2
@@ -38,6 +35,7 @@ const OfferTemplate = ({ offer, children }) => {
   };
 
   const currentURL = encodeURI(window.location.href);
+
   return (
     <article className={`${styles.wrapper}`}>
       <div className={`${styles.container}`}>
@@ -102,12 +100,12 @@ const OfferTemplate = ({ offer, children }) => {
             width={40}
             height={40}
             URL={currentURL}
-            postTitle={offer.SEO_meta_title}
+            postTitle={`¡Mira este descuento exclusivo para estudiantes en ${offer.brand.brand_name}!`}
           />
           <WhatsAppShareButton
             width={40}
             height={40}
-            postTitle={offer.SEO_meta_title}
+            postTitle={`¡Mira este descuento exclusivo para estudiantes en ${offer.brand.brand_name}!`}
             URL={currentURL}
           />
         </section>

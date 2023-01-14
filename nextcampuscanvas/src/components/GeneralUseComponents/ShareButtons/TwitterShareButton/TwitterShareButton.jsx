@@ -5,8 +5,10 @@ const TwitterShareButton = ({
   postTitle = '',
   URL = 'https://www.campuscanvas.net/',
 }) => {
-  //Pass this in props if we want to share the current page:
+  //CLARIFICATIONS:
+  //1. Pass this in props if we want to share the current page:
   //const currentURL = encodeURI(window.location.href);
+  //2. postTitle cannot contain strange symbols like %
 
   const ShareURL = `https://twitter.com/share?url=${URL}&text=${postTitle}`;
 

@@ -4,8 +4,10 @@ const FacebookShareButton = ({
   color = '#4867AA',
   URL = 'https://www.campuscanvas.net/',
 }) => {
-  //Pass this in props if we want to share the current page:
+  //CLARIFICATIONS:
+  //1. Pass this in props if we want to share the current page:
   //const currentURL = encodeURI(window.location.href);
+  //2. FB looks for the metatags of the passed URL to create the post to share. If we are passing the metatags client side, FB won´t recognize them, so when using this componente, that page should have its meta tags SSR, SSG or ISG generated. If meta tags are client side generated, this will still work, but the post on fb will habe an undefined, which is bad for SEO.
 
   const ShareURL = `https://www.facebook.com/sharer.php?u=${URL}`;
 
