@@ -1,3 +1,6 @@
+//Sanitysing dangerouslySetInnerHTML as in: https://www.npmjs.com/package/isomorphic-dompurify
+import DOMPurify from 'isomorphic-dompurify';
+
 import Swal from 'sweetalert2';
 
 //Assets
@@ -29,7 +32,7 @@ const OfferTemplate = ({ offer, children }) => {
     });
     customModal.fire({
       title: 'Términos y condiciones',
-      html: offer.terms_and_conds,
+      html: DOMPurify.sanitize(offer.terms_and_conds),
       confirmButtonText: 'Aceptar',
     });
   };
