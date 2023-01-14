@@ -9,15 +9,18 @@ import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 import OfferTemplate from '@components/UsedInSpecificRoutes/ofertas/OfferTemplate/OfferTemplate';
 import DiscountDisplayerBtn from '@components/UsedInSpecificRoutes/ofertas/DiscountDisplayerBtn/DiscountDisplayerBtn';
+import Loader from '@components/GeneralUseComponents/Loader/Loader';
 
 //Databases
 import { OFFERS } from '@databases/offers/offersInfoDatabase.js';
 
 const Offer = () => {
   const [offer, setOffer] = useState({});
+  const [loading, setLoading] = useState(true);
   //Get offer id
   const router = useRouter();
 
+  //When modigying this useEffect, also do it in the one of /student/ofertas/[id].jsx
   useEffect(() => {
     if (!router.isReady) return;
     const id = Number(router.query.id);
@@ -26,10 +29,24 @@ const Offer = () => {
       return offer.offer_id === id;
     });
 
+    if (!OFFER) {
+      router.push('/404');
+      return;
+    }
+
     setOffer(OFFER);
+    setLoading(false);
   }, [router?.isReady]);
 
-  //TODO: Create a loading state if needed as in /blog
+  if (loading) {
+    return (
+      <Layout>
+        <div className={styles.loader_container}>
+          <Loader />
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <>
@@ -39,7 +56,7 @@ const Offer = () => {
         description={offer?.description}
       />
       <Layout>
-        {Object.keys(offer).length > 0 && (
+        {offer && Object.keys(offer).length > 0 && (
           <OfferTemplate offer={offer}>
             <DiscountDisplayerBtn offer={offer} />
           </OfferTemplate>

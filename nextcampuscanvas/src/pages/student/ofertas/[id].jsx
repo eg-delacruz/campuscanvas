@@ -29,12 +29,19 @@ const VerifDiscountDisplayer = () => {
   const router = useRouter();
 
   const id = Number(router.query.id);
+
+  //When modigying this useEffect, also do it in the one of /ofertas/[id].jsx
   useEffect(() => {
     if (!router.isReady) return;
     //Find the offer in the OFFERS array that matches the id
     const OFFER = OFFERS.find((offer) => {
       return offer.offer_id === id;
     });
+
+    if (!OFFER) {
+      router.push('/404');
+      return;
+    }
 
     setOffer(OFFER);
   }, [router?.isReady]);
@@ -63,7 +70,7 @@ const VerifDiscountDisplayer = () => {
         description={offer?.description}
       />
       <Layout>
-        {Object.keys(offer).length > 0 && (
+        {offer && Object.keys(offer).length > 0 && (
           <OfferTemplate offer={offer}>
             <DisplayDiscountSnippet offer={offer} />
           </OfferTemplate>
