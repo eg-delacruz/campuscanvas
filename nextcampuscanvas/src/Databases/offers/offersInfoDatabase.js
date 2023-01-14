@@ -28,6 +28,8 @@ export const OFFERS = [
       brand_description:
         'Grover es una tienda especializada en artículos de bla bla bla Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     },
+    //travel | fashion | beauty | eat & drink | entertainment | technology | others
+    category: 'beauty',
     brand_logo: brand_logo_1.src,
     banner: banner1.src,
     //Try to keep it short, but can be as long as possible if needed
@@ -60,6 +62,7 @@ export const OFFERS = [
       brand_description:
         'Adidas es una tienda especializada en artículos de Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     },
+    category: 'travel',
     brand_logo: brand_logo_2.src,
     banner: banner2.src,
     description:
@@ -85,6 +88,7 @@ export const OFFERS = [
       brand_description:
         'ASOS es una tienda especializada en artículos de Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     },
+    category: 'fashion',
     brand_logo: brand_logo_3.src,
     banner: banner3.src,
     description:
@@ -110,6 +114,7 @@ export const OFFERS = [
       brand_description:
         'Efeee es una tienda especializada en artículos de Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     },
+    category: 'eat&drink',
     brand_logo: brand_logo_4.src,
     banner: banner4.src,
     description:

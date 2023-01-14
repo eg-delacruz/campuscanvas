@@ -278,12 +278,11 @@ function Header() {
               <Link href='/campusbox'>
                 <li className={styles.menu__item}>Campus Box</li>
               </Link>
-              {/* TODO: Pasar Blog al final de la lista y en vez de FAQs (dejarlas solo en footer), Poner "Descuentos" y en esa pestaña mostrar todos los descuentos */}
+              <Link href='/ofertas/todas'>
+                <li className={styles.menu__item}>Descuentos</li>
+              </Link>
               <Link href='/blog'>
                 <li className={styles.menu__item}>Blog</li>
-              </Link>
-              <Link href='/FAQs'>
-                <li className={styles.menu__item}>FAQs</li>
               </Link>
             </ul>
 

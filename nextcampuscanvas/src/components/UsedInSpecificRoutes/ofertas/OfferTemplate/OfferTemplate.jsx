@@ -15,6 +15,9 @@ import FacebookShareButton from '@components/GeneralUseComponents/ShareButtons/F
 import TwitterShareButton from '@components/GeneralUseComponents/ShareButtons/TwitterShareButton/TwitterShareButton.jsx';
 import WhatsAppShareButton from '@components/GeneralUseComponents/ShareButtons/WhatsAppShareButton/WhatsAppShareButton';
 
+//TODO: Review ShareButtons: Facebook has an undefined, twitter page doesn´t load, WhatsApp seems to work well
+//TODO: Implement loading state if needed
+
 const OfferTemplate = ({ offer, children }) => {
   const handleTermsCons = () => {
     //Display modal with sweetalert2

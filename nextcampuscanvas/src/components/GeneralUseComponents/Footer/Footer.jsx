@@ -170,6 +170,9 @@ function Footer() {
               <li>
                 <Link href='/contacto'>Contacto</Link>
               </li>
+              <li>
+                <Link href='/FAQs'>FAQs</Link>
+              </li>
             </ul>
           </div>
           <div className={styles.footer__legal}>

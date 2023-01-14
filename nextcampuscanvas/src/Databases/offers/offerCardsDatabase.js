@@ -17,7 +17,8 @@ export const OFFER_CARDS = [
     title: '5% de descuento en Grover',
     brand_logo: brand_logo_1.src,
     banner: banner1.src,
-    category: 'Beauty',
+    //travel | fashion | beauty | eat & drink | entertainment | technology | others
+    category: 'beauty',
     brand_name: 'Grover',
     location: {
       country: 'Spain',
@@ -34,7 +35,7 @@ export const OFFER_CARDS = [
     brand_name: 'Adidas',
     brand_logo: brand_logo_2.src,
     banner: banner2.src,
-    category: 'Beauty',
+    category: 'travel',
     location: {
       country: 'Spain',
       state: ['Madrid'],
@@ -49,7 +50,7 @@ export const OFFER_CARDS = [
     brand_name: 'ASOS',
     brand_logo: brand_logo_3.src,
     banner: banner3.src,
-    category: 'Beauty',
+    category: 'fashion',
     location: {
       country: 'Spain',
       state: ['Madrid'],
@@ -64,7 +65,7 @@ export const OFFER_CARDS = [
     brand_name: 'Efeee',
     brand_logo: brand_logo_4.src,
     banner: banner4.src,
-    category: 'Beauty',
+    category: 'eat&drink',
     location: {
       country: 'Spain',
       state: ['Madrid'],

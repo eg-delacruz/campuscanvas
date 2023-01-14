@@ -9,6 +9,7 @@ import banner2_small from '@assets/GeneralUse/UsedInComponents/HomeSlider/banner
 import banner3_small from '@assets/GeneralUse/UsedInComponents/HomeSlider/banner3_small.jpg';
 import banner4_small from '@assets/GeneralUse/UsedInComponents/HomeSlider/banner4_small.jpg';
 
+//Max 8 banners
 export const SLIDER_BANNERS = [
   {
     offer_id: 1,

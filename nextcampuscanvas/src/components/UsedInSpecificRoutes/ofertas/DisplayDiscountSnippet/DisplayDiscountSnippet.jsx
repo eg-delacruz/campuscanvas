@@ -16,6 +16,9 @@ const DisplayDiscountSnippet = ({ offer }) => {
     }, 2000);
   };
 
+  //TODO: research how to display a new code after 1h if code changes-
+  //Idea 1: Persist generated code in DB. If > 1h, empty array and allow new code geneartion.
+
   const handleOpenBrandStore = () => {
     //Open affiliate_link in new tab
     const currentTabWindow = window.open(offer.affiliate_link, '_blank');

@@ -24,8 +24,8 @@ import { SLIDER_BANNERS } from '@databases/offers/sliderBannersDatabase.js';
 const HomeSlider = () => {
   //TODO: Slider must get info either SSR or from database in client
 
-  //TODO: The SSRed array has to be shuffled IN THE FRONT END with this function
   //Randomly change to object order inside array
+  //The array has to be shuffled IN THE FRONT END with this function
   const shuffleArray = (array) => {
     const shuffledArray = [...array];
     for (let i = shuffledArray.length - 1; i > 0; i--) {

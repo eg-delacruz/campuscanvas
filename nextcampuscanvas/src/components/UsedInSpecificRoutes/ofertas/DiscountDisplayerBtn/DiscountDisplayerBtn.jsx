@@ -21,8 +21,8 @@ const DiscountDisplayerBtn = ({ offer }) => {
     redirectUnverifUser();
     if (session?.token.stu_verified) {
       //Open and focus on this one, since browser will focus in the new opened tab (cc page with generated code)
-      //TODO: IMPORTANT: in production, the baseURL has to be 'https://www.campuscanvas.net/' !!!
-      const baseURL = 'https://www.campuscanvas.net/';
+      //IMPORTANT: in production, the baseURL has to be 'https://www.campuscanvas.net/' !!!
+      const baseURL = 'http://localhost:3000/';
       const path = 'student/ofertas/';
       const URL = baseURL + path + offer.offer_id;
       const newTabWindow = window.open(URL, '_blank', 'noopener, noreferrer');
@@ -69,6 +69,7 @@ const DiscountDisplayerBtn = ({ offer }) => {
               ? offer.action_btn_phrase
               : 'Ir a la tienda'}
           </button>
+          <p className={styles.p}>Se aplica automaticamente en la tienda</p>
         </>
       )}
     </>
