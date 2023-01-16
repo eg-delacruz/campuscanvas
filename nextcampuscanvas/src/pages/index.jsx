@@ -144,9 +144,11 @@ export default function Home() {
               </div>
             </section>
 
-            <button className={`${styles.view_all_btn} btn button--red`}>
-              Ver todos
-            </button>
+            <Link href={'/ofertas/todas'}>
+              <button className={`${styles.view_all_btn} btn button--red`}>
+                Ver todos
+              </button>
+            </Link>
           </main>
           <Footer />
         </div>

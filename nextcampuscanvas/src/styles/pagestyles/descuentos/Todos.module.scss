@@ -1,0 +1,41 @@
+//Use same styles for /todas /viajar /moda /belleza /alimentacion /entretenimiento /tecnologíia /otros, pues deberán verse igual en principio
+
+@import '../../Vars.scss';
+
+//TODO: adjust footer behavior for each screen size when navbar and main content is completed is completed. Probably no need of the page wrapper and footer styles, since page should have a lot of content
+// .page_wrapper {
+//   height: 100vh;
+//   Footer {
+//     position: absolute;
+//     bottom: 0;
+//     width: 100%;
+//   }
+// }
+
+.container {
+  max-width: 1200px;
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+  // .page_wrapper {
+  //   Footer {
+  //     position: initial;
+  //   }
+  // }
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}

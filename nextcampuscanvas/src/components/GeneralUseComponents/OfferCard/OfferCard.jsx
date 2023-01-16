@@ -32,10 +32,10 @@ const OfferCard = ({ banner, brand_name, brand_logo, title, offer_id }) => {
         onClick={() => {
           router.push(
             {
-              pathname: `/ofertas/${offer_id}`,
+              pathname: `/descuentos/${offer_id}`,
               query: { id: offer_id },
             },
-            `/ofertas/${offer_id}`
+            `/descuentos/${offer_id}`
           );
         }}
         className={styles.offer_card}

@@ -11,8 +11,8 @@ import { OFFERS } from '@databases/offers/offersInfoDatabase.js';
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
-import OfferTemplate from '@components/UsedInSpecificRoutes/ofertas/OfferTemplate/OfferTemplate';
-import DisplayDiscountSnippet from '@components/UsedInSpecificRoutes/ofertas/DisplayDiscountSnippet/DisplayDiscountSnippet';
+import OfferTemplate from '@components/UsedInSpecificRoutes/descuentos/OfferTemplate/OfferTemplate';
+import DisplayDiscountSnippet from '@components/UsedInSpecificRoutes/descuentos/DisplayDiscountSnippet/DisplayDiscountSnippet';
 
 //Hooks
 import useSecureUnverifRouteOnMount from '@hooks/useSecureUnverifRouteOnMount';

@@ -278,7 +278,7 @@ function Header() {
               <Link href='/campusbox'>
                 <li className={styles.menu__item}>Campus Box</li>
               </Link>
-              <Link href='/ofertas/todas'>
+              <Link href='/descuentos/todos'>
                 <li className={styles.menu__item}>Descuentos</li>
               </Link>
               <Link href='/blog'>
