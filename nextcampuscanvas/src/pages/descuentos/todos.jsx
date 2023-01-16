@@ -6,6 +6,11 @@ import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 import Header from '@components/GeneralUseComponents/Header/Header';
 import DiscountsNavbar from '@components/UsedInSpecificRoutes/descuentos/DiscountsNavbar/DiscountsNavbar';
 import Footer from '@components/GeneralUseComponents/Footer/Footer';
+import OfferCard from '@components/GeneralUseComponents/OfferCard/OfferCard';
+import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
+
+//Databases
+import { OFFER_CARDS } from '@databases/offers/offerCardsDatabase.js';
 
 const todos = () => {
   return (
@@ -17,6 +22,9 @@ const todos = () => {
           'Explora todos nuestros descuentos a estudiantes españoles'
         }
       />
+
+      <ButtonUp />
+
       <div className={styles.page_wrapper}>
         <div className={`${styles.header_wrapper} header_wrapper`}>
           <Header />
@@ -24,7 +32,28 @@ const todos = () => {
         <div className={`${styles.container} container`}>
           <DiscountsNavbar />
 
-          <h1>Todos</h1>
+          <section className={styles.grid_container}>
+            {OFFER_CARDS.map((card) => (
+              <OfferCard
+                key={card.offer_id}
+                banner={card.banner}
+                brand_name={card.brand_name}
+                brand_logo={card.brand_logo}
+                title={card.title}
+                offer_id={card.offer_id}
+              />
+            ))}
+            {OFFER_CARDS.map((card) => (
+              <OfferCard
+                key={card.offer_id}
+                banner={card.banner}
+                brand_name={card.brand_name}
+                brand_logo={card.brand_logo}
+                title={card.title}
+                offer_id={card.offer_id}
+              />
+            ))}
+          </section>
         </div>
         <Footer />
       </div>

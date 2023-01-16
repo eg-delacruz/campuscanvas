@@ -7,6 +7,7 @@
     justify-content: space-between;
     padding: 0;
     flex-wrap: wrap;
+    margin: 25px 0 35px;
   }
   li {
     cursor: pointer;
@@ -18,22 +19,12 @@
   .selected {
     border-bottom: 3px solid $color--primary1;
   }
-  span {
-    @include font-size(30px);
-    margin-top: -10px;
-    color: $color--primary1;
-  }
 }
 
 /////////////////////////
 //         MQ         //
 /////////////////////////
 @media screen and (max-width: 880px) {
-  .offers_header {
-    span {
-      margin: -10px 4px 0;
-    }
-  }
 }
 
 ////////////////////////////////////////767/////////////////////////////////////////////
@@ -44,9 +35,6 @@
     ul {
       justify-content: center;
       gap: 20px;
-    }
-    span {
-      display: none;
     }
   }
 }

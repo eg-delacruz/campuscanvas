@@ -6,6 +6,10 @@ import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 import Header from '@components/GeneralUseComponents/Header/Header';
 import DiscountsNavbar from '@components/UsedInSpecificRoutes/descuentos/DiscountsNavbar/DiscountsNavbar';
 import Footer from '@components/GeneralUseComponents/Footer/Footer';
+import OfferCard from '@components/GeneralUseComponents/OfferCard/OfferCard';
+
+//Databases
+import { OFFER_CARDS } from '@databases/offers/offerCardsDatabase.js';
 
 const viajar = () => {
   return (
@@ -24,7 +28,18 @@ const viajar = () => {
         <div className={`${styles.container} container`}>
           <DiscountsNavbar />
 
-          <h1>Viajar</h1>
+          <section className={styles.grid_container}>
+            {OFFER_CARDS.map((card) => (
+              <OfferCard
+                key={card.offer_id}
+                banner={card.banner}
+                brand_name={card.brand_name}
+                brand_logo={card.brand_logo}
+                title={card.title}
+                offer_id={card.offer_id}
+              />
+            ))}
+          </section>
         </div>
         <Footer />
       </div>

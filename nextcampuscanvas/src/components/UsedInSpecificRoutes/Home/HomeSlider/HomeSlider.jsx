@@ -70,10 +70,10 @@ const HomeSlider = () => {
             onClick={() => {
               router.push(
                 {
-                  pathname: `/ofertas/${item.offer_id}`,
+                  pathname: `/descuentos/${item.offer_id}`,
                   query: { id: item.offer_id },
                 },
-                `/ofertas/${item.offer_id}`
+                `/descuentos/${item.offer_id}`
               );
             }}
             key={item.offer_id}
