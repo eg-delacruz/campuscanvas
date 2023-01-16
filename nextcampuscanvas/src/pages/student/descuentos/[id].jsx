@@ -5,13 +5,13 @@ import { useState, useEffect } from 'react';
 import styles from '@styles/pagestyles/student/VerifDiscountDisplayer.module.scss';
 
 //Databases
-import { OFFERS } from '@databases/offers/offersInfoDatabase.js';
+import { DISCOUNTS } from '@databases/discounts/discountsInfoDatabase.js';
 
 //Components
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
-import OfferTemplate from '@components/UsedInSpecificRoutes/descuentos/OfferTemplate/OfferTemplate';
+import DiscountTemplate from '@components/UsedInSpecificRoutes/descuentos/DiscountTemplate/DiscountTemplate';
 import DisplayDiscountSnippet from '@components/UsedInSpecificRoutes/descuentos/DisplayDiscountSnippet/DisplayDiscountSnippet';
 
 //Hooks
@@ -21,11 +21,11 @@ const VerifDiscountDisplayer = () => {
   //Securing route only for verified students
   const { verifyingSession } = useSecureUnverifRouteOnMount();
 
-  const [offer, setOffer] = useState({});
-  const [verifyingIfAffiliateLinkOffer, setVerifyingIfAffiliateOffer] =
+  const [discount, setDiscount] = useState({});
+  const [verifyingIfAffiliateLinkDiscount, setVerifyingIfAffiliateDiscount] =
     useState(true);
 
-  //Get offer id
+  //Get discount id
   const router = useRouter();
 
   const id = Number(router.query.id);
@@ -33,27 +33,27 @@ const VerifDiscountDisplayer = () => {
   //When modigying this useEffect, also do it in the one of /ofertas/[id].jsx
   useEffect(() => {
     if (!router.isReady) return;
-    //Find the offer in the OFFERS array that matches the id
-    const OFFER = OFFERS.find((offer) => {
-      return offer.offer_id === id;
+    //Find the discount in the DISCOUNTS array that matches the id
+    const DISCOUNT = DISCOUNTS.find((discount) => {
+      return discount.discount_id === id;
     });
 
-    if (!OFFER) {
+    if (!DISCOUNT) {
       router.push('/404');
       return;
     }
 
-    setOffer(OFFER);
+    setDiscount(DISCOUNT);
   }, [router?.isReady]);
 
   useEffect(() => {
-    if (offer.type === 'affiliate_link') {
-      router.push(`/ofertas/${id}`);
+    if (discount.type === 'affiliate_link') {
+      router.push(`/descuentos/${id}`);
     }
-    setVerifyingIfAffiliateOffer(false);
-  }, [offer]);
+    setVerifyingIfAffiliateDiscount(false);
+  }, [discount]);
 
-  if (verifyingSession || verifyingIfAffiliateLinkOffer) {
+  if (verifyingSession || verifyingIfAffiliateLinkDiscount) {
     return (
       <Layout>
         <div className={styles.loader_container}>
@@ -65,15 +65,15 @@ const VerifDiscountDisplayer = () => {
   return (
     <>
       <SEOHeader
-        tabTitle={offer?.SEO_meta_title}
-        metaName={offer?.SEO_meta_title}
-        description={offer?.description}
+        tabTitle={discount?.SEO_meta_title}
+        metaName={discount?.SEO_meta_title}
+        description={discount?.description}
       />
       <Layout>
-        {offer && Object.keys(offer).length > 0 && (
-          <OfferTemplate offer={offer}>
-            <DisplayDiscountSnippet offer={offer} />
-          </OfferTemplate>
+        {discount && Object.keys(discount).length > 0 && (
+          <DiscountTemplate discount={discount}>
+            <DisplayDiscountSnippet discount={discount} />
+          </DiscountTemplate>
         )}
       </Layout>
     </>

@@ -151,7 +151,7 @@
   color: $color--dark-gray;
 }
 
-.upper_offer_info {
+.upper_discount_info {
   text-align: center;
   h2 {
     max-width: 650px;
@@ -197,7 +197,7 @@
 }
 
 /////////////////////////
-//     Offer info     //
+//    Discount info    //
 /////////////////////////
 
 /////////////////////////
@@ -247,7 +247,7 @@
 ////////////////////////////////////////320/////////////////////////////////////////////
 
 @media screen and (max-width: 320px) {
-  .upper_offer_info {
+  .upper_discount_info {
     h2 {
       @include font-size(26px);
     }

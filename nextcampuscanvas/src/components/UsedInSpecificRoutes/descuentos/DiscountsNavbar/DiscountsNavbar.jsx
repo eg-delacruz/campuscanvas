@@ -8,7 +8,7 @@ const DiscountsNavbar = () => {
   const router = useRouter();
   return (
     <>
-      <section className={styles.offers_header}>
+      <section className={styles.discounts_header}>
         <ul>
           <Link href={'/descuentos/todos'}>
             <li

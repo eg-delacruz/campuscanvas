@@ -3,10 +3,10 @@
 //Neumorphism as in: https://codepen.io/caesura/pen/QWNjvOX
 
 /////////////////////////
-//     Offer card     //
+//     Discount card    //
 /////////////////////////
 
-.offer_card {
+.discount_card {
   cursor: pointer;
   box-shadow: 8px 8px 12px -2px rgb(72 79 96 / 40%), -6px -6px 12px -1px white;
   line-height: 18px;
@@ -16,11 +16,11 @@
   background-color: $color--tertiary-white;
   transition: all 250ms ease-in-out;
   border-radius: 7px;
-  .offer_card_container {
+  .discount_card_container {
     background-color: $color--tertiary-white;
     padding-bottom: 12px;
   }
-  .offer_image_container {
+  .discount_image_container {
     position: relative;
     border-radius: 5px 5px 0px 0px;
     overflow: hidden;
@@ -58,8 +58,8 @@
     }
   }
 
-  .offer_info_container {
-    .offer_logo_container {
+  .discount_info_container {
+    .discount_logo_container {
       z-index: 2;
       width: 90px;
       height: 90px;
@@ -124,7 +124,7 @@
       }
     }
 
-    .offer_info_details {
+    .discount_info_details {
       padding: 0px 10px;
       width: 100%;
       margin: 12px 0px;
@@ -139,12 +139,12 @@
     }
   }
 }
-.offer_card:hover {
+.discount_card:hover {
   box-shadow: none;
   border-color: rgba(255, 255, 255, 1);
 }
 
-.offer_card:active {
+.discount_card:active {
   box-shadow: inset -4px -4px 6px -1px white,
     inset 2px 2px 8px -1px rgb(72 79 96 / 50%);
   border-color: rgba(255, 255, 255, 0);

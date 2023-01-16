@@ -6,13 +6,13 @@ import Link from 'next/link';
 import styles from '@pagestyles/Index.module.scss';
 
 //Databases
-import { OFFER_CARDS } from '@databases/offers/offerCardsDatabase.js';
+import { DISCOUNT_CARDS } from '@databases/discounts/discountCardsDatabase.js';
 
 //Components
 import Header from '@components/GeneralUseComponents/Header/Header';
 import Footer from '@components/GeneralUseComponents/Footer/Footer';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
-import OfferCard from '@components/GeneralUseComponents/OfferCard/OfferCard';
+import DiscountCard from '@components/GeneralUseComponents/DiscountCard/DiscountCard';
 import HomeSlider from '@components/UsedInSpecificRoutes/Home/HomeSlider/HomeSlider';
 
 //Session
@@ -69,14 +69,14 @@ export default function Home() {
                 <h2>Sugeridos para ti</h2>
               </div>
               <div className={styles.suggested_discounts_grid}>
-                {OFFER_CARDS.map((card) => (
-                  <OfferCard
-                    key={card.offer_id}
+                {DISCOUNT_CARDS.map((card) => (
+                  <DiscountCard
+                    key={card.discount_id}
                     banner={card.banner}
                     brand_name={card.brand_name}
                     brand_logo={card.brand_logo}
                     title={card.title}
-                    offer_id={card.offer_id}
+                    discount_id={card.discount_id}
                   />
                 ))}
               </div>
@@ -90,14 +90,14 @@ export default function Home() {
                 <h2>Novedades</h2>
               </div>
               <div className={styles.novedades_discounts_grid}>
-                {OFFER_CARDS.map((card) => (
-                  <OfferCard
-                    key={card.offer_id}
+                {DISCOUNT_CARDS.map((card) => (
+                  <DiscountCard
+                    key={card.discount_id}
                     banner={card.banner}
                     brand_name={card.brand_name}
                     brand_logo={card.brand_logo}
                     title={card.title}
-                    offer_id={card.offer_id}
+                    discount_id={card.discount_id}
                   />
                 ))}
               </div>
@@ -111,34 +111,34 @@ export default function Home() {
                 <h2>Más descuentos para estudiantes</h2>
               </div>
               <div className={styles.more_discounts_grid}>
-                {OFFER_CARDS.map((card) => (
-                  <OfferCard
-                    key={card.offer_id}
+                {DISCOUNT_CARDS.map((card) => (
+                  <DiscountCard
+                    key={card.discount_id}
                     banner={card.banner}
                     brand_name={card.brand_name}
                     brand_logo={card.brand_logo}
                     title={card.title}
-                    offer_id={card.offer_id}
+                    discount_id={card.discount_id}
                   />
                 ))}
-                {OFFER_CARDS.map((card) => (
-                  <OfferCard
-                    key={card.offer_id}
+                {DISCOUNT_CARDS.map((card) => (
+                  <DiscountCard
+                    key={card.discount_id}
                     banner={card.banner}
                     brand_name={card.brand_name}
                     brand_logo={card.brand_logo}
                     title={card.title}
-                    offer_id={card.offer_id}
+                    discount_id={card.discount_id}
                   />
                 ))}
-                {OFFER_CARDS.map((card) => (
-                  <OfferCard
-                    key={card.offer_id}
+                {DISCOUNT_CARDS.map((card) => (
+                  <DiscountCard
+                    key={card.discount_id}
                     banner={card.banner}
                     brand_name={card.brand_name}
                     brand_logo={card.brand_logo}
                     title={card.title}
-                    offer_id={card.offer_id}
+                    discount_id={card.discount_id}
                   />
                 ))}
               </div>

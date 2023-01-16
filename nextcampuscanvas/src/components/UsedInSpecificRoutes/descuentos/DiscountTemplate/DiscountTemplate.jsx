@@ -7,18 +7,18 @@ import Swal from 'sweetalert2';
 import white_background_svg_big from '@assets/GeneralUse/UsedInComponents/Ofertas/white_svg_background_big.svg';
 
 //styles
-import styles from './OfferTemplate.module.scss';
+import styles from './DiscountTemplate.module.scss';
 
 //Services
 import dateFormat from '@services/dateFormat.js';
 
 //Components
-import RateOfferSnippet from '../RateOfferSnippet/RateOfferSnippet';
+import RateDiscountSnippet from '../RateDiscountSnippet/RateDiscountSnippet';
 import FacebookShareButton from '@components/GeneralUseComponents/ShareButtons/FacebookShareButton/FacebookShareButton.jsx';
 import TwitterShareButton from '@components/GeneralUseComponents/ShareButtons/TwitterShareButton/TwitterShareButton.jsx';
 import WhatsAppShareButton from '@components/GeneralUseComponents/ShareButtons/WhatsAppShareButton/WhatsAppShareButton';
 
-const OfferTemplate = ({ offer, children }) => {
+const DiscountTemplate = ({ discount, children }) => {
   const handleTermsCons = () => {
     //Display modal with sweetalert2
     const customModal = Swal.mixin({
@@ -29,7 +29,7 @@ const OfferTemplate = ({ offer, children }) => {
     });
     customModal.fire({
       title: 'Términos y condiciones',
-      html: DOMPurify.sanitize(offer.terms_and_conds),
+      html: DOMPurify.sanitize(discount.terms_and_conds),
       confirmButtonText: 'Aceptar',
     });
   };
@@ -50,28 +50,28 @@ const OfferTemplate = ({ offer, children }) => {
               </span>
               <img
                 className={styles.banner_image}
-                src={offer.banner}
-                alt={offer.brand.brand_name}
+                src={discount.banner}
+                alt={discount.brand.brand_name}
               />
             </span>
           </div>
           <div className={styles.logo_container}>
             <span>
-              <img src={offer.brand_logo} alt='' />
+              <img src={discount.brand_logo} alt='' />
             </span>
           </div>
         </section>
 
         {/*/////////////////////////
-        //       Offer info     //
+        //       Discount info     //
         /////////////////////////*/}
         <section className={styles.info_container}>
           <p className={styles.valid_period}>
-            Válido hasta el {dateFormat.shortSlashDate(offer.valid_till)}
+            Válido hasta el {dateFormat.shortSlashDate(discount.valid_till)}
           </p>
-          <div className={styles.upper_offer_info}>
-            <h2>{offer.title}</h2>
-            <p>{offer.description}</p>
+          <div className={styles.upper_discount_info}>
+            <h2>{discount.title}</h2>
+            <p>{discount.description}</p>
           </div>
 
           {children}
@@ -80,15 +80,15 @@ const OfferTemplate = ({ offer, children }) => {
             <span onClick={handleTermsCons}>Términos y condiciones</span>
           </p>
 
-          <RateOfferSnippet offer_id={offer.offer_id} />
+          <RateDiscountSnippet discount_id={discount.discount_id} />
         </section>
 
         {/*/////////////////////////
         //       Brand info     //
         /////////////////////////*/}
         <section className={styles.brand_info}>
-          <h4>{offer.brand.brand_name}</h4>
-          <p>{offer.brand.brand_description}</p>
+          <h4>{discount.brand.brand_name}</h4>
+          <p>{discount.brand.brand_description}</p>
         </section>
 
         {/*/////////////////////////
@@ -100,12 +100,12 @@ const OfferTemplate = ({ offer, children }) => {
             width={40}
             height={40}
             URL={currentURL}
-            postTitle={`¡Mira este descuento exclusivo para estudiantes en ${offer.brand.brand_name}!`}
+            postTitle={`¡Mira este descuento exclusivo para estudiantes en ${discount.brand.brand_name}!`}
           />
           <WhatsAppShareButton
             width={40}
             height={40}
-            postTitle={`¡Mira este descuento exclusivo para estudiantes en ${offer.brand.brand_name}!`}
+            postTitle={`¡Mira este descuento exclusivo para estudiantes en ${discount.brand.brand_name}!`}
             URL={currentURL}
           />
         </section>
@@ -114,4 +114,4 @@ const OfferTemplate = ({ offer, children }) => {
   );
 };
 
-export default OfferTemplate;
+export default DiscountTemplate;

@@ -6,10 +6,10 @@ import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 import Header from '@components/GeneralUseComponents/Header/Header';
 import DiscountsNavbar from '@components/UsedInSpecificRoutes/descuentos/DiscountsNavbar/DiscountsNavbar';
 import Footer from '@components/GeneralUseComponents/Footer/Footer';
-import OfferCard from '@components/GeneralUseComponents/OfferCard/OfferCard';
+import DiscountCard from '@components/GeneralUseComponents/DiscountCard/DiscountCard';
 
 //Databases
-import { OFFER_CARDS } from '@databases/offers/offerCardsDatabase.js';
+import { DISCOUNT_CARDS } from '@databases/discounts/discountCardsDatabase.js';
 
 const belleza = () => {
   return (
@@ -29,24 +29,24 @@ const belleza = () => {
           <DiscountsNavbar />
 
           <section className={styles.grid_container}>
-            {OFFER_CARDS.map((card) => (
-              <OfferCard
-                key={card.offer_id}
+            {DISCOUNT_CARDS.map((card) => (
+              <DiscountCard
+                key={card.discount_id}
                 banner={card.banner}
                 brand_name={card.brand_name}
                 brand_logo={card.brand_logo}
                 title={card.title}
-                offer_id={card.offer_id}
+                discount_id={card.discount_id}
               />
             ))}
-            {OFFER_CARDS.map((card) => (
-              <OfferCard
-                key={card.offer_id}
+            {DISCOUNT_CARDS.map((card) => (
+              <DiscountCard
+                key={card.discount_id}
                 banner={card.banner}
                 brand_name={card.brand_name}
                 brand_logo={card.brand_logo}
                 title={card.title}
-                offer_id={card.offer_id}
+                discount_id={card.discount_id}
               />
             ))}
           </section>

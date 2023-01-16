@@ -9,9 +9,9 @@ import { useRouter } from 'next/router';
 import useSecureUnverifRoutesInsideFunction from '@hooks/useSecureUnverifRouteInsideFunction';
 
 //CLARIFICATION
-//This component renders a different button if the offer is affiliate_link type or discount_code type. Each button has a different behavior depending on the case, which can be opening the affiliate link in both cases, or opening the affiliate link and showing/generating the discount code in a different route, since this route can be accessed by anyone.
+//This component renders a different button if the discount is affiliate_link type or discount_code type. Each button has a different behavior depending on the case, which can be opening the affiliate link in both cases, or opening the affiliate link and showing/generating the discount code in a different route, since this route can be accessed by anyone.
 
-const DiscountDisplayerBtn = ({ offer }) => {
+const DiscountDisplayerBtn = ({ discount }) => {
   //Session
   const { data: session, status } = useSession();
 
@@ -23,13 +23,13 @@ const DiscountDisplayerBtn = ({ offer }) => {
       //Open and focus on this one, since browser will focus in the new opened tab (cc page with generated code)
       //IMPORTANT: in production, the baseURL has to be 'https://www.campuscanvas.net/' !!!
       const baseURL = 'http://localhost:3000/';
-      const path = 'student/ofertas/';
-      const URL = baseURL + path + offer.offer_id;
+      const path = 'student/descuentos/';
+      const URL = baseURL + path + discount.discount_id;
       const newTabWindow = window.open(URL, '_blank', 'noopener, noreferrer');
 
       //Open affiliate_link in background and same tab we were in previously.
       const currentTabWindow = window.open(
-        offer.affiliate_link,
+        discount.affiliate_link,
         '_self',
         'noopener, noreferrer'
       );
@@ -42,7 +42,7 @@ const DiscountDisplayerBtn = ({ offer }) => {
     redirectUnverifUser();
     if (session?.token.stu_verified) {
       //Open affiliate_link in new tab
-      const currentTabWindow = window.open(offer.affiliate_link, '_blank');
+      const currentTabWindow = window.open(discount.affiliate_link, '_blank');
 
       if (currentTabWindow) currentTabWindow.opener = null;
     }
@@ -50,7 +50,7 @@ const DiscountDisplayerBtn = ({ offer }) => {
 
   return (
     <>
-      {offer.type === 'discount_code' ? (
+      {discount.type === 'discount_code' ? (
         <>
           <button
             onClick={handleDiscount}
@@ -65,8 +65,8 @@ const DiscountDisplayerBtn = ({ offer }) => {
             onClick={handleAffiliateLink}
             className={`${styles.button} btn button--red`}
           >
-            {offer.action_btn_phrase
-              ? offer.action_btn_phrase
+            {discount.action_btn_phrase
+              ? discount.action_btn_phrase
               : 'Ir a la tienda'}
           </button>
           <p className={styles.p}>Se aplica automaticamente en la tienda</p>

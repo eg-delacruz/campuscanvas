@@ -15,7 +15,7 @@ import 'swiper/css/autoplay';
 import 'swiper/css/effect-fade';
 
 //Databases
-import { SLIDER_BANNERS } from '@databases/offers/sliderBannersDatabase.js';
+import { SLIDER_BANNERS } from '@databases/discounts/sliderBannersDatabase.js';
 
 //Clarifications
 //1. For screens > 767 px, pictures should have a ratio of 3 : 1 , and an optimal size of 1200px x 400 px
@@ -70,13 +70,13 @@ const HomeSlider = () => {
             onClick={() => {
               router.push(
                 {
-                  pathname: `/descuentos/${item.offer_id}`,
-                  query: { id: item.offer_id },
+                  pathname: `/descuentos/${item.discount_id}`,
+                  query: { id: item.discount_id },
                 },
-                `/descuentos/${item.offer_id}`
+                `/descuentos/${item.discount_id}`
               );
             }}
-            key={item.offer_id}
+            key={item.discount_id}
             className={styles.slider_item}
           >
             <picture>
@@ -86,7 +86,7 @@ const HomeSlider = () => {
               />
               <img
                 src={item.slider_banner_small_screen}
-                alt={item.offer_brand}
+                alt={item.discount_brand}
               />
             </picture>
           </SwiperSlide>

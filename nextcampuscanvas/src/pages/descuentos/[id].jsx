@@ -7,34 +7,34 @@ import styles from '@styles/pagestyles/descuentos/DiscountsDisplayer.module.scss
 //Components
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
-import OfferTemplate from '@components/UsedInSpecificRoutes/descuentos/OfferTemplate/OfferTemplate';
+import DiscountTemplate from '@components/UsedInSpecificRoutes/descuentos/DiscountTemplate/DiscountTemplate';
 import DiscountDisplayerBtn from '@components/UsedInSpecificRoutes/descuentos/DiscountDisplayerBtn/DiscountDisplayerBtn';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 
 //Databases
-import { OFFERS } from '@databases/offers/offersInfoDatabase.js';
+import { DISCOUNTS } from '@databases/discounts/discountsInfoDatabase.js';
 
-const Offer = () => {
-  const [offer, setOffer] = useState({});
+const Discount = () => {
+  const [discount, setDiscount] = useState({});
   const [loading, setLoading] = useState(true);
-  //Get offer id
+  //Get discount id
   const router = useRouter();
 
   //When modigying this useEffect, also do it in the one of /student/ofertas/[id].jsx
   useEffect(() => {
     if (!router.isReady) return;
     const id = Number(router.query.id);
-    //Find the offer in the OFFERS array that matches the id
-    const OFFER = OFFERS.find((offer) => {
-      return offer.offer_id === id;
+    //Find the discount in the DISCOUNTS array that matches the id
+    const DISCOUNT = DISCOUNTS.find((discount) => {
+      return discount.discount_id === id;
     });
 
-    if (!OFFER) {
+    if (!DISCOUNT) {
       router.push('/404');
       return;
     }
 
-    setOffer(OFFER);
+    setDiscount(DISCOUNT);
     setLoading(false);
   }, [router?.isReady]);
 
@@ -51,19 +51,19 @@ const Offer = () => {
   return (
     <>
       <SEOHeader
-        tabTitle={offer?.SEO_meta_title}
-        metaName={offer?.SEO_meta_title}
-        description={offer?.description}
+        tabTitle={discount?.SEO_meta_title}
+        metaName={discount?.SEO_meta_title}
+        description={discount?.description}
       />
       <Layout>
-        {offer && Object.keys(offer).length > 0 && (
-          <OfferTemplate offer={offer}>
-            <DiscountDisplayerBtn offer={offer} />
-          </OfferTemplate>
+        {discount && Object.keys(discount).length > 0 && (
+          <DiscountTemplate discount={discount}>
+            <DiscountDisplayerBtn discount={discount} />
+          </DiscountTemplate>
         )}
       </Layout>
     </>
   );
 };
 
-export default Offer;
+export default Discount;

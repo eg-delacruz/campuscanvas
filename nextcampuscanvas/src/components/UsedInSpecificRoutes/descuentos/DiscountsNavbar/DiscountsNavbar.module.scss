@@ -1,6 +1,6 @@
 @import '../../../../styles/Vars.scss';
 
-.offers_header {
+.discounts_header {
   ul {
     list-style: none;
     display: flex;
@@ -30,7 +30,7 @@
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 767px) {
-  .offers_header {
+  .discounts_header {
     padding: 0 8px;
     ul {
       justify-content: center;

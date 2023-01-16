@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import useDisplayIfVerified from '@hooks/useDisplayIfVerified';
 
 //Styles
-import styles from './RateOfferSnippet.module.scss';
+import styles from './RateDiscountSnippet.module.scss';
 
-const RateOfferSnippet = ({ offer_id }) => {
+const RateDiscountSnippet = ({ discount_id }) => {
   const { allowDisplay } = useDisplayIfVerified();
   const [state, setState] = useState({
     unrated: true,
@@ -92,8 +92,8 @@ const RateOfferSnippet = ({ offer_id }) => {
   );
 };
 
-export default RateOfferSnippet;
+export default RateDiscountSnippet;
 
-RateOfferSnippet.propTypes = {
-  offer_id: PropTypes.number.isRequired,
+RateDiscountSnippet.propTypes = {
+  discount_id: PropTypes.number.isRequired,
 };
