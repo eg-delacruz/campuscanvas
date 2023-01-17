@@ -28,6 +28,7 @@
 // import italicPoppins from '@assets/Fonts/Poppins-Italic.ttf';
 // import boldPoppins from '@assets/Fonts/Poppins-Bold.ttf';
 
+//TODO: this component is used again, implement the useSecureAdminRoute hook
 const contrato = () => {
   return <></>;
   //   const [state, setState] = useState({

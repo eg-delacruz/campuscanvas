@@ -23,21 +23,22 @@ import dateToLetters from '@services/dateFormat';
 
 //hooks
 import { useInputValue } from '@hooks/useInputValue';
+import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
 
 //Endpoints
 import endPoints from '@services/api';
 
 //ONLY ONE PERSON SHOULD WORK ON THIS SCREEN - If more than one admin is validating students, this can generate problems, since if one validated student has to be validated again, the second time, the other admin will get an error
 const validaciones_por_id_pendientes = () => {
+  const { securingRoute } = useSecureAdminRoute();
+
   const [state, setState] = useState({
-    loading: false,
     gettingValidations: true,
     gettingValidationsError: null,
     validating: false,
     validatingError: false,
     validatingSuccess: null,
     rejectionError: false,
-    //rejectionSuccess: null,
   });
 
   const [pendingValidations, setPendingValidations] = useState([]);
@@ -52,36 +53,6 @@ const validaciones_por_id_pendientes = () => {
     user_email: '',
     userID: '',
   });
-
-  //Session
-  const { data: session, status } = useSession();
-
-  const router = useRouter();
-
-  //Securing route (start)
-  if (status === 'unauthenticated') {
-    router.push('/auth/login');
-  }
-  if (session) {
-    if (
-      !(
-        session?.token.role === 'super_admin' || session?.token.role === 'admin'
-      )
-    ) {
-      router.push('/');
-    }
-  }
-
-  useEffect(() => {
-    setState({ ...state, loading: true });
-    if (
-      session?.token.role === 'super_admin' ||
-      session?.token.role === 'admin'
-    ) {
-      setState({ ...state, loading: false });
-    }
-  }, [session]);
-  //Securing route (end)
 
   useEffect(() => {
     getPendingValitadions();
@@ -128,7 +99,6 @@ const validaciones_por_id_pendientes = () => {
       setPendingValidations(data.body.OldestEntries);
       setState({
         ...state,
-        loading: false,
         gettingValidations: false,
         gettingValidationsError: null,
       });
@@ -381,7 +351,7 @@ const validaciones_por_id_pendientes = () => {
     }
   };
 
-  if (state.loading) {
+  if (securingRoute) {
     return (
       <div className={styles.loaderContainer}>
         <Loader />

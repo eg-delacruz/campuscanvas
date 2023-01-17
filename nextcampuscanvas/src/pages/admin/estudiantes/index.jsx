@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { signOut } from 'next-auth/react';
@@ -17,44 +16,24 @@ import Loader from '@components/GeneralUseComponents/Loader/Loader';
 //Assets
 import arrow_right_black from '@assets/GeneralUse/IconsAndButtons/arrow_right_white.svg';
 
+//hooks
+import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
+
 //Endpoints
 import endPoints from '@services/api';
 
 const index = () => {
+  const { securingRoute } = useSecureAdminRoute();
+
   const [state, setState] = useState({
     loading: true,
-    error: 'Holi',
+    error: '',
   });
   //Stores true or false, just to desplay if there are pending validations
   const [pendingValidations, setPendingValidations] = useState(false);
 
   //Session
   const { data: session, status } = useSession();
-
-  const router = useRouter();
-
-  //Securing route
-  if (status === 'unauthenticated') {
-    router.push('/auth/login');
-  }
-  if (session) {
-    if (
-      !(
-        session?.token.role === 'super_admin' || session?.token.role === 'admin'
-      )
-    ) {
-      router.push('/');
-    }
-  }
-
-  useEffect(() => {
-    if (
-      session?.token.role === 'super_admin' ||
-      session?.token.role === 'admin'
-    ) {
-      setState({ ...state, loading: false });
-    }
-  }, [session]);
 
   useEffect(() => {
     if (session) {
@@ -96,7 +75,7 @@ const index = () => {
     }
   };
 
-  if (state.loading) {
+  if (securingRoute || state.loading) {
     return (
       <div className={styles.loaderContainer}>
         <Loader />

@@ -10,41 +10,18 @@ import Loader from '@components/GeneralUseComponents/Loader/Loader';
 //Styles
 import styles from '@styles/pagestyles/admin/students/displayStuIdDocs.module.scss';
 
+//hooks
+import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
+
 const display_stu_id_docs = () => {
+  const { securingRoute } = useSecureAdminRoute();
+
   const [state, setState] = useState({
     loading: true,
   });
   const [isClient, setIsClient] = useState(false);
   const [fileType, setFileType] = useState('');
   const [fileURL, setFileURL] = useState('');
-
-  //Session
-  const { data: session, status } = useSession();
-
-  const router = useRouter();
-
-  //Securing route (start)
-  if (status === 'unauthenticated') {
-    router.push('/auth/login');
-  }
-  if (session) {
-    if (
-      !(
-        session?.token.role === 'super_admin' || session?.token.role === 'admin'
-      )
-    ) {
-      router.push('/');
-    }
-  }
-
-  useEffect(() => {
-    if (
-      session?.token.role === 'super_admin' ||
-      session?.token.role === 'admin'
-    ) {
-    }
-  }, [session]);
-  //Securing route (end)
 
   useEffect(() => {
     //Needed for NextJS to work only if we are in a browser
@@ -80,7 +57,7 @@ const display_stu_id_docs = () => {
 
   //Dinamic displaying
 
-  if (state.loading) {
+  if (state.loading || securingRoute) {
     return (
       <div className={styles.loaderContainer}>
         <Loader />

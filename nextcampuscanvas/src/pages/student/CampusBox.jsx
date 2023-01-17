@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react';
 import { storefront } from '@services/storefront';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 
 //hooks
 import { useInputValue } from '@hooks/useInputValue';
+import useSecureUnverifRouteOnMount from '@hooks/useSecureUnverifRouteOnMount';
 
 //Styles
 import styles from '@pagestyles/student/CampusBox.module.scss';
@@ -52,33 +52,15 @@ const CampusBox = () => {
     error: '',
   });
 
-  const router = useRouter();
-
   //Toggle this const to render different things
   //deppending if box is being sent or still not
   const BoxAvailable = false;
 
-  //Session
-  const { data: session, status } = useSession();
+  //Securing route only for verified students
+  const { verifyingSession } = useSecureUnverifRouteOnMount();
 
-  //Redirecting according to auth status/securing route
-  if (status === 'unauthenticated') {
-    router.push('/auth/login');
-  }
-  if (session) {
-    if (!session?.token.stu_data.university && !session?.token.stu_verified) {
-      router.push(
-        { pathname: '/auth/registro', query: { step: 2 } },
-        '/auth/registro'
-      );
-    }
-    if (session?.token.stu_data.university && !session?.token.stu_verified) {
-      router.push(
-        { pathname: '/auth/registro', query: { step: 3 } },
-        '/auth/registro'
-      );
-    }
-  }
+  // //Session
+  const { data: session, status } = useSession();
 
   ///////////////////////////////Getting product information and limiting orders////////////////////////////////
   const id = 'gid://shopify/Product/7509431713980';
@@ -370,7 +352,7 @@ const CampusBox = () => {
 
   /////////////////////////////// Limiting boxes to one per user per semester ////////////////////////////////(end)
 
-  if (status === 'loading' || !session?.token.stu_verified || state.loading) {
+  if (verifyingSession || state.loading) {
     return (
       <>
         <div className={styles.loaderContainer}>

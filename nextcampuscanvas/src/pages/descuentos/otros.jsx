@@ -4,7 +4,7 @@ import styles from '@styles/pagestyles/descuentos/Todos.module.scss';
 //Components
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 import Header from '@components/GeneralUseComponents/Header/Header';
-import DiscountsNavbar from '@components/UsedInSpecificRoutes/descuentos/DiscountsNavbar/DiscountsNavbar';
+import DiscountsNavbar from '@components/UsedInSpecificRoutes/Descuentos/DiscountsNavbar/DiscountsNavbar';
 import Footer from '@components/GeneralUseComponents/Footer/Footer';
 
 const otros = () => {

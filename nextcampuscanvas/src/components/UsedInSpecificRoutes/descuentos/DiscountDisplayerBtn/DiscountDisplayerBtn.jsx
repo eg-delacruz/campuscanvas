@@ -1,10 +1,6 @@
 //Styles
 import styles from './DiscountDisplayerBtn.module.scss';
 
-//Session
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
-
 //Hooks
 import useSecureUnverifRoutesInsideFunction from '@hooks/useSecureUnverifRouteInsideFunction';
 
@@ -12,14 +8,12 @@ import useSecureUnverifRoutesInsideFunction from '@hooks/useSecureUnverifRouteIn
 //This component renders a different button if the discount is affiliate_link type or discount_code type. Each button has a different behavior depending on the case, which can be opening the affiliate link in both cases, or opening the affiliate link and showing/generating the discount code in a different route, since this route can be accessed by anyone.
 
 const DiscountDisplayerBtn = ({ discount }) => {
-  //Session
-  const { data: session, status } = useSession();
-
-  const { redirectUnverifUser } = useSecureUnverifRoutesInsideFunction();
+  const { redirectUnverifUser, verified } =
+    useSecureUnverifRoutesInsideFunction();
 
   const handleDiscount = () => {
     redirectUnverifUser();
-    if (session?.token.stu_verified) {
+    if (verified) {
       //Open and focus on this one, since browser will focus in the new opened tab (cc page with generated code)
       //IMPORTANT: in production, the baseURL has to be 'https://www.campuscanvas.net/' !!!
       const baseURL = 'http://localhost:3000/';
@@ -40,7 +34,7 @@ const DiscountDisplayerBtn = ({ discount }) => {
 
   const handleAffiliateLink = () => {
     redirectUnverifUser();
-    if (session?.token.stu_verified) {
+    if (verified) {
       //Open affiliate_link in new tab
       const currentTabWindow = window.open(discount.affiliate_link, '_blank');
 

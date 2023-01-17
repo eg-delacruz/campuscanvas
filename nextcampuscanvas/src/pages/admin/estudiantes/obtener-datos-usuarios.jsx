@@ -24,48 +24,19 @@ import capitalize from '@services/capitalize';
 
 //hooks
 import { useInputValue } from '@hooks/useInputValue';
+import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
 
 //Endpoints
 import endPoints from '@services/api';
 
 const obtener_datos_de_usuarios = () => {
+  const { securingRoute } = useSecureAdminRoute();
   const [state, setState] = useState({
-    loading: false,
     error: null,
     submitLoading: false,
   });
 
   const [userData, setUserData] = useState(null);
-
-  //Session
-  const { data: session, status } = useSession();
-
-  const router = useRouter();
-
-  //Securing route (start)
-  if (status === 'unauthenticated') {
-    router.push('/auth/login');
-  }
-  if (session) {
-    if (
-      !(
-        session?.token.role === 'super_admin' || session?.token.role === 'admin'
-      )
-    ) {
-      router.push('/');
-    }
-  }
-
-  useEffect(() => {
-    setState({ ...state, loading: true });
-    if (
-      session?.token.role === 'super_admin' ||
-      session?.token.role === 'admin'
-    ) {
-      setState({ ...state, loading: false });
-    }
-  }, [session]);
-  //Securing route (end)
 
   //Controlling inputs
   const ACC_EMAIL = useInputValue('');
@@ -249,7 +220,7 @@ const obtener_datos_de_usuarios = () => {
     });
   }
 
-  if (state.loading) {
+  if (securingRoute) {
     return (
       <div className={styles.loaderContainer}>
         <Loader />

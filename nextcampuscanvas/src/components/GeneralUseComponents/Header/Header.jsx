@@ -28,6 +28,7 @@ import { truncateText } from '@services/truncateText.js';
 
 //Hooks
 import useWindowDimensions from '@hooks/useWindowDimensions';
+import useRedirectIfAdmin from '@hooks/useRedirectIfAdmin';
 
 //Facebook conversions API
 import FB_Conversions_RegisterButton_ViewContent from '@services/fbConversionsAPI/register_buttons_clicks';
@@ -37,6 +38,9 @@ import identifyBrowser from '@services/identifyBrowser';
 const { getBrowserName } = identifyBrowser;
 
 function Header() {
+  //Redirecting if admin
+  useRedirectIfAdmin();
+
   const { width, height } = useWindowDimensions();
   const router = useRouter();
   //Session
@@ -57,7 +61,7 @@ function Header() {
     const setUserName = async () => {
       setState({ ...state, gettingUser: true });
       if (session && usersReducer.user === null) {
-        await dispatch(getUser(session.token.sub));
+        dispatch(getUser(session.token.sub));
       }
       setState({ ...state, gettingUser: false });
     };

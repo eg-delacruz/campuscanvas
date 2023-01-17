@@ -11,8 +11,8 @@ import { DISCOUNTS } from '@databases/discounts/discountsInfoDatabase.js';
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
-import DiscountTemplate from '@components/UsedInSpecificRoutes/descuentos/DiscountTemplate/DiscountTemplate';
-import DisplayDiscountSnippet from '@components/UsedInSpecificRoutes/descuentos/DisplayDiscountSnippet/DisplayDiscountSnippet';
+import DiscountTemplate from '@components/UsedInSpecificRoutes/Descuentos/DiscountTemplate/DiscountTemplate';
+import DisplayDiscountSnippet from '@components/UsedInSpecificRoutes/Descuentos/DisplayDiscountSnippet/DisplayDiscountSnippet';
 
 //Hooks
 import useSecureUnverifRouteOnMount from '@hooks/useSecureUnverifRouteOnMount';
@@ -32,6 +32,7 @@ const VerifDiscountDisplayer = () => {
 
   //When modigying this useEffect, also do it in the one of /ofertas/[id].jsx
   useEffect(() => {
+    //Await until the route is ready to get the discount_id
     if (!router.isReady) return;
     //Find the discount in the DISCOUNTS array that matches the id
     const DISCOUNT = DISCOUNTS.find((discount) => {

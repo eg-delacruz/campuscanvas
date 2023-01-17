@@ -9,24 +9,25 @@ const useSecureUnverifRouteOnMount = () => {
 
   useEffect(() => {
     if (status === 'unauthenticated') {
-      return router.push({ pathname: 'auth/login' }, 'auth/login');
+      router.push('/auth/login');
     }
-
     if (session) {
       if (!session?.token.stu_data.university && !session?.token.stu_verified) {
-        return router.push(
+        router.push(
           { pathname: 'auth/registro', query: { step: 2 } },
           'auth/registro'
         );
       }
       if (session?.token.stu_data.university && !session?.token.stu_verified) {
-        return router.push(
+        router.push(
           { pathname: 'auth/registro', query: { step: 3 } },
           'auth/registro'
         );
       }
     }
-    setVerifyingSession(false);
+    if (session?.token.stu_verified) {
+      setVerifyingSession(false);
+    }
   }, [session, status]);
 
   return { verifyingSession };

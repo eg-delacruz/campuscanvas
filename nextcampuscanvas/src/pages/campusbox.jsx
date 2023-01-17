@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 
 //Styles
 import styles from '@pagestyles/CampusBox.module.scss';
@@ -39,16 +38,8 @@ export default function Home() {
 
   const router = useRouter();
 
-  useEffect(() => {
-    if (
-      session?.token.role === 'super_admin' ||
-      session?.token.role === 'admin'
-    ) {
-      router.push('/admin');
-    }
-  }, [session]);
-
-  //Dirigir a usuario al paso de verificación correspondiente
+  //Dirigir a usuario al paso de verificación correspondiente.
+  //Cannot use useSecureUnverifRouteInsideFunction becuase we need FB api here
   const verifyUser = () => {
     if (status === 'unauthenticated') {
       //Only execute this function when user is unauthenticated!

@@ -7,8 +7,8 @@ import styles from '@styles/pagestyles/descuentos/DiscountsDisplayer.module.scss
 //Components
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
-import DiscountTemplate from '@components/UsedInSpecificRoutes/descuentos/DiscountTemplate/DiscountTemplate';
-import DiscountDisplayerBtn from '@components/UsedInSpecificRoutes/descuentos/DiscountDisplayerBtn/DiscountDisplayerBtn';
+import DiscountTemplate from '@components/UsedInSpecificRoutes/Descuentos/DiscountTemplate/DiscountTemplate';
+import DiscountDisplayerBtn from '@components/UsedInSpecificRoutes/Descuentos/DiscountDisplayerBtn/DiscountDisplayerBtn';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 
 //Databases
@@ -22,6 +22,7 @@ const Discount = () => {
 
   //When modigying this useEffect, also do it in the one of /student/ofertas/[id].jsx
   useEffect(() => {
+    //Await until the route is ready to get the discount_id
     if (!router.isReady) return;
     const id = Number(router.query.id);
     //Find the discount in the DISCOUNTS array that matches the id

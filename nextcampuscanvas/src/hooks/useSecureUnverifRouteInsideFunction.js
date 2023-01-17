@@ -1,9 +1,11 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 //CLARIFICATIONS:
-//Can only be used INSIDE A FUNCTION after first render. CANNOT BE USED in the first render or within a useEffect. Also, if we want to do something else afterwards, we have to put a condition to do it,since if not, the following code will anyway executed
+//Can only be used INSIDE A FUNCTION after first render (Eg. onClick). CANNOT BE USED in the first render or within a useEffect. Use the verified state to conditionally continue with the desired code.
 const useSecureUnverifRoutesInsideFunction = () => {
+  const [verified, setVerified] = useState(false);
   //Session
   const { data: session, status } = useSession();
 
@@ -25,8 +27,11 @@ const useSecureUnverifRoutesInsideFunction = () => {
         'auth/registro'
       );
     }
+    if (session?.token.stu_verified) {
+      setVerified(true);
+    }
   };
-  return { redirectUnverifUser };
+  return { redirectUnverifUser, verified };
 };
 
 export default useSecureUnverifRoutesInsideFunction;
