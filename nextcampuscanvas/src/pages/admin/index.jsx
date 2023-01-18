@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 //Components
@@ -18,6 +16,7 @@ import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
 
 const index = () => {
   const { securingRoute } = useSecureAdminRoute();
+
   //Session
   const { data: session, status } = useSession();
 
@@ -40,11 +39,14 @@ const index = () => {
               <li>Admin</li>
             </Link>
           )}
-          <Link href={'/admin/clientes'}>
-            <li>Clientes</li>
+          <Link href={'/admin/descuentos'}>
+            <li>Descuentos</li>
           </Link>
           <Link href={'/admin/estudiantes'}>
             <li>Estudiantes</li>
+          </Link>
+          <Link href={'/admin/clientes'}>
+            <li>Clientes</li>
           </Link>
           <button onClick={() => signOut()} className='btn button--red'>
             Log out

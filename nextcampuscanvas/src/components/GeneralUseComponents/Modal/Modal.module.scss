@@ -1,0 +1,33 @@
+@import '../../../styles/Vars.scss';
+
+.modal {
+  background: $color--white;
+  width: 500px;
+  height: 500px;
+  border-radius: 5px;
+  padding: 20px;
+  z-index: 150;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  @include font-size(25px);
+}
+
+.body {
+  padding-top: 10px;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: center;
+  background-color: rgba(0, 0, 0, 0.7);
+}

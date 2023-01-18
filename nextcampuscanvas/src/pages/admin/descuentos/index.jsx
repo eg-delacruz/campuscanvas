@@ -2,8 +2,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { signOut } from 'next-auth/react';
 
-//Styles
-import styles from '@pagestyles/admin/clients/clients.module.scss';
+//styles
+import styles from '@styles/pagestyles/admin/descuentos/descuentos.module.scss';
 
 //Components
 import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
@@ -14,7 +14,6 @@ import arrow_right_white from '@assets/GeneralUse/IconsAndButtons/arrow_right_wh
 
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
-
 const index = () => {
   const { securingRoute } = useSecureAdminRoute();
 
@@ -25,12 +24,12 @@ const index = () => {
       </div>
     );
   }
-
   return (
     <>
       <SecondaryHeader />
+
       <div className={`${styles.container} container`}>
-        <h1>Clientes</h1>
+        <h1>Descuentos</h1>
         <Link href={'/admin'}>
           <button className={`${styles.button_back} btn button--red`}>
             <span>
@@ -41,11 +40,14 @@ const index = () => {
         </Link>
 
         <ul className={styles.routes}>
-          <Link href={'/admin/clientes/nuevo-contrato'}>
-            <li>Nuevo contrato</li>
+          <Link href={'/admin/descuentos/nuevo-descuento'}>
+            <li>Crear nuevo descuento</li>
           </Link>
           <Link href={'#'}>
-            <li>Buscar contrato por número</li>
+            <li>Gestionar descuentos</li>
+          </Link>
+          <Link href={'/admin/descuentos/gestionar-marcas'}>
+            <li>Gestionar marcas</li>
           </Link>
         </ul>
         <button

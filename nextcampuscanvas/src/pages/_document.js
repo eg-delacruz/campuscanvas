@@ -149,6 +149,7 @@ export default function Document() {
         {/* Es necesario poner el main y NextScript para que la app funcione bien */}
         <Main />
         <NextScript />
+        <div id='modal-root'></div>
       </body>
     </Html>
   );
