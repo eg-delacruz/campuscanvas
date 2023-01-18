@@ -2,21 +2,29 @@
 
 .modal {
   background: $color--white;
-  width: 500px;
-  height: 500px;
+  width: 800px;
+  min-height: 500px;
   border-radius: 5px;
-  padding: 20px;
+  padding: 6px;
   z-index: 150;
+  margin: 0 8px;
 }
 
 .header {
   display: flex;
   justify-content: flex-end;
-  @include font-size(25px);
-}
-
-.body {
-  padding-top: 10px;
+  @include font-size(14px);
+  button {
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 0px;
+    border: 2px solid $color--dark-gray;
+    background: $color--light-gray;
+    cursor: pointer;
+    height: 25px;
+    width: 25px;
+    color: $color--primary1;
+  }
 }
 
 .overlay {
@@ -29,5 +37,5 @@
   justify-content: center;
   align-items: center;
   background: center;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.6);
 }

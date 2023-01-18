@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import styles from './Modal.module.scss';
+import PropTypes from 'prop-types';
 
 const Modal = ({ show, onClose, children }) => {
   const [isClient, setIsClient] = useState(false);
@@ -24,7 +25,7 @@ const Modal = ({ show, onClose, children }) => {
         className={styles.modal}
       >
         <div className={styles.header}>
-          <button onClick={handleClose}> close icon</button>
+          <button onClick={handleClose}>X</button>
         </div>
         <div className={styles.body}>{children}</div>
       </div>
@@ -37,3 +38,9 @@ const Modal = ({ show, onClose, children }) => {
 };
 
 export default Modal;
+
+Modal.propTypes = {
+  show: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
+};

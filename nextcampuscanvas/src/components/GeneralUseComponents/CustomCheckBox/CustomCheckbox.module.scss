@@ -1,0 +1,72 @@
+@import '../../../styles/Vars.scss';
+
+.checkbox_container {
+  padding: 5px;
+  border-radius: 2px;
+  @include font-size(14px);
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.span {
+  position: relative;
+  top: 5px;
+}
+
+/* Hide the browser's default checkbox */
+.checkbox_container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 9px;
+  left: 4px;
+  height: 18px;
+  width: 18px;
+  background-color: $color--white;
+  border: 1px solid $color--black;
+  border-radius: 3px;
+}
+
+/* On mouse hover */
+.checkbox_container:hover input ~ .checkmark {
+  background-color: $color--light-gray;
+}
+
+/* Checkbox background when checked */
+.checkbox_container input:checked ~ .checkmark {
+  background-color: $color--secondary;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox_container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkbox_container .checkmark:after {
+  left: 5px;
+  top: 0px;
+  width: 5px;
+  height: 10px;
+  border: solid $color--white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}

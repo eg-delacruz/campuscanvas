@@ -88,8 +88,6 @@ const DragDropUploadArea = ({
     onFileChange(updatedList);
   };
 
-  console.log(fileList);
-
   return (
     <>
       {/* ///////////////////
@@ -117,7 +115,7 @@ const DragDropUploadArea = ({
         <input
           type='file'
           value=''
-          accept='.pdf,.jpg,.jpeg,.png,.doc,.docx,.pptx'
+          accept='.pdf,.jpg,.jpeg,.png,.doc,.docx,.pptx,.svg'
           onChange={onFileDrop}
           multiple
         />
