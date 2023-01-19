@@ -26,6 +26,7 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
   const [sponsorsBox, setSponsorsBox] = useState(false);
 
   const { fetchData: uploadData, cancel } = useAxios();
+
   //Controlling inputs
   const BRAND_NAME = useInputValue('');
   const BRAND_DESCRIPTION = useInputValue('');
@@ -60,12 +61,13 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
       return setState({ ...state, error: response.error });
     }
 
-    BRAND_NAME.setValue('');
-    BRAND_DESCRIPTION.setValue('');
-    setFiles([]);
-    setSponsorsBox(false);
-    setShowModal(false);
-    setState({ ...state, uploading: false });
+    //TODO: uncomment this
+    //BRAND_NAME.setValue('');
+    //BRAND_DESCRIPTION.setValue('');
+    //setFiles([]);
+    //setSponsorsBox(false);
+    //setShowModal(false);
+    setState({ ...state, uploading: false, error: null });
 
     const Toast = Swal.mixin({
       toast: true,

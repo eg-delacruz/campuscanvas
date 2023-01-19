@@ -5,7 +5,8 @@
 import { useRef } from 'react';
 import axios from 'axios';
 
-//TODO: encrypt the app_secret_key
+import { hashPassword } from '@server/services/passEncript';
+
 const useAxios = () => {
   //Allow users to cancel the request
   const controllerRef = useRef(new AbortController());
@@ -18,7 +19,9 @@ const useAxios = () => {
     const defaultHeaders = {
       accept: '*/*',
       'Content-Type': 'application/json',
-      app_secret_key: process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
+      app_secret_key: await hashPassword(
+        process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY
+      ),
     };
 
     let headers;

@@ -1,17 +1,14 @@
 import multer from 'multer';
 import Controller from '@server/components/discount/controller';
 
-//Session
-import { getSession } from 'next-auth/react';
-
 //Middleware to add other middlewares easier (like multer)
 import { createRouter, expressWrapper } from 'next-connect';
 
 //Response manager
 import { successResponse, errorResponse } from '@server/response';
 
-//Avoids CORS errors
-import NextCors from 'nextjs-cors';
+//Middlewares
+import { initializeEnpoint } from '@server/middlewares/initializeEndpoint';
 
 //Multer middleware (start)
 //MemoryStorage needed for AWS3 upload (instead of diskStorage)
@@ -19,56 +16,37 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage, limits: { fileSize: 4194304, files: 2 } });
 //Multer middleware (end)
 
+//Session
+let SESSION = null;
+
 const router = createRouter();
 router
   //.use function used for multiple things
+
   .use(async (req, res, next) => {
-    //Securing route with headers secret key
-    if (
-      req.headers.app_secret_key !=
-      process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY
-    ) {
-      return errorResponse(req, res, 'Forbidden', 403, 'Forbidden user');
+    //Initializing Endpoing
+    //TODO: check if the avoid cors works in production
+    const { status, session } = await initializeEnpoint(req, res, {
+      secureWithSecretApiKey: true,
+      secureWithSession: {
+        secure: true,
+        adminsOnly: true,
+        allowedAdmins: 'all',
+      },
+      avoidCorsErrors: false,
+    });
+
+    if (status.error) {
+      return errorResponse(
+        req,
+        res,
+        status.clientErrorMessage,
+        403,
+        status.serverErrorMessage
+      );
     }
 
-    //TODO: uncomment
-    // //Securing page with session
-    // const session = await getSession({ req });
-    // if (!session) {
-    //   return errorResponse(
-    //     req,
-    //     res,
-    //     'Forbidden',
-    //     403,
-    //     '[Network] No hay sesión'
-    //   );
-    // }
-
-    // //Securing route only for admins!
-    // if (session) {
-    //   if (
-    //     !(
-    //       session?.token.role === 'super_admin' ||
-    //       session?.token.role === 'admin'
-    //     )
-    //   ) {
-    //     return errorResponse(
-    //       req,
-    //       res,
-    //       'Forbidden',
-    //       403,
-    //       '[Network] Usuario no autorizado'
-    //     );
-    //   }
-    // }
-
-    //Avoiding CORS errors
-    await NextCors(req, res, {
-      // Options
-      methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-      origin: '*',
-      optionsSuccessStatus: 200,
-    });
+    if (session) SESSION = session;
 
     //Measures execution time (optional)
     const start = Date.now();
@@ -77,15 +55,19 @@ router
     console.log(`Request took ${end - start}ms`);
   })
 
-  //POST:Uploading student id files
+  //POST: Storing brand information
   //.array -> Allows multiple files
   .post(expressWrapper(upload.array('brand_logo')), async (req, res) => {
-    //req.files has info of the file thanks to multer
+    //req.files has the files thanks to multer
     const { body, headers, method, files } = req;
-    console.log('body', body);
-    console.log('headers', headers);
-    console.log('method', method);
-    console.log('files', files);
+
+    // console.log('body', body);
+    // console.log('headers', headers);
+    // console.log('method', method);
+    // console.log('files', files);
+
+    //TODO: use a created_by attribute in final object
+    console.log('session', SESSION?.token.email);
 
     try {
       successResponse(req, res, 'Archivos subidos exitosamente', 201);

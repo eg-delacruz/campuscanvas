@@ -1,2 +1,0 @@
-## Crear middleware en esta carpeta que se use  para no dejar pasar a alguien que quiera hacer
-un req si en la cabecera no tiene cierta key: curso passport platzi clase 4
