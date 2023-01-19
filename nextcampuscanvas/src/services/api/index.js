@@ -56,6 +56,9 @@ const endPoints = {
       stu_id_files: `${API}/api/${VERSION}/file_management/student_acc_files/stu_id_files`,
     },
   },
+  discounts: {
+    brands: `${API}/api/${VERSION}/discounts/brands`,
+  },
 };
 
 export default endPoints;

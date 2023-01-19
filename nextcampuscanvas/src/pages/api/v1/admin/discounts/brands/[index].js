@@ -1,3 +1,6 @@
+//https://github.com/hoangvvo/next-connect (next-connect library documentation)
+//https://www.youtube.com/watch?v=jwp4U6v-3h4&list=WL&index=6&t=484s (upload to AWS3 guide)
+
 import multer from 'multer';
 import Controller from '@server/components/discount/controller';
 
@@ -22,7 +25,6 @@ let SESSION = null;
 const router = createRouter();
 router
   //.use function used for multiple things
-
   .use(async (req, res, next) => {
     //Initializing Endpoing
     //TODO: check if the avoid cors works in production
@@ -33,7 +35,7 @@ router
         adminsOnly: true,
         allowedAdmins: 'all',
       },
-      avoidCorsErrors: false,
+      avoidCorsErrors: true,
     });
 
     if (status.error) {
@@ -61,31 +63,39 @@ router
     //req.files has the files thanks to multer
     const { body, headers, method, files } = req;
 
-    // console.log('body', body);
-    // console.log('headers', headers);
-    // console.log('method', method);
-    // console.log('files', files);
-
-    //TODO: use a created_by attribute in final object
-    console.log('session', SESSION?.token.email);
+    const data = {
+      brand_name: body.brand_name,
+      brand_logo: files,
+      sponsors_box: body.sponsors_box,
+      brand_description: body.brand_description,
+      created_by: SESSION?.token.email,
+    };
 
     try {
-      successResponse(req, res, 'Archivos subidos exitosamente', 201);
+      await Controller.createNewBrand(data);
+      successResponse(req, res, 'Marca creada exitosamente', 201);
     } catch (error) {
-      //TODO: send error if brand name already exists
-      if (
-        error.message ===
-        'El usuario ya ha subido su identificación anteriormente.'
-      ) {
+      if (error.message === 'Información insuficiente para crear marca') {
         return errorResponse(
           req,
           res,
-          'Ya has subido tu identificación anteriormente. Te notificaremos por Email cuando hayas sido verificado',
+          'Información insuficiente para crear marca',
           400,
           error.message
         );
       }
-      errorResponse(req, res, 'Error al almacenar archivos', 400, error);
+      if (
+        error.message === 'Esta marca ya ha sido creada, utiliza otro nombre'
+      ) {
+        return errorResponse(
+          req,
+          res,
+          'Esta marca ya ha sido creada, utiliza otro nombre',
+          400,
+          error.message
+        );
+      }
+      errorResponse(req, res, 'Error al crear marca', 400, error);
     }
   });
 

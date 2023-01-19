@@ -61,12 +61,11 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
       return setState({ ...state, error: response.error });
     }
 
-    //TODO: uncomment this
-    //BRAND_NAME.setValue('');
-    //BRAND_DESCRIPTION.setValue('');
-    //setFiles([]);
-    //setSponsorsBox(false);
-    //setShowModal(false);
+    BRAND_NAME.setValue('');
+    BRAND_DESCRIPTION.setValue('');
+    setFiles([]);
+    setSponsorsBox(false);
+    setShowModal(false);
     setState({ ...state, uploading: false, error: null });
 
     const Toast = Swal.mixin({

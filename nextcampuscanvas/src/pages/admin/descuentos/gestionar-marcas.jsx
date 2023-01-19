@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 //styles
 import styles from '@styles/pagestyles/admin/descuentos/gestionarMarcas.module.scss';
@@ -11,30 +11,37 @@ import DisplayNewBrandModal from '@components/UsedInSpecificRoutes/Admin/Descuen
 
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
+import useAxios from '@hooks/useAxios';
+
+//Endpoints
+import endPoints from '@services/api';
 
 const gestionarMarcas = () => {
   const { securingRoute } = useSecureAdminRoute();
 
   const [showModal, setShowModal] = useState(false);
+  const [brands, setBrands] = useState([]);
+  const [state, setState] = useState({
+    loading: true,
+    error: '',
+  });
 
-  const BRANDS = [
-    {
-      id: 1,
-      name: 'Marca 1',
-    },
-    {
-      id: 2,
-      name: 'Marca 2',
-    },
-    {
-      id: 3,
-      name: 'Marca 3',
-    },
-    {
-      id: 4,
-      name: 'Marca 4',
-    },
-  ];
+  const { fetchData, cancel } = useAxios();
+  console.log(brands);
+  //TODO: get brands in global state to reuse later
+  useEffect(() => {
+    getBrands();
+  }, []);
+
+  const getBrands = async () => {
+    const response = await fetchData(endPoints.discounts.brands, 'get');
+
+    if (response?.error) {
+      setState({ ...state, error: response.error });
+    }
+    setBrands(response.body);
+    setState({ ...state, loading: false });
+  };
 
   const displayNewBrandModal = () => {
     return (
@@ -68,17 +75,23 @@ const gestionarMarcas = () => {
         </div>
 
         <section className={styles.brands}>
-          {BRANDS.length > 0 ? (
-            BRANDS.map((brand) => (
-              <div className={styles.brand} key={brand.id}>
-                <h5>{brand.name}</h5>{' '}
-                <div>
-                  <span> Editar </span> <span> Eliminar </span>
-                </div>
-              </div>
-            ))
+          {state.loading ? (
+            <Loader />
           ) : (
-            <p>No hay marcas</p>
+            <>
+              {brands.length > 0 ? (
+                brands.map((brand) => (
+                  <div className={styles.brand} key={brand._id}>
+                    <h5>{brand.brand_name}</h5>{' '}
+                    <div>
+                      <span> Editar </span> <span> Eliminar </span>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p>No hay marcas</p>
+              )}
+            </>
           )}
         </section>
       </div>

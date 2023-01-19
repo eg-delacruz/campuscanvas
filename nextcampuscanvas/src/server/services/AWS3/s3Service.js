@@ -87,6 +87,43 @@ export async function s3Deletev3_stu_id_files(files) {
   }
 }
 
+export async function s3Uploadv3_brand_logos(files) {
+  try {
+    let uploaded_files = [];
+
+    const AWS_BRAND_LOGOS_BASE_URL =
+      process.env.CC_AWS_BUCKET_BASE_URL + 'brand_logos/';
+
+    const params = files.map((file) => {
+      const unique_file_name = generateUniqueFileName(file);
+
+      //Saving storage reference
+      uploaded_files.push({
+        name: unique_file_name,
+        URL: `${AWS_BRAND_LOGOS_BASE_URL}${unique_file_name}`,
+      });
+
+      return {
+        Bucket: process.env.CC_AWS_BUCKET_NAME,
+        //Base storage folder/name of the file
+        Key: `brand_logos/${unique_file_name}`,
+        ContentDisposition: 'inline',
+        ContentType: file.mimetype,
+        Body: file.buffer,
+      };
+    });
+
+    //Returns the results
+    await Promise.all(
+      params.map((param) => s3client.send(new PutObjectCommand(param)))
+    );
+    return uploaded_files;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+}
+
 //OBSERVATION:
 //Consider that the uploaded files to this bucket are all available for public
 //access. It shouldn't be like this in case we need to store contracts in AWS,
