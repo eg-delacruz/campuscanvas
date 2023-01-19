@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 //styles
 import styles from '@styles/pagestyles/admin/descuentos/gestionarMarcas.module.scss';
@@ -11,37 +12,30 @@ import DisplayNewBrandModal from '@components/UsedInSpecificRoutes/Admin/Descuen
 
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
-import useAxios from '@hooks/useAxios';
 
-//Endpoints
-import endPoints from '@services/api';
+//Redux actions
+import { getBrands, selectBrand } from '@redux/brandsSlice';
 
 const gestionarMarcas = () => {
   const { securingRoute } = useSecureAdminRoute();
 
   const [showModal, setShowModal] = useState(false);
-  const [brands, setBrands] = useState([]);
-  const [state, setState] = useState({
-    loading: true,
-    error: '',
-  });
 
-  const { fetchData, cancel } = useAxios();
-  console.log(brands);
-  //TODO: get brands in global state to reuse later
+  //Allows us to manipulate the appropriate slice/action
+  const dispatch = useDispatch();
+
+  //Reducers
+  const brandsReducer = useSelector(selectBrand);
+
   useEffect(() => {
-    getBrands();
+    //TODO: check what happens if ther are no brands
+    const setBrands = async () => {
+      if (brandsReducer.brands.length === 0) {
+        dispatch(getBrands());
+      }
+    };
+    setBrands();
   }, []);
-
-  const getBrands = async () => {
-    const response = await fetchData(endPoints.discounts.brands, 'get');
-
-    if (response?.error) {
-      setState({ ...state, error: response.error });
-    }
-    setBrands(response.body);
-    setState({ ...state, loading: false });
-  };
 
   const displayNewBrandModal = () => {
     return (
@@ -75,12 +69,12 @@ const gestionarMarcas = () => {
         </div>
 
         <section className={styles.brands}>
-          {state.loading ? (
+          {brandsReducer.loading ? (
             <Loader />
           ) : (
             <>
-              {brands.length > 0 ? (
-                brands.map((brand) => (
+              {brandsReducer.brands.length > 0 ? (
+                brandsReducer.brands.map((brand) => (
                   <div className={styles.brand} key={brand._id}>
                     <h5>{brand.brand_name}</h5>{' '}
                     <div>
@@ -93,6 +87,7 @@ const gestionarMarcas = () => {
               )}
             </>
           )}
+          {brandsReducer.error ? <p>{brandsReducer.error}</p> : null}
         </section>
       </div>
     </>
