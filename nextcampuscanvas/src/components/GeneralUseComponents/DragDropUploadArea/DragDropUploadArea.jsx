@@ -18,6 +18,7 @@ const DragDropUploadArea = ({
   maxAllowedFiles = 2,
   maxSizeFilesBytes = 4194304,
   allowedFileFormats = ['pdf', 'jpg', 'jpeg', 'png', 'doc', 'docx', 'pptx'],
+  minimizedVersion = false,
 }) => {
   const [dragAreaSelected, setDragAreaSelected] = useState(false);
   const [fileList, setFileList] = useState([]);
@@ -104,7 +105,11 @@ const DragDropUploadArea = ({
         }
       >
         <div className={styles.drop_file_input__label}>
-          <div className={styles.uploadImageContainer}>
+          <div
+            className={`${styles.uploadImageContainer} ${
+              minimizedVersion ? styles.uploadImageDisabled : ''
+            }`}
+          >
             <Image src={uploadImg} alt='Sube tu documento' />
           </div>
           <p className={styles.label_message}>

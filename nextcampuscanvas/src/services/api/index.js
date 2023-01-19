@@ -47,6 +47,9 @@ const endPoints = {
       `${API}/api/${VERSION}/admin/estudiantes/verify_by_stu_id?id=${userID}&email=${user_email}&reject_reason=${reject_reason}`,
     getUserData: (accEmail) =>
       `${API}/api/${VERSION}/admin/estudiantes/check_acc_info/${accEmail}`,
+    discounts: {
+      brands: `${API}/api/${VERSION}/admin/discounts/brands/index`,
+    },
   },
   file_management: {
     student_acc_files: {

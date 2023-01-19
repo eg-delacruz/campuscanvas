@@ -32,6 +32,9 @@
   .uploadImageContainer {
     max-width: 24%;
   }
+  .uploadImageDisabled {
+    display: none;
+  }
 
   input {
     opacity: 0;

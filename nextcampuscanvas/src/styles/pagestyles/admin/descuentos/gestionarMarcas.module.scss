@@ -47,48 +47,20 @@
 }
 
 /////////////////////////
-//        Modal        //
+//         MQ         //
 /////////////////////////
+@media screen and (max-width: 880px) {
+}
 
-.modal {
-  padding: 0 30px;
+////////////////////////////////////////767/////////////////////////////////////////////
 
-  h1 {
-    margin: 0;
-    margin-bottom: 16px;
-  }
-  .input_title {
-    margin: 0 0 8px;
-    @include font-size(14px);
-    display: block;
-    font-weight: bold;
-  }
+@media screen and (max-width: 767px) {
+}
+////////////////////////////////////////480/////////////////////////////////////////////
 
-  .row_1_container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+@media screen and (max-width: 480px) {
+}
+////////////////////////////////////////320/////////////////////////////////////////////
 
-  .input,
-  .description_text_area {
-    width: 100%;
-    background-color: $color--secondary-light;
-    border: 1px solid $color--black;
-    height: 40px;
-    border-radius: 5px;
-    margin: 0;
-    margin-bottom: 30px;
-    padding: 10px;
-  }
-
-  .brand_name_input {
-    max-width: 200px;
-  }
-  .description_text_area {
-    min-height: 150px;
-  }
-  .submit_btn {
-    margin: 16px auto;
-  }
+@media screen and (max-width: 320px) {
 }
