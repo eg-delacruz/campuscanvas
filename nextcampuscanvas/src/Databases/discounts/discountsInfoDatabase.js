@@ -35,16 +35,17 @@ export const DISCOUNTS = [
     //Try to keep it short, but can be as long as possible if needed
     description:
       'Gracias al cupón de descuento para estudiantes en Grover conseguirás un 20% de descuento en tus compras, ahorra dinero en una gran gama de productos en la tienda de cosméticos Grover',
-    //If no affiliate_link, display the discount code component and pass whole discount info
     affiliate_link: 'http://campuscanvas.net',
     //If there is no code, send the needed info to the required API to generate the code and put it in a state
-    discount_code: 'discount_code',
+    //TODO: change display way in DiscountTemplate.jsx
+    discount_code: { code: 'discount_code', dynamically_generated: false },
     //TODO: see if template html or markdown is better for this. Also chech how to store it in DB
+    //https://www.youtube.com/watch?v=kykC7i9VUE4
     terms_and_conds: `<p>Set inner HTML. Allow p-tags and ul-tags only</p><ul><li>Condición 1, la cual debería tener mucho texto para que se vea bien. Pero este es un texto de ejemplo</li><li>Condición 2</li><li>Condición 1, la cual debería tener mucho texto para que se vea bien. Pero este es un texto de ejemplo</li><li>Condición 2</li><li>Condición 1, la cual debería tener mucho texto para que se vea bien. Pero este es un texto de ejemplo</li><li>Condición 2</li><li>Condición 1, la cual debería tener mucho texto para que se vea bien. Pero este es un texto de ejemplo</li><li>Condición 2</li><li>Condición 1, la cual debería tener mucho texto para que se vea bien. Pero este es un texto de ejemplo</li><li>Condición 2</li><li>Condición 1, la cual debería tener mucho texto para que se vea bien. Pero este es un texto de ejemplo</li><li>Condición 2</li></ul>`,
     creation_date: new Date(),
+    //https://reactdatepicker.com/
     valid_from: new Date(),
     valid_till: new Date(),
-    /// discount_code | affiliate_link. Leave it for future filterings, consider to use this to decide how to render the front or if there is an affiliate_link.
     type: 'discount_code',
     //TODO: al crear los objetos, solamente crear un action btn phrase para los que solo sean affiliate_links, pues para los code siempre se necesita que diga Mostrar cupón y abrir tienda
     action_btn_phrase: '',

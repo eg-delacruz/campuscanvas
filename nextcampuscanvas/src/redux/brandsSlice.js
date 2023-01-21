@@ -31,7 +31,6 @@ export const getBrands = createAsyncThunk(
           ),
         },
       });
-      console.log('respuesta', respuesta.data.body);
       const data = respuesta.data.body;
       return data;
     } catch (error) {

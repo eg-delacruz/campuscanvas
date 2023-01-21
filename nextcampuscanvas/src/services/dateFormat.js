@@ -79,9 +79,15 @@ const shortSlashDate = (date) => {
   return format.format(date);
 };
 
+const SlashDate = (date) => {
+  const format = new Intl.DateTimeFormat('es-sp');
+  return format.format(date);
+};
+
 export default {
   dateToLetterswithDay,
   dateToLetterswithOutDay,
   monthAndYearOfDate,
   shortSlashDate,
+  SlashDate,
 };

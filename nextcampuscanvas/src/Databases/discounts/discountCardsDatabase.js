@@ -20,12 +20,8 @@ export const DISCOUNT_CARDS = [
     //travel | fashion | beauty | eat & drink | entertainment | technology | others
     category: 'beauty',
     brand_name: 'Grover',
-    location: {
-      country: 'Spain',
-      state: ['Madrid'],
-    },
     click_count: 1,
-    // suggested | new | most_sold | home_featured |
+    // suggested | new | most_searched | home_featured |
     display_as: '',
     exclusiv_tag: false,
   },
@@ -36,10 +32,6 @@ export const DISCOUNT_CARDS = [
     brand_logo: brand_logo_2.src,
     banner: banner2.src,
     category: 'travel',
-    location: {
-      country: 'Spain',
-      state: ['Madrid'],
-    },
     click_count: 1,
     display_as: '',
     exclusiv_tag: false,
@@ -51,10 +43,6 @@ export const DISCOUNT_CARDS = [
     brand_logo: brand_logo_3.src,
     banner: banner3.src,
     category: 'fashion',
-    location: {
-      country: 'Spain',
-      state: ['Madrid'],
-    },
     click_count: 1,
     display_as: '',
     exclusiv_tag: false,
@@ -66,10 +54,6 @@ export const DISCOUNT_CARDS = [
     brand_logo: brand_logo_4.src,
     banner: banner4.src,
     category: 'eat&drink',
-    location: {
-      country: 'Spain',
-      state: ['Madrid'],
-    },
     click_count: 1,
     display_as: '',
     exclusiv_tag: false,

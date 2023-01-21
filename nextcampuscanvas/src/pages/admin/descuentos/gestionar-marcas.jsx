@@ -28,7 +28,6 @@ const gestionarMarcas = () => {
   const brandsReducer = useSelector(selectBrand);
 
   useEffect(() => {
-    //TODO: check what happens if ther are no brands
     const setBrands = async () => {
       if (brandsReducer.brands.length === 0) {
         dispatch(getBrands());

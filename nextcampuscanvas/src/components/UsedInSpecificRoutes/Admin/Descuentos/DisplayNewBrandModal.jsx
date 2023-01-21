@@ -131,6 +131,7 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
             >
               Descripción
             </label>
+            {/* Display characters count */}
             <textarea
               className={`${styles.description_text_area}`}
               name='brand_description'

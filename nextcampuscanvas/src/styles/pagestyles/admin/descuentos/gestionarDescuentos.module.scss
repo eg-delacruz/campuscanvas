@@ -1,0 +1,113 @@
+@import '../../../Vars.scss';
+
+//Loadint state while displaying page
+.loaderContainer {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  padding: 0 8px;
+}
+
+.title_flex_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  button {
+    margin: 0;
+    margin-top: 10px;
+    padding: 9px;
+    padding-top: 7px;
+    box-shadow: none;
+    span {
+      @include font-size(18px);
+    }
+  }
+}
+
+/////////////////////////
+//         Table         //
+/////////////////////////
+.discounts_table {
+  margin: 0 auto;
+  border-collapse: collapse;
+  border-radius: 5px;
+  overflow: hidden;
+  width: 100%;
+  thead tr {
+    background-color: $color--light-gray;
+    text-align: center;
+    font-weight: bold;
+    @include font-size(16px);
+    border: 1px solid $color--dark-gray;
+  }
+  th {
+    padding: 8px 15px;
+  }
+  td {
+    padding: 0 15px;
+  }
+  tbody {
+    border-left: 1px solid $color--dark-gray;
+    border-right: 1px solid $color--dark-gray;
+    border-bottom: 1px solid $color--dark-gray;
+  }
+  tbody tr {
+    border-bottom: 1px solid $color--dark-gray;
+    h5 {
+      margin: 16px 0;
+    }
+    h5:hover {
+      cursor: default;
+      opacity: 0.8;
+    }
+  }
+  .column2,
+  .column3,
+  .column4 {
+    text-align: center;
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+  .title_flex_container {
+    flex-direction: column;
+    h1 {
+      margin: 0;
+    }
+    button {
+      margin: 8px 0;
+    }
+  }
+
+  .discounts_table {
+    overflow-x: scroll;
+    display: block;
+    white-space: nowrap;
+    th {
+      padding: 8px 4px;
+    }
+    td {
+      padding: 0 4px;
+    }
+  }
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}

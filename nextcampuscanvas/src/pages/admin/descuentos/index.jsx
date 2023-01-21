@@ -40,10 +40,7 @@ const index = () => {
         </Link>
 
         <ul className={styles.routes}>
-          <Link href={'/admin/descuentos/nuevo-descuento'}>
-            <li>Crear nuevo descuento</li>
-          </Link>
-          <Link href={'#'}>
+          <Link href={'/admin/descuentos/gestionar-descuentos'}>
             <li>Gestionar descuentos</li>
           </Link>
           <Link href={'/admin/descuentos/gestionar-marcas'}>
