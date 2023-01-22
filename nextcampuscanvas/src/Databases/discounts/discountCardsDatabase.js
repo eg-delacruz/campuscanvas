@@ -22,7 +22,7 @@ export const DISCOUNT_CARDS = [
     brand_name: 'Grover',
     click_count: 1,
     // suggested | new | most_searched | home_featured |
-    display_as: '',
+    display_in_section: '',
     exclusiv_tag: false,
   },
   {
@@ -33,7 +33,7 @@ export const DISCOUNT_CARDS = [
     banner: banner2.src,
     category: 'travel',
     click_count: 1,
-    display_as: '',
+    display_in_section: '',
     exclusiv_tag: false,
   },
   {
@@ -44,7 +44,7 @@ export const DISCOUNT_CARDS = [
     banner: banner3.src,
     category: 'fashion',
     click_count: 1,
-    display_as: '',
+    display_in_section: '',
     exclusiv_tag: false,
   },
   {
@@ -55,7 +55,7 @@ export const DISCOUNT_CARDS = [
     banner: banner4.src,
     category: 'eat&drink',
     click_count: 1,
-    display_as: '',
+    display_in_section: '',
     exclusiv_tag: false,
   },
 ];

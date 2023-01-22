@@ -68,6 +68,7 @@ const DiscountTemplate = ({ discount, children }) => {
         <section className={styles.info_container}>
           <p className={styles.valid_period}>
             {/* TODO: change this valid_till to expiration_date, since in db is stored like this */}
+            {/* TODO: check if there is an expiration_date to display this, since sometimes maybe there is no exp dates */}
             Válido hasta el {dateFormat.shortSlashDate(discount.valid_till)}
           </p>
           <div className={styles.upper_discount_info}>

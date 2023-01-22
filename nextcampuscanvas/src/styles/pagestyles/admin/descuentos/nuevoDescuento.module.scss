@@ -18,6 +18,11 @@
     @include font-size(24px);
   }
 
+  .section_title {
+    margin: 30px 0 0;
+    font-weight: bold;
+  }
+
   section {
     padding: 8px;
     border: 1px solid $color--dark-gray;
@@ -59,6 +64,58 @@
   .error_under_input {
     margin-top: -35px;
   }
+
+  .disabled {
+    opacity: 0.3;
+  }
+
+  /////////////////////////
+  //    Tooltip styles    //
+  /////////////////////////
+
+  .label_tooltip_container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .tooltip_container {
+    position: relative;
+    @include font-size(14px);
+    font-weight: bold;
+    top: -6px;
+    background-color: $color--light-gray;
+    border: 2px solid $color--dark-gray;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $color--primary1;
+    cursor: default;
+    .tooltiptext {
+      visibility: hidden;
+      width: 120px;
+      background-color: black;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px 0;
+
+      /* Position the tooltip */
+      position: absolute;
+      z-index: 1;
+      width: 120px;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+    }
+  }
+  .tooltip_container:hover .tooltiptext {
+    visibility: visible;
+  }
 }
 
 /////////////////////////
@@ -68,6 +125,7 @@
   .description_text_area {
     min-height: 60px;
   }
+
   .brand_category_container {
     display: flex;
     justify-content: flex-start;
@@ -76,13 +134,115 @@
     .brand_datalist_container,
     .category_datalist_container {
       width: 100%;
-      // position: relative;
+    }
+  }
+
+  .discount_type_title {
+    margin: 0 0 8px;
+    @include font-size(14px);
+    display: block;
+    font-weight: bold;
+  }
+
+  .radio_input_container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 8px 0;
+  }
+
+  .radio_input:where([type='radio']) {
+    width: 18px;
+    height: 18px;
+    margin: calc(0.75em - 11px) 0.25rem 0 0;
+  }
+
+  .discount_type_container {
+    .discount_code_type_container,
+    .affiliate_type_container {
+      border-top: 1px solid $color--dark-gray;
+      border-bottom: 1px solid $color--dark-gray;
+      margin-top: 16px;
+    }
+
+    .disc_code_ext_key_container {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 40px;
+      .ext_key_input_label_container,
+      .disc_code_input_label_container {
+        width: 100%;
+      }
+    }
+
+    /////////////////////////
+    // Affiliate link info //
+    /////////////////////////
+
+    .affiliate_link_input_container {
+      margin-top: 8px;
+    }
+
+    .call_to_action_container {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+  }
+
+  .valid_exp_dates_container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 40px;
+    padding-top: 8px;
+  }
+
+  .valid_exp_dates_container > div {
+    width: 100%;
+  }
+
+  .home_slider_section {
+    margin-top: 16px;
+    .upload_images_container {
+      margin-top: 8px;
+      padding: 12px 0 0;
+      border-top: 1px solid $color--dark-gray;
+      .upload_small_Home_slider_img_label {
+        margin-top: 8px;
+      }
     }
   }
 }
 
+/////////////////////////
+// Card info container //
+/////////////////////////
+.card_info_container {
+  .card_title_tag_container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 40px;
+  }
+  .card_title_tag_container > div {
+    width: 100%;
+  }
+
+  .display_in_section_container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 40px;
+  }
+  .display_in_section_container > div {
+    width: 100%;
+  }
+}
+
 .submit_btn {
-  margin: 16px auto;
+  margin: 16px 0 16px auto;
   box-shadow: none;
 }
 
@@ -99,6 +259,47 @@
 ////////////////////////////////////////480/////////////////////////////////////////////
 
 @media screen and (max-width: 480px) {
+  /////////////////////////
+  //General info container//
+  /////////////////////////
+  .general_info_container {
+    .brand_category_container {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .discount_type_container {
+      .disc_code_ext_key_container {
+        flex-direction: column;
+        gap: 0px;
+      }
+    }
+
+    .call_to_action_container {
+      flex-direction: column;
+      .call_to_action_input_label_container {
+        width: 100%;
+      }
+      .call_to_act_btn {
+        margin-bottom: 20px;
+      }
+    }
+
+    .valid_exp_dates_container {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+
+  /////////////////////////
+  // Card info container //
+  /////////////////////////
+  .card_info_container {
+    .card_title_tag_container {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
 }
 ////////////////////////////////////////320/////////////////////////////////////////////
 
