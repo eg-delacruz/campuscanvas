@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import dynamic from 'next/dynamic';
 
 //Styles
 import styles from '@styles/pagestyles/admin/descuentos/nuevoDescuento.module.scss';
+//Rich text editor styles
+import 'react-quill/dist/quill.snow.css';
 
 //Components
 import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
@@ -18,6 +21,9 @@ import { useCharacterCount } from '@hooks/useCharacterCount';
 
 //Redux actions
 import { getBrands, selectBrand } from '@redux/brandsSlice';
+
+//Rich text editor
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const nuevoDescuento = () => {
   const { securingRoute } = useSecureAdminRoute('all');
@@ -73,6 +79,7 @@ const nuevoDescuento = () => {
   const [showInHomeSlider, setShowInHomeSlider] = useState(false);
   const [bigImageHomeSlider, setBigImageHomeSlider] = useState([]);
   const [smallImageHomeSlider, setSmallImageHomeSlider] = useState([]);
+  const [termsCondsText, setTermsCondsText] = useState('');
 
   //Error states
   const [brandDatalistError, setBrandDatalistError] = useState(null);
@@ -261,6 +268,7 @@ const nuevoDescuento = () => {
       card_title: CARD_TITLE.value,
       card_tag: CARD_TAG.value,
       display_card_in_section: DISPLAY_CARD_IN_SECTION_ENG,
+      terms_and_conds: termsCondsText,
     };
     console.log(discountData);
   };
@@ -776,10 +784,11 @@ const nuevoDescuento = () => {
                 {/* /////////////////////////////////////
                 // Current discounts per section table // 
                 ///////////////////////////////////// */}
+                {/* TODO: display actual current information in table */}
                 <table className={styles.current_discounts_per_section_table}>
                   <thead>
                     <tr>
-                      <th colspan='4'>
+                      <th colSpan='4'>
                         Descuentos por sección actuales (falta actualizar)
                       </th>
                     </tr>
@@ -810,7 +819,9 @@ const nuevoDescuento = () => {
           <h2 className={styles.section_title}>Términos y condiciones</h2>
 
           <section className={styles.terms_and_conds_container}>
-            Las condiciones
+            <div className={styles.editor}>
+              <ReactQuill value={termsCondsText} onChange={setTermsCondsText} />
+            </div>
           </section>
 
           <button
