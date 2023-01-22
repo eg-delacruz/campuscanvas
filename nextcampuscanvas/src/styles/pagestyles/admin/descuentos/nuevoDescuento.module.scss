@@ -235,6 +235,37 @@
     justify-content: flex-start;
     align-items: center;
     gap: 40px;
+    .current_discounts_per_section_table {
+      @include font-size(14px);
+      text-align: center;
+      background-color: $color--black;
+      thead tr {
+        background-color: $color--light-gray;
+        text-align: center;
+        border: 1px solid $color--dark-gray;
+      }
+      th,
+      td {
+        padding: 4px;
+      }
+      tbody {
+        border-left: 1px solid $color--dark-gray;
+        border-right: 1px solid $color--dark-gray;
+        border-bottom: 1px solid $color--dark-gray;
+        border-radius: 5px;
+        .first_row {
+          background-color: $color--primary1-light1;
+          color: $color--white;
+        }
+        .second_row {
+          background-color: $color--primary1-light2;
+          color: $color--white;
+        }
+      }
+      tbody td {
+        border-bottom: 1px solid $color--dark-gray;
+      }
+    }
   }
   .display_in_section_container > div {
     width: 100%;
@@ -255,6 +286,18 @@
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 767px) {
+  .card_info_container {
+    .display_in_section_container {
+      flex-direction: column;
+      gap: 0;
+      .disabled_in_section_datalist_container {
+        max-width: 355px;
+      }
+      .current_discounts_per_section_table {
+        margin: 0 auto;
+      }
+    }
+  }
 }
 ////////////////////////////////////////480/////////////////////////////////////////////
 
@@ -299,9 +342,23 @@
       flex-direction: column;
       gap: 0;
     }
+    .display_in_section_container {
+      .disabled_in_section_datalist_container {
+        max-width: 100%;
+      }
+    }
   }
 }
 ////////////////////////////////////////320/////////////////////////////////////////////
 
 @media screen and (max-width: 320px) {
+  .card_info_container {
+    .display_in_section_container {
+      .current_discounts_per_section_table {
+        overflow-x: scroll;
+        display: block;
+        white-space: nowrap;
+      }
+    }
+  }
 }

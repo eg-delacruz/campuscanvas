@@ -688,6 +688,10 @@ const nuevoDescuento = () => {
 
           <h2 className={styles.section_title}>Información de la tarjeta</h2>
 
+          {/* /////////////////////////
+         //       Card info       // 
+         ///////////////////////// */}
+
           <section className={styles.card_info_container}>
             <div className={styles.card_title_tag_container}>
               <div>
@@ -741,7 +745,7 @@ const nuevoDescuento = () => {
             </div>
 
             <div className={styles.display_in_section_container}>
-              <div>
+              <div className={styles.disabled_in_section_datalist_container}>
                 <label
                   htmlFor='display_in_section'
                   className={`${styles.input_title}`}
@@ -768,8 +772,45 @@ const nuevoDescuento = () => {
                   </p>
                 )}
               </div>
-              <div>TABLE</div>
+              <div>
+                {/* /////////////////////////////////////
+                // Current discounts per section table // 
+                ///////////////////////////////////// */}
+                <table className={styles.current_discounts_per_section_table}>
+                  <thead>
+                    <tr>
+                      <th colspan='4'>
+                        Descuentos por sección actuales (falta actualizar)
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className={styles.first_row}>
+                      <td>Sugeridos</td>
+                      <td>Novedades</td>
+                      <td>Más buscados</td>
+                      <td>Destacados home</td>
+                    </tr>
+                    <tr className={styles.second_row}>
+                      <td>{CARDS_CURRENTLY_DISPLAYED_AS.suggested}</td>
+                      <td>{CARDS_CURRENTLY_DISPLAYED_AS.new}</td>
+                      <td>{CARDS_CURRENTLY_DISPLAYED_AS.most_searched}</td>
+                      <td>{CARDS_CURRENTLY_DISPLAYED_AS.home_featured}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
+          </section>
+
+          {/* /////////////////////////
+         //  términos y condiciones  // 
+         ///////////////////////// */}
+
+          <h2 className={styles.section_title}>Términos y condiciones</h2>
+
+          <section className={styles.terms_and_conds_container}>
+            Las condiciones
           </section>
 
           <button
