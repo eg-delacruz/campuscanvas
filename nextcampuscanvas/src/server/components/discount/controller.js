@@ -1,6 +1,8 @@
 import { s3Uploadv3_brand_logos } from '@server/services/AWS3/s3Service';
 import store from '@server/components/discount/store';
 
+//Service functions
+
 const createNewBrand = async ({
   brand_name,
   brand_logo,
@@ -56,7 +58,39 @@ const getBrands = async () => {
   }
 };
 
+const createNewDiscount = async (discountInfo, files) => {
+  const {
+    title,
+    description,
+    brand,
+    category,
+    type,
+    discount_code,
+    dynamically_generated,
+    discount_external_key,
+    affiliate_link,
+    action_btn_phrase,
+    valid_from,
+    expiration_date,
+    show_in_home_slider,
+    card_title,
+    card_tag,
+    display_card_in_section,
+    terms_and_conds,
+  } = discountInfo;
+
+  //Transforming boolean strings to pure boolean
+  const DYNAMICALLY_GENERATED_CODE = dynamically_generated === 'true';
+  const SHOW_IN_HOME_SLIDER = show_in_home_slider === 'true';
+
+  console.log(DYNAMICALLY_GENERATED_CODE);
+  console.log(SHOW_IN_HOME_SLIDER);
+
+  //console.log(files);
+};
+
 module.exports = {
   createNewBrand,
   getBrands,
+  createNewDiscount,
 };

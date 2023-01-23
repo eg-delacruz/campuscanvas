@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import dynamic from 'next/dynamic';
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/router';
 
 //Styles
 import styles from '@styles/pagestyles/admin/descuentos/nuevoDescuento.module.scss';
@@ -18,9 +20,13 @@ import DragDropUploadArea from '@components/GeneralUseComponents/DragDropUploadA
 import { useInputValue } from '@hooks/useInputValue';
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
 import { useCharacterCount } from '@hooks/useCharacterCount';
+import useAxios from '@hooks/useAxios';
 
 //Redux actions
 import { getBrands, selectBrand } from '@redux/brandsSlice';
+
+//Endpoints
+import endPoints from '@services/api';
 
 //Rich text editor
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
@@ -33,6 +39,7 @@ const nuevoDescuento = () => {
   //Reducers
   const brandsReducer = useSelector(selectBrand);
 
+  //Getting brands
   useEffect(() => {
     //TODO: check what happens if ther are no brands
     const setBrands = async () => {
@@ -43,6 +50,11 @@ const nuevoDescuento = () => {
     setBrands();
   }, []);
 
+  const { fetchData: uploadData, cancel } = useAxios();
+
+  const router = useRouter();
+
+  //TODO: fetch this data and erase this place holder
   const CARDS_CURRENTLY_DISPLAYED_AS = {
     suggested: 4,
     new: 4,
@@ -94,14 +106,14 @@ const nuevoDescuento = () => {
 
   //Controlling inputs
   //TODO: set everything to ''
-  const TITLE = useInputValue('Ejemplo');
-  const DESCRIPTION = useInputValue('Ejemplo');
+  const TITLE = useInputValue('El título del descuento');
+  const DESCRIPTION = useInputValue('Una descripción genial');
   const BRAND = useInputValue('Adidas');
   const CATEGORY = useInputValue('beauty');
   const DISCOUNT_TYPE = useInputValue('affiliate_link');
   const DISCOUNT_CODE = useInputValue('');
   const DISCOUNT_KEY = useInputValue('');
-  const AFFILIATE_LINK = useInputValue('Ejemplo');
+  const AFFILIATE_LINK = useInputValue('https://www.campuscanvas.net');
   const CALL_TO_ACTION = useInputValue('');
   const VALID_FROM = useInputValue('2021-01-01');
   const EXPIRATION_DATE = useInputValue('2021-01-01');
@@ -135,6 +147,10 @@ const nuevoDescuento = () => {
     const item = brands.find((item) => item.brand_name === BRAND.value);
     if (item === undefined) {
       setBrandDatalistError('Selecciona una marca de la lista');
+      setState({
+        ...state,
+        error: 'Solo puedes seleccionar una marca de la lista',
+      });
       BRAND.setValue('');
       return;
     }
@@ -155,7 +171,7 @@ const nuevoDescuento = () => {
   };
   //Discount type radio buttons(end)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setState({ ...state, error: null });
     setBrandDatalistError(null);
@@ -182,19 +198,24 @@ const nuevoDescuento = () => {
     if (CATEGORY_OPTIONS.indexOf(CATEGORY.value) === -1) {
       setCategoryDatalistError('Selecciona una categoría de la lista');
       CATEGORY.setValue('');
+      setState({ ...state, error: 'Selecciona una categoría válida' });
       return;
     }
-    //TODO: uncomment this when finished
-    // if (bannerFile.length === 0) {
-    //   return setBannerFileError('Debes subir una imagen');
-    // }
+
+    if (bannerFile.length === 0) {
+      setBannerFileError('Debes subir una imagen');
+      setState({ ...state, error: 'Completa todos los campos obligatorios' });
+      return;
+    }
 
     if (showInHomeSlider) {
       if (
         bigImageHomeSlider.length === 0 ||
         smallImageHomeSlider.length === 0
       ) {
-        return setHomeSliderFilesError('Debes subir una imagen de cada tamaño');
+        setHomeSliderFilesError('Debes subir una imagen de cada tamaño');
+        setState({ ...state, error: 'Completa todos los campos obligatorios' });
+        return;
       }
     }
 
@@ -240,37 +261,66 @@ const nuevoDescuento = () => {
         break;
     }
 
-    //TODO: create a formdata to send data and images
+    const formdata = new FormData();
+    formdata.append('title', TITLE.value);
+    formdata.append('description', DESCRIPTION.value);
+    formdata.append('brand', BRAND_ID);
+    formdata.append('category', CATEGORY.value);
+    formdata.append('type', DISCOUNT_TYPE.value);
+    formdata.append('discount_code', DISCOUNT_CODE.value);
+    formdata.append('dynamically_generated', dynamicallyGenerated);
+    formdata.append('discount_external_key', DISCOUNT_KEY.value);
+    formdata.append('affiliate_link', AFFILIATE_LINK.value);
+    formdata.append('action_btn_phrase', CALL_TO_ACTION.value);
+    formdata.append('valid_from', new Date(VALID_FROM.value));
+    formdata.append('expiration_date', EXP_DATE);
+    formdata.append('banner', bannerFile[0]);
+    formdata.append('show_in_home_slider', showInHomeSlider);
+    formdata.append('big_home_slider_image', bigImageHomeSlider[0]);
+    formdata.append('small_home_slider_image', smallImageHomeSlider[0]);
+    formdata.append('card_title', CARD_TITLE.value);
+    formdata.append('card_tag', CARD_TAG.value);
+    formdata.append('display_card_in_section', DISPLAY_CARD_IN_SECTION_ENG);
+    formdata.append('terms_and_conds', termsCondsText);
 
-    const discountData = {
-      //TODO: in server, add the "status: available | unavailable" property
-      title: TITLE.value,
-      description: DESCRIPTION.value,
-      brand: BRAND_ID,
-      category: CATEGORY.value,
-      type: DISCOUNT_TYPE.value,
-      discount_code: {
-        code: DISCOUNT_CODE.value,
-        dynamically_generated: false,
+    //Uploading data
+    setState({ ...state, uploading: true });
+
+    //No try catch needed, since done in the useAxios hook
+    const response = await uploadData(
+      endPoints.admin.discounts.index,
+      'post',
+      formdata,
+      { 'Content-Type': 'multipart/form-data' }
+    );
+
+    if (response?.error) {
+      return setState({ ...state, error: response.error, uploading: false });
+    }
+
+    setState({ ...state, uploading: false, error: null });
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      width: 400,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
       },
-      discount_external_key: DISCOUNT_KEY.value,
-      affiliate_link: AFFILIATE_LINK.value,
-      action_btn_phrase: CALL_TO_ACTION.value,
-      valid_from: new Date(VALID_FROM.value),
-      expiration_date: EXP_DATE,
-      banner: 'URL_file',
-      show_in_home_slider: showInHomeSlider,
-      home_slider_images: {
-        big: 'URL_file',
-        small: 'URL_file',
-      },
-      //SAME as SEO_meta_title
-      card_title: CARD_TITLE.value,
-      card_tag: CARD_TAG.value,
-      display_card_in_section: DISPLAY_CARD_IN_SECTION_ENG,
-      terms_and_conds: termsCondsText,
-    };
-    console.log(discountData);
+    });
+
+    Toast.fire({
+      icon: 'success',
+      title: response.body,
+    });
+
+    //Redirect to /gestionar-descuentos
+    //TODO: uncomment this
+    // router.push('/admin/descuentos/gestionar-descuentos');
   };
 
   if (securingRoute || brandsReducer.loading) {
@@ -818,11 +868,9 @@ const nuevoDescuento = () => {
 
           <h2 className={styles.section_title}>Términos y condiciones</h2>
 
-          <section className={styles.terms_and_conds_container}>
-            <div className={styles.editor}>
-              <ReactQuill value={termsCondsText} onChange={setTermsCondsText} />
-            </div>
-          </section>
+          <ReactQuill value={termsCondsText} onChange={setTermsCondsText} />
+
+          {state.error && <p className='error__messagev2'>{state.error}</p>}
 
           <button
             type='submit'

@@ -17,6 +17,8 @@ import dateFormat from '@services/dateFormat';
 const index = () => {
   const { securingRoute } = useSecureAdminRoute();
 
+  //TODO: Refetch all discounts everytime in a useEffect
+
   const DESCUENTOS = [
     {
       id: 1,

@@ -58,7 +58,7 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
     );
 
     if (response?.error) {
-      return setState({ ...state, error: response.error });
+      return setState({ ...state, error: response.error, uploading: false });
     }
 
     BRAND_NAME.setValue('');

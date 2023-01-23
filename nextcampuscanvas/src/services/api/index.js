@@ -48,6 +48,7 @@ const endPoints = {
     getUserData: (accEmail) =>
       `${API}/api/${VERSION}/admin/estudiantes/check_acc_info/${accEmail}`,
     discounts: {
+      index: `${API}/api/${VERSION}/admin/discounts`,
       brands: `${API}/api/${VERSION}/admin/discounts/brands/index`,
     },
   },
