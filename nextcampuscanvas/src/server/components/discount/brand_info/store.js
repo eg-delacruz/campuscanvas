@@ -3,7 +3,7 @@ import config from '@server/config';
 dbConnect(config.dbURL);
 
 //Model
-import BrandInfo from '@server/components/discount/model';
+import BrandInfo from '@server/components/discount/brand_info/model';
 
 ///////////////////// Create brand //////////////////////////////
 const createBrand = async (brand) => {
@@ -12,7 +12,7 @@ const createBrand = async (brand) => {
   return await BrandInfo.create(brand);
 };
 
-/////////////////////Check if brand already exists////////////////////////
+/////////////////////Check if brand name already exists////////////////////////
 const brandAlreadyExists = async (brand_name) => {
   const exists = await BrandInfo.exists({
     brand_name: brand_name,
@@ -28,8 +28,21 @@ const getBrands = async () => {
   return await BrandInfo.find({});
 };
 
+/////////////////////Get brand by id////////////////////////
+const getBrandById = async (id) => {
+  const brand = await BrandInfo.findOne({
+    _id: id,
+  });
+  if (!brand) {
+    console.log('[db] Brand not found');
+    throw new Error('Brand not found');
+  }
+  return brand;
+};
+
 module.exports = {
   add: createBrand,
   brandAlreadyExists,
   getBrands,
+  getById: getBrandById,
 };

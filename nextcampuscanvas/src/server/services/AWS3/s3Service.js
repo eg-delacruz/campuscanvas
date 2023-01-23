@@ -124,6 +124,117 @@ export async function s3Uploadv3_brand_logos(files) {
   }
 }
 
+export async function s3Uploadv3_discount_banners(files) {
+  try {
+    let uploaded_files = [];
+
+    const AWS_DISCOUNT_BANNERS_BASE_URL =
+      process.env.CC_AWS_BUCKET_BASE_URL + 'discount_banners/';
+
+    const params = files.map((file) => {
+      const unique_file_name = generateUniqueFileName(file);
+
+      //Saving storage reference
+      uploaded_files.push({
+        name: unique_file_name,
+        URL: `${AWS_DISCOUNT_BANNERS_BASE_URL}${unique_file_name}`,
+      });
+
+      return {
+        Bucket: process.env.CC_AWS_BUCKET_NAME,
+        //Base storage folder/name of the file
+        Key: `discount_banners/${unique_file_name}`,
+        ContentDisposition: 'inline',
+        ContentType: file.mimetype,
+        Body: file.buffer,
+      };
+    });
+
+    //Returns the results
+    await Promise.all(
+      params.map((param) => s3client.send(new PutObjectCommand(param)))
+    );
+    return uploaded_files;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+}
+
+export async function s3Uploadv3_big_home_slider_images(files) {
+  try {
+    let uploaded_files = [];
+
+    const AWS_BIG_HOME_SLIDER_IMAGES_BASE_URL =
+      process.env.CC_AWS_BUCKET_BASE_URL + 'big_home_slider_images/';
+
+    const params = files.map((file) => {
+      const unique_file_name = generateUniqueFileName(file);
+
+      //Saving storage reference
+      uploaded_files.push({
+        name: unique_file_name,
+        URL: `${AWS_BIG_HOME_SLIDER_IMAGES_BASE_URL}${unique_file_name}`,
+      });
+
+      return {
+        Bucket: process.env.CC_AWS_BUCKET_NAME,
+        //Base storage folder/name of the file
+        Key: `big_home_slider_images/${unique_file_name}`,
+        ContentDisposition: 'inline',
+        ContentType: file.mimetype,
+        Body: file.buffer,
+      };
+    });
+
+    //Returns the results
+    await Promise.all(
+      params.map((param) => s3client.send(new PutObjectCommand(param)))
+    );
+    return uploaded_files;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+}
+
+export async function s3Uploadv3_small_home_slider_images(files) {
+  try {
+    let uploaded_files = [];
+
+    const AWS_SMALL_HOME_SLIDER_IMAGES_BASE_URL =
+      process.env.CC_AWS_BUCKET_BASE_URL + 'small_home_slider_images/';
+
+    const params = files.map((file) => {
+      const unique_file_name = generateUniqueFileName(file);
+
+      //Saving storage reference
+      uploaded_files.push({
+        name: unique_file_name,
+        URL: `${AWS_SMALL_HOME_SLIDER_IMAGES_BASE_URL}${unique_file_name}`,
+      });
+
+      return {
+        Bucket: process.env.CC_AWS_BUCKET_NAME,
+        //Base storage folder/name of the file
+        Key: `small_home_slider_images/${unique_file_name}`,
+        ContentDisposition: 'inline',
+        ContentType: file.mimetype,
+        Body: file.buffer,
+      };
+    });
+
+    //Returns the results
+    await Promise.all(
+      params.map((param) => s3client.send(new PutObjectCommand(param)))
+    );
+    return uploaded_files;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+}
+
 //OBSERVATION:
 //Consider that the uploaded files to this bucket are all available for public
 //access. It shouldn't be like this in case we need to store contracts in AWS,

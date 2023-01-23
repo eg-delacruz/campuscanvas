@@ -71,14 +71,20 @@ router
       await Controller.createNewDiscount(body, files);
       successResponse(req, res, 'Descuento creado', 201);
     } catch (error) {
-      //TODO: handle possible errors
-      if (
-        error.message === 'Esta marca ya ha sido creada, utiliza otro nombre'
-      ) {
+      if (error.message === 'Información insuficiente para crear descuento') {
         return errorResponse(
           req,
           res,
-          'Esta marca ya ha sido creada, utiliza otro nombre',
+          'Información insuficiente para crear descuento',
+          400,
+          error.message
+        );
+      }
+      if (error.message === 'Error al subir imágenes de home slider') {
+        return errorResponse(
+          req,
+          res,
+          'Error al subir imágenes de home slider',
           400,
           error.message
         );

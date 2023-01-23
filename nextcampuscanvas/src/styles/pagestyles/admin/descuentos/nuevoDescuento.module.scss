@@ -241,7 +241,8 @@
       text-align: center;
       background-color: $color--black;
       thead tr {
-        background-color: $color--light-gray;
+        background-color: $color--primary1;
+        color: $color--white;
         text-align: center;
         border: 1px solid $color--dark-gray;
       }
@@ -250,17 +251,12 @@
         padding: 4px;
       }
       tbody {
-        border-left: 1px solid $color--dark-gray;
-        border-right: 1px solid $color--dark-gray;
-        border-bottom: 1px solid $color--dark-gray;
-        border-radius: 5px;
         .first_row {
-          background-color: $color--primary1-light1;
-          color: $color--white;
+          background-color: $color--secondary-white;
+          font-weight: bold;
         }
         .second_row {
-          background-color: $color--primary1-light2;
-          color: $color--white;
+          background-color: $color--white;
         }
       }
       tbody td {

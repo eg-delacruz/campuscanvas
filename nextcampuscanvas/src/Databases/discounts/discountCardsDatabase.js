@@ -11,19 +11,15 @@ import brand_logo_4 from '@assets/PagesImages/Prueba/brand4.svg';
 
 export const DISCOUNT_CARDS = [
   {
-    //The generated one by Mongo DB
     discount_id: 1,
-    //Not longer than 40 characters. Has to include Brand Name for better SEO
     title: '5% de descuento en Grover',
     brand_logo: brand_logo_1.src,
     banner: banner1.src,
-    //travel | fashion | beauty | eat & drink | entertainment | technology | others
     category: 'beauty',
     brand_name: 'Grover',
     click_count: 1,
-    // suggested | new | most_searched | home_featured |
     display_in_section: '',
-    exclusiv_tag: false,
+    card_tag: false,
   },
   {
     discount_id: 2,
@@ -34,7 +30,7 @@ export const DISCOUNT_CARDS = [
     category: 'travel',
     click_count: 1,
     display_in_section: '',
-    exclusiv_tag: false,
+    card_tag: false,
   },
   {
     discount_id: 3,
@@ -45,7 +41,7 @@ export const DISCOUNT_CARDS = [
     category: 'fashion',
     click_count: 1,
     display_in_section: '',
-    exclusiv_tag: false,
+    card_tag: false,
   },
   {
     discount_id: 4,
@@ -56,6 +52,6 @@ export const DISCOUNT_CARDS = [
     category: 'eat&drink',
     click_count: 1,
     display_in_section: '',
-    exclusiv_tag: false,
+    card_tag: false,
   },
 ];

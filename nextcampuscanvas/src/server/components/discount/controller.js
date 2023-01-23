@@ -1,5 +1,15 @@
-import { s3Uploadv3_brand_logos } from '@server/services/AWS3/s3Service';
-import store from '@server/components/discount/store';
+import {
+  s3Uploadv3_brand_logos,
+  s3Uploadv3_discount_banners,
+  s3Uploadv3_big_home_slider_images,
+  s3Uploadv3_small_home_slider_images,
+} from '@server/services/AWS3/s3Service';
+
+//Stores
+import brandInfo_Store from '@server/components/discount/brand_info/store';
+import discountInfo_Store from '@server/components/discount/discount_info/store';
+import homeSliderBanner_Store from '@server/components/discount/home_slider_banner/store';
+import Card_Store from '@server/components/discount/card/store';
 
 //Service functions
 
@@ -19,7 +29,9 @@ const createNewBrand = async ({
 
   try {
     //Check if brand name already exists in DB
-    const brand_name_exists = await store.brandAlreadyExists(brand_name);
+    const brand_name_exists = await brandInfo_Store.brandAlreadyExists(
+      brand_name
+    );
     if (brand_name_exists) {
       console.log(
         '[discount controller error] Esta marca ya ha sido creada, utiliza otro nombre'
@@ -41,7 +53,7 @@ const createNewBrand = async ({
     };
 
     //Saving brand in DB
-    await store.add(brand);
+    await brandInfo_Store.add(brand);
   } catch (error) {
     console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
@@ -50,7 +62,7 @@ const createNewBrand = async ({
 
 const getBrands = async () => {
   try {
-    const brands = await store.getBrands();
+    const brands = await brandInfo_Store.getBrands();
     return brands;
   } catch (error) {
     console.log('[discount controller error]' + error.message);
@@ -79,14 +91,119 @@ const createNewDiscount = async (discountInfo, files) => {
     terms_and_conds,
   } = discountInfo;
 
+  if (
+    !title ||
+    !description ||
+    !brand ||
+    !category ||
+    !type ||
+    !valid_from ||
+    !card_title ||
+    files.banner.length === 0
+  ) {
+    console.log(
+      '[discount controller error] Información insuficiente para crear descuento'
+    );
+    throw new Error('Información insuficiente para crear descuento');
+  }
+
   //Transforming boolean strings to pure boolean
-  const DYNAMICALLY_GENERATED_CODE = dynamically_generated === 'true';
+  const DYNAMICALLY_GENERATED = dynamically_generated === 'true';
   const SHOW_IN_HOME_SLIDER = show_in_home_slider === 'true';
 
-  console.log(DYNAMICALLY_GENERATED_CODE);
-  console.log(SHOW_IN_HOME_SLIDER);
+  try {
+    //Store banner in AWS
+    const uploaded_banner_url = await s3Uploadv3_discount_banners(files.banner);
 
-  //console.log(files);
+    //Get brand info to re-use its data
+    const brand_info = await brandInfo_Store.getById(brand);
+
+    //Transforming dates to Date objects
+    const VALID_FROM_DATE = new Date(valid_from);
+    //TODO: check if there is an exp date
+    const EXPIRATION_DATE = new Date(expiration_date);
+
+    //Create discount
+    const discount = {
+      discount_external_key,
+      title,
+      SEO_meta_title: card_title,
+      brand,
+      category,
+      brand_logo: brand_info.brand_logo,
+      banner: uploaded_banner_url[0].URL,
+      description,
+      affiliate_link,
+      discount_code: {
+        code: discount_code,
+        dynamically_generated: DYNAMICALLY_GENERATED,
+      },
+      type,
+      action_btn_phrase,
+      likes: 0,
+      dislikes: 0,
+      //Modify status here and in Card if needed
+      status: 'available',
+      terms_and_conds,
+      createdAt: new Date(),
+      valid_from: VALID_FROM_DATE,
+      expiration_date: EXPIRATION_DATE,
+    };
+
+    const CREATED_DISCOUNT = await discountInfo_Store.add(discount);
+
+    //Store home slider banners in AWS (if applies)
+    if (SHOW_IN_HOME_SLIDER) {
+      const uploaded_images_urls = await Promise.allSettled([
+        s3Uploadv3_big_home_slider_images(files.big_home_slider_image),
+        s3Uploadv3_small_home_slider_images(files.small_home_slider_image),
+      ]);
+
+      const big_slider_img = uploaded_images_urls[0];
+      const small_slider_img = uploaded_images_urls[1];
+
+      if (
+        big_slider_img.status === 'rejected' ||
+        small_slider_img.status === 'rejected'
+      ) {
+        console.log(
+          '[discount controller error] Error al subir imágenes de home slider a AWS'
+        );
+        throw new Error('Error al subir imágenes de home slider');
+      }
+
+      const slide = {
+        discount_id: CREATED_DISCOUNT._id.toString(),
+        slider_banner_big_screen: big_slider_img.value[0].URL,
+        slider_banner_small_screen: small_slider_img.value[0].URL,
+      };
+
+      //Create home slider banner document in Mongo DB
+      await homeSliderBanner_Store.add(slide);
+    }
+
+    //Create card
+    const card = {
+      discount_id: CREATED_DISCOUNT._id.toString(),
+      title: card_title,
+      brand_logo: brand_info.brand_logo,
+      banner: uploaded_banner_url[0].URL,
+      category,
+      brand_name: brand_info.brand_name,
+      click_count: 0,
+      display_in_section: display_card_in_section,
+      tag: card_tag,
+      status: 'available',
+      valid_from: VALID_FROM_DATE,
+      expiration_date: EXPIRATION_DATE,
+      createdAt: new Date(),
+    };
+
+    await Card_Store.add(card);
+  } catch (error) {
+    console.log('[discount controller error]' + error.message);
+    throw new Error(error.message);
+  }
 };
 
 module.exports = {

@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 //Styles
 import styles from '@styles/pagestyles/admin/descuentos/nuevoDescuento.module.scss';
 //Rich text editor styles
+//https://www.youtube.com/watch?v=kykC7i9VUE4
 import 'react-quill/dist/quill.snow.css';
 
 //Components
@@ -105,19 +106,18 @@ const nuevoDescuento = () => {
   ] = useState(null);
 
   //Controlling inputs
-  //TODO: set everything to ''
-  const TITLE = useInputValue('El título del descuento');
-  const DESCRIPTION = useInputValue('Una descripción genial');
-  const BRAND = useInputValue('Adidas');
-  const CATEGORY = useInputValue('beauty');
-  const DISCOUNT_TYPE = useInputValue('affiliate_link');
+  const TITLE = useInputValue('');
+  const DESCRIPTION = useInputValue('');
+  const BRAND = useInputValue('');
+  const CATEGORY = useInputValue('');
+  const DISCOUNT_TYPE = useInputValue('');
   const DISCOUNT_CODE = useInputValue('');
   const DISCOUNT_KEY = useInputValue('');
-  const AFFILIATE_LINK = useInputValue('https://www.campuscanvas.net');
+  const AFFILIATE_LINK = useInputValue('');
   const CALL_TO_ACTION = useInputValue('');
-  const VALID_FROM = useInputValue('2021-01-01');
-  const EXPIRATION_DATE = useInputValue('2021-01-01');
-  const CARD_TITLE = useInputValue('Ejemplo');
+  const VALID_FROM = useInputValue('');
+  const EXPIRATION_DATE = useInputValue('');
+  const CARD_TITLE = useInputValue('');
   const CARD_TAG = useInputValue('');
   const DISPLAY_CARD_IN_SECTION = useInputValue('');
 
@@ -319,8 +319,7 @@ const nuevoDescuento = () => {
     });
 
     //Redirect to /gestionar-descuentos
-    //TODO: uncomment this
-    // router.push('/admin/descuentos/gestionar-descuentos');
+    router.push('/admin/descuentos/gestionar-descuentos');
   };
 
   if (securingRoute || brandsReducer.loading) {
@@ -699,7 +698,9 @@ const nuevoDescuento = () => {
 
             <div className={styles.home_slider_section}>
               <CustomCheckBox
-                message={'Añadir a slider principal en home'}
+                message={
+                  'Añadir a slider principal en home (Display current home slider discounts)'
+                }
                 required={false}
                 defaultChecked={false}
                 onBoxCheck={() => {
