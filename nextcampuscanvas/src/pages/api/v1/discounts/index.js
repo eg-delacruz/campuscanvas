@@ -30,12 +30,12 @@ export default async function handler(req, res) {
 
   const { body, method } = req;
 
-  //GET all brands
+  //GET all discounts
   switch (method) {
     case 'GET':
       try {
-        const brands = await Controller.getBrands();
-        successResponse(req, res, brands, 201);
+        const discounts = await Controller.getDiscounts();
+        successResponse(req, res, discounts, 201);
       } catch (error) {
         errorResponse(req, res, 'Error al obtener datos', 400, error);
       }

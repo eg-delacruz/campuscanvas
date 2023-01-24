@@ -66,9 +66,10 @@ router
   .post(expressWrapper(multiUpload), async (req, res) => {
     //req.files has the files thanks to multer
     const { body, headers, method, files } = req;
+    const OPERATION_DONE_BY = SESSION.session.user.email;
 
     try {
-      await Controller.createNewDiscount(body, files);
+      await Controller.createNewDiscount(body, files, OPERATION_DONE_BY);
       successResponse(req, res, 'Descuento creado', 201);
     } catch (error) {
       if (error.message === 'Información insuficiente para crear descuento') {

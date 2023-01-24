@@ -43,10 +43,6 @@ const DiscountSchema = new mongoose.Schema({
     code: {
       type: String,
     },
-    //If dynamically_generated, send the needed info to the required API to generate the code and put it in a state
-    dynamically_generated: {
-      type: Boolean,
-    },
   },
   terms_and_conds: {
     type: String,
@@ -56,6 +52,7 @@ const DiscountSchema = new mongoose.Schema({
     immutable: true,
     required: [true, 'La fecha de creación es necesaria'],
   },
+  //If dynamically_generated, send the needed info to the required API to generate the code and put it in a state
   valid_from: {
     type: Date,
   },
@@ -83,6 +80,10 @@ const DiscountSchema = new mongoose.Schema({
   status: {
     type: String,
     required: [true, 'El status es necesario'],
+  },
+  created_by: {
+    type: String,
+    required: [true, 'El creador es necesario'],
   },
 });
 

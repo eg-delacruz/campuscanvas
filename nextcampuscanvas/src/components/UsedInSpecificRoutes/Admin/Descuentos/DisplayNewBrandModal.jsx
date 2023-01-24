@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
+import { useDispatch } from 'react-redux';
 
 //Styles
 import styles from './DisplayNewBrandModal.module.scss';
@@ -16,6 +17,9 @@ import useAxios from '@hooks/useAxios';
 //Endpoints
 import endPoints from '@services/api';
 
+//Redux actions
+import { getBrands } from '@redux/brandsSlice';
+
 const displayNewBrandModal = ({ showModal, setShowModal }) => {
   //States
   const [state, setState] = useState({
@@ -26,6 +30,9 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
   const [sponsorsBox, setSponsorsBox] = useState(false);
 
   const { fetchData: uploadData, cancel } = useAxios();
+
+  //Allows us to manipulate the appropriate slice/action
+  const dispatch = useDispatch();
 
   //Controlling inputs
   const BRAND_NAME = useInputValue('');
@@ -61,6 +68,10 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
       return setState({ ...state, error: response.error, uploading: false });
     }
 
+    //Dispatching action to update the brands list
+    dispatch(getBrands());
+
+    //Reseting values and closing modal
     BRAND_NAME.setValue('');
     BRAND_DESCRIPTION.setValue('');
     setFiles([]);

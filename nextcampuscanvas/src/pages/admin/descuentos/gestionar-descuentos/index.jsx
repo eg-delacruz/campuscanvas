@@ -1,10 +1,12 @@
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 //styles
 import styles from '@styles/pagestyles/admin/descuentos/gestionarDescuentos.module.scss';
 
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
+import useAxios from '@hooks/useAxios';
 
 //Components
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
@@ -14,41 +16,39 @@ import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/Se
 //Services
 import dateFormat from '@services/dateFormat';
 
+//Endpoints
+import endPoints from '@services/api';
+
 const index = () => {
   const { securingRoute } = useSecureAdminRoute();
 
-  //TODO: Refetch all discounts everytime in a useEffect
+  const { fetchData, cancel } = useAxios();
 
-  const DESCUENTOS = [
-    {
-      id: 1,
-      SEO_meta_title: '5% de descuento en Grover',
-      brand: { brand_name: 'Grover' },
-      valid_from: new Date(),
-      expiration_date: new Date(),
-    },
-    {
-      id: 2,
-      SEO_meta_title: '30% descuento en tiendas físicas Adidas',
-      brand: { brand_name: 'Adidas' },
-      valid_from: new Date(),
-      expiration_date: new Date(),
-    },
-    {
-      id: 3,
-      SEO_meta_title: '15% descuento en ASOS',
-      brand: { brand_name: 'ASOS' },
-      valid_from: new Date(),
-      expiration_date: new Date(),
-    },
-    {
-      id: 4,
-      SEO_meta_title: 'Rebajas del 60% + 10% descuento en Efeee',
-      brand: { brand_name: 'Efeee' },
-      valid_from: new Date(),
-      expiration_date: new Date(),
-    },
-  ];
+  const [state, setState] = useState({
+    discounts: [],
+    error: null,
+    loadingDiscounts: true,
+  });
+
+  useEffect(() => {
+    const getDiscounts = async () => {
+      const discounts = await fetchData(
+        endPoints.discounts.getAllDiscounts,
+        'get'
+      );
+      if (discounts.error) {
+        setState({ ...state, error: discounts.error, loadingDiscounts: false });
+        return;
+      }
+      setState({
+        ...state,
+        discounts: discounts.body,
+        error: null,
+        loadingDiscounts: false,
+      });
+    };
+    getDiscounts();
+  }, []);
 
   if (securingRoute) {
     return (
@@ -80,9 +80,18 @@ const index = () => {
           //       Discounts        //
           ///////////////////////// */}
 
+        {state.discounts.length > 0 ? (
+          <p className={styles.table_explanation}>
+            Las fechas de caducidad de los descuentos que hayan expirado se
+            marcan en rojo.
+          </p>
+        ) : (
+          ''
+        )}
         <section className={styles.discounts}>
-          {/* TODO: add a loading state as in gestionar-marcas.jsx */}
-          {DESCUENTOS.length > 0 ? (
+          {state.loadingDiscounts ? (
+            <Loader />
+          ) : state.discounts.length > 0 ? (
             <>
               <table className={styles.discounts_table}>
                 <thead>
@@ -95,22 +104,31 @@ const index = () => {
                 </thead>
 
                 <tbody>
-                  {DESCUENTOS.map((discount) => (
-                    <tr className={styles.discount} key={discount.id}>
+                  {state.discounts.map((discount) => (
+                    <tr className={styles.discount} key={discount._id}>
                       <Link href={'#'}>
                         <td className={styles.column1}>
                           <h5>{discount.SEO_meta_title}</h5>
                         </td>
                       </Link>
-                      <td className={styles.column2}>
-                        {discount.brand.brand_name}
-                      </td>
+                      <td className={styles.column2}>{discount.brand}</td>
                       <td className={styles.column3}>
-                        {dateFormat.SlashDate(discount.valid_from)}
+                        {dateFormat.SlashDate(new Date(discount.valid_from))}
                       </td>
-                      {/* TODO: background red if already expired */}
-                      <td className={styles.column4}>
-                        {dateFormat.SlashDate(discount.valid_from)}
+                      <td
+                        className={`${styles.column4} ${
+                          discount.expiration_date
+                            ? new Date() > new Date(discount.expiration_date)
+                              ? `${styles.expired}`
+                              : ''
+                            : ''
+                        }`}
+                      >
+                        {discount.expiration_date
+                          ? dateFormat.SlashDate(
+                              new Date(discount.expiration_date)
+                            )
+                          : 'No expira'}
                       </td>
                     </tr>
                   ))}
@@ -121,6 +139,10 @@ const index = () => {
             <p>No hay descuentos</p>
           )}
         </section>
+
+        <div className={styles.error_container}>
+          {state.error && <p>{state.error}</p>}
+        </div>
       </div>
     </>
   );

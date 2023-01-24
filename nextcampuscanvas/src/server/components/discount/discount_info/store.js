@@ -10,6 +10,12 @@ const createDiscount = async (discount) => {
   return await Discount.create(discount);
 };
 
+/////////////////////Get all discounts////////////////////////
+const getDiscounts = async () => {
+  return await Discount.find({});
+};
+
 module.exports = {
   add: createDiscount,
+  getDiscounts,
 };

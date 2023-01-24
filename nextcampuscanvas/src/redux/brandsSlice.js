@@ -22,7 +22,7 @@ export const getBrands = createAsyncThunk(
     try {
       const respuesta = await axios({
         method: 'get',
-        url: endPoints.discounts.brands,
+        url: endPoints.discounts.getAllBrands,
         headers: {
           accept: '*/*',
           'Content-Type': 'application/json',

@@ -70,7 +70,7 @@ const getBrands = async () => {
   }
 };
 
-const createNewDiscount = async (discountInfo, files) => {
+const createNewDiscount = async (discountInfo, files, created_by) => {
   const {
     title,
     description,
@@ -78,7 +78,6 @@ const createNewDiscount = async (discountInfo, files) => {
     category,
     type,
     discount_code,
-    dynamically_generated,
     discount_external_key,
     affiliate_link,
     action_btn_phrase,
@@ -108,8 +107,12 @@ const createNewDiscount = async (discountInfo, files) => {
   }
 
   //Transforming boolean strings to pure boolean
-  const DYNAMICALLY_GENERATED = dynamically_generated === 'true';
   const SHOW_IN_HOME_SLIDER = show_in_home_slider === 'true';
+
+  //Transforming dates to Date objects
+  const VALID_FROM_DATE = new Date(valid_from);
+  const EXPIRATION_DATE =
+    expiration_date === 'null' ? null : new Date(expiration_date);
 
   try {
     //Store banner in AWS
@@ -117,11 +120,6 @@ const createNewDiscount = async (discountInfo, files) => {
 
     //Get brand info to re-use its data
     const brand_info = await brandInfo_Store.getById(brand);
-
-    //Transforming dates to Date objects
-    const VALID_FROM_DATE = new Date(valid_from);
-    //TODO: check if there is an exp date
-    const EXPIRATION_DATE = new Date(expiration_date);
 
     //Create discount
     const discount = {
@@ -136,7 +134,6 @@ const createNewDiscount = async (discountInfo, files) => {
       affiliate_link,
       discount_code: {
         code: discount_code,
-        dynamically_generated: DYNAMICALLY_GENERATED,
       },
       type,
       action_btn_phrase,
@@ -148,6 +145,7 @@ const createNewDiscount = async (discountInfo, files) => {
       createdAt: new Date(),
       valid_from: VALID_FROM_DATE,
       expiration_date: EXPIRATION_DATE,
+      created_by,
     };
 
     const CREATED_DISCOUNT = await discountInfo_Store.add(discount);
@@ -206,8 +204,20 @@ const createNewDiscount = async (discountInfo, files) => {
   }
 };
 
+const getDiscounts = async () => {
+  //TODO: populate brand info
+  try {
+    const discounts = await discountInfo_Store.getDiscounts();
+    return discounts;
+  } catch (error) {
+    console.log('[discount controller error]' + error.message);
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
   createNewBrand,
   getBrands,
   createNewDiscount,
+  getDiscounts,
 };

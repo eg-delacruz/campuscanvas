@@ -29,9 +29,7 @@ const gestionarMarcas = () => {
 
   useEffect(() => {
     const setBrands = async () => {
-      if (brandsReducer.brands.length === 0) {
-        dispatch(getBrands());
-      }
+      dispatch(getBrands());
     };
     setBrands();
   }, []);

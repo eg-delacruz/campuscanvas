@@ -44,9 +44,7 @@ const nuevoDescuento = () => {
   useEffect(() => {
     //TODO: check what happens if ther are no brands
     const setBrands = async () => {
-      if (brandsReducer.brands.length === 0) {
-        dispatch(getBrands());
-      }
+      dispatch(getBrands());
     };
     setBrands();
   }, []);
@@ -87,7 +85,6 @@ const nuevoDescuento = () => {
     error: null,
     uploading: false,
   });
-  const [dynamicallyGenerated, setDynamicallyGenerated] = useState(false);
   const [bannerFile, setBannerFiles] = useState([]);
   const [showInHomeSlider, setShowInHomeSlider] = useState(false);
   const [bigImageHomeSlider, setBigImageHomeSlider] = useState([]);
@@ -95,10 +92,15 @@ const nuevoDescuento = () => {
   const [termsCondsText, setTermsCondsText] = useState('');
 
   //Error states
+  const [titleError, setTitleError] = useState(null);
+  const [descriptionError, setDescriptionError] = useState(null);
+  const [discountTypeError, setDiscountTypeError] = useState(null);
   const [brandDatalistError, setBrandDatalistError] = useState(null);
   const [categoryDatalistError, setCategoryDatalistError] = useState(null);
+  const [affiliateLinkError, setAffiliateLinkError] = useState(null);
   const [bannerFileError, setBannerFileError] = useState(null);
   const [homeSliderFilesError, setHomeSliderFilesError] = useState(null);
+  const [cardTitleError, setCardTitleError] = useState(null);
   const [cardTagDatalistError, setCardTagDatalistError] = useState(null);
   const [
     displayCardInSectionDatalistError,
@@ -149,7 +151,7 @@ const nuevoDescuento = () => {
       setBrandDatalistError('Selecciona una marca de la lista');
       setState({
         ...state,
-        error: 'Solo puedes seleccionar una marca de la lista',
+        error: 'Selecciona una marca correcta',
       });
       BRAND.setValue('');
       return;
@@ -163,10 +165,8 @@ const nuevoDescuento = () => {
     DISCOUNT_TYPE.setValue(e.currentTarget.value);
 
     //Reseting input values
-    setDynamicallyGenerated(false);
     DISCOUNT_CODE.setValue('');
     DISCOUNT_KEY.setValue('');
-    AFFILIATE_LINK.setValue('');
     CALL_TO_ACTION.setValue('');
   };
   //Discount type radio buttons(end)
@@ -174,10 +174,15 @@ const nuevoDescuento = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setState({ ...state, error: null });
+    setTitleError(null);
+    setDescriptionError(null);
+    setDiscountTypeError(null);
     setBrandDatalistError(null);
     setCategoryDatalistError(null);
+    setAffiliateLinkError(null);
     setBannerFileError(null);
     setHomeSliderFilesError(null);
+    setCardTitleError(null);
     setCardTagDatalistError(null);
     setDisplayCardInSectionDatalistError(null);
 
@@ -195,10 +200,34 @@ const nuevoDescuento = () => {
       return;
     }
 
+    if (TITLE.value.length === 0) {
+      setTitleError('Debes escribir un título');
+      setState({ ...state, error: 'Completa todos los campos obligatorios' });
+      return;
+    }
+
+    if (DESCRIPTION.value.length === 0) {
+      setDescriptionError('Debes escribir una descripción');
+      setState({ ...state, error: 'Completa todos los campos obligatorios' });
+      return;
+    }
+
     if (CATEGORY_OPTIONS.indexOf(CATEGORY.value) === -1) {
       setCategoryDatalistError('Selecciona una categoría de la lista');
       CATEGORY.setValue('');
       setState({ ...state, error: 'Selecciona una categoría válida' });
+      return;
+    }
+
+    if (AFFILIATE_LINK.value.length === 0) {
+      setAffiliateLinkError('Debes añadir un enlace de afiliado');
+      setState({ ...state, error: 'Completa todos los campos obligatorios' });
+      return;
+    }
+
+    if (DISCOUNT_TYPE.value.length === 0) {
+      setDiscountTypeError('Debes seleccionar un tipo de descuento');
+      setState({ ...state, error: 'Completa todos los campos obligatorios' });
       return;
     }
 
@@ -217,6 +246,12 @@ const nuevoDescuento = () => {
         setState({ ...state, error: 'Completa todos los campos obligatorios' });
         return;
       }
+    }
+
+    if (CARD_TITLE.value.length === 0) {
+      setCardTitleError('Debes escribir un título');
+      setState({ ...state, error: 'Completa todos los campos obligatorios' });
+      return;
     }
 
     if (CARD_TAG.value) {
@@ -268,7 +303,6 @@ const nuevoDescuento = () => {
     formdata.append('category', CATEGORY.value);
     formdata.append('type', DISCOUNT_TYPE.value);
     formdata.append('discount_code', DISCOUNT_CODE.value);
-    formdata.append('dynamically_generated', dynamicallyGenerated);
     formdata.append('discount_external_key', DISCOUNT_KEY.value);
     formdata.append('affiliate_link', AFFILIATE_LINK.value);
     formdata.append('action_btn_phrase', CALL_TO_ACTION.value);
@@ -363,7 +397,7 @@ const nuevoDescuento = () => {
                 autoComplete='off'
                 value={TITLE.value}
                 onChange={handleTitleChange}
-                required
+                //required
               />
               <p
                 className={`${styles.char_count} ${
@@ -372,6 +406,11 @@ const nuevoDescuento = () => {
               >
                 <span>{TITLE_COUNT.value} / 40</span>
               </p>
+              {titleError && (
+                <p className={`${styles.error_under_input} error__messagev2`}>
+                  {titleError}
+                </p>
+              )}
             </div>
 
             <div>
@@ -387,7 +426,7 @@ const nuevoDescuento = () => {
                 autoComplete='off'
                 value={DESCRIPTION.value}
                 onChange={handleDescriptionChange}
-                required
+                //required
               />
               <p
                 className={`${styles.char_count} ${
@@ -396,6 +435,11 @@ const nuevoDescuento = () => {
               >
                 <span>{DESCRIPTION_COUNT.value} / 180</span>
               </p>
+              {descriptionError && (
+                <p className={`${styles.error_under_input} error__messagev2`}>
+                  {descriptionError}
+                </p>
+              )}
             </div>
 
             <div className={styles.brand_category_container}>
@@ -407,11 +451,10 @@ const nuevoDescuento = () => {
                   className={`${styles.input}`}
                   name='brand'
                   id='brand'
-                  //placeholder=''
                   autoComplete='off'
                   value={BRAND.value}
                   onChange={BRAND.onChange}
-                  required
+                  //required
                   list='brands'
                 />
                 <datalist id='brands'>
@@ -437,7 +480,7 @@ const nuevoDescuento = () => {
                   autoComplete='off'
                   value={CATEGORY.value}
                   onChange={CATEGORY.onChange}
-                  required
+                  //required
                   list='categories'
                 />
 
@@ -454,13 +497,37 @@ const nuevoDescuento = () => {
               </div>
             </div>
 
+            <div>
+              <label
+                htmlFor='affiliate_link'
+                className={`${styles.input_title}`}
+              >
+                Enlace de afiliado o web del anunciante *
+              </label>
+              <input
+                className={`${styles.input}`}
+                name='affiliate_link'
+                id='affiliate_link'
+                type='text'
+                placeholder=''
+                autoComplete='off'
+                value={AFFILIATE_LINK.value}
+                onChange={AFFILIATE_LINK.onChange}
+              />
+              {affiliateLinkError && (
+                <p className={`${styles.error_under_input} error__messagev2`}>
+                  {affiliateLinkError}
+                </p>
+              )}
+            </div>
+
             <span className={styles.discount_type_title}>
               Tipo de descuento *
             </span>
             <div className={styles.discount_type_radio_btn_container}>
               <div className={styles.radio_input_container}>
                 <input
-                  required
+                  //required
                   className={styles.radio_input}
                   type='radio'
                   id='discount_code'
@@ -474,42 +541,50 @@ const nuevoDescuento = () => {
 
               <div className={styles.radio_input_container}>
                 <input
-                  required
                   className={styles.radio_input}
                   type='radio'
-                  id='affiliate_link'
+                  id='affiliate_link_only'
                   name='discount_type'
-                  value='affiliate_link'
-                  checked={isDiscountTypeRadioSelected('affiliate_link')}
+                  value='affiliate_link_only'
+                  checked={isDiscountTypeRadioSelected('affiliate_link_only')}
                   onChange={handleRadioDiscountTypeClick}
                 />
-                <label htmlFor='affiliate_link'>Enlace de afiliado</label>
+                <label htmlFor='affiliate_link_only'>
+                  Solo enlace de afiliado
+                </label>
               </div>
+
+              <div className={styles.radio_input_container}>
+                <input
+                  className={styles.radio_input}
+                  type='radio'
+                  id='dynamically_generated'
+                  name='discount_type'
+                  value='dynamically_generated'
+                  checked={isDiscountTypeRadioSelected('dynamically_generated')}
+                  onChange={handleRadioDiscountTypeClick}
+                />
+                <label htmlFor='dynamically_generated'>
+                  Código generado dinámicamente
+                </label>
+              </div>
+              {discountTypeError && (
+                <p className={`error__messagev2`}>{discountTypeError}</p>
+              )}
             </div>
 
             <div className={styles.discount_type_container}>
               {DISCOUNT_TYPE.value === 'discount_code' ? (
                 <div className={styles.discount_code_type_container}>
-                  <CustomCheckBox
-                    message={'Se genera dinamicamente'}
-                    required={false}
-                    defaultChecked={false}
-                    onBoxCheck={() => {
-                      setDynamicallyGenerated(!dynamicallyGenerated);
-                      DISCOUNT_CODE.setValue('');
-                    }}
-                  />
                   <div className={styles.disc_code_ext_key_container}>
                     <div
-                      className={`${dynamicallyGenerated && styles.disabled} ${
-                        styles.disc_code_input_label_container
-                      }`}
+                      className={`${styles.disc_code_input_label_container}`}
                     >
                       <label
                         htmlFor='discount_code'
                         className={`${styles.input_title}`}
                       >
-                        Código de descuento
+                        Código de descuento *
                       </label>
                       <input
                         className={`${styles.input}`}
@@ -520,8 +595,7 @@ const nuevoDescuento = () => {
                         autoComplete='off'
                         value={DISCOUNT_CODE.value}
                         onChange={DISCOUNT_CODE.onChange}
-                        required={!dynamicallyGenerated}
-                        disabled={dynamicallyGenerated}
+                        required
                       />
                     </div>
 
@@ -553,48 +627,9 @@ const nuevoDescuento = () => {
                       />
                     </div>
                   </div>
-
-                  <div>
-                    <label
-                      htmlFor='affiliate_link'
-                      className={`${styles.input_title}`}
-                    >
-                      Enlace de afiliado
-                    </label>
-                    <input
-                      className={`${styles.input}`}
-                      name='affiliate_link'
-                      id='affiliate_link'
-                      type='text'
-                      placeholder=''
-                      autoComplete='off'
-                      value={AFFILIATE_LINK.value}
-                      onChange={AFFILIATE_LINK.onChange}
-                    />
-                  </div>
                 </div>
-              ) : DISCOUNT_TYPE.value === 'affiliate_link' ? (
+              ) : DISCOUNT_TYPE.value === 'affiliate_link_only' ? (
                 <div className={styles.affiliate_type_container}>
-                  <div className={styles.affiliate_link_input_container}>
-                    <label
-                      htmlFor='affiliate_link'
-                      className={`${styles.input_title}`}
-                    >
-                      Enlace de afiliado *
-                    </label>
-                    <input
-                      className={`${styles.input}`}
-                      name='affiliate_link'
-                      id='affiliate_link'
-                      type='text'
-                      placeholder=''
-                      autoComplete='off'
-                      value={AFFILIATE_LINK.value}
-                      onChange={AFFILIATE_LINK.onChange}
-                      required
-                    />
-                  </div>
-
                   <div className={styles.call_to_action_container}>
                     <div
                       className={styles.call_to_action_input_label_container}
@@ -633,6 +668,10 @@ const nuevoDescuento = () => {
                         : 'Ir a la tienda'}
                     </div>
                   </div>
+                </div>
+              ) : DISCOUNT_TYPE.value === 'dynamically_generated' ? (
+                <div className={styles.dynamically_generated_type_container}>
+                  Generado dinámicamente. Información incierta
                 </div>
               ) : (
                 ''
@@ -775,6 +814,11 @@ const nuevoDescuento = () => {
                 >
                   <span>{CARD_TITLE_COUNT.value} / 40</span>
                 </p>
+                {cardTitleError && (
+                  <p className={`${styles.error_under_input} error__messagev2`}>
+                    {cardTitleError}
+                  </p>
+                )}
               </div>
 
               <div>

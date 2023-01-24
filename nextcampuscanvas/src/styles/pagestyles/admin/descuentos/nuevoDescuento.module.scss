@@ -160,10 +160,12 @@
 
   .discount_type_container {
     .discount_code_type_container,
-    .affiliate_type_container {
+    .affiliate_type_container,
+    .dynamically_generated_type_container {
       border-top: 1px solid $color--dark-gray;
       border-bottom: 1px solid $color--dark-gray;
       margin-top: 16px;
+      padding-top: 8px;
     }
 
     .disc_code_ext_key_container {
@@ -177,13 +179,9 @@
       }
     }
 
-    /////////////////////////
-    // Affiliate link info //
-    /////////////////////////
-
-    .affiliate_link_input_container {
-      margin-top: 8px;
-    }
+    //////////////////////////////
+    // Affiliate link only info //
+    //////////////////////////////
 
     .call_to_action_container {
       display: flex;

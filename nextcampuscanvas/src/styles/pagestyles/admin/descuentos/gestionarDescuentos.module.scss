@@ -28,47 +28,56 @@
   }
 }
 
-/////////////////////////
-//         Table         //
-/////////////////////////
-.discounts_table {
-  margin: 0 auto;
-  border-collapse: collapse;
+.table_explanation {
+  margin: 0 0 8px;
+}
+
+.discounts {
+  border: 1px solid $color--dark-gray;
   border-radius: 5px;
-  overflow: hidden;
-  width: 100%;
-  thead tr {
-    background-color: $color--light-gray;
-    text-align: center;
-    font-weight: bold;
-    @include font-size(16px);
-    border: 1px solid $color--dark-gray;
-  }
-  th {
-    padding: 8px 15px;
-  }
-  td {
-    padding: 0 15px;
-  }
-  tbody {
-    border-left: 1px solid $color--dark-gray;
-    border-right: 1px solid $color--dark-gray;
-    border-bottom: 1px solid $color--dark-gray;
-  }
-  tbody tr {
-    border-bottom: 1px solid $color--dark-gray;
-    h5 {
-      margin: 16px 0;
+
+  /////////////////////////
+  //         Table         //
+  /////////////////////////
+  .discounts_table {
+    border-collapse: collapse;
+    width: 100%;
+    thead tr {
+      background-color: $color--light-gray;
+      text-align: center;
+      font-weight: bold;
+      @include font-size(16px);
+      border-bottom: 1px solid $color--dark-gray;
     }
-    h5:hover {
-      cursor: default;
-      opacity: 0.8;
+    th {
+      padding: 8px 15px;
     }
-  }
-  .column2,
-  .column3,
-  .column4 {
-    text-align: center;
+    td {
+      padding: 0 15px;
+    }
+    tbody {
+      border-bottom: 1px solid $color--dark-gray;
+    }
+    tbody tr {
+      border-bottom: 1px solid $color--dark-gray;
+      h5 {
+        margin: 16px 0;
+      }
+      h5:hover {
+        cursor: default;
+        opacity: 0.8;
+      }
+    }
+    .column2,
+    .column3,
+    .column4 {
+      text-align: center;
+    }
+    .expired {
+      background-color: $color--primary1;
+      color: $color--white;
+      font-weight: bold;
+    }
   }
 }
 
@@ -81,6 +90,11 @@
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 767px) {
+  .discounts {
+    overflow-x: scroll;
+    display: block;
+    white-space: nowrap;
+  }
 }
 ////////////////////////////////////////480/////////////////////////////////////////////
 
@@ -92,18 +106,6 @@
     }
     button {
       margin: 8px 0;
-    }
-  }
-
-  .discounts_table {
-    overflow-x: scroll;
-    display: block;
-    white-space: nowrap;
-    th {
-      padding: 8px 4px;
-    }
-    td {
-      padding: 0 4px;
     }
   }
 }
