@@ -13,6 +13,7 @@ import CustomCheckBox from '@components/GeneralUseComponents/CustomCheckBox/Cust
 //hooks
 import { useInputValue } from '@hooks/useInputValue';
 import useAxios from '@hooks/useAxios';
+import { useCharacterCount } from '@hooks/useCharacterCount';
 
 //Endpoints
 import endPoints from '@services/api';
@@ -37,6 +38,15 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
   //Controlling inputs
   const BRAND_NAME = useInputValue('');
   const BRAND_DESCRIPTION = useInputValue('');
+
+  //Setting field counts
+  const DESCRIPTION_COUNT = useCharacterCount();
+
+  //Functions
+  const handleDescriptionChange = (e) => {
+    BRAND_DESCRIPTION.onChange(e);
+    DESCRIPTION_COUNT.onChange(e);
+  };
 
   const handleCreateNew = async (e) => {
     e.preventDefault();
@@ -142,7 +152,6 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
             >
               Descripción
             </label>
-            {/* Display characters count */}
             <textarea
               className={`${styles.description_text_area}`}
               name='brand_description'
@@ -151,9 +160,16 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
               placeholder='Recomendado: 520 caracteres aprox.'
               autoComplete='off'
               value={BRAND_DESCRIPTION.value}
-              onChange={BRAND_DESCRIPTION.onChange}
+              onChange={handleDescriptionChange}
               required
             />
+            <p
+              className={`${styles.char_count} ${
+                DESCRIPTION_COUNT.value > 520 ? styles.char_count_warn : ''
+              }`}
+            >
+              <span>{DESCRIPTION_COUNT.value} / 520</span>
+            </p>
           </div>
 
           <label className={`${styles.input_title}`}>Logo en .SVG</label>

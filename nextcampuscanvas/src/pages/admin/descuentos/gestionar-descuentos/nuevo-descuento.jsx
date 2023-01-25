@@ -42,7 +42,6 @@ const nuevoDescuento = () => {
 
   //Getting brands
   useEffect(() => {
-    //TODO: check what happens if ther are no brands
     const setBrands = async () => {
       dispatch(getBrands());
     };
