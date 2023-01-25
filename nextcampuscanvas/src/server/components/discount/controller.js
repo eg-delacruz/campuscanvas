@@ -205,10 +205,19 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
 };
 
 const getDiscounts = async () => {
-  //TODO: populate brand info
   try {
     const discounts = await discountInfo_Store.getDiscounts();
     return discounts;
+  } catch (error) {
+    console.log('[discount controller error]' + error.message);
+    throw new Error(error.message);
+  }
+};
+
+const getAllAvailableDiscountCards = async () => {
+  try {
+    const cards = await Card_Store.getAllAvailableCards();
+    return cards;
   } catch (error) {
     console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
@@ -220,4 +229,5 @@ module.exports = {
   getBrands,
   createNewDiscount,
   getDiscounts,
+  getAllAvailableDiscountCards,
 };

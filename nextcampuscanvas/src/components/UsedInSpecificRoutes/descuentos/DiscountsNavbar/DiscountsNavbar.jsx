@@ -61,8 +61,9 @@ const DiscountsNavbar = () => {
           <Link href={'/descuentos/alimentacion'}>
             <li
               className={
-                router.pathname === '/descuentos/alimentacion' &&
-                styles.selected
+                router.pathname === '/descuentos/alimentacion'
+                  ? styles.selected
+                  : undefined
               }
             >
               ALIMENTOS
@@ -72,8 +73,9 @@ const DiscountsNavbar = () => {
           <Link href={'/descuentos/entretenimiento'}>
             <li
               className={
-                router.pathname === '/descuentos/entretenimiento' &&
-                styles.selected
+                router.pathname === '/descuentos/entretenimiento'
+                  ? styles.selected
+                  : undefined
               }
             >
               ENTRETENIMIENTO

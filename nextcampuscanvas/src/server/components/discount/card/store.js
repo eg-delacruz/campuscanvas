@@ -10,6 +10,12 @@ const createCard = async (card) => {
   return await Card.create(card);
 };
 
+///////////////////// Get all available cards //////////////////////////////
+const getAllAvailableCards = async () => {
+  return await Card.find({ status: 'available' });
+};
+
 module.exports = {
   add: createCard,
+  getAllAvailableCards,
 };

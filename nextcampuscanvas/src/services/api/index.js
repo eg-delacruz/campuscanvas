@@ -60,6 +60,7 @@ const endPoints = {
   discounts: {
     getAllBrands: `${API}/api/${VERSION}/discounts/brands`,
     getAllDiscounts: `${API}/api/${VERSION}/discounts`,
+    getCards: `${API}/api/${VERSION}/discounts/cards`,
   },
 };
 

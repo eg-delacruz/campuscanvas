@@ -1,5 +1,4 @@
 let mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
 const BrandInfoSchema = new mongoose.Schema({
   brand_name: {

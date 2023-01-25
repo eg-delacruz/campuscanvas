@@ -18,7 +18,9 @@ const DisplayDiscountSnippet = ({ discount }) => {
 
   //TODO: research how to display a new code after 1h if code changes-
   //Idea 1: Persist generated code in DB. If > 1h, empty array and allow new code geneartion.
+  //TODO: if the discount code is NOT dynamically generated (fixed), do not display the message of code generated after 1h.
 
+  //CLARIFICATION: This component is only used for discount codes, NOT for affiliate links, since this displays the discount code
   const handleOpenBrandStore = () => {
     //Open affiliate_link in new tab
     const currentTabWindow = window.open(discount.affiliate_link, '_blank');
@@ -36,7 +38,7 @@ const DisplayDiscountSnippet = ({ discount }) => {
         <div className={styles.code_container}>
           <div className={styles.code_wrapper}>
             <div className={styles.code_field}>
-              <strong>{discount.discount_code}</strong>
+              <strong>{discount.discount_code.code}</strong>
             </div>
             <button onClick={handleCopyCode} className='btn button--red'>
               Copiar

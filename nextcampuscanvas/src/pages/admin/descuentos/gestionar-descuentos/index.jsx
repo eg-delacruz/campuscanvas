@@ -19,6 +19,7 @@ import dateFormat from '@services/dateFormat';
 //Endpoints
 import endPoints from '@services/api';
 
+//TODO: create the edit/delete option
 const index = () => {
   const { securingRoute } = useSecureAdminRoute();
 
@@ -111,7 +112,9 @@ const index = () => {
                           <h5>{discount.SEO_meta_title}</h5>
                         </td>
                       </Link>
-                      <td className={styles.column2}>{discount.brand}</td>
+                      <td className={styles.column2}>
+                        {discount.brand.brand_name}
+                      </td>
                       <td className={styles.column3}>
                         {dateFormat.SlashDate(new Date(discount.valid_from))}
                       </td>
