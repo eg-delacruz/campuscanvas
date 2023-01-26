@@ -11,35 +11,68 @@ import DiscountTemplate from '@components/UsedInSpecificRoutes/Descuentos/Discou
 import DiscountDisplayerBtn from '@components/UsedInSpecificRoutes/Descuentos/DiscountDisplayerBtn/DiscountDisplayerBtn';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 
-//Databases
-import { DISCOUNTS } from '@databases/discounts/discountsInfoDatabase.js';
+//Hooks
+import useAxios from '@hooks/useAxios';
+
+//Endpoints
+import endPoints from '@services/api/index';
 
 const Discount = () => {
-  const [discount, setDiscount] = useState({});
-  const [loading, setLoading] = useState(true);
+  const { fetchData, cancel } = useAxios();
+  //States
+  const [state, setState] = useState({
+    discount: {},
+    loading: true,
+    error: null,
+  });
   //Get discount id
   const router = useRouter();
+
+  if (state.error) {
+    console.error(state.error);
+  }
+
+  //TODO: make this work with fetched discount data
+  console.log(state);
 
   //When modigying this useEffect, also do it in the one of /student/ofertas/[id].jsx
   useEffect(() => {
     //Await until the route is ready to get the discount_id
     if (!router.isReady) return;
-    const id = Number(router.query.id);
-    //Find the discount in the DISCOUNTS array that matches the id
-    const DISCOUNT = DISCOUNTS.find((discount) => {
-      return discount.discount_id === id;
-    });
+    const id = router.query.id;
 
-    if (!DISCOUNT) {
-      router.push('/404');
-      return;
-    }
+    const getDiscount = async () => {
+      const response = await fetchData(
+        endPoints.discounts.getDiscountById(id),
+        'get'
+      );
 
-    setDiscount(DISCOUNT);
-    setLoading(false);
+      if (response.error) {
+        //Redirect if discount doesn´t exist
+        if (response.error === 'Descuento no encontrado') {
+          router.push('/404');
+          return;
+        }
+        setState({
+          ...state,
+          error: response.error,
+          loading: false,
+        });
+        return;
+      }
+
+      setState({
+        ...state,
+        discount: response.body,
+        loading: false,
+        error: null,
+      });
+    };
+
+    getDiscount();
   }, [router?.isReady]);
 
-  if (loading) {
+  if (state.loading) {
     return (
       <Layout>
         <div className={styles.loader_container}>
@@ -52,16 +85,17 @@ const Discount = () => {
   return (
     <>
       <SEOHeader
-        tabTitle={discount?.SEO_meta_title}
-        metaName={discount?.SEO_meta_title}
-        description={discount?.description}
+      // tabTitle={discount?.SEO_meta_title}
+      // metaName={discount?.SEO_meta_title}
+      // description={discount?.description}
       />
       <Layout>
-        {discount && Object.keys(discount).length > 0 && (
+        {/* {discount && Object.keys(discount).length > 0 && (
           <DiscountTemplate discount={discount}>
             <DiscountDisplayerBtn discount={discount} />
           </DiscountTemplate>
-        )}
+        )} */}
+        Descuento
       </Layout>
     </>
   );

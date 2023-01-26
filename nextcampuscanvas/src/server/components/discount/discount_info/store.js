@@ -19,7 +19,20 @@ const getDiscounts = async () => {
     .exec();
 };
 
+/////////////////////Get discount by id////////////////////////
+const getDiscountById = async (id) => {
+  const discount = await Discount.findOne({ _id: id })
+    .populate({ path: 'brand', model: BrandInfo })
+    .exec();
+  if (!discount) {
+    console.log('[db] Descuento no encontrado');
+    throw new Error('Descuento no encontrado');
+  }
+  return discount;
+};
+
 module.exports = {
   add: createDiscount,
   getDiscounts,
+  getDiscountById,
 };

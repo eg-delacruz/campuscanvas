@@ -266,6 +266,16 @@ const getHomeSectionsCards = async () => {
   }
 };
 
+const getDiscountById = async (id) => {
+  try {
+    const discount = await discountInfo_Store.getDiscountById(id);
+    return discount;
+  } catch (error) {
+    console.log('[discount controller error]' + error.message);
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
   //Brand functions
   createNewBrand,
@@ -274,6 +284,7 @@ module.exports = {
   //Discount functions
   createNewDiscount,
   getDiscounts,
+  getDiscountById,
 
   //Cards functions
   getAllAvailableDiscountCards,
