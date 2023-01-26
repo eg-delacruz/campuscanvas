@@ -19,6 +19,11 @@ const generateUniqueFileName = (file) => {
   return unique_name;
 };
 
+//TODO: implement this function when uploading any files to avoid empty space problems if images has to be displayed in html tags
+const replaceAllWhiteSpacesBy_ = (string) => {
+  return string.replaceAll(/\s/g, '_');
+};
+
 //Create service client object
 const s3client = new S3Client({
   region: process.env.CC_AWS_REGION,

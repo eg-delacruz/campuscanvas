@@ -48,8 +48,69 @@ export default async function handler(req, res) {
         switch (required_cards) {
           //Get all available discount cards
           case 'all_available':
-            const cards = await Controller.getAllAvailableDiscountCards();
-            successResponse(req, res, cards, 201);
+            const allCards = await Controller.getAllAvailableDiscountCards();
+            successResponse(req, res, allCards, 201);
+            break;
+
+          case 'fashion':
+            const fashionCards =
+              await Controller.getAvailableDiscountCardsByCategory(
+                required_cards
+              );
+            successResponse(req, res, fashionCards, 201);
+            break;
+
+          case 'travel':
+            const travelCards =
+              await Controller.getAvailableDiscountCardsByCategory(
+                required_cards
+              );
+            successResponse(req, res, travelCards, 201);
+            break;
+
+          case 'beauty':
+            const beautyCards =
+              await Controller.getAvailableDiscountCardsByCategory(
+                required_cards
+              );
+            successResponse(req, res, beautyCards, 201);
+            break;
+
+          case 'eatordrink':
+            const eatordrinkCards =
+              await Controller.getAvailableDiscountCardsByCategory(
+                required_cards
+              );
+            successResponse(req, res, eatordrinkCards, 201);
+            break;
+
+          case 'entertainment':
+            const entertainmentCards =
+              await Controller.getAvailableDiscountCardsByCategory(
+                required_cards
+              );
+            successResponse(req, res, entertainmentCards, 201);
+            break;
+
+          case 'technology':
+            const technologyCards =
+              await Controller.getAvailableDiscountCardsByCategory(
+                required_cards
+              );
+            successResponse(req, res, technologyCards, 201);
+            break;
+
+          case 'others':
+            const othersCards =
+              await Controller.getAvailableDiscountCardsByCategory(
+                required_cards
+              );
+            successResponse(req, res, othersCards, 201);
+            break;
+
+          case 'home_sections':
+            const homeSectionsCards = await Controller.getHomeSectionsCards();
+            successResponse(req, res, homeSectionsCards, 201);
             break;
 
           default:

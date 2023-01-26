@@ -10,6 +10,12 @@ const createSlide = async (slide) => {
   return await Slide.create(slide);
 };
 
+///////////////////// Get all banners //////////////////////////////
+const getBanners = async () => {
+  return await Slide.find({});
+};
+
 module.exports = {
   add: createSlide,
+  getBanners,
 };

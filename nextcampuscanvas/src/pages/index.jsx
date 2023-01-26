@@ -1,12 +1,8 @@
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 //Styles
 import styles from '@pagestyles/Index.module.scss';
-
-//Databases
-import { DISCOUNT_CARDS } from '@databases/discounts/discountCardsDatabase.js';
 
 //Components
 import Header from '@components/GeneralUseComponents/Header/Header';
@@ -18,22 +14,136 @@ import HomeSlider from '@components/UsedInSpecificRoutes/Home/HomeSlider/HomeSli
 //Session
 import { useSession } from 'next-auth/react';
 
+//Endpoints
+import endPoints from '@services/api';
+
+//Hooks
+import useAxios from '@hooks/useAxios';
+
 //CLARIFICAIONS:
 //1. Don´t use the button up component because it does not work with the parallax background effect, since the window.scrollY does not work, because of the scroll of the parallax container.
 export default function Home() {
   //Session
   const { data: session, status } = useSession();
 
-  const router = useRouter();
+  const { fetchData, cancel } = useAxios();
 
+  //States
+  const [sliderState, setSliderState] = useState({
+    banners: [],
+    loading: true,
+    error: false,
+  });
+
+  const [sectionCards, setSectionCards] = useState({
+    cards: {},
+    loading: true,
+    error: false,
+  });
+
+  if (sliderState.error) console.error(sliderState.error);
+  if (sectionCards.error) console.error(sectionCards.error);
+  //if (newCards.error) console.error(newCards.error);
+  //if (homeFeaturedCards.error) console.error(homeFeaturedCards.error);
+
+  //TODO: Slider must get info either SSR or from database in client
+  //Getting slider info
   useEffect(() => {
-    if (
-      session?.token.role === 'super_admin' ||
-      session?.token.role === 'admin'
-    ) {
-      router.push('/admin');
+    const getBanners = async () => {
+      const response = await fetchData(
+        endPoints.discounts.getHomeSliderBanners,
+        'get'
+      );
+      if (response.error) {
+        setSliderState({
+          ...sliderState,
+          error: response.error,
+          loading: false,
+        });
+        return;
+      }
+      const SHUFFLED_BANNERS = shuffleArray(response.body);
+      setSliderState({
+        ...sliderState,
+        banners: SHUFFLED_BANNERS,
+        loading: false,
+        error: null,
+      });
+    };
+    if (sliderState.banners.length === 0) {
+      getBanners();
     }
-  }, [session]);
+  }, []);
+
+  //Fetching section cards
+  useEffect(() => {
+    const getCards = async () => {
+      const response = await fetchData(
+        endPoints.discounts.getCards,
+        'get',
+        null,
+        { required_cards: 'home_sections' }
+      );
+
+      if (response.error) {
+        setSectionCards({
+          ...sectionCards,
+          error: response.error,
+          loading: false,
+        });
+        return;
+      }
+
+      setSectionCards({
+        ...sectionCards,
+        cards: response.body,
+        loading: false,
+        error: null,
+      });
+    };
+    if (Object.keys(sectionCards.cards).length === 0) {
+      getCards();
+    }
+  }, []);
+
+  //Functions
+
+  //Randomly change to object order inside array
+  //The array has to be shuffled IN THE FRONT END with this function
+  function shuffleArray(array) {
+    const shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = shuffledArray[i];
+      shuffledArray[i] = shuffledArray[j];
+      shuffledArray[j] = temp;
+    }
+    return shuffledArray;
+  }
+
+  const CardSkeleton_4_tiems = () => {
+    return (
+      <>
+        <div className={styles.skeleton_card}></div>
+        <div className={styles.skeleton_card}></div>
+        <div className={styles.skeleton_card}></div>
+        <div className={styles.skeleton_card}></div>
+      </>
+    );
+  };
+
+  const CardSkeleton_6_tiems = () => {
+    return (
+      <>
+        <div className={styles.skeleton_card}></div>
+        <div className={styles.skeleton_card}></div>
+        <div className={styles.skeleton_card}></div>
+        <div className={styles.skeleton_card}></div>
+        <div className={styles.skeleton_card}></div>
+        <div className={styles.skeleton_card}></div>
+      </>
+    );
+  };
 
   return (
     <>
@@ -55,7 +165,7 @@ export default function Home() {
           </div>
 
           <main className={session && styles.main__loggedInStyles}>
-            <HomeSlider />
+            <HomeSlider state={sliderState} />
 
             {/* /////////////////////////
             //       Discounts        //
@@ -69,16 +179,28 @@ export default function Home() {
                 <h2>Sugeridos para ti</h2>
               </div>
               <div className={styles.suggested_discounts_grid}>
-                {DISCOUNT_CARDS.map((card) => (
-                  <DiscountCard
-                    key={card.discount_id}
-                    banner={card.banner}
-                    brand_name={card.brand_name}
-                    brand_logo={card.brand_logo}
-                    title={card.title}
-                    discount_id={card.discount_id}
-                  />
-                ))}
+                {sectionCards.loading ? (
+                  CardSkeleton_4_tiems()
+                ) : (
+                  <>
+                    {Object.keys(sectionCards.cards).length > 0 ? (
+                      <>
+                        {sectionCards.cards.suggested.map((card) => (
+                          <DiscountCard
+                            key={card.discount_id}
+                            banner={card.banner}
+                            brand_name={card.brand_name}
+                            brand_logo={card.brand_logo}
+                            title={card.title}
+                            discount_id={card.discount_id}
+                          />
+                        ))}
+                      </>
+                    ) : (
+                      ''
+                    )}
+                  </>
+                )}
               </div>
             </section>
 
@@ -90,16 +212,28 @@ export default function Home() {
                 <h2>Novedades</h2>
               </div>
               <div className={styles.novedades_discounts_grid}>
-                {DISCOUNT_CARDS.map((card) => (
-                  <DiscountCard
-                    key={card.discount_id}
-                    banner={card.banner}
-                    brand_name={card.brand_name}
-                    brand_logo={card.brand_logo}
-                    title={card.title}
-                    discount_id={card.discount_id}
-                  />
-                ))}
+                {sectionCards.loading ? (
+                  CardSkeleton_4_tiems()
+                ) : (
+                  <>
+                    {Object.keys(sectionCards.cards).length > 0 ? (
+                      <>
+                        {sectionCards.cards.new.map((card) => (
+                          <DiscountCard
+                            key={card.discount_id}
+                            banner={card.banner}
+                            brand_name={card.brand_name}
+                            brand_logo={card.brand_logo}
+                            title={card.title}
+                            discount_id={card.discount_id}
+                          />
+                        ))}
+                      </>
+                    ) : (
+                      ''
+                    )}
+                  </>
+                )}
               </div>
             </section>
 
@@ -111,40 +245,32 @@ export default function Home() {
                 <h2>Más descuentos para estudiantes</h2>
               </div>
               <div className={styles.more_discounts_grid}>
-                {DISCOUNT_CARDS.map((card) => (
-                  <DiscountCard
-                    key={card.discount_id}
-                    banner={card.banner}
-                    brand_name={card.brand_name}
-                    brand_logo={card.brand_logo}
-                    title={card.title}
-                    discount_id={card.discount_id}
-                  />
-                ))}
-                {DISCOUNT_CARDS.map((card) => (
-                  <DiscountCard
-                    key={card.discount_id}
-                    banner={card.banner}
-                    brand_name={card.brand_name}
-                    brand_logo={card.brand_logo}
-                    title={card.title}
-                    discount_id={card.discount_id}
-                  />
-                ))}
-                {DISCOUNT_CARDS.map((card) => (
-                  <DiscountCard
-                    key={card.discount_id}
-                    banner={card.banner}
-                    brand_name={card.brand_name}
-                    brand_logo={card.brand_logo}
-                    title={card.title}
-                    discount_id={card.discount_id}
-                  />
-                ))}
+                {sectionCards.loading ? (
+                  CardSkeleton_6_tiems()
+                ) : (
+                  <>
+                    {Object.keys(sectionCards.cards).length > 0 ? (
+                      <>
+                        {sectionCards.cards.home_featured.map((card) => (
+                          <DiscountCard
+                            key={card.discount_id}
+                            banner={card.banner}
+                            brand_name={card.brand_name}
+                            brand_logo={card.brand_logo}
+                            title={card.title}
+                            discount_id={card.discount_id}
+                          />
+                        ))}
+                      </>
+                    ) : (
+                      ''
+                    )}
+                  </>
+                )}
               </div>
             </section>
 
-            <Link href={'/ofertas/todas'}>
+            <Link href={'/descuentos/todos'}>
               <button className={`${styles.view_all_btn} btn button--red`}>
                 Ver todos
               </button>

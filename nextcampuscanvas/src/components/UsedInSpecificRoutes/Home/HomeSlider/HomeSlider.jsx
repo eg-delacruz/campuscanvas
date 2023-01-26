@@ -14,33 +14,22 @@ import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 import 'swiper/css/effect-fade';
 
-//Databases
-import { SLIDER_BANNERS } from '@databases/discounts/sliderBannersDatabase.js';
-
 //Clarifications
 //1. For screens > 767 px, pictures should have a ratio of 3 : 1 , and an optimal size of 1200px x 400 px
 //2. For screens < 767 px, pictures have to have a size of 780 px x 520 px BY FORCE
 
-const HomeSlider = () => {
-  //TODO: Slider must get info either SSR or from database in client
-
-  //Randomly change to object order inside array
-  //The array has to be shuffled IN THE FRONT END with this function
-  const shuffleArray = (array) => {
-    const shuffledArray = [...array];
-    for (let i = shuffledArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      const temp = shuffledArray[i];
-      shuffledArray[i] = shuffledArray[j];
-      shuffledArray[j] = temp;
-    }
-    return shuffledArray;
+const HomeSlider = ({ state }) => {
+  //Functions
+  const replaceWhiteHTMLSpaces = (string) => {
+    return string.replaceAll(' ', /&nbsp;/g);
   };
-
-  const SHUFFLED_SLIDER_BANNERS = shuffleArray(SLIDER_BANNERS);
 
   //To send the id of the post to the post page
   const router = useRouter();
+
+  if (state.loading) {
+    return <div className={styles.loading_skeleton}></div>;
+  }
 
   return (
     //noArrow767 class comes from Globals, and is to disable arrows at 767 and smaller of the Swiper.
@@ -65,32 +54,34 @@ const HomeSlider = () => {
         navigation={true}
         className={styles.swiper}
       >
-        {SHUFFLED_SLIDER_BANNERS.map((item) => (
-          <SwiperSlide
-            onClick={() => {
-              router.push(
-                {
-                  pathname: `/descuentos/${item.discount_id}`,
-                  query: { id: item.discount_id },
-                },
-                `/descuentos/${item.discount_id}`
-              );
-            }}
-            key={item.discount_id}
-            className={styles.slider_item}
-          >
-            <picture>
-              <source
-                media='(min-width: 767px)'
-                srcSet={item.slider_banner_big_screen}
-              />
-              <img
-                src={item.slider_banner_small_screen}
-                alt={item.discount_brand}
-              />
-            </picture>
-          </SwiperSlide>
-        ))}
+        {state.banners.length > 0
+          ? state.banners.map((item) => (
+              <SwiperSlide
+                onClick={() => {
+                  router.push(
+                    {
+                      pathname: `/descuentos/${item.discount_id}`,
+                      query: { id: item.discount_id },
+                    },
+                    `/descuentos/${item.discount_id}`
+                  );
+                }}
+                key={item.discount_id}
+                className={styles.slider_item}
+              >
+                <picture>
+                  <source
+                    media='(min-width: 767px)'
+                    srcSet={item.slider_banner_big_screen}
+                  />
+                  <img
+                    src={item.slider_banner_small_screen}
+                    alt={item.discount_brand}
+                  />
+                </picture>
+              </SwiperSlide>
+            ))
+          : ''}
       </Swiper>
     </section>
   );

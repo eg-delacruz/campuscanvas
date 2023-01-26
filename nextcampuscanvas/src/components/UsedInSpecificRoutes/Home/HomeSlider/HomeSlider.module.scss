@@ -1,4 +1,14 @@
 @import '../../../../styles/Vars.scss';
+@import '../../../../styles/Animations/skeleton.module.scss';
+//Loading state
+.loading_skeleton {
+  width: 100%;
+  border-radius: 5px;
+  max-width: 1200px;
+  margin: 0 auto;
+  animation: setSkeletonLoading();
+  min-height: 400px;
+}
 
 .slider_container {
   width: 100%;

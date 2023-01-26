@@ -224,10 +224,62 @@ const getAllAvailableDiscountCards = async () => {
   }
 };
 
+const getAvailableDiscountCardsByCategory = async (category) => {
+  try {
+    const cards = await Card_Store.getByCategory(category);
+    return cards;
+  } catch (error) {
+    console.log('[discount controller error]' + error.message);
+    throw new Error(error.message);
+  }
+};
+
+const getHomeSliderBanners = async () => {
+  try {
+    const banners = await homeSliderBanner_Store.getBanners();
+    return banners;
+  } catch (error) {
+    console.log('[discount controller error]' + error.message);
+    throw new Error(error.message);
+  }
+};
+
+const getHomeSectionsCards = async () => {
+  try {
+    const cards = await Promise.allSettled([
+      Card_Store.getBySection('suggested'),
+      Card_Store.getBySection('new'),
+      //TODO: in the future, get by 'home_featured' instead of all
+      Card_Store.getAllAvailableCards(),
+    ]);
+    const [SUGGESTED, NEW, HOME_FEATURED] = cards;
+
+    const SECTION_CARDS = {
+      suggested: SUGGESTED.value,
+      new: NEW.value,
+      home_featured: HOME_FEATURED.value,
+    };
+    return SECTION_CARDS;
+  } catch (error) {
+    console.log('[discount controller error]' + error.message);
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
+  //Brand functions
   createNewBrand,
   getBrands,
+
+  //Discount functions
   createNewDiscount,
   getDiscounts,
+
+  //Cards functions
   getAllAvailableDiscountCards,
+  getAvailableDiscountCardsByCategory,
+  getHomeSectionsCards,
+
+  //Home slider functions
+  getHomeSliderBanners,
 };

@@ -1,13 +1,59 @@
-//Styles
-import styles from '@styles/pagestyles/descuentos/Todos.module.scss';
+import { useEffect, useState } from 'react';
 
 //Components
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 import Header from '@components/GeneralUseComponents/Header/Header';
-import DiscountsNavbar from '@components/UsedInSpecificRoutes/Descuentos/DiscountsNavbar/DiscountsNavbar';
 import Footer from '@components/GeneralUseComponents/Footer/Footer';
+import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
+import DisplayCardsByCategoryTemplate from '@components/UsedInSpecificRoutes/Descuentos/DisplayCardsByCategoryTemplate/DisplayCardsByCategoryTemplate';
+
+//Endpoints
+import endPoints from '@services/api';
+
+//Hooks
+import useAxios from '@hooks/useAxios';
 
 const alimentacion = () => {
+  const { fetchData, cancel } = useAxios();
+
+  //States
+  const [state, setState] = useState({
+    cards: [],
+    loading: true,
+    error: null,
+  });
+
+  if (state.error) {
+    //Leave this console.error here
+    console.error(state.error);
+  }
+
+  useEffect(() => {
+    const getCards = async () => {
+      setState({ ...state, loading: true });
+
+      const response = await fetchData(
+        endPoints.discounts.getCards,
+        'get',
+        null,
+        { required_cards: 'eatordrink' }
+      );
+
+      if (response.error) {
+        setState({ ...state, error: response.error, loading: false });
+        return;
+      }
+      setState({
+        ...state,
+        cards: response.body,
+        loading: false,
+        error: null,
+      });
+    };
+    if (state.cards.length === 0) {
+      getCards();
+    }
+  }, []);
   return (
     <>
       <SEOHeader
@@ -17,17 +63,15 @@ const alimentacion = () => {
           'Explora todos nuestros descuentos de alimentación para estudiantes españoles'
         }
       />
-      <div className={styles.page_wrapper}>
-        <div className={`${styles.header_wrapper} header_wrapper`}>
-          <Header />
-        </div>
-        <div className={`${styles.container} container`}>
-          <DiscountsNavbar />
+      <ButtonUp />
 
-          <h1>Alimentación</h1>
-        </div>
-        <Footer />
+      <div className={`header_wrapper`}>
+        <Header />
       </div>
+
+      <DisplayCardsByCategoryTemplate state={state} />
+
+      <Footer />
     </>
   );
 };

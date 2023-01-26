@@ -29,7 +29,6 @@ export const DISCOUNTS = [
     description:
       'Gracias al cupón de descuento para estudiantes en Grover conseguirás un 20% de descuento en tus compras, ahorra dinero en una gran gama de productos en la tienda de cosméticos Grover',
     affiliate_link: 'http://campuscanvas.net',
-    //TODO: change display way in DiscountTemplate.jsx
     discount_code: { code: 'discount_code', dynamically_generated: false },
     terms_and_conds: `<p>Set inner HTML. Allow p-tags and ul-tags only</p><ul><li>Condición 1, la cual debería tener mucho texto para que se vea bien. Pero este es un texto de ejemplo</li><li>Condición 2</li><li>Condición 1, la cual debería tener mucho texto para que se vea bien. Pero este es un texto de ejemplo</li><li>Condición 2</li><li>Condición 1, la cual debería tener mucho texto para que se vea bien. Pero este es un texto de ejemplo</li><li>Condición 2</li><li>Condición 1, la cual debería tener mucho texto para que se vea bien. Pero este es un texto de ejemplo</li><li>Condición 2</li><li>Condición 1, la cual debería tener mucho texto para que se vea bien. Pero este es un texto de ejemplo</li><li>Condición 2</li><li>Condición 1, la cual debería tener mucho texto para que se vea bien. Pero este es un texto de ejemplo</li><li>Condición 2</li></ul>`,
     creation_date: new Date(),

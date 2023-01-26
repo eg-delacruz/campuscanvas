@@ -1,6 +1,5 @@
-//Use same styles for /todas /viajar /moda /belleza /alimentacion /entretenimiento /tecnologíia /otros, pues deberán verse igual en principio
-
-@import '../../Vars.scss';
+@import '../../../../styles/Vars.scss';
+@import '../../../../styles/Buttons.scss';
 
 //TODO: adjust footer behavior for each screen size when navbar and main content is completed is completed. Probably no need of the page wrapper and footer styles, since page should have a lot of content
 // .page_wrapper {
@@ -12,6 +11,10 @@
 //   }
 // }
 
+.container {
+  max-width: 1200px;
+}
+
 //Loadint state while displaying discounts
 .loaderContainer {
   height: 50vh;
@@ -21,15 +24,27 @@
   align-items: center;
 }
 
-.container {
-  max-width: 1200px;
-}
-
 .grid_container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 30px 20px;
   margin: 0 0 40px;
+}
+
+.no_discounts_container {
+  padding-bottom: 20px;
+  h2 {
+    text-align: center;
+  }
+  figure {
+    max-width: 70%;
+    margin: 0 auto;
+  }
+  p {
+    text-align: center;
+    font-weight: bold;
+    @include font-size(20px);
+  }
 }
 
 /////////////////////////
@@ -47,7 +62,6 @@
   //   }
   // }
 }
-
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 767px) {
@@ -55,14 +69,17 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
-////////////////////////////////////////480/////////////////////////////////////////////
-
 @media screen and (max-width: 480px) {
   .grid_container {
     grid-template-columns: repeat(1, 1fr);
   }
-}
-////////////////////////////////////////320/////////////////////////////////////////////
-
-@media screen and (max-width: 320px) {
+  .no_discounts_container {
+    figure {
+      max-width: 90%;
+      margin: 0 auto;
+    }
+    p {
+      @include font-size(18px);
+    }
+  }
 }

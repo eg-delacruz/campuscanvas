@@ -80,5 +80,5 @@ DiscountCard.propTypes = {
   brand_name: PropTypes.string.isRequired,
   brand_logo: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  discount_id: PropTypes.number.isRequired,
+  discount_id: PropTypes.string.isRequired,
 };

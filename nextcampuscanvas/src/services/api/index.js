@@ -61,6 +61,7 @@ const endPoints = {
     getAllBrands: `${API}/api/${VERSION}/discounts/brands`,
     getAllDiscounts: `${API}/api/${VERSION}/discounts`,
     getCards: `${API}/api/${VERSION}/discounts/cards`,
+    getHomeSliderBanners: `${API}/api/${VERSION}/discounts/home_slider`,
   },
 };
 

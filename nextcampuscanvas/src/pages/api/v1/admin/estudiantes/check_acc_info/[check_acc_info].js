@@ -15,26 +15,26 @@ export default async function handler(req, res) {
   //Securing page with session
   const session = await getSession({ req });
   //TODO: uncomment this!!!
-  // if (!session) {
-  //   return errorResponse(req, res, 'Forbidden', 403, '[Network] No hay sesión');
-  // }
+  if (!session) {
+    return errorResponse(req, res, 'Forbidden', 403, '[Network] No hay sesión');
+  }
 
-  // //Securing route only for admins!
-  // if (session) {
-  //   if (
-  //     !(
-  //       session?.token.role === 'super_admin' || session?.token.role === 'admin'
-  //     )
-  //   ) {
-  //     return errorResponse(
-  //       req,
-  //       res,
-  //       'Forbidden',
-  //       403,
-  //       '[Network] Usuario no autorizado'
-  //     );
-  //   }
-  // }
+  //Securing route only for admins!
+  if (session) {
+    if (
+      !(
+        session?.token.role === 'super_admin' || session?.token.role === 'admin'
+      )
+    ) {
+      return errorResponse(
+        req,
+        res,
+        'Forbidden',
+        403,
+        '[Network] Usuario no autorizado'
+      );
+    }
+  }
 
   //Avoiding CORS errors
   await NextCors(req, res, {

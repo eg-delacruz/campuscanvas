@@ -15,7 +15,19 @@ const getAllAvailableCards = async () => {
   return await Card.find({ status: 'available' });
 };
 
+///////////////////// Get available cards by category //////////////////////////////
+const getByCategory = async (category) => {
+  return await Card.find({ status: 'available', category });
+};
+
+///////////////////// Get available cards by section //////////////////////////////
+const getBySection = async (section) => {
+  return await Card.find({ status: 'available', display_in_section: section });
+};
+
 module.exports = {
   add: createCard,
   getAllAvailableCards,
+  getByCategory,
+  getBySection,
 };
