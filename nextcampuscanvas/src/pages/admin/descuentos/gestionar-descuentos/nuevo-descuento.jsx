@@ -501,7 +501,8 @@ const nuevoDescuento = () => {
                 htmlFor='affiliate_link'
                 className={`${styles.input_title}`}
               >
-                Enlace de afiliado o web del anunciante *
+                Enlace de afiliado o web del anunciante (incluye desde el
+                https://www.)*
               </label>
               <input
                 className={`${styles.input}`}

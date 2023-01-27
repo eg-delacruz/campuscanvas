@@ -1,6 +1,6 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 //CLARIFICATIONS:
 //Can only be used INSIDE A FUNCTION after first render (Eg. onClick). CANNOT BE USED in the first render or within a useEffect. Use the verified state to conditionally continue with the desired code.
@@ -8,6 +8,10 @@ const useSecureUnverifRoutesInsideFunction = () => {
   const [verified, setVerified] = useState(false);
   //Session
   const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (session?.token.stu_verified) setVerified(true);
+  }, [session]);
 
   const router = useRouter();
   const redirectUnverifUser = () => {
@@ -26,9 +30,6 @@ const useSecureUnverifRoutesInsideFunction = () => {
         { pathname: '/auth/registro', query: { step: 3 } },
         'auth/registro'
       );
-    }
-    if (session?.token.stu_verified) {
-      setVerified(true);
     }
   };
   return { redirectUnverifUser, verified };

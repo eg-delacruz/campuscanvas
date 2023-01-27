@@ -9,7 +9,7 @@ const DisplayDiscountSnippet = ({ discount }) => {
   const TIEMPO_PARA_PROXIMO_CODIGO = '1h';
 
   const handleCopyCode = () => {
-    navigator.clipboard.writeText(discount.discount_code);
+    navigator.clipboard.writeText(discount.discount_code.code);
     setCopied(true);
     setTimeout(() => {
       setCopied(false);

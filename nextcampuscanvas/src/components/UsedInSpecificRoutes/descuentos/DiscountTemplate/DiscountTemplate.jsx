@@ -66,11 +66,12 @@ const DiscountTemplate = ({ discount, children }) => {
         //       Discount info     //
         /////////////////////////*/}
         <section className={styles.info_container}>
-          <p className={styles.valid_period}>
-            {/* TODO: change this valid_till to expiration_date, since in db is stored like this */}
-            {/* TODO: check if there is an expiration_date to display this, since sometimes maybe there is no exp dates */}
-            Válido hasta el {dateFormat.shortSlashDate(discount.valid_till)}
-          </p>
+          {discount.expiration_date && (
+            <p className={styles.valid_period}>
+              Válido hasta el{' '}
+              {dateFormat.shortSlashDate(new Date(discount.expiration_date))}
+            </p>
+          )}
           <div className={styles.upper_discount_info}>
             <h2>{discount.title}</h2>
             <p>{discount.description}</p>
@@ -82,7 +83,7 @@ const DiscountTemplate = ({ discount, children }) => {
             <span onClick={handleTermsCons}>Términos y condiciones</span>
           </p>
 
-          <RateDiscountSnippet discount_id={discount.discount_id} />
+          <RateDiscountSnippet discount_id={discount._id} />
         </section>
 
         {/*/////////////////////////

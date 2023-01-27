@@ -18,7 +18,7 @@ const DiscountDisplayerBtn = ({ discount }) => {
       //IMPORTANT: in production, the baseURL has to be 'https://www.campuscanvas.net/' !!!
       const baseURL = 'http://localhost:3000/';
       const path = 'student/descuentos/';
-      const URL = baseURL + path + discount.discount_id;
+      const URL = baseURL + path + discount._id;
       const newTabWindow = window.open(URL, '_blank', 'noopener, noreferrer');
 
       //Open affiliate_link in background and same tab we were in previously.
@@ -42,6 +42,7 @@ const DiscountDisplayerBtn = ({ discount }) => {
     }
   };
 
+  //TODO: when I know needed info to dynamically generate discount, add those changes here
   return (
     <>
       {discount.type === 'discount_code' ? (

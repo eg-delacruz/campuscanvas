@@ -28,7 +28,6 @@ const VerifDiscountDisplayer = () => {
   const { fetchData, cancel } = useAxios();
 
   //States
-  const [discount, setDiscount] = useState({});
   const [verifyingIfAffiliateLinkDiscount, setVerifyingIfAffiliateDiscount] =
     useState(true);
   const [state, setState] = useState({
@@ -41,23 +40,12 @@ const VerifDiscountDisplayer = () => {
 
   //Get discount id
   const router = useRouter();
+  const id = router.query.id;
 
   //When modigying this useEffect, also do it in the one of /ofertas/[id].jsx
   useEffect(() => {
     //Await until the route is ready to get the discount_id
     if (!router.isReady) return;
-    const id = router.query.id;
-    //Find the discount in the DISCOUNTS array that matches the id
-    //const DISCOUNT = DISCOUNTS.find((discount) => {
-    //return discount.discount_id === id;
-    //});
-
-    // if (!DISCOUNT) {
-    //router.push('/404');
-    //return;
-    //  }
-
-    // setDiscount(DISCOUNT);
 
     const getDiscount = async () => {
       const response = await fetchData(
@@ -90,16 +78,14 @@ const VerifDiscountDisplayer = () => {
     getDiscount();
   }, [router?.isReady]);
 
-  //Redirect to /descuentos/id, since that component verifyes is user is verifyed to send to vendor's web or to registration
-  //TODO: uncomment this and make it work with fetched discount data
-  // useEffect(() => {
-  //   if (discount.type === 'affiliate_link') {
-  //     router.push(`/descuentos/${id}`);
-  //   }
-  //   setVerifyingIfAffiliateDiscount(false);
-  // }, [discount]);
+  //Redirect to /descuentos/id, since that route verifyes if user is verifyed to send to vendor's web or to registration
+  useEffect(() => {
+    if (state.discount.type === 'affiliate_link_only') {
+      router.push(`/descuentos/${id}`);
+    }
+    setVerifyingIfAffiliateDiscount(false);
+  }, [state.discount]);
 
-  //TODO: check if loading state actually needed (I think not)
   if (verifyingSession || verifyingIfAffiliateLinkDiscount || state.loading) {
     return (
       <Layout>
@@ -112,16 +98,16 @@ const VerifDiscountDisplayer = () => {
   return (
     <>
       <SEOHeader
-      // tabTitle={discount?.SEO_meta_title}
-      //  metaName={discount?.SEO_meta_title}
-      //  description={discount?.description}
+        tabTitle={state.discount.SEO_meta_title}
+        metaName={state.discount.SEO_meta_title}
+        description={state.discount.description}
       />
       <Layout>
-        {/* {discount && Object.keys(discount).length > 0 && (
-          <DiscountTemplate discount={discount}>
-            <DisplayDiscountSnippet discount={discount} />
+        {Object.keys(state.discount).length > 0 && (
+          <DiscountTemplate discount={state.discount}>
+            <DisplayDiscountSnippet discount={state.discount} />
           </DiscountTemplate>
-        )} */}
+        )}
       </Layout>
     </>
   );

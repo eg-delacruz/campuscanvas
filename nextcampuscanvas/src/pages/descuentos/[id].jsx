@@ -27,19 +27,16 @@ const Discount = () => {
   });
   //Get discount id
   const router = useRouter();
+  const id = router.query.id;
 
   if (state.error) {
     console.error(state.error);
   }
 
-  //TODO: make this work with fetched discount data
-  console.log(state);
-
   //When modigying this useEffect, also do it in the one of /student/ofertas/[id].jsx
   useEffect(() => {
     //Await until the route is ready to get the discount_id
     if (!router.isReady) return;
-    const id = router.query.id;
 
     const getDiscount = async () => {
       const response = await fetchData(
@@ -85,17 +82,16 @@ const Discount = () => {
   return (
     <>
       <SEOHeader
-      // tabTitle={discount?.SEO_meta_title}
-      // metaName={discount?.SEO_meta_title}
-      // description={discount?.description}
+        tabTitle={state.discount.SEO_meta_title}
+        metaName={state.discount.SEO_meta_title}
+        description={state.discount.description}
       />
       <Layout>
-        {/* {discount && Object.keys(discount).length > 0 && (
-          <DiscountTemplate discount={discount}>
-            <DiscountDisplayerBtn discount={discount} />
+        {Object.keys(state.discount).length > 0 && (
+          <DiscountTemplate discount={state.discount}>
+            <DiscountDisplayerBtn discount={state.discount} />
           </DiscountTemplate>
-        )} */}
-        Descuento
+        )}
       </Layout>
     </>
   );

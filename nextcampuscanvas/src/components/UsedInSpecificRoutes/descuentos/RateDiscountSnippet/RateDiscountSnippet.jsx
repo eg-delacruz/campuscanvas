@@ -95,5 +95,5 @@ const RateDiscountSnippet = ({ discount_id }) => {
 export default RateDiscountSnippet;
 
 RateDiscountSnippet.propTypes = {
-  discount_id: PropTypes.number.isRequired,
+  discount_id: PropTypes.string.isRequired,
 };
