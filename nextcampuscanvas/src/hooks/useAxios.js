@@ -9,10 +9,11 @@ import { hashPassword } from '@server/services/passEncript';
 
 const useAxios = () => {
   //Allow users to cancel the request
-  const controllerRef = useRef(new AbortController());
-  const cancel = () => {
-    controllerRef.current.abort();
-  };
+  //TODO: try to make this work. PROBLEM: only works client-side, so there is a problem when deploying in vercel
+  // const controllerRef = useRef(new AbortController());
+  // const cancel = () => {
+  //   controllerRef.current.abort();
+  // };
 
   const fetchData = async (url, method, payload, extraHeaders) => {
     //Handling headers
@@ -34,7 +35,7 @@ const useAxios = () => {
     try {
       const response = await axios({
         data: payload,
-        signal: controllerRef.current.signal,
+        //signal: controllerRef.current.signal,
         method,
         url,
         headers,
@@ -45,7 +46,8 @@ const useAxios = () => {
     }
   };
 
-  return { cancel, fetchData };
+  // return { cancel, fetchData };
+  return { fetchData };
 };
 
 export default useAxios;
