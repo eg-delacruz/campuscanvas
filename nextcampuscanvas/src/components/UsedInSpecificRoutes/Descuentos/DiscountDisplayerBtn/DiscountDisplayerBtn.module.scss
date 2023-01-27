@@ -1,0 +1,12 @@
+@import '../../../../styles/Vars.scss';
+@import '../../../../styles/Buttons.scss';
+
+.button {
+  margin: 10px auto;
+}
+.p {
+  margin: -10px 0 0;
+  text-align: center;
+  @include paragraph--small;
+  color: $color--dark-gray;
+}

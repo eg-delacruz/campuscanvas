@@ -1,0 +1,118 @@
+@import '../../../../styles/Vars.scss';
+
+.container {
+  margin: 0 auto;
+}
+
+.procedure_indications {
+  text-align: center;
+}
+
+.external_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 26px;
+  .code_container {
+    min-width: 340px;
+    .code_wrapper {
+      display: flex;
+      justify-content: center;
+      .code_field {
+        max-width: 340px;
+        word-wrap: break-word;
+        text-align: center;
+        width: 100%;
+        padding: 4px 4px 0;
+        border: 1px solid $color--dark-gray;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        box-shadow: 14px 21px 20px -15px rgba(0, 0, 0, 0.2);
+        background-color: $color--white;
+        @include font-size(20px);
+        strong {
+          margin-top: 3px;
+          display: block;
+        }
+      }
+      button {
+        width: initial;
+        padding: 12px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+  }
+}
+
+.copied_message {
+  margin: -10px 0 0;
+  text-align: center;
+  @include paragraph--small;
+  font-weight: bold;
+  animation-name: rotateOnXAxe;
+  animation-duration: 2000ms;
+  animation-fill-mode: forwards;
+}
+
+//Rotate animation
+@keyframes rotateOnXAxe {
+  0% {
+    transform: rotateX(90deg);
+  }
+  50% {
+    transform: rotateX(0deg);
+  }
+  100% {
+    transform: rotateX(90deg);
+  }
+}
+
+.new_code_indications {
+  text-align: center;
+  margin: 0 auto;
+  @include paragraph--small;
+  border-radius: 5px;
+  max-width: 340px;
+  line-height: 18px;
+  border: 3px dashed $color--primary1-light1;
+  padding: 4px;
+}
+
+.open_store_btn {
+  margin: 20px auto;
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+  .external_wrapper {
+    .code_container {
+      .code_wrapper {
+        .code_field {
+          max-width: 220px;
+        }
+        button {
+          margin-left: 0;
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}

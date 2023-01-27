@@ -1,0 +1,49 @@
+@import '../../../../styles/Vars.scss';
+
+.discounts_header {
+  ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    flex-wrap: wrap;
+    margin: 25px 0 35px;
+    font-family: $font1;
+  }
+  li {
+    cursor: pointer;
+    font-weight: bold;
+  }
+  li:hover {
+    opacity: 0.7;
+  }
+  .selected {
+    border-bottom: 3px solid $color--primary1;
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+  .discounts_header {
+    padding: 0 8px;
+    ul {
+      justify-content: center;
+      gap: 20px;
+    }
+  }
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}
