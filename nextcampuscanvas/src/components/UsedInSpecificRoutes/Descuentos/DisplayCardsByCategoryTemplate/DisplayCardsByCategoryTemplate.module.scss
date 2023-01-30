@@ -31,6 +31,7 @@
   margin: 0 0 40px;
 }
 
+///When discounts not available
 .no_discounts_container {
   padding-bottom: 20px;
   h2 {
@@ -51,6 +52,9 @@
 //         MQ         //
 /////////////////////////
 @media screen and (max-width: 1100px) {
+  .container {
+    padding: 0 8px;
+  }
   .grid_container {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -73,6 +77,8 @@
   .grid_container {
     grid-template-columns: repeat(1, 1fr);
   }
+
+  ///When discounts not available
   .no_discounts_container {
     figure {
       max-width: 90%;
