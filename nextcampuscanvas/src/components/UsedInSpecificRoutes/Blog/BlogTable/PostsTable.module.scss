@@ -15,8 +15,11 @@
   &__main {
     background-color: $color--light-gray;
     h3 {
-      color: $color--primary1;
+      color: $color--primary1-light1;
       text-align: center;
+      position: relative;
+      top: -37px;
+      font-size: 18px;
     }
     h1 {
       color: $color--primary2-dark1;

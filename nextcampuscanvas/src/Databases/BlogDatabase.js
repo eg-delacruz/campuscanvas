@@ -1,20 +1,12 @@
 //Small Images (for covers and small devices)
-import SmallImagePost1 from '../assets/PagesImages/BlogImages/Post1/SmallPostImage.jpg';
-import SmallImagePost2 from '../assets/PagesImages/BlogImages/Post2/SmallPostImage.jpg';
-import SmallImagePost3 from '../assets/PagesImages/BlogImages/Post3/SmallPostImage.jpg';
-import SmallImagePost4 from '../assets/PagesImages/BlogImages/Post4/SmallPostImage.jpg';
-import SmallImagePost5 from '../assets/PagesImages/BlogImages/Post5/SmallPostImage.jpg';
 import Canva_Prezi_Infogram_Small from '../assets/PagesImages/BlogImages/Canva_Prezi_Infogram/SmallPostImage.jpg';
 import Network_42_Small from '../assets/PagesImages/BlogImages/42_Network/Network_42_small.jpg';
+import AI_Small from '../assets/PagesImages/BlogImages/Inteligencia artificial/Small.jpg';
 
 //Large Images (for large devices)
-import LargeImagePost1 from '../assets/PagesImages/BlogImages/Post1//LargePostImage.jpg';
-import LargeImagePost2 from '../assets/PagesImages/BlogImages/Post2/LargePostImage.jpg';
-import LargeImagePost3 from '../assets/PagesImages/BlogImages/Post3/LargePostImage.jpg';
-import LargeImagePost4 from '../assets/PagesImages/BlogImages/Post4/LargePostImage.jpg';
-import LargeImagePost5 from '../assets/PagesImages/BlogImages/Post5/LargePostImage.jpg';
 import Canva_Prezi_Infogram_Large from '../assets/PagesImages/BlogImages/Canva_Prezi_Infogram/LargePostImage.jpg';
 import Network_42_Large from '../assets/PagesImages/BlogImages/42_Network/Network_42_large.jpg';
+import AI_Large from '../assets/PagesImages/BlogImages/Inteligencia artificial/Big.jpg';
 
 //Explanation
 //ALL REQUIRED
@@ -29,75 +21,6 @@ import Network_42_Large from '../assets/PagesImages/BlogImages/42_Network/Networ
 export const POSTS = [
   {
     id: '1',
-    Title: 'Título del post',
-    PubDate: '10/11/2021',
-    SmallImage: SmallImagePost1,
-    LargeImage: LargeImagePost1,
-    Author: 'Gerardo De La Cruz',
-    Content: [
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    ],
-  },
-
-  {
-    id: '2',
-    Title: 'Título del post',
-    PubDate: '10/11/2021',
-    SmallImage: SmallImagePost2,
-    LargeImage: LargeImagePost2,
-    Author: 'Gerardo De La Cruz',
-    Content: [
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    ],
-  },
-
-  {
-    id: '3',
-    Title: 'Título del post',
-    PubDate: '10/11/2021',
-    SmallImage: SmallImagePost3,
-    LargeImage: LargeImagePost3,
-    Author: 'Gerardo De La Cruz',
-    Content: [
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    ],
-  },
-
-  {
-    id: '4',
-    Title: 'Título del post',
-    PubDate: '10/11/2021',
-    SmallImage: SmallImagePost4,
-    LargeImage: LargeImagePost4,
-    Author: 'Gerardo De La Cruz',
-    Content: [
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    ],
-  },
-
-  {
-    id: '5',
-    Title: 'Título del post',
-    PubDate: '10/11/2021',
-    SmallImage: SmallImagePost5,
-    LargeImage: LargeImagePost5,
-    Author: 'Gerardo De La Cruz',
-    Content: [
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    ],
-  },
-  {
-    id: '6',
     Title: '3 plataformas digitales que no deberías dejar de explorar',
     PubDate: '28/09/2022',
     SmallImage: Canva_Prezi_Infogram_Small,
@@ -112,7 +35,7 @@ export const POSTS = [
     ],
   },
   {
-    id: '7',
+    id: '2',
     Title:
       'Estudia en uno de los campus de programación más innovadores del mundo',
     PubDate: '10/12/2022',
@@ -129,7 +52,25 @@ export const POSTS = [
       `En <strong>Campus Canvas</strong> estamos seguros de que no te vas a arrepentir si decides lanzarte a esta piscina de innovación, donde vas a desarrollar habilidades cognitivas y tecnológicas que quizá ni tú sabías que poseías. Y esto no te lo decimos por pura suposición, te lo aseguramos porque parte de nuestro equipo tuvo la oportunidad de asistir a uno de los OpenDays del campus de <strong>42 en Madrid</strong>, y fue una experiencia fascinante, por ello te invitamos a que la vivas por ti mismo y no te quedes con la duda.`,
     ],
   },
+  {
+    id: '3',
+    Title: 'Explorando el Futuro de la Inteligencia Artificial',
+    PubDate: '30/01/2023',
+    SmallImage: AI_Small,
+    LargeImage: AI_Large,
+    Author: `<a href='https://caffeineandwritings.wordpress.com' target='_blank'>Rapha Guardado</a>`,
+    Content: [
+      `Las Inteligencias Artificiales <strong>(IA)</strong> han avanzado significativamente en los últimos años, siendo una herramienta cada vez más importante para el desarrollo tecnológico. Su relevancia y su impacto se ven reflejados en la vida cotidiana, desde la automatización de tareas hasta la detección de patrones complejos. Algunos ejemplos de IA son el reconocimiento facial, el reconocimiento de voz, la traducción automática, la conducción autónoma, entre otros. La IA se ha convertido en una herramienta fundamental para mejorar la accesibilidad y la productividad en la sociedad moderna.`,
+      `¿Me creerías si te digo que el párrafo introductorio fue creado 100% por una IA únicamente haciendo una pregunta sencilla? ¡La respuesta es sí! Seguro no te sorprende mucho, y es que por mucho que nos neguemos a integrar las IAs a nuestra cotidianidad, estas son ya una realidad. O aprendemos a usarlas y las integramos en nuestras vidas, o nos quedamos en el pasado deseando haber sacado provecho de ellas.`,
+      `Como sabrás, en los últimos años, los avances tecnológicos y el desarrollo de las IAs nos han llevado a modificar nuestros hábitos, dándonos un giro de 360º. El 2022 fue el año de las IAs, y herramientas como <a href='https://openai.com/dall-e-2/' target='_blank'><strong>Dalle2</strong></a>, <a href='https://deepai.org/machine-learning-model/text2img' target='_blank'><strong>Image</strong></a>, <a href='https://9to5google.com/2022/06/22/google-ai-parti-generato/' target='_blank'><strong>Parti de Google</strong></a> y  <a href='https://midjourney.com/home/?callbackUrl=%2Fapp%2F' target='_blank'><strong>Midjourney</strong></a> nos hicieron flipar, pero sin duda, quienes mejor se consolidaron y se posicionaron como la cereza en el pastel fueron Stable Diffusion y ChatGPT, sobre las que hoy vengo a contarte un poco.`,
+      `<a href='https://chat.openai.com/auth/login' target='_blank'><strong>ChatGPT</strong></a> es un modelo de lenguaje desarrollado por la empresa <a href='https://openai.com/' target='_blank'><strong>OpenAI</strong></a>, el cual es, de momento, gratuito. Su fin principal es la generación de texto, y para ello ha sido entrenada con cantidades inimaginables de texto. Es uno de los sistemas de IA mas impresionantes, pues puede responder casi a todo lo que le pidas, como traducciones, guiones específicos para redes sociales, artículos de cualquier tema y en cualquier tono regionalista, líneas de código, fichas técnicas, letras de canciones, chistes y todo lo que tenga que ver con el lenguaje. Sus respuestas son muy acertadas y completas, y posee un sentido de contexto. No obstante, no te recomendamos poner información personal, como datos bancarios, direcciones o contraseñas, pues todo lo escrito en ChatGPT será registrado y utilizado por los desarrolladores para seguir entrenando y mejorando este sistema, por ello te sugerimos usar esta tecnología responsablemente. `,
+      `<a href='https://stability.ai/' target='_blank'><strong>Stable Diffusion</strong></a> es un modelo de aprendizaje automático, gratuito y de código abierto, que fue desarrollado por <a href='https://stability.ai/' target='_blank'><strong>Stability AI</strong></a>. Fue entrenado por personas que querían un modelo libre y abierto para todo público, y que a su vez compitiera con herramientas como Dalle2, Image y Midjourney. Esta herramienta es tipo <strong>Text to Image</strong>, lo cual quiere decir que genera imágenes mediante una descripción escrita en el generador de imágenes. Esta IA es capaz de generar imágenes de personas reales sin restricciones de censura y en alta calidad. Además, maneja múltiples estilos artísticos y puede optimizar imágenes y corregirlas. Su magnitud y popularidad es tan grande que múltiples aplicaciones, startups, paginas web, empresas y diferentes entidades, están usando este modelo para crear sus productos. Registrarse es muy sencillo, solo tienes que dirigirte a <a href='https://beta.dreamstudio.ai/home' target='_blank'><strong>DreamStudio</strong></a>, donde encontrarás una interfaz amigable que te permitirá generar tus imágenes. Completar el registro con una cuenta de correo electrónico te tomara solo un suspiro. `,
+      `Indudablemente, las IAs poco a poco están transformando nuestras vidas y facilitando cada vez más nuestra rutina diaria en el trabajo, en los estudios, en el hogar y en nuestra vida personal. Desde Campus Canvas queremos siempre darte las mejores recomendaciones y brindarte contenido de interés, por ello te recomendamos hagas un uso adecuado y responsable de las nuevas tecnologías y de estas herramientas que sin duda te serán de mucha utilidad. `,
+    ],
+  },
 ];
+
+//<a href='URL' target='_blank'><strong>Texto</strong></a>
 
 //Structure to copy-paste
 // {

@@ -2,6 +2,9 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 
+//Purufy inserted external html
+import DOMPurify from 'isomorphic-dompurify';
+
 //Styles
 import styles from './PostsTable.module.scss';
 
@@ -75,7 +78,7 @@ const PostsTable = () => {
             ///////////////////////// */}
       <main className={styles.Posts__main}>
         <div className={`${styles.Posts__mainContainer} container`}>
-          <h3>Descubre tips y consejos para tu vida estudiantil aquí</h3>
+          <h3>Descubre tips y consejos para tu vida estudiantil</h3>
 
           {MAIN_POST.map((post) => (
             <div key={post.id} className={styles.MainPost}>
@@ -124,9 +127,12 @@ const PostsTable = () => {
                   <Image src={post.SmallImage} alt='Portada del post' />
                 </figure>
                 <h4>{post.Title}</h4>
-                <p className={styles.post__description}>
-                  {truncateText(post.Content[0], 170)}
-                </p>
+                <p
+                  dangerouslySetInnerHTML={createHTMLElement(
+                    truncateText(post.Content[0], 170)
+                  )}
+                  className={styles.post__description}
+                ></p>
 
                 <button
                   onClick={() => {

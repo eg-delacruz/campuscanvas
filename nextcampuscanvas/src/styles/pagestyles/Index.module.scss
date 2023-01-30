@@ -148,6 +148,12 @@
   }
 }
 
+@media screen and (max-width: 880px) {
+  .suggested_discounts {
+    margin-top: 20px;
+  }
+}
+
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 767px) {
@@ -181,6 +187,15 @@
       // background-attachment: fixed;
       .subtitle_glass_container {
         margin-bottom: 0;
+        h2 {
+          background-image: linear-gradient(
+            90deg,
+            $color--primary1,
+            $color--primary2
+          );
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
       }
       .more_discounts {
         .subtitle_glass_container {
@@ -206,7 +221,6 @@
   }
 
   .suggested_discounts {
-    margin-top: 20px;
     .suggested_discounts_grid {
       padding: 16px 0;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
