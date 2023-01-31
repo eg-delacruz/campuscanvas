@@ -7,7 +7,6 @@ import { initializeEnpoint } from '@server/middlewares/initializeEndpoint';
 
 export default async function handler(req, res) {
   //Initializing Endpoing
-  //TODO: check if the avoid cors works in production
   const { status, session } = await initializeEnpoint(req, res, {
     secureWithSecretApiKey: true,
     secureWithSession: {

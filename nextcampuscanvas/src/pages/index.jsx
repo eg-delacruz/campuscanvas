@@ -1,5 +1,11 @@
+//ISR
+//https://www.youtube.com/watch?v=d5unMDna5ng&t=19s
+//https://www.youtube.com/watch?v=FZTaD32ueE8&t=2s
+
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import axios from 'axios';
+import { hashPassword } from '@server/services/passEncript';
 
 //Styles
 import styles from '@pagestyles/Index.module.scss';
@@ -22,11 +28,19 @@ import useAxios from '@hooks/useAxios';
 
 //CLARIFICAIONS:
 //1. Don´t use the button up component because it does not work with the parallax background effect, since the window.scrollY does not work, because of the scroll of the parallax container.
-export default function Home() {
+export default function Home(props) {
+  console.log(props);
   //Session
   const { data: session, status } = useSession();
 
   const { fetchData, cancel } = useAxios();
+
+  //Leave this here
+  console.log(
+    'Revalidation time ' +
+      parseInt(process.env.NEXT_PUBLIC_ISR_REVALIDATE_TIME) +
+      ' s'
+  );
 
   //States
   const [sliderState, setSliderState] = useState({
@@ -281,4 +295,34 @@ export default function Home() {
       </div>
     </>
   );
+}
+
+export async function getStaticProps() {
+  console.log('Se ejecuta en el server');
+
+  const response = await axios({
+    url: endPoints.discounts.getHomeSliderBanners,
+    method: 'get',
+    headers: {
+      accept: '*/*',
+      'Content-Type': 'application/json',
+      app_secret_key: await hashPassword(
+        process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY
+      ),
+    },
+  });
+  const data = response.data;
+
+  if (data.error) {
+    throw new Error(
+      `Error at fetching data: ${data.error} Response status: ${res.status}`
+    );
+  }
+
+  return {
+    props: {
+      home_slider_banners: data,
+    },
+    revalidate: parseInt(process.env.NEXT_PUBLIC_ISR_REVALIDATE_TIME),
+  };
 }

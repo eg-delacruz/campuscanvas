@@ -68,7 +68,7 @@ const PostsTable = () => {
   }
 
   function createHTMLElement(string) {
-    return { __html: string };
+    return { __html: DOMPurify.sanitize(string) };
   }
 
   return (

@@ -32,7 +32,6 @@ router
   //.use function used for multiple things
   .use(async (req, res, next) => {
     //Initializing Endpoing
-    //TODO: check if the avoid cors works in production
     const { status, session } = await initializeEnpoint(req, res, {
       secureWithSecretApiKey: true,
       secureWithSession: {
