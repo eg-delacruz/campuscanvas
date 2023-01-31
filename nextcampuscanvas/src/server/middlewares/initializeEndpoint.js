@@ -29,15 +29,21 @@ export async function initializeEnpoint(
   let session = null;
 
   if (secureWithSecretApiKey) {
-    //Securing route with headers secret key
-    const checkSecretApiKey = await verifyPassword(
-      process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
-      req.headers.app_secret_key
-    );
-    if (!checkSecretApiKey) {
+    if (!req.headers.app_secret_key) {
       status.error = true;
       status.clientErrorMessage = 'Forbidden';
       status.serverErrorMessage = 'Forbidden user';
+    } else {
+      //Securing route with headers secret key
+      const checkSecretApiKey = await verifyPassword(
+        process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
+        req.headers.app_secret_key
+      );
+      if (!checkSecretApiKey) {
+        status.error = true;
+        status.clientErrorMessage = 'Forbidden';
+        status.serverErrorMessage = 'Forbidden user';
+      }
     }
   }
 

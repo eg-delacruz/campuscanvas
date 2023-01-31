@@ -8,7 +8,6 @@ import { initializeEnpoint } from '@server/middlewares/initializeEndpoint';
 export default async function handler(req, res) {
   //Initializing Endpoing
   const { status, session } = await initializeEnpoint(req, res, {
-    //TODO: Secure to true
     secureWithSecretApiKey: true,
     secureWithSession: {
       secure: false,

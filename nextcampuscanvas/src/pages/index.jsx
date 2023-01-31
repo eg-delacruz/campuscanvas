@@ -1,6 +1,7 @@
 //ISR
 //https://www.youtube.com/watch?v=d5unMDna5ng&t=19s
 //https://www.youtube.com/watch?v=FZTaD32ueE8&t=2s
+//https://www.youtube.com/watch?v=8iqMWMYng7k
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -323,6 +324,7 @@ export async function getStaticProps() {
     props: {
       home_slider_banners: data,
     },
+    //Leave this automatic revalidation in case admin forgets to update this page
     revalidate: parseInt(process.env.NEXT_PUBLIC_ISR_REVALIDATE_TIME),
   };
 }
