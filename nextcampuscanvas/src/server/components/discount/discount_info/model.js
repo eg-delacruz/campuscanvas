@@ -85,6 +85,10 @@ const DiscountSchema = new mongoose.Schema({
     type: String,
     required: [true, 'El creador es necesario'],
   },
+  modified_last_time_by: {
+    type: String,
+    required: [true, 'El último modificador es necesario'],
+  },
 });
 
 export default mongoose.models.Discount ||

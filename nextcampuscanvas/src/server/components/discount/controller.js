@@ -146,6 +146,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       valid_from: VALID_FROM_DATE,
       expiration_date: EXPIRATION_DATE,
       created_by,
+      modified_last_time_by: created_by,
     };
 
     const CREATED_DISCOUNT = await discountInfo_Store.add(discount);

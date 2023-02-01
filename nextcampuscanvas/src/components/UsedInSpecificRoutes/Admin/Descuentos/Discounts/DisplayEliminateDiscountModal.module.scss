@@ -1,0 +1,15 @@
+@import '../../../../../styles/Vars.scss';
+@import '../../../../../styles/Animations/dotLoadingButton.module.scss';
+
+.modal {
+  h1,
+  p {
+    text-align: center;
+  }
+  p {
+    padding: 0 32px;
+  }
+  button {
+    margin-bottom: 24px;
+  }
+}

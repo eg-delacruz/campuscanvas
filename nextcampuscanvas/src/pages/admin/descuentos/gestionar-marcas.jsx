@@ -8,7 +8,7 @@ import styles from '@styles/pagestyles/admin/descuentos/gestionarMarcas.module.s
 import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import ButtonBack from '@components/GeneralUseComponents/ButtonBack/ButtonBack';
-import DisplayNewBrandModal from '@components/UsedInSpecificRoutes/Admin/Descuentos/DisplayNewBrandModal';
+import DisplayNewBrandModal from '@components/UsedInSpecificRoutes/Admin/Descuentos/Brands/DisplayNewBrandModal';
 
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';

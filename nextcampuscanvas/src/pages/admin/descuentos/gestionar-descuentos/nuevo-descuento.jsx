@@ -25,6 +25,7 @@ import useAxios from '@hooks/useAxios';
 
 //Redux actions
 import { getBrands, selectBrand } from '@redux/brandsSlice';
+import { getDiscounts } from '@redux/discountsSlice';
 
 //Endpoints
 import endPoints from '@services/api';
@@ -330,6 +331,9 @@ const nuevoDescuento = () => {
     if (response?.error) {
       return setState({ ...state, error: response.error, uploading: false });
     }
+
+    //TODO: Check if this data gets refreshed when creating a new discount
+    dispatch(getDiscounts());
 
     setState({ ...state, uploading: false, error: null });
 

@@ -50,6 +50,7 @@ const endPoints = {
     discounts: {
       index: `${API}/api/${VERSION}/admin/discounts`,
       brands: `${API}/api/${VERSION}/admin/discounts/brands/index`,
+      getDiscountById: (id) => `${API}/api/${VERSION}/admin/discounts/${id}`,
     },
   },
   file_management: {

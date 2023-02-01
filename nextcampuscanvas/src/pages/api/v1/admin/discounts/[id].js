@@ -10,9 +10,9 @@ export default async function handler(req, res) {
   const { status, session } = await initializeEnpoint(req, res, {
     secureWithSecretApiKey: true,
     secureWithSession: {
-      secure: false,
-      adminsOnly: false,
-      allowedAdmins: '',
+      secure: true,
+      adminsOnly: true,
+      allowedAdmins: 'all',
     },
     avoidCorsErrors: true,
   });
@@ -29,22 +29,20 @@ export default async function handler(req, res) {
 
   const { body, method } = req;
 
-  //GET discount by id
+  //Eliminate discount by id
   switch (method) {
-    case 'GET':
+    case 'DELETE':
       const id = req.query.id;
+      console.log(id);
 
       try {
-        const discount = await Controller.getDiscountById(id);
-        successResponse(req, res, discount, 201);
+        //  await Controller.eliminateDiscount(id);
+        successResponse(req, res, 'Descuento eliminado', 201);
       } catch (error) {
-        if (
-          error.message === 'Descuento no encontrado' ||
-          error.message.includes('Cast to ObjectId failed')
-        ) {
-          return errorResponse(req, res, 'Descuento no encontrado', 404, error);
+        if (error.message === 'Descuento no encontrado') {
+          errorResponse(req, res, 'Descuento no encontrado', 404, error);
         }
-        errorResponse(req, res, 'Error al obtener datos', 400, error);
+        errorResponse(req, res, 'Error al eliminar descuento', 400, error);
       }
       break;
 

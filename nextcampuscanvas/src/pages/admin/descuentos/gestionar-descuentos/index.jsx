@@ -1,12 +1,12 @@
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 //styles
 import styles from '@styles/pagestyles/admin/descuentos/gestionarDescuentos.module.scss';
 
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
-import useAxios from '@hooks/useAxios';
 
 //Components
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
@@ -16,39 +16,24 @@ import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/Se
 //Services
 import dateFormat from '@services/dateFormat';
 
-//Endpoints
-import endPoints from '@services/api';
+//Redux
+import { getDiscounts, selectDiscount } from '@redux/discountsSlice';
 
-//TODO: create the edit/delete option
 const index = () => {
   const { securingRoute } = useSecureAdminRoute();
 
-  const { fetchData, cancel } = useAxios();
-
-  const [state, setState] = useState({
-    discounts: [],
-    error: null,
-    loadingDiscounts: true,
-  });
+  //Allows us to manipulate the appropriate slice/action
+  const dispatch = useDispatch();
+  //Reducers
+  const discountsReducer = useSelector(selectDiscount);
 
   useEffect(() => {
-    const getDiscounts = async () => {
-      const discounts = await fetchData(
-        endPoints.discounts.getAllDiscounts,
-        'get'
-      );
-      if (discounts.error) {
-        setState({ ...state, error: discounts.error, loadingDiscounts: false });
-        return;
+    const setDiscounts = async () => {
+      if (discountsReducer.discounts.length === 0) {
+        dispatch(getDiscounts());
       }
-      setState({
-        ...state,
-        discounts: discounts.body,
-        error: null,
-        loadingDiscounts: false,
-      });
     };
-    getDiscounts();
+    setDiscounts();
   }, []);
 
   if (securingRoute) {
@@ -81,7 +66,7 @@ const index = () => {
           //       Discounts        //
           ///////////////////////// */}
 
-        {state.discounts.length > 0 ? (
+        {discountsReducer.discounts.length > 0 ? (
           <p className={styles.table_explanation}>
             Las fechas de caducidad de los descuentos que hayan expirado se
             marcan en rojo.
@@ -90,9 +75,9 @@ const index = () => {
           ''
         )}
         <section className={styles.discounts}>
-          {state.loadingDiscounts ? (
+          {discountsReducer.loading ? (
             <Loader />
-          ) : state.discounts.length > 0 ? (
+          ) : discountsReducer.discounts.length > 0 ? (
             <>
               <table className={styles.discounts_table}>
                 <thead>
@@ -105,9 +90,11 @@ const index = () => {
                 </thead>
 
                 <tbody>
-                  {state.discounts.map((discount) => (
+                  {discountsReducer.discounts.map((discount) => (
                     <tr className={styles.discount} key={discount._id}>
-                      <Link href={'#'}>
+                      <Link
+                        href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
+                      >
                         <td className={styles.column1}>
                           <h5>{discount.SEO_meta_title}</h5>
                         </td>
@@ -144,7 +131,7 @@ const index = () => {
         </section>
 
         <div className={styles.error_container}>
-          {state.error && <p>{state.error}</p>}
+          {discountsReducer.error && <p>{discountsReducer.error}</p>}
         </div>
       </div>
     </>

@@ -1,0 +1,61 @@
+@import '../../../Vars.scss';
+
+//Loadint state while displaying page
+.loaderContainer {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  max-width: 800px;
+  .flex_row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .top_buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 30px;
+    .edit_icon {
+      max-width: 36px;
+      cursor: pointer;
+    }
+    .delete_icon {
+      span {
+        background: $color--light-gray;
+        padding: 6px 8px 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        cursor: pointer;
+        border: 1px solid $color--dark-gray;
+        max-width: 36px;
+      }
+    }
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}

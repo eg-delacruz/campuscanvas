@@ -1,0 +1,51 @@
+@import '../../../styles/Vars.scss';
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include font-size(100px);
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    //shake animation
+    animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  }
+
+  .yellow {
+    color: $color--warning;
+    border: 5px solid $color--warning;
+  }
+
+  .red {
+    color: $color--primary1;
+    border: 5px solid $color--primary1;
+  }
+
+  @keyframes shake {
+    10%,
+    90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+      transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+      transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+      transform: translate3d(4px, 0, 0);
+    }
+  }
+}
