@@ -31,8 +31,18 @@ const getDiscountById = async (id) => {
   return discount;
 };
 
+/////////////////////Delete discount by id////////////////////////
+const deleteById = async (id) => {
+  const discount = await Discount.findOne({ _id: id });
+  if (discount) {
+    await discount.deleteOne();
+  }
+  return discount;
+};
+
 module.exports = {
   add: createDiscount,
   getDiscounts,
   getDiscountById,
+  deleteById,
 };

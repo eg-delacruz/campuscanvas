@@ -39,6 +39,7 @@ export async function s3Uploadv3_stu_id_files(files) {
     //Will return the URLs to store in DB
     let uploaded_files = [];
     //Needed for URL generation
+    //TODO: use the CC_AWS_BUCKET_BASE_URL var instead of this one only for students, and erase the students one in .env and in vercel
     const AWS_STUDENT_IDS_BASE_URL = process.env.AWS_STUDENT_IDS_BASE_URL;
 
     //This object will be maped to send each file
@@ -234,6 +235,68 @@ export async function s3Uploadv3_small_home_slider_images(files) {
       params.map((param) => s3client.send(new PutObjectCommand(param)))
     );
     return uploaded_files;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+}
+
+//Files must be an array. The "v" comes from version
+export async function s3Deletev3_discount_banners(files) {
+  try {
+    //This object will be maped to delete each file
+    const params = files.map((file) => {
+      return {
+        Bucket: process.env.CC_AWS_BUCKET_NAME,
+        //Base storage folder/name of the file
+        Key: `discount_banners/${file}`,
+      };
+    });
+
+    await Promise.all(
+      params.map((param) => s3client.send(new DeleteObjectCommand(param)))
+    );
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+}
+
+//Files must be an array. The "v" comes from version
+export async function s3Deletev3_big_home_slider_images(files) {
+  try {
+    //This object will be maped to delete each file
+    const params = files.map((file) => {
+      return {
+        Bucket: process.env.CC_AWS_BUCKET_NAME,
+        //Base storage folder/name of the file
+        Key: `big_home_slider_images/${file}`,
+      };
+    });
+
+    await Promise.all(
+      params.map((param) => s3client.send(new DeleteObjectCommand(param)))
+    );
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+}
+//Files must be an array. The "v" comes from version
+export async function s3Deletev3_small_home_slider_images(files) {
+  try {
+    //This object will be maped to delete each file
+    const params = files.map((file) => {
+      return {
+        Bucket: process.env.CC_AWS_BUCKET_NAME,
+        //Base storage folder/name of the file
+        Key: `small_home_slider_images/${file}`,
+      };
+    });
+
+    await Promise.all(
+      params.map((param) => s3client.send(new DeleteObjectCommand(param)))
+    );
   } catch (error) {
     console.log(error);
     throw new Error(error.message);

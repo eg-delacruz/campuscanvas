@@ -19,6 +19,7 @@ import dateFormat from '@services/dateFormat';
 //Redux
 import { getDiscounts, selectDiscount } from '@redux/discountsSlice';
 
+//TODO: display discount amount
 const index = () => {
   const { securingRoute } = useSecureAdminRoute();
 
@@ -92,13 +93,13 @@ const index = () => {
                 <tbody>
                   {discountsReducer.discounts.map((discount) => (
                     <tr className={styles.discount} key={discount._id}>
-                      <Link
-                        href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
-                      >
-                        <td className={styles.column1}>
+                      <td className={styles.column1}>
+                        <Link
+                          href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
+                        >
                           <h5>{discount.SEO_meta_title}</h5>
-                        </td>
-                      </Link>
+                        </Link>
+                      </td>
                       <td className={styles.column2}>
                         {discount.brand.brand_name}
                       </td>

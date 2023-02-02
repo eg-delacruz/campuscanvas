@@ -25,9 +25,19 @@ const getBySection = async (section) => {
   return await Card.find({ status: 'available', display_in_section: section });
 };
 
+///////////////////// Delete card //////////////////////////////
+const deleteByDiscountId = async (discount_id) => {
+  const card = await Card.findOne({ discount_id });
+  if (card) {
+    await card.deleteOne();
+  }
+  return card;
+};
+
 module.exports = {
   add: createCard,
   getAllAvailableCards,
   getByCategory,
   getBySection,
+  deleteByDiscountId,
 };

@@ -15,7 +15,18 @@ const getBanners = async () => {
   return await Slide.find({});
 };
 
+///////////////////// Delete slide //////////////////////////////
+const deleteByDiscountId = async (discount_id) => {
+  let erased_files;
+  const slide = await Slide.findOne({ discount_id });
+  if (slide) {
+    erased_files = await slide.deleteOne();
+  }
+  return erased_files;
+};
+
 module.exports = {
   add: createSlide,
   getBanners,
+  deleteByDiscountId,
 };

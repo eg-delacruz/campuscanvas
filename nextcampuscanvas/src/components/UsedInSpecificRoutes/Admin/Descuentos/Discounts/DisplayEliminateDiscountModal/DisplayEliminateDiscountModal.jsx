@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 
 //Styles
 import styles from './DisplayEliminateDiscountModal.module.scss';
@@ -19,7 +20,12 @@ import useAxios from '@hooks/useAxios';
 //Redux
 import { getDiscounts } from '@redux/discountsSlice';
 
-const DisplayEliminateDiscountModal = ({ showModal, setShowModal, id }) => {
+const DisplayEliminateDiscountModal = ({
+  showModal,
+  setShowModal,
+  id,
+  bannerURL,
+}) => {
   const { fetchData, cancel } = useAxios();
 
   const router = useRouter();
@@ -37,8 +43,10 @@ const DisplayEliminateDiscountModal = ({ showModal, setShowModal, id }) => {
     setState({ ...state, loading: true });
 
     const response = await fetchData(
-      endPoints.admin.discounts.getDiscountById(id),
-      'delete'
+      endPoints.admin.discounts.getDiscountById(id, bannerURL),
+      'delete',
+      null,
+      { bannerURL }
     );
     if (response.error) {
       return setState({ ...state, error: response.error });
@@ -87,8 +95,8 @@ const DisplayEliminateDiscountModal = ({ showModal, setShowModal, id }) => {
         <h1>¿Estas seguro de eliminar este descuento?</h1>
 
         <p>
-          Una vez eliminado se eliminarán todos los elementos vinculados a él,
-          como las <strong>fotos de banners</strong>, la{' '}
+          Se eliminarán todos los elementos vinculados a él, como las{' '}
+          <strong>fotos de banners</strong>, la{' '}
           <strong>tarjeta del descuento</strong> y los posibles{' '}
           <strong>banners del slider principal de home</strong>
         </p>
@@ -109,3 +117,10 @@ const DisplayEliminateDiscountModal = ({ showModal, setShowModal, id }) => {
 };
 
 export default DisplayEliminateDiscountModal;
+
+DisplayEliminateDiscountModal.propTypes = {
+  showModal: PropTypes.bool.isRequired,
+  setShowModal: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+  bannerURL: PropTypes.string.isRequired,
+};

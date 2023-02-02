@@ -3,6 +3,9 @@ import {
   s3Uploadv3_discount_banners,
   s3Uploadv3_big_home_slider_images,
   s3Uploadv3_small_home_slider_images,
+  s3Deletev3_discount_banners,
+  s3Deletev3_big_home_slider_images,
+  s3Deletev3_small_home_slider_images,
 } from '@server/services/AWS3/s3Service';
 
 //Stores
@@ -277,6 +280,57 @@ const getDiscountById = async (id) => {
   }
 };
 
+const eliminateDiscountData = async (id, banner) => {
+  console.log('El id', id);
+  console.log('El banner', banner);
+  try {
+    const responses = await Promise.allSettled([
+      //Mongo Data
+
+      //Delete discount
+      discountInfo_Store.deleteById(id),
+
+      //Delete card
+      Card_Store.deleteByDiscountId(id),
+
+      //Delete home slider banner
+      homeSliderBanner_Store.deleteByDiscountId(id),
+
+      //AWS Data
+      //TODO: pass the banner NAME (not URL)!
+      s3Deletev3_discount_banners([banner]),
+    ]);
+
+    const [
+      deleted_discount,
+      deleted_card,
+      deleted_home_slider_banner,
+      deleted_banner,
+    ] = responses;
+
+    console.log('deleted_discount', deleted_discount);
+    console.log('deleted_card', deleted_card);
+    console.log('deleted_home_slider_banner', deleted_home_slider_banner);
+
+    if (deleted_home_slider_banner) {
+      const responses = await Promise.allSettled([
+        s3Deletev3_big_home_slider_images([
+          //TODO: pass the banner NAME (not URL)!
+          deleted_home_slider_banner.value.slider_banner_big_screen,
+        ]),
+        s3Deletev3_small_home_slider_images([
+          //TODO: pass the banner NAME (not URL)!
+          deleted_home_slider_banner.value.slider_banner_small_screen,
+        ]),
+      ]);
+      console.log('Las responses', responses);
+    }
+  } catch (error) {
+    console.log('[discount controller error]' + error.message);
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
   //Brand functions
   createNewBrand,
@@ -294,4 +348,7 @@ module.exports = {
 
   //Home slider functions
   getHomeSliderBanners,
+
+  //General
+  eliminateDiscountData,
 };

@@ -11,7 +11,7 @@ import styles from '@styles/pagestyles/admin/descuentos/editarDescuento.module.s
 import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import ButtonBack from '@components/GeneralUseComponents/ButtonBack/ButtonBack';
-import DisplayEliminateDiscountModal from '@components/UsedInSpecificRoutes/Admin/Descuentos/Discounts/DisplayEliminateDiscountModal';
+import DisplayEliminateDiscountModal from '@components/UsedInSpecificRoutes/Admin/Descuentos/Discounts/DisplayEliminateDiscountModal/DisplayEliminateDiscountModal';
 
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
@@ -119,6 +119,7 @@ const editarDescuento = () => {
         showModal={showEliminateModal}
         setShowModal={setShowEliminateModal}
         id={id}
+        bannerURL={state.discount.banner}
       />
     );
   };
