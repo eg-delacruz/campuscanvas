@@ -8,12 +8,24 @@ const HomeBannerSlideSchema = new mongoose.Schema({
     required: [true, 'El ID del descuento es necesario'],
   },
   slider_banner_big_screen: {
-    type: String,
-    required: [true, 'El banner grande es necesario'],
+    name: {
+      type: String,
+      required: [true, 'El banner grande es necesario'],
+    },
+    URL: {
+      type: String,
+      required: [true, 'La URL del banner grande es necesaria'],
+    },
   },
   slider_banner_small_screen: {
-    type: String,
-    required: [true, 'El banner pequeño es necesario'],
+    name: {
+      type: String,
+      required: [true, 'El banner pequeño es necesario'],
+    },
+    URL: {
+      type: String,
+      required: [true, 'La URL del banner pequeño es necesaria'],
+    },
   },
 });
 

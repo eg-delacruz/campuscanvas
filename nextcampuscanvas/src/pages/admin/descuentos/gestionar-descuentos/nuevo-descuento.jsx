@@ -61,6 +61,17 @@ const nuevoDescuento = () => {
     home_featured: 9,
   };
 
+  //TODO: fetch this data and erase this place holder
+  const DISPLAY_FIRST_IN_CATEGORY_AMOUNT = {
+    travel: 4,
+    fashion: 4,
+    beauty: 4,
+    eatordrink: 4,
+    entertainment: 4,
+    technology: 4,
+    others: 4,
+  };
+
   //Datalist options
   const CATEGORY_OPTIONS = [
     'travel',
@@ -90,6 +101,7 @@ const nuevoDescuento = () => {
   const [bigImageHomeSlider, setBigImageHomeSlider] = useState([]);
   const [smallImageHomeSlider, setSmallImageHomeSlider] = useState([]);
   const [termsCondsText, setTermsCondsText] = useState('');
+  const [showFirstInCategory, setShowFirstInCategory] = useState(false);
 
   //Error states
   const [titleError, setTitleError] = useState(null);
@@ -316,6 +328,7 @@ const nuevoDescuento = () => {
     formdata.append('card_tag', CARD_TAG.value);
     formdata.append('display_card_in_section', DISPLAY_CARD_IN_SECTION_ENG);
     formdata.append('terms_and_conds', termsCondsText);
+    formdata.append('show_first_in_category', showFirstInCategory);
 
     //Uploading data
     setState({ ...state, uploading: true });
@@ -908,6 +921,57 @@ const nuevoDescuento = () => {
                   </tbody>
                 </table>
               </div>
+            </div>
+            <div className={styles.show_first_in_category_container}>
+              <div className={styles.checkbox_tooltip_container}>
+                <CustomCheckBox
+                  message={'Mostrar primero en su categoría'}
+                  required={false}
+                  defaultChecked={false}
+                  onBoxCheck={() => {
+                    setShowFirstInCategory(!showFirstInCategory);
+                  }}
+                />
+
+                <span className={styles.tooltip_container}>
+                  ?{' '}
+                  <span className={styles.tooltiptext}>
+                    No exceder a más de 4 por categoría
+                  </span>
+                </span>
+              </div>
+
+              {/* TODO: display actual current information in table */}
+              <table className={styles.current_display_first_by_category_table}>
+                <thead>
+                  <tr>
+                    <th colSpan='7'>
+                      Cantidad de descuentos que se muestran primero en su
+                      categoría actualmente (falta actualizar)
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className={styles.first_row}>
+                    <td>Travel</td>
+                    <td>Fashion</td>
+                    <td>Beauty</td>
+                    <td>Eat or Drink</td>
+                    <td>Entertainment</td>
+                    <td>Technology</td>
+                    <td>Others</td>
+                  </tr>
+                  <tr className={styles.second_row}>
+                    <td>{DISPLAY_FIRST_IN_CATEGORY_AMOUNT.travel}</td>
+                    <td>{DISPLAY_FIRST_IN_CATEGORY_AMOUNT.fashion}</td>
+                    <td>{DISPLAY_FIRST_IN_CATEGORY_AMOUNT.beauty}</td>
+                    <td>{DISPLAY_FIRST_IN_CATEGORY_AMOUNT.eatordrink}</td>
+                    <td>{DISPLAY_FIRST_IN_CATEGORY_AMOUNT.entertainment}</td>
+                    <td>{DISPLAY_FIRST_IN_CATEGORY_AMOUNT.technology}</td>
+                    <td>{DISPLAY_FIRST_IN_CATEGORY_AMOUNT.others}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </section>
 

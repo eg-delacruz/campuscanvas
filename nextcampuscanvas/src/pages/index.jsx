@@ -203,7 +203,7 @@ export default function Home(props) {
                         {sectionCards.cards.suggested.map((card) => (
                           <DiscountCard
                             key={card.discount_id}
-                            banner={card.banner}
+                            banner={card.banner.URL}
                             brand_name={card.brand_name}
                             brand_logo={card.brand_logo}
                             title={card.title}
@@ -236,7 +236,7 @@ export default function Home(props) {
                         {sectionCards.cards.new.map((card) => (
                           <DiscountCard
                             key={card.discount_id}
-                            banner={card.banner}
+                            banner={card.banner.URL}
                             brand_name={card.brand_name}
                             brand_logo={card.brand_logo}
                             title={card.title}
@@ -269,7 +269,7 @@ export default function Home(props) {
                         {sectionCards.cards.home_featured.map((card) => (
                           <DiscountCard
                             key={card.discount_id}
-                            banner={card.banner}
+                            banner={card.banner.URL}
                             brand_name={card.brand_name}
                             brand_logo={card.brand_logo}
                             title={card.title}

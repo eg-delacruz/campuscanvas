@@ -7,21 +7,20 @@ import {
   DeleteObjectCommand,
 } from '@aws-sdk/client-s3';
 
+const replaceAllWhiteSpacesBy_ = (string) => {
+  return string.split(' ').join('_').toLocaleLowerCase();
+};
+
 const generateUniqueFileName = (file) => {
   const generate_random_8_digits_id = () => {
     return Math.floor(10000000 + Math.random() * 90000000);
   };
   const date_ISO8601 = new Date().toISOString().split('T')[0];
 
-  const unique_name = `${date_ISO8601}-${generate_random_8_digits_id()}-${
+  const unique_name = `${date_ISO8601}-${generate_random_8_digits_id()}-${replaceAllWhiteSpacesBy_(
     file.originalname
-  }`;
+  )}`;
   return unique_name;
-};
-
-//TODO: implement this function when uploading any files to avoid empty space problems if images has to be displayed in html tags
-const replaceAllWhiteSpacesBy_ = (string) => {
-  return string.replaceAll(/\s/g, '_');
 };
 
 //Create service client object

@@ -50,7 +50,7 @@ const DiscountTemplate = ({ discount, children }) => {
               </span>
               <img
                 className={styles.banner_image}
-                src={discount.banner}
+                src={discount.banner.URL}
                 alt={discount.brand.brand_name}
               />
             </span>

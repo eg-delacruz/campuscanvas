@@ -91,6 +91,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     card_tag,
     display_card_in_section,
     terms_and_conds,
+    show_first_in_category,
   } = discountInfo;
 
   if (
@@ -132,7 +133,10 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       brand,
       category,
       brand_logo: brand_info.brand_logo,
-      banner: uploaded_banner_url[0].URL,
+      banner: {
+        name: uploaded_banner_url[0].name,
+        URL: uploaded_banner_url[0].URL,
+      },
       description,
       affiliate_link,
       discount_code: {
@@ -150,6 +154,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       expiration_date: EXPIRATION_DATE,
       created_by,
       modified_last_time_by: created_by,
+      show_first_in_category,
     };
 
     const CREATED_DISCOUNT = await discountInfo_Store.add(discount);
@@ -176,8 +181,14 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
 
       const slide = {
         discount_id: CREATED_DISCOUNT._id.toString(),
-        slider_banner_big_screen: big_slider_img.value[0].URL,
-        slider_banner_small_screen: small_slider_img.value[0].URL,
+        slider_banner_big_screen: {
+          name: big_slider_img.value[0].name,
+          URL: big_slider_img.value[0].URL,
+        },
+        slider_banner_small_screen: {
+          name: small_slider_img.value[0].name,
+          URL: small_slider_img.value[0].URL,
+        },
       };
 
       //Create home slider banner document in Mongo DB
@@ -189,7 +200,10 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       discount_id: CREATED_DISCOUNT._id.toString(),
       title: card_title,
       brand_logo: brand_info.brand_logo,
-      banner: uploaded_banner_url[0].URL,
+      banner: {
+        name: uploaded_banner_url[0].name,
+        URL: uploaded_banner_url[0].URL,
+      },
       category,
       brand_name: brand_info.brand_name,
       click_count: 0,
@@ -312,19 +326,20 @@ const eliminateDiscountData = async (id, banner) => {
     console.log('deleted_card', deleted_card);
     console.log('deleted_home_slider_banner', deleted_home_slider_banner);
 
-    if (deleted_home_slider_banner) {
-      const responses = await Promise.allSettled([
-        s3Deletev3_big_home_slider_images([
-          //TODO: pass the banner NAME (not URL)!
-          deleted_home_slider_banner.value.slider_banner_big_screen,
-        ]),
-        s3Deletev3_small_home_slider_images([
-          //TODO: pass the banner NAME (not URL)!
-          deleted_home_slider_banner.value.slider_banner_small_screen,
-        ]),
-      ]);
-      console.log('Las responses', responses);
-    }
+    //TODO: pass the banner NAME (not URL)!
+    // if (deleted_home_slider_banner) {
+    //   const responses = await Promise.allSettled([
+    //     s3Deletev3_big_home_slider_images([
+    //       //TODO: pass the banner NAME (not URL)!
+    //       deleted_home_slider_banner.value.slider_banner_big_screen,
+    //     ]),
+    //     s3Deletev3_small_home_slider_images([
+    //       //TODO: pass the banner NAME (not URL)!
+    //       deleted_home_slider_banner.value.slider_banner_small_screen,
+    //     ]),
+    //   ]);
+    //   console.log('Las responses', responses);
+    // }
   } catch (error) {
     console.log('[discount controller error]' + error.message);
     throw new Error(error.message);

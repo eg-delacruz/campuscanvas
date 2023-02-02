@@ -17,8 +17,14 @@ const CardSchema = new mongoose.Schema({
     required: [true, 'El logo de la marca es necesario'],
   },
   banner: {
-    type: String,
-    required: [true, 'El banner es necesario'],
+    name: {
+      type: String,
+      required: [true, 'El banner es necesario'],
+    },
+    URL: {
+      type: String,
+      required: [true, 'La URL del banner es necesaria'],
+    },
   },
   //travel | fashion | beauty | eat & drink | entertainment | technology | others
   category: {

@@ -29,8 +29,14 @@ const DiscountSchema = new mongoose.Schema({
     required: [true, 'El logo de la marca es necesario'],
   },
   banner: {
-    type: String,
-    required: [true, 'El banner es necesario'],
+    name: {
+      type: String,
+      required: [true, 'El banner es necesario'],
+    },
+    URL: {
+      type: String,
+      required: [true, 'La URL del banner es necesaria'],
+    },
   },
   description: {
     type: String,
@@ -88,6 +94,10 @@ const DiscountSchema = new mongoose.Schema({
   modified_last_time_by: {
     type: String,
     required: [true, 'El último modificador es necesario'],
+  },
+  show_first_in_category: {
+    type: Boolean,
+    default: false,
   },
 });
 

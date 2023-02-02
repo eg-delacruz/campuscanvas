@@ -19,11 +19,6 @@ import 'swiper/css/effect-fade';
 //2. For screens < 767 px, pictures have to have a size of 780 px x 520 px BY FORCE
 
 const HomeSlider = ({ state }) => {
-  //Functions
-  const replaceWhiteHTMLSpaces = (string) => {
-    return string.replaceAll(' ', /&nbsp;/g);
-  };
-
   //To send the id of the post to the post page
   const router = useRouter();
 
@@ -72,10 +67,10 @@ const HomeSlider = ({ state }) => {
                 <picture>
                   <source
                     media='(min-width: 767px)'
-                    srcSet={item.slider_banner_big_screen}
+                    srcSet={item.slider_banner_big_screen.URL}
                   />
                   <img
-                    src={item.slider_banner_small_screen}
+                    src={item.slider_banner_small_screen.URL}
                     alt={item.discount_brand}
                   />
                 </picture>

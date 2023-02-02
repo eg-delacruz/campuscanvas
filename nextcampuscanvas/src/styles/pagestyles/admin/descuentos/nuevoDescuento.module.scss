@@ -234,35 +234,44 @@
     justify-content: flex-start;
     align-items: center;
     gap: 40px;
-    .current_discounts_per_section_table {
-      @include font-size(14px);
-      text-align: center;
-      background-color: $color--black;
-      thead tr {
-        background-color: $color--primary1;
-        color: $color--white;
-        text-align: center;
-        border: 1px solid $color--dark-gray;
-      }
-      th,
-      td {
-        padding: 4px;
-      }
-      tbody {
-        .first_row {
-          background-color: $color--secondary-white;
-          font-weight: bold;
-        }
-        .second_row {
-          background-color: $color--white;
-        }
-      }
-      tbody td {
-        border-bottom: 1px solid $color--dark-gray;
-      }
-    }
   }
   .display_in_section_container > div {
+    width: 100%;
+  }
+
+  .current_discounts_per_section_table,
+  .current_display_first_by_category_table {
+    @include font-size(14px);
+    text-align: center;
+    background-color: $color--black;
+    thead tr {
+      background-color: $color--primary1;
+      color: $color--white;
+      text-align: center;
+      border: 1px solid $color--dark-gray;
+    }
+    th,
+    td {
+      padding: 4px;
+    }
+    tbody {
+      .first_row {
+        background-color: $color--secondary-white;
+        font-weight: bold;
+      }
+      .second_row {
+        background-color: $color--white;
+      }
+    }
+    tbody td {
+      border-bottom: 1px solid $color--dark-gray;
+    }
+  }
+  .checkbox_tooltip_container {
+    display: flex;
+    align-items: center;
+  }
+  .current_display_first_by_category_table {
     width: 100%;
   }
 }
@@ -288,9 +297,10 @@
       .disabled_in_section_datalist_container {
         max-width: 355px;
       }
-      .current_discounts_per_section_table {
-        margin: 0 auto;
-      }
+    }
+
+    .current_discounts_per_section_table {
+      margin: 0 auto;
     }
   }
 }
@@ -342,18 +352,21 @@
         max-width: 100%;
       }
     }
+    .current_display_first_by_category_table {
+      overflow-x: scroll;
+      display: block;
+      white-space: nowrap;
+    }
   }
 }
 ////////////////////////////////////////320/////////////////////////////////////////////
 
 @media screen and (max-width: 320px) {
   .card_info_container {
-    .display_in_section_container {
-      .current_discounts_per_section_table {
-        overflow-x: scroll;
-        display: block;
-        white-space: nowrap;
-      }
+    .current_discounts_per_section_table {
+      overflow-x: scroll;
+      display: block;
+      white-space: nowrap;
     }
   }
 }
