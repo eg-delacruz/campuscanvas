@@ -57,7 +57,7 @@ const DiscountTemplate = ({ discount, children }) => {
           </div>
           <div className={styles.logo_container}>
             <span>
-              <img src={discount.brand_logo} alt='' />
+              <img src={discount.brand.brand_logo.URL} alt='' />
             </span>
           </div>
         </section>

@@ -88,6 +88,7 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
     setSponsorsBox(false);
     setShowModal(false);
     setState({ ...state, uploading: false, error: null });
+    DESCRIPTION_COUNT.setValue(0);
 
     const Toast = Swal.mixin({
       toast: true,

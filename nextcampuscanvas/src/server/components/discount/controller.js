@@ -202,7 +202,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     const card = {
       discount_id: CREATED_DISCOUNT._id.toString(),
       title: card_title,
-      brand_logo: brand_info.brand_logo.URL,
+      brand_logo: brand,
       banner: {
         name: uploaded_banner_url[0].name,
         URL: uploaded_banner_url[0].URL,
@@ -298,8 +298,6 @@ const getDiscountById = async (id) => {
 };
 
 const eliminateDiscountData = async (id, bannerName) => {
-  console.log('El id', id);
-  console.log('El banner', bannerName);
   try {
     const responses = await Promise.allSettled([
       //Mongo Data
@@ -324,12 +322,7 @@ const eliminateDiscountData = async (id, bannerName) => {
       deleted_banner,
     ] = responses;
 
-    console.log('deleted_discount', deleted_discount);
-    console.log('deleted_card', deleted_card);
-    console.log('deleted_home_slider_banner', deleted_home_slider_banner);
-    console.log('deleted_banner', deleted_banner);
-
-    if (deleted_home_slider_banner) {
+    if (deleted_home_slider_banner.value) {
       const responses = await Promise.allSettled([
         s3Deletev3_big_home_slider_images([
           deleted_home_slider_banner.value.slider_banner_big_screen.name,
@@ -338,7 +331,6 @@ const eliminateDiscountData = async (id, bannerName) => {
           deleted_home_slider_banner.value.slider_banner_small_screen.name,
         ]),
       ]);
-      console.log('Las responses', responses);
     }
   } catch (error) {
     console.log('[discount controller error]' + error.message);
