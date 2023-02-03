@@ -33,10 +33,10 @@ export default async function handler(req, res) {
   switch (method) {
     case 'DELETE':
       const id = req.query.id;
-      const banner = req.headers.bannerurl;
+      const bannerName = req.headers.bannername;
 
       try {
-        await Controller.eliminateDiscountData(id, banner);
+        await Controller.eliminateDiscountData(id, bannerName);
         successResponse(req, res, 'Descuento eliminado', 201);
       } catch (error) {
         if (error.message === 'Descuento no encontrado') {

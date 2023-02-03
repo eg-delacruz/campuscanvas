@@ -47,7 +47,10 @@ const createNewBrand = async ({
 
     const brand = {
       brand_name,
-      brand_logo: uploaded_logo_url[0].URL,
+      brand_logo: {
+        name: uploaded_logo_url[0].name,
+        URL: uploaded_logo_url[0].URL,
+      },
       sponsors_box,
       brand_description,
       created_by,
@@ -132,7 +135,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       SEO_meta_title: card_title,
       brand,
       category,
-      brand_logo: brand_info.brand_logo,
+      brand_logo: brand_info.brand_logo.URL,
       banner: {
         name: uploaded_banner_url[0].name,
         URL: uploaded_banner_url[0].URL,
@@ -199,7 +202,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     const card = {
       discount_id: CREATED_DISCOUNT._id.toString(),
       title: card_title,
-      brand_logo: brand_info.brand_logo,
+      brand_logo: brand_info.brand_logo.URL,
       banner: {
         name: uploaded_banner_url[0].name,
         URL: uploaded_banner_url[0].URL,
@@ -294,9 +297,9 @@ const getDiscountById = async (id) => {
   }
 };
 
-const eliminateDiscountData = async (id, banner) => {
+const eliminateDiscountData = async (id, bannerName) => {
   console.log('El id', id);
-  console.log('El banner', banner);
+  console.log('El banner', bannerName);
   try {
     const responses = await Promise.allSettled([
       //Mongo Data
@@ -311,8 +314,7 @@ const eliminateDiscountData = async (id, banner) => {
       homeSliderBanner_Store.deleteByDiscountId(id),
 
       //AWS Data
-      //TODO: pass the banner NAME (not URL)!
-      s3Deletev3_discount_banners([banner]),
+      s3Deletev3_discount_banners([bannerName]),
     ]);
 
     const [
@@ -325,21 +327,19 @@ const eliminateDiscountData = async (id, banner) => {
     console.log('deleted_discount', deleted_discount);
     console.log('deleted_card', deleted_card);
     console.log('deleted_home_slider_banner', deleted_home_slider_banner);
+    console.log('deleted_banner', deleted_banner);
 
-    //TODO: pass the banner NAME (not URL)!
-    // if (deleted_home_slider_banner) {
-    //   const responses = await Promise.allSettled([
-    //     s3Deletev3_big_home_slider_images([
-    //       //TODO: pass the banner NAME (not URL)!
-    //       deleted_home_slider_banner.value.slider_banner_big_screen,
-    //     ]),
-    //     s3Deletev3_small_home_slider_images([
-    //       //TODO: pass the banner NAME (not URL)!
-    //       deleted_home_slider_banner.value.slider_banner_small_screen,
-    //     ]),
-    //   ]);
-    //   console.log('Las responses', responses);
-    // }
+    if (deleted_home_slider_banner) {
+      const responses = await Promise.allSettled([
+        s3Deletev3_big_home_slider_images([
+          deleted_home_slider_banner.value.slider_banner_big_screen.name,
+        ]),
+        s3Deletev3_small_home_slider_images([
+          deleted_home_slider_banner.value.slider_banner_small_screen.name,
+        ]),
+      ]);
+      console.log('Las responses', responses);
+    }
   } catch (error) {
     console.log('[discount controller error]' + error.message);
     throw new Error(error.message);

@@ -754,9 +754,7 @@ const nuevoDescuento = () => {
 
             <div className={styles.home_slider_section}>
               <CustomCheckBox
-                message={
-                  'Añadir a slider principal en home (Display current home slider discounts)'
-                }
+                message={'Añadir a slider principal en home'}
                 required={false}
                 defaultChecked={false}
                 onBoxCheck={() => {

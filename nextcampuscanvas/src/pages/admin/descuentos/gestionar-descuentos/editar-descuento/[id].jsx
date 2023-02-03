@@ -119,7 +119,7 @@ const editarDescuento = () => {
         showModal={showEliminateModal}
         setShowModal={setShowEliminateModal}
         id={id}
-        bannerURL={state.discount.banner}
+        bannerName={state.discount.banner.name}
       />
     );
   };

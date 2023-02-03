@@ -24,7 +24,7 @@ const DisplayEliminateDiscountModal = ({
   showModal,
   setShowModal,
   id,
-  bannerURL,
+  bannerName,
 }) => {
   const { fetchData, cancel } = useAxios();
 
@@ -43,10 +43,10 @@ const DisplayEliminateDiscountModal = ({
     setState({ ...state, loading: true });
 
     const response = await fetchData(
-      endPoints.admin.discounts.getDiscountById(id, bannerURL),
+      endPoints.admin.discounts.getDiscountById(id, bannerName),
       'delete',
       null,
-      { bannerURL }
+      { bannerName }
     );
     if (response.error) {
       return setState({ ...state, error: response.error });
@@ -122,5 +122,5 @@ DisplayEliminateDiscountModal.propTypes = {
   showModal: PropTypes.bool.isRequired,
   setShowModal: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
-  bannerURL: PropTypes.string.isRequired,
+  bannerName: PropTypes.string.isRequired,
 };
