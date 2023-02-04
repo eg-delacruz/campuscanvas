@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { signOut } from 'next-auth/react';
 
 //Session
 import { useSession } from 'next-auth/react';
@@ -10,7 +9,7 @@ import { useSession } from 'next-auth/react';
 import styles from '@pagestyles/admin/students/students.module.scss';
 
 //Components
-import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
+import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 
 //Assets
@@ -85,7 +84,7 @@ const index = () => {
 
   return (
     <>
-      <SecondaryHeader />
+      <AdminHeader />
       <div className={`${styles.container} container`}>
         <h1>Estudiantes</h1>
         <Link href={'/admin'}>
@@ -109,12 +108,6 @@ const index = () => {
         </ul>
 
         {state.error && <p className={`error__messagev2`}>{state.error}</p>}
-        <button
-          onClick={() => signOut()}
-          className={`${styles.button_logout} btn button--red`}
-        >
-          Log out
-        </button>
       </div>
     </>
   );

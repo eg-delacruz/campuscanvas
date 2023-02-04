@@ -1,12 +1,11 @@
 import Link from 'next/link';
 
 //Components
-import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
+import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 
 //Session
 import { useSession } from 'next-auth/react';
-import { signOut } from 'next-auth/react';
 
 //Styles
 import styles from '@pagestyles/admin/admin.module.scss';
@@ -30,7 +29,7 @@ const index = () => {
 
   return (
     <>
-      <SecondaryHeader />
+      <AdminHeader />
       <div className={`${styles.container} container`}>
         <h1>Administración</h1>
         <ul className={styles.routes}>
@@ -48,9 +47,6 @@ const index = () => {
           <Link href={'/admin/clientes'}>
             <li>Clientes</li>
           </Link>
-          <button onClick={() => signOut()} className='btn button--red'>
-            Log out
-          </button>
         </ul>
       </div>
     </>

@@ -11,7 +11,7 @@ import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
 //Components
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import ButtonBack from '@components/GeneralUseComponents/ButtonBack/ButtonBack';
-import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
+import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
 
 //Services
 import dateFormat from '@services/dateFormat';
@@ -47,7 +47,7 @@ const index = () => {
 
   return (
     <>
-      <SecondaryHeader />
+      <AdminHeader />
       <div className={`${styles.container} container`}>
         <ButtonBack prevRoute={'/admin/descuentos'} />
 

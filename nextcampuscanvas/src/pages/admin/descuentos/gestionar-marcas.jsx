@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styles from '@styles/pagestyles/admin/descuentos/gestionarMarcas.module.scss';
 
 //Components
-import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
+import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import ButtonBack from '@components/GeneralUseComponents/ButtonBack/ButtonBack';
 import DisplayNewBrandModal from '@components/UsedInSpecificRoutes/Admin/Descuentos/Brands/DisplayNewBrandModal';
@@ -51,7 +51,7 @@ const gestionarMarcas = () => {
   return (
     <>
       {displayNewBrandModal()}
-      <SecondaryHeader />
+      <AdminHeader />
       <div className={`${styles.container} container`}>
         <ButtonBack prevRoute={'/admin/descuentos'} />
 

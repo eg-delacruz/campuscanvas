@@ -6,7 +6,7 @@ import Image from 'next/image';
 import styles from '@pagestyles/admin/clients/nuevoContrato.module.scss';
 
 //Components
-import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
+import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 
 //Assets
@@ -246,7 +246,7 @@ const nuevoContrato = () => {
 
   return (
     <>
-      <SecondaryHeader />
+      <AdminHeader />
       <div className={`${styles.container} container`}>
         <Link href={'/admin/clientes'}>
           <button className={`${styles.button_back} btn button--red`}>

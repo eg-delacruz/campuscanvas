@@ -9,6 +9,7 @@ import Logo_Campus_Canvas from '@assets/GeneralUse/Logos/logo.svg';
 import logged_user_icon from '@assets/GeneralUse/IconsAndButtons/logged_user.svg';
 import logout_icon from '@assets/GeneralUse/IconsAndButtons/usedInComponents/Header/logout_icon.svg';
 import profile_icon from '@assets/GeneralUse/IconsAndButtons/usedInComponents/Header/profile_icon.svg';
+import admin_icon from '@assets/GeneralUse/IconsAndButtons/usedInComponents/Header/admin_icon.svg';
 import dropdown_menu_arrow from '@assets/GeneralUse/IconsAndButtons/usedInComponents/Header/dropdown_menu_arrow.svg';
 import Isotype767 from '@assets/GeneralUse/Logos/header_isotype_767.svg';
 
@@ -28,7 +29,6 @@ import { truncateText } from '@services/truncateText.js';
 
 //Hooks
 import useWindowDimensions from '@hooks/useWindowDimensions';
-import useRedirectIfAdmin from '@hooks/useRedirectIfAdmin';
 
 //Facebook conversions API
 import FB_Conversions_RegisterButton_ViewContent from '@services/fbConversionsAPI/register_buttons_clicks';
@@ -38,9 +38,6 @@ import identifyBrowser from '@services/identifyBrowser';
 const { getBrowserName } = identifyBrowser;
 
 function Header() {
-  //Redirecting if admin
-  useRedirectIfAdmin();
-
   const { width, height } = useWindowDimensions();
   const router = useRouter();
   //Session
@@ -228,6 +225,17 @@ function Header() {
                     menus.isUserMenuOn ? styles['dropdow-is-active'] : ''
                   } `}
                 >
+                  {session?.token.role === 'admin' ||
+                  session.token.role === 'super_admin' ? (
+                    <li onClick={() => redirectTo('/admin')}>
+                      Admin
+                      <i>
+                        <Image alt='Admin' src={admin_icon} />
+                      </i>
+                    </li>
+                  ) : (
+                    ''
+                  )}
                   <li onClick={() => handleOpenAccountPage('/cuenta')}>
                     Cuenta
                     <i>

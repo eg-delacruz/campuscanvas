@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react';
 import styles from '@styles/pagestyles/admin/master/ManageAdmins.module.scss';
 
 //Components
-import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
+import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 
 //Assets
@@ -246,7 +246,7 @@ const manageAdmins = () => {
 
   return (
     <>
-      <SecondaryHeader />
+      <AdminHeader />
       <div className={`${styles.container} container`}>
         <Link href={'/admin/master'}>
           <button className={`${styles.button_back} btn button--red`}>

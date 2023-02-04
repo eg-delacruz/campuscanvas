@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 
+//Clarifications:
+//To use this hook, just import it in the desired component and execute it at the very beginning
 const useRedirectIfAdmin = () => {
   //Session
   const { data: session, status } = useSession();

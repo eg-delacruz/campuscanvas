@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="57" viewBox="0 0 100 57">
+  <g id="Group_1522" data-name="Group 1522" transform="translate(-1205 -15)">
+    <rect id="Rectangle_172" data-name="Rectangle 172" width="100" height="57" rx="28.5" transform="translate(1205 15)" fill="#f5f5f5"/>
+    <g id="Group_198" data-name="Group 198" transform="translate(-142 4)">
+      <circle id="Ellipse_13" data-name="Ellipse 13" cx="19" cy="19" r="19" transform="translate(1364 21)" fill="#dee2e6"/>
+      <path id="Icon_material-person" data-name="Icon material-person" d="M15.486,15.486a4.743,4.743,0,1,0-4.743-4.743A4.742,4.742,0,0,0,15.486,15.486Zm0,2.371C12.32,17.857,6,19.446,6,22.6v2.371H24.972V22.6C24.972,19.446,18.652,17.857,15.486,17.857Z" transform="translate(1367.346 24.346)" fill="#3b055e"/>
+    </g>
+    <path id="Icon_ionic-ios-arrow-down" data-name="Icon ionic-ios-arrow-down" d="M13.42,17.021l5.467-5.471a1.029,1.029,0,0,1,1.459,0,1.042,1.042,0,0,1,0,1.464l-6.195,6.2a1.031,1.031,0,0,1-1.425.03L6.489,13.018a1.033,1.033,0,0,1,1.459-1.464Z" transform="translate(1268.874 27.754)" fill="#ad2146"/>
+  </g>
+</svg>

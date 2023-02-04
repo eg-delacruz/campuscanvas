@@ -11,7 +11,7 @@ import styles from '@styles/pagestyles/admin/descuentos/nuevoDescuento.module.sc
 import 'react-quill/dist/quill.snow.css';
 
 //Components
-import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
+import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import ButtonBack from '@components/GeneralUseComponents/ButtonBack/ButtonBack';
 import CustomCheckBox from '@components/GeneralUseComponents/CustomCheckBox/CustomCheckBox';
@@ -381,7 +381,7 @@ const nuevoDescuento = () => {
   }
   return (
     <>
-      <SecondaryHeader />
+      <AdminHeader />
       <div className={`${styles.container} container`}>
         <ButtonBack prevRoute={'/admin/descuentos/gestionar-descuentos'} />
 

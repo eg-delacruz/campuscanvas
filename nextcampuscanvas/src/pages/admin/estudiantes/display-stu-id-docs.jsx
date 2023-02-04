@@ -1,3 +1,5 @@
+//This route is only accessed when admin clicks on student docs links. It will open the image, pdf, word document or powerpoint
+
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 

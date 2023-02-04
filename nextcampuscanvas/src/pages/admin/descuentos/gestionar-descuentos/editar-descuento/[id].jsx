@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 import styles from '@styles/pagestyles/admin/descuentos/editarDescuento.module.scss';
 
 //Components
-import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
+import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import ButtonBack from '@components/GeneralUseComponents/ButtonBack/ButtonBack';
 import DisplayEliminateDiscountModal from '@components/UsedInSpecificRoutes/Admin/Descuentos/Discounts/DisplayEliminateDiscountModal/DisplayEliminateDiscountModal';
@@ -135,7 +135,7 @@ const editarDescuento = () => {
   //TODO: display discount info and allow its edition
   return (
     <>
-      <SecondaryHeader />
+      <AdminHeader />
       {displayEliminateModal()}
       <div className={`${styles.container} container`}>
         <div className={styles.flex_row}>
