@@ -4,8 +4,6 @@
 //https://www.youtube.com/watch?v=8iqMWMYng7k
 
 import Link from 'next/link';
-import axios from 'axios';
-import { hashPassword } from '@server/services/passEncript';
 
 //Styles
 import styles from '@pagestyles/Index.module.scss';
@@ -25,10 +23,12 @@ import endPoints from '@services/api';
 
 //Services
 import axiosFetcher from '@services/axiosFetcher';
+import formatSeconds from '@services/formatSeconds';
 
 //CLARIFICAIONS:
 //1. Don´t use the button up component because it does not work with the parallax background effect, since the window.scrollY does not work, because of the scroll of the parallax container.
 //TODO: instead of having a revalidation time, do it on demand in admin
+
 export default function Home(props) {
   const { home_data } = props;
 
@@ -38,48 +38,8 @@ export default function Home(props) {
   //Leave this here
   console.log(
     'Revalidation time ' +
-      parseInt(process.env.NEXT_PUBLIC_ISR_REVALIDATE_TIME) +
-      ' s'
+      formatSeconds(parseInt(process.env.NEXT_PUBLIC_ISR_REVALIDATE_TIME))
   );
-
-  //Functions
-
-  //Randomly change to object order inside array
-  //The array has to be shuffled IN THE FRONT END with this function
-  // function shuffleArray(array) {
-  //   const shuffledArray = [...array];
-  //   for (let i = shuffledArray.length - 1; i > 0; i--) {
-  //     const j = Math.floor(Math.random() * (i + 1));
-  //     const temp = shuffledArray[i];
-  //     shuffledArray[i] = shuffledArray[j];
-  //     shuffledArray[j] = temp;
-  //   }
-  //   return shuffledArray;
-  // }
-
-  // const CardSkeleton_4_tiems = () => {
-  //   return (
-  //     <>
-  //       <div className={styles.skeleton_card}></div>
-  //       <div className={styles.skeleton_card}></div>
-  //       <div className={styles.skeleton_card}></div>
-  //       <div className={styles.skeleton_card}></div>
-  //     </>
-  //   );
-  // };
-
-  // const CardSkeleton_6_tiems = () => {
-  //   return (
-  //     <>
-  //       <div className={styles.skeleton_card}></div>
-  //       <div className={styles.skeleton_card}></div>
-  //       <div className={styles.skeleton_card}></div>
-  //       <div className={styles.skeleton_card}></div>
-  //       <div className={styles.skeleton_card}></div>
-  //       <div className={styles.skeleton_card}></div>
-  //     </>
-  //   );
-  // };
 
   return (
     <>
