@@ -24,13 +24,15 @@ export const getDiscounts = createAsyncThunk(
     try {
       const respuesta = await axios({
         method: 'get',
-        url: endPoints.discounts.getAllDiscounts,
+        //This will get all discounts data, either available or not
+        url: endPoints.discounts.index,
         headers: {
           accept: '*/*',
           'Content-Type': 'application/json',
           app_secret_key: await hashPassword(
             process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY
           ),
+          needed_info: 'all_discounts',
         },
       });
       const data = respuesta.data.body;

@@ -27,21 +27,48 @@ export default async function handler(req, res) {
     );
   }
 
-  const { body, method } = req;
+  const { body, method, headers } = req;
 
   //GET all discounts
   switch (method) {
     case 'GET':
+      if (!headers.needed_info) {
+        return errorResponse(
+          req,
+          res,
+          'Error al obtener datos',
+          400,
+          'Se necesita el header de needed_info'
+        );
+      }
+
       try {
-        const discounts = await Controller.getDiscounts();
-        successResponse(req, res, discounts, 201);
+        if (headers.needed_info) {
+          switch (headers.needed_info) {
+            case 'all_discounts':
+              const discounts = await Controller.getDiscounts();
+              successResponse(req, res, discounts, 201);
+              break;
+
+            case 'home_data':
+              const homeData = await Controller.getHomeData();
+              successResponse(req, res, homeData, 201);
+              break;
+            default:
+              errorResponse(
+                req,
+                res,
+                'Error al obtener datos',
+                400,
+                'Ha habido un error, revise los headers pertinentes o el controlador'
+              );
+              break;
+          }
+        }
       } catch (error) {
         errorResponse(req, res, 'Error al obtener datos', 400, error);
       }
       break;
-
-    //Save/update student data
-    //Always needs to receive the website location to proceed
 
     default:
       errorResponse(req, res, 'Método no soportado', 400);

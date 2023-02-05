@@ -338,6 +338,22 @@ const eliminateDiscountData = async (id, bannerName) => {
   }
 };
 
+const getHomeData = async () => {
+  console.log('getHomeDatitaaaaaaaaaa');
+  try {
+    //get home banners
+    const home_banners = await getHomeSliderBanners();
+
+    //get home sections cards
+    const home_sections_cards = await getHomeSectionsCards();
+
+    return { home_banners, home_sections_cards };
+  } catch (error) {
+    console.log('[discount controller error]' + error.message);
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
   //Brand functions
   createNewBrand,
@@ -358,4 +374,5 @@ module.exports = {
 
   //General
   eliminateDiscountData,
+  getHomeData,
 };
