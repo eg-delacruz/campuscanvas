@@ -23,13 +23,15 @@ import { useSession } from 'next-auth/react';
 //Endpoints
 import endPoints from '@services/api';
 
-//Hooks
+//Services
+import axiosFetcher from '@services/axiosFetcher';
 
 //CLARIFICAIONS:
 //1. Don´t use the button up component because it does not work with the parallax background effect, since the window.scrollY does not work, because of the scroll of the parallax container.
 //TODO: instead of having a revalidation time, do it on demand in admin
 export default function Home(props) {
   const { home_data } = props;
+
   //Session
   const { data: session, status } = useSession();
 
@@ -99,7 +101,7 @@ export default function Home(props) {
           </div>
 
           <main className={session && styles.main__loggedInStyles}>
-            {/* <HomeSlider slides={home_data.home_banners} /> */}
+            <HomeSlider slides={home_data.home_banners} />
 
             {/* /////////////////////////
             //       Discounts        //
@@ -113,7 +115,7 @@ export default function Home(props) {
                 <h2>Sugeridos para ti</h2>
               </div>
               <div className={styles.suggested_discounts_grid}>
-                {/* {home_data.home_sections_cards.suggested.map((card) => (
+                {home_data.home_sections_cards.suggested.map((card) => (
                   <DiscountCard
                     key={card.discount_id}
                     banner={card.banner.URL}
@@ -122,7 +124,7 @@ export default function Home(props) {
                     title={card.title}
                     discount_id={card.discount_id}
                   />
-                ))} */}
+                ))}
               </div>
             </section>
 
@@ -134,7 +136,7 @@ export default function Home(props) {
                 <h2>Novedades</h2>
               </div>
               <div className={styles.novedades_discounts_grid}>
-                {/* {home_data.home_sections_cards.new.map((card) => (
+                {home_data.home_sections_cards.new.map((card) => (
                   <DiscountCard
                     key={card.discount_id}
                     banner={card.banner.URL}
@@ -143,7 +145,7 @@ export default function Home(props) {
                     title={card.title}
                     discount_id={card.discount_id}
                   />
-                ))} */}
+                ))}
               </div>
             </section>
 
@@ -155,7 +157,7 @@ export default function Home(props) {
                 <h2>Más descuentos para estudiantes</h2>
               </div>
               <div className={styles.more_discounts_grid}>
-                {/* {home_data.home_sections_cards.home_featured.map((card) => (
+                {home_data.home_sections_cards.home_featured.map((card) => (
                   <DiscountCard
                     key={card.discount_id}
                     banner={card.banner.URL}
@@ -164,7 +166,7 @@ export default function Home(props) {
                     title={card.title}
                     discount_id={card.discount_id}
                   />
-                ))} */}
+                ))}
               </div>
             </section>
 
@@ -182,21 +184,15 @@ export default function Home(props) {
 }
 
 export async function getStaticProps() {
-  const response = await axios({
+  const response = await axiosFetcher({
     url: endPoints.discounts.index,
     method: 'get',
-    headers: {
-      accept: '*/*',
-      'Content-Type': 'application/json',
-      app_secret_key: await hashPassword(
-        process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY
-      ),
+    extraHeaders: {
       needed_info: 'home_data',
     },
   });
-  const data = response.data;
 
-  if (data.error) {
+  if (response.error) {
     throw new Error(
       `Error at fetching data: ${data.error} Response status: ${res.status}`
     );
@@ -204,7 +200,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      home_data: data.body,
+      home_data: response.body,
     },
     //Leave this automatic revalidation in case admin forgets to update this page
     revalidate: parseInt(process.env.NEXT_PUBLIC_ISR_REVALIDATE_TIME),

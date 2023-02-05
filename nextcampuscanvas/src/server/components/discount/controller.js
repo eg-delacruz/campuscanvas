@@ -339,7 +339,6 @@ const eliminateDiscountData = async (id, bannerName) => {
 };
 
 const getHomeData = async () => {
-  console.log('getHomeDatitaaaaaaaaaa');
   try {
     //get home banners
     const home_banners = await getHomeSliderBanners();
