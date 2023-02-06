@@ -161,7 +161,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      home_data: response.body,
+      home_data: response.body || null,
     },
     //Leave this automatic revalidation in case admin forgets to update this page
     revalidate: parseInt(process.env.NEXT_PUBLIC_ISR_REVALIDATE_TIME),
