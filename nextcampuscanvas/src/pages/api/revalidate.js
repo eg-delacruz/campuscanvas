@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   console.log('La revalidación', res.revalidate);
 
   try {
-    //Path to revalidate
+    //Path to revalidate. Here should be the /descuentos/todos, since everytime there is a change, that page needs to refresh, allways
     await res.revalidate('/');
     return successResponse(req, res, { revalidated: true }, 201);
   } catch (err) {

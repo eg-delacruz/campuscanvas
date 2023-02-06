@@ -1,100 +1,83 @@
-import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
-
-//Styles
-import styles from '@styles/pagestyles/descuentos/DiscountsDisplayer.module.scss';
-
 //Components
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 import DiscountTemplate from '@components/UsedInSpecificRoutes/Descuentos/DiscountTemplate/DiscountTemplate.jsx';
 import DiscountDisplayerBtn from '@components/UsedInSpecificRoutes/Descuentos/DiscountDisplayerBtn/DiscountDisplayerBtn.jsx';
-import Loader from '@components/GeneralUseComponents/Loader/Loader';
-
-//Hooks
-import useAxios from '@hooks/useAxios';
 
 //Endpoints
 import endPoints from '@services/api/index';
 
-const Discount = () => {
-  const { fetchData, cancel } = useAxios();
-  //States
-  const [state, setState] = useState({
-    discount: {},
-    loading: true,
-    error: null,
-  });
-  //Get discount id
-  const router = useRouter();
-  const id = router.query.id;
+//Services
+import axiosFetcher from '@services/axiosFetcher';
 
-  if (state.error) {
-    console.error(state.error);
-  }
-
-  //When modigying this useEffect, also do it in the one of /student/ofertas/[id].jsx
-  useEffect(() => {
-    //Await until the route is ready to get the discount_id
-    if (!router.isReady) return;
-
-    const getDiscount = async () => {
-      const response = await fetchData(
-        endPoints.discounts.getDiscountById(id),
-        'get'
-      );
-
-      if (response.error) {
-        //Redirect if discount doesn´t exist
-        if (response.error === 'Descuento no encontrado') {
-          router.push('/404');
-          return;
-        }
-        setState({
-          ...state,
-          error: response.error,
-          loading: false,
-        });
-        return;
-      }
-
-      setState({
-        ...state,
-        discount: response.body,
-        loading: false,
-        error: null,
-      });
-    };
-
-    getDiscount();
-  }, [router?.isReady]);
-
-  if (state.loading) {
-    return (
-      <Layout>
-        <div className={styles.loader_container}>
-          <Loader />
-        </div>
-      </Layout>
-    );
-  }
-
+const Discount = ({ discount }) => {
   return (
     <>
       <SEOHeader
-        tabTitle={state.discount.SEO_meta_title}
-        metaName={state.discount.SEO_meta_title}
-        description={state.discount.description}
+        tabTitle={discount.SEO_meta_title}
+        metaName={discount.SEO_meta_title}
+        description={discount.description}
       />
       <Layout>
-        {Object.keys(state.discount).length > 0 && (
-          <DiscountTemplate discount={state.discount}>
-            <DiscountDisplayerBtn discount={state.discount} />
-          </DiscountTemplate>
-        )}
+        <DiscountTemplate discount={discount}>
+          <DiscountDisplayerBtn discount={discount} />
+        </DiscountTemplate>
       </Layout>
     </>
   );
 };
 
 export default Discount;
+
+//Pre-render these paths and fallback: 'blocking' to build new added discounts on demand in productios.
+export async function getStaticPaths() {
+  const response = await axiosFetcher({
+    url: endPoints.discounts.getCards,
+    method: 'get',
+    extraHeaders: { required_cards: 'all_available' },
+  });
+
+  const paths = response.body.map((card) => ({
+    params: {
+      id: card._id,
+    },
+  }));
+
+  return {
+    paths,
+    // true | false | blocking
+    // true: Si no fue pre-renderizado en getStaticPaths, lo renderiza en el client, con lo cual podemos mostrar un estado de carga en el cliente con router.isFallback (lo cual vendría siendo como un estado de cargando)
+    // false: Si no fue pre-renderizado en getStaticPaths, muestra un 404
+    // blocking: Si no fue pre-renderizado en getStaticPaths, renderiza en el server
+    fallback: 'blocking',
+  };
+}
+
+//Pre-render the discount with the id passed in the path
+export async function getStaticProps({ params }) {
+  const id = params.id;
+
+  //Necesitamos que sea un string, pues puede venir un array o undefined, dependiendo de cuántos parámetros ponemos en el slug separados por un /, o si directamente no ponemos nada. (Creo)
+  if (typeof id !== 'string') {
+    return {
+      notFound: true,
+    };
+  }
+
+  const response = await axiosFetcher({
+    url: endPoints.discounts.getDiscountById(id),
+    method: 'get',
+  });
+
+  if (response.error) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      discount: response.body,
+    },
+  };
+}

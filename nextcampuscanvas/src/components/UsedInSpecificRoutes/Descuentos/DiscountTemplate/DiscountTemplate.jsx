@@ -34,7 +34,10 @@ const DiscountTemplate = ({ discount, children }) => {
     });
   };
 
-  const currentURL = encodeURI(window.location.href);
+  let currentURL;
+  if (typeof window !== 'undefined') {
+    currentURL = encodeURI(window.location.href);
+  }
 
   return (
     <article className={`${styles.wrapper}`}>

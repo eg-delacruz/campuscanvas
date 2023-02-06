@@ -21,6 +21,7 @@ import useAxios from '@hooks/useAxios';
 //Endpoints
 import endPoints from '@services/api/index';
 
+//TODO: decide how to render this secured page in the future: client fetchin + memoization in redux? ssg?
 const VerifDiscountDisplayer = () => {
   //Securing route only for verified students
   const { verifyingSession } = useSecureUnverifRouteOnMount();
@@ -35,8 +36,6 @@ const VerifDiscountDisplayer = () => {
     loading: true,
     error: null,
   });
-
-  console.log(state);
 
   //Get discount id
   const router = useRouter();

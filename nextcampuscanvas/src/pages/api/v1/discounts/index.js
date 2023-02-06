@@ -45,6 +45,7 @@ export default async function handler(req, res) {
       try {
         if (headers.needed_info) {
           switch (headers.needed_info) {
+            //This includes availables and unavailables
             case 'all_discounts':
               const discounts = await Controller.getDiscounts();
               successResponse(req, res, discounts, 201);

@@ -153,9 +153,10 @@ export async function getStaticProps() {
   });
 
   if (response.error) {
-    throw new Error(
-      `Error at fetching data: ${data.error} Response status: ${res.status}`
-    );
+    console.log(`Error at fetching data: ${response.error} `);
+    return {
+      notFound: true,
+    };
   }
 
   return {
