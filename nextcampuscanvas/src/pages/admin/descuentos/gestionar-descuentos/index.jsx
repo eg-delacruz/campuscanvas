@@ -92,36 +92,36 @@ const index = () => {
 
                 <tbody>
                   {discountsReducer.discounts.map((discount) => (
-                    <tr className={styles.discount} key={discount._id}>
-                      <td className={styles.column1}>
-                        <Link
-                          href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
-                        >
+                    <Link
+                      href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
+                    >
+                      <tr className={styles.discount} key={discount._id}>
+                        <td className={styles.column1}>
                           <h5>{discount.SEO_meta_title}</h5>
-                        </Link>
-                      </td>
-                      <td className={styles.column2}>
-                        {discount.brand.brand_name}
-                      </td>
-                      <td className={styles.column3}>
-                        {dateFormat.SlashDate(new Date(discount.valid_from))}
-                      </td>
-                      <td
-                        className={`${styles.column4} ${
-                          discount.expiration_date
-                            ? new Date() > new Date(discount.expiration_date)
-                              ? `${styles.expired}`
+                        </td>
+                        <td className={styles.column2}>
+                          {discount.brand.brand_name}
+                        </td>
+                        <td className={styles.column3}>
+                          {dateFormat.SlashDate(new Date(discount.valid_from))}
+                        </td>
+                        <td
+                          className={`${styles.column4} ${
+                            discount.expiration_date
+                              ? new Date() > new Date(discount.expiration_date)
+                                ? `${styles.expired}`
+                                : ''
                               : ''
-                            : ''
-                        }`}
-                      >
-                        {discount.expiration_date
-                          ? dateFormat.SlashDate(
-                              new Date(discount.expiration_date)
-                            )
-                          : 'No expira'}
-                      </td>
-                    </tr>
+                          }`}
+                        >
+                          {discount.expiration_date
+                            ? dateFormat.SlashDate(
+                                new Date(discount.expiration_date)
+                              )
+                            : 'No expira'}
+                        </td>
+                      </tr>
+                    </Link>
                   ))}
                 </tbody>
               </table>

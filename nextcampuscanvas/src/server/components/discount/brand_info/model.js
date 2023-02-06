@@ -29,6 +29,10 @@ const BrandInfoSchema = new mongoose.Schema({
     type: String,
     required: [true, 'El creador de la marca es necesario'],
   },
+  updated_by: {
+    type: String,
+    required: [true, 'El actualizador de la marca es necesario'],
+  },
   created_at: {
     type: Date,
     immutable: true,

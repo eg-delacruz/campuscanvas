@@ -54,6 +54,7 @@ const createNewBrand = async ({
       sponsors_box,
       brand_description,
       created_by,
+      updated_by: created_by,
       created_at: new Date(),
       updated_at: new Date(),
     };
@@ -353,10 +354,21 @@ const getHomeData = async () => {
   }
 };
 
+const getBrandById = async (id) => {
+  try {
+    const brand = await brandInfo_Store.getById(id);
+    return brand;
+  } catch (error) {
+    console.log('[discount controller error]' + error.message);
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
   //Brand functions
   createNewBrand,
   getBrands,
+  getBrandById,
 
   //Discount functions
   createNewDiscount,

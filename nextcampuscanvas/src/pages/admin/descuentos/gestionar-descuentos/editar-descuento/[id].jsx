@@ -34,7 +34,6 @@ const editarDescuento = () => {
   const { fetchData, cancel } = useAxios();
 
   //States
-  //States
   const [state, setState] = useState({
     discount: {},
     loading: true,

@@ -1,12 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-//hooks
-import axios from 'axios';
-
 //Endpoints
 import endPoints from '@services/api';
 
-import { hashPassword } from '@server/services/passEncript';
+//Services
+import axiosFetcher from '@services/axiosFetcher';
 
 const INITIAL_STATE = {
   brands: [],
@@ -19,24 +17,20 @@ export const getBrands = createAsyncThunk(
   //Action types
   'brands/getBrands',
   async () => {
-    try {
-      const respuesta = await axios({
-        method: 'get',
-        url: endPoints.discounts.getAllBrands,
-        headers: {
-          accept: '*/*',
-          'Content-Type': 'application/json',
-          app_secret_key: await hashPassword(
-            process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY
-          ),
-        },
-      });
-      const data = respuesta.data.body;
-      return data;
-    } catch (error) {
-      console.log(error);
-      return 'Error al traer marcas' + error.message;
+    const response = await axiosFetcher({
+      url: endPoints.discounts.brands,
+      method: 'get',
+      extraHeaders: {
+        required_info: 'all_brands',
+      },
+    });
+
+    if (response.error) {
+      console.log(response.error);
+      return 'Error al traer marcas' + response.error.message;
     }
+
+    return response.body;
   }
 );
 
