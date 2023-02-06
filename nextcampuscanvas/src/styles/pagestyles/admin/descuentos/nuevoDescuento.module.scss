@@ -11,12 +11,22 @@
 }
 .container {
   max-width: 800px;
+  .manage_brands_btn {
+    margin: 0;
+    padding: 9px;
+  }
   h1 {
     margin-bottom: 8px;
   }
   h2 {
     margin: 0;
     @include font-size(24px);
+  }
+
+  .flex_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .section_title {

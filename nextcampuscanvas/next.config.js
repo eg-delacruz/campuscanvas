@@ -1,6 +1,4 @@
-const withPWA = require('next-pwa')({
-  dest: 'public',
-});
+const withPWA = require('next-pwa');
 const withFonts = require('next-fonts');
 
 module.exports = withPWA({
@@ -10,12 +8,22 @@ module.exports = withPWA({
     mode: 'production',
     disable: false,
   },
+});
+
+const nextConfig = {
   reactStrictMode: true,
-  //TODO: Allow images from shopify (YouTube: Next.js + Shopify Storefront API (GraphQL) + TailwindCSS Headless Store - Course preview)
   images: {
     //Dominios externos de los que vendrán nuestras imágenes
-    domains: ['i.imgur.com'],
+    domains: ['i.imgur.com', 'campus-canvas-bucket.s3.eu-west-3.amazonaws.com'],
+    // remotePatterns: [
+    //   {
+    //     protocol: 'https',
+    //     hostname: 'campus-canvas-bucket.s3.eu-west-3.amazonaws.com',
+    //   },
+    // ],
   },
-});
+};
+
+module.exports = nextConfig;
 
 module.exports = withFonts();

@@ -78,6 +78,7 @@ export async function getStaticProps({ params }) {
 
   return {
     props: {
+      //Should be returned like this to avoid errors on next js production build
       discount: response?.body || null,
     },
   };

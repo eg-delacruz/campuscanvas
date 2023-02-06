@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import dynamic from 'next/dynamic';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 //Styles
 import styles from '@styles/pagestyles/admin/descuentos/nuevoDescuento.module.scss';
@@ -397,7 +398,14 @@ const nuevoDescuento = () => {
          //       General info       // 
          ///////////////////////// */}
 
-          <h2>Información general</h2>
+          <div className={styles.flex_container}>
+            <h2>Información general</h2>
+            <Link href={'/admin/descuentos/gestionar-marcas'}>
+              <button className={`${styles.manage_brands_btn} btn button--red`}>
+                Gestionar marcas
+              </button>
+            </Link>
+          </div>
 
           <section className={styles.general_info_container}>
             <div>

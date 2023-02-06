@@ -31,18 +31,72 @@
 .brands {
   border: 1px solid $color--dark-gray;
   border-radius: 5px;
-  padding: 0 8px;
-  h5 {
-    margin: 16px 0;
-  }
-  .brand {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  //padding: 0 8px;
+
+  /////////////////////////
+  //         Table         //
+  /////////////////////////
+
+  .table {
+    border-collapse: collapse;
     border-bottom: 1px solid $color--dark-gray;
-  }
-  .brand:last-child {
-    border-bottom: none;
+    width: 100%;
+    thead tr {
+      background-color: $color--light-gray;
+      text-align: center;
+      font-weight: bold;
+      @include font-size(16px);
+      border-bottom: 1px solid $color--dark-gray;
+    }
+    th {
+      padding: 8px 15px;
+    }
+    td {
+      padding: 0 15px;
+    }
+    tbody tr {
+      border-bottom: 1px solid $color--dark-gray;
+      .logo {
+        max-width: 100px;
+        height: 50px;
+      }
+      h5 {
+        margin: 16px 0;
+      }
+      td {
+        .check_icon_container,
+        .x_icon_container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: $color--primary1;
+          color: $color--white;
+          border-radius: 3px;
+          border: 1px solid $color--light-gray;
+          height: 18px;
+          width: 18px;
+          margin: 0 auto;
+          padding-bottom: 2px;
+        }
+        .check_icon_container {
+          background-color: initial;
+          border: none;
+        }
+      }
+    }
+    tbody tr:hover {
+      background-color: $color--tertiary-white;
+      cursor: pointer;
+    }
+    .column1,
+    .column2,
+    .column3,
+    .column4 {
+      text-align: center;
+    }
+    .column1 {
+      max-width: 80px;
+    }
   }
 }
 
@@ -55,6 +109,11 @@
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 767px) {
+  .brands {
+    overflow-x: scroll;
+    display: block;
+    white-space: nowrap;
+  }
 }
 ////////////////////////////////////////480/////////////////////////////////////////////
 

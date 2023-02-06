@@ -16,6 +16,9 @@ import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
 //Redux actions
 import { getBrands, selectBrand } from '@redux/brandsSlice';
 
+//Services
+import dateFormat from '@services/dateFormat';
+
 const gestionarMarcas = () => {
   const { securingRoute } = useSecureAdminRoute();
 
@@ -71,14 +74,45 @@ const gestionarMarcas = () => {
           ) : (
             <>
               {brandsReducer.brands.length > 0 ? (
-                brandsReducer.brands.map((brand) => (
-                  <div className={styles.brand} key={brand._id}>
-                    <h5>{brand.brand_name}</h5>{' '}
-                    <div>
-                      <span> Editar </span> <span> Eliminar </span>
-                    </div>
-                  </div>
-                ))
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th className={styles.column1}></th>
+                      <th>Marca</th>
+                      <th>Patrocina Campus Box</th>
+                      <th>Actualizado</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {brandsReducer.brands.map((brand) => (
+                      <tr key={brand._id}>
+                        <td className={styles.column1}>
+                          <img
+                            className={styles.logo}
+                            src={brand.brand_logo.URL}
+                            alt={brand.brand_name}
+                          />
+                        </td>
+                        <td className={styles.column2}>
+                          <h5>{brand.brand_name}</h5>
+                        </td>
+                        <td className={styles.column3}>
+                          {brand.sponsors_box ? (
+                            <span className={styles.check_icon_container}>
+                              ✅
+                            </span>
+                          ) : (
+                            <span className={styles.x_icon_container}>x</span>
+                          )}
+                        </td>
+                        <td className={styles.column4}>
+                          {dateFormat.SlashDate(new Date(brand.updated_at))}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               ) : (
                 <p>No hay marcas</p>
               )}
