@@ -55,7 +55,7 @@ export async function getStaticPaths() {
 
 //Pre-render the discount with the id passed in the path
 export async function getStaticProps({ params }) {
-  const id = params.id;
+  const id = params?.id;
 
   //Necesitamos que sea un string, pues puede venir un array o undefined, dependiendo de cuántos parámetros ponemos en el slug separados por un /, o si directamente no ponemos nada. (Creo)
   if (typeof id !== 'string') {
