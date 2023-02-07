@@ -23,23 +23,17 @@ import endPoints from '@services/api';
 
 //Services
 import axiosFetcher from '@services/axiosFetcher';
-import formatSeconds from '@services/formatSeconds';
 
 //CLARIFICAIONS:
 //1. Don´t use the button up component because it does not work with the parallax background effect, since the window.scrollY does not work, because of the scroll of the parallax container.
-//TODO: instead of having a revalidation time, do it on demand in admin
+//2. The following warning in console: next-dev.js?3515:20 Warning: Prop `srcSet` did not match. Server:
+//is fine, since the slider images are shuffled and are not in same order as in the server.
 
 export default function Home(props) {
   const { home_data } = props;
 
   //Session
   const { data: session, status } = useSession();
-
-  //Leave this here
-  console.log(
-    'Revalidation time ' +
-      formatSeconds(parseInt(process.env.NEXT_PUBLIC_ISR_REVALIDATE_TIME))
-  );
 
   return (
     <>
@@ -163,8 +157,5 @@ export async function getStaticProps() {
     props: {
       home_data: response?.body || null,
     },
-    //TODO: do not revalidate anymore, since it has to be done when anything that affects the '/' route changes as well (on-demand-SSG)
-    //Leave this automatic revalidation in case admin forgets to update this page
-    revalidate: parseInt(process.env.NEXT_PUBLIC_ISR_REVALIDATE_TIME),
   };
 }

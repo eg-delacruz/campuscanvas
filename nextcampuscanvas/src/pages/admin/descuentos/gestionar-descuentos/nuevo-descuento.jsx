@@ -42,10 +42,11 @@ const nuevoDescuento = () => {
   //Reducers
   const brandsReducer = useSelector(selectBrand);
 
-  //Getting brands
   useEffect(() => {
     const setBrands = async () => {
-      dispatch(getBrands());
+      if (brandsReducer.brands.length === 0) {
+        dispatch(getBrands());
+      }
     };
     setBrands();
   }, []);

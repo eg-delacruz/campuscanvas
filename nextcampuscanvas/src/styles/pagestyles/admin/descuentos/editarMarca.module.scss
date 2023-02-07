@@ -2,6 +2,9 @@
 @import '../../../Animations/dotLoadingButton.module.scss';
 
 //Loadint state while displaying page
+/////////////////////////
+//   General styles   //
+/////////////////////////
 .loaderContainer {
   height: 100vh;
   width: 100vw;
@@ -10,6 +13,126 @@
   align-items: center;
 }
 
+.input_title {
+  margin: 0 0 8px;
+  @include font-size(14px);
+  display: block;
+  font-weight: bold;
+}
+
+.input,
+.description_text_area {
+  width: 100%;
+  background-color: $color--secondary-light;
+  border: 1px solid $color--black;
+  height: 40px;
+  border-radius: 5px;
+  margin: 0;
+  margin-bottom: 30px;
+  padding: 10px;
+}
+
+.char_count {
+  text-align: right;
+  margin: -35px 0 0;
+  @include font-size(12px);
+  color: $color--dark-gray;
+}
+.char_count_warn span {
+  background-color: $color--warning;
+  color: $color--white;
+  padding: 2px;
+  border-radius: 5px;
+  opacity: 0.6;
+}
+
 .container {
   max-width: 800px;
+  .logo_brand_container {
+    display: flex;
+    margin-top: 16px;
+    align-items: center;
+    gap: 16px;
+    .logo_container {
+      width: 80px;
+      border-radius: 3px;
+      background-color: #ffffff;
+      height: 80px;
+      border: 1px solid $color--dark-gray;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    h1 {
+      @include font-size(40px);
+    }
+  }
+
+  /////////////////////////
+  //General info container//
+  /////////////////////////
+  .general_info_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .general_info {
+      p {
+        margin: 0;
+        @include paragraph--small;
+        color: $color--dark-gray;
+      }
+    }
+  }
+
+  .description_container {
+    margin-top: 16px;
+    .description_text_area {
+      min-height: 150px;
+    }
+  }
+
+  .eliminate_container {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    .eliminate_text {
+      text-decoration: underline;
+    }
+  }
+  .eliminate_container:hover {
+    cursor: pointer;
+    text-decoration: none;
+    opacity: 0.8;
+  }
+
+  /////////////////////////
+  // Associated discounts //
+  /////////////////////////
+  .discounts_container {
+    border-top: 1px solid $color--dark-gray;
+    margin-top: 24px;
+    h2 {
+      margin: 0;
+    }
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
 }
