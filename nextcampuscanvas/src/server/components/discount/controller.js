@@ -123,6 +123,8 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     expiration_date === 'null' ? null : new Date(expiration_date);
 
   try {
+    //TODO: push routes to update!
+    let routesToUpdateSSG = [];
     //Store banner in AWS
     const uploaded_banner_url = await s3Uploadv3_discount_banners(files.banner);
 
@@ -136,7 +138,6 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       SEO_meta_title: card_title,
       brand,
       category,
-      brand_logo: brand_info.brand_logo.URL,
       banner: {
         name: uploaded_banner_url[0].name,
         URL: uploaded_banner_url[0].URL,
@@ -162,6 +163,48 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     };
 
     const CREATED_DISCOUNT = await discountInfo_Store.add(discount);
+
+    //Updating SSG routes
+    if (CREATED_DISCOUNT.status === 'available') {
+      //Updating all discounts route (since all available discounts allways appear here)
+      routesToUpdateSSG.push('/descuentos/todos');
+
+      //Updating discount route
+      //In case /student/descuentos is also SSG, uptade that route here as well
+      routesToUpdateSSG.push(`/descuentos/${CREATED_DISCOUNT._id.toString()}`);
+
+      //Updating home if needed
+      if (CREATED_DISCOUNT.display_in_section) {
+        routesToUpdateSSG.push('/');
+      }
+
+      //Updating category route
+      switch (CREATED_DISCOUNT.category) {
+        case 'travel':
+          routesToUpdateSSG.push('/descuentos/viajar');
+          break;
+        case 'fashion':
+          routesToUpdateSSG.push('/descuentos/moda');
+          break;
+        case 'beauty':
+          routesToUpdateSSG.push('/descuentos/belleza');
+          break;
+        case 'eatordrink':
+          routesToUpdateSSG.push('/descuentos/alimentacion');
+          break;
+        case 'entertainment':
+          routesToUpdateSSG.push('/descuentos/entretenimiento');
+          break;
+        case 'technology':
+          routesToUpdateSSG.push('/descuentos/tecnologia');
+          break;
+        case 'others':
+          routesToUpdateSSG.push('/descuentos/otros');
+          break;
+        default:
+          break;
+      }
+    }
 
     //Store home slider banners in AWS (if applies)
     if (SHOW_IN_HOME_SLIDER) {
@@ -197,6 +240,11 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
 
       //Create home slider banner document in Mongo DB
       await homeSliderBanner_Store.add(slide);
+
+      //Adding home route if not already there
+      if (!routesToUpdateSSG.includes('/')) {
+        routesToUpdateSSG.push('/');
+      }
     }
 
     //Create card
@@ -220,6 +268,8 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     };
 
     await Card_Store.add(card);
+
+    return routesToUpdateSSG;
   } catch (error) {
     console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
@@ -300,6 +350,7 @@ const getDiscountById = async (id) => {
 
 const eliminateDiscountData = async (id, bannerName) => {
   try {
+    let routesToUpdateSSG = [];
     const responses = await Promise.allSettled([
       //Mongo Data
 
@@ -323,6 +374,47 @@ const eliminateDiscountData = async (id, bannerName) => {
       deleted_banner,
     ] = responses;
 
+    if (deleted_discount.value?.status === 'available') {
+      //Updating all discounts route (since all available discounts allways appear here)
+      routesToUpdateSSG.push('/descuentos/todos');
+
+      //Updating discount route
+      //In case /student/descuentos is also SSG, uptade that route here as well
+      routesToUpdateSSG.push(`/descuentos/${id}`);
+
+      //Upadting home if needed
+      if (deleted_card.value.display_in_section) {
+        routesToUpdateSSG.push(`/`);
+      }
+
+      //Updating category route
+      switch (deleted_card.value.category) {
+        case 'travel':
+          routesToUpdateSSG.push('/descuentos/viajar');
+          break;
+        case 'fashion':
+          routesToUpdateSSG.push('/descuentos/moda');
+          break;
+        case 'beauty':
+          routesToUpdateSSG.push('/descuentos/belleza');
+          break;
+        case 'eatordrink':
+          routesToUpdateSSG.push('/descuentos/alimentacion');
+          break;
+        case 'entertainment':
+          routesToUpdateSSG.push('/descuentos/entretenimiento');
+          break;
+        case 'technology':
+          routesToUpdateSSG.push('/descuentos/tecnologia');
+          break;
+        case 'others':
+          routesToUpdateSSG.push('/descuentos/otros');
+          break;
+        default:
+          break;
+      }
+    }
+
     if (deleted_home_slider_banner.value) {
       const responses = await Promise.allSettled([
         s3Deletev3_big_home_slider_images([
@@ -332,7 +424,13 @@ const eliminateDiscountData = async (id, bannerName) => {
           deleted_home_slider_banner.value.slider_banner_small_screen.name,
         ]),
       ]);
+
+      //Adding home route if not already there
+      if (!routesToUpdateSSG.includes('/')) {
+        routesToUpdateSSG.push('/');
+      }
     }
+    return routesToUpdateSSG;
   } catch (error) {
     console.log('[discount controller error]' + error.message);
     throw new Error(error.message);

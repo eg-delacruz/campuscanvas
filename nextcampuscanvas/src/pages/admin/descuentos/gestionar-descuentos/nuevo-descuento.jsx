@@ -277,6 +277,7 @@ const nuevoDescuento = () => {
       }
     }
 
+    //Only allow to put already established values in the options
     if (DISPLAY_CARD_IN_SECTION.value) {
       if (
         DISPLAY_CARD_IN_SECTION_OPTIONS.indexOf(

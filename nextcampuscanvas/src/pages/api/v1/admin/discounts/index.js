@@ -3,6 +3,7 @@
 
 import multer from 'multer';
 import Controller from '@server/components/discount/controller';
+import routeRevalidator from '@server/services/routeRevalidator';
 
 //Middleware to add other middlewares easier (like multer)
 import { createRouter, expressWrapper } from 'next-connect';
@@ -68,7 +69,14 @@ router
     const OPERATION_DONE_BY = SESSION.session.user.email;
 
     try {
-      await Controller.createNewDiscount(body, files, OPERATION_DONE_BY);
+      const routesToUpdateSSG = await Controller.createNewDiscount(
+        body,
+        files,
+        OPERATION_DONE_BY
+      );
+      console.log(routesToUpdateSSG);
+      //Revalidating routes
+      await routeRevalidator(res, routesToUpdateSSG);
       successResponse(req, res, 'Descuento creado', 201);
     } catch (error) {
       if (error.message === 'Información insuficiente para crear descuento') {

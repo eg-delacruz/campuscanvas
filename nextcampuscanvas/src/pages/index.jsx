@@ -163,6 +163,7 @@ export async function getStaticProps() {
     props: {
       home_data: response?.body || null,
     },
+    //TODO: do not revalidate anymore, since it has to be done when anything that affects the '/' route changes as well (on-demand-SSG)
     //Leave this automatic revalidation in case admin forgets to update this page
     revalidate: parseInt(process.env.NEXT_PUBLIC_ISR_REVALIDATE_TIME),
   };

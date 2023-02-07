@@ -13,47 +13,50 @@ import endPoints from '@services/api';
 //Hooks
 import useAxios from '@hooks/useAxios';
 
-const otros = () => {
+//Services
+import axiosFetcher from '@services/axiosFetcher';
+
+const otros = ({ cards }) => {
   const { fetchData, cancel } = useAxios();
 
-  //States
-  const [state, setState] = useState({
-    cards: [],
-    loading: true,
-    error: null,
-  });
+  // //States
+  // const [state, setState] = useState({
+  //   cards: [],
+  //   loading: true,
+  //   error: null,
+  // });
 
-  if (state.error) {
-    //Leave this console.error here
-    console.error(state.error);
-  }
+  // if (state.error) {
+  //   //Leave this console.error here
+  //   console.error(state.error);
+  // }
 
-  useEffect(() => {
-    const getCards = async () => {
-      setState({ ...state, loading: true });
+  // useEffect(() => {
+  //   const getCards = async () => {
+  //     setState({ ...state, loading: true });
 
-      const response = await fetchData(
-        endPoints.discounts.getCards,
-        'get',
-        null,
-        { required_cards: 'others' }
-      );
+  //     const response = await fetchData(
+  //       endPoints.discounts.getCards,
+  //       'get',
+  //       null,
+  //       { required_cards: 'others' }
+  //     );
 
-      if (response.error) {
-        setState({ ...state, error: response.error, loading: false });
-        return;
-      }
-      setState({
-        ...state,
-        cards: response.body,
-        loading: false,
-        error: null,
-      });
-    };
-    if (state.cards.length === 0) {
-      getCards();
-    }
-  }, []);
+  //     if (response.error) {
+  //       setState({ ...state, error: response.error, loading: false });
+  //       return;
+  //     }
+  //     setState({
+  //       ...state,
+  //       cards: response.body,
+  //       loading: false,
+  //       error: null,
+  //     });
+  //   };
+  //   if (state.cards.length === 0) {
+  //     getCards();
+  //   }
+  // }, []);
   return (
     <>
       <SEOHeader
@@ -67,7 +70,7 @@ const otros = () => {
         <Header />
       </div>
 
-      <DisplayCardsByCategoryTemplate state={state} />
+      <DisplayCardsByCategoryTemplate cards={cards} />
 
       <Footer />
     </>
@@ -75,3 +78,24 @@ const otros = () => {
 };
 
 export default otros;
+
+export async function getStaticProps() {
+  const response = await axiosFetcher({
+    url: endPoints.discounts.getCards,
+    method: 'get',
+    extraHeaders: { required_cards: 'others' },
+  });
+
+  if (response.error) {
+    console.log(`Error at fetching data: ${response.error} `);
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      cards: response?.body || null,
+    },
+  };
+}

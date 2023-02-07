@@ -19,7 +19,6 @@ import dateFormat from '@services/dateFormat';
 //Redux
 import { getDiscounts, selectDiscount } from '@redux/discountsSlice';
 
-//TODO: display discount amount
 const index = () => {
   const { securingRoute } = useSecureAdminRoute();
 
@@ -55,7 +54,7 @@ const index = () => {
          //Title + button container//
          ///////////////////////// */}
         <div className={styles.title_flex_container}>
-          <h1>Descuentos</h1>
+          <h1>Descuentos ({discountsReducer.discounts.length})</h1>
           <Link href={'/admin/descuentos/gestionar-descuentos/nuevo-descuento'}>
             <button className='btn button--red'>
               <span>+ </span>Crear descuento
@@ -92,19 +91,31 @@ const index = () => {
 
                 <tbody>
                   {discountsReducer.discounts.map((discount) => (
-                    <Link
-                      href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
-                    >
-                      <tr className={styles.discount} key={discount._id}>
+                    <tr className={styles.discount} key={discount._id}>
+                      <Link
+                        href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
+                      >
                         <td className={styles.column1}>
                           <h5>{discount.SEO_meta_title}</h5>
                         </td>
+                      </Link>
+                      <Link
+                        href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
+                      >
                         <td className={styles.column2}>
                           {discount.brand.brand_name}
                         </td>
+                      </Link>
+                      <Link
+                        href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
+                      >
                         <td className={styles.column3}>
                           {dateFormat.SlashDate(new Date(discount.valid_from))}
                         </td>
+                      </Link>
+                      <Link
+                        href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
+                      >
                         <td
                           className={`${styles.column4} ${
                             discount.expiration_date
@@ -120,8 +131,8 @@ const index = () => {
                               )
                             : 'No expira'}
                         </td>
-                      </tr>
-                    </Link>
+                      </Link>
+                    </tr>
                   ))}
                 </tbody>
               </table>

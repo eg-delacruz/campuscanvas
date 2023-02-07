@@ -24,10 +24,6 @@ const DiscountSchema = new mongoose.Schema({
     type: String,
     required: [true, 'La categoría es necesaria'],
   },
-  brand_logo: {
-    type: String,
-    required: [true, 'El logo de la marca es necesario'],
-  },
   banner: {
     name: {
       type: String,

@@ -4,6 +4,7 @@
 //Response manager
 import { successResponse, errorResponse } from '@server/response';
 
+//TODO: eliminate this route, since not used
 export default async function handler(req, res) {
   // Check for secret to confirm this is a valid request
   if (

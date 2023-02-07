@@ -1,6 +1,7 @@
 //Response manager
 import { successResponse, errorResponse } from '@server/response';
 import Controller from '@server/components/discount/controller';
+import routeRevalidator from '@server/services/routeRevalidator';
 
 //Middlewares
 import { initializeEnpoint } from '@server/middlewares/initializeEndpoint';
@@ -36,7 +37,12 @@ export default async function handler(req, res) {
       const bannerName = req.headers.bannername;
 
       try {
-        await Controller.eliminateDiscountData(id, bannerName);
+        const routesToUpdateSSG = await Controller.eliminateDiscountData(
+          id,
+          bannerName
+        );
+
+        await routeRevalidator(res, routesToUpdateSSG);
         successResponse(req, res, 'Descuento eliminado', 201);
       } catch (error) {
         if (error.message === 'Descuento no encontrado') {

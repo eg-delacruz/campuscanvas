@@ -1,3 +1,4 @@
+//Clarification: Allows edition and deletion of a discount
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useSelector } from 'react-redux';
