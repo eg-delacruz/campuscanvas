@@ -377,7 +377,7 @@
         box-shadow: 0 4px 6px 0 #20212447;
       }
     }
-    //This height has to be equal to the height of loggedUserMenu
+    //This height is to improve visibility of content, since logged user menu header gets over the elements without this
     .correctHeaderLoggedUser767 {
       height: 90px;
     }
@@ -458,7 +458,14 @@
     left: 0;
   }
 }
+
 @media screen and (max-width: 480px) {
+  .header .header__container {
+    //This height is to improve visibility of content, since logged user menu header gets over the elements without this
+    .correctHeaderLoggedUser767 {
+      height: 100px;
+    }
+  }
   .menu {
     .menu__list {
       .menu__item {
@@ -467,6 +474,7 @@
     }
   }
 }
+
 @media screen and (max-width: 320px) {
   .menu {
     .menu__list {

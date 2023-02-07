@@ -10,3 +10,15 @@
   @include paragraph--small;
   color: $color--dark-gray;
 }
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+  .button {
+    @include font-size(15px);
+  }
+}
