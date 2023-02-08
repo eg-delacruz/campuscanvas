@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import Swal from 'sweetalert2';
+import Link from 'next/link';
 
 //Styles
 import styles from '@styles/pagestyles/admin/descuentos/editarMarca.module.scss';
@@ -10,6 +12,8 @@ import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/Admi
 import ButtonBack from '@components/GeneralUseComponents/ButtonBack/ButtonBack';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import CustomCheckBox from '@components/GeneralUseComponents/CustomCheckBox/CustomCheckBox';
+import DisplayEliminateBrandModal from '@components/UsedInSpecificRoutes/Admin/Descuentos/Brands/DisplayEliminateBrandModal/DisplayEliminateBrandModal';
+import NotFound404 from '@components/GeneralUseComponents/NotFound404/NotFound404';
 
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
@@ -37,6 +41,8 @@ const editarMarca = () => {
 
   const { fetchData, cancel } = useAxios();
 
+  const bool = false;
+
   //States
   const [state, setState] = useState({
     brand: {},
@@ -53,8 +59,6 @@ const editarMarca = () => {
 
   const [sponsorsBox, setSponsorsBox] = useState(false);
 
-  console.log(state);
-
   const [showEliminateModal, setShowEliminateModal] = useState(false);
 
   //Get brand id
@@ -63,6 +67,7 @@ const editarMarca = () => {
 
   //Reducers
   const brandsReducer = useSelector(selectBrand);
+
   //Get brand info (start)
   useEffect(() => {
     //Await until the route is ready to get the brand_id
@@ -91,26 +96,6 @@ const editarMarca = () => {
         );
 
         if (response.error) {
-          //Redirect if discount doesn´t exist
-          if (response.error === 'No se ha encontrado la marca') {
-            //Show a swal
-            const customSwal = Swal.mixin({
-              customClass: {
-                confirmButton: 'btn button--red',
-              },
-              buttonsStyling: false,
-            });
-            customSwal
-              .fire({
-                title: response.error,
-                text: 'La marca que intenta editar no existe',
-                icon: 'error',
-                confirmButtonText: 'Aceptar',
-              })
-              .then(() => {
-                router.push('/admin/descuentos/gestionar-marcas');
-              });
-          }
           setState({
             ...state,
             error: response.error,
@@ -133,6 +118,36 @@ const editarMarca = () => {
   }, [brandsReducer, router?.isReady]);
   //Get brand info (end)
 
+  //Get discounts asociated to this brand (start)
+  useEffect(() => {
+    //Await until the route is ready to get the brand_id
+    if (!router.isReady) return;
+
+    const getDiscounts = async () => {
+      const response = await fetchData(endPoints.discounts.index, 'get', null, {
+        needed_info: 'discounts_by_brand',
+        brand_id: id,
+      });
+
+      if (response.error) {
+        setDiscounts({
+          ...discounts,
+          error: response.error,
+          loading: false,
+        });
+        return;
+      }
+      setDiscounts({
+        ...discounts,
+        discounts: response.body,
+        loading: false,
+        error: null,
+      });
+    };
+    getDiscounts();
+  }, [router?.isReady]);
+  //Get discounts asociated to this brand (end)
+
   //Controlling inputs
   const BRAND_DESCRIPTION = useInputValue('');
 
@@ -146,21 +161,49 @@ const editarMarca = () => {
   };
 
   const displayEliminateModal = () => {
-    console.log('El modal para eliminaar');
-    return <></>;
+    // If this brand has any asociated discounts, show a swal and dont allow to delete
+    if (discounts.discounts.length > 0) {
+      const customSwal = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn button--red',
+        },
+        buttonsStyling: false,
+      });
+      customSwal.fire(
+        '¡Hay descuentos asociados!',
+        'Elimina los descuentos asociados antes de eliminar la marca',
+        'error'
+      );
+      return false;
+    }
+    //TODO: eliminate brand
+    setShowEliminateModal(true);
+  };
+
+  const handleDisplayEliminateModal = () => {
+    return (
+      <DisplayEliminateBrandModal
+        showModal={showEliminateModal}
+        setShowModal={setShowEliminateModal}
+        id={id}
+      />
+    );
   };
 
   const handleEditBrand = async (e) => {
+    //TODO: handle delete
     e.preventDefault();
     //Handle errors and display them:
     //1. Don´t allow empty description
 
     const data = {
+      id,
       sponsors_box: sponsorsBox,
       brand_description: BRAND_DESCRIPTION.value,
+      //TODO: send image
     };
 
-    console.log(data);
+    //After editing, get all brands again (I think this should be enough to update info here, but check)
   };
 
   if (securingRoute || state.loading) {
@@ -170,117 +213,212 @@ const editarMarca = () => {
       </div>
     );
   }
+
   return (
     <>
       <AdminHeader />
-      {displayEliminateModal()}
+      {handleDisplayEliminateModal()}
       <div className={`${styles.container} container`}>
         <ButtonBack prevRoute={'/admin/descuentos/gestionar-marcas'} />
 
-        <form
-          action=''
-          method='POST'
-          autoComplete='off'
-          onSubmit={handleEditBrand}
-        >
-          {/* /////////////////////////
-            //   Logo + brand name   //
-             ///////////////////////// */}
-          <div className={styles.logo_brand_container}>
-            <div className={styles.logo_container}>
-              {/* //on hover: iluminate a bit + cursor:pointer */}
-              <img
-                src={state.brand.brand_logo.URL}
-                alt={state.brand.brand_name}
-              />
-            </div>
-            <h1>{state.brand.brand_name}</h1>
-          </div>
-
-          {/* /////////////////////////
-            //General info container//
-             ///////////////////////// */}
-          <div className={styles.general_info_container}>
-            <div className={styles.general_info}>
-              <p>
-                <strong>Creado por: </strong>
-                {state.brand.created_by}
-              </p>
-              <p>
-                <strong>Actualizado por: </strong>
-                {state.brand.updated_by ? state.brand.updated_by : ''}
-              </p>
-              <p>
-                <strong>Actualizado por última vez: </strong>
-                {dateFormat.SlashDate(new Date(state.brand.updated_at))}
-              </p>
-            </div>
-            <CustomCheckBox
-              message={'La marca patrocina Campus Box 🎁'}
-              required={false}
-              defaultChecked={state.brand.sponsors_box}
-              onBoxCheck={() => {
-                setSponsorsBox(!sponsorsBox);
-              }}
+        <main>
+          {state.error ? (
+            <NotFound404
+              title={state.error}
+              message={
+                'No se ha podido encontrar esta marca. Probablemente no exista o fue borrada'
+              }
             />
-          </div>
-
-          <div className={styles.description_container}>
-            <label
-              htmlFor='brand_description'
-              className={`${styles.input_title}`}
-            >
-              Descripción
-            </label>
-            <textarea
-              className={`${styles.description_text_area}`}
-              name='brand_description'
-              id='brand_description'
-              type='text'
-              placeholder='Recomendado: 520 caracteres aprox.'
-              autoComplete='off'
-              value={BRAND_DESCRIPTION.value}
-              onChange={handleDescriptionChange}
-              required
-            />
-            <p
-              className={`${styles.char_count} ${
-                DESCRIPTION_COUNT.value > 520 ? styles.char_count_warn : ''
-              }`}
-            >
-              <span>{DESCRIPTION_COUNT.value} / 520</span>
-            </p>
-          </div>
-
-          <button
-            type='submit'
-            className={`${styles.submit_btn} ${
-              state.saving_changes && styles.buttonLoading
-            } btn button--red`}
-            disabled={state.saving_changes}
-          >
-            Guardar
-          </button>
-        </form>
-
-        <div className={styles.eliminate_container}>
-          <Image src={delete_icon} />
-          <div
-            className={styles.eliminate_text}
-            onClick={displayEliminateModal}
-          >
-            Eliminar marca
-          </div>
-        </div>
-        <div className={styles.discounts_container}>
-          <h2>Descuentos asociados</h2>
-          {/* TODO: show a loading state and error state */}
-          {discounts.discounts.length === 0 ? (
-            <p>No hay descuentos asociados a esta marca</p>
           ) : (
-            <p>Aquí los descuentooos</p>
+            <>
+              <form
+                action=''
+                method='POST'
+                autoComplete='off'
+                onSubmit={handleEditBrand}
+              >
+                {/* /////////////////////////
+          //   Logo + brand name   //
+           ///////////////////////// */}
+                <div className={styles.logo_brand_container}>
+                  <div className={styles.logo_container}>
+                    {/* //on hover: iluminate a bit + cursor:pointer */}
+                    <img
+                      src={state.brand.brand_logo.URL}
+                      alt={state.brand.brand_name}
+                    />
+                  </div>
+                  <h1>{state.brand.brand_name}</h1>
+                </div>
+
+                {/* /////////////////////////
+                //General info container//
+                ///////////////////////// */}
+                <div className={styles.general_info_container}>
+                  <div className={styles.general_info}>
+                    <p>
+                      <strong>Creado por: </strong>
+                      {state.brand.created_by}
+                    </p>
+                    <p>
+                      <strong>Actualizado por: </strong>
+                      {state.brand.updated_by ? state.brand.updated_by : ''}
+                    </p>
+                    <p>
+                      <strong>Actualizado por última vez: </strong>
+                      {dateFormat.SlashDate(new Date(state.brand.updated_at))}
+                    </p>
+                  </div>
+                  <CustomCheckBox
+                    message={'La marca patrocina Campus Box 🎁'}
+                    required={false}
+                    defaultChecked={state.brand.sponsors_box}
+                    onBoxCheck={() => {
+                      setSponsorsBox(!sponsorsBox);
+                    }}
+                  />
+                </div>
+
+                <div className={styles.description_container}>
+                  <label
+                    htmlFor='brand_description'
+                    className={`${styles.input_title}`}
+                  >
+                    Descripción
+                  </label>
+                  <textarea
+                    className={`${styles.description_text_area}`}
+                    name='brand_description'
+                    id='brand_description'
+                    type='text'
+                    placeholder='Recomendado: 520 caracteres aprox.'
+                    autoComplete='off'
+                    value={BRAND_DESCRIPTION.value}
+                    onChange={handleDescriptionChange}
+                    required
+                  />
+                  <p
+                    className={`${styles.char_count} ${
+                      DESCRIPTION_COUNT.value > 520
+                        ? styles.char_count_warn
+                        : ''
+                    }`}
+                  >
+                    <span>{DESCRIPTION_COUNT.value} / 520</span>
+                  </p>
+                </div>
+
+                <button
+                  type='submit'
+                  className={`${styles.submit_btn} ${
+                    state.saving_changes && styles.buttonLoading
+                  } btn button--red`}
+                  disabled={state.saving_changes}
+                >
+                  Guardar
+                </button>
+              </form>
+
+              <div className={styles.eliminate_container}>
+                <Image src={delete_icon} />
+                <div
+                  className={styles.eliminate_text}
+                  onClick={displayEliminateModal}
+                >
+                  Eliminar marca
+                </div>
+              </div>
+
+              {/* /////////////////////////
+                // Associated discounts //
+                ///////////////////////// */}
+              <div className={styles.discounts_container}>
+                <h2>Descuentos asociados ({discounts.discounts.length})</h2>
+                {discounts.loading ? (
+                  <Loader />
+                ) : (
+                  <>
+                    {discounts.error ? (
+                      <p className='error__message'>{discounts.error}</p>
+                    ) : (
+                      <>
+                        {discounts.discounts.length === 0 ? (
+                          <p>No hay descuentos asociados a esta marca</p>
+                        ) : (
+                          <div className={styles.discounts_table_container}>
+                            <table className={styles.discounts_table}>
+                              <thead>
+                                <tr>
+                                  <th>Título</th>
+                                  <th>Marca</th>
+                                  <th>Válido desde</th>
+                                  <th>Válido hasta</th>
+                                </tr>
+                              </thead>
+
+                              <tbody>
+                                {discounts.discounts.map((discount) => (
+                                  <tr
+                                    className={styles.discount}
+                                    key={discount._id}
+                                  >
+                                    <Link
+                                      href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
+                                    >
+                                      <td className={styles.column1}>
+                                        <h5>{discount.SEO_meta_title}</h5>
+                                      </td>
+                                    </Link>
+                                    <Link
+                                      href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
+                                    >
+                                      <td className={styles.column2}>
+                                        {discount.brand.brand_name}
+                                      </td>
+                                    </Link>
+                                    <Link
+                                      href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
+                                    >
+                                      <td className={styles.column3}>
+                                        {dateFormat.SlashDate(
+                                          new Date(discount.valid_from)
+                                        )}
+                                      </td>
+                                    </Link>
+                                    <Link
+                                      href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
+                                    >
+                                      <td
+                                        className={`${styles.column4} ${
+                                          discount.expiration_date
+                                            ? new Date() >
+                                              new Date(discount.expiration_date)
+                                              ? `${styles.expired}`
+                                              : ''
+                                            : ''
+                                        }`}
+                                      >
+                                        {discount.expiration_date
+                                          ? dateFormat.SlashDate(
+                                              new Date(discount.expiration_date)
+                                            )
+                                          : 'No expira'}
+                                      </td>
+                                    </Link>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </>
+                )}
+              </div>
+            </>
           )}
-        </div>
+        </main>
       </div>
     </>
   );

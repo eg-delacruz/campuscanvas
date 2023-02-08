@@ -1,0 +1,12 @@
+@import '../../../styles/Vars.scss';
+
+.container {
+  h2,
+  p {
+    text-align: center;
+  }
+  figure {
+    display: flex;
+    justify-content: center;
+  }
+}

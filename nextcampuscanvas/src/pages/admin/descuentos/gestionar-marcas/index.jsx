@@ -9,7 +9,7 @@ import styles from '@styles/pagestyles/admin/descuentos/gestionarMarcas.module.s
 import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import ButtonBack from '@components/GeneralUseComponents/ButtonBack/ButtonBack';
-import DisplayNewBrandModal from '@components/UsedInSpecificRoutes/Admin/Descuentos/Brands/DisplayNewBrandModal';
+import DisplayNewBrandModal from '@components/UsedInSpecificRoutes/Admin/Descuentos/Brands/DisplayNewBrandModal/DisplayNewBrandModal';
 
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
@@ -82,7 +82,9 @@ const gestionarMarcas = () => {
                     <tr>
                       <th className={styles.column1}></th>
                       <th>Marca</th>
-                      <th>Patrocina Campus Box</th>
+                      <th>
+                        Patrocina <br /> Campus Box
+                      </th>
                       <th>Actualizado</th>
                     </tr>
                   </thead>

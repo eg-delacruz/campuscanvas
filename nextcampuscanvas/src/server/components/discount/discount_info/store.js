@@ -40,9 +40,32 @@ const deleteById = async (id) => {
   return discount;
 };
 
+/////////////////////Get all discounts by brand////////////////////////
+const getByBrand = async (brandId) => {
+  return await Discount.find({
+    brand: brandId,
+  })
+    //The path is the name of the field in the Discount object to be populated
+    .populate({ path: 'brand', model: BrandInfo })
+    .exec();
+};
+
+/////////////////////Get all available discounts by brand////////////////////////
+const getAvailableByBrand = async (brandId) => {
+  return await Discount.find({
+    brand: brandId,
+    status: 'available',
+  })
+    //The path is the name of the field in the Discount object to be populated
+    .populate({ path: 'brand', model: BrandInfo })
+    .exec();
+};
+
 module.exports = {
   add: createDiscount,
   getDiscounts,
   getDiscountById,
   deleteById,
+  getByBrand,
+  getAvailableByBrand,
 };

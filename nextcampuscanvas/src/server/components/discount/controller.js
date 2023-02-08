@@ -462,6 +462,16 @@ const getBrandById = async (id) => {
   }
 };
 
+const getDiscountsByBrand = async (brandID) => {
+  try {
+    const discounts = await discountInfo_Store.getByBrand(brandID);
+    return discounts;
+  } catch (error) {
+    console.log('[discount controller error]' + error.message);
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
   //Brand functions
   createNewBrand,
@@ -472,6 +482,7 @@ module.exports = {
   createNewDiscount,
   getDiscounts,
   getDiscountById,
+  getDiscountsByBrand,
 
   //Cards functions
   getAllAvailableDiscountCards,

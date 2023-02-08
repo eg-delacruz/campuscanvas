@@ -55,6 +55,13 @@ export default async function handler(req, res) {
               const homeData = await Controller.getHomeData();
               successResponse(req, res, homeData, 201);
               break;
+            case 'discounts_by_brand':
+              const brandID = headers.brand_id;
+              const discountsByBrand = await Controller.getDiscountsByBrand(
+                brandID
+              );
+              successResponse(req, res, discountsByBrand, 201);
+              break;
             default:
               errorResponse(
                 req,

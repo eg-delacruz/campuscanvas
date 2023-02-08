@@ -48,6 +48,7 @@
 
 .container {
   max-width: 800px;
+  padding-bottom: 20px;
   .logo_brand_container {
     display: flex;
     margin-top: 16px;
@@ -74,13 +75,16 @@
   /////////////////////////
   .general_info_container {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-between;
     .general_info {
       p {
         margin: 0;
         @include paragraph--small;
-        color: $color--dark-gray;
+        color: $color--black;
+        strong {
+          color: $color--dark-gray;
+        }
       }
     }
   }
@@ -89,6 +93,8 @@
     margin-top: 16px;
     .description_text_area {
       min-height: 150px;
+      line-height: 1.5;
+      padding: 0 10px;
     }
   }
 
@@ -113,7 +119,54 @@
     border-top: 1px solid $color--dark-gray;
     margin-top: 24px;
     h2 {
-      margin: 0;
+      margin: 16px 0;
+    }
+
+    /////////////////////////
+    //         Table         //
+    /////////////////////////
+    .discounts_table_container {
+      .discounts_table {
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid $color--dark-gray;
+        thead tr {
+          background-color: $color--light-gray;
+          text-align: center;
+          font-weight: bold;
+          @include font-size(16px);
+          border-bottom: 1px solid $color--dark-gray;
+        }
+        th {
+          padding: 8px 15px;
+        }
+        td {
+          padding: 0 15px;
+        }
+        tbody {
+          border-bottom: 1px solid $color--dark-gray;
+        }
+        tbody tr {
+          border-bottom: 1px solid $color--dark-gray;
+          h5 {
+            margin: 16px 0;
+          }
+        }
+        tbody tr:hover {
+          cursor: pointer;
+          background-color: $color--tertiary-white;
+        }
+        .column2,
+        .column3,
+        .column4 {
+          text-align: center;
+        }
+        .expired {
+          background-color: $color--primary1;
+          color: $color--white;
+          font-weight: bold;
+        }
+      }
     }
   }
 }
@@ -127,10 +180,41 @@
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 767px) {
+  .container {
+    main {
+      padding: 0 8px;
+    }
+
+    /////////////////////////
+    //General info container//
+    /////////////////////////
+    .general_info_container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .discounts_table_container {
+      overflow-x: scroll;
+      display: block;
+      white-space: nowrap;
+    }
+  }
 }
 ////////////////////////////////////////480/////////////////////////////////////////////
 
 @media screen and (max-width: 480px) {
+  .container {
+    /////////////////////////
+    // Associated discounts //
+    /////////////////////////
+    .discounts_container {
+      h2 {
+        @include font-size(24px);
+      }
+    }
+    .eliminate_container {
+      margin-top: 16px;
+    }
+  }
 }
 ////////////////////////////////////////320/////////////////////////////////////////////
 

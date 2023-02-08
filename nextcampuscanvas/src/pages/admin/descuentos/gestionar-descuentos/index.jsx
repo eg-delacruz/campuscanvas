@@ -19,6 +19,7 @@ import dateFormat from '@services/dateFormat';
 //Redux
 import { getDiscounts, selectDiscount } from '@redux/discountsSlice';
 
+//TODO: display status in table
 const index = () => {
   const { securingRoute } = useSecureAdminRoute();
 
