@@ -54,16 +54,46 @@
     margin-top: 16px;
     align-items: center;
     gap: 16px;
-    .logo_container {
-      width: 80px;
-      border-radius: 3px;
-      background-color: #ffffff;
-      height: 80px;
-      border: 1px solid $color--dark-gray;
-      img {
+    .drop_file_input {
+      position: relative;
+      .logo_container {
+        width: 80px;
+        border-radius: 3px;
+        background-color: #ffffff;
+        height: 80px;
+        border: 1px solid $color--dark-gray;
+        position: relative;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+        .change_img_on_hover {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: $color--white;
+          opacity: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          transition: all 0.3s ease;
+        }
+      }
+      input {
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
+        cursor: pointer;
       }
+    }
+    .drop_file_input:hover .change_img_on_hover {
+      opacity: 0.8;
+      cursor: pointer;
     }
     h1 {
       @include font-size(40px);
@@ -96,6 +126,34 @@
       line-height: 1.5;
       padding: 0 10px;
     }
+  }
+
+  .new_logo_preview_wrapper {
+    background-color: $color--tertiary-white;
+    padding: 8px 16px 16px;
+    border: 1px solid $color--dark-gray;
+    border-radius: 5px;
+    margin: 10px 0;
+    h4 {
+      margin: 0;
+    }
+    .new_logo_preview_container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      .new_logo_preview {
+        width: 80px;
+        height: 80px;
+        border-radius: 3px;
+        background-color: #ffffff;
+        border: 1px solid $color--dark-gray;
+      }
+    }
+  }
+
+  .submit_btn {
+    padding: 10px;
   }
 
   .eliminate_container {

@@ -27,6 +27,7 @@ import { useSelector } from 'react-redux';
 
 //Assets
 import delete_icon from '@assets/GeneralUse/IconsAndButtons/delete.svg';
+import edit_pencil from '@assets/GeneralUse/IconsAndButtons/edit_pencil.svg';
 
 //Services
 import dateFormat from '@services/dateFormat';
@@ -41,8 +42,6 @@ const editarMarca = () => {
 
   const { fetchData, cancel } = useAxios();
 
-  const bool = false;
-
   //States
   const [state, setState] = useState({
     brand: {},
@@ -56,6 +55,14 @@ const editarMarca = () => {
     loading: true,
     error: null,
   });
+
+  const [newBrandLogo, setNewBrandLogo] = useState({
+    newLogo: [],
+    error: null,
+    logoPreview: '',
+  });
+
+  console.log(newBrandLogo);
 
   const [sponsorsBox, setSponsorsBox] = useState(false);
 
@@ -190,18 +197,78 @@ const editarMarca = () => {
     );
   };
 
+  //Handle change brand logo (start)
+  const onNewFile = (e) => {
+    const allowedFileFormats = ['svg'];
+    const newFile = e.target.files[0];
+    //4 MB aprox.
+    const maxSizeAllowed = 4194304;
+
+    //Allow only certain file formats
+    const dots = newFile.name.split('.');
+    const newFileType = dots[dots.length - 1];
+
+    if (!allowedFileFormats.includes(newFileType)) {
+      setNewBrandLogo({
+        ...newBrandLogo,
+        error: 'Debes subir un archivo en formato SVG',
+      });
+      setTimeout(() => {
+        setNewBrandLogo({ ...newBrandLogo, error: null });
+      }, 3000);
+      return false;
+    }
+
+    if (newFile) {
+      //Max size allowed files
+      if (newFile.size > maxSizeAllowed) {
+        setNewBrandLogo({
+          ...newBrandLogo,
+          error: `El documento pesa demasiado`,
+        });
+        setTimeout(() => {
+          setNewBrandLogo({ ...newBrandLogo, error: null });
+        }, 3000);
+        return false;
+      }
+
+      //If everything is ok, add the file to newBrandLogo and set a preview
+      setNewBrandLogo({
+        ...newBrandLogo,
+        newLogo: [newFile],
+        logoPreview: URL.createObjectURL(newFile),
+      });
+    }
+  };
+  //Handle change brand logo (end)
+
   const handleEditBrand = async (e) => {
-    //TODO: handle delete
+    //TODO: handle edit
     e.preventDefault();
-    //Handle errors and display them:
+    //TODO: Handle errors and display them:
     //1. Don´t allow empty description
 
     const data = {
       id,
       sponsors_box: sponsorsBox,
       brand_description: BRAND_DESCRIPTION.value,
-      //TODO: send image
     };
+
+    const formdata = new FormData();
+    formdata.append('id', id);
+    formdata.append('sponsors_box', sponsorsBox);
+    formdata.append('brand_description', BRAND_DESCRIPTION.value);
+    formdata.append('brand_logo', newBrandLogo.newLogo[0]);
+
+    //TODO: in server, prove if there is a new image and proceed accordingly
+
+    //Send data to update information
+    // const response = await fetchData(
+    //   endPoints.brands.update,
+    //   'put',
+    //   formdata,
+    //   null
+    // );
 
     //After editing, get all brands again (I think this should be enough to update info here, but check)
   };
@@ -241,11 +308,21 @@ const editarMarca = () => {
           //   Logo + brand name   //
            ///////////////////////// */}
                 <div className={styles.logo_brand_container}>
-                  <div className={styles.logo_container}>
-                    {/* //on hover: iluminate a bit + cursor:pointer */}
-                    <img
-                      src={state.brand.brand_logo.URL}
-                      alt={state.brand.brand_name}
+                  <div className={styles.drop_file_input}>
+                    <div className={styles.logo_container}>
+                      <img
+                        src={state.brand.brand_logo.URL}
+                        alt={state.brand.brand_name}
+                      />
+                      <div className={styles.change_img_on_hover}>
+                        <Image src={edit_pencil} />
+                      </div>
+                    </div>
+                    <input
+                      type='file'
+                      value=''
+                      accept='.jpg,.jpeg,.png,.svg'
+                      onChange={onNewFile}
                     />
                   </div>
                   <h1>{state.brand.brand_name}</h1>
@@ -307,6 +384,37 @@ const editarMarca = () => {
                     <span>{DESCRIPTION_COUNT.value} / 520</span>
                   </p>
                 </div>
+
+                {newBrandLogo.error ? (
+                  <p className='error__messagev2'>{newBrandLogo.error}</p>
+                ) : (
+                  ''
+                )}
+
+                {/* /////////////////////////
+                   // New brand logo preview //
+                    ///////////////////////// */}
+
+                {newBrandLogo.newLogo.length > 0 ? (
+                  <div className={styles.new_logo_preview_wrapper}>
+                    <h4 className={styles.new_logo_h4}>Nuevo logo: </h4>
+                    <div className={styles.new_logo_preview_container}>
+                      <div className={styles.new_logo_preview}>
+                        <Image
+                          src={newBrandLogo.logoPreview}
+                          alt='Logo de la marca'
+                          height={80}
+                          width={80}
+                        />
+                      </div>
+                      <p>
+                        <strong>{newBrandLogo.newLogo[0].name}</strong>
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  ''
+                )}
 
                 <button
                   type='submit'
