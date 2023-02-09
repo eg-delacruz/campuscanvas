@@ -22,8 +22,8 @@ import { useInputValue } from '@hooks/useInputValue';
 import { useCharacterCount } from '@hooks/useCharacterCount';
 
 //Redux
-import { selectBrand } from '@redux/brandsSlice';
-import { useSelector } from 'react-redux';
+import { getBrands, selectBrand } from '@redux/brandsSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 //Assets
 import delete_icon from '@assets/GeneralUse/IconsAndButtons/delete.svg';
@@ -37,10 +37,14 @@ import endPoints from '@services/api/index';
 
 //TODO: this component will be responsible to refresh the global brands data if modified/deleted
 //TODO: don´t forget to  refresh pertinent SSG pertinent paths if brand is modified/deleted
+//TODO: handle the custom checkbox from here, not inside that component!
 const editarMarca = () => {
   const { securingRoute } = useSecureAdminRoute('all');
 
   const { fetchData, cancel } = useAxios();
+
+  //Allows us to manipulate the appropriate slice/action
+  const dispatch = useDispatch();
 
   //States
   const [state, setState] = useState({
@@ -48,6 +52,7 @@ const editarMarca = () => {
     loading: true,
     error: null,
     saving_changes: false,
+    saving_changes_error: null,
   });
 
   const [discounts, setDiscounts] = useState({
@@ -62,9 +67,7 @@ const editarMarca = () => {
     logoPreview: '',
   });
 
-  console.log(newBrandLogo);
-
-  const [sponsorsBox, setSponsorsBox] = useState(false);
+  const [sponsorsBox, setSponsorsBox] = useState();
 
   const [showEliminateModal, setShowEliminateModal] = useState(false);
 
@@ -243,37 +246,73 @@ const editarMarca = () => {
   //Handle change brand logo (end)
 
   const handleEditBrand = async (e) => {
-    //TODO: handle edit
     e.preventDefault();
-    //TODO: Handle errors and display them:
-    //1. Don´t allow empty description
 
-    const data = {
-      id,
-      sponsors_box: sponsorsBox,
-      brand_description: BRAND_DESCRIPTION.value,
-    };
+    if (!BRAND_DESCRIPTION.value) {
+      setState({
+        ...state,
+        saving_changes_error: 'Debes escribir una descripción',
+      });
+      setTimeout(() => {
+        setState({
+          ...state,
+          saving_changes_error: null,
+        });
+      }, 3000);
+      return false;
+    }
 
     const formdata = new FormData();
     formdata.append('id', id);
     formdata.append('sponsors_box', sponsorsBox);
-    formdata.append('brand_description', BRAND_DESCRIPTION.value);
     formdata.append('brand_logo', newBrandLogo.newLogo[0]);
 
-    //TODO: in server, prove if there is a new image and proceed accordingly
+    //Send new description only if it was chaged
+    if (state.brand.brand_description !== BRAND_DESCRIPTION.value) {
+      formdata.append('brand_description', BRAND_DESCRIPTION.value);
+    } else {
+      formdata.append('brand_description', '');
+    }
+
+    setState({
+      ...state,
+      saving_changes: true,
+    });
 
     //Send data to update information
-    // const response = await fetchData(
-    //   endPoints.brands.update,
-    //   'put',
-    //   formdata,
-    //   null
-    // );
+    const response = await fetchData(
+      endPoints.admin.discounts.brands,
+      'patch',
+      formdata,
+      { 'Content-Type': 'multipart/form-data' }
+    );
 
-    //After editing, get all brands again (I think this should be enough to update info here, but check)
+    if (response.error) {
+      setState({
+        ...state,
+        saving_changes: false,
+        saving_changes_error: response.error,
+      });
+      return false;
+    }
+
+    setState({
+      ...state,
+      saving_changes: false,
+      saving_changes_error: null,
+    });
+
+    //Reset states
+    setNewBrandLogo({
+      ...newBrandLogo,
+      newLogo: [],
+      logoPreview: '',
+    });
+
+    dispatch(getBrands());
   };
 
-  if (securingRoute || state.loading) {
+  if (securingRoute || state.loading || brandsReducer.loading) {
     return (
       <div className={styles.loaderContainer}>
         <Loader />
@@ -350,7 +389,7 @@ const editarMarca = () => {
                     message={'La marca patrocina Campus Box 🎁'}
                     required={false}
                     defaultChecked={state.brand.sponsors_box}
-                    onBoxCheck={() => {
+                    onBoxCheck={(sponsorsBox) => {
                       setSponsorsBox(!sponsorsBox);
                     }}
                   />
@@ -415,15 +454,31 @@ const editarMarca = () => {
                 ) : (
                   ''
                 )}
+                {/* Display if there were errors at updating brand */}
+                {state.saving_changes_error ? (
+                  <p className='error__messagev2'>
+                    {state.saving_changes_error}
+                  </p>
+                ) : (
+                  ''
+                )}
 
+                {/* TODO: disable if there arent changes to avoid unnecessary requests */}
                 <button
                   type='submit'
                   className={`${styles.submit_btn} ${
                     state.saving_changes && styles.buttonLoading
                   } btn button--red`}
-                  disabled={state.saving_changes}
+                  //Disable button if there are no changes or changes are being submitted
+                  disabled={
+                    state.saving_changes ||
+                    (state.brand.brand_description ===
+                      BRAND_DESCRIPTION.value &&
+                      newBrandLogo.newLogo.length === 0 &&
+                      state.brand.sponsors_box === sponsorsBox)
+                  }
                 >
-                  Guardar
+                  Guardar cambios
                 </button>
               </form>
 

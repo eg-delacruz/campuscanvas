@@ -6,6 +6,7 @@ import {
   s3Deletev3_discount_banners,
   s3Deletev3_big_home_slider_images,
   s3Deletev3_small_home_slider_images,
+  s3Deletev3_brand_logos,
 } from '@server/services/AWS3/s3Service';
 
 //Stores
@@ -123,7 +124,6 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     expiration_date === 'null' ? null : new Date(expiration_date);
 
   try {
-    //TODO: push routes to update!
     let routesToUpdateSSG = [];
     //Store banner in AWS
     const uploaded_banner_url = await s3Uploadv3_discount_banners(files.banner);
@@ -472,11 +472,150 @@ const getDiscountsByBrand = async (brandID) => {
   }
 };
 
+const updateBrand = async ({
+  id,
+  brand_logo,
+  sponsors_box,
+  brand_description,
+  updated_by,
+}) => {
+  try {
+    //Check if data is valid
+    if (!id || !updated_by) {
+      console.error(
+        '[discount controller error] Información insuficiente para crear marca'
+      );
+      throw new Error('Información insuficiente para crear marca');
+    }
+
+    //Get brand from DB to be modifyed
+    const brand = await brandInfo_Store.getById(id);
+
+    let routesToUpdateSSG = [];
+    let updated_Brand;
+
+    if (brand) {
+      //Get all available cards to revalidate affected routes
+      const all_available_discount_cards = await getAllAvailableDiscountCards();
+
+      //Get all cards linked to this brand
+      const available_cards_linked_to_brand =
+        all_available_discount_cards.filter((card) => {
+          return card.brand_name === brand.brand_name;
+        });
+
+      //Update and revalidate only if there is a new logo
+      if (brand_logo.length > 0) {
+        const responses = await Promise.allSettled([
+          //Upload new logo to AWS
+          s3Uploadv3_brand_logos(brand_logo),
+
+          //Erase old logo from AWS
+          s3Deletev3_brand_logos([brand.brand_logo.name]),
+        ]);
+
+        const [uploaded_logo, deleted_logo] = responses;
+
+        // //Update logo in DB
+        brand.brand_logo = {
+          name: uploaded_logo.value[0].name,
+          URL: uploaded_logo.value[0].URL,
+        };
+
+        //Revalidate all discounts route
+        routesToUpdateSSG.push('/descuentos/todos');
+
+        //Check if any card currently appears in home section and revalidate home if true
+        const revalidate_home = available_cards_linked_to_brand.some(
+          (card) => card.display_in_section
+        );
+        if (revalidate_home) {
+          routesToUpdateSSG.push('/');
+        }
+
+        //Revalidate category routes of all discounts affected by the change
+        available_cards_linked_to_brand.forEach((card) => {
+          switch (card.category) {
+            case 'travel':
+              if (!routesToUpdateSSG.includes('/descuentos/viajes')) {
+                routesToUpdateSSG.push('/descuentos/viajar');
+              }
+              break;
+            case 'fashion':
+              if (!routesToUpdateSSG.includes('/descuentos/moda')) {
+                routesToUpdateSSG.push('/descuentos/moda');
+              }
+              break;
+            case 'beauty':
+              if (!routesToUpdateSSG.includes('/descuentos/belleza')) {
+                routesToUpdateSSG.push('/descuentos/belleza');
+              }
+              break;
+            case 'eatordrink':
+              if (!routesToUpdateSSG.includes('/descuentos/alimentacion')) {
+                routesToUpdateSSG.push('/descuentos/alimentacion');
+              }
+              break;
+            case 'entertainment':
+              if (!routesToUpdateSSG.includes('/descuentos/entretenimiento')) {
+                routesToUpdateSSG.push('/descuentos/entretenimiento');
+              }
+              break;
+            case 'technology':
+              if (!routesToUpdateSSG.includes('/descuentos/tecnologia')) {
+                routesToUpdateSSG.push('/descuentos/tecnologia');
+              }
+              break;
+            case 'others':
+              if (!routesToUpdateSSG.includes('/descuentos/otros')) {
+                routesToUpdateSSG.push('/descuentos/otros');
+              }
+              break;
+            default:
+              break;
+          }
+        });
+
+        //Revalidate affected discount routes
+        //In case /student/descuentos is also SSG, uptade that route here as well
+        available_cards_linked_to_brand.forEach((card) => {
+          routesToUpdateSSG.push(`/descuentos/${card.discount_id}`);
+        });
+      }
+
+      //Update and revalidate if there is a new description
+      if (brand_description) {
+        brand.brand_description = brand_description;
+
+        //Revalidate affected discount routes
+        //In case /student/descuentos is also SSG, uptade that route here as well
+        available_cards_linked_to_brand.forEach((card) => {
+          if (!routesToUpdateSSG.includes(`/descuentos/${card.discount_id}`)) {
+            routesToUpdateSSG.push(`/descuentos/${card.discount_id}`);
+          }
+        });
+      }
+
+      brand.sponsors_box = sponsors_box;
+      brand.updated_by = updated_by;
+      brand.updated_at = new Date();
+
+      updated_Brand = await brandInfo_Store.update(brand);
+    }
+
+    return { updated_Brand, routesToUpdateSSG };
+  } catch (error) {
+    console.log('[discount controller error]' + error.message);
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
   //Brand functions
   createNewBrand,
   getBrands,
   getBrandById,
+  updateBrand,
 
   //Discount functions
   createNewDiscount,

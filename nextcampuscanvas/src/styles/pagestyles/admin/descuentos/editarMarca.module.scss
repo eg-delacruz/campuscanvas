@@ -46,6 +46,11 @@
   opacity: 0.6;
 }
 
+.disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
 .container {
   max-width: 800px;
   padding-bottom: 20px;

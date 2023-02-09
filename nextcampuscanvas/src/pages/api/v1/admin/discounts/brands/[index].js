@@ -3,6 +3,7 @@
 
 import multer from 'multer';
 import Controller from '@server/components/discount/controller';
+import routeRevalidator from '@server/services/routeRevalidator';
 
 //Middleware to add other middlewares easier (like multer)
 import { createRouter, expressWrapper } from 'next-connect';
@@ -95,6 +96,29 @@ router
         );
       }
       errorResponse(req, res, 'Error al crear marca', 400, error);
+    }
+  })
+  //Updating brand info
+  .patch(expressWrapper(upload.array('brand_logo')), async (req, res) => {
+    const { body, headers, method, files } = req;
+
+    const data = {
+      id: body.id,
+      brand_logo: files,
+      sponsors_box: body.sponsors_box,
+      brand_description: body.brand_description,
+      updated_by: SESSION?.token.email,
+    };
+
+    try {
+      const result = await Controller.updateBrand(data);
+
+      //Revalidate routes affected by the change
+      await routeRevalidator(res, result.routesToUpdateSSG);
+
+      successResponse(req, res, 'Marca editada exitosamente', 201);
+    } catch (error) {
+      errorResponse(req, res, 'Error al editar marca', 400, error);
     }
   });
 

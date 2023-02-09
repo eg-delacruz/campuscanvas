@@ -348,7 +348,6 @@ const nuevoDescuento = () => {
       return setState({ ...state, error: response.error, uploading: false });
     }
 
-    //TODO: Check if this data gets refreshed when creating a new discount
     dispatch(getDiscounts());
 
     setState({ ...state, uploading: false, error: null });

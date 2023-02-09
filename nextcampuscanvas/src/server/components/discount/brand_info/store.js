@@ -40,9 +40,16 @@ const getBrandById = async (id) => {
   return brand;
 };
 
+///////////////////// Update brand ////////////////////////
+const updateBrand = async (brand) => {
+  const updatedBrand = await brand.save();
+  return updatedBrand;
+};
+
 module.exports = {
   add: createBrand,
   brandAlreadyExists,
   getBrands,
   getById: getBrandById,
+  update: updateBrand,
 };

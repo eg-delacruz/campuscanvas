@@ -7,7 +7,9 @@ import { useInputValue } from '@hooks/useInputValue';
 //Styles
 import styles from './CustomCheckbox.module.scss';
 
-//CLARIFICATION: required property gets a bool, but doesn´t show any error message if the box is not checked. Therefore, if the returned value is false, but this is required, that parent component should handle that and only allow to continue if checked. If required is true, this component itself won´t allow to conginue, but it just won´t show any message
+//CLARIFICATION: required property gets a bool, but doesn´t show any error message if the box is not checked. Therefore, if the returned value is false, but this is required, that parent component should handle that and only allow to continue if checked. If required is true, this component itself won´t allow to conginue, but it just won´t show any message.
+
+//TODO: the initial value has to be outside this component to be able to manipulate its state whenever we want, insted of manipulating it only it the users checks/unchecks the checkbox
 const CustomCheckBox = ({ message, required, defaultChecked, onBoxCheck }) => {
   const SPONSORS_BOX = useInputValue(defaultChecked);
 

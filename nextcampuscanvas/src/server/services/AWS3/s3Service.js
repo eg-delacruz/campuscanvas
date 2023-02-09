@@ -302,6 +302,27 @@ export async function s3Deletev3_small_home_slider_images(files) {
   }
 }
 
+//Files must be an array. The "v" comes from version
+export async function s3Deletev3_brand_logos(files) {
+  try {
+    //This object will be maped to delete each file
+    const params = files.map((file) => {
+      return {
+        Bucket: process.env.CC_AWS_BUCKET_NAME,
+        //Base storage folder/name of the file
+        Key: `brand_logos/${file}`,
+      };
+    });
+
+    await Promise.all(
+      params.map((param) => s3client.send(new DeleteObjectCommand(param)))
+    );
+  } catch (error) {
+    console.error(`[s3Service error] ${error}`);
+    throw new Error(error.message);
+  }
+}
+
 //OBSERVATION:
 //Consider that the uploaded files to this bucket are all available for public
 //access. It shouldn't be like this in case we need to store contracts in AWS,

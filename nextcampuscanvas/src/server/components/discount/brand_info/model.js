@@ -5,6 +5,7 @@ const BrandInfoSchema = new mongoose.Schema({
     type: String,
     required: [true, 'El nombre de la marca es necesario'],
     unique: true,
+    immutable: true,
   },
   brand_logo: {
     name: {
