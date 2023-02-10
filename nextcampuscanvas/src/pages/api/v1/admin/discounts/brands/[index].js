@@ -120,6 +120,30 @@ router
     } catch (error) {
       errorResponse(req, res, 'Error al editar marca', 400, error);
     }
+  })
+  .delete(async (req, res) => {
+    const { body, headers, method } = req;
+
+    const brandID = req.query.index;
+    const brandLogoFileName = headers.brandlogofilename;
+    try {
+      await Controller.deleteBrand(brandID, brandLogoFileName);
+      successResponse(req, res, 'Marca eliminada', 201);
+    } catch (error) {
+      if (
+        error.message ===
+        'No se puede eliminar marca porque tiene descuentos asociados'
+      ) {
+        return errorResponse(
+          req,
+          res,
+          'No se puede eliminar marca porque tiene descuentos asociados',
+          400,
+          error
+        );
+      }
+      errorResponse(req, res, 'Error al eliminar la marca', 400, error);
+    }
   });
 
 // Custom onError and onNoMatch handler

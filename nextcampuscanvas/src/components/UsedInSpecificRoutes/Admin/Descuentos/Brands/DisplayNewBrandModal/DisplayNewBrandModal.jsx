@@ -28,7 +28,6 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
     uploading: false,
   });
   const [files, setFiles] = useState([]);
-  const [sponsorsBox, setSponsorsBox] = useState(false);
 
   const { fetchData: uploadData, cancel } = useAxios();
 
@@ -38,6 +37,7 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
   //Controlling inputs
   const BRAND_NAME = useInputValue('');
   const BRAND_DESCRIPTION = useInputValue('');
+  const SPONSORS_BOX = useInputValue(false);
 
   //Setting field counts
   const DESCRIPTION_COUNT = useCharacterCount();
@@ -62,7 +62,7 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
     formdata.append('brand_name', BRAND_NAME.value);
     formdata.append('brand_description', BRAND_DESCRIPTION.value);
     formdata.append('brand_logo', files[0]);
-    formdata.append('sponsors_box', sponsorsBox);
+    formdata.append('sponsors_box', SPONSORS_BOX.value);
 
     setState({ ...state, uploading: true });
 
@@ -85,7 +85,7 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
     BRAND_NAME.setValue('');
     BRAND_DESCRIPTION.setValue('');
     setFiles([]);
-    setSponsorsBox(false);
+    SPONSORS_BOX.setValue(false);
     setShowModal(false);
     setState({ ...state, uploading: false, error: null });
     DESCRIPTION_COUNT.setValue(0);
@@ -137,12 +137,9 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
               />
             </div>
             <CustomCheckBox
-              message={'La marca patrocina Campus Box 🎁'}
+              message='La marca patrocina Campus Box 🎁'
               required={false}
-              defaultChecked={false}
-              onBoxCheck={() => {
-                setSponsorsBox(!sponsorsBox);
-              }}
+              state={SPONSORS_BOX}
             />
           </div>
 

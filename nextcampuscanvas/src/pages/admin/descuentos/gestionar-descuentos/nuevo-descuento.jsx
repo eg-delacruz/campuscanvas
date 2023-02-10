@@ -16,6 +16,7 @@ import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/Admi
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import ButtonBack from '@components/GeneralUseComponents/ButtonBack/ButtonBack';
 import CustomCheckBox from '@components/GeneralUseComponents/CustomCheckBox/CustomCheckBox';
+
 import DragDropUploadArea from '@components/GeneralUseComponents/DragDropUploadArea/DragDropUploadArea';
 
 //hooks
@@ -99,11 +100,9 @@ const nuevoDescuento = () => {
     uploading: false,
   });
   const [bannerFile, setBannerFiles] = useState([]);
-  const [showInHomeSlider, setShowInHomeSlider] = useState(false);
   const [bigImageHomeSlider, setBigImageHomeSlider] = useState([]);
   const [smallImageHomeSlider, setSmallImageHomeSlider] = useState([]);
   const [termsCondsText, setTermsCondsText] = useState('');
-  const [showFirstInCategory, setShowFirstInCategory] = useState(false);
 
   //Error states
   const [titleError, setTitleError] = useState(null);
@@ -133,9 +132,11 @@ const nuevoDescuento = () => {
   const CALL_TO_ACTION = useInputValue('');
   const VALID_FROM = useInputValue('');
   const EXPIRATION_DATE = useInputValue('');
+  const SHOW_IN_HOME_SLIDER = useInputValue(false);
   const CARD_TITLE = useInputValue('');
   const CARD_TAG = useInputValue('');
   const DISPLAY_CARD_IN_SECTION = useInputValue('');
+  const SHOW_FIRST_IN_CATEGORY = useInputValue(false);
 
   //Setting field counts
   const TITLE_COUNT = useCharacterCount();
@@ -251,7 +252,7 @@ const nuevoDescuento = () => {
       return;
     }
 
-    if (showInHomeSlider) {
+    if (SHOW_IN_HOME_SLIDER.value) {
       if (
         bigImageHomeSlider.length === 0 ||
         smallImageHomeSlider.length === 0
@@ -324,14 +325,14 @@ const nuevoDescuento = () => {
     formdata.append('valid_from', new Date(VALID_FROM.value));
     formdata.append('expiration_date', EXP_DATE);
     formdata.append('banner', bannerFile[0]);
-    formdata.append('show_in_home_slider', showInHomeSlider);
+    formdata.append('show_in_home_slider', SHOW_IN_HOME_SLIDER.value);
     formdata.append('big_home_slider_image', bigImageHomeSlider[0]);
     formdata.append('small_home_slider_image', smallImageHomeSlider[0]);
     formdata.append('card_title', CARD_TITLE.value);
     formdata.append('card_tag', CARD_TAG.value);
     formdata.append('display_card_in_section', DISPLAY_CARD_IN_SECTION_ENG);
     formdata.append('terms_and_conds', termsCondsText);
-    formdata.append('show_first_in_category', showFirstInCategory);
+    formdata.append('show_first_in_category', SHOW_FIRST_IN_CATEGORY.value);
 
     //Uploading data
     setState({ ...state, uploading: true });
@@ -763,14 +764,12 @@ const nuevoDescuento = () => {
 
             <div className={styles.home_slider_section}>
               <CustomCheckBox
-                message={'Añadir a slider principal en home'}
+                message='Añadir a slider principal en home'
                 required={false}
-                defaultChecked={false}
-                onBoxCheck={() => {
-                  setShowInHomeSlider(!showInHomeSlider);
-                }}
+                state={SHOW_IN_HOME_SLIDER}
               />
-              {showInHomeSlider && (
+
+              {SHOW_IN_HOME_SLIDER.value && (
                 <div className={styles.upload_images_container}>
                   <label className={`${styles.input_title}`}>
                     Imagen pantalla grande en JPG (Ratio de 3 : 1 , tamaño
@@ -932,12 +931,9 @@ const nuevoDescuento = () => {
             <div className={styles.show_first_in_category_container}>
               <div className={styles.checkbox_tooltip_container}>
                 <CustomCheckBox
-                  message={'Mostrar primero en su categoría'}
+                  message='Mostrar primero en su categoría'
                   required={false}
-                  defaultChecked={false}
-                  onBoxCheck={() => {
-                    setShowFirstInCategory(!showFirstInCategory);
-                  }}
+                  state={SHOW_FIRST_IN_CATEGORY}
                 />
 
                 <span className={styles.tooltip_container}>

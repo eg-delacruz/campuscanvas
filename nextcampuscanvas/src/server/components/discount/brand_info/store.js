@@ -46,10 +46,18 @@ const updateBrand = async (brand) => {
   return updatedBrand;
 };
 
+///////////////////// Delete brand ////////////////////////
+const deleteBrand = async (id) => {
+  const brand = await getBrandById(id);
+  await brand.deleteOne();
+  return brand;
+};
+
 module.exports = {
   add: createBrand,
   brandAlreadyExists,
   getBrands,
   getById: getBrandById,
   update: updateBrand,
+  delete: deleteBrand,
 };

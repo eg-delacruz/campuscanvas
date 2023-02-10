@@ -6,7 +6,7 @@ const PRODUCTION_API = process.env.NEXT_PUBLIC_API_URL;
 const VERSION = process.env.NEXT_PUBLIC_API_URL_VERSION;
 
 //Befor sending to production and npm build, change the API URL to the production one
-const API = LOCAL_API;
+const API = PRODUCTION_API;
 //Next api (end)
 
 //Node server api (start)
@@ -51,6 +51,8 @@ const endPoints = {
       index: `${API}/api/${VERSION}/admin/discounts`,
       brands: `${API}/api/${VERSION}/admin/discounts/brands/index`,
       getDiscountById: (id) => `${API}/api/${VERSION}/admin/discounts/${id}`,
+      eliminateBrand: (brandID) =>
+        `${API}/api/${VERSION}/admin/discounts/brands/${brandID}`,
     },
   },
   file_management: {

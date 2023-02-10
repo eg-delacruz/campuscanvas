@@ -29,7 +29,7 @@ export default async function handler(req, res) {
 
   const { body, method, headers } = req;
 
-  //GET all discounts
+  //GET discounts according to required info
   switch (method) {
     case 'GET':
       if (!headers.needed_info) {
@@ -61,6 +61,15 @@ export default async function handler(req, res) {
                 brandID
               );
               successResponse(req, res, discountsByBrand, 201);
+              break;
+            case 'discounts_count_by_brand':
+              const brandIDForCount = headers.brand_id;
+              const discountsCountByBrand =
+                await Controller.getDiscountsCountByBrandId(brandIDForCount);
+              const COUNT = {
+                count: discountsCountByBrand,
+              };
+              successResponse(req, res, COUNT, 201);
               break;
             default:
               errorResponse(

@@ -11,9 +11,9 @@ import styles from '@styles/pagestyles/admin/descuentos/editarMarca.module.scss'
 import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
 import ButtonBack from '@components/GeneralUseComponents/ButtonBack/ButtonBack';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
-import CustomCheckBox from '@components/GeneralUseComponents/CustomCheckBox/CustomCheckBox';
 import DisplayEliminateBrandModal from '@components/UsedInSpecificRoutes/Admin/Descuentos/Brands/DisplayEliminateBrandModal/DisplayEliminateBrandModal';
 import NotFound404 from '@components/GeneralUseComponents/NotFound404/NotFound404';
+import CustomCheckBox from '@components/GeneralUseComponents/CustomCheckBox/CustomCheckBox';
 
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
@@ -35,9 +35,6 @@ import dateFormat from '@services/dateFormat';
 //Endpoints
 import endPoints from '@services/api/index';
 
-//TODO: this component will be responsible to refresh the global brands data if modified/deleted
-//TODO: don´t forget to  refresh pertinent SSG pertinent paths if brand is modified/deleted
-//TODO: handle the custom checkbox from here, not inside that component!
 const editarMarca = () => {
   const { securingRoute } = useSecureAdminRoute('all');
 
@@ -66,9 +63,7 @@ const editarMarca = () => {
     error: null,
     logoPreview: '',
   });
-
-  const [sponsorsBox, setSponsorsBox] = useState();
-
+  const [discountsCount, setDiscountsCount] = useState(0);
   const [showEliminateModal, setShowEliminateModal] = useState(false);
 
   //Get brand id
@@ -88,11 +83,11 @@ const editarMarca = () => {
       const brand = brandsReducer.brands.find((brand) => brand._id === id);
       if (brand) {
         setState({ ...state, brand, loading: false });
-        setSponsorsBox(brand.sponsors_box);
+        SPONSORS_BOX.setValue(brand.sponsors_box);
         BRAND_DESCRIPTION.setValue(brand.brand_description);
         DESCRIPTION_COUNT.setValue(brand.brand_description.length);
+        return;
       }
-      return;
     }
 
     //If the brand is not available in global state, get it from the server
@@ -119,7 +114,7 @@ const editarMarca = () => {
           loading: false,
           error: null,
         });
-        setSponsorsBox(response.body.sponsors_box);
+        SPONSORS_BOX.setValue(response.body.sponsors_box);
         BRAND_DESCRIPTION.setValue(response.body.brand_description);
         DESCRIPTION_COUNT.setValue(response.body.brand_description.length);
       };
@@ -134,25 +129,44 @@ const editarMarca = () => {
     if (!router.isReady) return;
 
     const getDiscounts = async () => {
-      const response = await fetchData(endPoints.discounts.index, 'get', null, {
-        needed_info: 'discounts_by_brand',
-        brand_id: id,
-      });
+      const responses = await Promise.allSettled([
+        fetchData(endPoints.discounts.index, 'get', null, {
+          needed_info: 'discounts_by_brand',
+          brand_id: id,
+        }),
+        fetchData(endPoints.discounts.index, 'get', null, {
+          needed_info: 'discounts_count_by_brand',
+          brand_id: id,
+        }),
+      ]);
 
-      if (response.error) {
+      const [discountsResponse, discountsCountResponse] = responses;
+
+      if (discountsResponse.status === 'rejected') {
         setDiscounts({
           ...discounts,
-          error: response.error,
+          error: discountsResponse.reason,
           loading: false,
         });
         return;
       }
+
+      if (discountsCountResponse.status === 'rejected') {
+        setDiscounts({
+          ...discounts,
+          error: discountsCountResponse.reason,
+          loading: false,
+        });
+        return;
+      }
+
       setDiscounts({
         ...discounts,
-        discounts: response.body,
+        discounts: discountsResponse.value.body,
         loading: false,
         error: null,
       });
+      setDiscountsCount(discountsCountResponse.value.body.count);
     };
     getDiscounts();
   }, [router?.isReady]);
@@ -160,6 +174,7 @@ const editarMarca = () => {
 
   //Controlling inputs
   const BRAND_DESCRIPTION = useInputValue('');
+  const SPONSORS_BOX = useInputValue(state.brand?.sponsors_box);
 
   //Setting field counts
   const DESCRIPTION_COUNT = useCharacterCount();
@@ -186,7 +201,7 @@ const editarMarca = () => {
       );
       return false;
     }
-    //TODO: eliminate brand
+
     setShowEliminateModal(true);
   };
 
@@ -196,6 +211,7 @@ const editarMarca = () => {
         showModal={showEliminateModal}
         setShowModal={setShowEliminateModal}
         id={id}
+        brandLogoFileName={state.brand.brand_logo.name}
       />
     );
   };
@@ -264,10 +280,10 @@ const editarMarca = () => {
 
     const formdata = new FormData();
     formdata.append('id', id);
-    formdata.append('sponsors_box', sponsorsBox);
+    formdata.append('sponsors_box', SPONSORS_BOX.value);
     formdata.append('brand_logo', newBrandLogo.newLogo[0]);
 
-    //Send new description only if it was chaged
+    //Send new description only if it was changed
     if (state.brand.brand_description !== BRAND_DESCRIPTION.value) {
       formdata.append('brand_description', BRAND_DESCRIPTION.value);
     } else {
@@ -323,7 +339,6 @@ const editarMarca = () => {
   return (
     <>
       <AdminHeader />
-      {handleDisplayEliminateModal()}
       <div className={`${styles.container} container`}>
         <ButtonBack prevRoute={'/admin/descuentos/gestionar-marcas'} />
 
@@ -337,6 +352,7 @@ const editarMarca = () => {
             />
           ) : (
             <>
+              {handleDisplayEliminateModal()}
               <form
                 action=''
                 method='POST'
@@ -386,12 +402,9 @@ const editarMarca = () => {
                     </p>
                   </div>
                   <CustomCheckBox
-                    message={'La marca patrocina Campus Box 🎁'}
+                    message='La marca patrocina Campus Box 🎁'
                     required={false}
-                    defaultChecked={state.brand.sponsors_box}
-                    onBoxCheck={(sponsorsBox) => {
-                      setSponsorsBox(!sponsorsBox);
-                    }}
+                    state={SPONSORS_BOX}
                   />
                 </div>
 
@@ -463,11 +476,16 @@ const editarMarca = () => {
                   ''
                 )}
 
-                {/* TODO: disable if there arent changes to avoid unnecessary requests */}
                 <button
                   type='submit'
                   className={`${styles.submit_btn} ${
                     state.saving_changes && styles.buttonLoading
+                  } ${
+                    state.brand.brand_description === BRAND_DESCRIPTION.value &&
+                    newBrandLogo.newLogo.length === 0 &&
+                    state.brand.sponsors_box === SPONSORS_BOX.value
+                      ? styles.disabled
+                      : ''
                   } btn button--red`}
                   //Disable button if there are no changes or changes are being submitted
                   disabled={
@@ -475,7 +493,7 @@ const editarMarca = () => {
                     (state.brand.brand_description ===
                       BRAND_DESCRIPTION.value &&
                       newBrandLogo.newLogo.length === 0 &&
-                      state.brand.sponsors_box === sponsorsBox)
+                      state.brand.sponsors_box === SPONSORS_BOX.value)
                   }
                 >
                   Guardar cambios
@@ -496,7 +514,7 @@ const editarMarca = () => {
                 // Associated discounts //
                 ///////////////////////// */}
               <div className={styles.discounts_container}>
-                <h2>Descuentos asociados ({discounts.discounts.length})</h2>
+                <h2>Descuentos asociados ({discountsCount})</h2>
                 {discounts.loading ? (
                   <Loader />
                 ) : (

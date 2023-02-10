@@ -1,21 +1,12 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
-
-//hooks
-import { useInputValue } from '@hooks/useInputValue';
 
 //Styles
 import styles from './CustomCheckbox.module.scss';
 
-//CLARIFICATION: required property gets a bool, but doesn´t show any error message if the box is not checked. Therefore, if the returned value is false, but this is required, that parent component should handle that and only allow to continue if checked. If required is true, this component itself won´t allow to conginue, but it just won´t show any message.
-
-//TODO: the initial value has to be outside this component to be able to manipulate its state whenever we want, insted of manipulating it only it the users checks/unchecks the checkbox
-const CustomCheckBox = ({ message, required, defaultChecked, onBoxCheck }) => {
-  const SPONSORS_BOX = useInputValue(defaultChecked);
-
+//CLARIFICATION: the state has to be a controlled input state created with the useInputValue hook
+const CustomCheckBox = ({ message, required, state }) => {
   const onCheckboxChange = () => {
-    SPONSORS_BOX.setValue(!SPONSORS_BOX.value);
-    onBoxCheck(SPONSORS_BOX.value);
+    state.setValue(!state.value);
   };
 
   return (
@@ -26,7 +17,7 @@ const CustomCheckBox = ({ message, required, defaultChecked, onBoxCheck }) => {
           className={styles.checkbox}
           type='checkbox'
           autoComplete='off'
-          defaultChecked={SPONSORS_BOX.value}
+          checked={state.value}
           onChange={onCheckboxChange}
           required={required}
         />
@@ -41,6 +32,5 @@ export default CustomCheckBox;
 CustomCheckBox.propTypes = {
   message: PropTypes.string.isRequired,
   required: PropTypes.bool.isRequired,
-  defaultChecked: PropTypes.bool.isRequired,
-  onBoxCheck: PropTypes.func.isRequired,
+  state: PropTypes.object.isRequired,
 };

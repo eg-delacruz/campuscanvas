@@ -61,6 +61,13 @@ const getAvailableByBrand = async (brandId) => {
     .exec();
 };
 
+/////////////////////Get discounts count by brand////////////////////////
+const getDiscountsCountByBrandId = async (brandId) => {
+  return await Discount.countDocuments({
+    brand: brandId,
+  });
+};
+
 module.exports = {
   add: createDiscount,
   getDiscounts,
@@ -68,4 +75,5 @@ module.exports = {
   deleteById,
   getByBrand,
   getAvailableByBrand,
+  getDiscountsCountByBrandId,
 };

@@ -610,18 +610,97 @@ const updateBrand = async ({
   }
 };
 
+const deleteBrand = async (id, brandLogoFileName) => {
+  try {
+    //Check if required info has been received
+    if (!id || !brandLogoFileName) {
+      console.error(
+        '[discount controller | deleteBrand function error] Información insuficiente para eliminar marca'
+      );
+      throw new Error('Información insuficiente para eliminar marca');
+    }
+
+    //Get associated discounts count of brand and not allow to erase if there are any
+    const discountsCount = await discountInfo_Store.getDiscountsCountByBrandId(
+      id
+    );
+
+    if (discountsCount > 0) {
+      console.error(
+        '[discount controller | deleteBrand function error] No se puede eliminar marca porque tiene descuentos asociados'
+      );
+      throw new Error(
+        'No se puede eliminar marca porque tiene descuentos asociados'
+      );
+    }
+
+    const responses = await Promise.allSettled([
+      //Delete brand logo from aws
+      s3Deletev3_brand_logos([brandLogoFileName]),
+
+      //Delete brand info from DB
+      brandInfo_Store.delete(id),
+    ]);
+
+    const [deleted_logo, deleted_brand] = responses;
+
+    if (
+      deleted_logo.status === 'rejected' ||
+      deleted_brand.status === 'rejected'
+    ) {
+      console.error(
+        '[discount controller | deleteBrand function error] Error al eliminar logo de AWS o al eliminar marca de la DB' +
+          deleted_logo.reason +
+          deleted_brand.reason
+      );
+      throw new Error('Error al eliminar marca');
+    }
+  } catch (error) {
+    console.error(
+      '[discount controller | deleteBrand function error]' + error.message
+    );
+    throw new Error(error.message);
+  }
+};
+
+async function getDiscountsCountByBrandId(brandID) {
+  try {
+    //Check if required info has been received
+    if (!brandID) {
+      console.error(
+        '[discount controller | getDiscountsCountByBrandId function error] Información insuficiente para obtener datos'
+      );
+      throw new Error('Información insuficiente para obtener datos');
+    }
+
+    const discountCount = await discountInfo_Store.getDiscountsCountByBrandId(
+      brandID
+    );
+
+    return discountCount;
+  } catch (error) {
+    console.error(
+      '[discount controller | getDiscountsCountByBrandId function error]' +
+        error.message
+    );
+    throw new Error(error.message);
+  }
+}
+
 module.exports = {
   //Brand functions
   createNewBrand,
   getBrands,
   getBrandById,
   updateBrand,
+  deleteBrand,
 
   //Discount functions
   createNewDiscount,
   getDiscounts,
   getDiscountById,
   getDiscountsByBrand,
+  getDiscountsCountByBrandId,
 
   //Cards functions
   getAllAvailableDiscountCards,

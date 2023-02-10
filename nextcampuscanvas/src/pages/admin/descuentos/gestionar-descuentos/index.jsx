@@ -20,6 +20,7 @@ import dateFormat from '@services/dateFormat';
 import { getDiscounts, selectDiscount } from '@redux/discountsSlice';
 
 //TODO: display status in table
+//TODO: get discount ammount with estimated document count
 const index = () => {
   const { securingRoute } = useSecureAdminRoute();
 
