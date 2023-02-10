@@ -173,11 +173,6 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       //In case /student/descuentos is also SSG, uptade that route here as well
       routesToUpdateSSG.push(`/descuentos/${CREATED_DISCOUNT._id.toString()}`);
 
-      //Updating home if needed
-      if (CREATED_DISCOUNT.display_in_section) {
-        routesToUpdateSSG.push('/');
-      }
-
       //Updating category route
       switch (CREATED_DISCOUNT.category) {
         case 'travel':
@@ -267,7 +262,12 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       createdAt: new Date(),
     };
 
-    await Card_Store.add(card);
+    const CREATED_CARD = await Card_Store.add(card);
+
+    //Revalidating home if needed
+    if (CREATED_CARD.display_in_section) {
+      routesToUpdateSSG.push('/');
+    }
 
     return routesToUpdateSSG;
   } catch (error) {

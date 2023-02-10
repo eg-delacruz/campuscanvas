@@ -20,6 +20,7 @@ import { getBrands, selectBrand } from '@redux/brandsSlice';
 //Services
 import dateFormat from '@services/dateFormat';
 
+//TODO: show brands count
 const gestionarMarcas = () => {
   const { securingRoute } = useSecureAdminRoute();
 

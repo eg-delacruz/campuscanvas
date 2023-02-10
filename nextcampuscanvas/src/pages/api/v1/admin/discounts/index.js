@@ -74,7 +74,6 @@ router
         files,
         OPERATION_DONE_BY
       );
-      console.log(routesToUpdateSSG);
       //Revalidating routes
       await routeRevalidator(res, routesToUpdateSSG);
       successResponse(req, res, 'Descuento creado', 201);
