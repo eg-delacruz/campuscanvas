@@ -58,6 +58,7 @@ const DiscountSchema = new mongoose.Schema({
   valid_from: {
     type: Date,
   },
+  //TODO: add the updated_at property
   expiration_date: {
     type: Date,
   },

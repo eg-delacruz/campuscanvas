@@ -14,7 +14,7 @@ import DisplayNewBrandModal from '@components/UsedInSpecificRoutes/Admin/Descuen
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
 
-//Redux actions
+//Redux
 import { getBrands, selectBrand } from '@redux/brandsSlice';
 
 //Services

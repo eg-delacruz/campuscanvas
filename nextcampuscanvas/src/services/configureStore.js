@@ -7,6 +7,7 @@ import usersReducer from '@redux/usersSlice';
 import globalStateReducer from '@redux/globalStateSlice';
 import brandsReducer from '@redux/brandsSlice';
 import discountsReducer from '@redux/discountsSlice';
+import homeBannersReducer from '@redux/homeBannersSlice';
 
 export const store = configureStore({
   //We pass the reducer to the store. This names have to be the same as the exported selector of the slice.js files to correctly access the desired state.
@@ -17,6 +18,7 @@ export const store = configureStore({
     globalState: globalStateReducer,
     brands: brandsReducer,
     discounts: discountsReducer,
+    home_banners: homeBannersReducer,
   },
 });
 

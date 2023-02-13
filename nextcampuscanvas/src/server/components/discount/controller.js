@@ -231,6 +231,8 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
           name: small_slider_img.value[0].name,
           URL: small_slider_img.value[0].URL,
         },
+        created_at: new Date(),
+        created_by,
       };
 
       //Create home slider banner document in Mongo DB
@@ -306,7 +308,7 @@ const getAvailableDiscountCardsByCategory = async (category) => {
   }
 };
 
-const getHomeSliderBanners = async () => {
+async function getHomeSliderBanners() {
   try {
     const banners = await homeSliderBanner_Store.getBanners();
     return banners;
@@ -314,7 +316,7 @@ const getHomeSliderBanners = async () => {
     console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
   }
-};
+}
 
 const getHomeSectionsCards = async () => {
   try {
@@ -338,7 +340,7 @@ const getHomeSectionsCards = async () => {
   }
 };
 
-const getDiscountById = async (id) => {
+async function getDiscountById(id) {
   try {
     const discount = await discountInfo_Store.getDiscountById(id);
     return discount;
@@ -346,14 +348,12 @@ const getDiscountById = async (id) => {
     console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
   }
-};
+}
 
 const eliminateDiscountData = async (id, bannerName) => {
   try {
     let routesToUpdateSSG = [];
     const responses = await Promise.allSettled([
-      //Mongo Data
-
       //Delete discount
       discountInfo_Store.deleteById(id),
 
@@ -425,7 +425,7 @@ const eliminateDiscountData = async (id, bannerName) => {
         ]),
       ]);
 
-      //Adding home route if not already there
+      //Adding home route if not already added
       if (!routesToUpdateSSG.includes('/')) {
         routesToUpdateSSG.push('/');
       }
@@ -687,6 +687,40 @@ async function getDiscountsCountByBrandId(brandID) {
   }
 }
 
+async function getHomeSliderBannersInfoForAdmin() {
+  try {
+    const banners = await getHomeSliderBanners();
+
+    const bannersInfo = await Promise.all(
+      banners.map(async (banner) => {
+        const discount = await discountInfo_Store.getDiscountById(
+          banner.discount_id
+        );
+
+        return {
+          id: banner._id,
+          slider_banner_big_screen: banner.slider_banner_big_screen,
+          slider_banner_small_screen: banner.slider_banner_small_screen,
+          created_by: banner.created_by,
+          created_at: banner.created_at,
+          brand_logo: discount.brand.brand_logo,
+          brand_name: discount.brand.brand_name,
+          discount_title: discount.title,
+          discount_category: discount.category,
+        };
+      })
+    );
+
+    return bannersInfo;
+  } catch (error) {
+    console.error(
+      '[discount controller | getHomeSliderBannersInfoForAdmin function error]' +
+        error.message
+    );
+    throw new Error(error.message);
+  }
+}
+
 module.exports = {
   //Brand functions
   createNewBrand,
@@ -709,6 +743,7 @@ module.exports = {
 
   //Home slider functions
   getHomeSliderBanners,
+  getHomeSliderBannersInfoForAdmin,
 
   //General
   eliminateDiscountData,

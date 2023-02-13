@@ -788,7 +788,7 @@ const nuevoDescuento = () => {
                   <label
                     className={`${styles.input_title} ${styles.upload_small_Home_slider_img_label}`}
                   >
-                    Imagen pantalla mobil en JPG (780 x 520!){' '}
+                    Imagen pantalla movil en JPG (780 x 520!){' '}
                   </label>
                   <DragDropUploadArea
                     onFileChange={(files) => {

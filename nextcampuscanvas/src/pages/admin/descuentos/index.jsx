@@ -45,6 +45,9 @@ const index = () => {
           <Link href={'/admin/descuentos/gestionar-marcas'}>
             <li>Gestionar marcas</li>
           </Link>
+          <Link href={'/admin/descuentos/gestionar-home-slider'}>
+            <li>Gestionar Home Slider</li>
+          </Link>
         </ul>
       </div>
     </>

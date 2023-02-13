@@ -27,6 +27,14 @@ const HomeBannerSlideSchema = new mongoose.Schema({
       required: [true, 'La URL del banner pequeño es necesaria'],
     },
   },
+  created_at: {
+    type: Date,
+    immutable: true,
+  },
+  created_by: {
+    type: String,
+    required: [true, 'El creador de la marca es necesario'],
+  },
 });
 
 export default mongoose.models.HomeBannerSlide ||

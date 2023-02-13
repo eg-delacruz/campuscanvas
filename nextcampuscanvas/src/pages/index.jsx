@@ -35,9 +35,6 @@ export default function Home(props) {
   //Session
   const { data: session, status } = useSession();
 
-  //TODO: erase this
-  console.log();
-
   return (
     <>
       <SEOHeader
