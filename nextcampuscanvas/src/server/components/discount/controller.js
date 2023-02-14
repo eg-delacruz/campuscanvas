@@ -699,6 +699,7 @@ async function getHomeSliderBannersInfoForAdmin() {
 
         return {
           id: banner._id,
+          discount_id: banner.discount_id,
           slider_banner_big_screen: banner.slider_banner_big_screen,
           slider_banner_small_screen: banner.slider_banner_small_screen,
           created_by: banner.created_by,

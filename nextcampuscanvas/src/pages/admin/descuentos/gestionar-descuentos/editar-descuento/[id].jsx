@@ -28,6 +28,7 @@ import { selectDiscount } from '@redux/discountsSlice';
 //Endpoints
 import endPoints from '@services/api/index';
 
+//TODO: handle if discount doesn´t exist
 const editarDescuento = () => {
   const { securingRoute } = useSecureAdminRoute('all');
   //Allows us to manipulate the appropriate slice/action
