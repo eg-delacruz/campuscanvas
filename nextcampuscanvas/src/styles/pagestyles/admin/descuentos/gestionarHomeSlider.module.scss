@@ -16,11 +16,13 @@
   border: 1px solid $color--dark-gray;
   border-radius: 5px;
   margin-bottom: 32px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 
   .info_container {
     border-bottom: 1px solid $color--dark-gray;
     padding: 8px;
     background-color: $color--tertiary-white;
+
     .brand_logo_container {
       display: flex;
       align-items: center;

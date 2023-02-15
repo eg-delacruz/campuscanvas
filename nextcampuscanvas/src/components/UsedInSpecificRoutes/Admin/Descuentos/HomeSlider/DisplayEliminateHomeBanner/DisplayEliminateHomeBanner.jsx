@@ -24,6 +24,8 @@ const DisplayEliminateHomeBanner = ({
   setShowModal,
   banner_id,
   discount_title,
+  slider_banner_big_screen_name,
+  slider_banner_small_screen_name,
 }) => {
   const { fetchData, cancel } = useAxios();
 
@@ -33,44 +35,54 @@ const DisplayEliminateHomeBanner = ({
     error: null,
   });
 
+  //Redux
+  const dispatch = useDispatch();
+
   const handleEliminate = async () => {
-    // setState({ ...state, loading: true });
+    setState({ ...state, loading: true, error: null });
 
-    // const response = await fetchData(
-    //     endPoints.admin.homeBanners.deleteHomeBanner(banner_id),
-    //     'delete'
-    // );
-    // if (response.error) {
-    //     return setState({ ...state, error: response.error });
-    // }
+    const response = await fetchData(
+      endPoints.admin.discounts.eliminateHomeSliderBanner(banner_id),
+      'delete',
+      null,
+      {
+        slider_banner_big_screen_name,
+        slider_banner_small_screen_name,
+      }
+    );
+    if (response.error) {
+      return setState({ ...state, error: response.error });
+    }
 
-    // //If deletion successful
-    // if (response.body === 'Banner eliminado') {
-    //     //Update discounts in global state
+    //If deletion successful
+    if (response.body) {
+      setState({ ...state, loading: false });
 
-    //     //Show a confirmation swall
-    // const Toast = Swal.mixin({
-    //     toast: true,
-    //     position: 'top-end',
-    //     showConfirmButton: false,
-    //     timer: 3000,
-    //     width: 400,
-    //     timerProgressBar: true,
-    //     didOpen: (toast) => {
-    //       toast.addEventListener('mouseenter', Swal.stopTimer);
-    //       toast.addEventListener('mouseleave', Swal.resumeTimer);
-    //     },
-    //   });
+      //Update discounts in global state
+      dispatch(getHomeBannersInfo());
 
-    // Toast.fire({
-    //     icon: 'success',
-    //     title: response.body,
-    //   });
+      //Show a confirmation swall
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        width: 400,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer);
+          toast.addEventListener('mouseleave', Swal.resumeTimer);
+        },
+      });
 
-    //     //Close modal
-    //     setShowModal(false);
-    // }
-    console.log(`Banner con banner id ${banner_id} eliminado`);
+      Toast.fire({
+        icon: 'success',
+        title: response.body,
+      });
+
+      //Close modal
+      setShowModal(false);
+    }
   };
 
   return (
@@ -91,6 +103,8 @@ const DisplayEliminateHomeBanner = ({
           <strong>banner para pantallas de movil</strong>, y no aparecerá más en
           home.
         </p>
+
+        {state.error && <p className='error__messagev2'>{state.error}</p>}
 
         <button
           onClick={handleEliminate}

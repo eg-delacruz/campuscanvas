@@ -1,6 +1,7 @@
 //Response manager
 import { successResponse, errorResponse } from '@server/response';
 import Controller from '@server/components/discount/controller';
+import routeRevalidator from '@server/services/routeRevalidator';
 
 //Middlewares
 import { initializeEnpoint } from '@server/middlewares/initializeEndpoint';
@@ -17,7 +18,6 @@ export default async function handler(req, res) {
     avoidCorsErrors: true,
   });
 
-  console.log(req.method);
   if (status.error) {
     return errorResponse(
       req,
@@ -45,6 +45,30 @@ export default async function handler(req, res) {
           400,
           error
         );
+      }
+      break;
+
+    //Delete home slider banner
+    case 'DELETE':
+      const banner_id = req.query.index;
+      const slider_banner_big_screen_name =
+        req.headers.slider_banner_big_screen_name;
+      const slider_banner_small_screen_name =
+        req.headers.slider_banner_small_screen_name;
+
+      try {
+        const routesToUpdateSSG = await Controller.deleteHomeSliderBanner(
+          banner_id,
+          slider_banner_big_screen_name,
+          slider_banner_small_screen_name
+        );
+
+        //Revalidate SSG routes
+        await routeRevalidator(res, routesToUpdateSSG);
+
+        successResponse(req, res, 'Se ha eliminado el banner', 201);
+      } catch (error) {
+        errorResponse(req, res, 'Error al eliminar banner', 400, error);
       }
       break;
 

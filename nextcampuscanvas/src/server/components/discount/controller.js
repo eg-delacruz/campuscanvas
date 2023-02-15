@@ -722,6 +722,66 @@ async function getHomeSliderBannersInfoForAdmin() {
   }
 }
 
+async function deleteHomeSliderBanner(
+  banner_id,
+  slider_banner_big_screen_name,
+  slider_banner_small_screen_name
+) {
+  try {
+    //Check if required info has been received
+    if (
+      !banner_id ||
+      !slider_banner_big_screen_name ||
+      !slider_banner_small_screen_name
+    ) {
+      console.error(
+        '[discount controller | deleteHomeSliderBanner function error] Información insuficiente para eliminar banner'
+      );
+      throw new Error('Información insuficiente para eliminar banner');
+    }
+
+    let routesToUpdateSSG = [];
+
+    const responses = await Promise.allSettled([
+      //Delete banner images from aws
+      s3Deletev3_big_home_slider_images([slider_banner_big_screen_name]),
+
+      s3Deletev3_small_home_slider_images([slider_banner_small_screen_name]),
+
+      //Delete banner info from DB
+      homeSliderBanner_Store.deleteById(banner_id),
+    ]);
+
+    const [deleted_big_image, deleted_small_image, deleted_banner] = responses;
+
+    //Checking for errors
+    if (
+      deleted_big_image.status === 'rejected' ||
+      deleted_small_image.status === 'rejected' ||
+      deleted_banner.status === 'rejected'
+    ) {
+      console.error(
+        '[discount controller | deleteHomeSliderBanner function error] Error al eliminar imágenes de AWS o al eliminar banner de la DB' +
+          deleted_big_image.reason +
+          deleted_small_image.reason +
+          deleted_banner.reason
+      );
+      throw new Error('Error al eliminar banner');
+    }
+
+    //If banner was deleted successfully, update SSG
+    routesToUpdateSSG.push('/');
+
+    return routesToUpdateSSG;
+  } catch (error) {
+    console.error(
+      '[discount controller | deleteHomeSliderBanner function error]' +
+        error.message
+    );
+    throw new Error(error.message);
+  }
+}
+
 module.exports = {
   //Brand functions
   createNewBrand,
@@ -745,6 +805,7 @@ module.exports = {
   //Home slider functions
   getHomeSliderBanners,
   getHomeSliderBannersInfoForAdmin,
+  deleteHomeSliderBanner,
 
   //General
   eliminateDiscountData,

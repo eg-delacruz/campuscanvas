@@ -30,6 +30,8 @@ const homeSliderManagement = () => {
   const [eliminateBanner, setEliminateBanner] = useState({
     banner_id: '',
     discount_title: '',
+    slider_banner_big_screen_name: '',
+    slider_banner_small_screen_name: '',
   });
 
   //Allows us to manipulate the appropriate slice/action
@@ -48,10 +50,17 @@ const homeSliderManagement = () => {
   }, []);
 
   //Functions
-  const displayEliminateModal = (banner_id, discount_title) => {
+  const displayEliminateModal = (
+    banner_id,
+    discount_title,
+    slider_banner_big_screen_name,
+    slider_banner_small_screen_name
+  ) => {
     setEliminateBanner({
       banner_id,
       discount_title,
+      slider_banner_big_screen_name,
+      slider_banner_small_screen_name,
     });
     setShowEliminateModal(true);
   };
@@ -63,6 +72,12 @@ const homeSliderManagement = () => {
         setShowModal={setShowEliminateModal}
         banner_id={eliminateBanner.banner_id}
         discount_title={eliminateBanner.discount_title}
+        slider_banner_big_screen_name={
+          eliminateBanner.slider_banner_big_screen_name
+        }
+        slider_banner_small_screen_name={
+          eliminateBanner.slider_banner_small_screen_name
+        }
       />
     );
   };
@@ -94,71 +109,69 @@ const homeSliderManagement = () => {
           descuento y añádelo desde ahí
         </p>
 
-        <div className={styles.banners_container}>
-          {bannersInfoReducer.home_banners.map((banner) => (
-            <div className={styles.banner} key={banner.id}>
-              <Link
-                href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${banner.discount_id}`}
-              >
-                <div className={styles.info_container}>
-                  <div className={styles.brand_logo_container}>
-                    <div className={styles.logo_container}>
-                      <img
-                        src={banner.brand_logo.URL}
-                        alt={banner.brand_name}
-                      />
-                    </div>
-                    <h2>{banner.brand_name}</h2>
+        {bannersInfoReducer.home_banners.map((banner) => (
+          <article className={styles.banner} key={banner.id}>
+            <Link
+              href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${banner.discount_id}`}
+            >
+              <div className={styles.info_container}>
+                <div className={styles.brand_logo_container}>
+                  <div className={styles.logo_container}>
+                    <img src={banner.brand_logo.URL} alt={banner.brand_name} />
                   </div>
-                  <p className={styles.discount_title}>
-                    {banner.discount_title}
-                  </p>
-                  <p className={styles.discount_category}>
-                    <strong>Categoría: </strong>
-                    {banner.discount_category}
-                  </p>
-                  <p className={styles.created_at}>
-                    <strong>Fecha de creación del banner: </strong>
-                    {banner?.created_at}
-                  </p>
-                  <p className={styles.created_by}>
-                    <strong>Banner creado por: </strong>
-                    {banner?.created_by}
-                  </p>
+                  <h2>{banner.brand_name}</h2>
                 </div>
-              </Link>
-              <div className={styles.images_container}>
-                <div className={styles.big_image_title_delete_banner_container}>
-                  <h5>Pantalla grande (1200 x 400)</h5>
-                  <div className={styles.eliminate_container}>
-                    <Image src={delete_icon} />
-                    <div
-                      className={styles.eliminate_text}
-                      onClick={() =>
-                        displayEliminateModal(banner.id, banner.discount_title)
-                      }
-                    >
-                      Eliminar banners
-                    </div>
+                <p className={styles.discount_title}>{banner.discount_title}</p>
+                <p className={styles.discount_category}>
+                  <strong>Categoría: </strong>
+                  {banner.discount_category}
+                </p>
+                <p className={styles.created_at}>
+                  <strong>Fecha de creación del banner: </strong>
+                  {banner?.created_at}
+                </p>
+                <p className={styles.created_by}>
+                  <strong>Banner creado por: </strong>
+                  {banner?.created_by}
+                </p>
+              </div>
+            </Link>
+            <div className={styles.images_container}>
+              <div className={styles.big_image_title_delete_banner_container}>
+                <h5>Pantalla grande (1200 x 400)</h5>
+                <div className={styles.eliminate_container}>
+                  <Image src={delete_icon} />
+                  <div
+                    className={styles.eliminate_text}
+                    onClick={() =>
+                      displayEliminateModal(
+                        banner.id,
+                        banner.discount_title,
+                        banner.slider_banner_big_screen.name,
+                        banner.slider_banner_small_screen.name
+                      )
+                    }
+                  >
+                    Eliminar banners
                   </div>
-                </div>
-                <div className={styles.big_banner}>
-                  <img
-                    src={banner.slider_banner_big_screen.URL}
-                    alt={`Banner pantalla grande de ${banner.brand_name}`}
-                  />
-                </div>
-                <h5>Pantalla movil (780 x 520)</h5>
-                <div className={styles.small_banner}>
-                  <img
-                    src={banner.slider_banner_small_screen.URL}
-                    alt={`Banner pantalla movil de ${banner.brand_name}`}
-                  />
                 </div>
               </div>
+              <div className={styles.big_banner}>
+                <img
+                  src={banner.slider_banner_big_screen.URL}
+                  alt={`Banner pantalla grande de ${banner.brand_name}`}
+                />
+              </div>
+              <h5>Pantalla movil (780 x 520)</h5>
+              <div className={styles.small_banner}>
+                <img
+                  src={banner.slider_banner_small_screen.URL}
+                  alt={`Banner pantalla movil de ${banner.brand_name}`}
+                />
+              </div>
             </div>
-          ))}
-        </div>
+          </article>
+        ))}
       </div>
     </>
   );

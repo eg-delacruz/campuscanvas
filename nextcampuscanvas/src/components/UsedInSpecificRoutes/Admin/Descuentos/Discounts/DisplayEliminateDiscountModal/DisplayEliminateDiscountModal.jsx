@@ -20,6 +20,7 @@ import useAxios from '@hooks/useAxios';
 //Redux
 import { getDiscounts } from '@redux/discountsSlice';
 
+//TODO: if the discount has a banner attached to it, refresh the global home banners state
 const DisplayEliminateDiscountModal = ({
   showModal,
   setShowModal,
