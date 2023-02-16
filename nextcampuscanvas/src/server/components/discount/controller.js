@@ -782,6 +782,52 @@ async function deleteHomeSliderBanner(
   }
 }
 
+async function getHomeSliderBannerByDiscountId(discount_id) {
+  try {
+    //Check if required info has been received
+    if (!discount_id) {
+      console.error(
+        '[discount controller | getHomeSliderBannerByDiscountId function error] Información insuficiente para obtener datos'
+      );
+      throw new Error('Información insuficiente para obtener datos');
+    }
+
+    let array_banner = [];
+    const banner = await homeSliderBanner_Store.getByDiscountId(discount_id);
+    if (banner) {
+      array_banner = banner;
+    }
+    return array_banner;
+  } catch (error) {
+    console.error(
+      '[discount controller | getHomeSliderBannerByDiscountId function error]' +
+        error.message
+    );
+    throw new Error(error.message);
+  }
+}
+
+async function getCardByDiscountId(discount_id) {
+  try {
+    if (!discount_id) {
+      console.error(
+        '[discount controller | getCardByDiscountId function error] Información insuficiente para obtener datos'
+      );
+      throw new Error('Información insuficiente para obtener datos');
+    }
+
+    const card = await Card_Store.getByDiscountId(discount_id);
+
+    return card;
+  } catch (error) {
+    console.error(
+      '[discount controller | getCardByDiscountId function error]' +
+        error.message
+    );
+    throw new Error(error.message);
+  }
+}
+
 module.exports = {
   //Brand functions
   createNewBrand,
@@ -801,11 +847,13 @@ module.exports = {
   getAllAvailableDiscountCards,
   getAvailableDiscountCardsByCategory,
   getHomeSectionsCards,
+  getCardByDiscountId,
 
   //Home slider functions
   getHomeSliderBanners,
   getHomeSliderBannersInfoForAdmin,
   deleteHomeSliderBanner,
+  getHomeSliderBannerByDiscountId,
 
   //General
   eliminateDiscountData,

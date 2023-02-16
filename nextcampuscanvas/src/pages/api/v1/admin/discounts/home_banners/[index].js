@@ -33,10 +33,23 @@ export default async function handler(req, res) {
   //Get home slider banners info for admin
   switch (method) {
     case 'GET':
+      const { required_info } = req.headers;
       try {
-        const banners_info =
-          await Controller.getHomeSliderBannersInfoForAdmin();
-        successResponse(req, res, banners_info, 201);
+        switch (required_info) {
+          case 'banner_by_discount_id':
+            const discount_id = req.query.index;
+            const banner_info =
+              await Controller.getHomeSliderBannerByDiscountId(discount_id);
+            successResponse(req, res, banner_info, 201);
+            break;
+
+          //Returns the home slider banners together with the corresponding discount info
+          default:
+            const banners_info =
+              await Controller.getHomeSliderBannersInfoForAdmin();
+            successResponse(req, res, banners_info, 201);
+            break;
+        }
       } catch (error) {
         errorResponse(
           req,

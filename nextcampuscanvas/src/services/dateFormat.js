@@ -84,10 +84,19 @@ const SlashDate = (date) => {
   return format.format(date);
 };
 
+//Function that gets a date and returns the date in format yyyy-mm-dd
+const dateToYMD = (date) => {
+  let d = date.getDate();
+  let m = date.getMonth() + 1;
+  let y = date.getFullYear();
+  return `${y}-${m < 10 ? '0' : ''}${m}-${d < 10 ? '0' : ''}${d}`;
+};
+
 export default {
   dateToLetterswithDay,
   dateToLetterswithOutDay,
   monthAndYearOfDate,
   shortSlashDate,
   SlashDate,
+  dateToYMD,
 };

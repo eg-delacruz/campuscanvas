@@ -35,9 +35,15 @@ const deleteById = async (id) => {
   return erased_files;
 };
 
+///////////////////// Get banner by discount id //////////////////////////////
+const getByDiscountId = async (discount_id) => {
+  return await Slide.findOne({ discount_id });
+};
+
 module.exports = {
   add: createSlide,
   getBanners,
   deleteByDiscountId,
   deleteById,
+  getByDiscountId,
 };

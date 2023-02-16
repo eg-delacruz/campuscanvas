@@ -1,0 +1,73 @@
+@import '../../../styles/Vars.scss';
+
+.drop_file_preview {
+  p {
+    font-weight: bold;
+    margin: 0;
+  }
+  &__item {
+    position: relative;
+    display: flex;
+    margin-bottom: 10px;
+    background-color: $color--light-gray;
+    padding: 15px;
+    border-radius: 5px;
+  }
+  &__item_image_container {
+    width: 50px;
+    margin-right: 20px;
+  }
+  &__item_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  &__item_del {
+    background-color: $color--white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 14px 21px 20px -15px rgb(0, 0, 0, 0.1);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    div {
+      width: 50%;
+    }
+  }
+
+  &__item:hover &__item_del {
+    opacity: 1;
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+  .drop_file_preview {
+    &__item_del {
+      opacity: 1;
+    }
+  }
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
+}

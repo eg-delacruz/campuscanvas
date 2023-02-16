@@ -205,7 +205,8 @@ const nuevoDescuento = () => {
     const BRAND_ID = brand_id();
 
     //Getting expiration date
-    let EXP_DATE = null;
+    //TODO: this value was null before, but I changed it to ''. Test this change
+    let EXP_DATE = '';
     if (EXPIRATION_DATE.value) {
       EXP_DATE = new Date(EXPIRATION_DATE.value);
     }

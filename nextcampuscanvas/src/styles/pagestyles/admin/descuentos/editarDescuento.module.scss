@@ -9,35 +9,349 @@
   align-items: center;
 }
 
+.disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+//Displays when the discount couln´t be found in DB
+.error_container {
+  h1 {
+    color: $color--primary1;
+    text-align: center;
+  }
+}
+
 .container {
   max-width: 800px;
-  .flex_row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  padding-bottom: 24px;
+  /////////////////////////General styles (start) ////////////////////////
+  .input_title {
+    margin: 0 0 8px;
+    @include font-size(14px);
+    display: block;
+    font-weight: bold;
   }
 
-  .top_buttons {
+  .input,
+  textarea {
+    width: 100%;
+    background-color: $color--secondary-light;
+    border: 1px solid $color--black;
+    height: 40px;
+    border-radius: 5px;
+    margin: 0;
+    margin-bottom: 30px;
+    padding: 10px;
+  }
+
+  .error_under_input {
+    margin-top: -35px;
+  }
+
+  .fake_disabled_input {
+    width: 100%;
+    background-color: $color--light-gray;
+    border: 1px solid $color--dark-gray;
+    height: 40px;
+    border-radius: 5px;
+    margin: 0;
+    margin-bottom: 30px;
+    padding: 10px;
+    cursor: not-allowed;
+  }
+
+  section {
+    padding: 8px;
+    border: 1px solid $color--dark-gray;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .section_title {
+    margin-bottom: 0;
+  }
+
+  .char_count {
+    text-align: right;
+    margin: -35px 0 0;
+    @include font-size(12px);
+    color: $color--dark-gray;
+  }
+  .char_count_warn span {
+    background-color: $color--warning;
+    color: $color--white;
+    padding: 2px;
+    border-radius: 5px;
+    opacity: 0.6;
+  }
+
+  /////////////////////////
+  //    Tooltip styles    //
+  /////////////////////////
+
+  .label_tooltip_container {
     display: flex;
+    justify-content: flex-start;
+    align-items: center;
     gap: 8px;
-    margin-top: 30px;
-    .edit_icon {
-      max-width: 36px;
-      cursor: pointer;
+  }
+
+  .tooltip_container {
+    position: relative;
+    @include font-size(14px);
+    font-weight: bold;
+    top: -6px;
+    background-color: $color--light-gray;
+    border: 2px solid $color--dark-gray;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $color--primary1;
+    cursor: default;
+    .tooltiptext {
+      visibility: hidden;
+      width: 120px;
+      background-color: black;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px 0;
+
+      /* Position the tooltip */
+      position: absolute;
+      z-index: 1;
+      width: 120px;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
     }
-    .delete_icon {
-      span {
-        background: $color--light-gray;
-        padding: 6px 8px 5px;
+  }
+  .tooltip_container:hover .tooltiptext {
+    visibility: visible;
+  }
+  /////////////////////////General styles (end) ////////////////////////
+
+  .button_back_eliminate_icon_flex_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .delete_icon {
+    span {
+      background: $color--light-gray;
+      padding: 6px 8px 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 1px solid $color--dark-gray;
+      max-width: 36px;
+    }
+  }
+
+  /////////////////////////
+  //       Banner       //
+  /////////////////////////
+
+  .drop_file_input {
+    position: relative;
+    margin-bottom: 16px;
+    .banner {
+      border-radius: 5px;
+      position: relative;
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+      }
+      .change_img_on_hover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $color--white;
+        opacity: 0;
         display: flex;
-        align-items: center;
         justify-content: center;
-        border-radius: 4px;
-        cursor: pointer;
-        border: 1px solid $color--dark-gray;
-        max-width: 36px;
+        align-items: center;
+        transition: all 0.3s ease;
       }
     }
+    input {
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+  }
+  .drop_file_input:hover .change_img_on_hover {
+    opacity: 0.8;
+    cursor: pointer;
+  }
+
+  .new_banner_preview {
+    margin: 0;
+  }
+
+  .general_info_status_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .general_info {
+    .brand_logo_container {
+      display: flex;
+      align-items: center;
+      .logo_container {
+        width: 60px;
+        border-radius: 3px;
+        background-color: #ffffff;
+        height: 60px;
+        border: 1px solid $color--dark-gray;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      h2 {
+        margin: 0;
+        margin-left: 8px;
+      }
+    }
+    p {
+      margin: 0;
+      font-weight: bold;
+      @include font-size(12px);
+      line-height: 18px;
+    }
+    strong {
+      color: $color--dark-gray;
+    }
+  }
+
+  .status_datalist_container {
+    input {
+      margin-bottom: 0;
+    }
+  }
+
+  /////////////////////////
+  // General info section //
+  /////////////////////////
+
+  .general_info_section {
+    .description_text_area {
+      min-height: 60px;
+    }
+    .discount_type_section {
+      .discount_type {
+        margin: 0;
+        margin-bottom: 8px;
+      }
+
+      //This is only displayed if the discount type is discount_code
+      .discount_code_ext_key_container {
+        display: flex;
+        justify-content: space-between;
+        .disc_code_input_label_container,
+        .ext_key_input_label_container {
+          width: 49%;
+        }
+      }
+
+      //This is only displayed if the discount type is dynamically_generated
+      .dynamically_generated_type_container {
+        margin-top: 8px;
+      }
+    }
+
+    .valid_period_container {
+      display: flex;
+      justify-content: space-between;
+      .valid_from_container,
+      .valid_till_container {
+        width: 49%;
+      }
+    }
+
+    .slider_banner_container {
+      p {
+        margin: 0;
+      }
+
+      //This will display if there are no home banners
+      .add_home_banner_btn {
+        padding: 10px;
+        margin: 16px auto;
+      }
+
+      //This will display if there are home banners
+      .images_container {
+        background-color: $color--secondary-white;
+        padding: 8px;
+        h5 {
+          margin: 16px 0;
+        }
+        .big_image_title_delete_banner_container {
+          display: flex;
+          justify-content: space-between;
+          gap: 6px;
+
+          .eliminate_container {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            .eliminate_text {
+              text-decoration: underline;
+            }
+            .eliminate_text:hover {
+              cursor: pointer;
+              opacity: 0.8;
+            }
+          }
+        }
+        .big_banner {
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .small_banner {
+          display: flex;
+          justify-content: center;
+          img {
+            max-width: 780px;
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  /////////////////////////
+  //    Card section    //
+  /////////////////////////
+  .card_section {
+    .title_tag_container {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  .submit_btn {
+    padding: 10px;
+    margin-top: 24px;
   }
 }
 

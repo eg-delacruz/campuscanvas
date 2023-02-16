@@ -42,10 +42,16 @@ const deleteByDiscountId = async (discount_id) => {
   return card;
 };
 
+///////////////////// Get card by discount id //////////////////////////////
+const getByDiscountId = async (discount_id) => {
+  return await Card.findOne({ discount_id });
+};
+
 module.exports = {
   add: createCard,
   getAllAvailableCards,
   getByCategory,
   getBySection,
   deleteByDiscountId,
+  getByDiscountId,
 };
