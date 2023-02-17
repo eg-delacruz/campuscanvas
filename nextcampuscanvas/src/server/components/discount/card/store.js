@@ -49,6 +49,23 @@ const getByDiscountId = async (discount_id) => {
     .exec();
 };
 
+///////////////////// Get home sections cards count //////////////////////////////
+const getHomeSectionsCardsCount = async (section) => {
+  return await Card.countDocuments({
+    status: 'available',
+    display_in_section: section,
+  });
+};
+
+///////////////////// Get count of cards being shown first in its category //////////////////////////////
+const getShowFirstInCategoryCount = async (category) => {
+  return await Card.countDocuments({
+    status: 'available',
+    category,
+    show_first_in_category: true,
+  });
+};
+
 module.exports = {
   add: createCard,
   getAllAvailableCards,
@@ -56,4 +73,6 @@ module.exports = {
   getBySection,
   deleteByDiscountId,
   getByDiscountId,
+  getHomeSectionsCardsCount,
+  getShowFirstInCategoryCount,
 };

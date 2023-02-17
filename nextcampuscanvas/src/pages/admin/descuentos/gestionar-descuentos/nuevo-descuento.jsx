@@ -25,9 +25,17 @@ import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
 import { useCharacterCount } from '@hooks/useCharacterCount';
 import useAxios from '@hooks/useAxios';
 
-//Redux actions
+//Redux
 import { getBrands, selectBrand } from '@redux/brandsSlice';
 import { getDiscounts } from '@redux/discountsSlice';
+import {
+  selectHomeSectionsCount,
+  getHomeSectionsCount,
+} from '@redux/homeSectionsDiscountsCountSlice';
+import {
+  selectShowFirstInCategoryCount,
+  getShowFirstInCategoryCount,
+} from '@redux/showDiscountFirstInCategorySlice';
 
 //Endpoints
 import endPoints from '@services/api';
@@ -42,7 +50,14 @@ const nuevoDescuento = () => {
 
   //Reducers
   const brandsReducer = useSelector(selectBrand);
+  const homeSectionsCountReducer = useSelector(selectHomeSectionsCount);
+  const showFirstInCategoryCountReducer = useSelector(
+    selectShowFirstInCategoryCount
+  );
 
+  const router = useRouter();
+
+  //Get brands to choose from the datalist
   useEffect(() => {
     const setBrands = async () => {
       if (brandsReducer.brands.length === 0) {
@@ -52,30 +67,23 @@ const nuevoDescuento = () => {
     setBrands();
   }, []);
 
+  //Get home section and show first counts
+  useEffect(() => {
+    const setCounts = async () => {
+      if (homeSectionsCountReducer.homeSectionsCount.length === 0) {
+        dispatch(getHomeSectionsCount());
+      }
+      if (
+        showFirstInCategoryCountReducer.showFirstInCategoryCount.length === 0
+      ) {
+        dispatch(getShowFirstInCategoryCount());
+      }
+    };
+
+    setCounts();
+  }, [router?.isReady]);
+
   const { fetchData: uploadData, cancel } = useAxios();
-
-  const router = useRouter();
-
-  //TODO: fetch this data and erase this place holder
-  const CARDS_CURRENTLY_DISPLAYED_AS = {
-    suggested: 4,
-    new: 4,
-    most_searched: 4,
-    home_featured: 9,
-  };
-
-  //TODO: fetch this data and erase this place holder
-  const DISPLAY_FIRST_IN_CATEGORY_AMOUNT = {
-    travel: 4,
-    fashion: 4,
-    beauty: 4,
-    eatordrink: 4,
-    entertainment: 4,
-    technology: 4,
-    others: 4,
-  };
-
-  //TODO: if the discount is displayed in any home sections or the option to display first is selected, refresh those values in redux
 
   //Datalist options
   const CATEGORY_OPTIONS = [
@@ -352,7 +360,18 @@ const nuevoDescuento = () => {
       return setState({ ...state, error: response.error, uploading: false });
     }
 
+    //Reload all discounts after saving a new one
     dispatch(getDiscounts());
+
+    //Refresh home section card count if applyes
+    if (DISPLAY_CARD_IN_SECTION.value) {
+      dispatch(getHomeSectionCardCount());
+    }
+
+    //Refresh show first in category count if applies
+    if (SHOW_FIRST_IN_CATEGORY.value) {
+      dispatch(getShowFirstInCategoryCount());
+    }
 
     setState({ ...state, uploading: false, error: null });
 
@@ -905,30 +924,39 @@ const nuevoDescuento = () => {
                 {/* /////////////////////////////////////
                 // Current discounts per section table // 
                 ///////////////////////////////////// */}
-                {/* TODO: display actual current information in table. */}
-                <table className={styles.current_discounts_per_section_table}>
-                  <thead>
-                    <tr>
-                      <th colSpan='4'>
-                        Descuentos por sección actuales (falta actualizar)
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className={styles.first_row}>
-                      <td>Sugeridos</td>
-                      <td>Novedades</td>
-                      <td>Más buscados</td>
-                      <td>Destacados home</td>
-                    </tr>
-                    <tr className={styles.second_row}>
-                      <td>{CARDS_CURRENTLY_DISPLAYED_AS.suggested}</td>
-                      <td>{CARDS_CURRENTLY_DISPLAYED_AS.new}</td>
-                      <td>{CARDS_CURRENTLY_DISPLAYED_AS.most_searched}</td>
-                      <td>{CARDS_CURRENTLY_DISPLAYED_AS.home_featured}</td>
-                    </tr>
-                  </tbody>
-                </table>
+                {homeSectionsCountReducer.loading ? (
+                  <div>Cargando...</div>
+                ) : homeSectionsCountReducer.error ? (
+                  <div>{homeSectionsCountReducer.error}</div>
+                ) : (
+                  <table className={styles.current_discounts_per_section_table}>
+                    <thead>
+                      <tr>
+                        <th colSpan='4'>
+                          Descuentos por sección de home actuales
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        {homeSectionsCountReducer.homeSectionsCount.map(
+                          (item, index) => (
+                            <td className={styles.first_row} key={index}>
+                              {item.section}
+                            </td>
+                          )
+                        )}
+                      </tr>
+                      <tr className={styles.second_row}>
+                        {homeSectionsCountReducer.homeSectionsCount.map(
+                          (item, index) => (
+                            <td key={index}>{item.count}</td>
+                          )
+                        )}
+                      </tr>
+                    </tbody>
+                  </table>
+                )}
               </div>
             </div>
             <div className={styles.show_first_in_category_container}>
@@ -947,37 +975,40 @@ const nuevoDescuento = () => {
                 </span>
               </div>
 
-              {/* TODO: display actual current information in table */}
-              <table className={styles.current_display_first_by_category_table}>
-                <thead>
-                  <tr>
-                    <th colSpan='7'>
-                      Cantidad de descuentos que se muestran primero en su
-                      categoría actualmente (falta actualizar)
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className={styles.first_row}>
-                    <td>Travel</td>
-                    <td>Fashion</td>
-                    <td>Beauty</td>
-                    <td>Eat or Drink</td>
-                    <td>Entertainment</td>
-                    <td>Technology</td>
-                    <td>Others</td>
-                  </tr>
-                  <tr className={styles.second_row}>
-                    <td>{DISPLAY_FIRST_IN_CATEGORY_AMOUNT.travel}</td>
-                    <td>{DISPLAY_FIRST_IN_CATEGORY_AMOUNT.fashion}</td>
-                    <td>{DISPLAY_FIRST_IN_CATEGORY_AMOUNT.beauty}</td>
-                    <td>{DISPLAY_FIRST_IN_CATEGORY_AMOUNT.eatordrink}</td>
-                    <td>{DISPLAY_FIRST_IN_CATEGORY_AMOUNT.entertainment}</td>
-                    <td>{DISPLAY_FIRST_IN_CATEGORY_AMOUNT.technology}</td>
-                    <td>{DISPLAY_FIRST_IN_CATEGORY_AMOUNT.others}</td>
-                  </tr>
-                </tbody>
-              </table>
+              {showFirstInCategoryCountReducer.loading ? (
+                <div>Cargando...</div>
+              ) : showFirstInCategoryCountReducer.error ? (
+                <div>{showFirstInCategoryCountReducer.error}</div>
+              ) : (
+                <table
+                  className={styles.current_display_first_by_category_table}
+                >
+                  <thead>
+                    <tr>
+                      <th colSpan='7'>
+                        Cantidad de descuentos que se muestran primero en su
+                        categoría actualmente
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className={styles.first_row}>
+                      {showFirstInCategoryCountReducer.showFirstInCategoryCount.map(
+                        (item, index) => (
+                          <td key={index}>{item.category}</td>
+                        )
+                      )}
+                    </tr>
+                    <tr className={styles.second_row}>
+                      {showFirstInCategoryCountReducer.showFirstInCategoryCount.map(
+                        (item, index) => (
+                          <td key={index}>{item.count}</td>
+                        )
+                      )}
+                    </tr>
+                  </tbody>
+                </table>
+              )}
             </div>
           </section>
 

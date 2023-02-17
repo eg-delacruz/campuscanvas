@@ -828,6 +828,67 @@ async function getCardByDiscountId(discount_id) {
   }
 }
 
+const getHomeSectionsCardsCount = async () => {
+  try {
+    //If new sections are created, update this array as well
+    const SECTIONS = ['suggested', 'new', 'most_searched', 'home_featured'];
+    const count = await Promise.all(
+      SECTIONS.map(async (section) => {
+        const sectionCount = await Card_Store.getHomeSectionsCardsCount(
+          section
+        );
+        return {
+          section: section,
+          count: sectionCount,
+        };
+      })
+    );
+
+    return count;
+  } catch (error) {
+    console.error(
+      '[discount controller | getHomeSectionsCardsCount function error]' +
+        error.message
+    );
+    throw new Error(error.message);
+  }
+};
+
+async function getShowFirstInCategoryCount() {
+  try {
+    //If new categories added, also add them in this array
+    const CATEGORIES = [
+      'travel',
+      'fashion',
+      'beauty',
+      'eatordrink',
+      'entertainment',
+      'technology',
+      'others',
+    ];
+
+    const count = await Promise.all(
+      CATEGORIES.map(async (category) => {
+        const categoryCount = await Card_Store.getShowFirstInCategoryCount(
+          category
+        );
+        return {
+          category: category,
+          count: categoryCount,
+        };
+      })
+    );
+
+    return count;
+  } catch (error) {
+    console.error(
+      '[discount controller | getShowFirstInCategoryCount function error]' +
+        error.message
+    );
+    throw new Error(error.message);
+  }
+}
+
 module.exports = {
   //Brand functions
   createNewBrand,
@@ -848,6 +909,8 @@ module.exports = {
   getAvailableDiscountCardsByCategory,
   getHomeSectionsCards,
   getCardByDiscountId,
+  getHomeSectionsCardsCount,
+  getShowFirstInCategoryCount,
 
   //Home slider functions
   getHomeSliderBanners,

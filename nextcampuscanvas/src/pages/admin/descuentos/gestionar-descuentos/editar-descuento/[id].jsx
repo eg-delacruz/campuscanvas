@@ -1,7 +1,7 @@
 //Clarification: Allows edition and deletion of a discount
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import dynamic from 'next/dynamic';
@@ -20,6 +20,7 @@ import DisplayEliminateDiscountModal from '@components/UsedInSpecificRoutes/Admi
 import ToUploadFilePreview from '@components/GeneralUseComponents/ToUploadFilePreview/ToUploadFilePreview';
 import CustomCheckBox from '@components/GeneralUseComponents/CustomCheckBox/CustomCheckBox';
 import DiscountCard from '@components/GeneralUseComponents/DiscountCard/DiscountCard';
+import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
@@ -31,8 +32,16 @@ import { useCharacterCount } from '@hooks/useCharacterCount';
 import delete_icon from '@assets/GeneralUse/IconsAndButtons/delete.svg';
 import edit_pencil from '@assets/GeneralUse/IconsAndButtons/edit_pencil.svg';
 
-//Redux
+//Redux reducers and actions
 import { selectDiscount } from '@redux/discountsSlice';
+import {
+  selectHomeSectionsCount,
+  getHomeSectionsCount,
+} from '@redux/homeSectionsDiscountsCountSlice';
+import {
+  selectShowFirstInCategoryCount,
+  getShowFirstInCategoryCount,
+} from '@redux/showDiscountFirstInCategorySlice';
 
 //Services
 import dateFormat from '@services/dateFormat';
@@ -44,10 +53,9 @@ import endPoints from '@services/api/index';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 //TODO: handle the creation and deletion of home slider banners displaying a modal
-//TODO: if the discount is displayed in any home sections or removed from it, or if the option to display card first changes, refresh those values in redux
+//TODO: create a card tag preview in the card component
 const editarDescuento = () => {
   const { securingRoute } = useSecureAdminRoute('all');
-  //Allows us to manipulate the appropriate slice/action
 
   const { fetchData } = useAxios();
 
@@ -72,7 +80,8 @@ const editarDescuento = () => {
     error: null,
   });
 
-  console.log('discountCard', discountCard);
+  //console.log('discountCard', discountCard);
+  //console.log(state.discount);
 
   const [newBanner, setNewBanner] = useState([]);
   const [showEliminateModal, setShowEliminateModal] = useState(false);
@@ -108,24 +117,6 @@ const editarDescuento = () => {
     affiliate_link_only: 'Solo enlace de afiliado',
     dynamically_generated: 'Generado dinámicamente',
   };
-  //TODO: fetch this data and erase this place holder
-  const CARDS_CURRENTLY_DISPLAYED_AS = {
-    suggested: 4,
-    new: 4,
-    most_searched: 4,
-    home_featured: 9,
-  };
-
-  //TODO: fetch this data and erase this place holder
-  const DISPLAY_FIRST_IN_CATEGORY_AMOUNT = {
-    travel: 4,
-    fashion: 4,
-    beauty: 4,
-    eatordrink: 4,
-    entertainment: 4,
-    technology: 4,
-    others: 4,
-  };
 
   let DISCOUNT_WAS_MODIFIED = false;
   let CARD_WAS_MODIFIED = false;
@@ -154,6 +145,15 @@ const editarDescuento = () => {
 
   //Reducers
   const discountsReducer = useSelector(selectDiscount);
+  const homeSectionsCountReducer = useSelector(selectHomeSectionsCount);
+  const showFirstInCategoryCountReducer = useSelector(
+    selectShowFirstInCategoryCount
+  );
+
+  //Allows us to manipulate the appropriate slice/action
+  const dispatch = useDispatch();
+
+  //Get the discount
   useEffect(() => {
     //Await until the route is ready to get the discount_id
     if (!router.isReady) return;
@@ -323,7 +323,21 @@ const editarDescuento = () => {
     getCardInfo();
   }, [router?.isReady]);
 
-  console.log(state.discount);
+  //Get home section and show first counts
+  useEffect(() => {
+    const setCounts = async () => {
+      if (homeSectionsCountReducer.homeSectionsCount.length === 0) {
+        dispatch(getHomeSectionsCount());
+      }
+      if (
+        showFirstInCategoryCountReducer.showFirstInCategoryCount.length === 0
+      ) {
+        dispatch(getShowFirstInCategoryCount());
+      }
+    };
+
+    setCounts();
+  }, [router?.isReady]);
 
   //Functions
 
@@ -379,7 +393,6 @@ const editarDescuento = () => {
   };
   //Handle change brand logo (end)
 
-  //TODO: prove if card was modified to update those routes
   const handleEditDiscount = async (e) => {
     e.preventDefault();
     setState({ ...state, saving_changes: true, form_error: null });
@@ -532,7 +545,6 @@ const editarDescuento = () => {
 
     const data = {
       newBanner: newBanner[0],
-
       DISCOUNT_WAS_MODIFIED,
       status: STATUS.value,
       title: TITLE.value,
@@ -556,6 +568,22 @@ const editarDescuento = () => {
     //TODO: put everything in a formData
 
     //TODO: idea: send original values and new values, and compare if there are changes to create the revalidate routes? OR send if there are changes on the different fields, and create the revalidate routes based on that
+
+    //Refresh home section card count if applyes
+    if (
+      discountCard.discountCard.display_in_section !==
+      DISPLAY_CARD_IN_SECTION.value
+    ) {
+      dispatch(getHomeSectionsCount());
+    }
+
+    //Refresh show first in category count if applies
+    if (
+      discountCard.discountCard.show_first_in_category !==
+      SHOW_FIRST_IN_CATEGORY.value
+    ) {
+      dispatch(getShowFirstInCategoryCount());
+    }
 
     setState({ ...state, saving_changes: false, form_error: null });
   };
@@ -635,6 +663,7 @@ const editarDescuento = () => {
   return (
     <>
       <AdminHeader />
+      <ButtonUp />
       {state.error ? (
         <>
           <div className={styles.error_container}>
@@ -1134,7 +1163,7 @@ const editarDescuento = () => {
                               htmlFor='display_in_section'
                               className={`${styles.input_title}`}
                             >
-                              Mostrar en sección
+                              Mostrar en sección de home
                             </label>
                             <input
                               className={`${styles.input}`}
@@ -1164,40 +1193,46 @@ const editarDescuento = () => {
                             {/* /////////////////////////////////////
                              // Current discounts per section table // 
                                ///////////////////////////////////// */}
-                            {/* TODO: display actual current information in table. */}
-                            <table
-                              className={
-                                styles.current_discounts_per_section_table
-                              }
-                            >
-                              <thead>
-                                <tr>
-                                  <th colSpan='4'>
-                                    Descuentos por sección de home actuales
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr className={styles.first_row}>
-                                  <td>Sugeridos</td>
-                                  <td>Novedades</td>
-                                  <td>Más buscados</td>
-                                  <td>Destacados home</td>
-                                </tr>
-                                <tr className={styles.second_row}>
-                                  <td>
-                                    {CARDS_CURRENTLY_DISPLAYED_AS.suggested}
-                                  </td>
-                                  <td>{CARDS_CURRENTLY_DISPLAYED_AS.new}</td>
-                                  <td>
-                                    {CARDS_CURRENTLY_DISPLAYED_AS.most_searched}
-                                  </td>
-                                  <td>
-                                    {CARDS_CURRENTLY_DISPLAYED_AS.home_featured}
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
+                            {homeSectionsCountReducer.loading ? (
+                              <div>Cargando...</div>
+                            ) : homeSectionsCountReducer.error ? (
+                              <div>{homeSectionsCountReducer.error}</div>
+                            ) : (
+                              <table
+                                className={
+                                  styles.current_discounts_per_section_table
+                                }
+                              >
+                                <thead>
+                                  <tr>
+                                    <th colSpan='4'>
+                                      Descuentos por sección de home actuales
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    {homeSectionsCountReducer.homeSectionsCount.map(
+                                      (item, index) => (
+                                        <td
+                                          className={styles.first_row}
+                                          key={index}
+                                        >
+                                          {item.section}
+                                        </td>
+                                      )
+                                    )}
+                                  </tr>
+                                  <tr className={styles.second_row}>
+                                    {homeSectionsCountReducer.homeSectionsCount.map(
+                                      (item, index) => (
+                                        <td key={index}>{item.count}</td>
+                                      )
+                                    )}
+                                  </tr>
+                                </tbody>
+                              </table>
+                            )}
                           </div>
                         </div>
 
@@ -1219,57 +1254,42 @@ const editarDescuento = () => {
                             </span>
                           </div>
 
-                          {/* TODO: display actual current information in table */}
-                          <table
-                            className={
-                              styles.current_display_first_by_category_table
-                            }
-                          >
-                            <thead>
-                              <tr>
-                                <th colSpan='7'>
-                                  Cantidad de descuentos que se muestran primero
-                                  en su categoría actualmente (falta actualizar)
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr className={styles.first_row}>
-                                <td>Travel</td>
-                                <td>Fashion</td>
-                                <td>Beauty</td>
-                                <td>Eat or Drink</td>
-                                <td>Entertainment</td>
-                                <td>Technology</td>
-                                <td>Others</td>
-                              </tr>
-                              <tr className={styles.second_row}>
-                                <td>
-                                  {DISPLAY_FIRST_IN_CATEGORY_AMOUNT.travel}
-                                </td>
-                                <td>
-                                  {DISPLAY_FIRST_IN_CATEGORY_AMOUNT.fashion}
-                                </td>
-                                <td>
-                                  {DISPLAY_FIRST_IN_CATEGORY_AMOUNT.beauty}
-                                </td>
-                                <td>
-                                  {DISPLAY_FIRST_IN_CATEGORY_AMOUNT.eatordrink}
-                                </td>
-                                <td>
-                                  {
-                                    DISPLAY_FIRST_IN_CATEGORY_AMOUNT.entertainment
-                                  }
-                                </td>
-                                <td>
-                                  {DISPLAY_FIRST_IN_CATEGORY_AMOUNT.technology}
-                                </td>
-                                <td>
-                                  {DISPLAY_FIRST_IN_CATEGORY_AMOUNT.others}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                          {showFirstInCategoryCountReducer.loading ? (
+                            <div>Cargando...</div>
+                          ) : showFirstInCategoryCountReducer.error ? (
+                            <div>{showFirstInCategoryCountReducer.error}</div>
+                          ) : (
+                            <table
+                              className={
+                                styles.current_display_first_by_category_table
+                              }
+                            >
+                              <thead>
+                                <tr>
+                                  <th colSpan='7'>
+                                    Cantidad de descuentos que se muestran
+                                    primero en su categoría actualmente
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr className={styles.first_row}>
+                                  {showFirstInCategoryCountReducer.showFirstInCategoryCount.map(
+                                    (item, index) => (
+                                      <td key={index}>{item.category}</td>
+                                    )
+                                  )}
+                                </tr>
+                                <tr className={styles.second_row}>
+                                  {showFirstInCategoryCountReducer.showFirstInCategoryCount.map(
+                                    (item, index) => (
+                                      <td key={index}>{item.count}</td>
+                                    )
+                                  )}
+                                </tr>
+                              </tbody>
+                            </table>
+                          )}
                         </div>
 
                         <p>

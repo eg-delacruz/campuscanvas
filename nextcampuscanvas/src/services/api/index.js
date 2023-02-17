@@ -58,6 +58,8 @@ const endPoints = {
         `${API}/api/${VERSION}/admin/discounts/home_banners/${id}`,
       getHomeSliderBannerByDiscountId: (id) =>
         `${API}/api/${VERSION}/admin/discounts/home_banners/${id}`,
+      getHomeSectionsCardsCount: `${API}/api/${VERSION}/admin/discounts/cards/index`,
+      getShowFirstInCategoryCount: `${API}/api/${VERSION}/admin/discounts/cards/index`,
     },
   },
   file_management: {
