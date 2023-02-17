@@ -159,7 +159,6 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       expiration_date: EXPIRATION_DATE,
       created_by,
       modified_last_time_by: created_by,
-      show_first_in_category,
     };
 
     const CREATED_DISCOUNT = await discountInfo_Store.add(discount);
@@ -262,6 +261,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       valid_from: VALID_FROM_DATE,
       expiration_date: EXPIRATION_DATE,
       createdAt: new Date(),
+      show_first_in_category,
     };
 
     const CREATED_CARD = await Card_Store.add(card);

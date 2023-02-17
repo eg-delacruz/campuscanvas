@@ -64,6 +64,10 @@ const CardSchema = new mongoose.Schema({
     immutable: true,
     required: [true, 'La fecha de creación es necesaria'],
   },
+  show_first_in_category: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 export default mongoose.models.Card || mongoose.model('Card', CardSchema);

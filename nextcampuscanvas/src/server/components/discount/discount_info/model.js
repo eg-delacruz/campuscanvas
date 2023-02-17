@@ -92,10 +92,6 @@ const DiscountSchema = new mongoose.Schema({
     type: String,
     required: [true, 'El último modificador es necesario'],
   },
-  show_first_in_category: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 export default mongoose.models.Discount ||

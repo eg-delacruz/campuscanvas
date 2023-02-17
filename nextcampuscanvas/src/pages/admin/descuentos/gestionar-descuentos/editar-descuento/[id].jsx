@@ -4,9 +4,13 @@ import Image from 'next/image';
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
+import dynamic from 'next/dynamic';
 
 //Styles
 import styles from '@styles/pagestyles/admin/descuentos/editarDescuento.module.scss';
+//Rich text editor styles
+//https://www.youtube.com/watch?v=kykC7i9VUE4
+import 'react-quill/dist/quill.snow.css';
 
 //Components
 import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
@@ -14,6 +18,8 @@ import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import ButtonBack from '@components/GeneralUseComponents/ButtonBack/ButtonBack';
 import DisplayEliminateDiscountModal from '@components/UsedInSpecificRoutes/Admin/Descuentos/Discounts/DisplayEliminateDiscountModal/DisplayEliminateDiscountModal';
 import ToUploadFilePreview from '@components/GeneralUseComponents/ToUploadFilePreview/ToUploadFilePreview';
+import CustomCheckBox from '@components/GeneralUseComponents/CustomCheckBox/CustomCheckBox';
+import DiscountCard from '@components/GeneralUseComponents/DiscountCard/DiscountCard';
 
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
@@ -34,7 +40,11 @@ import dateFormat from '@services/dateFormat';
 //Endpoints
 import endPoints from '@services/api/index';
 
+//Rich text editor
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+
 //TODO: handle the creation and deletion of home slider banners displaying a modal
+//TODO: if the discount is displayed in any home sections or removed from it, or if the option to display card first changes, refresh those values in redux
 const editarDescuento = () => {
   const { securingRoute } = useSecureAdminRoute('all');
   //Allows us to manipulate the appropriate slice/action
@@ -66,6 +76,7 @@ const editarDescuento = () => {
 
   const [newBanner, setNewBanner] = useState([]);
   const [showEliminateModal, setShowEliminateModal] = useState(false);
+  const [termsCondsText, setTermsCondsText] = useState('');
 
   //Error states
   const [newBannerError, setNewBannerError] = useState(null);
@@ -74,9 +85,22 @@ const editarDescuento = () => {
   const [descriptionError, setDescriptionError] = useState(null);
   const [affiliateLinkError, setAffiliateLinkError] = useState(null);
   const [expirationDateError, setExpirationDateError] = useState(null);
+  const [cardTitleError, setCardTitleError] = useState(null);
+  const [cardTagDatalistError, setCardTagDatalistError] = useState(null);
+  const [
+    displayCardInSectionDatalistError,
+    setDisplayCardInSectionDatalistError,
+  ] = useState(null);
 
   //Datalist options
   const STATUS_OPTIONS = ['available', 'unavailable'];
+  const CARD_TAG_OPTIONS = ['exclusivo', 'nuevo'];
+  const DISPLAY_CARD_IN_SECTION_OPTIONS = [
+    'suggested',
+    'new',
+    'most_searched',
+    'home_featured',
+  ];
 
   //Other varialbes
   const DISCOUNT_TYPE_DICTIONARY = {
@@ -84,6 +108,26 @@ const editarDescuento = () => {
     affiliate_link_only: 'Solo enlace de afiliado',
     dynamically_generated: 'Generado dinámicamente',
   };
+  //TODO: fetch this data and erase this place holder
+  const CARDS_CURRENTLY_DISPLAYED_AS = {
+    suggested: 4,
+    new: 4,
+    most_searched: 4,
+    home_featured: 9,
+  };
+
+  //TODO: fetch this data and erase this place holder
+  const DISPLAY_FIRST_IN_CATEGORY_AMOUNT = {
+    travel: 4,
+    fashion: 4,
+    beauty: 4,
+    eatordrink: 4,
+    entertainment: 4,
+    technology: 4,
+    others: 4,
+  };
+
+  let DISCOUNT_WAS_MODIFIED = false;
   let CARD_WAS_MODIFIED = false;
 
   //Controlling inputs
@@ -94,10 +138,15 @@ const editarDescuento = () => {
   const DISCOUNT_CODE = useInputValue('');
   const DISCOUNT_KEY = useInputValue('');
   const EXPIRATION_DATE = useInputValue('');
+  const CARD_TITLE = useInputValue('');
+  const CARD_TAG = useInputValue('');
+  const DISPLAY_CARD_IN_SECTION = useInputValue('');
+  const SHOW_FIRST_IN_CATEGORY = useInputValue(false);
 
   //Setting field counts
   const TITLE_COUNT = useCharacterCount(0);
   const DESCRIPTION_COUNT = useCharacterCount(0);
+  const CARD_TITLE_COUNT = useCharacterCount(0);
 
   //Get discount id
   const router = useRouter();
@@ -131,6 +180,7 @@ const editarDescuento = () => {
             dateFormat.dateToYMD(new Date(discount.expiration_date))
           );
         }
+        setTermsCondsText(discount.terms_and_conds);
       }
       return;
     }
@@ -193,6 +243,7 @@ const editarDescuento = () => {
             dateFormat.dateToYMD(new Date(response.body.expiration_date))
           );
         }
+        setTermsCondsText(response.body.terms_and_conds);
       };
       getDiscount();
     }
@@ -254,6 +305,13 @@ const editarDescuento = () => {
         return;
       }
 
+      //Setting initial input values
+      CARD_TITLE.setValue(response.body.title);
+      CARD_TITLE_COUNT.setValue(response.body.title.length);
+      CARD_TAG.setValue(response.body.card_tag);
+      DISPLAY_CARD_IN_SECTION.setValue(response.body.display_in_section);
+      SHOW_FIRST_IN_CATEGORY.setValue(response.body.show_first_in_category);
+
       setDiscountCard({
         ...discountCard,
         discountCard: response.body,
@@ -277,6 +335,11 @@ const editarDescuento = () => {
   const handleDescriptionChange = (e) => {
     DESCRIPTION.onChange(e);
     DESCRIPTION_COUNT.onChange(e);
+  };
+
+  const handleCardTitleChange = (e) => {
+    CARD_TITLE.onChange(e);
+    CARD_TITLE_COUNT.onChange(e);
   };
 
   //Handle change brand logo (start)
@@ -325,6 +388,9 @@ const editarDescuento = () => {
     setDescriptionError(null);
     setAffiliateLinkError(null);
     setExpirationDateError(null);
+    setCardTitleError(null);
+    setCardTagDatalistError(null);
+    setDisplayCardInSectionDatalistError(null);
 
     //Handling errors
     if (STATUS_OPTIONS.indexOf(STATUS.value) === -1) {
@@ -383,8 +449,91 @@ const editarDescuento = () => {
       }
     }
 
+    if (CARD_TITLE.value.length === 0) {
+      setCardTitleError('Debes escribir un título');
+      setState({
+        ...state,
+        form_error: 'Completa todos los campos obligatorios',
+      });
+      return;
+    }
+
+    if (CARD_TAG.value) {
+      if (CARD_TAG_OPTIONS.indexOf(CARD_TAG.value) === -1) {
+        setCardTagDatalistError(
+          'Solo puedes seleccionar una viñeta que esté en la lista'
+        );
+        setState({
+          ...state,
+          form_error: 'Completa los campos correctamente',
+        });
+        CARD_TAG.setValue('');
+        return;
+      }
+    }
+
+    //Only allow to put already established values in the options
+    if (DISPLAY_CARD_IN_SECTION.value) {
+      if (
+        DISPLAY_CARD_IN_SECTION_OPTIONS.indexOf(
+          DISPLAY_CARD_IN_SECTION.value
+        ) === -1
+      ) {
+        setDisplayCardInSectionDatalistError(
+          'Solo puedes seleccionar una sección que esté en la lista'
+        );
+        setState({
+          ...state,
+          form_error: 'Completa los campos correctamente',
+        });
+        DISPLAY_CARD_IN_SECTION.setValue('');
+        return;
+      }
+    }
+
+    //Check which areas were modified
+    //Needed because if expiration date comes as null from db, the exp date input will be '' if empty, and '' and null cannot be compared to properly disable submit btn
+    let exp_date_same_format;
+
+    //TODO: when all discounts that don´t expire have the '' and not null anymore, directly compare with: dateFormat.dateToYMD(new Date(state.discount?.expiration_date)), because now, some discounts have null, which should be ''
+    if (
+      state.discount?.expiration_date === null ||
+      state.discount?.expiration_date === ''
+    ) {
+      exp_date_same_format = '';
+    } else {
+      exp_date_same_format = dateFormat.dateToYMD(
+        new Date(state.discount?.expiration_date)
+      );
+    }
+    if (
+      state.discount?.status !== STATUS.value ||
+      state.discount?.title !== TITLE.value ||
+      state.discount?.description !== DESCRIPTION.value ||
+      state.discount?.affiliate_link !== AFFILIATE_LINK.value ||
+      state.discount?.discount_code.code !== DISCOUNT_CODE.value ||
+      state.discount?.discount_external_key !== DISCOUNT_KEY.value ||
+      exp_date_same_format !== EXPIRATION_DATE.value ||
+      state.discount?.terms_and_conds !== termsCondsText
+    ) {
+      DISCOUNT_WAS_MODIFIED = true;
+    }
+
+    if (
+      discountCard.discountCard.title !== CARD_TITLE.value ||
+      discountCard.discountCard.card_tag !== CARD_TAG.value ||
+      discountCard.discountCard.display_in_section !==
+        DISPLAY_CARD_IN_SECTION.value ||
+      discountCard.discountCard.show_first_in_category !==
+        SHOW_FIRST_IN_CATEGORY.value
+    ) {
+      CARD_WAS_MODIFIED = true;
+    }
+
     const data = {
       newBanner: newBanner[0],
+
+      DISCOUNT_WAS_MODIFIED,
       status: STATUS.value,
       title: TITLE.value,
       description: DESCRIPTION.value,
@@ -392,13 +541,21 @@ const editarDescuento = () => {
       discount_code: DISCOUNT_CODE.value,
       discount_external_key: DISCOUNT_KEY.value,
       expiration_date: EXPIRATION_DATE.value,
+      card_title: CARD_TITLE.value,
+      card_tag: CARD_TAG.value,
+      display_in_section: DISPLAY_CARD_IN_SECTION.value,
+      CARD_WAS_MODIFIED,
+      //Needed to check which sections have to be revalidated
+      original_card_data: discountCard.discountCard,
+      show_first_in_category: SHOW_FIRST_IN_CATEGORY.value,
+      terms_and_conds: termsCondsText,
     };
 
-    console.log(data);
+    console.log('La data', data);
 
     //TODO: put everything in a formData
 
-    //TODO: idea: send original values and new values, and compare if there are changes to create the revalidate routes?
+    //TODO: idea: send original values and new values, and compare if there are changes to create the revalidate routes? OR send if there are changes on the different fields, and create the revalidate routes based on that
 
     setState({ ...state, saving_changes: false, form_error: null });
   };
@@ -429,7 +586,14 @@ const editarDescuento = () => {
       state.discount?.affiliate_link !== AFFILIATE_LINK.value ||
       state.discount?.discount_code.code !== DISCOUNT_CODE.value ||
       state.discount?.discount_external_key !== DISCOUNT_KEY.value ||
-      exp_date_same_format !== EXPIRATION_DATE.value
+      exp_date_same_format !== EXPIRATION_DATE.value ||
+      discountCard.discountCard.title !== CARD_TITLE.value ||
+      discountCard.discountCard.card_tag !== CARD_TAG.value ||
+      discountCard.discountCard.display_in_section !==
+        DISPLAY_CARD_IN_SECTION.value ||
+      discountCard.discountCard.show_first_in_category !==
+        SHOW_FIRST_IN_CATEGORY.value ||
+      state.discount?.terms_and_conds !== termsCondsText
     ) {
       return false;
     }
@@ -892,14 +1056,246 @@ const editarDescuento = () => {
                 ) : (
                   <>
                     {Object.keys(discountCard.discountCard).length > 0 && (
-                      <div className={styles.title_tag_container}>
-                        <div>Title</div>
-                        <div>Tag</div>
-                      </div>
+                      <>
+                        <div className={styles.card_title_tag_container}>
+                          <div>
+                            <label
+                              htmlFor='card_title'
+                              className={`${styles.input_title}`}
+                            >
+                              Título de la tarjeta
+                            </label>
+                            <input
+                              className={`${styles.input}`}
+                              name='card_title'
+                              id='card_title'
+                              type='text'
+                              placeholder='Recomendado: 40 caracteres aprox.'
+                              autoComplete='off'
+                              value={CARD_TITLE.value}
+                              onChange={handleCardTitleChange}
+                            />
+                            <p
+                              className={`${styles.char_count} ${
+                                CARD_TITLE_COUNT.value > 40
+                                  ? styles.char_count_warn
+                                  : ''
+                              }`}
+                            >
+                              <span>{CARD_TITLE_COUNT.value} / 40</span>
+                            </p>
+                            {cardTitleError && (
+                              <p
+                                className={`${styles.error_under_input} error__messagev2`}
+                              >
+                                {cardTitleError}
+                              </p>
+                            )}
+                          </div>
+
+                          <div>
+                            <label
+                              htmlFor='card_tag'
+                              className={`${styles.input_title}`}
+                            >
+                              Viñeta
+                            </label>
+                            <input
+                              className={`${styles.input}`}
+                              name='card_tag'
+                              id='card_tag'
+                              autoComplete='off'
+                              value={CARD_TAG.value}
+                              onChange={CARD_TAG.onChange}
+                              list='tags'
+                            />
+                            <datalist id='tags'>
+                              {CARD_TAG_OPTIONS.map((tag, index) => (
+                                <option key={index} value={tag} />
+                              ))}
+                            </datalist>
+                            {cardTagDatalistError && (
+                              <p
+                                className={`${styles.error_under_input} error__messagev2`}
+                              >
+                                {cardTagDatalistError}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className={styles.display_in_section_container}>
+                          <div
+                            className={
+                              styles.disabled_in_section_datalist_container
+                            }
+                          >
+                            <label
+                              htmlFor='display_in_section'
+                              className={`${styles.input_title}`}
+                            >
+                              Mostrar en sección
+                            </label>
+                            <input
+                              className={`${styles.input}`}
+                              name='display_in_section'
+                              id='display_in_section'
+                              autoComplete='off'
+                              value={DISPLAY_CARD_IN_SECTION.value}
+                              onChange={DISPLAY_CARD_IN_SECTION.onChange}
+                              list='sections'
+                            />
+                            <datalist id='sections'>
+                              {DISPLAY_CARD_IN_SECTION_OPTIONS.map(
+                                (section, index) => (
+                                  <option key={index} value={section} />
+                                )
+                              )}
+                            </datalist>
+                            {displayCardInSectionDatalistError && (
+                              <p
+                                className={`${styles.error_under_input} error__messagev2`}
+                              >
+                                {displayCardInSectionDatalistError}
+                              </p>
+                            )}
+                          </div>
+                          <div>
+                            {/* /////////////////////////////////////
+                             // Current discounts per section table // 
+                               ///////////////////////////////////// */}
+                            {/* TODO: display actual current information in table. */}
+                            <table
+                              className={
+                                styles.current_discounts_per_section_table
+                              }
+                            >
+                              <thead>
+                                <tr>
+                                  <th colSpan='4'>
+                                    Descuentos por sección de home actuales
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr className={styles.first_row}>
+                                  <td>Sugeridos</td>
+                                  <td>Novedades</td>
+                                  <td>Más buscados</td>
+                                  <td>Destacados home</td>
+                                </tr>
+                                <tr className={styles.second_row}>
+                                  <td>
+                                    {CARDS_CURRENTLY_DISPLAYED_AS.suggested}
+                                  </td>
+                                  <td>{CARDS_CURRENTLY_DISPLAYED_AS.new}</td>
+                                  <td>
+                                    {CARDS_CURRENTLY_DISPLAYED_AS.most_searched}
+                                  </td>
+                                  <td>
+                                    {CARDS_CURRENTLY_DISPLAYED_AS.home_featured}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+
+                        <div
+                          className={styles.show_first_in_category_container}
+                        >
+                          <div className={styles.checkbox_tooltip_container}>
+                            <CustomCheckBox
+                              message='Mostrar primero en su categoría'
+                              required={false}
+                              state={SHOW_FIRST_IN_CATEGORY}
+                            />
+
+                            <span className={styles.tooltip_container}>
+                              ?{' '}
+                              <span className={styles.tooltiptext}>
+                                No exceder a más de 4 por categoría
+                              </span>
+                            </span>
+                          </div>
+
+                          {/* TODO: display actual current information in table */}
+                          <table
+                            className={
+                              styles.current_display_first_by_category_table
+                            }
+                          >
+                            <thead>
+                              <tr>
+                                <th colSpan='7'>
+                                  Cantidad de descuentos que se muestran primero
+                                  en su categoría actualmente (falta actualizar)
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr className={styles.first_row}>
+                                <td>Travel</td>
+                                <td>Fashion</td>
+                                <td>Beauty</td>
+                                <td>Eat or Drink</td>
+                                <td>Entertainment</td>
+                                <td>Technology</td>
+                                <td>Others</td>
+                              </tr>
+                              <tr className={styles.second_row}>
+                                <td>
+                                  {DISPLAY_FIRST_IN_CATEGORY_AMOUNT.travel}
+                                </td>
+                                <td>
+                                  {DISPLAY_FIRST_IN_CATEGORY_AMOUNT.fashion}
+                                </td>
+                                <td>
+                                  {DISPLAY_FIRST_IN_CATEGORY_AMOUNT.beauty}
+                                </td>
+                                <td>
+                                  {DISPLAY_FIRST_IN_CATEGORY_AMOUNT.eatordrink}
+                                </td>
+                                <td>
+                                  {
+                                    DISPLAY_FIRST_IN_CATEGORY_AMOUNT.entertainment
+                                  }
+                                </td>
+                                <td>
+                                  {DISPLAY_FIRST_IN_CATEGORY_AMOUNT.technology}
+                                </td>
+                                <td>
+                                  {DISPLAY_FIRST_IN_CATEGORY_AMOUNT.others}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                        <p>
+                          <strong>Preview</strong>
+                        </p>
+                        <div className={styles.card_preview_container}>
+                          <DiscountCard
+                            banner={discountCard.discountCard.banner.URL}
+                            title={CARD_TITLE.value}
+                            brand_name={discountCard.discountCard.brand_name}
+                            brand_logo={
+                              discountCard.discountCard.brand_logo.brand_logo
+                                .URL
+                            }
+                            discount_id={discountCard.discountCard.discount_id}
+                          />
+                        </div>
+                      </>
                     )}
                   </>
                 )}
               </section>
+
+              <h2 className={styles.section_title}>Términos y condiciones</h2>
+
+              <ReactQuill value={termsCondsText} onChange={setTermsCondsText} />
 
               {state.form_error && (
                 <div className='error__messagev2'>{state.form_error}</div>

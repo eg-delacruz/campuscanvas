@@ -44,7 +44,9 @@ const deleteByDiscountId = async (discount_id) => {
 
 ///////////////////// Get card by discount id //////////////////////////////
 const getByDiscountId = async (discount_id) => {
-  return await Card.findOne({ discount_id });
+  return await Card.findOne({ discount_id })
+    .populate({ path: 'brand_logo', model: BrandInfo, select: 'brand_logo' })
+    .exec();
 };
 
 module.exports = {

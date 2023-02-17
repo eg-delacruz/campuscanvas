@@ -75,6 +75,8 @@ const nuevoDescuento = () => {
     others: 4,
   };
 
+  //TODO: if the discount is displayed in any home sections or the option to display first is selected, refresh those values in redux
+
   //Datalist options
   const CATEGORY_OPTIONS = [
     'travel',
@@ -903,7 +905,7 @@ const nuevoDescuento = () => {
                 {/* /////////////////////////////////////
                 // Current discounts per section table // 
                 ///////////////////////////////////// */}
-                {/* TODO: display actual current information in table */}
+                {/* TODO: display actual current information in table. */}
                 <table className={styles.current_discounts_per_section_table}>
                   <thead>
                     <tr>
