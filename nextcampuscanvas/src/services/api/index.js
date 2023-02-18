@@ -60,6 +60,7 @@ const endPoints = {
         `${API}/api/${VERSION}/admin/discounts/home_banners/${id}`,
       getHomeSectionsCardsCount: `${API}/api/${VERSION}/admin/discounts/cards/index`,
       getShowFirstInCategoryCount: `${API}/api/${VERSION}/admin/discounts/cards/index`,
+      createHomeSliderBanner: `${API}/api/${VERSION}/admin/discounts/home_banners/index`,
     },
   },
   file_management: {

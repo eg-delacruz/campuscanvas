@@ -19,6 +19,8 @@ import useAxios from '@hooks/useAxios';
 //Redux
 import { getHomeBannersInfo } from '@redux/homeBannersSlice';
 
+//CLARIFICATIONS:
+//1. The setHomeBanner is a function that has to modify and set a state of the parent function
 const DisplayEliminateHomeBanner = ({
   showModal,
   setShowModal,
@@ -26,8 +28,9 @@ const DisplayEliminateHomeBanner = ({
   discount_title,
   slider_banner_big_screen_name,
   slider_banner_small_screen_name,
+  setHomeBanner,
 }) => {
-  const { fetchData, cancel } = useAxios();
+  const { fetchData } = useAxios();
 
   //State
   const [state, setState] = useState({
@@ -58,8 +61,15 @@ const DisplayEliminateHomeBanner = ({
     if (response.body) {
       setState({ ...state, loading: false });
 
-      //Update discounts in global state
+      //Update banners in global state
       dispatch(getHomeBannersInfo());
+
+      //Reset the home banner in the parent component
+      setHomeBanner({
+        homeBanner: {},
+        loading: false,
+        error: null,
+      });
 
       //Show a confirmation swall
       const Toast = Swal.mixin({
@@ -128,4 +138,7 @@ DisplayEliminateHomeBanner.propTypes = {
   setShowModal: PropTypes.func.isRequired,
   banner_id: PropTypes.string.isRequired,
   discount_title: PropTypes.string.isRequired,
+  slider_banner_big_screen_name: PropTypes.string.isRequired,
+  slider_banner_small_screen_name: PropTypes.string.isRequired,
+  setHomeBanner: PropTypes.func,
 };

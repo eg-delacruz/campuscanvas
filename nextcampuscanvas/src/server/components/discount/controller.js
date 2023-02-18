@@ -792,12 +792,12 @@ async function getHomeSliderBannerByDiscountId(discount_id) {
       throw new Error('Información insuficiente para obtener datos');
     }
 
-    let array_banner = [];
+    let object_banner = {};
     const banner = await homeSliderBanner_Store.getByDiscountId(discount_id);
     if (banner) {
-      array_banner = banner;
+      object_banner = banner;
     }
-    return array_banner;
+    return object_banner;
   } catch (error) {
     console.error(
       '[discount controller | getHomeSliderBannerByDiscountId function error]' +
@@ -889,6 +889,70 @@ async function getShowFirstInCategoryCount() {
   }
 }
 
+async function createHomeSliderBanner(
+  discount_id,
+  big_home_slider_image,
+  small_home_slider_image,
+  created_by
+) {
+  try {
+    let routesToUpdateSSG = [];
+
+    //Check if required info has been received
+    if (!discount_id || !big_home_slider_image || !small_home_slider_image) {
+      console.error(
+        '[discount controller | createHomeSliderBanner function error] Información insuficiente para crear banner'
+      );
+      throw new Error('Información insuficiente para crear banner');
+    }
+
+    const uploaded_images_urls = await Promise.allSettled([
+      s3Uploadv3_big_home_slider_images(big_home_slider_image),
+      s3Uploadv3_small_home_slider_images(small_home_slider_image),
+    ]);
+
+    const big_slider_img = uploaded_images_urls[0];
+    const small_slider_img = uploaded_images_urls[1];
+
+    if (
+      big_slider_img.status === 'rejected' ||
+      small_slider_img.status === 'rejected'
+    ) {
+      console.log(
+        '[discount controller | createHomeSliderBanner function error] Error al subir imágenes de home slider a AWS'
+      );
+      throw new Error('Error al subir imágenes de home slider');
+    }
+
+    const slide = {
+      discount_id,
+      slider_banner_big_screen: {
+        name: big_slider_img.value[0].name,
+        URL: big_slider_img.value[0].URL,
+      },
+      slider_banner_small_screen: {
+        name: small_slider_img.value[0].name,
+        URL: small_slider_img.value[0].URL,
+      },
+      created_at: new Date(),
+      created_by,
+    };
+
+    //Create home slider banner document in Mongo DB
+    await homeSliderBanner_Store.add(slide);
+
+    routesToUpdateSSG.push('/');
+
+    return routesToUpdateSSG;
+  } catch (error) {
+    console.error(
+      '[discount controller | createHomeSliderBanner function error]' +
+        error.message
+    );
+    throw new Error(error.message);
+  }
+}
+
 module.exports = {
   //Brand functions
   createNewBrand,
@@ -913,6 +977,7 @@ module.exports = {
   getShowFirstInCategoryCount,
 
   //Home slider functions
+  createHomeSliderBanner,
   getHomeSliderBanners,
   getHomeSliderBannersInfoForAdmin,
   deleteHomeSliderBanner,

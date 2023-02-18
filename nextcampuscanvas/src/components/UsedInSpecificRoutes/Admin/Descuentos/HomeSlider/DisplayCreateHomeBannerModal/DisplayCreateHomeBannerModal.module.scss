@@ -1,0 +1,28 @@
+@import '../../../../../../styles/Vars.scss';
+@import '../../../../../../styles/Animations/dotLoadingButton.module.scss';
+
+.modal {
+  h1 {
+    margin: 0;
+  }
+  p {
+    margin: 16px 0 0;
+    font-weight: bold;
+  }
+  .submit_btn {
+    margin: 16px auto;
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+}

@@ -21,6 +21,8 @@ import ToUploadFilePreview from '@components/GeneralUseComponents/ToUploadFilePr
 import CustomCheckBox from '@components/GeneralUseComponents/CustomCheckBox/CustomCheckBox';
 import DiscountCard from '@components/GeneralUseComponents/DiscountCard/DiscountCard';
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
+import DisplayEliminateHomeBanner from '@components/UsedInSpecificRoutes/Admin/Descuentos/HomeSlider/DisplayEliminateHomeBanner/DisplayEliminateHomeBanner';
+import DisplayCreateHomeBannerModal from '@components/UsedInSpecificRoutes/Admin/Descuentos/HomeSlider/DisplayCreateHomeBannerModal/DisplayCreateHomeBannerModal';
 
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
@@ -52,7 +54,6 @@ import endPoints from '@services/api/index';
 //Rich text editor
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-//TODO: handle the creation and deletion of home slider banners displaying a modal
 //TODO: create a card tag preview in the card component
 const editarDescuento = () => {
   const { securingRoute } = useSecureAdminRoute('all');
@@ -82,10 +83,15 @@ const editarDescuento = () => {
 
   //console.log('discountCard', discountCard);
   //console.log(state.discount);
+  //console.log('homeBanner', homeBanner);
 
   const [newBanner, setNewBanner] = useState([]);
   const [showEliminateModal, setShowEliminateModal] = useState(false);
   const [termsCondsText, setTermsCondsText] = useState('');
+  const [showEliminateHomeBannerModal, setShowEliminateHomeBannerModal] =
+    useState(false);
+  const [showCreateHomeBannerModal, setShowCreateHomeBannerModal] =
+    useState(false);
 
   //Error states
   const [newBannerError, setNewBannerError] = useState(null);
@@ -641,15 +647,37 @@ const editarDescuento = () => {
   };
 
   const displayCreateHomeBanner = () => {
-    console.log('Poner aquí el modal para añadir un home slider');
+    if (Object.keys(homeBanner.homeBanner).length === 0) {
+      return (
+        <DisplayCreateHomeBannerModal
+          showModal={showCreateHomeBannerModal}
+          setShowModal={setShowCreateHomeBannerModal}
+          setHomeBanner={setHomeBanner}
+          discount_id={id}
+          currentHomeBannerState={homeBanner}
+        />
+      );
+    }
   };
 
-  const displayEliminateHomeBannerModal = (
-    banner_id,
-    slider_banner_big_screen_name,
-    slider_banner_small_screen_name
-  ) => {
-    console.log('Poner aquí el modal para eliminar un home slider.');
+  const displayEliminateHomeBannerModal = () => {
+    if (Object.keys(homeBanner.homeBanner).length) {
+      return (
+        <DisplayEliminateHomeBanner
+          showModal={showEliminateHomeBannerModal}
+          setShowModal={setShowEliminateHomeBannerModal}
+          banner_id={homeBanner.homeBanner._id}
+          discount_title={state.discount.title}
+          slider_banner_big_screen_name={
+            homeBanner.homeBanner?.slider_banner_big_screen?.name
+          }
+          slider_banner_small_screen_name={
+            homeBanner.homeBanner?.slider_banner_small_screen?.name
+          }
+          setHomeBanner={setHomeBanner}
+        />
+      );
+    }
   };
 
   if (securingRoute || state.loading) {
@@ -673,6 +701,8 @@ const editarDescuento = () => {
       ) : (
         <>
           {displayEliminateModal()}
+          {displayEliminateHomeBannerModal()}
+          {displayCreateHomeBanner()}
           <div className={`${styles.container} container`}>
             <div className={styles.button_back_eliminate_icon_flex_container}>
               <ButtonBack
@@ -1009,16 +1039,16 @@ const editarDescuento = () => {
                     <p className='error__messagev2'>{homeBanner.error}</p>
                   ) : (
                     <>
-                      {homeBanner.homeBanner.length === 0 ? (
+                      {Object.keys(homeBanner.homeBanner).length === 0 ? (
                         <>
                           <p>
                             Este descuento no tienen ningún banner en el slider
                             principal.
                           </p>
-                          {/* This is not a button because if we click on a button inside a form, the submit handler function is triggered */}
+                          {/* This is not a button because if we click on a button inside a form, the submit handler function is triggered automatically*/}
                           <div
                             className={`${styles.add_home_banner_btn} btn button--red`}
-                            onClick={displayCreateHomeBanner}
+                            onClick={() => setShowCreateHomeBannerModal(true)}
                           >
                             + Añadir home banner
                           </div>
@@ -1036,7 +1066,7 @@ const editarDescuento = () => {
                               <div
                                 className={styles.eliminate_text}
                                 onClick={() =>
-                                  displayEliminateHomeBannerModal()
+                                  setShowEliminateHomeBannerModal(true)
                                 }
                               >
                                 Eliminar home banners
@@ -1046,8 +1076,8 @@ const editarDescuento = () => {
                           <div className={styles.big_banner}>
                             <img
                               src={
-                                homeBanner.homeBanner.slider_banner_big_screen
-                                  .URL
+                                homeBanner.homeBanner?.slider_banner_big_screen
+                                  ?.URL
                               }
                               alt={`Banner de home pantalla grande `}
                             />
@@ -1056,8 +1086,8 @@ const editarDescuento = () => {
                           <div className={styles.small_banner}>
                             <img
                               src={
-                                homeBanner.homeBanner.slider_banner_small_screen
-                                  .URL
+                                homeBanner.homeBanner
+                                  ?.slider_banner_small_screen?.URL
                               }
                               alt={`Banner de home pantalla movil `}
                             />
