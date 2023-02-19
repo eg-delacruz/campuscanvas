@@ -636,12 +636,14 @@ const editarDescuento = () => {
   };
 
   const displayEliminateModal = () => {
+    const has_home_banner = Object.keys(homeBanner.homeBanner).length > 0;
     return (
       <DisplayEliminateDiscountModal
         showModal={showEliminateModal}
         setShowModal={setShowEliminateModal}
         id={id}
         bannerName={state.discount.banner.name}
+        has_home_banner={has_home_banner}
       />
     );
   };

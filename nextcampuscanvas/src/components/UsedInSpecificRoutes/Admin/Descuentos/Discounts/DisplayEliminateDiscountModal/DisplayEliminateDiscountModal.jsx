@@ -19,13 +19,14 @@ import useAxios from '@hooks/useAxios';
 
 //Redux
 import { getDiscounts } from '@redux/discountsSlice';
+import { getHomeBannersInfo } from '@redux/homeBannersSlice';
 
-//TODO: if the discount has a banner attached to it, refresh the global home banners state
 const DisplayEliminateDiscountModal = ({
   showModal,
   setShowModal,
   id,
   bannerName,
+  has_home_banner,
 }) => {
   const { fetchData, cancel } = useAxios();
 
@@ -54,33 +55,37 @@ const DisplayEliminateDiscountModal = ({
     }
 
     //If deletion successful
-    if (response.body === 'Descuento eliminado') {
-      //Update discounts in global state
-      dispatch(getDiscounts());
 
-      //Show a confirmation swall
-      setState({ ...state, loading: false });
-      const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        width: 400,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer);
-          toast.addEventListener('mouseleave', Swal.resumeTimer);
-        },
-      });
-
-      Toast.fire({
-        icon: 'success',
-        title: response.body,
-      });
-
-      //Redirect
-      router.push('/admin/descuentos/gestionar-descuentos');
+    //Refresh global home banners state if the erased discount had a home banner, since it was deleted and shoudn´t appear in the reducer
+    if (has_home_banner) {
+      dispatch(getHomeBannersInfo());
     }
+
+    //Update discounts in global state
+    dispatch(getDiscounts());
+
+    //Show a confirmation swall
+    setState({ ...state, loading: false });
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      width: 400,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+    });
+
+    Toast.fire({
+      icon: 'success',
+      title: response.body,
+    });
+
+    //Redirect
+    router.push('/admin/descuentos/gestionar-descuentos');
   };
 
   return (
