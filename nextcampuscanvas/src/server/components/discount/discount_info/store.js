@@ -31,6 +31,16 @@ const getDiscountById = async (id) => {
   return discount;
 };
 
+/////////////////////Get discount by id without population ////////////////////////
+const getDiscountByIdWithoutPopulation = async (id) => {
+  const discount = await Discount.findOne({ _id: id });
+  if (!discount) {
+    console.log('[db] Descuento no encontrado');
+    throw new Error('Descuento no encontrado');
+  }
+  return discount;
+};
+
 /////////////////////Delete discount by id////////////////////////
 const deleteById = async (id) => {
   const discount = await Discount.findOne({ _id: id });
@@ -68,12 +78,20 @@ const getDiscountsCountByBrandId = async (brandId) => {
   });
 };
 
+///////////////////// Update discount ////////////////////////
+const updateDiscount = async (discount) => {
+  const updatedDiscount = await discount.save();
+  return updatedDiscount;
+};
+
 module.exports = {
   add: createDiscount,
   getDiscounts,
   getDiscountById,
+  getDiscountByIdWithoutPopulation,
   deleteById,
   getByBrand,
   getAvailableByBrand,
   getDiscountsCountByBrandId,
+  update: updateDiscount,
 };

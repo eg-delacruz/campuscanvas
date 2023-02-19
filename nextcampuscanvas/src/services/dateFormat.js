@@ -92,6 +92,15 @@ const dateToYMD = (date) => {
   return `${y}-${m < 10 ? '0' : ''}${m}-${d < 10 ? '0' : ''}${d}`;
 };
 
+const dateToDMYHM = (date) => {
+  let d = date.getDate();
+  let m = date.getMonth() + 1;
+  let y = date.getFullYear();
+  let h = date.getHours();
+  let min = date.getMinutes();
+  return `${d < 10 ? '0' : ''}${d}-${m < 10 ? '0' : ''}${m}-${y} ${h}:${min}`;
+};
+
 export default {
   dateToLetterswithDay,
   dateToLetterswithOutDay,
@@ -99,4 +108,5 @@ export default {
   shortSlashDate,
   SlashDate,
   dateToYMD,
+  dateToDMYHM,
 };

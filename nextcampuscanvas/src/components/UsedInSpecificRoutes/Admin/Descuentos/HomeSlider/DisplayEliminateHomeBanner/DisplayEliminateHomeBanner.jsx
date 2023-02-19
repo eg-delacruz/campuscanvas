@@ -64,12 +64,14 @@ const DisplayEliminateHomeBanner = ({
       //Update banners in global state
       dispatch(getHomeBannersInfo());
 
-      //Reset the home banner in the parent component
-      setHomeBanner({
-        homeBanner: {},
-        loading: false,
-        error: null,
-      });
+      //Reset the home banner in the parent component (if applies)
+      if (setHomeBanner) {
+        setHomeBanner({
+          homeBanner: {},
+          loading: false,
+          error: null,
+        });
+      }
 
       //Show a confirmation swall
       const Toast = Swal.mixin({

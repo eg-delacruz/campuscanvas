@@ -96,7 +96,30 @@ router
           error.message
         );
       }
-      errorResponse(req, res, 'Error al crear marca', 400, error);
+      errorResponse(req, res, 'Error al crear descuento', 400, error);
+    }
+  })
+  //PATCH: edit discount
+  .patch(expressWrapper(multiUpload), async (req, res) => {
+    const { body, headers, method, files } = req;
+    const OPERATION_DONE_BY = SESSION.session.user.email;
+
+    const data = body;
+    const new_banner = files.banner;
+    const updated_by = OPERATION_DONE_BY;
+
+    try {
+      const routesToUpdateSSG = await Controller.updateDiscount(
+        data,
+        new_banner,
+        updated_by
+      );
+
+      //Revalidating routes
+      await routeRevalidator(res, routesToUpdateSSG);
+      successResponse(req, res, 'Descuento editado', 201);
+    } catch (error) {
+      errorResponse(req, res, 'Error al editar descuento', 400, error);
     }
   });
 

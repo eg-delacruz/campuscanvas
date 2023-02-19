@@ -35,7 +35,7 @@ import delete_icon from '@assets/GeneralUse/IconsAndButtons/delete.svg';
 import edit_pencil from '@assets/GeneralUse/IconsAndButtons/edit_pencil.svg';
 
 //Redux reducers and actions
-import { selectDiscount } from '@redux/discountsSlice';
+import { selectDiscount, getDiscounts } from '@redux/discountsSlice';
 import {
   selectHomeSectionsCount,
   getHomeSectionsCount,
@@ -55,6 +55,7 @@ import endPoints from '@services/api/index';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 //TODO: create a card tag preview in the card component
+//TODO: display the created at, created by, last time modified by and last time modified by information
 const editarDescuento = () => {
   const { securingRoute } = useSecureAdminRoute('all');
 
@@ -80,10 +81,6 @@ const editarDescuento = () => {
     loading: true,
     error: null,
   });
-
-  //console.log('discountCard', discountCard);
-  //console.log(state.discount);
-  //console.log('homeBanner', homeBanner);
 
   const [newBanner, setNewBanner] = useState([]);
   const [showEliminateModal, setShowEliminateModal] = useState(false);
@@ -123,9 +120,6 @@ const editarDescuento = () => {
     affiliate_link_only: 'Solo enlace de afiliado',
     dynamically_generated: 'Generado dinámicamente',
   };
-
-  let DISCOUNT_WAS_MODIFIED = false;
-  let CARD_WAS_MODIFIED = false;
 
   //Controlling inputs
   const STATUS = useInputValue('');
@@ -296,40 +290,10 @@ const editarDescuento = () => {
     //Await until the route is ready to get the discount_id
     if (!router.isReady) return;
 
-    const getCardInfo = async () => {
-      const response = await fetchData(
-        endPoints.discounts.getCardByDiscountId(id),
-        'get'
-      );
-
-      if (response.error) {
-        setDiscountCard({
-          ...discountCard,
-          error: response.error,
-          loading: false,
-        });
-        return;
-      }
-
-      //Setting initial input values
-      CARD_TITLE.setValue(response.body.title);
-      CARD_TITLE_COUNT.setValue(response.body.title.length);
-      CARD_TAG.setValue(response.body.card_tag);
-      DISPLAY_CARD_IN_SECTION.setValue(response.body.display_in_section);
-      SHOW_FIRST_IN_CATEGORY.setValue(response.body.show_first_in_category);
-
-      setDiscountCard({
-        ...discountCard,
-        discountCard: response.body,
-        loading: false,
-        error: null,
-      });
-    };
-
     getCardInfo();
   }, [router?.isReady]);
 
-  //Get home section and show first counts
+  //Get home section count and show first count
   useEffect(() => {
     const setCounts = async () => {
       if (homeSectionsCountReducer.homeSectionsCount.length === 0) {
@@ -346,6 +310,37 @@ const editarDescuento = () => {
   }, [router?.isReady]);
 
   //Functions
+
+  //Get card info
+  async function getCardInfo() {
+    const response = await fetchData(
+      endPoints.discounts.getCardByDiscountId(id),
+      'get'
+    );
+
+    if (response.error) {
+      setDiscountCard({
+        ...discountCard,
+        error: response.error,
+        loading: false,
+      });
+      return;
+    }
+
+    //Setting initial input values
+    CARD_TITLE.setValue(response.body.title);
+    CARD_TITLE_COUNT.setValue(response.body.title.length);
+    CARD_TAG.setValue(response.body.card_tag);
+    DISPLAY_CARD_IN_SECTION.setValue(response.body.display_in_section);
+    SHOW_FIRST_IN_CATEGORY.setValue(response.body.show_first_in_category);
+
+    setDiscountCard({
+      ...discountCard,
+      discountCard: response.body,
+      loading: false,
+      error: null,
+    });
+  }
 
   const handleTitleChange = (e) => {
     TITLE.onChange(e);
@@ -410,6 +405,12 @@ const editarDescuento = () => {
     setCardTitleError(null);
     setCardTagDatalistError(null);
     setDisplayCardInSectionDatalistError(null);
+
+    //Other variables
+    //Shows if any information was modified, IMAGE NOT INCLUDED IN THIS EVALUATION
+    let EXCLUSIVE_DISCOUNT_INFORMATION_WAS_MODIFIED = false;
+    let EXCLUSIVE_CARD_INFORMATION_WAS_MODIFIED = false;
+    let SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED = false;
 
     //Handling errors
     if (STATUS_OPTIONS.indexOf(STATUS.value) === -1) {
@@ -526,16 +527,14 @@ const editarDescuento = () => {
       );
     }
     if (
-      state.discount?.status !== STATUS.value ||
       state.discount?.title !== TITLE.value ||
       state.discount?.description !== DESCRIPTION.value ||
       state.discount?.affiliate_link !== AFFILIATE_LINK.value ||
       state.discount?.discount_code.code !== DISCOUNT_CODE.value ||
       state.discount?.discount_external_key !== DISCOUNT_KEY.value ||
-      exp_date_same_format !== EXPIRATION_DATE.value ||
       state.discount?.terms_and_conds !== termsCondsText
     ) {
-      DISCOUNT_WAS_MODIFIED = true;
+      EXCLUSIVE_DISCOUNT_INFORMATION_WAS_MODIFIED = true;
     }
 
     if (
@@ -546,34 +545,81 @@ const editarDescuento = () => {
       discountCard.discountCard.show_first_in_category !==
         SHOW_FIRST_IN_CATEGORY.value
     ) {
-      CARD_WAS_MODIFIED = true;
+      EXCLUSIVE_CARD_INFORMATION_WAS_MODIFIED = true;
     }
 
-    const data = {
-      newBanner: newBanner[0],
-      DISCOUNT_WAS_MODIFIED,
-      status: STATUS.value,
-      title: TITLE.value,
-      description: DESCRIPTION.value,
-      affiliate_link: AFFILIATE_LINK.value,
-      discount_code: DISCOUNT_CODE.value,
-      discount_external_key: DISCOUNT_KEY.value,
-      expiration_date: EXPIRATION_DATE.value,
-      card_title: CARD_TITLE.value,
-      card_tag: CARD_TAG.value,
-      display_in_section: DISPLAY_CARD_IN_SECTION.value,
-      CARD_WAS_MODIFIED,
-      //Needed to check which sections have to be revalidated
-      original_card_data: discountCard.discountCard,
-      show_first_in_category: SHOW_FIRST_IN_CATEGORY.value,
-      terms_and_conds: termsCondsText,
-    };
+    if (
+      exp_date_same_format !== EXPIRATION_DATE.value ||
+      newBanner[0] ||
+      state.discount?.status !== STATUS.value
+    ) {
+      SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED = true;
+    }
 
-    console.log('La data', data);
+    //Put everything in a formData:
+    const formData = new FormData();
 
-    //TODO: put everything in a formData
+    formData.append('discount_id', id);
+    if (newBanner[0]) {
+      formData.append('banner', newBanner[0]);
+    } else {
+      formData.append('banner', '');
+    }
+    formData.append(
+      'EXCLUSIVE_DISCOUNT_INFORMATION_WAS_MODIFIED',
+      EXCLUSIVE_DISCOUNT_INFORMATION_WAS_MODIFIED
+    );
+    formData.append(
+      'EXCLUSIVE_CARD_INFORMATION_WAS_MODIFIED',
+      EXCLUSIVE_CARD_INFORMATION_WAS_MODIFIED
+    );
+    formData.append(
+      'SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED',
+      SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED
+    );
+    formData.append('status', STATUS.value);
+    formData.append('title', TITLE.value);
+    formData.append('description', DESCRIPTION.value);
+    formData.append('affiliate_link', AFFILIATE_LINK.value);
+    formData.append('discount_code', DISCOUNT_CODE.value);
+    formData.append('discount_external_key', DISCOUNT_KEY.value);
+    formData.append('expiration_date', EXPIRATION_DATE.value);
+    formData.append('card_title', CARD_TITLE.value);
+    formData.append('card_tag', CARD_TAG.value);
+    formData.append('display_in_section', DISPLAY_CARD_IN_SECTION.value);
+    formData.append('show_first_in_category', SHOW_FIRST_IN_CATEGORY.value);
+    formData.append('terms_and_conds', termsCondsText);
 
-    //TODO: idea: send original values and new values, and compare if there are changes to create the revalidate routes? OR send if there are changes on the different fields, and create the revalidate routes based on that
+    //Send changes to server
+    const response = await fetchData(
+      endPoints.admin.discounts.index,
+      'patch',
+      formData,
+      {
+        'Content-Type': 'multipart/form-data',
+      }
+    );
+
+    if (response.error) {
+      setState({ ...state, saving_changes: false, form_error: response.error });
+      return;
+    }
+
+    //Refresh the discounts reducer
+    if (
+      EXCLUSIVE_DISCOUNT_INFORMATION_WAS_MODIFIED ||
+      SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED
+    ) {
+      dispatch(getDiscounts());
+    }
+
+    //Refetch the card info if the card was modified
+    if (
+      EXCLUSIVE_CARD_INFORMATION_WAS_MODIFIED ||
+      SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED
+    ) {
+      getCardInfo();
+    }
 
     //Refresh home section card count if applyes
     if (
@@ -591,7 +637,31 @@ const editarDescuento = () => {
       dispatch(getShowFirstInCategoryCount());
     }
 
+    //Reset the new banner if a new one was uploaded
+    if (newBanner[0]) {
+      setNewBanner([]);
+    }
+
     setState({ ...state, saving_changes: false, form_error: null });
+
+    //Show a confirmation swal
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      width: 400,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+    });
+
+    Toast.fire({
+      icon: 'success',
+      title: response.body,
+    });
   };
 
   const enableSaveChangesButton = () => {
@@ -631,7 +701,6 @@ const editarDescuento = () => {
     ) {
       return false;
     }
-    //TODO: set to true when finished
     return true;
   };
 
@@ -682,7 +751,7 @@ const editarDescuento = () => {
     }
   };
 
-  if (securingRoute || state.loading) {
+  if (securingRoute || state.loading || discountsReducer.loading) {
     return (
       <div className={styles.loaderContainer}>
         <Loader />
@@ -775,6 +844,7 @@ const editarDescuento = () => {
                         alt={state.discount.brand.brand_name}
                       />
                     </div>
+                    {/* Cannot use Link to redirect user onClick to the brand, since we don´t have the brand ID and it would be too many requests if we got the brand from the DB just for that */}
                     <h2>{state.discount.brand.brand_name}</h2>
                   </div>
                   <p>
@@ -789,10 +859,12 @@ const editarDescuento = () => {
                     <strong>Actualizado por: </strong>
                     {state.discount.modified_last_time_by}
                   </p>
-                  {/* TODO: add this property to model in DB */}
                   <p>
                     <strong>Actualizado por última vez: </strong>
-                    {state.discount?.updated_at}
+                    {state.discount?.updated_at &&
+                      dateFormat.dateToDMYHM(
+                        new Date(state.discount?.updated_at)
+                      )}
                   </p>
                 </div>
 

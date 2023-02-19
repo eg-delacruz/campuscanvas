@@ -49,6 +49,11 @@ const getByDiscountId = async (discount_id) => {
     .exec();
 };
 
+///////////////////// Get card by discount id without population//////////////////////////////
+const getByDiscountIdWithoutPopulation = async (discount_id) => {
+  return await Card.findOne({ discount_id });
+};
+
 ///////////////////// Get home sections cards count //////////////////////////////
 const getHomeSectionsCardsCount = async (section) => {
   return await Card.countDocuments({
@@ -66,6 +71,12 @@ const getShowFirstInCategoryCount = async (category) => {
   });
 };
 
+///////////////////// Update card //////////////////////////////
+const updateCard = async (card) => {
+  const updatedCard = await card.save();
+  return updatedCard;
+};
+
 module.exports = {
   add: createCard,
   getAllAvailableCards,
@@ -73,6 +84,8 @@ module.exports = {
   getBySection,
   deleteByDiscountId,
   getByDiscountId,
+  getByDiscountIdWithoutPopulation,
   getHomeSectionsCardsCount,
   getShowFirstInCategoryCount,
+  update: updateCard,
 };

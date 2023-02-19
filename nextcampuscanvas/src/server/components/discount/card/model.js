@@ -68,6 +68,16 @@ const CardSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  updated_at: {
+    type: Date,
+  },
+  created_by: {
+    type: String,
+    required: [true, 'El creador es necesario'],
+  },
+  modified_last_time_by: {
+    type: String,
+  },
 });
 
 export default mongoose.models.Card || mongoose.model('Card', CardSchema);
