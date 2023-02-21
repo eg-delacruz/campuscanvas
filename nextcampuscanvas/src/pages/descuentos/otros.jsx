@@ -36,6 +36,7 @@ export default otros;
 
 export async function getStaticProps() {
   const response = await axiosFetcher({
+    payload: null,
     url: endPoints.discounts.getCards,
     method: 'get',
     extraHeaders: { required_cards: 'others' },

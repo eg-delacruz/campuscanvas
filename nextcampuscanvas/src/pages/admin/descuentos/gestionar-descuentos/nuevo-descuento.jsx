@@ -365,7 +365,7 @@ const nuevoDescuento = () => {
 
     //Refresh home section card count if applyes
     if (DISPLAY_CARD_IN_SECTION.value) {
-      dispatch(getHomeSectionCardCount());
+      dispatch(getHomeSectionsCount());
     }
 
     //Refresh show first in category count if applies
