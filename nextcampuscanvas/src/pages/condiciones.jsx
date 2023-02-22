@@ -117,6 +117,45 @@ function TerminosCondiciones() {
                   El USUARIO podrá mantener actualizados sus datos accediendo a
                   su cuenta de usuario.
                 </p>
+                <strong>Sobre el usuario</strong>
+                <p>
+                  El uso del sitio web campuscanvas.net está limitado a personas
+                  mayores de 16 años. Si tienes dudas sobre el funcionamiento de
+                  la plataforma, te recomendamos que busques asesoramiento de
+                  una persona adulta. Si el usuario es mayor de 18 años,
+                  confirma tener la capacidad y competencia suficiente para leer
+                  y comprender los términos y condiciones, y se compromete a
+                  cumplirlos.
+                </p>
+                <p>
+                  Campus Canvas S.L. tiene el derecho de limitar el acceso y el
+                  uso de la plataforma a los usuarios.
+                </p>
+                <p>
+                  El usuario es responsable del uso adecuado de la plataforma y
+                  se compromete a proporcionar información precisa en los
+                  formularios de inscripción y verificación. No está permitido
+                  utilizar el correo electrónico de un estudiante o los
+                  documentos de una tercera persona para verificar la cuenta. Si
+                  el usuario recibe un código de descuento, contraseña o acceso
+                  a una sección restringida de uno de nuestros tiendas
+                  colaboradoras, debe tratar esa información como confidencial y
+                  no debe compartirla con nadie más.
+                </p>
+                <p>
+                  El usuario es el único responsable de confiar en los
+                  artículos, publicaciones y demás textos presentes en este
+                  sitio. No somos responsables por la veracidad y precisión de
+                  la información. Nos desvinculamos de cualquier responsabilidad
+                  que pueda surgir de la confianza depositada en dichos
+                  materiales por cualquier visitante o usuario del sitio. Nos
+                  esforzamos por mantener el sitio actualizado de manera
+                  continua para que el contenido siempre sea relevante y
+                  preciso, pero cualquier material en el sitio, como descuentos
+                  publicados o entradas de blog, puede estar desactualizado y no
+                  tenemos la obligación de actualizarlos.
+                </p>
+                <br />
                 <strong>Procedimiento de contratación</strong>
                 <br />
                 <p>
@@ -141,6 +180,85 @@ function TerminosCondiciones() {
                   PRESTADOR la pérdida o robo de los mismos o el posible acceso
                   por un tercero no autorizado, de manera que este proceda al
                   bloqueo inmediato.
+                </p>
+                <strong>Sobre la plataforma</strong>
+                <br />
+
+                <p>
+                  El acceso a{' '}
+                  <a href='https://www.campuscanvas.net/'>campuscanvas.net</a>{' '}
+                  está permitido de manera temporal y nos reservamos el derecho
+                  a retirar o cambiar el servicio sin notificación previa. No
+                  asumiremos responsabilidad si, por cualquier razón, el sitio
+                  no está disponible en un momento determinado.
+                </p>
+                <p>
+                  <strong>Propiedad intelectual.</strong> Se prohíbe totalmente
+                  copiar cualquier parte o la totalidad del sitio web{' '}
+                  <a href='https://www.campuscanvas.net/'>campuscanvas.net</a>,
+                  así como sus textos, imágenes, archivos de datos o contenido.
+                  En caso de incumplimiento, el PRESTADOR se reserva el derecho
+                  de iniciar acciones legales para proteger la propiedad
+                  privada. Los códigos de esta página son exclusivos para los
+                  estudiantes y no se pueden reproducir o copiar sin el
+                  consentimiento previo de la tienda que ofrece el descuento o
+                  de Campus Canvas S.L. Si el usuario no respeta esta
+                  restricción, nos reservamos el derecho de suspender, cerrar o
+                  eliminar su cuenta.
+                </p>
+                <p>
+                  Utilizamos imágenes propias y de terceros. Las imágenes de
+                  terceros son facilitadas por las marcas con las que
+                  colaboramos, directamente, a través de plataformas de
+                  afiliados o de sus redes sociales. Otras imágenes son
+                  obtenidas de bancos de imágenes libres de derechos como{' '}
+                  <a href='https://www.pexels.com/es-es/'>pexels.com</a> o
+                  plataformas similares. Si quieres retirar alguna de las
+                  imágenes de nuestro sitio web, por favor ponte en contacto con
+                  nosotros.
+                </p>
+                <p>
+                  Nos apoyamos en imágenes que son nuestras y de fuentes
+                  externas. Las imágenes de fuentes externas son proporcionadas
+                  por las marcas con las que trabajamos, ya sea directamente o a
+                  través de plataformas de afiliados y sus redes sociales.
+                  Además, algunas imágenes las obtenemos de bancos de imágenes
+                  libres de derechos, como{' '}
+                  <a href='https://www.pexels.com/es-es/'>pexels.com</a> o
+                  plataformas similares. Si deseas eliminar alguna de las
+                  imágenes de nuestro sitio web, por favor comunícate con
+                  nosotros.
+                </p>
+                <p>
+                  Las ofertas y descuentos disponibles en esta página web están
+                  regulados por términos y condiciones de terceros, por lo que
+                  es la responsabilidad del usuario verificar estos términos
+                  antes de realizar una transacción con la marca
+                  correspondiente. Nos esforzamos por mantener todos los códigos
+                  de descuento activos y utilizables en las tiendas de las
+                  marcas, cumpliendo con los términos y condiciones
+                  establecidos. No obstante, es posible que los códigos de
+                  descuento dejen de funcionar debido a causas fuera del control
+                  de Campus Canvas S.L. o puedan ser invalidados sin previo
+                  aviso. Los códigos de descuento pueden dejar de ser válidos en
+                  cualquier momento, independientemente de la fecha límite de la
+                  promoción.
+                </p>
+                <p>
+                  Trabajamos con algunas de las marcas presentes en la
+                  plataforma mediante enlaces de afiliados, lo que significa que
+                  recibimos una comisión por cada compra realizada por un
+                  usuario. Esto no tiene ningún impacto en el precio final del
+                  producto. Algunas de las plataformas de afiliación con las que
+                  colaboramos son Awin, Tradedoubler, Rakuten, Commission
+                  Junction, Tradetracker, o gestionamos directamente las ofertas
+                  y descuentos con las marcas.
+                </p>
+                <p>
+                  En algunas ocasiones, en la sección del blog, aparecerán
+                  artículos patrocinados, donde llegamos a acuerdos con empresas
+                  para publicar información que consideramos útil para nuestros
+                  usuarios.
                 </p>
                 <p>
                   Una vez ha sido creada la cuenta de usuario, se informa de que
@@ -628,7 +746,7 @@ function TerminosCondiciones() {
               </article>
 
               <div className={styles.main__bottom}>
-                <h4>Última actualización: 12/08/2022</h4>
+                <h4>Última actualización: 22/02/2023</h4>
                 <h4>
                   Copyright ® Campus Canvas 2022. Todos los derechos reservados
                 </h4>

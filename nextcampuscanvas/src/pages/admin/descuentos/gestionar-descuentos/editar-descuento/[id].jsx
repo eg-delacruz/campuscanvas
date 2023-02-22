@@ -56,7 +56,6 @@ const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 //TODO: create a card tag preview in the card component
 //TODO: display the created at, created by, last time modified by and last time modified by information
-//TODO: check if the controller returns a revalidate path for the discount if the exp date is changed. If yes, check how the discount template interpretes a null or a change in the date. If everything fine, send to production an see if the server in cloud registers a revalidation path for the discount
 const editarDescuento = () => {
   const { securingRoute } = useSecureAdminRoute('all');
 
