@@ -76,6 +76,7 @@ router
       );
       //Revalidating routes
       await routeRevalidator(res, routesToUpdateSSG);
+
       successResponse(req, res, 'Descuento creado', 201);
     } catch (error) {
       if (error.message === 'Información insuficiente para crear descuento') {

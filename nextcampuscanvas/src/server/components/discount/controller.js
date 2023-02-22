@@ -120,8 +120,9 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
 
   //Transforming dates to Date objects
   const VALID_FROM_DATE = new Date(valid_from);
-  //TODO: test if this works
-  const EXPIRATION_DATE = expiration_date ? new Date(expiration_date) : '';
+
+  const EXPIRATION_DATE =
+    expiration_date === 'null' ? null : new Date(expiration_date);
 
   try {
     let routesToUpdateSSG = [];
@@ -1147,10 +1148,8 @@ async function updateDiscount(data, new_banner, updated_by) {
 
     if (shared_card_discount_information_was_modified) {
       //Transforming dates to Date objects
-      const FORMATED_EXP_DATE = expiration_date
-        ? new Date(expiration_date)
-        : '';
-
+      const FORMATED_EXP_DATE =
+        expiration_date === 'null' ? null : new Date(expiration_date);
       const responses = await Promise.allSettled([
         //Get the discount to be updated
         discountInfo_Store.getDiscountByIdWithoutPopulation(discount_id),

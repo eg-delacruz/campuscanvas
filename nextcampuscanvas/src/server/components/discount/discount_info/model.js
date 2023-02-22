@@ -60,6 +60,8 @@ const DiscountSchema = new mongoose.Schema({
   },
   expiration_date: {
     type: Date,
+    //TODO: this default was recently added, test if it works correctly
+    default: '',
   },
   type: {
     type: String,

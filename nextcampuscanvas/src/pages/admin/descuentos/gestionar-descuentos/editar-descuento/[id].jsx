@@ -56,6 +56,7 @@ const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 //TODO: create a card tag preview in the card component
 //TODO: display the created at, created by, last time modified by and last time modified by information
+//TODO: check if the controller returns a revalidate path for the discount if the exp date is changed. If yes, check how the discount template interpretes a null or a change in the date. If everything fine, send to production an see if the server in cloud registers a revalidation path for the discount
 const editarDescuento = () => {
   const { securingRoute } = useSecureAdminRoute('all');
 
@@ -179,6 +180,8 @@ const editarDescuento = () => {
           EXPIRATION_DATE.setValue(
             dateFormat.dateToYMD(new Date(discount.expiration_date))
           );
+        } else if (!discount.expiration_date) {
+          EXPIRATION_DATE.setValue('');
         }
         setTermsCondsText(discount.terms_and_conds);
       }
@@ -513,19 +516,22 @@ const editarDescuento = () => {
 
     //Check which areas were modified
     //Needed because if expiration date comes as null from db, the exp date input will be '' if empty, and '' and null cannot be compared to properly disable submit btn
-    let exp_date_same_format;
+    let prev_exp_date_same_format = null;
+    let updated_exp_date_same_format = null;
 
     //TODO: when all discounts that don´t expire have the '' and not null anymore, directly compare with: dateFormat.dateToYMD(new Date(state.discount?.expiration_date)), because now, some discounts have null, which should be ''
-    if (
-      state.discount?.expiration_date === null ||
-      state.discount?.expiration_date === ''
-    ) {
-      exp_date_same_format = '';
-    } else {
-      exp_date_same_format = dateFormat.dateToYMD(
+    if (state.discount?.expiration_date) {
+      prev_exp_date_same_format = dateFormat.dateToYMD(
         new Date(state.discount?.expiration_date)
       );
     }
+
+    if (EXPIRATION_DATE.value) {
+      updated_exp_date_same_format = dateFormat.dateToYMD(
+        new Date(EXPIRATION_DATE.value)
+      );
+    }
+
     if (
       state.discount?.title !== TITLE.value ||
       state.discount?.description !== DESCRIPTION.value ||
@@ -549,7 +555,7 @@ const editarDescuento = () => {
     }
 
     if (
-      exp_date_same_format !== EXPIRATION_DATE.value ||
+      prev_exp_date_same_format !== updated_exp_date_same_format ||
       newBanner[0] ||
       state.discount?.status !== STATUS.value
     ) {
@@ -583,7 +589,7 @@ const editarDescuento = () => {
     formData.append('affiliate_link', AFFILIATE_LINK.value);
     formData.append('discount_code', DISCOUNT_CODE.value);
     formData.append('discount_external_key', DISCOUNT_KEY.value);
-    formData.append('expiration_date', EXPIRATION_DATE.value);
+    formData.append('expiration_date', updated_exp_date_same_format);
     formData.append('card_title', CARD_TITLE.value);
     formData.append('card_tag', CARD_TAG.value);
     formData.append('display_in_section', DISPLAY_CARD_IN_SECTION.value);
@@ -642,6 +648,11 @@ const editarDescuento = () => {
       setNewBanner([]);
     }
 
+    //Refresh the exp date input value
+    if (!updated_exp_date_same_format) {
+      EXPIRATION_DATE.setValue('');
+    }
+
     setState({ ...state, saving_changes: false, form_error: null });
 
     //Show a confirmation swal
@@ -668,17 +679,20 @@ const editarDescuento = () => {
     //If user did a change, disabled will be false
 
     //Needed because if expiration date comes as null from db, the exp date input will be '' if empty, and '' and null cannot be compared to properly disable submit btn
-    let exp_date_same_format;
+
+    let prev_exp_date_same_format = null;
+    let updated_exp_date_same_format = null;
 
     //TODO: when all discounts that don´t expire have the '' and not null anymore, directly compare with: dateFormat.dateToYMD(new Date(state.discount?.expiration_date)), because now, some discounts have null, which should be ''
-    if (
-      state.discount?.expiration_date === null ||
-      state.discount?.expiration_date === ''
-    ) {
-      exp_date_same_format = '';
-    } else {
-      exp_date_same_format = dateFormat.dateToYMD(
+    if (state.discount?.expiration_date) {
+      prev_exp_date_same_format = dateFormat.dateToYMD(
         new Date(state.discount?.expiration_date)
+      );
+    }
+
+    if (EXPIRATION_DATE.value) {
+      updated_exp_date_same_format = dateFormat.dateToYMD(
+        new Date(EXPIRATION_DATE.value)
       );
     }
 
@@ -690,7 +704,7 @@ const editarDescuento = () => {
       state.discount?.affiliate_link !== AFFILIATE_LINK.value ||
       state.discount?.discount_code.code !== DISCOUNT_CODE.value ||
       state.discount?.discount_external_key !== DISCOUNT_KEY.value ||
-      exp_date_same_format !== EXPIRATION_DATE.value ||
+      prev_exp_date_same_format !== updated_exp_date_same_format ||
       discountCard.discountCard.title !== CARD_TITLE.value ||
       discountCard.discountCard.card_tag !== CARD_TAG.value ||
       discountCard.discountCard.display_in_section !==
