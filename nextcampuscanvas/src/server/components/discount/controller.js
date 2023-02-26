@@ -16,6 +16,7 @@ import homeSliderBanner_Store from '@server/components/discount/home_slider_bann
 import Card_Store from '@server/components/discount/card/store';
 
 //Service functions
+import { shuffleArray } from '@server/services/shuffleArray';
 
 const createNewBrand = async ({
   brand_name,
@@ -446,7 +447,9 @@ const eliminateDiscountData = async (id, bannerName) => {
 const getHomeData = async () => {
   try {
     //get home banners
-    const home_banners = await getHomeSliderBanners();
+    const banners = await getHomeSliderBanners();
+    //Shuffle home banners
+    const home_banners = shuffleArray(banners);
 
     //get home sections cards
     const home_sections_cards = await getHomeSectionsCards();

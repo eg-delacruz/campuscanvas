@@ -55,6 +55,7 @@ export default function Home(props) {
           </div>
 
           <main className={session && styles.main__loggedInStyles}>
+            {/* Home sliders come randomly shuffled from server */}
             <HomeSlider slides={home_data.home_banners} />
 
             {/* /////////////////////////
@@ -157,5 +158,6 @@ export async function getStaticProps() {
     props: {
       home_data: response?.body || null,
     },
+    revalidate: 60 * 60 * 24 * 2, //2 days
   };
 }

@@ -18,19 +18,7 @@ import 'swiper/css/effect-fade';
 //1. For screens > 767 px, pictures should have a ratio of 3 : 1 , and an optimal size of 1200px x 400 px
 //2. For screens < 767 px, pictures have to have a size of 780 px x 520 px BY FORCE
 
-function shuffleArray(array) {
-  const shuffledArray = [...array];
-  for (let i = shuffledArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp = shuffledArray[i];
-    shuffledArray[i] = shuffledArray[j];
-    shuffledArray[j] = temp;
-  }
-  return shuffledArray;
-}
-
 const HomeSlider = ({ slides }) => {
-  const shuffled_banners = shuffleArray(slides);
   //To send the id of the post to the post page
   const router = useRouter();
 
@@ -57,7 +45,7 @@ const HomeSlider = ({ slides }) => {
         navigation={true}
         className={styles.swiper}
       >
-        {shuffled_banners.map((item) => (
+        {slides.map((item) => (
           <SwiperSlide
             onClick={() => {
               router.push(
