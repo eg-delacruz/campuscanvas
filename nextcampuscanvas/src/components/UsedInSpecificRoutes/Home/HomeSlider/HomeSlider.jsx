@@ -36,21 +36,21 @@ const SLIDER_BANNERS = [
     slider_banner_big_screen: { URL: banner1.src },
     slider_banner_small_screen: { URL: banner1_small.src },
   },
-  {
-    discount_id: 2,
-    slider_banner_big_screen: { URL: banner2.src },
-    slider_banner_small_screen: { URL: banner2_small.src },
-  },
-  {
-    discount_id: 3,
-    slider_banner_big_screen: { URL: banner3.src },
-    slider_banner_small_screen: { URL: banner3_small.src },
-  },
-  {
-    discount_id: 4,
-    slider_banner_big_screen: { URL: banner4.src },
-    slider_banner_small_screen: { URL: banner4_small.src },
-  },
+  // {
+  //   discount_id: 2,
+  //   slider_banner_big_screen: { URL: banner2.src },
+  //   slider_banner_small_screen: { URL: banner2_small.src },
+  // },
+  // {
+  //   discount_id: 3,
+  //   slider_banner_big_screen: { URL: banner3.src },
+  //   slider_banner_small_screen: { URL: banner3_small.src },
+  // },
+  // {
+  //   discount_id: 4,
+  //   slider_banner_big_screen: { URL: banner4.src },
+  //   slider_banner_small_screen: { URL: banner4_small.src },
+  // },
 ];
 
 //Clarifications
