@@ -4,9 +4,6 @@ import { useState, useEffect } from 'react';
 //Styles
 import styles from '@styles/pagestyles/student/VerifDiscountDisplayer.module.scss';
 
-//Databases
-import { DISCOUNTS } from '@databases/discounts/discountsInfoDatabase.js';
-
 //Components
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';

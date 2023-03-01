@@ -110,6 +110,7 @@
     top: 34px;
     padding: 0;
     border-radius: 5px;
+    z-index: 2;
 
     //strong glasmorphism
     background: rgba(255, 255, 255, 0.7);
@@ -366,7 +367,7 @@
           max-width: 222px;
         }
         .unverif_button_container {
-          margin-bottom: 15px;
+          margin-bottom: 5px;
         }
       }
       .userMenuStickyState767 {

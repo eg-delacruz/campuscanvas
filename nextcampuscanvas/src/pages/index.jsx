@@ -26,8 +26,6 @@ import axiosFetcher from '@services/axiosFetcher';
 
 //CLARIFICAIONS:
 //1. Don´t use the button up component because it does not work with the parallax background effect, since the window.scrollY does not work, because of the scroll of the parallax container.
-//2. The following warning in console: next-dev.js?3515:20 Warning: Prop `srcSet` did not match. Server:
-//is fine, since the slider images are shuffled and are not in same order as in the server.
 
 export default function Home(props) {
   const { home_data } = props;
