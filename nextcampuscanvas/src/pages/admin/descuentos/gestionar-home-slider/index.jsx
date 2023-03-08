@@ -138,7 +138,7 @@ const homeSliderManagement = () => {
             </Link>
             <div className={styles.images_container}>
               <div className={styles.big_image_title_delete_banner_container}>
-                <h5>Pantalla grande (1200 x 400)</h5>
+                <h5>Pantalla grande (1200 x 550)</h5>
                 <div className={styles.eliminate_container}>
                   <Image src={delete_icon} />
                   <div

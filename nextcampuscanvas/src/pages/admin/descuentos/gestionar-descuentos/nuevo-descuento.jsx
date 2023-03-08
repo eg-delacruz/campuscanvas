@@ -793,8 +793,7 @@ const nuevoDescuento = () => {
               {SHOW_IN_HOME_SLIDER.value && (
                 <div className={styles.upload_images_container}>
                   <label className={`${styles.input_title}`}>
-                    Imagen pantalla grande en JPG (Ratio de 3 : 1 , tamaño
-                    óptimo de 1200 x 400!){' '}
+                    Imagen pantalla grande en JPG (Tamaño 1200 x 550!){' '}
                   </label>
                   <DragDropUploadArea
                     onFileChange={(files) => {

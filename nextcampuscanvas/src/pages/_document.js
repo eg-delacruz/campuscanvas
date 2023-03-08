@@ -61,6 +61,12 @@ export default function Document() {
         <meta name='msapplication-TileColor' content='#da532c' />
         <meta name='theme-color' content='#ffffff' />
 
+        {/* TradeTracker site verification */}
+        <meta
+          name='tradetracker-site-verification'
+          content='81f3cacd79c1298746f18e41200e617c8d19ec03'
+        />
+
         {/* Font1 */}
         <link
           href='https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,700;0,800;1,400&display=swap'
@@ -133,6 +139,7 @@ export default function Document() {
           }}
         />
 
+        {/* Facebook Pixel */}
         <noscript
           dangerouslySetInnerHTML={{
             __html: `<img
@@ -151,6 +158,23 @@ export default function Document() {
         <NextScript />
         <div id='modal-root'></div>
       </body>
+
+      {/* TradeTracker site verification */}
+      {/* <script
+        type='text/javascript'
+        dangerouslySetInnerHTML={{
+          __html: `
+  var _TradeTrackerTagOptions = {
+    t: 'a',
+    s: '442995',
+    chk: 'd37754ff2dd92af8ab82bad2c708b66b',
+    overrideOptions: {}
+};
+
+(function() {var tt = document.createElement('script'), s = document.getElementsByTagName('script')[0]; tt.setAttribute('type', 'text/javascript'); tt.setAttribute('src', (document.location.protocol == 'https:' ? 'https' : 'http') + '://tm.tradetracker.net/tag?t=' + _TradeTrackerTagOptions.t + '&amp;s=' + _TradeTrackerTagOptions.s + '&amp;chk=' + _TradeTrackerTagOptions.chk); s.parentNode.insertBefore(tt, s);})()
+  `,
+        }}
+      /> */}
     </Html>
   );
 }

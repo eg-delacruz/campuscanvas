@@ -152,10 +152,7 @@ const DisplayCreateHomeBannerModal = ({
           autoComplete='off'
           onSubmit={handleSubmit}
         >
-          <p>
-            Imagen pantalla grande en JPG (Ratio de 3 : 1 , tamaño óptimo de
-            1200 x 400!)
-          </p>
+          <p>Imagen pantalla grande en JPG (Tamaño 1200 x 550!)</p>
           <DragDropUploadArea
             onFileChange={(files) => {
               setBigImage(files);
