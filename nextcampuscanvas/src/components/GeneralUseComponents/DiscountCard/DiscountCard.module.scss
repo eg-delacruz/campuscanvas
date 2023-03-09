@@ -21,6 +21,13 @@
     padding-bottom: 12px;
   }
   .discount_image_container {
+    .circular_loader_container {
+      align-items: center;
+      display: flex;
+      height: -webkit-fill-available;
+      justify-content: center;
+      width: auto;
+    }
     position: relative;
     border-radius: 5px 5px 0px 0px;
     overflow: hidden;

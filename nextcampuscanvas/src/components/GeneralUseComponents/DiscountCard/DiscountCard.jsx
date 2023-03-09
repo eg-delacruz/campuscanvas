@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
+import { useState, useRef, useEffect } from 'react';
 
 //Styles
 import styles from './DiscountCard.module.scss';
@@ -21,6 +22,19 @@ const DiscountCard = ({
   title,
   discount_id,
 }) => {
+  const bannerRef = useRef(null);
+  const [loadingImg, setLoadingImg] = useState(true);
+
+  const handleLoadedImg = () => {
+    setLoadingImg(false);
+  };
+
+  useEffect(() => {
+    if (bannerRef.current?.complete) {
+      handleLoadedImg();
+    }
+  }, []);
+
   //Check if a string has more than 40 characters, including empty spaces
   const checkDescriptionLength = (title) => {
     if (title.length > 40) {
@@ -50,12 +64,23 @@ const DiscountCard = ({
         className={styles.discount_card}
       >
         <div className={styles.discount_image_container}>
-          <span>
-            {banner ? (
-              <img src={banner} alt={brand_name} loading='lazy' />
-            ) : (
-              <Loader />
-            )}
+          {/* Loader while image loads (start) */}
+          <div
+            className={styles.circular_loader_container}
+            style={{ display: loadingImg ? 'flex' : 'none' }}
+          >
+            <Loader />
+          </div>
+          {/* Loader while image loads (end) */}
+          {/* TODO: check if display none and inline? would work instead of visibility property  */}
+          <span style={{ visibility: loadingImg ? 'hidden' : 'visible' }}>
+            <img
+              ref={bannerRef}
+              src={banner}
+              alt={brand_name}
+              loading='lazy'
+              onLoad={handleLoadedImg}
+            />
           </span>
         </div>
         <div className={styles.discount_info_container}>
