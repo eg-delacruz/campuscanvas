@@ -7,6 +7,9 @@ import styles from './DiscountCard.module.scss';
 //Assets
 import white_background_svg from '@assets/GeneralUse/UsedInComponents/DiscountCard/white_svg_background.svg';
 
+//Components
+import Loader from '@components/GeneralUseComponents/CircularLoader/CircularLoader';
+
 //CLARIFICATIONS
 //1. Brand logos have to be svg. Apply viewBox="0 0 200 200" to the svg tag.
 //2. Description does not have to have more than 40 Characters
@@ -48,19 +51,24 @@ const DiscountCard = ({
       >
         <div className={styles.discount_image_container}>
           <span>
-            <img src={banner} alt={brand_name} />
+            {banner ? (
+              <img src={banner} alt={brand_name} loading='lazy' />
+            ) : (
+              <Loader />
+            )}
           </span>
         </div>
         <div className={styles.discount_info_container}>
           <div className={styles.discount_logo_container}>
             <span className={styles.span_container}>
               <span>
-                <img src={white_background_svg.src} alt='Grover' />
+                <img src={white_background_svg.src} />
               </span>
               <img
                 className={styles.brand_img}
                 src={brand_logo}
                 alt={brand_name}
+                loading='lazy'
               />
             </span>
           </div>

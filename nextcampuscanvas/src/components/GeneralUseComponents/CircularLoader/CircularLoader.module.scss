@@ -1,0 +1,27 @@
+@import '../../../styles/Vars.scss';
+
+.container {
+  align-items: center;
+  display: flex;
+  height: -webkit-fill-available;
+  justify-content: center;
+  width: auto;
+}
+
+.spiner {
+  animation: spiner 1s cubic-bezier(0.91, 0.54, 0.28, 0.63) infinite;
+  border: solid 5px transparent;
+  border-top: solid 7px $color--primary1;
+  border-radius: 100%;
+  width: 2.2em;
+  height: 2.2em;
+}
+
+@keyframes spiner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

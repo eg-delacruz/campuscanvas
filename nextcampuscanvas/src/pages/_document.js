@@ -158,23 +158,6 @@ export default function Document() {
         <NextScript />
         <div id='modal-root'></div>
       </body>
-
-      {/* TradeTracker site verification */}
-      {/* <script
-        type='text/javascript'
-        dangerouslySetInnerHTML={{
-          __html: `
-  var _TradeTrackerTagOptions = {
-    t: 'a',
-    s: '442995',
-    chk: 'd37754ff2dd92af8ab82bad2c708b66b',
-    overrideOptions: {}
-};
-
-(function() {var tt = document.createElement('script'), s = document.getElementsByTagName('script')[0]; tt.setAttribute('type', 'text/javascript'); tt.setAttribute('src', (document.location.protocol == 'https:' ? 'https' : 'http') + '://tm.tradetracker.net/tag?t=' + _TradeTrackerTagOptions.t + '&amp;s=' + _TradeTrackerTagOptions.s + '&amp;chk=' + _TradeTrackerTagOptions.chk); s.parentNode.insertBefore(tt, s);})()
-  `,
-        }}
-      /> */}
     </Html>
   );
 }
