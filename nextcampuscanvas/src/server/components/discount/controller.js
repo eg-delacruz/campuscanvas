@@ -1318,6 +1318,18 @@ async function updateDiscount(data, new_banner, updated_by) {
   }
 }
 
+async function getBrandsCount() {
+  try {
+    const brandsCount = await brandInfo_Store.getCount();
+    return brandsCount;
+  } catch (error) {
+    console.error(
+      '[discount controller | getBrandsCount function error]' + error.message
+    );
+    throw new Error(error.message);
+  }
+}
+
 module.exports = {
   //Brand functions
   createNewBrand,
@@ -1325,6 +1337,7 @@ module.exports = {
   getBrandById,
   updateBrand,
   deleteBrand,
+  getBrandsCount,
 
   //Discount functions
   createNewDiscount,

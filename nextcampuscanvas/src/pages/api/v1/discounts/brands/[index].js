@@ -54,7 +54,15 @@ export default async function handler(req, res) {
             const brandId = req.query.index;
             const singleBrand = await Controller.getBrandById(brandId);
             successResponse(req, res, singleBrand, 201);
+            break;
 
+          case 'brands_count':
+            const brandsCount = await Controller.getBrandsCount();
+            const COUNT = {
+              count: brandsCount,
+            };
+
+            successResponse(req, res, COUNT, 201);
             break;
 
           default:

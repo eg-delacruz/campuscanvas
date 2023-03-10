@@ -19,12 +19,16 @@ import { getBrands, selectBrand } from '@redux/brandsSlice';
 
 //Services
 import dateFormat from '@services/dateFormat';
+import axiosFetcher from '@services/axiosFetcher';
 
-//TODO: show brands count
+//endpoints
+import endpoints from '@services/api/index';
+
 const gestionarMarcas = () => {
   const { securingRoute } = useSecureAdminRoute();
 
   const [showModal, setShowModal] = useState(false);
+  const [brandsCount, setBrandsCount] = useState(0);
 
   //Allows us to manipulate the appropriate slice/action
   const dispatch = useDispatch();
@@ -32,6 +36,7 @@ const gestionarMarcas = () => {
   //Reducers
   const brandsReducer = useSelector(selectBrand);
 
+  //Get brands data
   useEffect(() => {
     const setBrands = async () => {
       if (brandsReducer.brands.length === 0) {
@@ -39,6 +44,29 @@ const gestionarMarcas = () => {
       }
     };
     setBrands();
+  }, []);
+
+  //Get brands count
+  useEffect(() => {
+    const getBrandsCount = async () => {
+      const brandsCount = await axiosFetcher({
+        url: endpoints.discounts.brands,
+        method: 'get',
+        extraHeaders: {
+          required_info: 'brands_count',
+        },
+      });
+
+      if (brandsCount.error) {
+        return console.error(
+          'Error al traer cuenta de marcas: ',
+          brandsCount.error
+        );
+      }
+      setBrandsCount(brandsCount.body.count);
+    };
+
+    getBrandsCount();
   }, []);
 
   const displayNewBrandModal = () => {
@@ -63,7 +91,7 @@ const gestionarMarcas = () => {
         <ButtonBack prevRoute={'/admin/descuentos'} />
 
         <div className={styles.title_create_brand_container}>
-          <h1>Marcas</h1>
+          <h1>Marcas ({brandsCount})</h1>
           <button
             className='btn button--red'
             onClick={() => setShowModal(true)}

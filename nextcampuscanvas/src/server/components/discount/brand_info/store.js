@@ -53,6 +53,11 @@ const deleteBrand = async (id) => {
   return brand;
 };
 
+///////////////////// Get count ////////////////////////
+const getCount = async () => {
+  return await BrandInfo.estimatedDocumentCount();
+};
+
 module.exports = {
   add: createBrand,
   brandAlreadyExists,
@@ -60,4 +65,5 @@ module.exports = {
   getById: getBrandById,
   update: updateBrand,
   delete: deleteBrand,
+  getCount,
 };

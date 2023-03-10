@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { hashPassword } from '@server/services/passEncript';
 
+//CLARIFICATIONS:
+//1. method should be lowercase (e.g. get, post,...)
 const axiosFetcher = async ({ url, method, payload, extraHeaders }) => {
   //Handling headers
   const defaultHeaders = {
@@ -25,6 +27,7 @@ const axiosFetcher = async ({ url, method, payload, extraHeaders }) => {
       url,
       headers,
     });
+
     return response.data;
   } catch (error) {
     return error.response.data;
