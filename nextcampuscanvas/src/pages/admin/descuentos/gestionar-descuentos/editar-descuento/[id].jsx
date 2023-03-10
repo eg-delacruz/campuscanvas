@@ -82,6 +82,8 @@ const editarDescuento = () => {
     error: null,
   });
 
+  console.log('discountCard', discountCard);
+
   const [newBanner, setNewBanner] = useState([]);
   const [showEliminateModal, setShowEliminateModal] = useState(false);
   const [termsCondsText, setTermsCondsText] = useState('');
@@ -811,8 +813,8 @@ const editarDescuento = () => {
               onSubmit={handleEditDiscount}
             >
               {/* /////////////////////////
-            //       Banner       //
-          ///////////////////////// */}
+                 //       Banner       //
+                 ///////////////////////// */}
 
               <div className={styles.drop_file_input}>
                 <div className={styles.banner}>
@@ -1423,6 +1425,37 @@ const editarDescuento = () => {
                             }
                             discount_id={discountCard.discountCard.discount_id}
                           />
+
+                          {/* /////////////////////////
+                          //    Card creation info    //
+                          ///////////////////////// */}
+
+                          <div className={styles.card_creation_info}>
+                            <p>
+                              <strong>Creada por: </strong>
+                              {discountCard.discountCard?.created_by}
+                            </p>
+                            <p>
+                              <strong>Fecha de creación: </strong>
+                              {discountCard.discountCard?.createdAt &&
+                                dateFormat.dateToDMYHM(
+                                  new Date(discountCard.discountCard?.createdAt)
+                                )}
+                            </p>
+                            <p>
+                              <strong>Actualizada por: </strong>
+                              {discountCard.discountCard?.updated_at}
+                            </p>
+                            <p>
+                              <strong>Actualizada por última vez: </strong>
+                              {discountCard.discountCard?.updated_at &&
+                                dateFormat.dateToDMYHM(
+                                  new Date(
+                                    discountCard.discountCard?.updated_at
+                                  )
+                                )}
+                            </p>
+                          </div>
                         </div>
                       </>
                     )}

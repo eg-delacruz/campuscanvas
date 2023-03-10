@@ -402,6 +402,21 @@
     .card_preview_container {
       max-width: 320px;
       margin: 0 auto;
+
+      .card_creation_info {
+        margin-top: 20px;
+        border-top: 1px solid $color--dark-gray;
+        padding-top: 16px;
+        p {
+          margin: 0;
+          font-weight: bold;
+          @include font-size(12px);
+          line-height: 18px;
+        }
+        strong {
+          color: $color--dark-gray;
+        }
+      }
     }
   }
 

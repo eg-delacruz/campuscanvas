@@ -34,8 +34,6 @@ const index = () => {
   //Reducers
   const discountsReducer = useSelector(selectDiscount);
 
-  console.log(discountsReducer.discounts);
-
   //Get discounts
   useEffect(() => {
     const setDiscounts = async () => {
