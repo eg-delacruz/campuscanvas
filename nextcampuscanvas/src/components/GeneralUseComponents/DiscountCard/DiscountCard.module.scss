@@ -65,6 +65,18 @@
       max-height: 100%;
       object-fit: cover;
     }
+    .card_tag {
+      position: absolute;
+      top: 6px;
+      left: 0;
+      padding: 2px 6px;
+      background-color: $color--primary1;
+      color: $color--white;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 0 2px 12px 0;
+      box-shadow: 0px 0px 0px 1px rgb(255 255 255 / 70%);
+    }
   }
 
   .discount_info_container {

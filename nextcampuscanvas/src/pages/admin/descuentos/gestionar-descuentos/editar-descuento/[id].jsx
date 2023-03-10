@@ -54,8 +54,6 @@ import endPoints from '@services/api/index';
 //Rich text editor
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-//TODO: create a card tag preview in the card component
-//TODO: display the created at, created by, last time modified by and last time modified by information
 const editarDescuento = () => {
   const { securingRoute } = useSecureAdminRoute('all');
 
@@ -81,8 +79,6 @@ const editarDescuento = () => {
     loading: true,
     error: null,
   });
-
-  console.log('discountCard', discountCard);
 
   const [newBanner, setNewBanner] = useState([]);
   const [showEliminateModal, setShowEliminateModal] = useState(false);
@@ -1424,6 +1420,7 @@ const editarDescuento = () => {
                                 .URL
                             }
                             discount_id={discountCard.discountCard.discount_id}
+                            card_tag={discountCard.discountCard.card_tag}
                           />
 
                           {/* /////////////////////////
@@ -1444,7 +1441,7 @@ const editarDescuento = () => {
                             </p>
                             <p>
                               <strong>Actualizada por: </strong>
-                              {discountCard.discountCard?.updated_at}
+                              {discountCard.discountCard?.modified_last_time_by}
                             </p>
                             <p>
                               <strong>Actualizada por última vez: </strong>

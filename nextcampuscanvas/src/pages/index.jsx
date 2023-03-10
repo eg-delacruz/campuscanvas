@@ -76,6 +76,7 @@ export default function Home(props) {
                     brand_logo={card.brand_logo.brand_logo.URL}
                     title={card.title}
                     discount_id={card.discount_id}
+                    card_tag={card.card_tag}
                   />
                 ))}
               </div>
@@ -97,6 +98,7 @@ export default function Home(props) {
                     brand_logo={card.brand_logo.brand_logo.URL}
                     title={card.title}
                     discount_id={card.discount_id}
+                    card_tag={card.card_tag}
                   />
                 ))}
               </div>
@@ -118,6 +120,7 @@ export default function Home(props) {
                     brand_logo={card.brand_logo.brand_logo.URL}
                     title={card.title}
                     discount_id={card.discount_id}
+                    card_tag={card.card_tag}
                   />
                 ))}
               </div>

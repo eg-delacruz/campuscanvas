@@ -16,13 +16,16 @@ import CC_LogoLoader from '@components/GeneralUseComponents/CC_LogoLoader/CC_Log
 //1. Brand logos have to be svg. Apply viewBox="0 0 200 200" to the svg tag.
 //2. Description does not have to have more than 40 Characters
 //3. Banner image has to be jpg and 640 x 320 px
+
 const DiscountCard = ({
   banner,
   brand_name,
   brand_logo,
   title,
   discount_id,
+  card_tag,
 }) => {
+  //Loader placeholder while images render (start)
   const bannerRef = useRef(null);
   const brandLogoRef = useRef(null);
 
@@ -48,6 +51,7 @@ const DiscountCard = ({
       handleLoadedLogo();
     }
   }, []);
+  //Loader placeholder while images render (end)
 
   //Check if a string has more than 40 characters, including empty spaces
   const checkDescriptionLength = (title) => {
@@ -95,6 +99,7 @@ const DiscountCard = ({
               onLoad={handleLoadedBanner}
             />
           </span>
+          {card_tag && <div className={styles.card_tag}>{card_tag}</div>}
         </div>
         <div className={styles.discount_info_container}>
           <div className={styles.discount_logo_container}>
@@ -139,4 +144,5 @@ DiscountCard.propTypes = {
   brand_logo: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   discount_id: PropTypes.string.isRequired,
+  card_tag: PropTypes.string,
 };
