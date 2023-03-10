@@ -9,7 +9,7 @@
   align-items: center;
 }
 .container {
-  padding: 0 8px;
+  padding: 0 8px 20px;
 }
 
 .title_flex_container {
@@ -70,13 +70,28 @@
     }
     .column2,
     .column3,
-    .column4 {
+    .column4,
+    .column5 {
       text-align: center;
     }
     .expired {
       background-color: $color--primary1;
       color: $color--white;
       font-weight: bold;
+    }
+    .unavailable {
+      background-color: $color--primary1;
+      color: $color--white;
+      font-weight: bold;
+      padding: 2px;
+      border-radius: 2px;
+    }
+    .available {
+      background-color: $color--confirmation;
+      color: $color--white;
+      font-weight: bold;
+      padding: 2px;
+      border-radius: 2px;
     }
   }
 }
@@ -94,6 +109,18 @@
     overflow-x: scroll;
     display: block;
     white-space: nowrap;
+
+    /////////////////////////
+    //         Table         //
+    /////////////////////////
+    .discounts_table {
+      .unavailable {
+        padding: 4px;
+      }
+      .available {
+        padding: 4px;
+      }
+    }
   }
 }
 ////////////////////////////////////////480/////////////////////////////////////////////

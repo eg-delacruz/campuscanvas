@@ -1330,6 +1330,19 @@ async function getBrandsCount() {
   }
 }
 
+async function getTotalDiscuntsCount() {
+  try {
+    const discountsCount = await discountInfo_Store.getTotalDiscountsCount();
+    return discountsCount;
+  } catch (error) {
+    console.error(
+      '[discount controller | getTotalDiscuntsCount function error]' +
+        error.message
+    );
+    throw new Error(error.message);
+  }
+}
+
 module.exports = {
   //Brand functions
   createNewBrand,
@@ -1346,6 +1359,7 @@ module.exports = {
   getDiscountsByBrand,
   getDiscountsCountByBrandId,
   updateDiscount,
+  getTotalDiscuntsCount,
 
   //Cards functions
   getAllAvailableDiscountCards,

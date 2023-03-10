@@ -55,6 +55,7 @@ export default async function handler(req, res) {
               const homeData = await Controller.getHomeData();
               successResponse(req, res, homeData, 201);
               break;
+
             case 'discounts_by_brand':
               const brandID = headers.brand_id;
               const discountsByBrand = await Controller.getDiscountsByBrand(
@@ -62,6 +63,7 @@ export default async function handler(req, res) {
               );
               successResponse(req, res, discountsByBrand, 201);
               break;
+
             case 'discounts_count_by_brand':
               const brandIDForCount = headers.brand_id;
               const discountsCountByBrand =
@@ -71,11 +73,21 @@ export default async function handler(req, res) {
               };
               successResponse(req, res, COUNT, 201);
               break;
+
+            //Get total discounts count
+            case 'discounts_count':
+              const discountsCount = await Controller.getTotalDiscuntsCount();
+              const TOTAL_DICSOUNTS_COUNT = {
+                count: discountsCount,
+              };
+              successResponse(req, res, TOTAL_DICSOUNTS_COUNT, 201);
+              break;
+
             default:
               errorResponse(
                 req,
                 res,
-                'Error al obtener datos',
+                'Error al obtener datos, información requerida no soportada',
                 400,
                 'Ha habido un error, revise los headers pertinentes o el controlador'
               );

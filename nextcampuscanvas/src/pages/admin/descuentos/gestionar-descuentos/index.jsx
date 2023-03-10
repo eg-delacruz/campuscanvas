@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 //styles
@@ -15,20 +15,28 @@ import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/Admi
 
 //Services
 import dateFormat from '@services/dateFormat';
+import axiosFetcher from '@services/axiosFetcher';
 
 //Redux
 import { getDiscounts, selectDiscount } from '@redux/discountsSlice';
 
-//TODO: display status in table
-//TODO: get discount ammount with estimated document count
+//endpoints
+import endpoints from '@services/api/index';
+
 const index = () => {
   const { securingRoute } = useSecureAdminRoute();
+
+  //States
+  const [discountsCount, setDiscountsCount] = useState(0);
 
   //Allows us to manipulate the appropriate slice/action
   const dispatch = useDispatch();
   //Reducers
   const discountsReducer = useSelector(selectDiscount);
 
+  console.log(discountsReducer.discounts);
+
+  //Get discounts
   useEffect(() => {
     const setDiscounts = async () => {
       if (discountsReducer.discounts.length === 0) {
@@ -36,6 +44,25 @@ const index = () => {
       }
     };
     setDiscounts();
+  }, []);
+
+  //Get discounts count
+  useEffect(() => {
+    const getDiscountsCount = async () => {
+      const discountsCount = await axiosFetcher({
+        url: endpoints.discounts.index,
+        method: 'get',
+        extraHeaders: {
+          needed_info: 'discounts_count',
+        },
+      });
+
+      if (discountsCount.error) {
+        return console.error('Ha habido un error: ', discountsCount.error);
+      }
+      setDiscountsCount(discountsCount.body.count);
+    };
+    getDiscountsCount();
   }, []);
 
   if (securingRoute) {
@@ -56,7 +83,7 @@ const index = () => {
          //Title + button container//
          ///////////////////////// */}
         <div className={styles.title_flex_container}>
-          <h1>Descuentos ({discountsReducer.discounts.length})</h1>
+          <h1>Descuentos ({discountsCount})</h1>
           <Link href={'/admin/descuentos/gestionar-descuentos/nuevo-descuento'}>
             <button className='btn button--red'>
               <span>+ </span>Crear descuento
@@ -88,6 +115,7 @@ const index = () => {
                     <th>Marca</th>
                     <th>Válido desde</th>
                     <th>Válido hasta</th>
+                    <th>Status</th>
                   </tr>
                 </thead>
 
@@ -132,6 +160,21 @@ const index = () => {
                                 new Date(discount.expiration_date)
                               )
                             : 'No expira'}
+                        </td>
+                      </Link>
+                      <Link
+                        href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
+                      >
+                        <td className={`${styles.column5}`}>
+                          <div
+                            className={` ${
+                              discount.status === 'available'
+                                ? styles.available
+                                : styles.unavailable
+                            }`}
+                          >
+                            {discount.status}
+                          </div>
                         </td>
                       </Link>
                     </tr>

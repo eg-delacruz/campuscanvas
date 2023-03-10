@@ -84,6 +84,11 @@ const updateDiscount = async (discount) => {
   return updatedDiscount;
 };
 
+///////////////////// Get total discounts count ////////////////////////
+const getTotalDiscountsCount = async () => {
+  return await Discount.estimatedDocumentCount();
+};
+
 module.exports = {
   add: createDiscount,
   getDiscounts,
@@ -94,4 +99,5 @@ module.exports = {
   getAvailableByBrand,
   getDiscountsCountByBrandId,
   update: updateDiscount,
+  getTotalDiscountsCount,
 };
