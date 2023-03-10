@@ -18,6 +18,8 @@ import FacebookShareButton from '@components/GeneralUseComponents/ShareButtons/F
 import TwitterShareButton from '@components/GeneralUseComponents/ShareButtons/TwitterShareButton/TwitterShareButton.jsx';
 import WhatsAppShareButton from '@components/GeneralUseComponents/ShareButtons/WhatsAppShareButton/WhatsAppShareButton';
 
+//CLARIFICATIONS:
+//1. Don´t apply loader placeholders to banner or logo, since the image payload is not too high and pages load very fast.
 const DiscountTemplate = ({ discount, children }) => {
   const handleTermsCons = () => {
     //Display modal with sweetalert2
@@ -106,12 +108,12 @@ const DiscountTemplate = ({ discount, children }) => {
             width={40}
             height={40}
             URL={currentURL}
-            postTitle={`¡Mira este descuento exclusivo para estudiantes en ${discount.brand.brand_name}!`}
+            postTitle={`¡Mira este descuento exclusivo para estudiantes de ${discount.brand.brand_name}!`}
           />
           <WhatsAppShareButton
             width={40}
             height={40}
-            postTitle={`¡Mira este descuento exclusivo para estudiantes en ${discount.brand.brand_name}!`}
+            postTitle={`¡Mira este descuento exclusivo para estudiantes de ${discount.brand.brand_name}!`}
             URL={currentURL}
           />
         </section>
