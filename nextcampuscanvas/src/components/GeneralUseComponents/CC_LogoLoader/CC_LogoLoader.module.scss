@@ -1,0 +1,56 @@
+@import '../../../styles/Vars.scss';
+@import '../../../styles/Animations/skeleton.module.scss';
+
+.container {
+  align-items: center;
+  display: flex;
+  height: -webkit-fill-available;
+  justify-content: center;
+  width: auto;
+
+  svg {
+    width: 3em;
+    height: 3em;
+  }
+  .thin_c_path,
+  .strong_c_path {
+    animation: skeletonLoading 0.75s linear infinite alternate;
+  }
+
+  @keyframes skeletonLoading {
+    0% {
+      fill: $color--dark-gray;
+    }
+    100% {
+      fill: $color--light-gray;
+    }
+  }
+}
+
+//Create a circle animation arround the .container element
+.container::after {
+  content: '';
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 70%;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px $color--light-gray;
+  animation: circle 0.75s linear infinite;
+}
+
+@keyframes circle {
+  0% {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}

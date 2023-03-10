@@ -10,6 +10,7 @@ import white_background_svg from '@assets/GeneralUse/UsedInComponents/DiscountCa
 
 //Components
 import Loader from '@components/GeneralUseComponents/CircularLoader/CircularLoader';
+import CC_LogoLoader from '@components/GeneralUseComponents/CC_LogoLoader/CC_LogoLoader';
 
 //CLARIFICATIONS
 //1. Brand logos have to be svg. Apply viewBox="0 0 200 200" to the svg tag.
@@ -23,15 +24,28 @@ const DiscountCard = ({
   discount_id,
 }) => {
   const bannerRef = useRef(null);
-  const [loadingImg, setLoadingImg] = useState(true);
+  const brandLogoRef = useRef(null);
 
-  const handleLoadedImg = () => {
-    setLoadingImg(false);
+  const [loadingBanner, setLoadingBanner] = useState(true);
+  const [loadingLogo, setLoadingLogo] = useState(true);
+
+  const handleLoadedBanner = () => {
+    setLoadingBanner(false);
+  };
+
+  const handleLoadedLogo = () => {
+    setLoadingLogo(false);
   };
 
   useEffect(() => {
     if (bannerRef.current?.complete) {
-      handleLoadedImg();
+      handleLoadedBanner();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (brandLogoRef.current?.complete) {
+      handleLoadedLogo();
     }
   }, []);
 
@@ -64,22 +78,21 @@ const DiscountCard = ({
         className={styles.discount_card}
       >
         <div className={styles.discount_image_container}>
-          {/* Loader while image loads (start) */}
+          {/* Loader while banner loads (start) */}
           <div
             className={styles.circular_loader_container}
-            style={{ display: loadingImg ? 'flex' : 'none' }}
+            style={{ display: loadingBanner ? 'flex' : 'none' }}
           >
             <Loader />
           </div>
-          {/* Loader while image loads (end) */}
-          {/* TODO: check if display none and inline? would work instead of visibility property  */}
-          <span style={{ visibility: loadingImg ? 'hidden' : 'visible' }}>
+          {/* Loader while banner loads (end) */}
+          <span style={{ visibility: loadingBanner ? 'hidden' : 'visible' }}>
             <img
               ref={bannerRef}
               src={banner}
               alt={brand_name}
               loading='lazy'
-              onLoad={handleLoadedImg}
+              onLoad={handleLoadedBanner}
             />
           </span>
         </div>
@@ -89,12 +102,24 @@ const DiscountCard = ({
               <span>
                 <img src={white_background_svg.src} />
               </span>
-              <img
-                className={styles.brand_img}
-                src={brand_logo}
-                alt={brand_name}
-                loading='lazy'
-              />
+              <div style={{ visibility: loadingLogo ? 'hidden' : 'visible' }}>
+                <img
+                  ref={brandLogoRef}
+                  className={styles.brand_img}
+                  src={brand_logo}
+                  alt={brand_name}
+                  loading='lazy'
+                  onLoad={handleLoadedLogo}
+                />
+              </div>
+              {/* Loader while logo loads (start) */}
+              <div
+                className={styles.cc_logo_loader_container}
+                style={{ display: loadingLogo ? 'block' : 'none' }}
+              >
+                <CC_LogoLoader />
+              </div>
+              {/* Loader while logo loads (end) */}
             </span>
           </div>
           <div className={styles.discount_info_details}>

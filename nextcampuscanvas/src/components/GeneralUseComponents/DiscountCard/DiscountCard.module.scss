@@ -21,6 +21,7 @@
     padding-bottom: 12px;
   }
   .discount_image_container {
+    //Circular loader start
     .circular_loader_container {
       align-items: center;
       display: flex;
@@ -28,6 +29,7 @@
       justify-content: center;
       width: auto;
     }
+    //Circular loader end
     position: relative;
     border-radius: 5px 5px 0px 0px;
     overflow: hidden;
@@ -128,6 +130,18 @@
           max-height: 100%;
           object-fit: fill;
         }
+        //CC_logo loader start
+        .cc_logo_loader_container {
+          position: absolute;
+          inset: 0px;
+          margin: auto;
+          display: block;
+          min-width: 100%;
+          max-width: 100%;
+          min-height: 100%;
+          max-height: 100%;
+        }
+        //CC_logo loader end
       }
     }
 
