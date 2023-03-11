@@ -23,6 +23,7 @@ import { getDiscounts, selectDiscount } from '@redux/discountsSlice';
 //endpoints
 import endpoints from '@services/api/index';
 
+//TODO: persist the discounts count in a global state, since if we enter to a discount, this has to be refetched if we go back. Don´t forget to refresh that global state if a discount is created or erased
 const index = () => {
   const { securingRoute } = useSecureAdminRoute();
 

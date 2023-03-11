@@ -1057,7 +1057,7 @@ async function updateDiscount(data, new_banner, updated_by) {
 
         const updated_card = await Card_Store.update(card);
 
-        //Revalidate affected routes
+        //Revalidate affected routes (only evaluate available discounts, since the rest are not shown in the frontend, and if the status is modified in the same request, it will be handled in the next if statement)
         if (updated_card.status === 'available') {
           if (
             original_card.title !== updated_card.title ||
@@ -1092,59 +1092,64 @@ async function updateDiscount(data, new_banner, updated_by) {
                 break;
             }
           }
-        }
 
-        //Revalidate category route if the show first in category value changes
-        if (
-          updated_card.show_first_in_category !==
-          original_card.show_first_in_category
-        ) {
-          switch (updated_card.category) {
-            case 'travel':
-              if (!routesToUpdateSSG.includes('/descuentos/viajes')) {
-                routesToUpdateSSG.push('/descuentos/viajar');
-              }
-              break;
-            case 'fashion':
-              if (!routesToUpdateSSG.includes('/descuentos/moda')) {
-                routesToUpdateSSG.push('/descuentos/moda');
-              }
-              break;
-            case 'beauty':
-              if (!routesToUpdateSSG.includes('/descuentos/belleza')) {
-                routesToUpdateSSG.push('/descuentos/belleza');
-              }
-              break;
-            case 'eatordrink':
-              if (!routesToUpdateSSG.includes('/descuentos/alimentacion')) {
-                routesToUpdateSSG.push('/descuentos/alimentacion');
-              }
-              break;
-            case 'entertainment':
-              if (!routesToUpdateSSG.includes('/descuentos/entretenimiento')) {
-                routesToUpdateSSG.push('/descuentos/entretenimiento');
-              }
-              break;
-            case 'technology':
-              if (!routesToUpdateSSG.includes('/descuentos/tecnologia')) {
-                routesToUpdateSSG.push('/descuentos/tecnologia');
-              }
-              break;
-            case 'others':
-              if (!routesToUpdateSSG.includes('/descuentos/otros')) {
-                routesToUpdateSSG.push('/descuentos/otros');
-              }
-              break;
-            default:
-              break;
+          //Revalidate category route if the show first in category value changes
+          if (
+            updated_card.show_first_in_category !==
+            original_card.show_first_in_category
+          ) {
+            switch (updated_card.category) {
+              case 'travel':
+                if (!routesToUpdateSSG.includes('/descuentos/viajes')) {
+                  routesToUpdateSSG.push('/descuentos/viajar');
+                }
+                break;
+              case 'fashion':
+                if (!routesToUpdateSSG.includes('/descuentos/moda')) {
+                  routesToUpdateSSG.push('/descuentos/moda');
+                }
+                break;
+              case 'beauty':
+                if (!routesToUpdateSSG.includes('/descuentos/belleza')) {
+                  routesToUpdateSSG.push('/descuentos/belleza');
+                }
+                break;
+              case 'eatordrink':
+                if (!routesToUpdateSSG.includes('/descuentos/alimentacion')) {
+                  routesToUpdateSSG.push('/descuentos/alimentacion');
+                }
+                break;
+              case 'entertainment':
+                if (
+                  !routesToUpdateSSG.includes('/descuentos/entretenimiento')
+                ) {
+                  routesToUpdateSSG.push('/descuentos/entretenimiento');
+                }
+                break;
+              case 'technology':
+                if (!routesToUpdateSSG.includes('/descuentos/tecnologia')) {
+                  routesToUpdateSSG.push('/descuentos/tecnologia');
+                }
+                break;
+              case 'others':
+                if (!routesToUpdateSSG.includes('/descuentos/otros')) {
+                  routesToUpdateSSG.push('/descuentos/otros');
+                }
+                break;
+              default:
+                break;
+            }
           }
-        }
 
-        //Revalidate home route if the display in section value changes
-        if (
-          updated_card.display_in_section !== original_card.display_in_section
-        ) {
-          routesToUpdateSSG.push('/');
+          //Revalidate home route if the display in section value changes
+          if (
+            updated_card.display_in_section !==
+              original_card.display_in_section ||
+            (original_card.card_tag !== updated_card.card_tag &&
+              updated_card.display_in_section)
+          ) {
+            routesToUpdateSSG.push('/');
+          }
         }
       }
     }
@@ -1309,6 +1314,7 @@ async function updateDiscount(data, new_banner, updated_by) {
       }
     }
 
+    console.log({ routesToUpdateSSG });
     return routesToUpdateSSG;
   } catch (error) {
     console.error(

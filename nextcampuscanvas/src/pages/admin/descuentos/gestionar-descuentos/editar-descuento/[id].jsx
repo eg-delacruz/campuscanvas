@@ -54,6 +54,7 @@ import endPoints from '@services/api/index';
 //Rich text editor
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
+//TODO: check why home doesn´t revalidate if only the card tag changes
 const editarDescuento = () => {
   const { securingRoute } = useSecureAdminRoute('all');
 
