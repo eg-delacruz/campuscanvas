@@ -16,7 +16,6 @@ import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/Admi
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import ButtonBack from '@components/GeneralUseComponents/ButtonBack/ButtonBack';
 import CustomCheckBox from '@components/GeneralUseComponents/CustomCheckBox/CustomCheckBox';
-
 import DragDropUploadArea from '@components/GeneralUseComponents/DragDropUploadArea/DragDropUploadArea';
 
 //hooks
@@ -36,6 +35,7 @@ import {
   selectShowFirstInCategoryCount,
   getShowFirstInCategoryCount,
 } from '@redux/showDiscountFirstInCategorySlice';
+import { countDiscounts } from '@redux/discountsCountSlice';
 
 //Endpoints
 import endPoints from '@services/api';
@@ -361,6 +361,9 @@ const nuevoDescuento = () => {
 
     //Reload all discounts after saving a new one
     dispatch(getDiscounts());
+
+    //Refresh discounts count
+    dispatch(countDiscounts());
 
     //Refresh home section card count if applyes
     if (DISPLAY_CARD_IN_SECTION.value) {

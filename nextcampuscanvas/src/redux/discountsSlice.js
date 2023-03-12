@@ -10,6 +10,7 @@ import { hashPassword } from '@server/services/passEncript';
 
 //CLARIFICATIONS:
 //Cannot useAxios, since this ain´t a react component
+
 const INITIAL_STATE = {
   discounts: [],
   loading: false,

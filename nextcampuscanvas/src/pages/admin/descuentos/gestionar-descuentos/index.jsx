@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 //styles
@@ -15,25 +15,23 @@ import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/Admi
 
 //Services
 import dateFormat from '@services/dateFormat';
-import axiosFetcher from '@services/axiosFetcher';
 
 //Redux
 import { getDiscounts, selectDiscount } from '@redux/discountsSlice';
+import {
+  countDiscounts,
+  selectCountDiscounts,
+} from '@redux/discountsCountSlice';
 
-//endpoints
-import endpoints from '@services/api/index';
-
-//TODO: persist the discounts count in a global state, since if we enter to a discount, this has to be refetched if we go back. Don´t forget to refresh that global state if a discount is created or erased
 const index = () => {
   const { securingRoute } = useSecureAdminRoute();
 
-  //States
-  const [discountsCount, setDiscountsCount] = useState(0);
-
   //Allows us to manipulate the appropriate slice/action
   const dispatch = useDispatch();
+
   //Reducers
   const discountsReducer = useSelector(selectDiscount);
+  const discountsCountReducer = useSelector(selectCountDiscounts);
 
   //Get discounts
   useEffect(() => {
@@ -47,21 +45,9 @@ const index = () => {
 
   //Get discounts count
   useEffect(() => {
-    const getDiscountsCount = async () => {
-      const discountsCount = await axiosFetcher({
-        url: endpoints.discounts.index,
-        method: 'get',
-        extraHeaders: {
-          needed_info: 'discounts_count',
-        },
-      });
-
-      if (discountsCount.error) {
-        return console.error('Ha habido un error: ', discountsCount.error);
-      }
-      setDiscountsCount(discountsCount.body.count);
-    };
-    getDiscountsCount();
+    if (!discountsCountReducer.initial_render_loaded) {
+      dispatch(countDiscounts());
+    }
   }, []);
 
   if (securingRoute) {
@@ -82,7 +68,7 @@ const index = () => {
          //Title + button container//
          ///////////////////////// */}
         <div className={styles.title_flex_container}>
-          <h1>Descuentos ({discountsCount})</h1>
+          <h1>Descuentos ({discountsCountReducer.count})</h1>
           <Link href={'/admin/descuentos/gestionar-descuentos/nuevo-descuento'}>
             <button className='btn button--red'>
               <span>+ </span>Crear descuento

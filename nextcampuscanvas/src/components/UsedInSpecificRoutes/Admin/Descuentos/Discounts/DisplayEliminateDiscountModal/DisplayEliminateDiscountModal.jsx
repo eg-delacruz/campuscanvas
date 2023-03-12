@@ -20,6 +20,7 @@ import useAxios from '@hooks/useAxios';
 //Redux
 import { getDiscounts } from '@redux/discountsSlice';
 import { getHomeBannersInfo } from '@redux/homeBannersSlice';
+import { countDiscounts } from '@redux/discountsCountSlice';
 
 const DisplayEliminateDiscountModal = ({
   showModal,
@@ -63,6 +64,9 @@ const DisplayEliminateDiscountModal = ({
 
     //Update discounts in global state
     dispatch(getDiscounts());
+
+    //Update discounts count in global state
+    dispatch(countDiscounts());
 
     //Show a confirmation swall
     setState({ ...state, loading: false });

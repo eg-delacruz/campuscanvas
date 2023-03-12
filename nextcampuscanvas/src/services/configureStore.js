@@ -1,3 +1,4 @@
+//Redux config file. Here we import the reducers and pass them to the store.
 import { configureStore } from '@reduxjs/toolkit';
 
 //Reducers
@@ -10,6 +11,7 @@ import discountsReducer from '@redux/discountsSlice';
 import homeBannersReducer from '@redux/homeBannersSlice';
 import homeSectionsCountReducer from '@redux/homeSectionsDiscountsCountSlice';
 import showFirstInCategoryCountReducer from '@redux/showDiscountFirstInCategorySlice';
+import countDiscountsReducer from '@redux/discountsCountSlice';
 
 export const store = configureStore({
   //We pass the reducer to the store. This names have to be the same as the exported selector of the slice.js files to correctly access the desired state.
@@ -23,6 +25,7 @@ export const store = configureStore({
     home_banners: homeBannersReducer,
     homeSectionsCount: homeSectionsCountReducer,
     showFirstInCategoryCount: showFirstInCategoryCountReducer,
+    countDiscounts: countDiscountsReducer,
   },
 });
 

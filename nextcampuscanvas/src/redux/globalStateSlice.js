@@ -1,3 +1,4 @@
+//CLARIFICATION: Handle a global state with a single varieable like this is fine, no need to create more slices for each different state
 import { createSlice } from '@reduxjs/toolkit';
 
 const INITIAL_STATE = {
