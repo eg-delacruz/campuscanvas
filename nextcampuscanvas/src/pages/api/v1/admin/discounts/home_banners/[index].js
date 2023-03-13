@@ -58,7 +58,7 @@ router
   .post(expressWrapper(multiUpload), async (req, res) => {
     const { body, headers, method, files } = req;
 
-    const { discount_id } = body;
+    const { discount_id, available_for, affiliate_link, type } = body;
     const { big_home_slider_image } = files;
     const { small_home_slider_image } = files;
     const created_by = SESSION.session.user.email;
@@ -68,6 +68,9 @@ router
         discount_id,
         big_home_slider_image,
         small_home_slider_image,
+        available_for,
+        affiliate_link,
+        type,
         created_by
       );
 

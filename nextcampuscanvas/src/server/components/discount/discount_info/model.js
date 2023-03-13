@@ -46,6 +46,13 @@ const DiscountSchema = new mongoose.Schema({
       type: String,
     },
   },
+  available_for: {
+    type: String,
+    required: [
+      true,
+      'Es necesario especificar quien puede acceder al descuento',
+    ],
+  },
   terms_and_conds: {
     type: String,
   },
@@ -60,8 +67,7 @@ const DiscountSchema = new mongoose.Schema({
   },
   expiration_date: {
     type: Date,
-    //TODO: this default was recently added, test if it works correctly
-    default: '',
+    default: null,
   },
   type: {
     type: String,

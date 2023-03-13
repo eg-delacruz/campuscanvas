@@ -200,6 +200,13 @@
     }
   }
 
+  .available_for_title {
+    margin: 16px 0 8px;
+    @include font-size(14px);
+    display: block;
+    font-weight: bold;
+  }
+
   .valid_exp_dates_container {
     display: flex;
     justify-content: flex-start;

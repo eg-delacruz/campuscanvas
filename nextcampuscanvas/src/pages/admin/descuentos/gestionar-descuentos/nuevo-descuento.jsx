@@ -100,7 +100,7 @@ const nuevoDescuento = () => {
   const DISPLAY_CARD_IN_SECTION_OPTIONS = [
     'sugeridos',
     'novedades',
-    'mas_buscados',
+    'descubre_ofertas',
     'mas_descuentos',
   ];
 
@@ -118,6 +118,7 @@ const nuevoDescuento = () => {
   const [titleError, setTitleError] = useState(null);
   const [descriptionError, setDescriptionError] = useState(null);
   const [discountTypeError, setDiscountTypeError] = useState(null);
+  const [availableForError, setAvailableForError] = useState(null);
   const [brandDatalistError, setBrandDatalistError] = useState(null);
   const [categoryDatalistError, setCategoryDatalistError] = useState(null);
   const [affiliateLinkError, setAffiliateLinkError] = useState(null);
@@ -140,6 +141,7 @@ const nuevoDescuento = () => {
   const DISCOUNT_KEY = useInputValue('');
   const AFFILIATE_LINK = useInputValue('');
   const CALL_TO_ACTION = useInputValue('');
+  const AVAILABLE_FOR = useInputValue('');
   const VALID_FROM = useInputValue('');
   const EXPIRATION_DATE = useInputValue('');
   const SHOW_IN_HOME_SLIDER = useInputValue(false);
@@ -196,12 +198,20 @@ const nuevoDescuento = () => {
   };
   //Discount type radio buttons(end)
 
+  //Available for radio buttons(start)
+  const isAvailableForRadioSelected = (value) => AVAILABLE_FOR.value === value;
+  const handleRadioAvailableForClick = (e) => {
+    AVAILABLE_FOR.setValue(e.currentTarget.value);
+  };
+  //Available for radio buttons(end)
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setState({ ...state, error: null });
     setTitleError(null);
     setDescriptionError(null);
     setDiscountTypeError(null);
+    setAvailableForError(null);
     setBrandDatalistError(null);
     setCategoryDatalistError(null);
     setAffiliateLinkError(null);
@@ -252,6 +262,14 @@ const nuevoDescuento = () => {
 
     if (DISCOUNT_TYPE.value.length === 0) {
       setDiscountTypeError('Debes seleccionar un tipo de descuento');
+      setState({ ...state, error: 'Completa todos los campos obligatorios' });
+      return;
+    }
+
+    if (AVAILABLE_FOR.value.length === 0) {
+      setAvailableForError(
+        'Debes seleccionar quien puede acceder al descuento'
+      );
       setState({ ...state, error: 'Completa todos los campos obligatorios' });
       return;
     }
@@ -332,6 +350,7 @@ const nuevoDescuento = () => {
     formdata.append('discount_external_key', DISCOUNT_KEY.value);
     formdata.append('affiliate_link', AFFILIATE_LINK.value);
     formdata.append('action_btn_phrase', CALL_TO_ACTION.value);
+    formdata.append('available_for', AVAILABLE_FOR.value);
     formdata.append('valid_from', new Date(VALID_FROM.value));
     formdata.append('expiration_date', EXP_DATE);
     formdata.append('banner', bannerFile[0]);
@@ -447,7 +466,6 @@ const nuevoDescuento = () => {
                 autoComplete='off'
                 value={TITLE.value}
                 onChange={handleTitleChange}
-                //required
               />
               <p
                 className={`${styles.char_count} ${
@@ -476,7 +494,6 @@ const nuevoDescuento = () => {
                 autoComplete='off'
                 value={DESCRIPTION.value}
                 onChange={handleDescriptionChange}
-                //required
               />
               <p
                 className={`${styles.char_count} ${
@@ -504,7 +521,6 @@ const nuevoDescuento = () => {
                   autoComplete='off'
                   value={BRAND.value}
                   onChange={BRAND.onChange}
-                  //required
                   list='brands'
                 />
                 <datalist id='brands'>
@@ -578,7 +594,6 @@ const nuevoDescuento = () => {
             <div className={styles.discount_type_radio_btn_container}>
               <div className={styles.radio_input_container}>
                 <input
-                  //required
                   className={styles.radio_input}
                   type='radio'
                   id='discount_code'
@@ -726,6 +741,43 @@ const nuevoDescuento = () => {
                 </div>
               ) : (
                 ''
+              )}
+            </div>
+
+            <span className={styles.available_for_title}>Disponible para:</span>
+
+            <div className={styles.available_for_radio_btn_container}>
+              <div className={styles.radio_input_container}>
+                <input
+                  className={styles.radio_input}
+                  type='radio'
+                  id='estudiantes_verificados'
+                  name='available_for'
+                  value='estudiantes_verificados'
+                  checked={isAvailableForRadioSelected(
+                    'estudiantes_verificados'
+                  )}
+                  onChange={handleRadioAvailableForClick}
+                />
+                <label htmlFor='estudiantes_verificados'>
+                  Estudiantes verificados
+                </label>
+              </div>
+
+              <div className={styles.radio_input_container}>
+                <input
+                  className={styles.radio_input}
+                  type='radio'
+                  id='publico'
+                  name='available_for'
+                  value='publico'
+                  checked={isAvailableForRadioSelected('publico')}
+                  onChange={handleRadioAvailableForClick}
+                />
+                <label htmlFor='publico'>Todo público</label>
+              </div>
+              {availableForError && (
+                <p className={`error__messagev2`}>{availableForError}</p>
               )}
             </div>
 
@@ -895,12 +947,24 @@ const nuevoDescuento = () => {
 
             <div className={styles.display_in_section_container}>
               <div className={styles.disabled_in_section_datalist_container}>
-                <label
-                  htmlFor='display_in_section'
-                  className={`${styles.input_title}`}
-                >
-                  Mostrar en sección
-                </label>
+                <div className={styles.label_tooltip_container}>
+                  <label
+                    htmlFor='display_in_section'
+                    className={`${styles.input_title}`}
+                  >
+                    Mostrar en sección de home
+                  </label>
+                  <span className={styles.tooltip_container}>
+                    ?{' '}
+                    <span className={styles.tooltiptext}>
+                      SUGERIDOS y NOVEDADES se mostrarán solo a estudiantes
+                      verificados. Solo debería tener ofertas de verificados.
+                      DESCUBRE OFERTAS se mostrará a todo aquel que no sea
+                      estudiante verificado, y solo deberá tener ofertas
+                      públicas. MAS DESCUENTOS se muestra siempre
+                    </span>
+                  </span>
+                </div>
                 <input
                   className={`${styles.input}`}
                   name='display_in_section'

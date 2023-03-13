@@ -90,6 +90,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     discount_external_key,
     affiliate_link,
     action_btn_phrase,
+    available_for,
     valid_from,
     expiration_date,
     show_in_home_slider,
@@ -108,6 +109,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     !type ||
     !valid_from ||
     !card_title ||
+    !available_for ||
     files.banner.length === 0
   ) {
     console.log(
@@ -151,6 +153,8 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       },
       type,
       action_btn_phrase,
+      //Available for doesn't affect the card, so only modify it here
+      available_for,
       likes: 0,
       dislikes: 0,
       //Modify status here and in Card if needed
@@ -223,6 +227,11 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
         throw new Error('Error al subir imágenes de home slider');
       }
 
+      const HOME_BANNER_AFF_LINK =
+        available_for === 'publico' && type === 'affiliate_link_only'
+          ? affiliate_link
+          : '';
+
       const slide = {
         discount_id: CREATED_DISCOUNT._id.toString(),
         slider_banner_big_screen: {
@@ -233,6 +242,8 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
           name: small_slider_img.value[0].name,
           URL: small_slider_img.value[0].URL,
         },
+        available_for,
+        affiliate_link: HOME_BANNER_AFF_LINK,
         created_at: new Date(),
         created_by,
       };
@@ -241,7 +252,6 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       await homeSliderBanner_Store.add(slide);
 
       //Adding home route
-
       routesToUpdateSSG.push('/');
     }
 
@@ -258,7 +268,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       brand_name: brand_info.brand_name,
       click_count: 0,
       display_in_section: display_card_in_section,
-      tag: card_tag,
+      card_tag,
       status: 'available',
       valid_from: VALID_FROM_DATE,
       expiration_date: EXPIRATION_DATE,
@@ -902,6 +912,9 @@ async function createHomeSliderBanner(
   discount_id,
   big_home_slider_image,
   small_home_slider_image,
+  available_for,
+  affiliate_link,
+  type,
   created_by
 ) {
   try {
@@ -933,6 +946,11 @@ async function createHomeSliderBanner(
       throw new Error('Error al subir imágenes de home slider');
     }
 
+    const HOME_BANNER_AFF_LINK =
+      available_for === 'publico' && type === 'affiliate_link_only'
+        ? affiliate_link
+        : '';
+
     const slide = {
       discount_id,
       slider_banner_big_screen: {
@@ -943,6 +961,8 @@ async function createHomeSliderBanner(
         name: small_slider_img.value[0].name,
         URL: small_slider_img.value[0].URL,
       },
+      available_for,
+      affiliate_link: HOME_BANNER_AFF_LINK,
       created_at: new Date(),
       created_by,
     };
@@ -1015,6 +1035,10 @@ async function updateDiscount(data, new_banner, updated_by) {
         await discountInfo_Store.getDiscountByIdWithoutPopulation(discount_id);
 
       if (discount) {
+        //TODO: in the future, when no demo discounts anymore or when all have available for values, remove this and send the available_for directly
+        const AVAILABLE_FOR = discount.available_for
+          ? discount.available_for
+          : 'publico';
         //Update discount
         discount.title = title;
         discount.description = description;
@@ -1024,6 +1048,7 @@ async function updateDiscount(data, new_banner, updated_by) {
         discount.terms_and_conds = terms_and_conds;
         discount.updated_at = new Date();
         discount.modified_last_time_by = updated_by;
+        discount.available_for = AVAILABLE_FOR;
 
         const updated_discount = await discountInfo_Store.update(discount);
 

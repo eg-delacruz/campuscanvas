@@ -27,6 +27,16 @@ const HomeBannerSlideSchema = new mongoose.Schema({
       required: [true, 'La URL del banner pequeño es necesaria'],
     },
   },
+  available_for: {
+    type: String,
+    required: [
+      true,
+      'Es necesario especificar quien puede acceder al descuento',
+    ],
+  },
+  affiliate_link: {
+    type: String,
+  },
   created_at: {
     type: Date,
     immutable: true,

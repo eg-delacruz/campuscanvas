@@ -737,6 +737,9 @@ const editarDescuento = () => {
           setHomeBanner={setHomeBanner}
           discount_id={id}
           currentHomeBannerState={homeBanner}
+          available_for={state.discount.available_for}
+          affiliate_link={state.discount.affiliate_link}
+          type={state.discount.type}
         />
       );
     }
@@ -861,6 +864,10 @@ const editarDescuento = () => {
                   <p>
                     <strong>Categoría: </strong>
                     {state.discount.category}
+                  </p>
+                  <p>
+                    <strong>Disponible para: </strong>
+                    {state.discount?.available_for}
                   </p>
                   <p>
                     <strong>Creado por: </strong>

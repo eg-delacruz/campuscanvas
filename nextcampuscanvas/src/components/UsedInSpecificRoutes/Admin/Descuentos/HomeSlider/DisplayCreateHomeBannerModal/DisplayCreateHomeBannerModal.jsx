@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 //Components
 import Modal from '@components/GeneralUseComponents/Modal/Modal';
@@ -17,7 +17,7 @@ import useAxios from '@hooks/useAxios';
 import endPoints from '@services/api';
 
 //Redux
-import { getHomeBannersInfo, selectHomeBanner } from '@redux/homeBannersSlice';
+import { getHomeBannersInfo } from '@redux/homeBannersSlice';
 
 //CLARIFICATIONS:
 //1. The setHomeBanner is a function that has to modify and set a state of the parent function
@@ -27,8 +27,14 @@ const DisplayCreateHomeBannerModal = ({
   setHomeBanner,
   currentHomeBannerState,
   discount_id,
+  available_for,
+  affiliate_link,
+  type,
 }) => {
   const { fetchData } = useAxios();
+
+  //TODO: in the future, when no demo discounts anymore or when all have available for values, remove this and send the available_for directly
+  const AVAILABLE_FOR = available_for ? available_for : 'publico';
 
   //States
   const [state, setState] = useState({
@@ -41,9 +47,6 @@ const DisplayCreateHomeBannerModal = ({
 
   //Allows us to manipulate the appropriate slice/action
   const dispatch = useDispatch();
-
-  //Reducers
-  const bannersInfoReducer = useSelector(selectHomeBanner);
 
   //Functions
   const getNewHomeBanner = async () => {
@@ -92,6 +95,9 @@ const DisplayCreateHomeBannerModal = ({
     formData.append('big_home_slider_image', bigImage[0]);
     formData.append('small_home_slider_image', smallImage[0]);
     formData.append('discount_id', discount_id);
+    formData.append('available_for', AVAILABLE_FOR);
+    formData.append('affiliate_link', affiliate_link);
+    formData.append('type', type);
 
     //Upload banner
     const response = await fetchData(
@@ -117,7 +123,7 @@ const DisplayCreateHomeBannerModal = ({
     //Get the new created home banner from the DB
     await getNewHomeBanner();
 
-    setState({ ...state, uploading: false });
+    setState({ ...state, uploading: false, error: null });
 
     //Show a confirmation swal
     const Toast = Swal.mixin({
@@ -137,6 +143,10 @@ const DisplayCreateHomeBannerModal = ({
       icon: 'success',
       title: response.body,
     });
+
+    //Reset the images
+    setBigImage([]);
+    setSmallImage([]);
 
     //Close the modal
     setShowModal(false);
@@ -197,4 +207,6 @@ DisplayCreateHomeBannerModal.propTypes = {
   setShowModal: PropTypes.func.isRequired,
   setHomeBanner: PropTypes.func.isRequired,
   discount_id: PropTypes.string.isRequired,
+  available_for: PropTypes.string.isRequired,
+  affiliate_link: PropTypes.string,
 };
