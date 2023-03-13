@@ -244,6 +244,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
         },
         available_for,
         affiliate_link: HOME_BANNER_AFF_LINK,
+        type,
         created_at: new Date(),
         created_by,
       };
@@ -962,6 +963,7 @@ async function createHomeSliderBanner(
         URL: small_slider_img.value[0].URL,
       },
       available_for,
+      type,
       affiliate_link: HOME_BANNER_AFF_LINK,
       created_at: new Date(),
       created_by,
@@ -1035,10 +1037,6 @@ async function updateDiscount(data, new_banner, updated_by) {
         await discountInfo_Store.getDiscountByIdWithoutPopulation(discount_id);
 
       if (discount) {
-        //TODO: in the future, when no demo discounts anymore or when all have available for values, remove this and send the available_for directly
-        const AVAILABLE_FOR = discount.available_for
-          ? discount.available_for
-          : 'publico';
         //Update discount
         discount.title = title;
         discount.description = description;
@@ -1048,7 +1046,6 @@ async function updateDiscount(data, new_banner, updated_by) {
         discount.terms_and_conds = terms_and_conds;
         discount.updated_at = new Date();
         discount.modified_last_time_by = updated_by;
-        discount.available_for = AVAILABLE_FOR;
 
         const updated_discount = await discountInfo_Store.update(discount);
 

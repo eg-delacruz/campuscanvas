@@ -33,9 +33,6 @@ const DisplayCreateHomeBannerModal = ({
 }) => {
   const { fetchData } = useAxios();
 
-  //TODO: in the future, when no demo discounts anymore or when all have available for values, remove this and send the available_for directly
-  const AVAILABLE_FOR = available_for ? available_for : 'publico';
-
   //States
   const [state, setState] = useState({
     error: null,
@@ -95,7 +92,7 @@ const DisplayCreateHomeBannerModal = ({
     formData.append('big_home_slider_image', bigImage[0]);
     formData.append('small_home_slider_image', smallImage[0]);
     formData.append('discount_id', discount_id);
-    formData.append('available_for', AVAILABLE_FOR);
+    formData.append('available_for', available_for);
     formData.append('affiliate_link', affiliate_link);
     formData.append('type', type);
 

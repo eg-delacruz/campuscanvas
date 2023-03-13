@@ -34,6 +34,9 @@ const HomeBannerSlideSchema = new mongoose.Schema({
       'Es necesario especificar quien puede acceder al descuento',
     ],
   },
+  type: {
+    type: String,
+  },
   affiliate_link: {
     type: String,
   },
