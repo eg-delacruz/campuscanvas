@@ -8,14 +8,15 @@ import useSecureUnverifRoutesInsideFunction from '@hooks/useSecureUnverifRouteIn
 //This component renders a different button if the discount is affiliate_link type or discount_code type. Each button has a different behavior depending on the case, which can be opening the affiliate link in both cases, or opening the affiliate link and showing/generating the discount code in a different route, since this route can be accessed by anyone.
 
 const DiscountDisplayerBtn = ({ discount }) => {
-  const { redirectUnverifUser, verified } =
+  const { redirectUnverifUser, verified, checking } =
     useSecureUnverifRoutesInsideFunction();
 
+  //Handles what happens if the discount if of type discount_code
   const handleDiscount = () => {
-    redirectUnverifUser();
-    if (verified) {
+    const redirectUserToCouponAndOpenAffLink = () => {
       //Open and focus on this one, since browser will focus in the new opened tab (cc page with generated code)
       //IMPORTANT: in production, the baseURL has to be 'https://www.campuscanvas.net/' , and in local has to be 'http://localhost:3000/'!!!
+
       const baseURL = 'https://www.campuscanvas.net/';
       const path = 'student/descuentos/';
       const URL = baseURL + path + discount._id;
@@ -29,22 +30,57 @@ const DiscountDisplayerBtn = ({ discount }) => {
       );
       if (newTabWindow) newTabWindow.opener = null;
       if (currentTabWindow) currentTabWindow.opener = null;
+    };
+
+    if (discount.available_for === 'publico') {
+      redirectUserToCouponAndOpenAffLink();
+      return;
+    }
+    //Check if user is verified en redirect if not (runs if available for verified students only)
+    redirectUnverifUser();
+
+    if (verified) {
+      redirectUserToCouponAndOpenAffLink();
     }
   };
 
+  //Handles what happens if the discount is of type affiliate_link_only
   const handleAffiliateLink = () => {
-    redirectUnverifUser();
-    if (verified) {
+    const openAffiliateLink = () => {
       //Open affiliate_link in new tab
       const currentTabWindow = window.open(discount.affiliate_link, '_blank');
-
       if (currentTabWindow) currentTabWindow.opener = null;
+    };
+
+    if (discount.available_for === 'publico') {
+      openAffiliateLink();
+      return;
+    }
+
+    //Check if user is verified en redirect if not (runs if av
+    redirectUnverifUser();
+
+    if (verified) {
+      openAffiliateLink();
     }
   };
 
   //TODO: when I know needed info to dynamically generate discount, add those changes here
   return (
     <>
+      {!verified &&
+        !checking &&
+        discount.available_for === 'estudiantes_verificados' && (
+          <p className={styles.unverified_message_for_private_discounts}>
+            <span
+              onClick={redirectUnverifUser}
+              className={styles.redirect_to_verif_link}
+            >
+              Regístrate y verifica
+            </span>{' '}
+            tu cuenta gratuita de estudiante para acceder a este descuento
+          </p>
+        )}
       {discount.type === 'discount_code' ? (
         <>
           <button
@@ -54,7 +90,7 @@ const DiscountDisplayerBtn = ({ discount }) => {
             Mostrar cupón y abrir tienda
           </button>
         </>
-      ) : (
+      ) : discount.type === 'affiliate_link_only' ? (
         <>
           <button
             onClick={handleAffiliateLink}
@@ -66,6 +102,20 @@ const DiscountDisplayerBtn = ({ discount }) => {
           </button>
           <p className={styles.p}>Se aplica automaticamente en la tienda</p>
         </>
+      ) : (
+        ''
+      )}
+      {!verified && !checking && discount.available_for === 'publico' && (
+        <p className={styles.unverified_message_for_public_discount}>
+          ¡Disfruta tu descuento🎉!{' '}
+          <span
+            onClick={redirectUnverifUser}
+            className={styles.redirect_to_verif_link}
+          >
+            Verifícate
+          </span>{' '}
+          como estudiante y accede a más descuentos exclusivos
+        </p>
       )}
     </>
   );

@@ -12,17 +12,17 @@ import DiscountTemplate from '@components/UsedInSpecificRoutes/Descuentos/Discou
 import DisplayDiscountSnippet from '@components/UsedInSpecificRoutes/Descuentos/DisplayDiscountSnippet/DisplayDiscountSnippet';
 
 //Hooks
-import useSecureUnverifRouteOnMount from '@hooks/useSecureUnverifRouteOnMount';
 import useAxios from '@hooks/useAxios';
+import useSecureUnverifRoutesInsideFunction from '@hooks/useSecureUnverifRouteInsideFunction';
 
 //Endpoints
 import endPoints from '@services/api/index';
 
 const VerifDiscountDisplayer = () => {
-  //Securing route only for verified students
-  const { verifyingSession } = useSecureUnverifRouteOnMount();
-
   const { fetchData, cancel } = useAxios();
+
+  const { redirectUnverifUser, verified, checking } =
+    useSecureUnverifRoutesInsideFunction();
 
   //States
   const [verifyingIfAffiliateLinkDiscount, setVerifyingIfAffiliateDiscount] =
@@ -37,7 +37,7 @@ const VerifDiscountDisplayer = () => {
   const router = useRouter();
   const id = router.query.id;
 
-  //When modigying this useEffect, also do it in the one of /ofertas/[id].jsx
+  //Get discount on mount
   useEffect(() => {
     //Await until the route is ready to get the discount_id
     if (!router.isReady) return;
@@ -73,7 +73,7 @@ const VerifDiscountDisplayer = () => {
     getDiscount();
   }, [router?.isReady]);
 
-  //Redirect to /descuentos/id, since that route verifyes if user is verifyed to send to vendor's web or to registration
+  //Redirect to /descuentos/id it the discount type is affiliate link only, since that route verifyes if user is verifyed to send to vendor's web or to registration
   useEffect(() => {
     if (state.discount.type === 'affiliate_link_only') {
       router.push(`/descuentos/${id}`);
@@ -81,7 +81,19 @@ const VerifDiscountDisplayer = () => {
     setVerifyingIfAffiliateDiscount(false);
   }, [state.discount]);
 
-  if (verifyingSession || verifyingIfAffiliateLinkDiscount || state.loading) {
+  //Redirect to /auth/registro if discount only available for verifyed users and user is not verifyed
+
+  useEffect(() => {
+    if (
+      !verified &&
+      !checking &&
+      state.discount.available_for === 'estudiantes_verificados'
+    ) {
+      redirectUnverifUser();
+    }
+  }, [state.discount]);
+
+  if (checking || verifyingIfAffiliateLinkDiscount || state.loading) {
     return (
       <Layout>
         <div className={styles.loader_container}>

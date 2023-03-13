@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
+//Just execute the useSecureUnverifRouteOnMount() at the biginning of the component to secure. The verigyingSession state can be substracted from it to show a loading screen while the session is being verified: const { verifyingSession } = useSecureUnverifRouteOnMount();
 const useSecureUnverifRouteOnMount = () => {
   const [verifyingSession, setVerifyingSession] = useState(true);
   const { data: session, status } = useSession();

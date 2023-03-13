@@ -11,6 +11,34 @@
   color: $color--dark-gray;
 }
 
+.unverified_message_for_public_discount {
+  margin: 16px auto 0;
+  text-align: center;
+  @include paragraph--small;
+  border: 3px dashed $color--primary2;
+  max-width: 550px;
+  border-radius: 5px;
+}
+
+.unverified_message_for_private_discounts {
+  margin: 16px auto;
+  text-align: center;
+  border: 3px dashed $color--primary2;
+  max-width: 340px;
+  border-radius: 5px;
+  padding: 0 4px;
+}
+
+.redirect_to_verif_link {
+  color: $color--secondary;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.redirect_to_verif_link:hover {
+  opacity: 0.8;
+  text-decoration: none;
+}
+
 /////////////////////////
 //         MQ         //
 /////////////////////////

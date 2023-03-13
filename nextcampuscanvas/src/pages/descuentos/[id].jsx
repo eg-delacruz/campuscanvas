@@ -29,7 +29,7 @@ const Discount = ({ discount }) => {
 
 export default Discount;
 
-//Pre-render these paths and fallback: 'blocking' to build new added discounts on demand in productios.
+//Pre-render these paths and fallback: 'blocking' to build new added discounts on demand in production.
 export async function getStaticPaths() {
   const response = await axiosFetcher({
     url: endPoints.discounts.getCards,

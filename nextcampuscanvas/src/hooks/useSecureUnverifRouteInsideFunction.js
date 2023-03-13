@@ -6,11 +6,17 @@ import { useState, useEffect } from 'react';
 //Can only be used INSIDE A FUNCTION after first render (Eg. onClick). CANNOT BE USED in the first render or within a useEffect. Use the verified state to conditionally continue with the desired code.
 const useSecureUnverifRoutesInsideFunction = () => {
   const [verified, setVerified] = useState(false);
+  const [checking, setChecking] = useState(true);
   //Session
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    if (session?.token.stu_verified) setVerified(true);
+    if (session?.token.stu_verified) {
+      setVerified(true);
+      setChecking(false);
+      return;
+    }
+    setChecking(false);
   }, [session]);
 
   const router = useRouter();
@@ -32,7 +38,7 @@ const useSecureUnverifRoutesInsideFunction = () => {
       );
     }
   };
-  return { redirectUnverifUser, verified };
+  return { redirectUnverifUser, verified, checking };
 };
 
 export default useSecureUnverifRoutesInsideFunction;
