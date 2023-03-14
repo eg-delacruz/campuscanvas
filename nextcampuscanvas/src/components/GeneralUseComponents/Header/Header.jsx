@@ -17,7 +17,7 @@ import Isotype767 from '@assets/GeneralUse/Logos/header_isotype_767.svg';
 import styles from './Header.module.scss';
 
 //Session
-import { useSession } from 'next-auth/react';
+import { useSession, getSession } from 'next-auth/react';
 import { signOut } from 'next-auth/react';
 
 //Redux actions
@@ -38,6 +38,12 @@ import identifyBrowser from '@services/identifyBrowser';
 const { getBrowserName } = identifyBrowser;
 
 function Header() {
+  // const GETSESSION = async () => {
+  //   const SESSION = await getSession();
+  //   console.log(SESSION);
+  // };
+  // GETSESSION();
+
   const { width, height } = useWindowDimensions();
   const router = useRouter();
   //Session

@@ -11,7 +11,7 @@ import * as ga from '../services/googleAnalytics/index';
 import '@styles/Globals.scss';
 import '@styles/Buttons.scss';
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter();
 
   //Google Analytics (start)
@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps }) {
   //Google Analytics (end)
 
   return (
-    <SessionProvider>
+    <SessionProvider session={session}>
       <Provider store={store}>
         <Component {...pageProps} />
       </Provider>
