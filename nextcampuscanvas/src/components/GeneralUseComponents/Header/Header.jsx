@@ -17,7 +17,7 @@ import Isotype767 from '@assets/GeneralUse/Logos/header_isotype_767.svg';
 import styles from './Header.module.scss';
 
 //Session
-import { useSession, getSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { signOut } from 'next-auth/react';
 
 //Redux actions
@@ -38,12 +38,6 @@ import identifyBrowser from '@services/identifyBrowser';
 const { getBrowserName } = identifyBrowser;
 
 function Header() {
-  // const GETSESSION = async () => {
-  //   const SESSION = await getSession();
-  //   console.log(SESSION);
-  // };
-  // GETSESSION();
-
   const { width, height } = useWindowDimensions();
   const router = useRouter();
   //Session
@@ -58,8 +52,7 @@ function Header() {
 
   const [state, setState] = useState({ gettingUser: false });
 
-  //This useEffect gets the user data to display user name
-  //even if user stops verification process in step 2 or 3
+  //This useEffect gets the user data to be able to redirect user to the correct step of the registration process
   useEffect(() => {
     const setUserName = async () => {
       setState({ ...state, gettingUser: true });
@@ -186,7 +179,6 @@ function Header() {
                 }`}
               >
                 <Image
-                  //height={55}
                   width={280}
                   src={Logo_Campus_Canvas}
                   alt='Logo Campus Canvas'
@@ -195,9 +187,86 @@ function Header() {
             </Link>
 
             {/* Logged in user menu + validated/unvalidated message*/}
-            {loggedUserMenuSkeleton()}
+            {/* {loggedUserMenuSkeleton()} */}
 
-            {usersReducer.user && (
+            {session && (
+              <div
+                className={`${styles.header__logged_user_menu} ${styles.userMenuStickyState767}`}
+              >
+                <div className={styles.header__logged_user_menu_container}>
+                  <Link href={'/'}>
+                    <button className={styles.header__logged_user_menu_logo767}>
+                      <Image src={Isotype767} alt={'Campus Canvas logo'} />
+                    </button>
+                  </Link>
+                  <div
+                    onClick={() => toggleUserMenu()}
+                    className={
+                      styles.header__logged_user_menu_iconButton_container
+                    }
+                  >
+                    <div className={styles.icon}>
+                      <Image src={logged_user_icon} />
+                    </div>
+                    <button>
+                      {width < 369
+                        ? truncateText(session.token.name, 15)
+                        : session.token.name}
+                      <i>
+                        <Image src={dropdown_menu_arrow} />
+                      </i>
+                    </button>
+                  </div>
+                </div>
+                <ul
+                  className={`${
+                    menus.isUserMenuOn ? styles['dropdow-is-active'] : ''
+                  } `}
+                >
+                  {session?.token.role === 'admin' ||
+                  session.token.role === 'super_admin' ? (
+                    <li onClick={() => redirectTo('/admin')}>
+                      Admin
+                      <i>
+                        <Image alt='Admin' src={admin_icon} />
+                      </i>
+                    </li>
+                  ) : (
+                    ''
+                  )}
+                  <li onClick={() => handleOpenAccountPage('/cuenta')}>
+                    Cuenta
+                    <i>
+                      <Image alt='Perfil' src={profile_icon} />
+                    </i>
+                  </li>
+                  <li onClick={() => signOut()}>
+                    {' '}
+                    Log out
+                    <i>
+                      <Image alt='Cerrar sesión' src={logout_icon} />
+                    </i>
+                  </li>
+                </ul>
+                {/* Verified user text */}
+                {session.token.stu_verified && (
+                  <p className={styles.verified_text}>Estudiante verificado</p>
+                )}
+                {/* Non-verified user button */}
+                {!session.token.stu_verified && (
+                  <div className={styles.unverif_button_container}>
+                    <button
+                      className={`${styles.unverified_button} btn button--redRedborderTransparentHoverShadowtRed`}
+                      onClick={() => verifyUser()}
+                    >
+                      Verifica tu cuenta
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* {usersReducer.user && (
               <div
                 className={`${styles.header__logged_user_menu} ${styles.userMenuStickyState767}`}
               >
@@ -255,13 +324,13 @@ function Header() {
                       <Image alt='Cerrar sesión' src={logout_icon} />
                     </i>
                   </li>
-                </ul>
-                {/* Verified user text */}
-                {usersReducer.user.stu_verified && (
+                </ul> */}
+            {/* Verified user text */}
+            {/* {usersReducer.user.stu_verified && (
                   <p className={styles.verified_text}>Estudiante verificado</p>
-                )}
-                {/* Non-verified user button */}
-                {!usersReducer.user.stu_verified && (
+                )} */}
+            {/* Non-verified user button */}
+            {/* {!usersReducer.user.stu_verified && (
                   <div className={styles.unverif_button_container}>
                     <button
                       className={`${styles.unverified_button} btn button--redRedborderTransparentHoverShadowtRed`}
@@ -272,7 +341,7 @@ function Header() {
                   </div>
                 )}
               </div>
-            )}
+            )} */}
           </div>
 
           <nav
@@ -308,7 +377,7 @@ function Header() {
             //     Login buttons      //
             ///////////////////////// */}
 
-            {loginMenuSkeleton()}
+            {/* {loginMenuSkeleton()} */}
 
             {!loading && !session && (
               <ul

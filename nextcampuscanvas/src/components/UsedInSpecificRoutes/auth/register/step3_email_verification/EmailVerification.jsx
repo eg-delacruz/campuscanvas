@@ -99,6 +99,7 @@ const EmailVerification = ({ user_id, setVerificationMethod }) => {
         ) : (
           <>
             <button
+              type='button'
               onClick={() => {
                 setVerificationMethod('');
               }}
@@ -140,7 +141,7 @@ const EmailVerification = ({ user_id, setVerificationMethod }) => {
             )}
 
             <button
-              type='submit'
+              type='button'
               className={`${styles.sentLinkButton} ${
                 state.loading && styles.buttonLoading
               } btn button--red`}

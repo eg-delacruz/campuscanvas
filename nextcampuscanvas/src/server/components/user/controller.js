@@ -264,18 +264,21 @@ const verifyStuEmail = async (user, stu_email, IP_Address, browserName) => {
     }
 
     //Deny access if generic email/not university email
-    if (
-      stu_email.includes('@hotmail') ||
-      stu_email.includes('@gmail') ||
-      stu_email.includes('@outlook') ||
-      stu_email.includes('@yahoo') ||
-      stu_email.includes('@live') ||
-      //In the long run, erase this (@lacasa.es)
-      stu_email.includes('@lacasa.es')
-    ) {
-      throw new Error(
-        '[Controller] La dirección de correo no pertenece a tu universidad'
-      );
+    //This allows the netoxas3107@hotmail.com email skip verification for testing purposes (In the long run, erase this)
+    if (stu_email !== 'netoxas3107@hotmail.com') {
+      if (
+        stu_email.includes('@hotmail') ||
+        stu_email.includes('@gmail') ||
+        stu_email.includes('@outlook') ||
+        stu_email.includes('@yahoo') ||
+        stu_email.includes('@live') ||
+        //In the long run, erase this (@lacasa.es)
+        stu_email.includes('@lacasa.es')
+      ) {
+        throw new Error(
+          '[Controller] La dirección de correo no pertenece a tu universidad'
+        );
+      }
     }
 
     //Generating validation link
@@ -292,7 +295,10 @@ const verifyStuEmail = async (user, stu_email, IP_Address, browserName) => {
     //Send FB Conversions API info here (end)
 
     //If stu_email structure is handled here, it shouldn't be in the if below!!
-    if (stu_email.includes('@ejemplo.com')) {
+    if (
+      stu_email.includes('@ejemplo.com') ||
+      stu_email === 'netoxas3107@hotmail.com'
+    ) {
       return link;
     }
 

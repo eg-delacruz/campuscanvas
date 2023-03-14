@@ -11,7 +11,7 @@ import arrow_right_white from '@assets/GeneralUse/IconsAndButtons/arrow_right_wh
 const ButtonBack = ({ prevRoute }) => {
   return (
     <Link href={prevRoute}>
-      <button className={`${styles.button_back} btn button--red`}>
+      <button type='button' className={`${styles.button_back} btn button--red`}>
         <span>
           <Image src={arrow_right_white} />
         </span>
