@@ -108,6 +108,7 @@ const StuIdVerification = ({ setVerificationMethod }) => {
           setVerificationMethod('');
         }}
         className={`${styles.button_back} btn button--red`}
+        type='button'
       >
         <span>
           <Image src={arrow_right_white} />

@@ -341,14 +341,16 @@ const getHomeSectionsCards = async () => {
     const cards = await Promise.allSettled([
       Card_Store.getBySection('suggested'),
       Card_Store.getBySection('new'),
+      Card_Store.getBySection('descubre_ofertas'),
       //TODO: in the future, get by 'home_featured' instead of all
       Card_Store.getAllAvailableCards(),
     ]);
-    const [SUGGESTED, NEW, HOME_FEATURED] = cards;
+    const [SUGGESTED, NEW, DESCUBRE_OFERTAS, HOME_FEATURED] = cards;
 
     const SECTION_CARDS = {
       suggested: SUGGESTED.value,
       new: NEW.value,
+      descubre_ofertas: DESCUBRE_OFERTAS.value,
       home_featured: HOME_FEATURED.value,
     };
     return SECTION_CARDS;
@@ -851,7 +853,7 @@ async function getCardByDiscountId(discount_id) {
 const getHomeSectionsCardsCount = async () => {
   try {
     //If new sections are created, update this array as well
-    const SECTIONS = ['suggested', 'new', 'most_searched', 'home_featured'];
+    const SECTIONS = ['suggested', 'new', 'descubre_ofertas', 'home_featured'];
     const count = await Promise.all(
       SECTIONS.map(async (section) => {
         const sectionCount = await Card_Store.getHomeSectionsCardsCount(

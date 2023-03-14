@@ -37,7 +37,7 @@ const { FB_Conversions_register_button_clicks } =
 import identifyBrowser from '@services/identifyBrowser';
 const { getBrowserName } = identifyBrowser;
 
-function Header() {
+export default function Header() {
   const { width, height } = useWindowDimensions();
   const router = useRouter();
   //Session
@@ -349,5 +349,3 @@ function Header() {
     </>
   );
 }
-
-export default Header;

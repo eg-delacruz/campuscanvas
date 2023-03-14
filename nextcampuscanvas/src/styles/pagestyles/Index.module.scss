@@ -72,6 +72,20 @@
 }
 
 /////////////////////////
+//   Descubre ofertas   //
+/////////////////////////
+.descubre_ofertas {
+  max-width: 1200px;
+  margin-top: 30px;
+  .descubre_ofertas_grid {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 30px 20px;
+  }
+}
+
+/////////////////////////
 //      Sugeridos      //
 /////////////////////////
 
@@ -129,6 +143,11 @@
 //         MQ         //
 /////////////////////////
 @media screen and (max-width: 1100px) {
+  .descubre_ofertas {
+    .descubre_ofertas_grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
   .suggested_discounts {
     .suggested_discounts_grid {
       grid-template-columns: repeat(2, 1fr);
@@ -142,6 +161,9 @@
 }
 
 @media screen and (max-width: 880px) {
+  .descubre_ofertas {
+    margin-top: 20px;
+  }
   .suggested_discounts {
     margin-top: 20px;
   }
@@ -189,6 +211,17 @@
     }
     .parallax__back {
       display: none;
+    }
+  }
+
+  .descubre_ofertas {
+    .descubre_ofertas_grid {
+      padding: 16px 0;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(280px, 1fr);
+      overflow-x: auto;
+      margin-top: 0;
     }
   }
 
@@ -254,6 +287,12 @@
   /////////////////////////
   //      Sugeridos      //
   /////////////////////////
+
+  .descubre_ofertas {
+    .descubre_ofertas_grid {
+      grid-gap: 30px 10px;
+    }
+  }
 
   .suggested_discounts {
     .suggested_discounts_grid {

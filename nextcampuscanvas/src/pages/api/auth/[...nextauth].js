@@ -11,7 +11,7 @@ import User from '@server/components/user/model';
 
 import { verifyPassword } from '@server/services/passEncript';
 
-export default NextAuth({
+export const authOptions = {
   session: {
     strategy: 'jwt',
     maxAge: 60 * 60 * 24 * 30, // 30 days
@@ -81,4 +81,6 @@ export default NextAuth({
   // pages: {
   //   signIn: '/registro',
   // },
-});
+};
+
+export default NextAuth(authOptions);

@@ -89,6 +89,17 @@ const HomeSlider = ({ slides }) => {
         {slides.map((item) => (
           <SwiperSlide
             onClick={() => {
+              if (
+                item.type === 'affiliate_link_only' &&
+                item.available_for === 'publico'
+              ) {
+                window.open(
+                  item.affiliate_link,
+                  '_blank',
+                  'noopener,noreferrer'
+                );
+                return;
+              }
               router.push(
                 {
                   pathname: `/descuentos/${item.discount_id}`,

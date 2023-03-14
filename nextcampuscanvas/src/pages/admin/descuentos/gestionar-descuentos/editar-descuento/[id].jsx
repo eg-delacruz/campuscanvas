@@ -108,7 +108,7 @@ const editarDescuento = () => {
   const DISPLAY_CARD_IN_SECTION_OPTIONS = [
     'suggested',
     'new',
-    'most_searched',
+    'descubre_ofertas',
     'home_featured',
   ];
 

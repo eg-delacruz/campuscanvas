@@ -13,7 +13,8 @@
       "@pagestyles/*": ["styles/pagestyles/*"],
       "@services/*": ["services/*"],
       "@server/*": ["server/*"],
-      "@redux/*": ["redux/*"]
+      "@redux/*": ["redux/*"],
+      "@pages/*": ["pages/*"]
     }
   }
 }

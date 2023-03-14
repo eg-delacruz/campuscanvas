@@ -2,6 +2,7 @@
 //https://www.youtube.com/watch?v=d5unMDna5ng&t=19s
 //https://www.youtube.com/watch?v=FZTaD32ueE8&t=2s
 //https://www.youtube.com/watch?v=8iqMWMYng7k
+import { useState, useEffect } from 'react';
 
 import Link from 'next/link';
 
@@ -27,11 +28,26 @@ import axiosFetcher from '@services/axiosFetcher';
 //CLARIFICAIONS:
 //1. Don´t use the button up component because it does not work with the parallax background effect, since the window.scrollY does not work, because of the scroll of the parallax container.
 
+//TODO: if performance is too bad with the useState and useEffect to display descubre ofretas section, dont evaluate if the descubre_ofertas array is empty and directly evaluate in ternary inside the jsx
 export default function Home(props) {
   const { home_data } = props;
 
+  //States
+  const [displayDescubreOfertas, setDisplayDescubreOfertas] = useState(true);
+
   //Session
   const { data: session, status } = useSession();
+
+  //Check if the descubre ofertas section should be displayed
+  useEffect(() => {
+    if (
+      home_data.home_sections_cards.descubre_ofertas.length === 0 ||
+      session?.token.stu_verified ||
+      !status === 'loading'
+    ) {
+      setDisplayDescubreOfertas(false);
+    }
+  }, [session, status]);
 
   return (
     <>
@@ -60,59 +76,98 @@ export default function Home(props) {
             //       Discounts        //
           ///////////////////////// */}
 
-            <section className={`${styles.suggested_discounts} container`}>
-              {/* /////////////////////////
-            //       Sugeridos        //
-          ///////////////////////// */}
-              <div className={styles.subtitle_glass_container}>
-                <h2>Sugeridos para ti</h2>
-              </div>
-              <div className={styles.suggested_discounts_grid}>
-                {home_data.home_sections_cards.suggested.map((card) => (
-                  <DiscountCard
-                    key={card.discount_id}
-                    banner={card.banner.URL}
-                    brand_name={card.brand_name}
-                    brand_logo={card.brand_logo.brand_logo.URL}
-                    title={card.title}
-                    discount_id={card.discount_id}
-                    card_tag={card.card_tag}
-                  />
-                ))}
-              </div>
-            </section>
+            {/* Esta sección solo tiene descuentos de acceso para todo público. Optimamente debería tener 8 descuentos */}
+            {/* /////////////////////////
+                    //   Descubre ofertas   //
+                    ///////////////////////// */}
 
-            <section className={`${styles.novedades_discounts} container`}>
-              {/* /////////////////////////
-            //       Novedades        //
+            {displayDescubreOfertas ? (
+              <section className={`${styles.descubre_ofertas} container`}>
+                <div className={styles.subtitle_glass_container}>
+                  <h2>Descubre ofertas</h2>
+                </div>
+                <div className={styles.descubre_ofertas_grid}>
+                  {home_data.home_sections_cards.descubre_ofertas?.map(
+                    (card) => (
+                      <DiscountCard
+                        key={card.discount_id}
+                        banner={card.banner.URL}
+                        brand_name={card.brand_name}
+                        brand_logo={card.brand_logo.brand_logo.URL}
+                        title={card.title}
+                        discount_id={card.discount_id}
+                        card_tag={card.card_tag}
+                      />
+                    )
+                  )}
+                </div>
+              </section>
+            ) : (
+              ''
+            )}
+
+            {/* /////////////////////////
+             //       Sugeridos        //
+              ///////////////////////// */}
+
+            {session?.token.stu_verified &&
+              home_data.home_sections_cards.suggested.length !== 0 && (
+                <section className={`${styles.suggested_discounts} container`}>
+                  <div className={styles.subtitle_glass_container}>
+                    <h2>Sugeridos para ti</h2>
+                  </div>
+                  <div className={styles.suggested_discounts_grid}>
+                    {home_data.home_sections_cards.suggested?.map((card) => (
+                      <DiscountCard
+                        key={card.discount_id}
+                        banner={card.banner.URL}
+                        brand_name={card.brand_name}
+                        brand_logo={card.brand_logo.brand_logo.URL}
+                        title={card.title}
+                        discount_id={card.discount_id}
+                        card_tag={card.card_tag}
+                      />
+                    ))}
+                  </div>
+                </section>
+              )}
+
+            {/* /////////////////////////
+          //       Novedades        //
           ///////////////////////// */}
-              <div className={styles.subtitle_glass_container}>
-                <h2>Novedades</h2>
-              </div>
-              <div className={styles.novedades_discounts_grid}>
-                {home_data.home_sections_cards.new.map((card) => (
-                  <DiscountCard
-                    key={card.discount_id}
-                    banner={card.banner.URL}
-                    brand_name={card.brand_name}
-                    brand_logo={card.brand_logo.brand_logo.URL}
-                    title={card.title}
-                    discount_id={card.discount_id}
-                    card_tag={card.card_tag}
-                  />
-                ))}
-              </div>
-            </section>
+
+            {session?.token.stu_verified &&
+              home_data.home_sections_cards.new.length !== 0 && (
+                <section className={`${styles.novedades_discounts} container`}>
+                  <div className={styles.subtitle_glass_container}>
+                    <h2>Novedades</h2>
+                  </div>
+                  <div className={styles.novedades_discounts_grid}>
+                    {home_data.home_sections_cards.new?.map((card) => (
+                      <DiscountCard
+                        key={card.discount_id}
+                        banner={card.banner.URL}
+                        brand_name={card.brand_name}
+                        brand_logo={card.brand_logo.brand_logo.URL}
+                        title={card.title}
+                        discount_id={card.discount_id}
+                        card_tag={card.card_tag}
+                      />
+                    ))}
+                  </div>
+                </section>
+              )}
+
+            {/* /////////////////////////
+            //    Más descuentos     //
+             ///////////////////////// */}
 
             <section className={`${styles.more_discounts} container`}>
-              {/* /////////////////////////
-            //    Más descuentos     //
-          ///////////////////////// */}
               <div className={styles.subtitle_glass_container}>
                 <h2>Más descuentos para estudiantes</h2>
               </div>
               <div className={styles.more_discounts_grid}>
-                {home_data.home_sections_cards.home_featured.map((card) => (
+                {home_data.home_sections_cards.home_featured?.map((card) => (
                   <DiscountCard
                     key={card.discount_id}
                     banner={card.banner.URL}

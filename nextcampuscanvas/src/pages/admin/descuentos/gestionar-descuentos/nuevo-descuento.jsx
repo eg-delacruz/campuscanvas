@@ -43,6 +43,7 @@ import endPoints from '@services/api';
 //Rich text editor
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
+//TODO: poner las secciones de home en español en este componente y en el de editar descuento, tanto la tabla con la cuenta, como la info a introducir en el formulario
 const nuevoDescuento = () => {
   const { securingRoute } = useSecureAdminRoute('all');
   //Allows us to manipulate the appropriate slice/action
