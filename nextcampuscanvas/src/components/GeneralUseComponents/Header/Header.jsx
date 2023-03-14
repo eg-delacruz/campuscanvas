@@ -44,13 +44,19 @@ function Header() {
   const { data: session, status } = useSession();
   const loading = status === 'loading';
 
+  //States
+  const [comparingIfNameChanged, setComparingIfNameChanged] = useState({
+    comparing: true,
+    changed: false,
+  });
+
+  const [state, setState] = useState({ gettingUser: false });
+
   //Allows us to manipulate the appropriate slice/action
   const dispatch = useDispatch();
 
   //Reducers
   const usersReducer = useSelector(selectUser);
-
-  const [state, setState] = useState({ gettingUser: false });
 
   //This useEffect gets the user data to be able to redirect user to the correct step of the registration process
   useEffect(() => {
@@ -63,6 +69,25 @@ function Header() {
     };
     setUserName();
   }, [session]);
+
+  //This useEffect compares the user name in the session with the one in the reducer
+  useEffect(() => {
+    if (usersReducer.user && session) {
+      if (usersReducer.user.nickname !== session.token.name) {
+        setComparingIfNameChanged({
+          ...comparingIfNameChanged,
+          changed: true,
+          comparing: false,
+        });
+        return;
+      }
+      setComparingIfNameChanged({
+        ...comparingIfNameChanged,
+        changed: false,
+        comparing: false,
+      });
+    }
+  }, [usersReducer.user]);
 
   const [menus, setMenus] = useState({
     isMenuOn: false,
@@ -90,6 +115,28 @@ function Header() {
     redirectTo(url);
   };
 
+  //This function is only displayed if there is a session
+  const nameDisplayer = () => {
+    if (comparingIfNameChanged.comparing || !comparingIfNameChanged.changed) {
+      return (
+        <>
+          {width < 369
+            ? truncateText(session.token.name, 15)
+            : session.token.name}
+        </>
+      );
+    }
+    if (comparingIfNameChanged.changed) {
+      return (
+        <>
+          {width < 369
+            ? truncateText(usersReducer.user.nickname, 15)
+            : usersReducer.user.nickname}
+        </>
+      );
+    }
+  };
+
   //Dirigir a usuario al paso de verificación correspondiente
   const verifyUser = () => {
     if (
@@ -108,31 +155,6 @@ function Header() {
       router.push(
         { pathname: '/auth/registro', query: { step: 3 } },
         'auth/registro'
-      );
-    }
-  };
-
-  //Skeletons
-  const loggedUserMenuSkeleton = () => {
-    if (status === 'loading' || state.gettingUser) {
-      return (
-        <div className={styles.logged_user_menu__skeleton}>
-          <div className={styles.skeleton_item1}>
-            <div className={styles.skeleton_item1_1}></div>
-            <div className={styles.skeleton_item1_2}></div>
-          </div>
-          <div className={styles.skeleton_item2}></div>
-        </div>
-      );
-    }
-  };
-  const loginMenuSkeleton = () => {
-    if (status === 'loading' || state.gettingUser) {
-      return (
-        <div className={styles.loginMenu__skeleton}>
-          <div className={styles['loginMenu__skeleton--button1']}></div>
-          <div className={styles['loginMenu__skeleton--button2']}></div>
-        </div>
       );
     }
   };
@@ -187,8 +209,6 @@ function Header() {
             </Link>
 
             {/* Logged in user menu + validated/unvalidated message*/}
-            {/* {loggedUserMenuSkeleton()} */}
-
             {session && (
               <div
                 className={`${styles.header__logged_user_menu} ${styles.userMenuStickyState767}`}
@@ -209,9 +229,7 @@ function Header() {
                       <Image src={logged_user_icon} />
                     </div>
                     <button>
-                      {width < 369
-                        ? truncateText(session.token.name, 15)
-                        : session.token.name}
+                      {nameDisplayer()}
                       <i>
                         <Image src={dropdown_menu_arrow} />
                       </i>
@@ -265,83 +283,6 @@ function Header() {
                 )}
               </div>
             )}
-
-            {/* {usersReducer.user && (
-              <div
-                className={`${styles.header__logged_user_menu} ${styles.userMenuStickyState767}`}
-              >
-                <div className={styles.header__logged_user_menu_container}>
-                  <Link href={'/'}>
-                    <button className={styles.header__logged_user_menu_logo767}>
-                      <Image src={Isotype767} alt={'Campus Canvas logo'} />
-                    </button>
-                  </Link>
-                  <div
-                    onClick={() => toggleUserMenu()}
-                    className={
-                      styles.header__logged_user_menu_iconButton_container
-                    }
-                  >
-                    <div className={styles.icon}>
-                      <Image src={logged_user_icon} />
-                    </div>
-                    <button>
-                      {width < 369
-                        ? truncateText(usersReducer.user.nickname, 15)
-                        : usersReducer.user.nickname}
-                      <i>
-                        <Image src={dropdown_menu_arrow} />
-                      </i>
-                    </button>
-                  </div>
-                </div>
-                <ul
-                  className={`${
-                    menus.isUserMenuOn ? styles['dropdow-is-active'] : ''
-                  } `}
-                >
-                  {session?.token.role === 'admin' ||
-                  session.token.role === 'super_admin' ? (
-                    <li onClick={() => redirectTo('/admin')}>
-                      Admin
-                      <i>
-                        <Image alt='Admin' src={admin_icon} />
-                      </i>
-                    </li>
-                  ) : (
-                    ''
-                  )}
-                  <li onClick={() => handleOpenAccountPage('/cuenta')}>
-                    Cuenta
-                    <i>
-                      <Image alt='Perfil' src={profile_icon} />
-                    </i>
-                  </li>
-                  <li onClick={() => signOut()}>
-                    {' '}
-                    Log out
-                    <i>
-                      <Image alt='Cerrar sesión' src={logout_icon} />
-                    </i>
-                  </li>
-                </ul> */}
-            {/* Verified user text */}
-            {/* {usersReducer.user.stu_verified && (
-                  <p className={styles.verified_text}>Estudiante verificado</p>
-                )} */}
-            {/* Non-verified user button */}
-            {/* {!usersReducer.user.stu_verified && (
-                  <div className={styles.unverif_button_container}>
-                    <button
-                      className={`${styles.unverified_button} btn button--redRedborderTransparentHoverShadowtRed`}
-                      onClick={() => verifyUser()}
-                    >
-                      Verifica tu cuenta
-                    </button>
-                  </div>
-                )}
-              </div>
-            )} */}
           </div>
 
           <nav

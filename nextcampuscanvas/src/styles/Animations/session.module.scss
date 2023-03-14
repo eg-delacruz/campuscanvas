@@ -1,5 +1,5 @@
 ////////////////FadeIn////////////
-@function sessionFadeIn($duration: 0.2s) {
+@function sessionFadeIn($duration: 0.1s) {
   @return (fadeIn $duration ease-in);
 }
 @keyframes fadeIn {
@@ -12,7 +12,7 @@
 }
 
 ////////////////FadeOut////////////////
-@function sessionFadeOut($duration: 0.2s) {
+@function sessionFadeOut($duration: 0.1s) {
   @return (fadeOut $duration ease-in);
 }
 @keyframes fadeOut {
