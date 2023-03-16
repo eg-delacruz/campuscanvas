@@ -1,16 +1,30 @@
+import Image from 'next/image';
+import Link from 'next/link';
+
 //Components
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 import DiscountTemplate from '@components/UsedInSpecificRoutes/Descuentos/DiscountTemplate/DiscountTemplate.jsx';
 import DiscountDisplayerBtn from '@components/UsedInSpecificRoutes/Descuentos/DiscountDisplayerBtn/DiscountDisplayerBtn.jsx';
 
+//Assets
+import edit_pencil from '@assets/GeneralUse/IconsAndButtons/edit_pencil.svg';
+
+//Styles
+import styles from '@styles/pagestyles/descuentos/DisplayDiscount.module.scss';
+
 //Endpoints
 import endPoints from '@services/api/index';
+
+//Hooks
+import useDisplayIfAdmin from '@hooks/useDisplayIfAdmin';
 
 //Services
 import axiosFetcher from '@services/axiosFetcher';
 
 const Discount = ({ discount }) => {
+  const { allowDisplay } = useDisplayIfAdmin('all');
+
   return (
     <>
       <SEOHeader
@@ -18,7 +32,20 @@ const Discount = ({ discount }) => {
         metaName={discount.SEO_meta_title}
         description={discount.description}
       />
+
       <Layout>
+        {/* Edit icon if user is an admin */}
+        {allowDisplay && (
+          <Link
+            href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
+          >
+            <div className={styles.edit_icon_container}>
+              <div className={styles.icon}>
+                <Image src={edit_pencil} />
+              </div>
+            </div>
+          </Link>
+        )}
         <DiscountTemplate discount={discount}>
           <DiscountDisplayerBtn discount={discount} />
         </DiscountTemplate>
