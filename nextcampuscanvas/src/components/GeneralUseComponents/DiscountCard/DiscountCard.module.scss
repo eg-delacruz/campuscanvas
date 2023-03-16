@@ -77,6 +77,12 @@
       border-radius: 0 2px 12px 0;
       box-shadow: 0px 0px 0px 1px rgb(255 255 255 / 70%);
     }
+    .card_tag_exclusivo {
+      background-color: $color--secondary;
+    }
+    .card_tag_nuevo {
+      background-color: $color--primary2;
+    }
   }
 
   .discount_info_container {

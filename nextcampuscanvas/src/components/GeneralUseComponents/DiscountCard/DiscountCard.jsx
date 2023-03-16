@@ -99,7 +99,15 @@ const DiscountCard = ({
               onLoad={handleLoadedBanner}
             />
           </span>
-          {card_tag && <div className={styles.card_tag}>{card_tag}</div>}
+          {card_tag && (
+            <div
+              className={`${styles.card_tag} ${
+                card_tag === 'exclusivo' ? styles.card_tag_exclusivo : ''
+              } ${card_tag === 'nuevo' ? styles.card_tag_nuevo : ''}`}
+            >
+              {card_tag}
+            </div>
+          )}
         </div>
         <div className={styles.discount_info_container}>
           <div className={styles.discount_logo_container}>
