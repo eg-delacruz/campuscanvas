@@ -339,19 +339,19 @@ async function getHomeSliderBanners() {
 const getHomeSectionsCards = async () => {
   try {
     const cards = await Promise.allSettled([
-      Card_Store.getBySection('suggested'),
-      Card_Store.getBySection('new'),
+      Card_Store.getBySection('sugeridos'),
+      Card_Store.getBySection('nuevos'),
       Card_Store.getBySection('descubre_ofertas'),
-      //TODO: in the future, get by 'home_featured' instead of all
+      //TODO: in the future, get by 'mas_descuentos_estudiantes' instead of all
       Card_Store.getAllAvailableCards(),
     ]);
     const [SUGGESTED, NEW, DESCUBRE_OFERTAS, HOME_FEATURED] = cards;
 
     const SECTION_CARDS = {
-      suggested: SUGGESTED.value,
-      new: NEW.value,
+      sugeridos: SUGGESTED.value,
+      nuevos: NEW.value,
       descubre_ofertas: DESCUBRE_OFERTAS.value,
-      home_featured: HOME_FEATURED.value,
+      mas_descuentos_estudiantes: HOME_FEATURED.value,
     };
     return SECTION_CARDS;
   } catch (error) {
@@ -853,7 +853,12 @@ async function getCardByDiscountId(discount_id) {
 const getHomeSectionsCardsCount = async () => {
   try {
     //If new sections are created, update this array as well
-    const SECTIONS = ['suggested', 'new', 'descubre_ofertas', 'home_featured'];
+    const SECTIONS = [
+      'sugeridos',
+      'nuevos',
+      'descubre_ofertas',
+      'mas_descuentos_estudiantes',
+    ];
     const count = await Promise.all(
       SECTIONS.map(async (section) => {
         const sectionCount = await Card_Store.getHomeSectionsCardsCount(

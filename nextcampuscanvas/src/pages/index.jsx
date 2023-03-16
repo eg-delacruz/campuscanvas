@@ -31,8 +31,10 @@ import axiosFetcher from '@services/axiosFetcher';
 //TODO: if performance is too bad with the useState and useEffect to display descubre ofretas section, dont evaluate if the descubre_ofertas array is empty and directly evaluate in ternary inside the jsx
 export default function Home(props) {
   const { home_data } = props;
+  console.log('home_data', home_data);
 
   //States
+  //TODO: at the begining, this has to be false, and evaluate if it can be rendered in the useEffect, since currently, it always renders, even if there is no cards in that section
   const [displayDescubreOfertas, setDisplayDescubreOfertas] = useState(true);
 
   //Session
@@ -111,13 +113,13 @@ export default function Home(props) {
               ///////////////////////// */}
 
             {session?.token.stu_verified &&
-              home_data.home_sections_cards.suggested.length !== 0 && (
+              home_data.home_sections_cards.sugeridos.length !== 0 && (
                 <section className={`${styles.suggested_discounts} container`}>
                   <div className={styles.subtitle_glass_container}>
                     <h2>Sugeridos para ti</h2>
                   </div>
                   <div className={styles.suggested_discounts_grid}>
-                    {home_data.home_sections_cards.suggested?.map((card) => (
+                    {home_data.home_sections_cards.sugeridos?.map((card) => (
                       <DiscountCard
                         key={card.discount_id}
                         banner={card.banner.URL}
@@ -137,13 +139,13 @@ export default function Home(props) {
           ///////////////////////// */}
 
             {session?.token.stu_verified &&
-              home_data.home_sections_cards.new.length !== 0 && (
+              home_data.home_sections_cards.nuevos.length !== 0 && (
                 <section className={`${styles.novedades_discounts} container`}>
                   <div className={styles.subtitle_glass_container}>
                     <h2>Novedades</h2>
                   </div>
                   <div className={styles.novedades_discounts_grid}>
-                    {home_data.home_sections_cards.new?.map((card) => (
+                    {home_data.home_sections_cards.nuevos?.map((card) => (
                       <DiscountCard
                         key={card.discount_id}
                         banner={card.banner.URL}
@@ -167,17 +169,19 @@ export default function Home(props) {
                 <h2>Más descuentos para estudiantes</h2>
               </div>
               <div className={styles.more_discounts_grid}>
-                {home_data.home_sections_cards.home_featured?.map((card) => (
-                  <DiscountCard
-                    key={card.discount_id}
-                    banner={card.banner.URL}
-                    brand_name={card.brand_name}
-                    brand_logo={card.brand_logo.brand_logo.URL}
-                    title={card.title}
-                    discount_id={card.discount_id}
-                    card_tag={card.card_tag}
-                  />
-                ))}
+                {home_data.home_sections_cards.mas_descuentos_estudiantes?.map(
+                  (card) => (
+                    <DiscountCard
+                      key={card.discount_id}
+                      banner={card.banner.URL}
+                      brand_name={card.brand_name}
+                      brand_logo={card.brand_logo.brand_logo.URL}
+                      title={card.title}
+                      discount_id={card.discount_id}
+                      card_tag={card.card_tag}
+                    />
+                  )
+                )}
               </div>
             </section>
 

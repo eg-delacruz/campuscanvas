@@ -68,6 +68,8 @@ const editarDescuento = () => {
     form_error: null,
   });
 
+  console.log(state.discount);
+
   const [homeBanner, setHomeBanner] = useState({
     homeBanner: {},
     loading: true,
@@ -106,10 +108,10 @@ const editarDescuento = () => {
   const STATUS_OPTIONS = ['available', 'unavailable'];
   const CARD_TAG_OPTIONS = ['exclusivo', 'nuevo'];
   const DISPLAY_CARD_IN_SECTION_OPTIONS = [
-    'suggested',
-    'new',
+    'sugeridos',
+    'nuevos',
     'descubre_ofertas',
-    'home_featured',
+    'mas_descuentos_estudiantes',
   ];
 
   //Other varialbes
@@ -516,7 +518,6 @@ const editarDescuento = () => {
     let prev_exp_date_same_format = null;
     let updated_exp_date_same_format = null;
 
-    //TODO: when all discounts that don´t expire have the '' and not null anymore, directly compare with: dateFormat.dateToYMD(new Date(state.discount?.expiration_date)), because now, some discounts have null, which should be ''
     if (state.discount?.expiration_date) {
       prev_exp_date_same_format = dateFormat.dateToYMD(
         new Date(state.discount?.expiration_date)
@@ -673,14 +674,13 @@ const editarDescuento = () => {
   };
 
   const enableSaveChangesButton = () => {
-    //If user did a change, disabled will be false
+    //If user did a change, disabled will be false. Not sure why this works, since for some cases, no state is modified, but the button behaves as espected.
 
     //Needed because if expiration date comes as null from db, the exp date input will be '' if empty, and '' and null cannot be compared to properly disable submit btn
 
     let prev_exp_date_same_format = null;
     let updated_exp_date_same_format = null;
 
-    //TODO: when all discounts that don´t expire have the '' and not null anymore, directly compare with: dateFormat.dateToYMD(new Date(state.discount?.expiration_date)), because now, some discounts have null, which should be ''
     if (state.discount?.expiration_date) {
       prev_exp_date_same_format = dateFormat.dateToYMD(
         new Date(state.discount?.expiration_date)
@@ -1281,12 +1281,25 @@ const editarDescuento = () => {
                               styles.disabled_in_section_datalist_container
                             }
                           >
-                            <label
-                              htmlFor='display_in_section'
-                              className={`${styles.input_title}`}
-                            >
-                              Mostrar en sección de home
-                            </label>
+                            <div className={styles.label_tooltip_container}>
+                              <label
+                                htmlFor='display_in_section'
+                                className={`${styles.input_title}`}
+                              >
+                                Mostrar en sección de home
+                              </label>
+                              <span className={styles.tooltip_container}>
+                                ?{' '}
+                                <span className={styles.tooltiptext}>
+                                  SUGERIDOS y NOVEDADES se mostrarán solo a
+                                  estudiantes verificados. Solo debería tener
+                                  ofertas de verificados. DESCUBRE OFERTAS se
+                                  mostrará a todo aquel que no sea estudiante
+                                  verificado, y solo deberá tener ofertas
+                                  públicas. MAS DESCUENTOS se muestra siempre
+                                </span>
+                              </span>
+                            </div>
                             <input
                               className={`${styles.input}`}
                               name='display_in_section'

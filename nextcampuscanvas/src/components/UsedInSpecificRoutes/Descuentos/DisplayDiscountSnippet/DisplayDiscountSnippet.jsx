@@ -50,11 +50,12 @@ const DisplayDiscountSnippet = ({ discount }) => {
         <p className={styles.copied_message}>Código copiado al portapapeles</p>
       )}
 
-      <p className={styles.new_code_indications}>
+      {/* TODO: only display this if the discount is generated dynamically.  */}
+      {/* <p className={styles.new_code_indications}>
         Este código ha sido generado especialmente para ti. Por cada compra en{' '}
         {discount.brand.brand_name} necesitarás uno nuevo. Próximo código
         disponible dentro de {TIEMPO_PARA_PROXIMO_CODIGO}.
-      </p>
+      </p> */}
 
       <button
         onClick={handleOpenBrandStore}

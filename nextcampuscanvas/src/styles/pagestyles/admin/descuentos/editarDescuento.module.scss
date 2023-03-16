@@ -354,10 +354,12 @@
 
     .display_in_section_container {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
+      gap: 40px;
+      align-items: center;
     }
     .display_in_section_container > div {
-      width: 49%;
+      width: 100%;
     }
 
     .current_discounts_per_section_table,
@@ -443,6 +445,7 @@
       .display_in_section_container {
         display: flex;
         flex-direction: column;
+        gap: 0;
         table {
           margin: 0 auto;
         }
@@ -499,6 +502,14 @@
         width: 100%;
       }
 
+      .display_in_section_container {
+        table {
+          overflow-x: scroll;
+          display: block;
+          white-space: nowrap;
+        }
+      }
+
       .show_first_in_category_container {
         .current_display_first_by_category_table {
           overflow-x: scroll;
@@ -512,18 +523,4 @@
 ////////////////////////////////////////320/////////////////////////////////////////////
 
 @media screen and (max-width: 320px) {
-  .container {
-    /////////////////////////
-    //    Card section    //
-    /////////////////////////
-    .card_section {
-      .display_in_section_container {
-        table {
-          overflow-x: scroll;
-          display: block;
-          white-space: nowrap;
-        }
-      }
-    }
-  }
 }

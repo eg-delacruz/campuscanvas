@@ -43,7 +43,6 @@ import endPoints from '@services/api';
 //Rich text editor
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-//TODO: poner las secciones de home en español en este componente y en el de editar descuento, tanto la tabla con la cuenta, como la info a introducir en el formulario
 const nuevoDescuento = () => {
   const { securingRoute } = useSecureAdminRoute('all');
   //Allows us to manipulate the appropriate slice/action
@@ -98,11 +97,12 @@ const nuevoDescuento = () => {
   ];
   const CARD_TAG_OPTIONS = ['exclusivo', 'nuevo'];
 
+  //These options have to be the same as the ones in the edit discount page. Also, if they are modified, get the proper info to display in the home page
   const DISPLAY_CARD_IN_SECTION_OPTIONS = [
     'sugeridos',
-    'novedades',
+    'nuevos',
     'descubre_ofertas',
-    'mas_descuentos',
+    'mas_descuentos_estudiantes',
   ];
 
   //States
@@ -323,24 +323,6 @@ const nuevoDescuento = () => {
       }
     }
 
-    //Translate chosen card section to english
-    let DISPLAY_CARD_IN_SECTION_ENG = '';
-    switch (DISPLAY_CARD_IN_SECTION.value) {
-      case 'sugeridos':
-        DISPLAY_CARD_IN_SECTION_ENG = 'suggested';
-        break;
-      case 'novedades':
-        DISPLAY_CARD_IN_SECTION_ENG = 'new';
-        break;
-      case 'mas_buscados':
-        DISPLAY_CARD_IN_SECTION_ENG = 'most_searched';
-        break;
-      case 'mas_descuentos':
-        DISPLAY_CARD_IN_SECTION_ENG = 'home_featured';
-      default:
-        break;
-    }
-
     const formdata = new FormData();
     formdata.append('title', TITLE.value);
     formdata.append('description', DESCRIPTION.value);
@@ -360,7 +342,7 @@ const nuevoDescuento = () => {
     formdata.append('small_home_slider_image', smallImageHomeSlider[0]);
     formdata.append('card_title', CARD_TITLE.value);
     formdata.append('card_tag', CARD_TAG.value);
-    formdata.append('display_card_in_section', DISPLAY_CARD_IN_SECTION_ENG);
+    formdata.append('display_card_in_section', DISPLAY_CARD_IN_SECTION.value);
     formdata.append('terms_and_conds', termsCondsText);
     formdata.append('show_first_in_category', SHOW_FIRST_IN_CATEGORY.value);
 

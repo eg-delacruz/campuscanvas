@@ -2,6 +2,7 @@
 
 import { Html, Head, Main, NextScript } from 'next/document';
 
+//TODO: clean the dangerourslySetInnerHTML
 export default function Document() {
   return (
     <Html lang='es'>
@@ -92,7 +93,7 @@ export default function Document() {
         <meta name='robots' content='index' follow='true' />
 
         {/* Cookie consent banner and widget */}
-        <script
+        {/* <script
           id='Cookiebot'
           src='https://consent.cookiebot.com/uc.js'
           data-cbid='56697194-dfde-4726-ae75-dd1721d25c14'
@@ -101,7 +102,7 @@ export default function Document() {
           onError={() => {
             console.error('Script failed to load');
           }}
-        />
+        /> */}
 
         {/* Facebook Pixel */}
         <meta
