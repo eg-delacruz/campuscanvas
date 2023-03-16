@@ -12,6 +12,7 @@ import homeBannersReducer from '@redux/homeBannersSlice';
 import homeSectionsCountReducer from '@redux/homeSectionsDiscountsCountSlice';
 import showFirstInCategoryCountReducer from '@redux/showDiscountFirstInCategorySlice';
 import countDiscountsReducer from '@redux/discountsCountSlice';
+import countBrandsReducer from '@redux/brandsCountSlice';
 
 export const store = configureStore({
   //We pass the reducer to the store. This names have to be the same as the exported selector of the slice.js files to correctly access the desired state.
@@ -26,6 +27,7 @@ export const store = configureStore({
     homeSectionsCount: homeSectionsCountReducer,
     showFirstInCategoryCount: showFirstInCategoryCountReducer,
     countDiscounts: countDiscountsReducer,
+    countBrands: countBrandsReducer,
   },
 });
 

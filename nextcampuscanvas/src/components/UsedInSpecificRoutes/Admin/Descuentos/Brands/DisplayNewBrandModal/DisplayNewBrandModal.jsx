@@ -20,6 +20,7 @@ import endPoints from '@services/api';
 
 //Redux actions
 import { getBrands } from '@redux/brandsSlice';
+import { countBrands } from '@redux/brandsCountSlice';
 
 const displayNewBrandModal = ({ showModal, setShowModal }) => {
   //States
@@ -81,6 +82,9 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
 
     //Dispatching action to update the brands list
     dispatch(getBrands());
+
+    //Dispatching action to update the brands count
+    dispatch(countBrands());
 
     //Reseting values and closing modal
     BRAND_NAME.setValue('');

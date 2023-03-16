@@ -22,6 +22,9 @@ import { getHomeBannersInfo, selectHomeBanner } from '@redux/homeBannersSlice';
 //Assets
 import delete_icon from '@assets/GeneralUse/IconsAndButtons/delete.svg';
 
+//Services
+import dateFormat from '@services/dateFormat';
+
 const homeSliderManagement = () => {
   const { securingRoute } = useSecureAdminRoute();
 
@@ -128,7 +131,7 @@ const homeSliderManagement = () => {
                 </p>
                 <p className={styles.created_at}>
                   <strong>Fecha de creación del banner: </strong>
-                  {banner?.created_at}
+                  {dateFormat.dateToDMYHM(new Date(banner.created_at))}
                 </p>
                 <p className={styles.created_by}>
                   <strong>Banner creado por: </strong>

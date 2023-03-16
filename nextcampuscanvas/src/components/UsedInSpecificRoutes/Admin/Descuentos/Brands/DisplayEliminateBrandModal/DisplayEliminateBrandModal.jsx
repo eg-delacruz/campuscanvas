@@ -19,6 +19,7 @@ import endPoints from '@services/api';
 
 //Redux
 import { getBrands } from '@redux/brandsSlice';
+import { countBrands } from '@redux/brandsCountSlice';
 
 const DisplayEliminateBrandModal = ({
   showModal,
@@ -58,6 +59,9 @@ const DisplayEliminateBrandModal = ({
     if (response.body === 'Marca eliminada') {
       //Update global brands state
       dispatch(getBrands());
+
+      //Update global brands count state
+      dispatch(countBrands());
 
       setState({
         ...state,
