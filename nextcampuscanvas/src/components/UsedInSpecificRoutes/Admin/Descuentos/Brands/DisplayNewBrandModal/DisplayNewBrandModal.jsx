@@ -54,7 +54,8 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
 
     if (files.length === 0) {
       return setState({
-        error: 'Debes subir una imagen SVG del logo',
+        error:
+          'Debes subir un archivo preferentemente en formato SVG, o un PNG de 230 x 230 px',
       });
     }
 

@@ -218,7 +218,7 @@ const editarMarca = () => {
 
   //Handle change brand logo (start)
   const onNewFile = (e) => {
-    const allowedFileFormats = ['svg'];
+    const allowedFileFormats = ['svg', 'png'];
     const newFile = e.target.files[0];
     //4 MB aprox.
     const maxSizeAllowed = 4194304;
@@ -230,11 +230,12 @@ const editarMarca = () => {
     if (!allowedFileFormats.includes(newFileType)) {
       setNewBrandLogo({
         ...newBrandLogo,
-        error: 'Debes subir un archivo en formato SVG',
+        error:
+          'Debes subir un archivo preferentemente en formato SVG, o un PNG de 230 x 230 px',
       });
       setTimeout(() => {
         setNewBrandLogo({ ...newBrandLogo, error: null });
-      }, 3000);
+      }, 7000);
       return false;
     }
 

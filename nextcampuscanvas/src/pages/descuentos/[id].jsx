@@ -70,8 +70,6 @@ export async function getStaticProps({ params }) {
     method: 'get',
   });
 
-  console.log('La responseee', response);
-
   if (response.error || response.body.status === 'unavailable') {
     return {
       notFound: true,
