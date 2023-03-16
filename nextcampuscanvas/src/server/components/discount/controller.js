@@ -1079,10 +1079,6 @@ async function updateDiscount(data, new_banner, updated_by) {
         card.show_first_in_category = show_first_in_category;
         card.updated_at = new Date();
         card.modified_last_time_by = updated_by;
-        //TODO: in the future, erase this, since this value was added when admin panel for discount management was being developed and there were some cards in the cloud without this value
-        if (!card.created_by) {
-          card.created_by = updated_by;
-        }
 
         const updated_card = await Card_Store.update(card);
 

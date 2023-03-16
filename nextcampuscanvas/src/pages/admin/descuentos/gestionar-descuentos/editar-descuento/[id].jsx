@@ -68,8 +68,6 @@ const editarDescuento = () => {
     form_error: null,
   });
 
-  console.log(state.discount);
-
   const [homeBanner, setHomeBanner] = useState({
     homeBanner: {},
     loading: true,

@@ -31,7 +31,6 @@ import axiosFetcher from '@services/axiosFetcher';
 //TODO: if performance is too bad with the useState and useEffect to display descubre ofretas section, dont evaluate if the descubre_ofertas array is empty and directly evaluate in ternary inside the jsx
 export default function Home(props) {
   const { home_data } = props;
-  console.log('home_data', home_data);
 
   //States
   //TODO: at the begining, this has to be false, and evaluate if it can be rendered in the useEffect, since currently, it always renders, even if there is no cards in that section
