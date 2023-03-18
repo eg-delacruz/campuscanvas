@@ -1088,7 +1088,12 @@ async function updateDiscount(data, new_banner, updated_by) {
             original_card.title !== updated_card.title ||
             original_card.card_tag !== updated_card.card_tag
           ) {
+            //TODO: if the card title is modified AND the card appears in a home section, revalidate the home section route
             routesToUpdateSSG.push('/descuentos/todos');
+
+            if (updated_card.display_card_in_section) {
+              routesToUpdateSSG.push('/');
+            }
 
             //Revalidating category route
             switch (updated_card.category) {
@@ -1173,7 +1178,9 @@ async function updateDiscount(data, new_banner, updated_by) {
             (original_card.card_tag !== updated_card.card_tag &&
               updated_card.display_in_section)
           ) {
-            routesToUpdateSSG.push('/');
+            if (!routesToUpdateSSG.includes('/')) {
+              routesToUpdateSSG.push('/');
+            }
           }
         }
       }
