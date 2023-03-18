@@ -21,9 +21,16 @@ const getAllAvailableCards = async () => {
 
 ///////////////////// Get available cards by category //////////////////////////////
 const getByCategory = async (category) => {
-  return await Card.find({ status: 'available', category })
-    .populate({ path: 'brand_logo', model: BrandInfo, select: 'brand_logo' })
-    .exec();
+  const responses = await Promise.all([
+    Card.find({ status: 'available', category, show_first_in_category: true })
+      .populate({ path: 'brand_logo', model: BrandInfo, select: 'brand_logo' })
+      .exec(),
+    Card.find({ status: 'available', category, show_first_in_category: false })
+      .populate({ path: 'brand_logo', model: BrandInfo, select: 'brand_logo' })
+      .exec(),
+  ]);
+
+  return [...responses[0], ...responses[1]];
 };
 
 ///////////////////// Get available cards by section //////////////////////////////

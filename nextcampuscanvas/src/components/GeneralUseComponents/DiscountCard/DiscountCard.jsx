@@ -62,7 +62,7 @@ const DiscountCard = ({
     }
   };
 
-  checkDescriptionLength(title);
+  //checkDescriptionLength(title);
 
   //To send the id of the post to the post page
   const router = useRouter();
