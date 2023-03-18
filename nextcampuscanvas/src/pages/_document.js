@@ -1,9 +1,17 @@
 //Aquí manejamos el SEO de la página de manera global
 
+//Purufy inserted external html
+import DOMPurify from 'isomorphic-dompurify';
+
 import { Html, Head, Main, NextScript } from 'next/document';
 
 //TODO: clean the dangerourslySetInnerHTML
 export default function Document() {
+  //Sanitysing the html
+  function createHTMLElement(string) {
+    return { __html: DOMPurify.sanitize(string) };
+  }
+
   return (
     <Html lang='es'>
       <Head>
@@ -15,16 +23,14 @@ export default function Document() {
 
         {/* Google Analytics */}
         <script
-          dangerouslySetInnerHTML={{
-            __html: `
+          dangerouslySetInnerHTML={createHTMLElement(`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
               page_path: window.location.pathname,
             });
-          `,
-          }}
+          `)}
         />
         <meta charSet='utf-8' />
 
@@ -110,8 +116,7 @@ export default function Document() {
           content='3qz9uu9j751op1snjiaemodbjgc0mt'
         />
         <script
-          dangerouslySetInnerHTML={{
-            __html: `!(function (f, b, e, v, n, t, s) {
+          dangerouslySetInnerHTML={createHTMLElement(`!(function (f, b, e, v, n, t, s) {
         if (f.fbq) return;
         n = f.fbq = function () {
           n.callMethod
@@ -136,20 +141,17 @@ export default function Document() {
       );
 
       fbq('init', '771964337451446');
-      fbq('track', 'PageView');`,
-          }}
+      fbq('track', 'PageView');`)}
         />
 
         {/* Facebook Pixel */}
         <noscript
-          dangerouslySetInnerHTML={{
-            __html: `<img
+          dangerouslySetInnerHTML={createHTMLElement(`<img
           height='1'
           width='1'
           style='display:none'
           src='https://www.facebook.com/tr?id=771964337451446&ev=PageView&noscript=1'
-        />`,
-          }}
+        />`)}
         />
       </Head>
 
