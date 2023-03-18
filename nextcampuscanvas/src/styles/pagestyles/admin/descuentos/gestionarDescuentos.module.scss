@@ -10,6 +10,7 @@
 }
 .container {
   padding: 0 8px 20px;
+  max-width: 1200px;
 }
 
 .title_flex_container {
@@ -71,7 +72,8 @@
     .column2,
     .column3,
     .column4,
-    .column5 {
+    .column5,
+    .column6 {
       text-align: center;
     }
     .expired {

@@ -33,6 +33,8 @@ const index = () => {
   const discountsReducer = useSelector(selectDiscount);
   const discountsCountReducer = useSelector(selectCountDiscounts);
 
+  console.log(discountsReducer.discounts);
+
   //Get discounts
   useEffect(() => {
     const setDiscounts = async () => {
@@ -98,6 +100,7 @@ const index = () => {
                   <tr>
                     <th>Título</th>
                     <th>Marca</th>
+                    <th>Categoría</th>
                     <th>Válido desde</th>
                     <th>Válido hasta</th>
                     <th>Status</th>
@@ -124,7 +127,12 @@ const index = () => {
                       <Link
                         href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
                       >
-                        <td className={styles.column3}>
+                        <td className={styles.column3}>{discount.category}</td>
+                      </Link>
+                      <Link
+                        href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
+                      >
+                        <td className={styles.column4}>
                           {dateFormat.SlashDate(new Date(discount.valid_from))}
                         </td>
                       </Link>
@@ -132,7 +140,7 @@ const index = () => {
                         href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
                       >
                         <td
-                          className={`${styles.column4} ${
+                          className={`${styles.column5} ${
                             discount.expiration_date
                               ? new Date() > new Date(discount.expiration_date)
                                 ? `${styles.expired}`
@@ -150,7 +158,7 @@ const index = () => {
                       <Link
                         href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
                       >
-                        <td className={`${styles.column5}`}>
+                        <td className={`${styles.column6}`}>
                           <div
                             className={` ${
                               discount.status === 'available'
