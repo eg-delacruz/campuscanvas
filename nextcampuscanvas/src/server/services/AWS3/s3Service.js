@@ -7,8 +7,8 @@ import {
   DeleteObjectCommand,
 } from '@aws-sdk/client-s3';
 
-const replaceAllWhiteSpacesBy_ = (string) => {
-  return string.split(' ').join('_').toLocaleLowerCase();
+const replaceWhiteSpacesBy_AndEliminateSpecialCharacters = (string) => {
+  return string.replace(/\s/g, '_').replace(/[^a-zA-Z0-9_.]/g, '');
 };
 
 const generateUniqueFileName = (file) => {
@@ -17,7 +17,7 @@ const generateUniqueFileName = (file) => {
   };
   const date_ISO8601 = new Date().toISOString().split('T')[0];
 
-  const unique_name = `${date_ISO8601}-${generate_random_8_digits_id()}-${replaceAllWhiteSpacesBy_(
+  const unique_name = `${date_ISO8601}-${generate_random_8_digits_id()}-${replaceWhiteSpacesBy_AndEliminateSpecialCharacters(
     file.originalname
   )}`;
   return unique_name;
