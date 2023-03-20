@@ -86,6 +86,7 @@ const nuevoDescuento = () => {
   const { fetchData: uploadData, cancel } = useAxios();
 
   //Datalist options
+  const STATUS_OPTIONS = ['available', 'unavailable'];
   const CATEGORY_OPTIONS = [
     'travel',
     'fashion',
@@ -116,6 +117,7 @@ const nuevoDescuento = () => {
   const [termsCondsText, setTermsCondsText] = useState('');
 
   //Error states
+  const [statusDatalistError, setStatusDatalistError] = useState(null);
   const [titleError, setTitleError] = useState(null);
   const [descriptionError, setDescriptionError] = useState(null);
   const [discountTypeError, setDiscountTypeError] = useState(null);
@@ -133,6 +135,7 @@ const nuevoDescuento = () => {
   ] = useState(null);
 
   //Controlling inputs
+  const STATUS = useInputValue('available');
   const TITLE = useInputValue('');
   const DESCRIPTION = useInputValue('');
   const BRAND = useInputValue('');
@@ -209,6 +212,7 @@ const nuevoDescuento = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setState({ ...state, error: null });
+    setStatusDatalistError(null);
     setTitleError(null);
     setDescriptionError(null);
     setDiscountTypeError(null);
@@ -233,6 +237,13 @@ const nuevoDescuento = () => {
 
     //Handling errors
     if (BRAND_ID === undefined) {
+      return;
+    }
+
+    if (STATUS_OPTIONS.indexOf(STATUS.value) === -1) {
+      setStatusDatalistError('Selecciona un estatus de la lista');
+      STATUS.setValue('');
+      setState({ ...state, error: 'Selecciona un estatus válido' });
       return;
     }
 
@@ -324,6 +335,7 @@ const nuevoDescuento = () => {
     }
 
     const formdata = new FormData();
+    formdata.append('status', STATUS.value);
     formdata.append('title', TITLE.value);
     formdata.append('description', DESCRIPTION.value);
     formdata.append('brand', BRAND_ID);
@@ -439,6 +451,42 @@ const nuevoDescuento = () => {
           </div>
 
           <section className={styles.general_info_container}>
+            <div className={styles.status_container}>
+              <div className={styles.label_tooltip_container}>
+                <label htmlFor='status' className={`${styles.input_title}`}>
+                  Status *
+                </label>
+                <span className={styles.tooltip_container}>
+                  ?{' '}
+                  <span className={styles.tooltiptext}>
+                    Puedes crear un nuevo descuento sin que este sea visible en
+                    ninguna sección de la web a través de una tarjeta eligiendo
+                    la opción "unavailable". En el caso de añadirle un banner en
+                    home, este sí aparecerá (ver documentación).
+                  </span>
+                </span>
+              </div>
+              <input
+                className={`${styles.input}`}
+                name='status'
+                id='status'
+                autoComplete='off'
+                value={STATUS.value}
+                onChange={STATUS.onChange}
+                list='statuses'
+              />
+              <datalist id='statuses'>
+                {STATUS_OPTIONS.map((option, index) => (
+                  <option key={index} value={option} />
+                ))}
+              </datalist>
+              {statusDatalistError && (
+                <p className={`${styles.error_under_input} error__messagev2`}>
+                  {statusDatalistError}
+                </p>
+              )}
+            </div>
+
             <div>
               <label htmlFor='title' className={`${styles.input_title}`}>
                 Título *

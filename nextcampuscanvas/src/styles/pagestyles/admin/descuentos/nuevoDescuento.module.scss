@@ -133,6 +133,9 @@
 //General info container//
 /////////////////////////
 .general_info_container {
+  .status_container {
+    max-width: 200px;
+  }
   .description_text_area {
     min-height: 60px;
   }

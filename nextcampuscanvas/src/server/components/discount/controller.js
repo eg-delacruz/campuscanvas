@@ -81,6 +81,7 @@ const getBrands = async () => {
 
 const createNewDiscount = async (discountInfo, files, created_by) => {
   const {
+    status,
     title,
     description,
     brand,
@@ -102,6 +103,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
   } = discountInfo;
 
   if (
+    !status ||
     !title ||
     !description ||
     !brand ||
@@ -129,6 +131,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
 
   try {
     let routesToUpdateSSG = [];
+
     //Store banner in AWS
     const uploaded_banner_url = await s3Uploadv3_discount_banners(files.banner);
 
@@ -158,7 +161,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       likes: 0,
       dislikes: 0,
       //Modify status here and in Card if needed
-      status: 'available',
+      status,
       terms_and_conds,
       createdAt: new Date(),
       valid_from: VALID_FROM_DATE,
@@ -270,7 +273,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       click_count: 0,
       display_in_section: display_card_in_section,
       card_tag,
-      status: 'available',
+      status,
       valid_from: VALID_FROM_DATE,
       expiration_date: EXPIRATION_DATE,
       createdAt: new Date(),
@@ -283,8 +286,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     const CREATED_CARD = await Card_Store.add(card);
 
     //Revalidating home if needed
-    //TODO: evaluate this and also if status is available to revalidate home or not
-    if (CREATED_CARD.display_in_section) {
+    if (CREATED_CARD.display_in_section && status === 'available') {
       if (!routesToUpdateSSG.includes('/')) {
         routesToUpdateSSG.push('/');
       }
