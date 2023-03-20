@@ -53,11 +53,26 @@
       @include font-size(18px);
       font-weight: bold;
     }
+    .discount_status,
     .discount_category,
     .created_at,
     .created_by {
       @include font-size(14px);
       line-height: 24px;
+    }
+
+    .discount_status {
+      span {
+        color: $color--white;
+        padding: 4px;
+        border-radius: 3px;
+      }
+      .available {
+        background-color: $color--confirmation;
+      }
+      .unavailable {
+        background-color: $color--primary1;
+      }
     }
   }
   .info_container:hover {

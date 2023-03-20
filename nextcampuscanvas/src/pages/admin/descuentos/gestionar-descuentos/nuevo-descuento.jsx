@@ -95,7 +95,7 @@ const nuevoDescuento = () => {
     'technology',
     'others',
   ];
-  const CARD_TAG_OPTIONS = ['exclusivo', 'nuevo'];
+  const CARD_TAG_OPTIONS = ['exclusivo', 'nuevo', 'registro no requerido'];
 
   //These options have to be the same as the ones in the edit discount page. Also, if they are modified, get the proper info to display in the home page
   const DISPLAY_CARD_IN_SECTION_OPTIONS = [
@@ -429,7 +429,10 @@ const nuevoDescuento = () => {
           <div className={styles.flex_container}>
             <h2>Información general</h2>
             <Link href={'/admin/descuentos/gestionar-marcas'}>
-              <button className={`${styles.manage_brands_btn} btn button--red`}>
+              <button
+                type='button'
+                className={`${styles.manage_brands_btn} btn button--red`}
+              >
                 Gestionar marcas
               </button>
             </Link>

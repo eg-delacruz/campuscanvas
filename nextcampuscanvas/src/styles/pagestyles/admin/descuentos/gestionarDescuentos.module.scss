@@ -81,6 +81,11 @@
       color: $color--white;
       font-weight: bold;
     }
+    .expiring_soon {
+      background-color: $color--warning;
+      color: $color--white;
+      font-weight: bold;
+    }
     .unavailable {
       background-color: $color--primary1;
       color: $color--white;
@@ -102,16 +107,17 @@
 //         MQ         //
 /////////////////////////
 @media screen and (max-width: 880px) {
+  .discounts {
+    overflow-x: scroll;
+    display: block;
+    white-space: nowrap;
+  }
 }
 
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 767px) {
   .discounts {
-    overflow-x: scroll;
-    display: block;
-    white-space: nowrap;
-
     /////////////////////////
     //         Table         //
     /////////////////////////

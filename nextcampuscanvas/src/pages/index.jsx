@@ -163,26 +163,29 @@ export default function Home(props) {
             //    Más descuentos     //
              ///////////////////////// */}
 
-            <section className={`${styles.more_discounts} container`}>
-              <div className={styles.subtitle_glass_container}>
-                <h2>Más descuentos para estudiantes</h2>
-              </div>
-              <div className={styles.more_discounts_grid}>
-                {home_data.home_sections_cards.mas_descuentos_estudiantes?.map(
-                  (card) => (
-                    <DiscountCard
-                      key={card.discount_id}
-                      banner={card.banner.URL}
-                      brand_name={card.brand_name}
-                      brand_logo={card.brand_logo.brand_logo.URL}
-                      title={card.title}
-                      discount_id={card.discount_id}
-                      card_tag={card.card_tag}
-                    />
-                  )
-                )}
-              </div>
-            </section>
+            {home_data.home_sections_cards.mas_descuentos_estudiantes.length !==
+              0 && (
+              <section className={`${styles.more_discounts} container`}>
+                <div className={styles.subtitle_glass_container}>
+                  <h2>Más descuentos para estudiantes</h2>
+                </div>
+                <div className={styles.more_discounts_grid}>
+                  {home_data.home_sections_cards.mas_descuentos_estudiantes?.map(
+                    (card) => (
+                      <DiscountCard
+                        key={card.discount_id}
+                        banner={card.banner.URL}
+                        brand_name={card.brand_name}
+                        brand_logo={card.brand_logo.brand_logo.URL}
+                        title={card.title}
+                        discount_id={card.discount_id}
+                        card_tag={card.card_tag}
+                      />
+                    )
+                  )}
+                </div>
+              </section>
+            )}
 
             <Link href={'/descuentos/todos'}>
               <button className={`${styles.view_all_btn} btn button--red`}>

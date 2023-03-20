@@ -57,8 +57,8 @@ export function successResponse(req, res, message, status) {
     statusMessage = statusMessages[status];
   }
   console.log('[RESPONSE]Operación realizada con éxito');
-  //TODO: uncomment this
-  //console.log(message);
+
+  console.log(message);
   //El status se muestra en el caso de insomnia en un indicador, NO en el objeto enviado
   res.status(statusCode).send({ error: '', body: statusMessage });
 }

@@ -342,16 +342,16 @@ const getHomeSectionsCards = async () => {
       Card_Store.getBySection('sugeridos'),
       Card_Store.getBySection('nuevos'),
       Card_Store.getBySection('descubre_ofertas'),
-      //TODO: in the future, get by 'mas_descuentos_estudiantes' instead of all
-      Card_Store.getAllAvailableCards(),
+      Card_Store.getBySection('mas_descuentos_estudiantes'),
     ]);
-    const [SUGGESTED, NEW, DESCUBRE_OFERTAS, HOME_FEATURED] = cards;
+    const [SUGGESTED, NEW, DESCUBRE_OFERTAS, MAS_DESCUENTOS_ESTUDIANTES] =
+      cards;
 
     const SECTION_CARDS = {
       sugeridos: SUGGESTED.value,
       nuevos: NEW.value,
       descubre_ofertas: DESCUBRE_OFERTAS.value,
-      mas_descuentos_estudiantes: HOME_FEATURED.value,
+      mas_descuentos_estudiantes: MAS_DESCUENTOS_ESTUDIANTES.value,
     };
     return SECTION_CARDS;
   } catch (error) {
@@ -730,6 +730,7 @@ async function getHomeSliderBannersInfoForAdmin() {
           brand_name: discount.brand.brand_name,
           discount_title: discount.title,
           discount_category: discount.category,
+          discount_status: discount.status,
         };
       })
     );
@@ -1345,7 +1346,6 @@ async function updateDiscount(data, new_banner, updated_by) {
       }
     }
 
-    console.log({ routesToUpdateSSG });
     return routesToUpdateSSG;
   } catch (error) {
     console.error(

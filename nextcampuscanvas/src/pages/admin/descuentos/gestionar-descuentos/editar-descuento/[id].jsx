@@ -54,6 +54,35 @@ import endPoints from '@services/api/index';
 //Rich text editor
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
+//React Quill custom options
+const modules = {
+  clipboard: {
+    //avoids Quill creating extra, empty lines if the source of the copy-paste includes a lot of padding before/after things like headings.
+    matchVisual: false,
+  },
+  toolbar: [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    ['link', 'image'],
+    ['clean'],
+  ],
+};
+
+//React Quill custom formats. The ones that are not included here will be removed from the editor: https://quilljs.com/docs/formats/
+const formats = [
+  'header',
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'blockquote',
+  'list',
+  'bullet',
+  'link',
+  'image',
+];
+
 const editarDescuento = () => {
   const { securingRoute } = useSecureAdminRoute('all');
 
@@ -104,7 +133,7 @@ const editarDescuento = () => {
 
   //Datalist options
   const STATUS_OPTIONS = ['available', 'unavailable'];
-  const CARD_TAG_OPTIONS = ['exclusivo', 'nuevo'];
+  const CARD_TAG_OPTIONS = ['exclusivo', 'nuevo', 'registro no requerido'];
   const DISPLAY_CARD_IN_SECTION_OPTIONS = [
     'sugeridos',
     'nuevos',
@@ -674,8 +703,7 @@ const editarDescuento = () => {
   const enableSaveChangesButton = () => {
     //If user did a change, disabled will be false. Not sure why this works, since for some cases, no state is modified, but the button behaves as espected.
 
-    //Needed because if expiration date comes as null from db, the exp date input will be '' if empty, and '' and null cannot be compared to properly disable submit btn
-
+    //The followind is needed because if expiration date comes as null from db, the exp date input will be '' if empty, and '' and null cannot be compared to properly disable submit btn
     let prev_exp_date_same_format = null;
     let updated_exp_date_same_format = null;
 
@@ -1480,7 +1508,12 @@ const editarDescuento = () => {
 
               <h2 className={styles.section_title}>Términos y condiciones</h2>
 
-              <ReactQuill value={termsCondsText} onChange={setTermsCondsText} />
+              <ReactQuill
+                modules={modules}
+                formats={formats}
+                value={termsCondsText}
+                onChange={setTermsCondsText}
+              />
 
               {state.form_error && (
                 <div className='error__messagev2'>{state.form_error}</div>

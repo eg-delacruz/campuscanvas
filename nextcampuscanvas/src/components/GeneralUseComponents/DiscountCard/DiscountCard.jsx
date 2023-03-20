@@ -62,6 +62,7 @@ const DiscountCard = ({
     }
   };
 
+  //Leave this here in case needed
   //checkDescriptionLength(title);
 
   //To send the id of the post to the post page

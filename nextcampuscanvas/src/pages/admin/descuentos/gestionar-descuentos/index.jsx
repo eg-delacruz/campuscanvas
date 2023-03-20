@@ -23,6 +23,7 @@ import {
   selectCountDiscounts,
 } from '@redux/discountsCountSlice';
 
+//TODO: complete the display in section column/workflow
 const index = () => {
   const { securingRoute } = useSecureAdminRoute();
 
@@ -32,8 +33,6 @@ const index = () => {
   //Reducers
   const discountsReducer = useSelector(selectDiscount);
   const discountsCountReducer = useSelector(selectCountDiscounts);
-
-  console.log(discountsReducer.discounts);
 
   //Get discounts
   useEffect(() => {
@@ -51,6 +50,24 @@ const index = () => {
       dispatch(countDiscounts());
     }
   }, []);
+
+  const valid_till_date_color = (date) => {
+    const today = new Date();
+    const valid_till_date = new Date(date);
+
+    //Expired styles
+    if (today > valid_till_date) {
+      return styles.expired;
+    }
+    //Expires in the following 5 days
+    else if (today < valid_till_date) {
+      const difference = valid_till_date - today;
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      if (days < 5) {
+        return styles.expiring_soon;
+      }
+    }
+  };
 
   if (securingRoute) {
     return (
@@ -84,8 +101,9 @@ const index = () => {
 
         {discountsReducer.discounts.length > 0 ? (
           <p className={styles.table_explanation}>
-            Las fechas de caducidad de los descuentos que hayan expirado se
-            marcan en rojo.
+            Las fechas de caducidad de los descuentos que expiren durante los
+            próximos 5 días se marcarán en amarillo, los que ya hayan expirado
+            se marcan en rojo.
           </p>
         ) : (
           ''
@@ -101,6 +119,7 @@ const index = () => {
                     <th>Título</th>
                     <th>Marca</th>
                     <th>Categoría</th>
+                    <th>Sección en Home</th>
                     <th>Válido desde</th>
                     <th>Válido hasta</th>
                     <th>Status</th>
@@ -132,6 +151,17 @@ const index = () => {
                       <Link
                         href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
                       >
+                        <td>
+                          {discount.display_in_section ? (
+                            <>{discount.display_in_section}</>
+                          ) : (
+                            ''
+                          )}
+                        </td>
+                      </Link>
+                      <Link
+                        href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
+                      >
                         <td className={styles.column4}>
                           {dateFormat.SlashDate(new Date(discount.valid_from))}
                         </td>
@@ -142,9 +172,7 @@ const index = () => {
                         <td
                           className={`${styles.column5} ${
                             discount.expiration_date
-                              ? new Date() > new Date(discount.expiration_date)
-                                ? `${styles.expired}`
-                                : ''
+                              ? valid_till_date_color(discount.expiration_date)
                               : ''
                           }`}
                         >

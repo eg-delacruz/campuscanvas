@@ -125,6 +125,22 @@ const homeSliderManagement = () => {
                   <h2>{banner.brand_name}</h2>
                 </div>
                 <p className={styles.discount_title}>{banner.discount_title}</p>
+                <p className={styles.discount_status}>
+                  <strong>Estatus del descuento: </strong>
+                  <span
+                    className={`${
+                      banner.discount_status === 'available'
+                        ? styles.available
+                        : ''
+                    } ${
+                      banner.discount_status === 'unavailable'
+                        ? styles.unavailable
+                        : ''
+                    }`}
+                  >
+                    {banner.discount_status}
+                  </span>
+                </p>
                 <p className={styles.discount_category}>
                   <strong>Categoría: </strong>
                   {banner.discount_category}
