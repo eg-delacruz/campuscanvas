@@ -87,6 +87,19 @@
     opacity: 0.6;
   }
 
+  .radio_input_container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 8px 0;
+  }
+
+  .radio_input:where([type='radio']) {
+    width: 18px;
+    height: 18px;
+    margin: calc(0.75em - 11px) 0.25rem 0 0;
+  }
+
   /////////////////////////
   //    Tooltip styles    //
   /////////////////////////
@@ -274,6 +287,13 @@
       .dynamically_generated_type_container {
         margin-top: 8px;
       }
+    }
+
+    .available_for_title {
+      margin: 16px 0 8px;
+      @include font-size(14px);
+      display: block;
+      font-weight: bold;
     }
 
     .valid_period_container {

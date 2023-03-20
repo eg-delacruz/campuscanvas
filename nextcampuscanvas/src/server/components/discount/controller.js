@@ -283,6 +283,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     const CREATED_CARD = await Card_Store.add(card);
 
     //Revalidating home if needed
+    //TODO: evaluate this and also if status is available to revalidate home or not
     if (CREATED_CARD.display_in_section) {
       if (!routesToUpdateSSG.includes('/')) {
         routesToUpdateSSG.push('/');
@@ -1002,6 +1003,7 @@ async function updateDiscount(data, new_banner, updated_by) {
       EXCLUSIVE_DISCOUNT_INFORMATION_WAS_MODIFIED,
       EXCLUSIVE_CARD_INFORMATION_WAS_MODIFIED,
       SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED,
+      HAS_HOME_BANNER_ATTACHED,
 
       //Discount information
       title,
@@ -1009,6 +1011,7 @@ async function updateDiscount(data, new_banner, updated_by) {
       affiliate_link,
       discount_code,
       discount_external_key,
+      available_for,
       terms_and_conds,
 
       //Card information
@@ -1036,6 +1039,7 @@ async function updateDiscount(data, new_banner, updated_by) {
       EXCLUSIVE_CARD_INFORMATION_WAS_MODIFIED === 'true';
     const shared_card_discount_information_was_modified =
       SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED === 'true';
+    const has_home_banner_attached = HAS_HOME_BANNER_ATTACHED === 'true';
 
     let routesToUpdateSSG = [];
 
@@ -1044,6 +1048,9 @@ async function updateDiscount(data, new_banner, updated_by) {
       const discount =
         await discountInfo_Store.getDiscountByIdWithoutPopulation(discount_id);
 
+      const PREVIOUS_DISCOUNT = {
+        ...discount.toObject(),
+      };
       if (discount) {
         //Update discount
         discount.title = title;
@@ -1051,11 +1058,20 @@ async function updateDiscount(data, new_banner, updated_by) {
         discount.affiliate_link = affiliate_link;
         discount.discount_code.code = discount_code;
         discount.discount_external_key = discount_external_key;
+        discount.available_for = available_for;
         discount.terms_and_conds = terms_and_conds;
         discount.updated_at = new Date();
         discount.modified_last_time_by = updated_by;
 
         const updated_discount = await discountInfo_Store.update(discount);
+
+        //Revalidate home if discount has a home slider banner and the available_for changed
+        if (
+          has_home_banner_attached &&
+          updated_discount.available_for !== PREVIOUS_DISCOUNT.available_for
+        ) {
+          routesToUpdateSSG.push('/');
+        }
 
         //Revalidating discount route
         //In case /student/descuentos is also SSG, uptade that route here as well
@@ -1092,7 +1108,9 @@ async function updateDiscount(data, new_banner, updated_by) {
             routesToUpdateSSG.push('/descuentos/todos');
 
             if (updated_card.display_in_section) {
-              routesToUpdateSSG.push('/');
+              if (!routesToUpdateSSG.includes('/')) {
+                routesToUpdateSSG.push('/');
+              }
             }
 
             //Revalidating category route

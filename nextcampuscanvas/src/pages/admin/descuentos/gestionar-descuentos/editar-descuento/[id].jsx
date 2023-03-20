@@ -123,6 +123,7 @@ const editarDescuento = () => {
   const [titleError, setTitleError] = useState(null);
   const [descriptionError, setDescriptionError] = useState(null);
   const [affiliateLinkError, setAffiliateLinkError] = useState(null);
+  const [availableForError, setAvailableForError] = useState(null);
   const [expirationDateError, setExpirationDateError] = useState(null);
   const [cardTitleError, setCardTitleError] = useState(null);
   const [cardTagDatalistError, setCardTagDatalistError] = useState(null);
@@ -155,6 +156,7 @@ const editarDescuento = () => {
   const AFFILIATE_LINK = useInputValue('');
   const DISCOUNT_CODE = useInputValue('');
   const DISCOUNT_KEY = useInputValue('');
+  const AVAILABLE_FOR = useInputValue('');
   const EXPIRATION_DATE = useInputValue('');
   const CARD_TITLE = useInputValue('');
   const CARD_TAG = useInputValue('');
@@ -202,6 +204,7 @@ const editarDescuento = () => {
         AFFILIATE_LINK.setValue(discount.affiliate_link);
         DISCOUNT_CODE.setValue(discount.discount_code.code);
         DISCOUNT_KEY.setValue(discount.discount_external_key);
+        AVAILABLE_FOR.setValue(discount.available_for);
         if (discount.expiration_date) {
           EXPIRATION_DATE.setValue(
             dateFormat.dateToYMD(new Date(discount.expiration_date))
@@ -267,6 +270,7 @@ const editarDescuento = () => {
         AFFILIATE_LINK.setValue(response.body.affiliate_link);
         DISCOUNT_CODE.setValue(response.body.discount_code.code);
         DISCOUNT_KEY.setValue(response.body.discount_external_key);
+        AVAILABLE_FOR.setValue(response.body.available_for);
         if (response.body.expiration_date) {
           EXPIRATION_DATE.setValue(
             dateFormat.dateToYMD(new Date(response.body.expiration_date))
@@ -386,7 +390,7 @@ const editarDescuento = () => {
     CARD_TITLE_COUNT.onChange(e);
   };
 
-  //Handle change brand logo (start)
+  //Handle change banner image (start)
   const onNewBannerFile = (e) => {
     const allowedFileFormats = ['svg', 'jpg', 'jpeg', 'png'];
     const newFile = e.target.files[0];
@@ -421,7 +425,14 @@ const editarDescuento = () => {
       setNewBanner([newFile]);
     }
   };
-  //Handle change brand logo (end)
+  //Handle change banner image (end)
+
+  //Available for radio buttons(start)
+  const isAvailableForRadioSelected = (value) => AVAILABLE_FOR.value === value;
+  const handleRadioAvailableForClick = (e) => {
+    AVAILABLE_FOR.setValue(e.currentTarget.value);
+  };
+  //Available for radio buttons(end)
 
   const handleEditDiscount = async (e) => {
     e.preventDefault();
@@ -430,6 +441,7 @@ const editarDescuento = () => {
     setTitleError(null);
     setDescriptionError(null);
     setAffiliateLinkError(null);
+    setAvailableForError(null);
     setExpirationDateError(null);
     setCardTitleError(null);
     setCardTagDatalistError(null);
@@ -473,6 +485,14 @@ const editarDescuento = () => {
         ...state,
         form_error: 'Completa todos los campos obligatorios',
       });
+      return;
+    }
+
+    if (AVAILABLE_FOR.value.length === 0) {
+      setAvailableForError(
+        'Debes seleccionar quien puede acceder al descuento'
+      );
+      setState({ ...state, error: 'Completa todos los campos obligatorios' });
       return;
     }
 
@@ -545,6 +565,13 @@ const editarDescuento = () => {
     let prev_exp_date_same_format = null;
     let updated_exp_date_same_format = null;
 
+    let HAS_HOME_BANNER_ATTACHED;
+    if (Object.keys(homeBanner.homeBanner).length !== 0) {
+      HAS_HOME_BANNER_ATTACHED = true;
+    } else {
+      HAS_HOME_BANNER_ATTACHED = false;
+    }
+
     if (state.discount?.expiration_date) {
       prev_exp_date_same_format = dateFormat.dateToYMD(
         new Date(state.discount?.expiration_date)
@@ -563,7 +590,8 @@ const editarDescuento = () => {
       state.discount?.affiliate_link !== AFFILIATE_LINK.value ||
       state.discount?.discount_code.code !== DISCOUNT_CODE.value ||
       state.discount?.discount_external_key !== DISCOUNT_KEY.value ||
-      state.discount?.terms_and_conds !== termsCondsText
+      state.discount?.terms_and_conds !== termsCondsText ||
+      state.discount?.available_for !== AVAILABLE_FOR.value
     ) {
       EXCLUSIVE_DISCOUNT_INFORMATION_WAS_MODIFIED = true;
     }
@@ -609,11 +637,13 @@ const editarDescuento = () => {
       SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED
     );
     formData.append('status', STATUS.value);
+    formData.append('HAS_HOME_BANNER_ATTACHED', HAS_HOME_BANNER_ATTACHED);
     formData.append('title', TITLE.value);
     formData.append('description', DESCRIPTION.value);
     formData.append('affiliate_link', AFFILIATE_LINK.value);
     formData.append('discount_code', DISCOUNT_CODE.value);
     formData.append('discount_external_key', DISCOUNT_KEY.value);
+    formData.append('available_for', AVAILABLE_FOR.value);
     formData.append('expiration_date', updated_exp_date_same_format);
     formData.append('card_title', CARD_TITLE.value);
     formData.append('card_tag', CARD_TAG.value);
@@ -727,6 +757,7 @@ const editarDescuento = () => {
       state.discount?.affiliate_link !== AFFILIATE_LINK.value ||
       state.discount?.discount_code.code !== DISCOUNT_CODE.value ||
       state.discount?.discount_external_key !== DISCOUNT_KEY.value ||
+      state.discount?.available_for !== AVAILABLE_FOR.value ||
       prev_exp_date_same_format !== updated_exp_date_same_format ||
       discountCard.discountCard.title !== CARD_TITLE.value ||
       discountCard.discountCard.card_tag !== CARD_TAG.value ||
@@ -890,10 +921,6 @@ const editarDescuento = () => {
                   <p>
                     <strong>Categoría: </strong>
                     {state.discount.category}
-                  </p>
-                  <p>
-                    <strong>Disponible para: </strong>
-                    {state.discount?.available_for}
                   </p>
                   <p>
                     <strong>Creado por: </strong>
@@ -1101,6 +1128,45 @@ const editarDescuento = () => {
                     >
                       Generado dinámicamente. Información incierta
                     </div>
+                  )}
+                </div>
+
+                <span className={styles.available_for_title}>
+                  Disponible para:
+                </span>
+
+                <div className={styles.available_for_radio_btn_container}>
+                  <div className={styles.radio_input_container}>
+                    <input
+                      className={styles.radio_input}
+                      type='radio'
+                      id='estudiantes_verificados'
+                      name='available_for'
+                      value='estudiantes_verificados'
+                      checked={isAvailableForRadioSelected(
+                        'estudiantes_verificados'
+                      )}
+                      onChange={handleRadioAvailableForClick}
+                    />
+                    <label htmlFor='estudiantes_verificados'>
+                      Estudiantes verificados
+                    </label>
+                  </div>
+
+                  <div className={styles.radio_input_container}>
+                    <input
+                      className={styles.radio_input}
+                      type='radio'
+                      id='publico'
+                      name='available_for'
+                      value='publico'
+                      checked={isAvailableForRadioSelected('publico')}
+                      onChange={handleRadioAvailableForClick}
+                    />
+                    <label htmlFor='publico'>Todo público</label>
+                  </div>
+                  {availableForError && (
+                    <p className={`error__messagev2`}>{availableForError}</p>
                   )}
                 </div>
 
