@@ -599,8 +599,6 @@ const editarDescuento = () => {
     if (
       discountCard.discountCard.title !== CARD_TITLE.value ||
       discountCard.discountCard.card_tag !== CARD_TAG.value ||
-      discountCard.discountCard.display_in_section !==
-        DISPLAY_CARD_IN_SECTION.value ||
       discountCard.discountCard.show_first_in_category !==
         SHOW_FIRST_IN_CATEGORY.value
     ) {
@@ -610,7 +608,9 @@ const editarDescuento = () => {
     if (
       prev_exp_date_same_format !== updated_exp_date_same_format ||
       newBanner[0] ||
-      state.discount?.status !== STATUS.value
+      state.discount?.status !== STATUS.value ||
+      discountCard.discountCard.display_in_section !==
+        DISPLAY_CARD_IN_SECTION.value
     ) {
       SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED = true;
     }

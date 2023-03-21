@@ -41,7 +41,7 @@ const CardSchema = new mongoose.Schema({
     required: [true, 'El contador de clicks es necesario'],
     default: 0,
   },
-  // suggested | new | most_searched | home_featured
+  // Existing home sections
   display_in_section: {
     type: String,
   },

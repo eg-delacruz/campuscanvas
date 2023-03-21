@@ -56,6 +56,10 @@ const DiscountSchema = new mongoose.Schema({
   terms_and_conds: {
     type: String,
   },
+  // Existing home sections
+  display_in_section: {
+    type: String,
+  },
   createdAt: {
     type: Date,
     immutable: true,

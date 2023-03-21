@@ -10,7 +10,21 @@
 }
 .container {
   padding: 0 8px 20px;
-  max-width: 1200px;
+  max-width: 1400px;
+  .search_bar {
+    width: 100%;
+    background-color: $color--secondary-light;
+    border: 1px solid $color--black;
+    height: 40px;
+    border-radius: 5px;
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 10px;
+    max-width: 550px;
+  }
+  .filtered_discounts_count {
+    margin: 0;
+  }
 }
 
 .title_flex_container {
@@ -73,7 +87,9 @@
     .column3,
     .column4,
     .column5,
-    .column6 {
+    .column6,
+    .column7,
+    .column8 {
       text-align: center;
     }
     .expired {
@@ -106,7 +122,7 @@
 /////////////////////////
 //         MQ         //
 /////////////////////////
-@media screen and (max-width: 880px) {
+@media screen and (max-width: 1200px) {
   .discounts {
     overflow-x: scroll;
     display: block;

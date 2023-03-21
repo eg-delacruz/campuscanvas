@@ -163,6 +163,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       //Modify status here and in Card if needed
       status,
       terms_and_conds,
+      display_in_section: display_card_in_section,
       createdAt: new Date(),
       valid_from: VALID_FROM_DATE,
       expiration_date: EXPIRATION_DATE,
@@ -1094,7 +1095,6 @@ async function updateDiscount(data, new_banner, updated_by) {
         //Update card
         card.title = card_title;
         card.card_tag = card_tag;
-        card.display_in_section = display_in_section;
         card.show_first_in_category = show_first_in_category;
         card.updated_at = new Date();
         card.modified_last_time_by = updated_by;
@@ -1193,10 +1193,8 @@ async function updateDiscount(data, new_banner, updated_by) {
 
           //Revalidate home route if the display in section value changes
           if (
-            updated_card.display_in_section !==
-              original_card.display_in_section ||
-            (original_card.card_tag !== updated_card.card_tag &&
-              updated_card.display_in_section)
+            original_card.card_tag !== updated_card.card_tag &&
+            updated_card.display_in_section
           ) {
             if (!routesToUpdateSSG.includes('/')) {
               routesToUpdateSSG.push('/');
@@ -1259,8 +1257,10 @@ async function updateDiscount(data, new_banner, updated_by) {
           }
         }
 
-        //Update status and expiration date
+        //Update status, display_in_section (home) and expiration date
         //Discount
+        DISCOUNT.display_in_section =
+          status === 'unavailable' ? '' : display_in_section;
         DISCOUNT.status = status;
         DISCOUNT.expiration_date = FORMATED_EXP_DATE;
         DISCOUNT.updated_at = new Date();
@@ -1268,6 +1268,8 @@ async function updateDiscount(data, new_banner, updated_by) {
 
         //Card
         CARD.status = status;
+        CARD.display_in_section =
+          status === 'unavailable' ? '' : display_in_section;
         CARD.expiration_date = FORMATED_EXP_DATE;
         CARD.updated_at = new Date();
         CARD.modified_last_time_by = updated_by;
@@ -1297,9 +1299,19 @@ async function updateDiscount(data, new_banner, updated_by) {
           )
             return routesToUpdateSSG;
 
+          //Update home if the card appears there or doesn´t appear anymore
+          if (
+            ORIGINAL_CARD.display_in_section !== UPDATED_CARD.display_in_section
+          ) {
+            if (!routesToUpdateSSG.includes('/')) {
+              routesToUpdateSSG.push('/');
+            }
+          }
+
           if (
             ORIGINAL_CARD.status !== UPDATED_CARD.status ||
-            ORIGINAL_CARD.expiration_date !== UPDATED_CARD.expiration_date ||
+            ORIGINAL_CARD.expiration_date?.getDate() !==
+              UPDATED_CARD.expiration_date?.getDate() ||
             new_banner
           ) {
             //Allways update the "/descuentos/todos" route
@@ -1310,13 +1322,6 @@ async function updateDiscount(data, new_banner, updated_by) {
             //Allways update the discount
             if (!routesToUpdateSSG.includes(`/descuentos/${discount_id}`)) {
               routesToUpdateSSG.push(`/descuentos/${discount_id}`);
-            }
-
-            //Update home if the card appears there or doesn´t appear anymore
-            if (UPDATED_CARD.display_in_section) {
-              if (!routesToUpdateSSG.includes('/')) {
-                routesToUpdateSSG.push('/');
-              }
             }
 
             //Allways update the category
