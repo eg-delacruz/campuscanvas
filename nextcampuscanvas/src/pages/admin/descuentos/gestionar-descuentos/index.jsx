@@ -215,11 +215,7 @@ const index = () => {
                         href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
                       >
                         <td className={styles.column5}>
-                          {discount.display_in_section ? (
-                            <>{discount.display_in_section}</>
-                          ) : (
-                            ''
-                          )}
+                          {discount.display_in_section}
                         </td>
                       </Link>
                       <Link

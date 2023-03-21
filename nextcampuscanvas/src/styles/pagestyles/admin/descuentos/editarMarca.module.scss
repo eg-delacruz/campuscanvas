@@ -53,8 +53,11 @@
 }
 
 .container {
-  max-width: 800px;
   padding-bottom: 20px;
+  form {
+    max-width: 800px;
+    margin: 0 auto;
+  }
   .logo_brand_container {
     display: flex;
     margin-top: 16px;
@@ -228,13 +231,35 @@
         }
         .column2,
         .column3,
-        .column4 {
+        .column4,
+        .column5,
+        .column6,
+        .column7 {
           text-align: center;
         }
         .expired {
           background-color: $color--primary1;
           color: $color--white;
           font-weight: bold;
+        }
+        .expiring_soon {
+          background-color: $color--warning;
+          color: $color--white;
+          font-weight: bold;
+        }
+        .unavailable {
+          background-color: $color--primary1;
+          color: $color--white;
+          font-weight: bold;
+          padding: 2px;
+          border-radius: 2px;
+        }
+        .available {
+          background-color: $color--confirmation;
+          color: $color--white;
+          font-weight: bold;
+          padding: 2px;
+          border-radius: 2px;
         }
       }
     }
@@ -244,7 +269,14 @@
 /////////////////////////
 //         MQ         //
 /////////////////////////
-@media screen and (max-width: 880px) {
+@media screen and (max-width: 1040px) {
+  .container {
+    .discounts_table_container {
+      overflow-x: scroll;
+      display: block;
+      white-space: nowrap;
+    }
+  }
 }
 
 ////////////////////////////////////////767/////////////////////////////////////////////
@@ -261,11 +293,6 @@
     .general_info_container {
       flex-direction: column;
       align-items: flex-start;
-    }
-    .discounts_table_container {
-      overflow-x: scroll;
-      display: block;
-      white-space: nowrap;
     }
   }
 }

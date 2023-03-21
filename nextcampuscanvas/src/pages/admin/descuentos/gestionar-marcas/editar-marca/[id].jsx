@@ -86,12 +86,9 @@ const editarMarca = () => {
         SPONSORS_BOX.setValue(brand.sponsors_box);
         BRAND_DESCRIPTION.setValue(brand.brand_description);
         DESCRIPTION_COUNT.setValue(brand.brand_description.length);
-        if (brand?.affiliate_program !== undefined) {
-          AFFILIATE_PROGRAM.setValue(brand.affiliate_program);
-        }
-        if (brand?.notes !== undefined) {
-          NOTES.setValue(brand.notes);
-        }
+        AFFILIATE_PROGRAM.setValue(brand.affiliate_program);
+        NOTES.setValue(brand.notes);
+
         return;
       }
     }
@@ -123,12 +120,8 @@ const editarMarca = () => {
         SPONSORS_BOX.setValue(response.body.sponsors_box);
         BRAND_DESCRIPTION.setValue(response.body.brand_description);
         DESCRIPTION_COUNT.setValue(response.body.brand_description.length);
-        if (response.body.affiliate_program !== undefined) {
-          AFFILIATE_PROGRAM.setValue(response.body.affiliate_program);
-        }
-        if (response.body.notes !== undefined) {
-          NOTES.setValue(response.body?.notes);
-        }
+        AFFILIATE_PROGRAM.setValue(response.body.affiliate_program);
+        NOTES.setValue(response.body?.notes);
       };
       getBrand();
     }
@@ -337,6 +330,24 @@ const editarMarca = () => {
     });
 
     dispatch(getBrands());
+  };
+
+  const valid_till_date_color = (date) => {
+    const today = new Date();
+    const valid_till_date = new Date(date);
+
+    //Expired styles
+    if (today > valid_till_date) {
+      return styles.expired;
+    }
+    //Expires in the following 5 days
+    else if (today < valid_till_date) {
+      const difference = valid_till_date - today;
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      if (days < 5) {
+        return styles.expiring_soon;
+      }
+    }
   };
 
   if (securingRoute || state.loading || brandsReducer.loading) {
@@ -583,9 +594,12 @@ const editarMarca = () => {
                               <thead>
                                 <tr>
                                   <th>Título</th>
-                                  <th>Marca</th>
+                                  <th>Categoría</th>
+                                  <th>Tipo de descuento</th>
+                                  <th>Sección en Home</th>
                                   <th>Válido desde</th>
                                   <th>Válido hasta</th>
+                                  <th>Status</th>
                                 </tr>
                               </thead>
 
@@ -606,13 +620,27 @@ const editarMarca = () => {
                                       href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
                                     >
                                       <td className={styles.column2}>
-                                        {discount.brand.brand_name}
+                                        {discount.category}
                                       </td>
                                     </Link>
                                     <Link
                                       href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
                                     >
                                       <td className={styles.column3}>
+                                        {discount.type}
+                                      </td>
+                                    </Link>
+                                    <Link
+                                      href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
+                                    >
+                                      <td className={styles.column4}>
+                                        {discount.display_in_section}
+                                      </td>
+                                    </Link>
+                                    <Link
+                                      href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
+                                    >
+                                      <td className={styles.column5}>
                                         {dateFormat.SlashDate(
                                           new Date(discount.valid_from)
                                         )}
@@ -622,12 +650,11 @@ const editarMarca = () => {
                                       href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
                                     >
                                       <td
-                                        className={`${styles.column4} ${
+                                        className={`${styles.column6} ${
                                           discount.expiration_date
-                                            ? new Date() >
-                                              new Date(discount.expiration_date)
-                                              ? `${styles.expired}`
-                                              : ''
+                                            ? valid_till_date_color(
+                                                discount.expiration_date
+                                              )
                                             : ''
                                         }`}
                                       >
@@ -636,6 +663,21 @@ const editarMarca = () => {
                                               new Date(discount.expiration_date)
                                             )
                                           : 'No expira'}
+                                      </td>
+                                    </Link>
+                                    <Link
+                                      href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
+                                    >
+                                      <td className={styles.column7}>
+                                        <div
+                                          className={` ${
+                                            discount.status === 'available'
+                                              ? styles.available
+                                              : styles.unavailable
+                                          }`}
+                                        >
+                                          {discount.status}
+                                        </div>
                                       </td>
                                     </Link>
                                   </tr>
