@@ -10,6 +10,17 @@
 }
 .container {
   padding: 0 8px 20px;
+  .search_bar {
+    width: 100%;
+    background-color: $color--secondary-light;
+    border: 1px solid $color--black;
+    height: 40px;
+    border-radius: 5px;
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 10px;
+    max-width: 400px;
+  }
 }
 
 .title_create_brand_container {

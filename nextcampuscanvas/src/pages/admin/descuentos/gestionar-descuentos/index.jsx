@@ -125,26 +125,31 @@ const index = () => {
           </Link>
         </div>
 
-        {/* /////////////////////////
+        {!discountsReducer.loading && (
+          <>
+            {/* /////////////////////////
           //      Search bar       //
           ///////////////////////// */}
-        <div className={styles.search_bar_container}>
-          <input
-            type='text'
-            placeholder='Buscar por título del descuento, marca, categoría o tipo de descuento...'
-            className={styles.search_bar}
-            name='search'
-            id='search'
-            value={SEARCH_INPUT.value}
-            onChange={SEARCH_INPUT.onChange}
-            autoFocus
-          />
-        </div>
+            <div className={styles.search_bar_container}>
+              <input
+                type='text'
+                placeholder='Buscar por título del descuento, marca, categoría o tipo de descuento...'
+                className={styles.search_bar}
+                name='search'
+                id='search'
+                value={SEARCH_INPUT.value}
+                onChange={SEARCH_INPUT.onChange}
+                autoFocus
+              />
+            </div>
 
-        {discountsCountReducer.count !== filteredDiscounts.length && (
-          <p className={styles.filtered_discounts_count}>
-            Descuentos encontrados: <strong>{filteredDiscounts.length}</strong>
-          </p>
+            {discountsCountReducer.count !== filteredDiscounts.length && (
+              <p className={styles.filtered_discounts_count}>
+                Descuentos encontrados:{' '}
+                <strong>{filteredDiscounts.length}</strong>
+              </p>
+            )}
+          </>
         )}
 
         {/* /////////////////////////

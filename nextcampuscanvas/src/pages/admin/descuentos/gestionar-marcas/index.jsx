@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 
@@ -13,6 +13,7 @@ import DisplayNewBrandModal from '@components/UsedInSpecificRoutes/Admin/Descuen
 
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
+import { useInputValue } from '@hooks/useInputValue';
 
 //Redux
 import { getBrands, selectBrand } from '@redux/brandsSlice';
@@ -24,14 +25,19 @@ import dateFormat from '@services/dateFormat';
 const gestionarMarcas = () => {
   const { securingRoute } = useSecureAdminRoute();
 
-  const [showModal, setShowModal] = useState(false);
-
   //Allows us to manipulate the appropriate slice/action
   const dispatch = useDispatch();
 
   //Reducers
   const brandsReducer = useSelector(selectBrand);
   const brandsCountReducer = useSelector(selectCountBrands);
+
+  //States
+  const [showModal, setShowModal] = useState(false);
+  const [filteredBrands, setFilteredBrands] = useState([]);
+
+  //Controlling inputs
+  const SEARCH_INPUT = useInputValue('');
 
   //Get brands data
   useEffect(() => {
@@ -43,12 +49,27 @@ const gestionarMarcas = () => {
     setBrands();
   }, []);
 
+  //Set brands to filtered brands state
+  useEffect(() => {
+    setFilteredBrands(brandsReducer.brands);
+  }, [brandsReducer.brands]);
+
   //Get brands count
   useEffect(() => {
     if (!brandsCountReducer.initial_render_loaded) {
       dispatch(countBrands());
     }
   }, []);
+
+  //Filter brands
+  useMemo(() => {
+    const results = brandsReducer.brands.filter((brand) => {
+      return brand.brand_name
+        .toLowerCase()
+        .includes(SEARCH_INPUT.value.toLowerCase());
+    });
+    setFilteredBrands(results);
+  }, [SEARCH_INPUT.value]);
 
   const displayNewBrandModal = () => {
     return (
@@ -81,12 +102,32 @@ const gestionarMarcas = () => {
           </button>
         </div>
 
+        {!brandsReducer.loading && (
+          <>
+            {/* /////////////////////////
+             //      Search bar       //
+            ///////////////////////// */}
+            <div className={styles.search_bar_container}>
+              <input
+                type='text'
+                placeholder='Buscar marca...'
+                className={styles.search_bar}
+                name='search'
+                id='search'
+                value={SEARCH_INPUT.value}
+                onChange={SEARCH_INPUT.onChange}
+                autoFocus
+              />
+            </div>
+          </>
+        )}
+
         <section className={styles.brands}>
           {brandsReducer.loading ? (
             <Loader />
           ) : (
             <>
-              {brandsReducer.brands.length > 0 ? (
+              {filteredBrands.length > 0 ? (
                 <table className={styles.table}>
                   <thead>
                     <tr>
@@ -100,7 +141,7 @@ const gestionarMarcas = () => {
                   </thead>
 
                   <tbody>
-                    {brandsReducer.brands.map((brand) => (
+                    {filteredBrands.map((brand) => (
                       <tr key={brand._id}>
                         <Link
                           href={`/admin/descuentos/gestionar-marcas/editar-marca/${brand._id}`}

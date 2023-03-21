@@ -1259,6 +1259,7 @@ async function updateDiscount(data, new_banner, updated_by) {
 
         //Update status, display_in_section (home) and expiration date
         //Discount
+        //Set the display_in_section value to empty string if the status is unavailable
         DISCOUNT.display_in_section =
           status === 'unavailable' ? '' : display_in_section;
         DISCOUNT.status = status;
@@ -1268,6 +1269,7 @@ async function updateDiscount(data, new_banner, updated_by) {
 
         //Card
         CARD.status = status;
+        //Set the display_in_section value to empty string if the status is unavailable
         CARD.display_in_section =
           status === 'unavailable' ? '' : display_in_section;
         CARD.expiration_date = FORMATED_EXP_DATE;
