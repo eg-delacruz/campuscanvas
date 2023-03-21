@@ -39,6 +39,8 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
   const BRAND_NAME = useInputValue('');
   const BRAND_DESCRIPTION = useInputValue('');
   const SPONSORS_BOX = useInputValue(false);
+  const AFFILIATE_PROGRAM = useInputValue('');
+  const NOTES = useInputValue('');
 
   //Setting field counts
   const DESCRIPTION_COUNT = useCharacterCount();
@@ -63,6 +65,8 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
     const formdata = new FormData();
     formdata.append('brand_name', BRAND_NAME.value);
     formdata.append('brand_description', BRAND_DESCRIPTION.value);
+    formdata.append('affiliate_program', AFFILIATE_PROGRAM.value);
+    formdata.append('notes', NOTES.value);
     formdata.append('brand_logo', files[0]);
     formdata.append('sponsors_box', SPONSORS_BOX.value);
 
@@ -175,7 +179,44 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
             </p>
           </div>
 
-          <label className={`${styles.input_title}`}>Logo en .SVG</label>
+          <div>
+            <label
+              htmlFor='affiliate_program'
+              className={`${styles.input_title} `}
+            >
+              Plataforma de afiliado de la marca
+            </label>
+            <input
+              className={`${styles.input} ${styles.affiliate_program_input}`}
+              name='affiliate_program'
+              id='affiliate_program'
+              type='text'
+              placeholder='Awin, Tradedoubler, etc.'
+              autoComplete='off'
+              value={AFFILIATE_PROGRAM.value}
+              onChange={AFFILIATE_PROGRAM.onChange}
+            />
+          </div>
+
+          <div>
+            <label htmlFor='notes' className={`${styles.input_title}`}>
+              Notas
+            </label>
+            <textarea
+              className={`${styles.notes_text_area}`}
+              name='notes'
+              id='notes'
+              type='text'
+              placeholder='Por ejemplo, forma de trabajar con la marca, etc.'
+              autoComplete='off'
+              value={NOTES.value}
+              onChange={NOTES.onChange}
+            />
+          </div>
+
+          <label className={`${styles.input_title}`}>
+            Logo en SVG o PNG de 230 x 230 px
+          </label>
 
           <DragDropUploadArea
             onFileChange={(files) => {

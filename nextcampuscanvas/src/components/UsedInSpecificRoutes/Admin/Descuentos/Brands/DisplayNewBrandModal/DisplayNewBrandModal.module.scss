@@ -22,7 +22,8 @@
   }
 
   .input,
-  .description_text_area {
+  .description_text_area,
+  .notes_text_area {
     width: 100%;
     background-color: $color--secondary-light;
     border: 1px solid $color--black;
@@ -52,6 +53,9 @@
   }
   .description_text_area {
     min-height: 150px;
+  }
+  .notes_text_area {
+    min-height: 60px;
   }
   .submit_btn {
     margin: 16px auto;

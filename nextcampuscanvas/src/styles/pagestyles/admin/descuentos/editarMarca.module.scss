@@ -21,7 +21,8 @@
 }
 
 .input,
-.description_text_area {
+.description_text_area,
+.notes_text_area {
   width: 100%;
   background-color: $color--secondary-light;
   border: 1px solid $color--black;
@@ -131,6 +132,12 @@
       line-height: 1.5;
       padding: 0 10px;
     }
+  }
+
+  .notes_text_area {
+    min-height: 100px;
+    line-height: 1.5;
+    padding: 0 10px;
   }
 
   .new_logo_preview_wrapper {
@@ -269,6 +276,7 @@
     /////////////////////////
     // Associated discounts //
     /////////////////////////
+
     .discounts_container {
       h2 {
         @include font-size(24px);

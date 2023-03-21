@@ -23,6 +23,8 @@ const createNewBrand = async ({
   brand_logo,
   sponsors_box,
   brand_description,
+  affiliate_program,
+  notes,
   created_by,
 }) => {
   if (!brand_name || !brand_logo || !brand_description || !created_by) {
@@ -55,6 +57,8 @@ const createNewBrand = async ({
       },
       sponsors_box,
       brand_description,
+      affiliate_program,
+      notes,
       created_by,
       updated_by: created_by,
       created_at: new Date(),
@@ -503,6 +507,8 @@ const updateBrand = async ({
   brand_logo,
   sponsors_box,
   brand_description,
+  affiliate_program,
+  notes,
   updated_by,
 }) => {
   try {
@@ -521,6 +527,8 @@ const updateBrand = async ({
     let updated_Brand;
 
     if (brand) {
+      const PREVIOUS_BRAND = { ...brand.toObject() };
+
       //Get all available cards to revalidate affected routes
       const all_available_discount_cards = await getAllAvailableDiscountCards();
 
@@ -609,10 +617,18 @@ const updateBrand = async ({
         });
       }
 
-      //Update and revalidate if there is a new description
-      if (brand_description) {
-        brand.brand_description = brand_description;
+      //Update brand in DB
+      brand.sponsors_box = sponsors_box;
+      brand.brand_description = brand_description;
+      brand.affiliate_program = affiliate_program;
+      brand.notes = notes;
+      brand.updated_by = updated_by;
+      brand.updated_at = new Date();
 
+      updated_Brand = await brandInfo_Store.update(brand);
+
+      //Revalidate linked discounts if there is a new description
+      if (PREVIOUS_BRAND.brand_description !== brand.brand_description) {
         //Revalidate affected discount routes
         //In case /student/descuentos is also SSG, uptade that route here as well
         available_cards_linked_to_brand.forEach((card) => {
@@ -621,12 +637,6 @@ const updateBrand = async ({
           }
         });
       }
-
-      brand.sponsors_box = sponsors_box;
-      brand.updated_by = updated_by;
-      brand.updated_at = new Date();
-
-      updated_Brand = await brandInfo_Store.update(brand);
     }
 
     return { updated_Brand, routesToUpdateSSG };

@@ -68,6 +68,8 @@ router
       brand_logo: files,
       sponsors_box: body.sponsors_box,
       brand_description: body.brand_description,
+      affiliate_program: body.affiliate_program,
+      notes: body.notes,
       created_by: SESSION?.token.email,
     };
 
@@ -107,6 +109,8 @@ router
       brand_logo: files,
       sponsors_box: body.sponsors_box,
       brand_description: body.brand_description,
+      affiliate_program: body.affiliate_program,
+      notes: body.notes,
       updated_by: SESSION?.token.email,
     };
 

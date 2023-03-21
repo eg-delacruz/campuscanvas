@@ -86,6 +86,12 @@ const editarMarca = () => {
         SPONSORS_BOX.setValue(brand.sponsors_box);
         BRAND_DESCRIPTION.setValue(brand.brand_description);
         DESCRIPTION_COUNT.setValue(brand.brand_description.length);
+        if (brand?.affiliate_program !== undefined) {
+          AFFILIATE_PROGRAM.setValue(brand.affiliate_program);
+        }
+        if (brand?.notes !== undefined) {
+          NOTES.setValue(brand.notes);
+        }
         return;
       }
     }
@@ -117,6 +123,12 @@ const editarMarca = () => {
         SPONSORS_BOX.setValue(response.body.sponsors_box);
         BRAND_DESCRIPTION.setValue(response.body.brand_description);
         DESCRIPTION_COUNT.setValue(response.body.brand_description.length);
+        if (response.body.affiliate_program !== undefined) {
+          AFFILIATE_PROGRAM.setValue(response.body.affiliate_program);
+        }
+        if (response.body.notes !== undefined) {
+          NOTES.setValue(response.body?.notes);
+        }
       };
       getBrand();
     }
@@ -175,6 +187,8 @@ const editarMarca = () => {
   //Controlling inputs
   const BRAND_DESCRIPTION = useInputValue('');
   const SPONSORS_BOX = useInputValue(state.brand?.sponsors_box);
+  const AFFILIATE_PROGRAM = useInputValue('');
+  const NOTES = useInputValue('');
 
   //Setting field counts
   const DESCRIPTION_COUNT = useCharacterCount();
@@ -281,15 +295,11 @@ const editarMarca = () => {
 
     const formdata = new FormData();
     formdata.append('id', id);
+    formdata.append('brand_description', BRAND_DESCRIPTION.value);
     formdata.append('sponsors_box', SPONSORS_BOX.value);
     formdata.append('brand_logo', newBrandLogo.newLogo[0]);
-
-    //Send new description only if it was changed
-    if (state.brand.brand_description !== BRAND_DESCRIPTION.value) {
-      formdata.append('brand_description', BRAND_DESCRIPTION.value);
-    } else {
-      formdata.append('brand_description', '');
-    }
+    formdata.append('affiliate_program', AFFILIATE_PROGRAM.value);
+    formdata.append('notes', NOTES.value);
 
     setState({
       ...state,
@@ -409,6 +419,31 @@ const editarMarca = () => {
                   />
                 </div>
 
+                {/* /////////////////////////
+                   // New brand logo preview //
+                    ///////////////////////// */}
+
+                {newBrandLogo.newLogo.length > 0 ? (
+                  <div className={styles.new_logo_preview_wrapper}>
+                    <h4 className={styles.new_logo_h4}>Nuevo logo: </h4>
+                    <div className={styles.new_logo_preview_container}>
+                      <div className={styles.new_logo_preview}>
+                        <Image
+                          src={newBrandLogo.logoPreview}
+                          alt='Logo de la marca'
+                          height={80}
+                          width={80}
+                        />
+                      </div>
+                      <p>
+                        <strong>{newBrandLogo.newLogo[0].name}</strong>
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  ''
+                )}
+
                 <div className={styles.description_container}>
                   <label
                     htmlFor='brand_description'
@@ -438,41 +473,52 @@ const editarMarca = () => {
                   </p>
                 </div>
 
-                {newBrandLogo.error ? (
-                  <p className='error__messagev2'>{newBrandLogo.error}</p>
-                ) : (
-                  ''
-                )}
-
-                {/* /////////////////////////
-                   // New brand logo preview //
-                    ///////////////////////// */}
-
-                {newBrandLogo.newLogo.length > 0 ? (
-                  <div className={styles.new_logo_preview_wrapper}>
-                    <h4 className={styles.new_logo_h4}>Nuevo logo: </h4>
-                    <div className={styles.new_logo_preview_container}>
-                      <div className={styles.new_logo_preview}>
-                        <Image
-                          src={newBrandLogo.logoPreview}
-                          alt='Logo de la marca'
-                          height={80}
-                          width={80}
-                        />
-                      </div>
-                      <p>
-                        <strong>{newBrandLogo.newLogo[0].name}</strong>
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  ''
-                )}
                 {/* Display if there were errors at updating brand */}
                 {state.saving_changes_error ? (
                   <p className='error__messagev2'>
                     {state.saving_changes_error}
                   </p>
+                ) : (
+                  ''
+                )}
+
+                <div>
+                  <label
+                    htmlFor='affiliate_program'
+                    className={`${styles.input_title} `}
+                  >
+                    Plataforma de afiliado de la marca
+                  </label>
+                  <input
+                    className={`${styles.input} ${styles.affiliate_program_input}`}
+                    name='affiliate_program'
+                    id='affiliate_program'
+                    type='text'
+                    placeholder='Awin, Tradedoubler, etc.'
+                    autoComplete='off'
+                    value={AFFILIATE_PROGRAM.value}
+                    onChange={AFFILIATE_PROGRAM.onChange}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor='notes' className={`${styles.input_title}`}>
+                    Notas
+                  </label>
+                  <textarea
+                    className={`${styles.notes_text_area}`}
+                    name='notes'
+                    id='notes'
+                    type='text'
+                    placeholder='Por ejemplo, forma de trabajar con la marca, etc.'
+                    autoComplete='off'
+                    value={NOTES.value}
+                    onChange={NOTES.onChange}
+                  />
+                </div>
+
+                {newBrandLogo.error ? (
+                  <p className='error__messagev2'>{newBrandLogo.error}</p>
                 ) : (
                   ''
                 )}
@@ -484,7 +530,9 @@ const editarMarca = () => {
                   } ${
                     state.brand.brand_description === BRAND_DESCRIPTION.value &&
                     newBrandLogo.newLogo.length === 0 &&
-                    state.brand.sponsors_box === SPONSORS_BOX.value
+                    state.brand.sponsors_box === SPONSORS_BOX.value &&
+                    state.brand.affiliate_program === AFFILIATE_PROGRAM.value &&
+                    state.brand.notes === NOTES.value
                       ? styles.disabled
                       : ''
                   } btn button--red`}
@@ -494,7 +542,10 @@ const editarMarca = () => {
                     (state.brand.brand_description ===
                       BRAND_DESCRIPTION.value &&
                       newBrandLogo.newLogo.length === 0 &&
-                      state.brand.sponsors_box === SPONSORS_BOX.value)
+                      state.brand.sponsors_box === SPONSORS_BOX.value &&
+                      state.brand.affiliate_program ===
+                        AFFILIATE_PROGRAM.value &&
+                      state.brand.notes === NOTES.value)
                   }
                 >
                   Guardar cambios

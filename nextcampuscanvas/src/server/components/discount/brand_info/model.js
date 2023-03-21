@@ -26,6 +26,12 @@ const BrandInfoSchema = new mongoose.Schema({
     type: String,
     required: [true, 'La descripción de la marca es necesaria'],
   },
+  affiliate_program: {
+    type: String,
+  },
+  notes: {
+    type: String,
+  },
   created_by: {
     type: String,
     required: [true, 'El creador de la marca es necesario'],
