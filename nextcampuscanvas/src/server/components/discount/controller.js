@@ -167,7 +167,8 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       //Modify status here and in Card if needed
       status,
       terms_and_conds,
-      display_in_section: display_card_in_section,
+      display_in_section:
+        status === 'unavailable' ? '' : display_card_in_section,
       createdAt: new Date(),
       valid_from: VALID_FROM_DATE,
       expiration_date: EXPIRATION_DATE,
@@ -276,7 +277,8 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       category,
       brand_name: brand_info.brand_name,
       click_count: 0,
-      display_in_section: display_card_in_section,
+      display_in_section:
+        status === 'unavailable' ? '' : display_card_in_section,
       card_tag,
       status,
       valid_from: VALID_FROM_DATE,
@@ -1313,7 +1315,10 @@ async function updateDiscount(data, new_banner, updated_by) {
 
           //Update home if the card appears there or doesn´t appear anymore
           if (
-            ORIGINAL_CARD.display_in_section !== UPDATED_CARD.display_in_section
+            ORIGINAL_CARD.display_in_section !==
+              UPDATED_CARD.display_in_section ||
+            (ORIGINAL_CARD.status !== UPDATED_CARD.status &&
+              UPDATED_CARD.display_in_section)
           ) {
             if (!routesToUpdateSSG.includes('/')) {
               routesToUpdateSSG.push('/');

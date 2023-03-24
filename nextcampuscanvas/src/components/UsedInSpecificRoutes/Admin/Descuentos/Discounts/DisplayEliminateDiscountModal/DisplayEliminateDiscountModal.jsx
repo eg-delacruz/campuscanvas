@@ -21,6 +21,7 @@ import useAxios from '@hooks/useAxios';
 import { getDiscounts } from '@redux/discountsSlice';
 import { getHomeBannersInfo } from '@redux/homeBannersSlice';
 import { countDiscounts } from '@redux/discountsCountSlice';
+import { getHomeSectionsCount } from '@redux/homeSectionsDiscountsCountSlice';
 
 const DisplayEliminateDiscountModal = ({
   showModal,
@@ -28,6 +29,7 @@ const DisplayEliminateDiscountModal = ({
   id,
   bannerName,
   has_home_banner,
+  card_appears_in_home,
 }) => {
   const { fetchData, cancel } = useAxios();
 
@@ -60,6 +62,11 @@ const DisplayEliminateDiscountModal = ({
     //Refresh global home banners state if the erased discount had a home banner, since it was deleted and shoudn´t appear in the reducer
     if (has_home_banner) {
       dispatch(getHomeBannersInfo());
+    }
+
+    //Refresh global home section cards count if the card appeared in home
+    if (card_appears_in_home) {
+      dispatch(getHomeSectionsCount());
     }
 
     //Update discounts in global state
@@ -133,4 +140,6 @@ DisplayEliminateDiscountModal.propTypes = {
   setShowModal: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   bannerName: PropTypes.string.isRequired,
+  has_home_banner: PropTypes.bool.isRequired,
+  card_appears_in_home: PropTypes.bool.isRequired,
 };

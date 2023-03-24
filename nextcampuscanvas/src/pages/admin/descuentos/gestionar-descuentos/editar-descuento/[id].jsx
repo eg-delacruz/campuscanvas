@@ -774,6 +774,7 @@ const editarDescuento = () => {
 
   const displayEliminateModal = () => {
     const has_home_banner = Object.keys(homeBanner.homeBanner).length > 0;
+    const card_appeas_in_home = DISPLAY_CARD_IN_SECTION.value.length > 0;
     return (
       <DisplayEliminateDiscountModal
         showModal={showEliminateModal}
@@ -781,6 +782,7 @@ const editarDescuento = () => {
         id={id}
         bannerName={state.discount.banner.name}
         has_home_banner={has_home_banner}
+        card_appears_in_home={card_appeas_in_home}
       />
     );
   };
@@ -850,15 +852,20 @@ const editarDescuento = () => {
               <ButtonBack
                 prevRoute={'/admin/descuentos/gestionar-descuentos'}
               />
-              <div className={styles.delete_icon}>
-                <span
-                  onClick={() => {
-                    setShowEliminateModal(true);
-                  }}
-                >
-                  <img src={delete_icon.src} />
-                </span>
-              </div>
+              {/* Only allow deletion if information has been fully fetched */}
+              {!securingRoute || !state.loading || !discountsReducer.loading ? (
+                <div className={styles.delete_icon}>
+                  <span
+                    onClick={() => {
+                      setShowEliminateModal(true);
+                    }}
+                  >
+                    <img src={delete_icon.src} />
+                  </span>
+                </div>
+              ) : (
+                ''
+              )}
             </div>
             <h1>Editar descuento</h1>
 
