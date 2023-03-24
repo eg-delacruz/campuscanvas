@@ -44,13 +44,13 @@ const DiscountCard = ({
     if (bannerRef.current?.complete) {
       handleLoadedBanner();
     }
-  }, []);
+  }, [bannerRef.current]);
 
   useEffect(() => {
     if (brandLogoRef.current?.complete) {
       handleLoadedLogo();
     }
-  }, []);
+  }, [brandLogoRef.current]);
   //Loader placeholder while images render (end)
 
   //Check if a string has more than 40 characters, including empty spaces
