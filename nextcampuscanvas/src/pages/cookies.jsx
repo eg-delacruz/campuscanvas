@@ -13,20 +13,20 @@ import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import { InsertScript } from '@services/InsertScript';
 
 function Cookies() {
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    try {
-      InsertScript(
-        'https://consent.cookiebot.com/56697194-dfde-4726-ae75-dd1721d25c14/cd.js',
-        'CookieDeclaration',
-        'cookiebot_script_container'
-      );
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
-  }, []);
+  // const [loading, setLoading] = useState(true);
+  // useEffect(() => {
+  //   try {
+  //     InsertScript(
+  //       'https://consent.cookiebot.com/56697194-dfde-4726-ae75-dd1721d25c14/cd.js',
+  //       'CookieDeclaration',
+  //       'cookiebot_script_container'
+  //     );
+  //     setLoading(false);
+  //   } catch (error) {
+  //     console.log(error);
+  //     setLoading(false);
+  //   }
+  // }, []);
 
   return (
     <>
@@ -351,16 +351,27 @@ function Cookies() {
             {/* /////////////////////////
             //    Cookiebot script     //
             ///////////////////////// */}
-            <div id='cookiebot_script_container'></div>
+            {/* <div id='cookiebot_script_container'></div>
             {loading && (
               <div className={styles.main__loader}>
                 <Loader />
               </div>
-            )}
+            )} */}
+            <p>
+              Puedes abrir el panel de configuración de cookies haciendo click
+              en el siguiente botón:{' '}
+            </p>
+            <button
+              type='button'
+              className={`pdcc-open-modal btn button--unwantedOption ${styles.cookie_config_btn}`}
+            >
+              Configurar cookies
+            </button>
             <div className={styles.main__bottom}>
-              <h4>Última actualización: 12/08/2022</h4>
+              <h4>Última actualización: 26/03/2023</h4>
               <h4>
-                Copyright ® Campus Canvas 2022. Todos los derechos reservados
+                Copyright ® Campus Canvas {new Date().getFullYear()}. Todos los
+                derechos reservados
               </h4>
             </div>
           </div>

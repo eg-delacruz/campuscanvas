@@ -166,7 +166,8 @@ const legal = () => {
             <div className={styles.main__bottom}>
               <h4>Última actualización: 11/08/2022</h4>
               <h4>
-                Copyright ® Campus Canvas 2022. Todos los derechos reservados
+                Copyright ® Campus Canvas {new Date().getFullYear()}. Todos los
+                derechos reservados
               </h4>
             </div>
           </div>

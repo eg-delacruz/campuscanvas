@@ -14,6 +14,41 @@ export default function Document() {
   return (
     <Html lang='es'>
       <Head>
+        {/* RBH Cookie consent (start) */}
+        <link rel='stylesheet' href='https://pdcc.gdpr.es/pdcc.min.css' />
+        <script charset='utf-8' src='https://pdcc.gdpr.es/pdcc.min.js' />
+        <script
+          type='text/javascript'
+          dangerouslySetInnerHTML={createHTMLElement(`
+          PDCookieConsent.config({
+          "brand": {
+          "dev" : false,
+          "name": "Robher Asesores, SL",
+          "url" : "https://rbhglobal.com",
+          "websiteOwner" : ""
+          },
+          "showBadges": true,
+          "cookiePolicyLink": "https://www.campuscanvas.net/cookies",
+          "hideModalIn": ["https://www.campuscanvas.net/cookies"],
+         "styles": {
+         "primaryButton": {
+          "bgColor" : "#ad2146",
+          "txtColor": "#f5f5f5"
+          },
+         "secondaryButton": {
+         "bgColor" : "#5b0791",
+          "txtColor": "#f5f5f5"
+         },
+         "cookieButton": {
+          "activedColor" : "#ad2146",
+          "disabledColor" : "#ad2146",
+         }
+         }
+          })
+        `)}
+        />
+        {/* RBH Cookie consent (end) */}
+
         {/* Google Analytics */}
         <script
           async
@@ -98,7 +133,7 @@ export default function Document() {
         <meta name='robots' content='index' follow='true' />
 
         {/* Cookie consent banner and widget */}
-        <script
+        {/* <script
           id='Cookiebot'
           src='https://consent.cookiebot.com/uc.js'
           data-cbid='56697194-dfde-4726-ae75-dd1721d25c14'
@@ -107,7 +142,7 @@ export default function Document() {
           onError={() => {
             console.error('Script failed to load');
           }}
-        />
+        /> */}
 
         {/* Facebook Pixel */}
         <meta

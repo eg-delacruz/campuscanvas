@@ -748,7 +748,8 @@ function TerminosCondiciones() {
               <div className={styles.main__bottom}>
                 <h4>Última actualización: 22/02/2023</h4>
                 <h4>
-                  Copyright ® Campus Canvas 2022. Todos los derechos reservados
+                  Copyright ® Campus Canvas {new Date().getFullYear()}. Todos
+                  los derechos reservados
                 </h4>
               </div>
             </div>

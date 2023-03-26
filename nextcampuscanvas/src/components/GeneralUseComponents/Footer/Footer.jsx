@@ -155,12 +155,14 @@ function Footer() {
               <li>
                 <Link href='/campusbox'>Campus Box</Link>
               </li>
-              <li>
+              {/* TODO: re-display in the future */}
+              {/* <li>
                 <Link href='/nosotros'>Nosotros</Link>
-              </li>
-              <li>
+              </li> */}
+              {/* TODO: re-display in the future */}
+              {/* <li>
                 <Link href='/empresas'>Empresas</Link>
-              </li>
+              </li> */}
               <li>
                 <Link href='/blog'>Blog</Link>
               </li>
