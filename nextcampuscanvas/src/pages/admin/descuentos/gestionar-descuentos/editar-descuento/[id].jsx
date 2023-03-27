@@ -162,6 +162,7 @@ const editarDescuento = () => {
   const CARD_TAG = useInputValue('');
   const DISPLAY_CARD_IN_SECTION = useInputValue('');
   const SHOW_FIRST_IN_CATEGORY = useInputValue(false);
+  const SHOW_FIRST_IN_HOME_SECTION = useInputValue(false);
 
   //Setting field counts
   const TITLE_COUNT = useCharacterCount(0);
@@ -366,6 +367,11 @@ const editarDescuento = () => {
     CARD_TAG.setValue(response.body.card_tag);
     DISPLAY_CARD_IN_SECTION.setValue(response.body.display_in_section);
     SHOW_FIRST_IN_CATEGORY.setValue(response.body.show_first_in_category);
+    if (response.body.show_first_in_category !== undefined) {
+      SHOW_FIRST_IN_HOME_SECTION.setValue(
+        response.body.show_first_in_home_section
+      );
+    }
 
     setDiscountCard({
       ...discountCard,
@@ -600,7 +606,9 @@ const editarDescuento = () => {
       discountCard.discountCard.title !== CARD_TITLE.value ||
       discountCard.discountCard.card_tag !== CARD_TAG.value ||
       discountCard.discountCard.show_first_in_category !==
-        SHOW_FIRST_IN_CATEGORY.value
+        SHOW_FIRST_IN_CATEGORY.value ||
+      discountCard.discountCard.show_first_in_home_section !==
+        SHOW_FIRST_IN_HOME_SECTION.value
     ) {
       EXCLUSIVE_CARD_INFORMATION_WAS_MODIFIED = true;
     }
@@ -613,6 +621,12 @@ const editarDescuento = () => {
         DISPLAY_CARD_IN_SECTION.value
     ) {
       SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED = true;
+    }
+
+    //Only allow to display first in home section if the card appears in any home section
+    let IS_SHOW_FIRST_IN_HOME_SECTION_ALLOWED = false;
+    if (DISPLAY_CARD_IN_SECTION.value) {
+      IS_SHOW_FIRST_IN_HOME_SECTION_ALLOWED = SHOW_FIRST_IN_HOME_SECTION.value;
     }
 
     //Put everything in a formData:
@@ -649,6 +663,10 @@ const editarDescuento = () => {
     formData.append('card_tag', CARD_TAG.value);
     formData.append('display_in_section', DISPLAY_CARD_IN_SECTION.value);
     formData.append('show_first_in_category', SHOW_FIRST_IN_CATEGORY.value);
+    formData.append(
+      'show_first_in_home_section',
+      IS_SHOW_FIRST_IN_HOME_SECTION_ALLOWED
+    );
     formData.append('terms_and_conds', termsCondsText);
 
     //Send changes to server
@@ -765,6 +783,8 @@ const editarDescuento = () => {
         DISPLAY_CARD_IN_SECTION.value ||
       discountCard.discountCard.show_first_in_category !==
         SHOW_FIRST_IN_CATEGORY.value ||
+      discountCard.discountCard.show_first_in_home_section !==
+        SHOW_FIRST_IN_HOME_SECTION.value ||
       state.discount?.terms_and_conds !== termsCondsText
     ) {
       return false;
@@ -1374,100 +1394,115 @@ const editarDescuento = () => {
                           </div>
                         </div>
 
-                        <div className={styles.display_in_section_container}>
-                          <div
-                            className={
-                              styles.disabled_in_section_datalist_container
-                            }
-                          >
-                            <div className={styles.label_tooltip_container}>
-                              <label
-                                htmlFor='display_in_section'
-                                className={`${styles.input_title}`}
-                              >
-                                Mostrar en sección de home
-                              </label>
-                              <span className={styles.tooltip_container}>
-                                ?{' '}
-                                <span className={styles.tooltiptext}>
-                                  SUGERIDOS y NOVEDADES se mostrarán solo a
-                                  estudiantes verificados. Solo debería tener
-                                  ofertas de verificados. DESCUBRE OFERTAS se
-                                  mostrará a todo aquel que no sea estudiante
-                                  verificado, y solo deberá tener ofertas
-                                  públicas. MAS DESCUENTOS se muestra siempre
-                                </span>
+                        <div
+                          className={
+                            styles.display_in_section_datalist_container
+                          }
+                        >
+                          <div className={styles.label_tooltip_container}>
+                            <label
+                              htmlFor='display_in_section'
+                              className={`${styles.input_title}`}
+                            >
+                              Mostrar en sección de home
+                            </label>
+                            <span className={styles.tooltip_container}>
+                              ?{' '}
+                              <span className={styles.tooltiptext}>
+                                SUGERIDOS y NOVEDADES se mostrarán solo a
+                                estudiantes verificados. Solo debería tener
+                                ofertas de verificados. DESCUBRE OFERTAS se
+                                mostrará a todo aquel que no sea estudiante
+                                verificado, y solo deberá tener ofertas
+                                públicas. MAS DESCUENTOS se muestra siempre
                               </span>
-                            </div>
-                            <input
-                              className={`${styles.input}`}
-                              name='display_in_section'
-                              id='display_in_section'
-                              autoComplete='off'
-                              value={DISPLAY_CARD_IN_SECTION.value}
-                              onChange={DISPLAY_CARD_IN_SECTION.onChange}
-                              list='sections'
-                            />
-                            <datalist id='sections'>
-                              {DISPLAY_CARD_IN_SECTION_OPTIONS.map(
-                                (section, index) => (
-                                  <option key={index} value={section} />
-                                )
-                              )}
-                            </datalist>
-                            {displayCardInSectionDatalistError && (
-                              <p
-                                className={`${styles.error_under_input} error__messagev2`}
-                              >
-                                {displayCardInSectionDatalistError}
-                              </p>
-                            )}
+                            </span>
                           </div>
-                          <div>
-                            {/* /////////////////////////////////////
+                          <input
+                            className={`${styles.input}`}
+                            name='display_in_section'
+                            id='display_in_section'
+                            autoComplete='off'
+                            value={DISPLAY_CARD_IN_SECTION.value}
+                            onChange={DISPLAY_CARD_IN_SECTION.onChange}
+                            list='sections'
+                          />
+                          <datalist id='sections'>
+                            {DISPLAY_CARD_IN_SECTION_OPTIONS.map(
+                              (section, index) => (
+                                <option key={index} value={section} />
+                              )
+                            )}
+                          </datalist>
+                          {displayCardInSectionDatalistError && (
+                            <p
+                              className={`${styles.error_under_input} error__messagev2`}
+                            >
+                              {displayCardInSectionDatalistError}
+                            </p>
+                          )}
+                        </div>
+
+                        <div
+                          className={
+                            styles.show_first_in_home_category_checkbox_container
+                          }
+                        >
+                          <CustomCheckBox
+                            message='Mostrar primero en la sección de home'
+                            required={false}
+                            state={SHOW_FIRST_IN_HOME_SECTION}
+                          />
+                        </div>
+
+                        <div
+                          className={
+                            styles.current_discounts_per_section_table_container
+                          }
+                        >
+                          {/* /////////////////////////////////////
                              // Current discounts per section table // 
                                ///////////////////////////////////// */}
-                            {homeSectionsCountReducer.loading ? (
-                              <div>Cargando...</div>
-                            ) : homeSectionsCountReducer.error ? (
-                              <div>{homeSectionsCountReducer.error}</div>
-                            ) : (
-                              <table
-                                className={
-                                  styles.current_discounts_per_section_table
-                                }
-                              >
-                                <thead>
-                                  <tr>
-                                    <th colSpan='4'>
-                                      Descuentos por sección de home actuales
-                                    </th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    {homeSectionsCountReducer.homeSectionsCount.map(
-                                      (item, index) => (
-                                        <td
-                                          className={styles.first_row}
-                                          key={index}
-                                        >
-                                          {item.section}
-                                        </td>
-                                      )
-                                    )}
-                                  </tr>
-                                  <tr className={styles.second_row}>
-                                    {homeSectionsCountReducer.homeSectionsCount.map(
-                                      (item, index) => (
-                                        <td key={index}>{item.count}</td>
-                                      )
-                                    )}
-                                  </tr>
-                                </tbody>
-                              </table>
-                            )}
-                          </div>
+                          {homeSectionsCountReducer.loading ? (
+                            <div>Cargando...</div>
+                          ) : homeSectionsCountReducer.error ? (
+                            <div>{homeSectionsCountReducer.error}</div>
+                          ) : (
+                            <table
+                              className={
+                                styles.current_discounts_per_section_table
+                              }
+                            >
+                              <thead>
+                                <tr>
+                                  <th colSpan='4'>
+                                    Descuentos por sección de home actuales
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  {homeSectionsCountReducer.homeSectionsCount.map(
+                                    (item, index) => (
+                                      <td
+                                        className={styles.first_row}
+                                        key={index}
+                                      >
+                                        {item.section}
+                                      </td>
+                                    )
+                                  )}
+                                </tr>
+                                <tr className={styles.second_row}>
+                                  {homeSectionsCountReducer.homeSectionsCount.map(
+                                    (item, index) => (
+                                      <td key={index}>{item.count}</td>
+                                    )
+                                  )}
+                                </tr>
+                              </tbody>
+                            </table>
+                          )}
                         </div>
 
                         <div

@@ -68,6 +68,10 @@ const CardSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  show_first_in_home_section: {
+    type: Boolean,
+    default: false,
+  },
   updated_at: {
     type: Date,
   },

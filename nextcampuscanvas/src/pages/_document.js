@@ -132,18 +132,6 @@ export default function Document() {
         {/* allows search engines to find this page */}
         <meta name='robots' content='index' follow='true' />
 
-        {/* Cookie consent banner and widget */}
-        {/* <script
-          id='Cookiebot'
-          src='https://consent.cookiebot.com/uc.js'
-          data-cbid='56697194-dfde-4726-ae75-dd1721d25c14'
-          data-blockingmode='auto'
-          type='text/javascript'
-          onError={() => {
-            console.error('Script failed to load');
-          }}
-        /> */}
-
         {/* Facebook Pixel */}
         <meta
           name='facebook-domain-verification'

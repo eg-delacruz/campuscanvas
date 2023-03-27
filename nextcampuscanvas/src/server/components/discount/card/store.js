@@ -33,11 +33,26 @@ const getByCategory = async (category) => {
   return [...responses[0], ...responses[1]];
 };
 
-///////////////////// Get available cards by section //////////////////////////////
+///////////////////// Get available cards by home section //////////////////////////////
 const getBySection = async (section) => {
-  return await Card.find({ status: 'available', display_in_section: section })
-    .populate({ path: 'brand_logo', model: BrandInfo, select: 'brand_logo' })
-    .exec();
+  const responses = await Promise.all([
+    Card.find({
+      status: 'available',
+      show_first_in_home_section: true,
+      display_in_section: section,
+    })
+      .populate({ path: 'brand_logo', model: BrandInfo, select: 'brand_logo' })
+      .exec(),
+    Card.find({
+      status: 'available',
+      show_first_in_home_section: false,
+      display_in_section: section,
+    })
+      .populate({ path: 'brand_logo', model: BrandInfo, select: 'brand_logo' })
+      .exec(),
+  ]);
+
+  return [...responses[0], ...responses[1]];
 };
 
 ///////////////////// Delete card //////////////////////////////

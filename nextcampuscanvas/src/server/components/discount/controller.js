@@ -104,6 +104,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     display_card_in_section,
     terms_and_conds,
     show_first_in_category,
+    show_first_in_home_section,
   } = discountInfo;
 
   if (
@@ -126,6 +127,8 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
 
   //Transforming boolean strings to pure boolean
   const SHOW_IN_HOME_SLIDER = show_in_home_slider === 'true';
+  const SHOW_FIRST_IN_CATEGORY = show_first_in_category === 'true';
+  const SHOW_FIRST_IN_HOME_SECTION = show_first_in_home_section === 'true';
 
   //Transforming dates to Date objects
   const VALID_FROM_DATE = new Date(valid_from);
@@ -284,7 +287,8 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       valid_from: VALID_FROM_DATE,
       expiration_date: EXPIRATION_DATE,
       createdAt: new Date(),
-      show_first_in_category,
+      show_first_in_category: SHOW_FIRST_IN_CATEGORY,
+      show_first_in_home_section: SHOW_FIRST_IN_HOME_SECTION,
       updated_at: new Date(),
       created_by,
       modified_last_time_by: created_by,
@@ -1034,6 +1038,7 @@ async function updateDiscount(data, new_banner, updated_by) {
       card_tag,
       display_in_section,
       show_first_in_category,
+      show_first_in_home_section,
 
       //Shared information
       expiration_date,
@@ -1055,6 +1060,8 @@ async function updateDiscount(data, new_banner, updated_by) {
     const shared_card_discount_information_was_modified =
       SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED === 'true';
     const has_home_banner_attached = HAS_HOME_BANNER_ATTACHED === 'true';
+    const SHOW_FIRST_IN_CATEGORY = show_first_in_category === 'true';
+    const SHOW_FIRST_IN_HOME_SECTION = show_first_in_home_section === 'true';
 
     let routesToUpdateSSG = [];
 
@@ -1107,9 +1114,10 @@ async function updateDiscount(data, new_banner, updated_by) {
         //Update card
         card.title = card_title;
         card.card_tag = card_tag;
-        card.show_first_in_category = show_first_in_category;
+        card.show_first_in_category = SHOW_FIRST_IN_CATEGORY;
         card.updated_at = new Date();
         card.modified_last_time_by = updated_by;
+        card.show_first_in_home_section = SHOW_FIRST_IN_HOME_SECTION;
 
         const updated_card = await Card_Store.update(card);
 
@@ -1152,6 +1160,17 @@ async function updateDiscount(data, new_banner, updated_by) {
                 break;
               default:
                 break;
+            }
+          }
+
+          //Revalidate home if the card has to be shown first in home section and viceversa and the card is displayed in the home section
+          if (
+            updated_card.show_first_in_home_section !==
+              original_card.show_first_in_home_section &&
+            updated_card.display_in_section
+          ) {
+            if (!routesToUpdateSSG.includes('/')) {
+              routesToUpdateSSG.push('/');
             }
           }
 

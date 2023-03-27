@@ -249,14 +249,22 @@
     width: 100%;
   }
 
-  .display_in_section_container {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 40px;
+  .display_in_section_datalist_container {
+    max-width: 370px;
   }
-  .display_in_section_container > div {
-    width: 100%;
+
+  .show_first_in_home_category_checkbox_container {
+    margin-top: -30px;
+    margin-left: -3px;
+  }
+
+  .current_discounts_per_section_table_container {
+    margin-bottom: 8px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid $color--dark-gray;
+    .current_discounts_per_section_table {
+      margin: 0 auto;
+    }
   }
 
   .current_discounts_per_section_table,
@@ -287,6 +295,7 @@
       border-bottom: 1px solid $color--dark-gray;
     }
   }
+
   .checkbox_tooltip_container {
     display: flex;
     align-items: center;
@@ -311,16 +320,8 @@
 
 @media screen and (max-width: 767px) {
   .card_info_container {
-    .display_in_section_container {
-      flex-direction: column;
-      gap: 0;
-      .disabled_in_section_datalist_container {
-        max-width: 355px;
-      }
-    }
-
-    .current_discounts_per_section_table {
-      margin: 0 auto;
+    .display_in_section_datalist_container {
+      max-width: 355px;
     }
   }
 }
@@ -367,10 +368,8 @@
       flex-direction: column;
       gap: 0;
     }
-    .display_in_section_container {
-      .disabled_in_section_datalist_container {
-        max-width: 100%;
-      }
+    .display_in_section_datalist_container {
+      max-width: 100%;
     }
     .current_discounts_per_section_table {
       overflow-x: scroll;

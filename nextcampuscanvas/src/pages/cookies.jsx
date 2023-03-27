@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-
 //Styles
 import styles from '@pagestyles/Cookies.module.scss';
 
@@ -7,27 +5,8 @@ import styles from '@pagestyles/Cookies.module.scss';
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
-import Loader from '@components/GeneralUseComponents/Loader/Loader';
-
-//Services
-import { InsertScript } from '@services/InsertScript';
 
 function Cookies() {
-  // const [loading, setLoading] = useState(true);
-  // useEffect(() => {
-  //   try {
-  //     InsertScript(
-  //       'https://consent.cookiebot.com/56697194-dfde-4726-ae75-dd1721d25c14/cd.js',
-  //       'CookieDeclaration',
-  //       'cookiebot_script_container'
-  //     );
-  //     setLoading(false);
-  //   } catch (error) {
-  //     console.log(error);
-  //     setLoading(false);
-  //   }
-  // }, []);
-
   return (
     <>
       <SEOHeader
@@ -348,21 +327,13 @@ function Cookies() {
             </table>
             <br />
             <h3>GESTIÓN DE TUS PREFERENCIAS</h3>
-            {/* /////////////////////////
-            //    Cookiebot script     //
-            ///////////////////////// */}
-            {/* <div id='cookiebot_script_container'></div>
-            {loading && (
-              <div className={styles.main__loader}>
-                <Loader />
-              </div>
-            )} */}
             <p>
               Puedes abrir el panel de configuración de cookies haciendo click
               en el siguiente botón:{' '}
             </p>
             <button
               type='button'
+              // With the class name pdcc-open-modal in the desired element, the cookie consent modal will be opened
               className={`pdcc-open-modal btn button--unwantedOption ${styles.cookie_config_btn}`}
             >
               Configurar cookies
