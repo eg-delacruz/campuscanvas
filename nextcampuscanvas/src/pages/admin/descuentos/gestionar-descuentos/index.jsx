@@ -75,7 +75,12 @@ const index = () => {
         discount.category
           .toLowerCase()
           .includes(SEARCH_INPUT.value.toLowerCase()) ||
-        discount.type.toLowerCase().includes(SEARCH_INPUT.value.toLowerCase())
+        discount.type
+          .toLowerCase()
+          .includes(SEARCH_INPUT.value.toLowerCase()) ||
+        discount.display_in_section
+          .toLowerCase()
+          .includes(SEARCH_INPUT.value.toLowerCase())
       );
     });
     setFilteredDiscounts(results);
@@ -178,6 +183,7 @@ const index = () => {
                     <th>Categoría</th>
                     <th>Tipo de descuento</th>
                     <th>Sección en Home</th>
+                    <th>Disponible para</th>
                     <th>Válido desde</th>
                     <th>Válido hasta</th>
                     <th>Status</th>
@@ -222,6 +228,13 @@ const index = () => {
                         href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
                       >
                         <td className={styles.column6}>
+                          {discount.available_for}
+                        </td>
+                      </Link>
+                      <Link
+                        href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
+                      >
+                        <td className={styles.column7}>
                           {dateFormat.SlashDate(new Date(discount.valid_from))}
                         </td>
                       </Link>
@@ -229,7 +242,7 @@ const index = () => {
                         href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
                       >
                         <td
-                          className={`${styles.column7} ${
+                          className={`${styles.column8} ${
                             discount.expiration_date
                               ? valid_till_date_color(discount.expiration_date)
                               : ''
@@ -245,7 +258,7 @@ const index = () => {
                       <Link
                         href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
                       >
-                        <td className={`${styles.column8}`}>
+                        <td className={`${styles.column9}`}>
                           <div
                             className={` ${
                               discount.status === 'available'

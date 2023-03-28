@@ -10,7 +10,7 @@
 }
 .container {
   padding: 0 8px 20px;
-  max-width: 1400px;
+  max-width: 1600px;
   .search_bar {
     width: 100%;
     background-color: $color--secondary-light;
@@ -89,7 +89,8 @@
     .column5,
     .column6,
     .column7,
-    .column8 {
+    .column8,
+    .column9 {
       text-align: center;
     }
     .expired {
@@ -122,11 +123,15 @@
 /////////////////////////
 //         MQ         //
 /////////////////////////
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1380px) {
   .discounts {
-    overflow-x: scroll;
+    overflow-x: auto;
     display: block;
     white-space: nowrap;
+    transform: rotateX(180deg);
+    .discounts_table {
+      transform: rotateX(180deg);
+    }
   }
 }
 

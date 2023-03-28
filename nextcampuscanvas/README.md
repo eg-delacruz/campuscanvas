@@ -1,6 +1,7 @@
 ## General instructions
 
 Project created with Node V 16.14.2
+28.3.2023 - Latest node version to work with the project: 18.12.1
 
 ## ngrok.exe file
 
