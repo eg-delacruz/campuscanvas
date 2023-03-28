@@ -52,6 +52,8 @@ const editarMarca = () => {
     saving_changes_error: null,
   });
 
+  console.log(state.brand);
+
   const [discounts, setDiscounts] = useState({
     discounts: [],
     loading: true,
@@ -382,8 +384,8 @@ const editarMarca = () => {
                 onSubmit={handleEditBrand}
               >
                 {/* /////////////////////////
-          //   Logo + brand name   //
-           ///////////////////////// */}
+                 //   Logo + brand name   //
+                 ///////////////////////// */}
                 <div className={styles.logo_brand_container}>
                   <div className={styles.drop_file_input}>
                     <div className={styles.logo_container}>
@@ -413,6 +415,10 @@ const editarMarca = () => {
                     <p>
                       <strong>Creado por: </strong>
                       {state.brand.created_by}
+                    </p>
+                    <p>
+                      <strong>Fecha de creación: </strong>
+                      {dateFormat.SlashDate(new Date(state.brand.created_at))}
                     </p>
                     <p>
                       <strong>Actualizado por: </strong>

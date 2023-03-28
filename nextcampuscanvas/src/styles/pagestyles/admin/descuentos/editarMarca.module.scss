@@ -121,6 +121,7 @@
         margin: 0;
         @include paragraph--small;
         color: $color--black;
+        line-height: 20px;
         strong {
           color: $color--dark-gray;
         }
