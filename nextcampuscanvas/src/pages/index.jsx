@@ -77,10 +77,10 @@ export default function Home(props) {
             //       Discounts        //
           ///////////////////////// */}
 
-            {/* Esta sección solo tiene descuentos de acceso para todo público. Optimamente debería tener 8 descuentos */}
+            {/* Esta sección solo tiene descuentos de acceso para todo público. Optimamente debería tener 6 descuentos */}
             {/* /////////////////////////
-                    //   Descubre ofertas   //
-                    ///////////////////////// */}
+               //   Descubre ofertas   //
+               ///////////////////////// */}
 
             {displayDescubreOfertas ? (
               <section className={`${styles.descubre_ofertas} container`}>
@@ -106,7 +106,7 @@ export default function Home(props) {
             ) : (
               ''
             )}
-
+            {/* Should have 4 discounts */}
             {/* /////////////////////////
              //       Sugeridos        //
               ///////////////////////// */}
@@ -133,6 +133,7 @@ export default function Home(props) {
                 </section>
               )}
 
+            {/* Should have 4 discounts */}
             {/* /////////////////////////
           //       Novedades        //
           ///////////////////////// */}
@@ -159,6 +160,7 @@ export default function Home(props) {
                 </section>
               )}
 
+            {/* Should have 9 */}
             {/* /////////////////////////
             //    Más descuentos     //
              ///////////////////////// */}

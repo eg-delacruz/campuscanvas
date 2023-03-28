@@ -1002,10 +1002,13 @@ const nuevoDescuento = () => {
                   ?{' '}
                   <span className={styles.tooltiptext}>
                     SUGERIDOS y NOVEDADES se mostrarán solo a estudiantes
-                    verificados. Solo debería tener ofertas de verificados.
+                    verificados. SUGERIDOS debe tener 4. NOVEDADES debe tener 4.
+                    Solo deberían tener ofertas de verificados. <br />
                     DESCUBRE OFERTAS se mostrará a todo aquel que no sea
-                    estudiante verificado, y solo deberá tener ofertas públicas.
-                    MAS DESCUENTOS se muestra siempre
+                    estudiante verificado, y solo deberá tener 6 ofertas
+                    públicas. <br />
+                    MAS DESCUENTOS se muestra siempre y deberá tener un mix de 9
+                    ofertas públicas y privadas.
                   </span>
                 </span>
               </div>
