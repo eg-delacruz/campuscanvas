@@ -7,7 +7,7 @@
 /////////////////////////
 .header {
   box-shadow: 0 4px 6px 0 #20212447;
-  position: relative;
+  //position: relative;
   .header__container {
     padding: 0 10px 10px;
 
@@ -29,36 +29,6 @@
 /////////////////////////////////
 // logged in user menu (right) //
 /////////////////////////////////
-.logged_user_menu__skeleton {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-end;
-  .skeleton_item1 {
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
-    .skeleton_item1_1 {
-      height: 31px;
-      width: 25px;
-      border-radius: 5px;
-      animation: setSkeletonLoading();
-    }
-    .skeleton_item1_2 {
-      height: 30px;
-      width: 85px;
-      border-radius: 5px;
-      animation: setSkeletonLoading();
-      margin-left: 8px;
-    }
-  }
-  .skeleton_item2 {
-    height: 30px;
-    width: 175px;
-    border-radius: 5px;
-    animation: setSkeletonLoading();
-  }
-}
 .header__logged_user_menu {
   display: flex;
   flex-direction: column;

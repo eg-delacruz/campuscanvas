@@ -2,7 +2,7 @@
 //https://www.youtube.com/watch?v=d5unMDna5ng&t=19s
 //https://www.youtube.com/watch?v=FZTaD32ueE8&t=2s
 //https://www.youtube.com/watch?v=8iqMWMYng7k
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import Link from 'next/link';
 
@@ -29,6 +29,7 @@ import axiosFetcher from '@services/axiosFetcher';
 //1. Don´t use the button up component because it does not work with the parallax background effect, since the window.scrollY does not work, because of the scroll of the parallax container.
 
 //TODO: if performance is too bad with the useState and useEffect to display descubre ofretas section, dont evaluate if the descubre_ofertas array is empty and directly evaluate in ternary inside the jsx
+//TODO: don't consider the other two TODOs, since I am thinking of just displaying the suggested and the new discounts allways
 export default function Home(props) {
   const { home_data } = props;
 
@@ -167,7 +168,10 @@ export default function Home(props) {
 
             {home_data.home_sections_cards.mas_descuentos_estudiantes.length !==
               0 && (
-              <section className={`${styles.more_discounts} container`}>
+              <section
+                //ref={testRef}
+                className={`${styles.more_discounts} container`}
+              >
                 <div className={styles.subtitle_glass_container}>
                   <h2>Más descuentos para estudiantes</h2>
                 </div>

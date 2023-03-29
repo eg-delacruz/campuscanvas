@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
@@ -29,6 +29,7 @@ import { truncateText } from '@services/truncateText.js';
 
 //Hooks
 import useWindowDimensions from '@hooks/useWindowDimensions';
+import useSecureUnverifRoutesInsideFunction from '@hooks/useSecureUnverifRouteInsideFunction';
 
 //Facebook conversions API
 import FB_Conversions_RegisterButton_ViewContent from '@services/fbConversionsAPI/register_buttons_clicks';
@@ -39,6 +40,9 @@ const { getBrowserName } = identifyBrowser;
 
 export default function Header() {
   const { width, height } = useWindowDimensions();
+
+  const { redirectUnverifUser } = useSecureUnverifRoutesInsideFunction();
+
   const router = useRouter();
   //Session
   const { data: session, status } = useSession();
@@ -49,7 +53,6 @@ export default function Header() {
     comparing: true,
     changed: false,
   });
-
   const [state, setState] = useState({ gettingUser: false });
 
   //Allows us to manipulate the appropriate slice/action
@@ -58,7 +61,7 @@ export default function Header() {
   //Reducers
   const usersReducer = useSelector(selectUser);
 
-  //This useEffect gets the user data to be able to redirect user to the correct step of the registration process
+  //This useEffect gets the user data to be able to redirect user to the correct step of the registration process and to compare if the user name in the session is the same as the one in the reducer to display the correct name
   useEffect(() => {
     const setUserName = async () => {
       setState({ ...state, gettingUser: true });
@@ -137,28 +140,6 @@ export default function Header() {
     }
   };
 
-  //Dirigir a usuario al paso de verificación correspondiente
-  const verifyUser = () => {
-    if (
-      !usersReducer.user.stu_data.university &&
-      !usersReducer.user.stu_verified
-    ) {
-      router.push(
-        { pathname: '/auth/registro', query: { step: 2 } },
-        'auth/registro'
-      );
-    }
-    if (
-      usersReducer.user.stu_data.university &&
-      !usersReducer.user.stu_verified
-    ) {
-      router.push(
-        { pathname: '/auth/registro', query: { step: 3 } },
-        'auth/registro'
-      );
-    }
-  };
-
   const sendToFB_Conversions_API = () => {
     FB_Conversions_register_button_clicks(getBrowserName(navigator.userAgent));
   };
@@ -166,7 +147,6 @@ export default function Header() {
   return (
     <>
       {/* Burguer Button */}
-
       <i
         onClick={() => toggleMenu()}
         className={styles['burguer__button']}
@@ -178,10 +158,9 @@ export default function Header() {
         />
         <div className={styles['icon__line']} />
       </i>
-
       <header
         className={`${styles['header']} ${
-          usersReducer.user && styles.loggedInUserHeader767
+          session && styles.loggedInUserHeader767
         }`}
         id='header'
       >
@@ -189,15 +168,16 @@ export default function Header() {
         <div className={`${styles['header__container']} container`}>
           {/* Logo + logged user menu */}
 
+          {/* This correct header is used to avoid header overlay over the top page content if the user is logged in */}
           <div
             className={`${styles.header__logo} ${
-              usersReducer.user ? styles.correctHeaderLoggedUser767 : ''
+              session ? styles.correctHeaderLoggedUser767 : ''
             }`}
           >
             <Link href='/'>
               <button
                 className={`${styles.header__logo_button} ${
-                  usersReducer.user ? styles.disableLogoLoggedUser767 : ''
+                  session ? styles.disableLogoLoggedUser767 : ''
                 }`}
               >
                 <Image
@@ -275,7 +255,7 @@ export default function Header() {
                   <div className={styles.unverif_button_container}>
                     <button
                       className={`${styles.unverified_button} btn button--redRedborderTransparentHoverShadowtRed`}
-                      onClick={() => verifyUser()}
+                      onClick={() => redirectUnverifUser()}
                     >
                       Verifica tu cuenta
                     </button>
