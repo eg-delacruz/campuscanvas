@@ -16,7 +16,7 @@ export default function Document() {
       <Head>
         {/* RBH Cookie consent (start) */}
         <link rel='stylesheet' href='https://pdcc.gdpr.es/pdcc.min.css' />
-        <script charset='utf-8' src='https://pdcc.gdpr.es/pdcc.min.js' />
+        <script charSet='utf-8' src='https://pdcc.gdpr.es/pdcc.min.js' />
         <script
           type='text/javascript'
           dangerouslySetInnerHTML={createHTMLElement(`

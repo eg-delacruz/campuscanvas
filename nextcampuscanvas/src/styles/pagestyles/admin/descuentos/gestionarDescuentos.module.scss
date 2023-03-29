@@ -10,7 +10,13 @@
 }
 .container {
   padding: 0 8px 20px;
-  max-width: 1600px;
+  max-width: 1700px;
+  h5 {
+    margin: 0;
+    margin-top: -16px;
+    margin-bottom: 8px;
+    @include font-size(16px);
+  }
   .search_bar {
     width: 100%;
     background-color: $color--secondary-light;
@@ -47,121 +53,33 @@
   margin: 0 0 8px;
 }
 
-.discounts {
-  border: 1px solid $color--dark-gray;
-  border-radius: 5px;
-
-  /////////////////////////
-  //         Table         //
-  /////////////////////////
-  .discounts_table {
-    border-collapse: collapse;
-    width: 100%;
-    thead tr {
-      background-color: $color--light-gray;
-      text-align: center;
-      font-weight: bold;
-      @include font-size(16px);
-      border-bottom: 1px solid $color--dark-gray;
-    }
-    th {
-      padding: 8px 15px;
-    }
-    td {
-      padding: 0 15px;
-    }
-    tbody {
-      border-bottom: 1px solid $color--dark-gray;
-    }
-    tbody tr {
-      border-bottom: 1px solid $color--dark-gray;
-      h5 {
-        margin: 16px 0;
-      }
-    }
-    tbody tr:hover {
-      cursor: pointer;
-      background-color: $color--tertiary-white;
-    }
-    .column2,
-    .column3,
-    .column4,
-    .column5,
-    .column6,
-    .column7,
-    .column8,
-    .column9 {
-      text-align: center;
-    }
-    .expired {
-      background-color: $color--primary1;
-      color: $color--white;
-      font-weight: bold;
-    }
-    .expiring_soon {
-      background-color: $color--warning;
-      color: $color--white;
-      font-weight: bold;
-    }
-    .unavailable {
-      background-color: $color--primary1;
-      color: $color--white;
-      font-weight: bold;
-      padding: 2px;
-      border-radius: 2px;
-    }
-    .available {
-      background-color: $color--confirmation;
-      color: $color--white;
-      font-weight: bold;
-      padding: 2px;
-      border-radius: 2px;
-    }
-  }
-}
-
 /////////////////////////
 //         MQ         //
 /////////////////////////
 @media screen and (max-width: 1380px) {
-  .discounts {
-    overflow-x: auto;
-    display: block;
-    white-space: nowrap;
-    transform: rotateX(180deg);
-    .discounts_table {
-      transform: rotateX(180deg);
-    }
-  }
 }
 
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 767px) {
-  .discounts {
-    /////////////////////////
-    //         Table         //
-    /////////////////////////
-    .discounts_table {
-      .unavailable {
-        padding: 4px;
-      }
-      .available {
-        padding: 4px;
-      }
-    }
-  }
 }
 ////////////////////////////////////////480/////////////////////////////////////////////
 
 @media screen and (max-width: 480px) {
-  .title_flex_container {
-    flex-direction: column;
-    h1 {
-      margin: 0;
+  .container {
+    .title_flex_container {
+      flex-direction: column;
+      h1 {
+        margin: 0;
+      }
+      button {
+        margin: 8px 0;
+      }
     }
-    button {
-      margin: 8px 0;
+    h5 {
+      margin: 0;
+      margin-top: 8px;
+      margin-bottom: 8px;
     }
   }
 }

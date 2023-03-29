@@ -13,9 +13,8 @@ import { useInputValue } from '@hooks/useInputValue';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import ButtonBack from '@components/GeneralUseComponents/ButtonBack/ButtonBack';
 import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
-
-//Services
-import dateFormat from '@services/dateFormat';
+import AdminDiscountsTable from '@components/UsedInSpecificRoutes/Admin/Descuentos/Discounts/AdminDiscountsTable/AdminDiscountsTable';
+import Pagination from '@components/GeneralUseComponents/Pagination/Pagination';
 
 //Redux
 import { getDiscounts, selectDiscount } from '@redux/discountsSlice';
@@ -34,11 +33,13 @@ const index = () => {
   const discountsReducer = useSelector(selectDiscount);
   const discountsCountReducer = useSelector(selectCountDiscounts);
 
-  //States
-  const [filteredDiscounts, setFilteredDiscounts] = useState([]);
-
   //Controlling inputs
   const SEARCH_INPUT = useInputValue('');
+  const DISCOUNTS_PER_PAGE = useInputValue(10);
+
+  //States
+  const [filteredDiscounts, setFilteredDiscounts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   //Get discounts
   useEffect(() => {
@@ -64,6 +65,8 @@ const index = () => {
 
   //Filter discounts
   useMemo(() => {
+    //Reset page to 1 when filtering because if we are in page 2 and we filter, we will get an empty page
+    setCurrentPage(1);
     const results = discountsReducer.discounts.filter((discount) => {
       return (
         discount.SEO_meta_title.toLowerCase().includes(
@@ -86,22 +89,20 @@ const index = () => {
     setFilteredDiscounts(results);
   }, [SEARCH_INPUT.value]);
 
-  const valid_till_date_color = (date) => {
-    const today = new Date();
-    const valid_till_date = new Date(date);
+  //Get discounts of current page
+  const indexOfLastDiscount = currentPage * DISCOUNTS_PER_PAGE.value;
+  const indexOfFirstDiscount = indexOfLastDiscount - DISCOUNTS_PER_PAGE.value;
+  const currentDiscounts = filteredDiscounts.slice(
+    indexOfFirstDiscount,
+    indexOfLastDiscount
+  );
 
-    //Expired styles
-    if (today > valid_till_date) {
-      return styles.expired;
-    }
-    //Expires in the following 5 days
-    else if (today < valid_till_date) {
-      const difference = valid_till_date - today;
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      if (days < 5) {
-        return styles.expiring_soon;
-      }
-    }
+  //Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const setDiscountsPerPage = (e) => {
+    DISCOUNTS_PER_PAGE.setValue(e.target.value);
+    setCurrentPage(1);
   };
 
   if (securingRoute) {
@@ -123,6 +124,7 @@ const index = () => {
          ///////////////////////// */}
         <div className={styles.title_flex_container}>
           <h1>Descuentos ({discountsCountReducer.count})</h1>
+
           <Link href={'/admin/descuentos/gestionar-descuentos/nuevo-descuento'}>
             <button type='button' className='btn button--red'>
               <span>+ </span>Crear descuento
@@ -130,22 +132,39 @@ const index = () => {
           </Link>
         </div>
 
+        <h5>
+          Mostrando{' '}
+          <select
+            onChange={setDiscountsPerPage}
+            value={DISCOUNTS_PER_PAGE.value}
+          >
+            <option value='10'>10</option>
+            <option value='20'>20</option>
+            <option value='30'>30</option>
+            <option value='40'>40</option>
+            <option value='50'>50</option>
+          </select>{' '}
+          por página
+        </h5>
+
         {!discountsReducer.loading && (
           <>
             {/* /////////////////////////
           //      Search bar       //
           ///////////////////////// */}
-            <div className={styles.search_bar_container}>
-              <input
-                type='text'
-                placeholder='Buscar por título del descuento, marca, categoría o tipo de descuento...'
-                className={styles.search_bar}
-                name='search'
-                id='search'
-                value={SEARCH_INPUT.value}
-                onChange={SEARCH_INPUT.onChange}
-                autoFocus
-              />
+            <div className={styles.search_bar_display_per_page_flex_container}>
+              <div className={styles.search_bar_container}>
+                <input
+                  type='text'
+                  placeholder='Buscar por título del descuento, marca, categoría o tipo de descuento...'
+                  className={styles.search_bar}
+                  name='search'
+                  id='search'
+                  value={SEARCH_INPUT.value}
+                  onChange={SEARCH_INPUT.onChange}
+                  autoFocus
+                />
+              </div>
             </div>
 
             {discountsCountReducer.count !== filteredDiscounts.length && (
@@ -170,119 +189,21 @@ const index = () => {
         ) : (
           ''
         )}
-        <section className={styles.discounts}>
-          {discountsReducer.loading ? (
-            <Loader />
-          ) : filteredDiscounts.length > 0 ? (
-            <>
-              <table className={styles.discounts_table}>
-                <thead>
-                  <tr>
-                    <th>Título</th>
-                    <th>Marca</th>
-                    <th>Categoría</th>
-                    <th>Tipo de descuento</th>
-                    <th>Sección en Home</th>
-                    <th>Disponible para</th>
-                    <th>Válido desde</th>
-                    <th>Válido hasta</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
 
-                <tbody>
-                  {filteredDiscounts.map((discount) => (
-                    <tr className={styles.discount} key={discount._id}>
-                      <Link
-                        href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
-                      >
-                        <td className={styles.column1}>
-                          <h5>{discount.SEO_meta_title}</h5>
-                        </td>
-                      </Link>
-                      <Link
-                        href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
-                      >
-                        <td className={styles.column2}>
-                          {discount.brand.brand_name}
-                        </td>
-                      </Link>
-                      <Link
-                        href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
-                      >
-                        <td className={styles.column3}>{discount.category}</td>
-                      </Link>
-                      <Link
-                        href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
-                      >
-                        <td className={styles.column4}>{discount.type}</td>
-                      </Link>
-                      <Link
-                        href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
-                      >
-                        <td className={styles.column5}>
-                          {discount.display_in_section}
-                        </td>
-                      </Link>
-                      <Link
-                        href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
-                      >
-                        <td className={styles.column6}>
-                          {discount.available_for}
-                        </td>
-                      </Link>
-                      <Link
-                        href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
-                      >
-                        <td className={styles.column7}>
-                          {dateFormat.SlashDate(new Date(discount.valid_from))}
-                        </td>
-                      </Link>
-                      <Link
-                        href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
-                      >
-                        <td
-                          className={`${styles.column8} ${
-                            discount.expiration_date
-                              ? valid_till_date_color(discount.expiration_date)
-                              : ''
-                          }`}
-                        >
-                          {discount.expiration_date
-                            ? dateFormat.SlashDate(
-                                new Date(discount.expiration_date)
-                              )
-                            : 'No expira'}
-                        </td>
-                      </Link>
-                      <Link
-                        href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
-                      >
-                        <td className={`${styles.column9}`}>
-                          <div
-                            className={` ${
-                              discount.status === 'available'
-                                ? styles.available
-                                : styles.unavailable
-                            }`}
-                          >
-                            {discount.status}
-                          </div>
-                        </td>
-                      </Link>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </>
-          ) : (
-            <p>No hay descuentos</p>
-          )}
-        </section>
+        <AdminDiscountsTable
+          discounts={
+            discountsReducer.discounts.length > 0 ? currentDiscounts : []
+          }
+          loading={discountsReducer.loading}
+          error={discountsReducer.error}
+        />
 
-        <div className={styles.error_container}>
-          {discountsReducer.error && <p>{discountsReducer.error}</p>}
-        </div>
+        <Pagination
+          itemsPerPage={DISCOUNTS_PER_PAGE.value}
+          totalItems={filteredDiscounts.length}
+          paginate={paginate}
+          currentPage={currentPage}
+        />
       </div>
     </>
   );
