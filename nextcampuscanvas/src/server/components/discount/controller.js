@@ -92,7 +92,6 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     category,
     type,
     discount_code,
-    discount_external_key,
     affiliate_link,
     action_btn_phrase,
     available_for,
@@ -147,7 +146,8 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
 
     //Create discount
     const discount = {
-      discount_external_key,
+      //This attribute of "discount_external_key" is currently not being used, but leave it here since the current entries in the DB have it
+      discount_external_key: '',
       title,
       SEO_meta_title: card_title,
       brand,
@@ -1029,7 +1029,6 @@ async function updateDiscount(data, new_banner, updated_by) {
       description,
       affiliate_link,
       discount_code,
-      discount_external_key,
       available_for,
       terms_and_conds,
 
@@ -1079,7 +1078,6 @@ async function updateDiscount(data, new_banner, updated_by) {
         discount.description = description;
         discount.affiliate_link = affiliate_link;
         discount.discount_code.code = discount_code;
-        discount.discount_external_key = discount_external_key;
         discount.available_for = available_for;
         discount.terms_and_conds = terms_and_conds;
         discount.updated_at = new Date();

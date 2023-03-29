@@ -283,9 +283,10 @@ export default function Header() {
               <Link href='/'>
                 <li className={styles.menu__item}>Home</li>
               </Link>
-              <Link href='/campusbox'>
+              {/* TODO: uncomment when I start to work with campus box */}
+              {/* <Link href='/campusbox'>
                 <li className={styles.menu__item}>Campus Box</li>
-              </Link>
+              </Link> */}
               <Link href='/descuentos/todos'>
                 <li className={styles.menu__item}>Descuentos</li>
               </Link>

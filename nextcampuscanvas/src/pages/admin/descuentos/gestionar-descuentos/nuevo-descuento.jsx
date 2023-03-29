@@ -142,7 +142,6 @@ const nuevoDescuento = () => {
   const CATEGORY = useInputValue('');
   const DISCOUNT_TYPE = useInputValue('');
   const DISCOUNT_CODE = useInputValue('');
-  const DISCOUNT_KEY = useInputValue('');
   const AFFILIATE_LINK = useInputValue('');
   const CALL_TO_ACTION = useInputValue('');
   const AVAILABLE_FOR = useInputValue('');
@@ -198,7 +197,6 @@ const nuevoDescuento = () => {
 
     //Reseting input values
     DISCOUNT_CODE.setValue('');
-    DISCOUNT_KEY.setValue('');
     CALL_TO_ACTION.setValue('');
   };
   //Discount type radio buttons(end)
@@ -213,6 +211,8 @@ const nuevoDescuento = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setState({ ...state, error: null });
+
+    //Resetting errors
     setStatusDatalistError(null);
     setTitleError(null);
     setDescriptionError(null);
@@ -349,7 +349,6 @@ const nuevoDescuento = () => {
     formdata.append('category', CATEGORY.value);
     formdata.append('type', DISCOUNT_TYPE.value);
     formdata.append('discount_code', DISCOUNT_CODE.value);
-    formdata.append('discount_external_key', DISCOUNT_KEY.value);
     formdata.append('affiliate_link', AFFILIATE_LINK.value);
     formdata.append('action_btn_phrase', CALL_TO_ACTION.value);
     formdata.append('available_for', AVAILABLE_FOR.value);
@@ -687,56 +686,24 @@ const nuevoDescuento = () => {
             <div className={styles.discount_type_container}>
               {DISCOUNT_TYPE.value === 'discount_code' ? (
                 <div className={styles.discount_code_type_container}>
-                  <div className={styles.disc_code_ext_key_container}>
-                    <div
-                      className={`${styles.disc_code_input_label_container}`}
+                  <div className={`${styles.disc_code_input_label_container}`}>
+                    <label
+                      htmlFor='discount_code'
+                      className={`${styles.input_title}`}
                     >
-                      <label
-                        htmlFor='discount_code'
-                        className={`${styles.input_title}`}
-                      >
-                        Código de descuento *
-                      </label>
-                      <input
-                        className={`${styles.input}`}
-                        name='discount_code'
-                        id='discount_code'
-                        type='text'
-                        placeholder=''
-                        autoComplete='off'
-                        value={DISCOUNT_CODE.value}
-                        onChange={DISCOUNT_CODE.onChange}
-                        required
-                      />
-                    </div>
-
-                    <div className={styles.ext_key_input_label_container}>
-                      <div className={styles.label_tooltip_container}>
-                        <label
-                          htmlFor='external_key'
-                          className={`${styles.input_title}`}
-                        >
-                          Llave externa
-                        </label>
-                        <span className={styles.tooltip_container}>
-                          ?{' '}
-                          <span className={styles.tooltiptext}>
-                            Llave externa para generar el descuento
-                            dinamicamente o para identificarlo
-                          </span>
-                        </span>
-                      </div>
-                      <input
-                        className={`${styles.input}`}
-                        name='external_key'
-                        id='external_key'
-                        type='text'
-                        placeholder=''
-                        autoComplete='off'
-                        value={DISCOUNT_KEY.value}
-                        onChange={DISCOUNT_KEY.onChange}
-                      />
-                    </div>
+                      Código de descuento *
+                    </label>
+                    <input
+                      className={`${styles.input}`}
+                      name='discount_code'
+                      id='discount_code'
+                      type='text'
+                      placeholder=''
+                      autoComplete='off'
+                      value={DISCOUNT_CODE.value}
+                      onChange={DISCOUNT_CODE.onChange}
+                      required
+                    />
                   </div>
                 </div>
               ) : DISCOUNT_TYPE.value === 'affiliate_link_only' ? (

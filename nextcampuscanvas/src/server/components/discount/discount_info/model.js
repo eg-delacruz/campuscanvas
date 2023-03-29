@@ -2,6 +2,7 @@ let mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const DiscountSchema = new mongoose.Schema({
+  //This attribute is currently not being used, but leave it here since the current entries in the DB have it
   discount_external_key: {
     type: String,
   },

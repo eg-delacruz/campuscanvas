@@ -152,9 +152,10 @@ function Footer() {
               <li>
                 <Link href='/'>Home</Link>
               </li>
-              <li>
+              {/* TODO: uncomment when I start to work with campus box */}
+              {/* <li>
                 <Link href='/campusbox'>Campus Box</Link>
-              </li>
+              </li> */}
               {/* TODO: re-display in the future */}
               {/* <li>
                 <Link href='/nosotros'>Nosotros</Link>

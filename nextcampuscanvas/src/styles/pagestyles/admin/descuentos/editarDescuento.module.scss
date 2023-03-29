@@ -274,13 +274,8 @@
       }
 
       //This is only displayed if the discount type is discount_code
-      .discount_code_ext_key_container {
-        display: flex;
-        justify-content: space-between;
-        .disc_code_input_label_container,
-        .ext_key_input_label_container {
-          width: 49%;
-        }
+      .disc_code_input_label_container {
+        max-width: 370px;
       }
 
       //This is only displayed if the discount type is dynamically_generated
@@ -483,17 +478,6 @@
     .general_info_section {
       .description_text_area {
         min-height: 80px;
-      }
-      .discount_type_section {
-        //This is only displayed if the discount type is discount_code
-        .discount_code_ext_key_container {
-          display: flex;
-          flex-direction: column;
-          .disc_code_input_label_container,
-          .ext_key_input_label_container {
-            width: 100%;
-          }
-        }
       }
 
       .valid_period_container {

@@ -181,15 +181,8 @@
       padding-top: 8px;
     }
 
-    .disc_code_ext_key_container {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      gap: 40px;
-      .ext_key_input_label_container,
-      .disc_code_input_label_container {
-        width: 100%;
-      }
+    .disc_code_input_label_container {
+      max-width: 370px;
     }
 
     //////////////////////////////
@@ -335,13 +328,6 @@
     .brand_category_container {
       flex-direction: column;
       gap: 0;
-    }
-
-    .discount_type_container {
-      .disc_code_ext_key_container {
-        flex-direction: column;
-        gap: 0px;
-      }
     }
 
     .call_to_action_container {

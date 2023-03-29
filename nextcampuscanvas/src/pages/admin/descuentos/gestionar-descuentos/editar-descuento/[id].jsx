@@ -155,7 +155,6 @@ const editarDescuento = () => {
   const DESCRIPTION = useInputValue('');
   const AFFILIATE_LINK = useInputValue('');
   const DISCOUNT_CODE = useInputValue('');
-  const DISCOUNT_KEY = useInputValue('');
   const AVAILABLE_FOR = useInputValue('');
   const EXPIRATION_DATE = useInputValue('');
   const CARD_TITLE = useInputValue('');
@@ -204,7 +203,6 @@ const editarDescuento = () => {
         DESCRIPTION_COUNT.setValue(discount.description.length);
         AFFILIATE_LINK.setValue(discount.affiliate_link);
         DISCOUNT_CODE.setValue(discount.discount_code.code);
-        DISCOUNT_KEY.setValue(discount.discount_external_key);
         AVAILABLE_FOR.setValue(discount.available_for);
         if (discount.expiration_date) {
           EXPIRATION_DATE.setValue(
@@ -270,7 +268,6 @@ const editarDescuento = () => {
         DESCRIPTION_COUNT.setValue(response.body.description.length);
         AFFILIATE_LINK.setValue(response.body.affiliate_link);
         DISCOUNT_CODE.setValue(response.body.discount_code.code);
-        DISCOUNT_KEY.setValue(response.body.discount_external_key);
         AVAILABLE_FOR.setValue(response.body.available_for);
         if (response.body.expiration_date) {
           EXPIRATION_DATE.setValue(
@@ -595,7 +592,6 @@ const editarDescuento = () => {
       state.discount?.description !== DESCRIPTION.value ||
       state.discount?.affiliate_link !== AFFILIATE_LINK.value ||
       state.discount?.discount_code.code !== DISCOUNT_CODE.value ||
-      state.discount?.discount_external_key !== DISCOUNT_KEY.value ||
       state.discount?.terms_and_conds !== termsCondsText ||
       state.discount?.available_for !== AVAILABLE_FOR.value
     ) {
@@ -656,7 +652,6 @@ const editarDescuento = () => {
     formData.append('description', DESCRIPTION.value);
     formData.append('affiliate_link', AFFILIATE_LINK.value);
     formData.append('discount_code', DISCOUNT_CODE.value);
-    formData.append('discount_external_key', DISCOUNT_KEY.value);
     formData.append('available_for', AVAILABLE_FOR.value);
     formData.append('expiration_date', updated_exp_date_same_format);
     formData.append('card_title', CARD_TITLE.value);
@@ -777,7 +772,6 @@ const editarDescuento = () => {
       state.discount?.description !== DESCRIPTION.value ||
       state.discount?.affiliate_link !== AFFILIATE_LINK.value ||
       state.discount?.discount_code.code !== DISCOUNT_CODE.value ||
-      state.discount?.discount_external_key !== DISCOUNT_KEY.value ||
       state.discount?.available_for !== AVAILABLE_FOR.value ||
       prev_exp_date_same_format !== updated_exp_date_same_format ||
       discountCard.discountCard.title !== CARD_TITLE.value ||
@@ -1099,56 +1093,26 @@ const editarDescuento = () => {
                   </p>
 
                   {state.discount?.type === 'discount_code' && (
-                    <div className={styles.discount_code_ext_key_container}>
-                      <div
-                        className={`${styles.disc_code_input_label_container}`}
+                    <div
+                      className={`${styles.disc_code_input_label_container}`}
+                    >
+                      <label
+                        htmlFor='discount_code'
+                        className={`${styles.input_title}`}
                       >
-                        <label
-                          htmlFor='discount_code'
-                          className={`${styles.input_title}`}
-                        >
-                          Código de descuento
-                        </label>
-                        <input
-                          className={`${styles.input}`}
-                          name='discount_code'
-                          id='discount_code'
-                          type='text'
-                          placeholder=''
-                          autoComplete='off'
-                          value={DISCOUNT_CODE.value}
-                          onChange={DISCOUNT_CODE.onChange}
-                          required
-                        />
-                      </div>
-
-                      <div className={styles.ext_key_input_label_container}>
-                        <div className={styles.label_tooltip_container}>
-                          <label
-                            htmlFor='external_key'
-                            className={`${styles.input_title}`}
-                          >
-                            Llave externa
-                          </label>
-                          <span className={styles.tooltip_container}>
-                            ?{' '}
-                            <span className={styles.tooltiptext}>
-                              Llave externa para generar el descuento
-                              dinamicamente o para identificarlo
-                            </span>
-                          </span>
-                        </div>
-                        <input
-                          className={`${styles.input}`}
-                          name='external_key'
-                          id='external_key'
-                          type='text'
-                          placeholder=''
-                          autoComplete='off'
-                          value={DISCOUNT_KEY.value}
-                          onChange={DISCOUNT_KEY.onChange}
-                        />
-                      </div>
+                        Código de descuento
+                      </label>
+                      <input
+                        className={`${styles.input}`}
+                        name='discount_code'
+                        id='discount_code'
+                        type='text'
+                        placeholder=''
+                        autoComplete='off'
+                        value={DISCOUNT_CODE.value}
+                        onChange={DISCOUNT_CODE.onChange}
+                        required
+                      />
                     </div>
                   )}
 
