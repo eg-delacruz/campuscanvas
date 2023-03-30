@@ -8,6 +8,7 @@ import styles from '@styles/pagestyles/admin/descuentos/gestionarDescuentos.modu
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
 import { useInputValue } from '@hooks/useInputValue';
+import useDebouncedSearchValue from '@hooks/useDebouncedSearchValue';
 
 //Components
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
@@ -63,6 +64,9 @@ const index = () => {
     }
   }, []);
 
+  //Set debounced search value
+  const debouncedSearchValue = useDebouncedSearchValue(SEARCH_INPUT.value);
+
   //Filter discounts
   useMemo(() => {
     //Reset page to 1 when filtering because if we are in page 2 and we filter, we will get an empty page
@@ -87,7 +91,7 @@ const index = () => {
       );
     });
     setFilteredDiscounts(results);
-  }, [SEARCH_INPUT.value]);
+  }, [debouncedSearchValue]);
 
   //Get discounts of current page
   const indexOfLastDiscount = currentPage * DISCOUNTS_PER_PAGE.value;
@@ -198,12 +202,14 @@ const index = () => {
           error={discountsReducer.error}
         />
 
-        <Pagination
-          itemsPerPage={DISCOUNTS_PER_PAGE.value}
-          totalItems={filteredDiscounts.length}
-          paginate={paginate}
-          currentPage={currentPage}
-        />
+        {!discountsReducer.loading && filteredDiscounts.length > 0 && (
+          <Pagination
+            itemsPerPage={DISCOUNTS_PER_PAGE.value}
+            totalItems={filteredDiscounts.length}
+            paginate={paginate}
+            currentPage={currentPage}
+          />
+        )}
       </div>
     </>
   );

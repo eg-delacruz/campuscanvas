@@ -14,6 +14,7 @@ import DisplayNewBrandModal from '@components/UsedInSpecificRoutes/Admin/Descuen
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
 import { useInputValue } from '@hooks/useInputValue';
+import useDebouncedSearchValue from '@hooks/useDebouncedSearchValue';
 
 //Redux
 import { getBrands, selectBrand } from '@redux/brandsSlice';
@@ -61,6 +62,9 @@ const gestionarMarcas = () => {
     }
   }, []);
 
+  //Debounce search input
+  const debouncedSearchValue = useDebouncedSearchValue(SEARCH_INPUT.value);
+
   //Filter brands
   useMemo(() => {
     const results = brandsReducer.brands.filter((brand) => {
@@ -69,7 +73,7 @@ const gestionarMarcas = () => {
         .includes(SEARCH_INPUT.value.toLowerCase());
     });
     setFilteredBrands(results);
-  }, [SEARCH_INPUT.value]);
+  }, [debouncedSearchValue]);
 
   const displayNewBrandModal = () => {
     return (
