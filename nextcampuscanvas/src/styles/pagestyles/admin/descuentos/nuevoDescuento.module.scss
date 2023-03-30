@@ -217,6 +217,9 @@
 
   .home_slider_section {
     margin-top: 16px;
+    .add_home_slider_banner_checkbox_container {
+      max-width: 250px;
+    }
     .upload_images_container {
       margin-top: 8px;
       padding: 12px 0 0;
@@ -249,6 +252,7 @@
   .show_first_in_home_category_checkbox_container {
     margin-top: -30px;
     margin-left: -3px;
+    max-width: 290px;
   }
 
   .current_discounts_per_section_table_container {

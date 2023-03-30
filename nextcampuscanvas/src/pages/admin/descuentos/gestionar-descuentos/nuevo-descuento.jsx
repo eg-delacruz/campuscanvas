@@ -851,11 +851,13 @@ const nuevoDescuento = () => {
             </div>
 
             <div className={styles.home_slider_section}>
-              <CustomCheckBox
-                message='Añadir a slider principal en home'
-                required={false}
-                state={SHOW_IN_HOME_SLIDER}
-              />
+              <div className={styles.add_home_slider_banner_checkbox_container}>
+                <CustomCheckBox
+                  message='Añadir a slider principal en home'
+                  required={false}
+                  state={SHOW_IN_HOME_SLIDER}
+                />
+              </div>
 
               {SHOW_IN_HOME_SLIDER.value && (
                 <div className={styles.upload_images_container}>

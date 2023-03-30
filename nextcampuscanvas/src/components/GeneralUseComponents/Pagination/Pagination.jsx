@@ -11,6 +11,18 @@ const Pagination = ({ itemsPerPage, totalItems, paginate, currentPage }) => {
   return (
     <nav>
       <ul className={styles.pagination}>
+        <li className={styles.arrow_left}>
+          <button
+            type='button'
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`${styles.pageLink} ${
+              currentPage === 1 ? styles.disabled : ''
+            }`}
+          >
+            ⬅️
+          </button>
+        </li>
         {pageNumbers.map((number) => (
           <li key={number} className={styles.pageItem}>
             <button
@@ -24,6 +36,18 @@ const Pagination = ({ itemsPerPage, totalItems, paginate, currentPage }) => {
             </button>
           </li>
         ))}
+        <li className={styles.arrow_right}>
+          <button
+            type='button'
+            onClick={() => paginate(currentPage + 1)}
+            className={`${styles.pageLink} ${
+              currentPage === pageNumbers.length ? styles.disabled : ''
+            }`}
+            disabled={currentPage === pageNumbers.length}
+          >
+            ➡️
+          </button>
+        </li>
       </ul>
     </nav>
   );

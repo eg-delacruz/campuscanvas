@@ -1,3 +1,4 @@
+import { useRef, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 //Swiper required modules
@@ -14,44 +15,8 @@ import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 import 'swiper/css/effect-fade';
 
-//Testing
-import banner1 from '@assets/GeneralUse/UsedInComponents/HomeSlider/banner1.jpg';
-import banner2 from '@assets/GeneralUse/UsedInComponents/HomeSlider/banner2.jpg';
-import banner3 from '@assets/GeneralUse/UsedInComponents/HomeSlider/banner3.jpg';
-import banner4 from '@assets/GeneralUse/UsedInComponents/HomeSlider/banner4.jpg';
-
-import banner1_small from '@assets/GeneralUse/UsedInComponents/HomeSlider/banner1_small.jpg';
-import banner2_small from '@assets/GeneralUse/UsedInComponents/HomeSlider/banner2_small.jpg';
-import banner3_small from '@assets/GeneralUse/UsedInComponents/HomeSlider/banner3_small.jpg';
-import banner4_small from '@assets/GeneralUse/UsedInComponents/HomeSlider/banner4_small.jpg';
-
-const SLIDER_BANNERS = [
-  {
-    discount_id: 1,
-    slider_banner_big_screen: { URL: banner1.src },
-    slider_banner_small_screen: { URL: banner1_small.src },
-  },
-  {
-    discount_id: 1,
-    slider_banner_big_screen: { URL: banner1.src },
-    slider_banner_small_screen: { URL: banner1_small.src },
-  },
-  // {
-  //   discount_id: 2,
-  //   slider_banner_big_screen: { URL: banner2.src },
-  //   slider_banner_small_screen: { URL: banner2_small.src },
-  // },
-  // {
-  //   discount_id: 3,
-  //   slider_banner_big_screen: { URL: banner3.src },
-  //   slider_banner_small_screen: { URL: banner3_small.src },
-  // },
-  // {
-  //   discount_id: 4,
-  //   slider_banner_big_screen: { URL: banner4.src },
-  //   slider_banner_small_screen: { URL: banner4_small.src },
-  // },
-];
+//Components
+import CC_LogoLoader from '@components/GeneralUseComponents/CC_LogoLoader/CC_LogoLoader';
 
 //Clarifications
 //1. For screens > 767 px, pictures should have a ratio of 24 : 11 , and an optimal size of 1200px x 550 px
@@ -61,6 +26,22 @@ const SLIDER_BANNERS = [
 const HomeSlider = ({ slides }) => {
   //To send the id of the post to the post page
   const router = useRouter();
+
+  //States
+  const [loadingBanner, setLoadingBanner] = useState(true);
+
+  //Monitor if images are loaded with
+  const bannerRef = useRef(null);
+
+  const handleLoadedBanner = () => {
+    setLoadingBanner(false);
+  };
+
+  useEffect(() => {
+    if (bannerRef.current?.complete) {
+      handleLoadedBanner();
+    }
+  }, [bannerRef.current]);
 
   return (
     //noArrow767 class comes from Globals, and is to disable arrows at 767 and smaller of the Swiper.
@@ -89,6 +70,7 @@ const HomeSlider = ({ slides }) => {
         {slides.map((item) => (
           <SwiperSlide
             onClick={() => {
+              //Directly open the affiliate link if discount only has affiliate link and is available for public
               if (
                 item.type === 'affiliate_link_only' &&
                 item.available_for === 'publico'
@@ -100,6 +82,8 @@ const HomeSlider = ({ slides }) => {
                 );
                 return;
               }
+
+              //Or open the discount page
               router.push(
                 {
                   pathname: `/descuentos/${item.discount_id}`,
@@ -111,14 +95,24 @@ const HomeSlider = ({ slides }) => {
             key={item.discount_id}
             className={styles.slider_item}
           >
+            <div
+              className={styles.home_banner_loader_container}
+              style={{ display: loadingBanner ? 'block' : 'none' }}
+            >
+              <CC_LogoLoader />
+            </div>
             <picture>
               <source
                 media='(min-width: 767px)'
                 srcSet={item.slider_banner_big_screen.URL}
               />
+
               <img
+                style={{ visibility: loadingBanner ? 'hidden' : 'visible' }}
                 src={item.slider_banner_small_screen.URL}
                 alt={item.discount_brand}
+                ref={bannerRef}
+                onLoad={handleLoadedBanner}
               />
             </picture>
           </SwiperSlide>
