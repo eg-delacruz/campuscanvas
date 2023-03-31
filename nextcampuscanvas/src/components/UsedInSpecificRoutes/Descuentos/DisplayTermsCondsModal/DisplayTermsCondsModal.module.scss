@@ -1,0 +1,24 @@
+@import '../../../../styles/Vars.scss';
+
+.container {
+  h1,
+  h2,
+  h3,
+  h4 {
+    @include font-size(24px);
+    margin: 0;
+  }
+  .title {
+    @include font-size(32px);
+    margin-bottom: 16px;
+  }
+
+  ul,
+  ol {
+    margin: 0;
+    padding: 0 0 0 24px;
+  }
+}
+.accept_btn {
+  margin: 20px auto 10px;
+}

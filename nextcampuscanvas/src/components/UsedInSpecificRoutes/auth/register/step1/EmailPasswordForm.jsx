@@ -132,7 +132,7 @@ const emailPasswordForm = (props) => {
 
   return (
     <form
-      //Needs to be done so so that the react-hook-form can work
+      //Needs to be done so that the react-hook-form can work
       onSubmit={handleSubmit(submitFunction)}
       method='POST'
       className={styles.form}
@@ -140,9 +140,8 @@ const emailPasswordForm = (props) => {
       autoComplete='off'
     >
       <h1>Regístrate gratis</h1>
-      <h4>Paso 1 de 3</h4>
       <p className={styles.form__subtitle}>
-        Estás a muy poco de obtener tu <b>Campus Box </b> gratuita
+        Y accede a descuentos exclusivos para estudiantes
       </p>
       <label className={styles.inputText__label} htmlFor='correo_universitario'>
         Email

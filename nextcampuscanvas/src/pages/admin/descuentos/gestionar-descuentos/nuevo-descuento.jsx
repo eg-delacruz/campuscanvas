@@ -102,7 +102,6 @@ const nuevoDescuento = () => {
   const DISPLAY_CARD_IN_SECTION_OPTIONS = [
     'sugeridos',
     'nuevos',
-    'descubre_ofertas',
     'mas_descuentos_estudiantes',
   ];
 
@@ -973,9 +972,6 @@ const nuevoDescuento = () => {
                     SUGERIDOS y NOVEDADES se mostrarán solo a estudiantes
                     verificados. SUGERIDOS debe tener 4. NOVEDADES debe tener 4.
                     Solo deberían tener ofertas de verificados. <br />
-                    DESCUBRE OFERTAS se mostrará a todo aquel que no sea
-                    estudiante verificado, y solo deberá tener 6 ofertas
-                    públicas. <br />
                     MAS DESCUENTOS se muestra siempre y deberá tener un mix de 9
                     ofertas públicas y privadas.
                   </span>

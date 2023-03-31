@@ -52,8 +52,6 @@ const editarMarca = () => {
     saving_changes_error: null,
   });
 
-  console.log(state.brand);
-
   const [discounts, setDiscounts] = useState({
     discounts: [],
     loading: true,

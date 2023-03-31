@@ -355,16 +355,13 @@ const getHomeSectionsCards = async () => {
     const cards = await Promise.allSettled([
       Card_Store.getBySection('sugeridos'),
       Card_Store.getBySection('nuevos'),
-      Card_Store.getBySection('descubre_ofertas'),
       Card_Store.getBySection('mas_descuentos_estudiantes'),
     ]);
-    const [SUGGESTED, NEW, DESCUBRE_OFERTAS, MAS_DESCUENTOS_ESTUDIANTES] =
-      cards;
+    const [SUGGESTED, NEW, MAS_DESCUENTOS_ESTUDIANTES] = cards;
 
     const SECTION_CARDS = {
       sugeridos: SUGGESTED.value,
       nuevos: NEW.value,
-      descubre_ofertas: DESCUBRE_OFERTAS.value,
       mas_descuentos_estudiantes: MAS_DESCUENTOS_ESTUDIANTES.value,
     };
     return SECTION_CARDS;
@@ -874,12 +871,7 @@ async function getCardByDiscountId(discount_id) {
 const getHomeSectionsCardsCount = async () => {
   try {
     //If new sections are created, update this array as well
-    const SECTIONS = [
-      'sugeridos',
-      'nuevos',
-      'descubre_ofertas',
-      'mas_descuentos_estudiantes',
-    ];
+    const SECTIONS = ['sugeridos', 'nuevos', 'mas_descuentos_estudiantes'];
     const count = await Promise.all(
       SECTIONS.map(async (section) => {
         const sectionCount = await Card_Store.getHomeSectionsCardsCount(

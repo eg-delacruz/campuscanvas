@@ -4,7 +4,15 @@ import styles from './Modal.module.scss';
 import PropTypes from 'prop-types';
 
 //width suggested values: 800 | 500
-const Modal = ({ show, onClose, width = 800, minHeight = 500, children }) => {
+//Position can be top (recomended if modal will be too big) or center (recomended if modal will be small
+const Modal = ({
+  show,
+  onClose,
+  width = 800,
+  minHeight = 500,
+  position = 'center',
+  children,
+}) => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -17,7 +25,12 @@ const Modal = ({ show, onClose, width = 800, minHeight = 500, children }) => {
   };
 
   const modalContent = show ? (
-    <div onClick={handleClose} className={styles.overlay}>
+    <div
+      onClick={handleClose}
+      className={`${styles.overlay} ${
+        position === 'top' ? styles.position_top : ''
+      }`}
+    >
       <div
         onClick={(e) => {
           //Needed to avoid that the modal closes if clicked

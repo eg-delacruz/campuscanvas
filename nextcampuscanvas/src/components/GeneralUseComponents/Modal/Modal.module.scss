@@ -37,4 +37,9 @@
   background: center;
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 3;
+  overflow-y: auto;
+}
+
+.position_top {
+  align-items: flex-start;
 }
