@@ -64,7 +64,7 @@ export async function getStaticPaths() {
     extraHeaders: { required_cards: 'all_available' },
   });
 
-  const paths = response.body.map((card) => ({
+  const paths = response.body.results.map((card) => ({
     params: {
       id: card._id,
     },

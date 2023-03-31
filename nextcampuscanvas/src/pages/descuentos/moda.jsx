@@ -28,7 +28,7 @@ const moda = ({ cards }) => {
         <Header />
       </div>
 
-      <DisplayCardsByCategoryTemplate cards={cards} />
+      <DisplayCardsByCategoryTemplate cards={cards.cards} />
 
       <Footer />
     </>
@@ -41,7 +41,7 @@ export async function getStaticProps() {
   const response = await axiosFetcher({
     url: endPoints.discounts.getCards,
     method: 'get',
-    extraHeaders: { required_cards: 'fashion' },
+    extraHeaders: { required_cards: 'fashion', page: 1, limit: 12 },
   });
 
   if (response.error) {

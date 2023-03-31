@@ -6,31 +6,61 @@ dbConnect(config.dbURL);
 import Card from '@server/components/discount/card/model';
 import BrandInfo from '@server/components/discount/brand_info/model';
 
+//Services
+import paginationData from '@server/services/paginationData';
+
 ///////////////////// Create card //////////////////////////////
 const createCard = async (card) => {
   return await Card.create(card);
 };
 
 ///////////////////// Get all available cards //////////////////////////////
-const getAllAvailableCards = async () => {
-  return await Card.find({ status: 'available' })
+const getAllAvailableCards = async (page, limit) => {
+  //TODO: sort so that, if required, a discount card is always at the top of the list
+  const totalEntries = await Card.countDocuments({ status: 'available' });
+  const pagination_data = paginationData(totalEntries, page, limit);
+  const result = await Card.find({ status: 'available' })
+    .limit(pagination_data.LIMIT)
+    //Skip the first x results and return from that point on
+    .skip(pagination_data.startIndex)
     //Populate the Brand logo from the brand object. The path is the property of card that we want to populate, the model is from which we get the info and the select selects the specific fields of the brand model that we want to populate
     .populate({ path: 'brand_logo', model: BrandInfo, select: 'brand_logo' })
     .exec();
+
+  const data = {
+    previous: pagination_data.previous,
+    next: pagination_data.next,
+    cards: result,
+  };
+
+  return data;
 };
 
 ///////////////////// Get available cards by category //////////////////////////////
-const getByCategory = async (category) => {
-  const responses = await Promise.all([
-    Card.find({ status: 'available', category, show_first_in_category: true })
-      .populate({ path: 'brand_logo', model: BrandInfo, select: 'brand_logo' })
-      .exec(),
-    Card.find({ status: 'available', category, show_first_in_category: false })
-      .populate({ path: 'brand_logo', model: BrandInfo, select: 'brand_logo' })
-      .exec(),
-  ]);
+const getByCategory = async (category, page, limit) => {
+  const totalEntries = await Card.countDocuments({
+    status: 'available',
+    category,
+  });
+  const pagination_data = paginationData(totalEntries, page, limit);
+  const result = await Card.find({ status: 'available', category })
+    // Put the cards that have show_first_in_category true first in the array
+    .sort({
+      show_first_in_category: -1,
+    })
+    .limit(pagination_data.LIMIT)
+    //Skip the first x results and return from that point on
+    .skip(pagination_data.startIndex)
+    .populate({ path: 'brand_logo', model: BrandInfo, select: 'brand_logo' })
+    .exec();
 
-  return [...responses[0], ...responses[1]];
+  const data = {
+    previous: pagination_data.previous,
+    next: pagination_data.next,
+    cards: result,
+  };
+
+  return data;
 };
 
 ///////////////////// Get available cards by home section //////////////////////////////

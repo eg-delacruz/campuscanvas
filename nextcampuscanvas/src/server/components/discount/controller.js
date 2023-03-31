@@ -320,9 +320,16 @@ const getDiscounts = async () => {
   }
 };
 
-const getAllAvailableDiscountCards = async () => {
+const getAllAvailableDiscountCards = async (page, limit) => {
+  if (!page || !limit) {
+    console.log(
+      '[discount controller error] | getAllAvailableDiscountCards function error Faltan parámetros de paginación'
+    );
+    throw new Error('Faltan parámetros de paginación');
+  }
+
   try {
-    const cards = await Card_Store.getAllAvailableCards();
+    const cards = await Card_Store.getAllAvailableCards(page, limit);
     return cards;
   } catch (error) {
     console.log('[discount controller error]' + error.message);
@@ -330,9 +337,16 @@ const getAllAvailableDiscountCards = async () => {
   }
 };
 
-const getAvailableDiscountCardsByCategory = async (category) => {
+const getAvailableDiscountCardsByCategory = async (category, page, limit) => {
+  if (!page || !limit) {
+    console.log(
+      '[discount controller error] | getAllAvailableDiscountCards function error Faltan parámetros de paginación'
+    );
+    throw new Error('Faltan parámetros de paginación');
+  }
+
   try {
-    const cards = await Card_Store.getByCategory(category);
+    const cards = await Card_Store.getByCategory(category, page, limit);
     return cards;
   } catch (error) {
     console.log('[discount controller error]' + error.message);

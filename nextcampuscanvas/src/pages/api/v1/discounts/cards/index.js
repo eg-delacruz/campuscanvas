@@ -32,7 +32,8 @@ export default async function handler(req, res) {
   //GET discounts according to requirements
   switch (method) {
     case 'GET':
-      const { required_cards } = req.headers;
+      const { required_cards, page, limit } = req.headers;
+
       if (!required_cards) {
         return errorResponse(
           req,
@@ -47,14 +48,20 @@ export default async function handler(req, res) {
         switch (required_cards) {
           //Get all available discount cards
           case 'all_available':
-            const allCards = await Controller.getAllAvailableDiscountCards();
+            const allCards = await Controller.getAllAvailableDiscountCards(
+              page,
+              limit
+            );
+
             successResponse(req, res, allCards, 201);
             break;
 
           case 'fashion':
             const fashionCards =
               await Controller.getAvailableDiscountCardsByCategory(
-                required_cards
+                required_cards,
+                page,
+                limit
               );
             successResponse(req, res, fashionCards, 201);
             break;
@@ -62,7 +69,9 @@ export default async function handler(req, res) {
           case 'travel':
             const travelCards =
               await Controller.getAvailableDiscountCardsByCategory(
-                required_cards
+                required_cards,
+                page,
+                limit
               );
             successResponse(req, res, travelCards, 201);
             break;
@@ -70,7 +79,9 @@ export default async function handler(req, res) {
           case 'beauty':
             const beautyCards =
               await Controller.getAvailableDiscountCardsByCategory(
-                required_cards
+                required_cards,
+                page,
+                limit
               );
             successResponse(req, res, beautyCards, 201);
             break;
@@ -78,7 +89,9 @@ export default async function handler(req, res) {
           case 'eatordrink':
             const eatordrinkCards =
               await Controller.getAvailableDiscountCardsByCategory(
-                required_cards
+                required_cards,
+                page,
+                limit
               );
             successResponse(req, res, eatordrinkCards, 201);
             break;
@@ -86,7 +99,9 @@ export default async function handler(req, res) {
           case 'entertainment':
             const entertainmentCards =
               await Controller.getAvailableDiscountCardsByCategory(
-                required_cards
+                required_cards,
+                page,
+                limit
               );
             successResponse(req, res, entertainmentCards, 201);
             break;
@@ -94,7 +109,9 @@ export default async function handler(req, res) {
           case 'technology':
             const technologyCards =
               await Controller.getAvailableDiscountCardsByCategory(
-                required_cards
+                required_cards,
+                page,
+                limit
               );
             successResponse(req, res, technologyCards, 201);
             break;
@@ -102,7 +119,9 @@ export default async function handler(req, res) {
           case 'others':
             const othersCards =
               await Controller.getAvailableDiscountCardsByCategory(
-                required_cards
+                required_cards,
+                page,
+                limit
               );
             successResponse(req, res, othersCards, 201);
             break;

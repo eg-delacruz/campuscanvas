@@ -25,7 +25,7 @@ const otros = ({ cards }) => {
         <Header />
       </div>
 
-      <DisplayCardsByCategoryTemplate cards={cards} />
+      <DisplayCardsByCategoryTemplate cards={cards.cards} />
 
       <Footer />
     </>
@@ -39,7 +39,7 @@ export async function getStaticProps() {
     payload: null,
     url: endPoints.discounts.getCards,
     method: 'get',
-    extraHeaders: { required_cards: 'others' },
+    extraHeaders: { required_cards: 'others', page: 1, limit: 12 },
   });
 
   if (response.error) {

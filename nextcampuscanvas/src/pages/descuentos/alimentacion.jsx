@@ -27,7 +27,7 @@ const alimentacion = ({ cards }) => {
         <Header />
       </div>
 
-      <DisplayCardsByCategoryTemplate cards={cards} />
+      <DisplayCardsByCategoryTemplate cards={cards.cards} />
 
       <Footer />
     </>
@@ -40,7 +40,7 @@ export async function getStaticProps() {
   const response = await axiosFetcher({
     url: endPoints.discounts.getCards,
     method: 'get',
-    extraHeaders: { required_cards: 'eatordrink' },
+    extraHeaders: { required_cards: 'eatordrink', page: 1, limit: 12 },
   });
 
   if (response.error) {

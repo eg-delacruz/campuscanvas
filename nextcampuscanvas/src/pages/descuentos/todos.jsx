@@ -29,7 +29,7 @@ const todos = ({ cards }) => {
         <Header />
       </div>
 
-      <DisplayCardsByCategoryTemplate cards={cards} />
+      <DisplayCardsByCategoryTemplate cards={cards.cards} />
 
       <Footer />
     </>
@@ -42,7 +42,7 @@ export async function getStaticProps() {
   const response = await axiosFetcher({
     url: endPoints.discounts.getCards,
     method: 'get',
-    extraHeaders: { required_cards: 'all_available' },
+    extraHeaders: { required_cards: 'all_available', page: 1, limit: 30 },
   });
 
   if (response.error) {
