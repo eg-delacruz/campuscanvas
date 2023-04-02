@@ -21,6 +21,13 @@
   margin: 0 0 40px;
 }
 
+.loader_on_scroll_container {
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 ///When discounts not available
 .no_discounts_container {
   padding-bottom: 20px;

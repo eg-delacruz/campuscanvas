@@ -61,10 +61,16 @@ export async function getStaticPaths() {
   const response = await axiosFetcher({
     url: endPoints.discounts.getCards,
     method: 'get',
-    extraHeaders: { required_cards: 'all_available' },
+    extraHeaders: { required_cards: 'all_available', page: 1, limit: 2000 },
   });
 
-  const paths = response.body.results.map((card) => ({
+  // const paths = response.body.cards?.map((card) => ({
+  //   params: {
+  //     id: card._id,
+  //   },
+  // }));
+
+  const paths = response.body.map((card) => ({
     params: {
       id: card._id,
     },

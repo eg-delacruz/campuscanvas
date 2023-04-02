@@ -3,18 +3,27 @@ import { createWrapper } from 'next-redux-wrapper';
 //import configureStore from '../services/configureStore';
 import { store } from '@services/configureStore';
 import { SessionProvider } from 'next-auth/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import * as ga from '../services/googleAnalytics/index';
+
+//React Query
+import {
+  QueryClient,
+  QueryClientProvider,
+  Hydrate,
+} from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 //Globas styles
 import '@styles/Globals.scss';
 import '@styles/Buttons.scss';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
-  const router = useRouter();
+  const [queryClient] = useState(() => new QueryClient());
 
   //Google Analytics (start)
+  const router = useRouter();
   useEffect(() => {
     const handleRouteChange = (url) => {
       ga.pageview(url);
@@ -32,11 +41,16 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   //Google Analytics (end)
 
   return (
-    <SessionProvider session={session}>
-      <Provider store={store}>
-        <Component {...pageProps} />
-      </Provider>
-    </SessionProvider>
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={pageProps.dehydratedState}>
+        <SessionProvider session={session}>
+          <Provider store={store}>
+            <Component {...pageProps} />
+          </Provider>
+        </SessionProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </Hydrate>
+    </QueryClientProvider>
   );
 }
 
