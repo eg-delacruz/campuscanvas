@@ -27,7 +27,7 @@ const alimentacion = ({ cards }) => {
         <Header />
       </div>
 
-      <DisplayCardsByCategoryTemplate cards={cards} />
+      <DisplayCardsByCategoryTemplate cards={cards.cards} />
 
       <Footer />
     </>
