@@ -3,12 +3,19 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react';
 
+//Styles
+import styles from '@styles/pagestyles/DisplayDiscountPagesStyles.module.scss';
+
 //Components
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 import Header from '@components/GeneralUseComponents/Header/Header';
-import Footer from '@components/GeneralUseComponents/Footer/Footer';
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import DisplayCardsByCategoryTemplate from '@components/UsedInSpecificRoutes/Descuentos/DisplayCardsByCategoryTemplate/DisplayCardsByCategoryTemplate';
+import FooterWithoutSignature from '@components/GeneralUseComponents/FooterWithoutSignature/FooterWithoutSignature';
+import FooterSignature from '@components/GeneralUseComponents/FooterSignature/FooterSignature';
+
+//Hooks
+import useWindowDimensions from '@hooks/useWindowDimensions';
 
 //Endpoints
 import endPoints from '@services/api';
@@ -20,8 +27,7 @@ import axiosFetcher from '@services/axiosFetcher';
 //1. The limit of the fetched cards in getStaticProps and the one in useEffect have to be the same
 const todos = ({ initialCards }) => {
   //States
-  //Current page number
-  const [pageNumber, setPageNumber] = useState(1);
+  const [currentPageNumber, setPageNumber] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [cards, setCards] = useState([...initialCards.cards]);
@@ -59,7 +65,7 @@ const todos = ({ initialCards }) => {
         method: 'get',
         extraHeaders: {
           required_cards: 'all_available',
-          page: pageNumber,
+          page: currentPageNumber,
           limit: 30,
         },
       });
@@ -84,7 +90,7 @@ const todos = ({ initialCards }) => {
     } else {
       handleScroll();
     }
-  }, [pageNumber]);
+  }, [currentPageNumber]);
 
   return (
     <>
@@ -109,7 +115,10 @@ const todos = ({ initialCards }) => {
         ref={lastCardElementRef}
       />
 
-      <Footer />
+      <FooterWithoutSignature />
+      <div className={styles.footer_signature_container}>
+        <FooterSignature />
+      </div>
     </>
   );
 };

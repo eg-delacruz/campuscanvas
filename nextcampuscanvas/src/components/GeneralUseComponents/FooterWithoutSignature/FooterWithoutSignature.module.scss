@@ -1,0 +1,195 @@
+@import '../../../styles/Vars.scss';
+@import '../../../styles/Animations/loadingCircleButton.module.scss';
+
+.footer {
+  /////////////////////////
+  //       Navigation     //
+  /////////////////////////
+  color: $color--white;
+  &__navigation {
+    display: grid;
+    grid-template-areas: 'logo plataforma legal social';
+    justify-items: center;
+    align-items: center;
+    background-color: $color--primary2;
+  }
+  &__navigation h5 {
+    font-family: $font1;
+    @include font-size(20px);
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 14px;
+  }
+  &__navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__navigation ul li {
+    margin-bottom: 4px;
+  }
+
+  &__platform,
+  &__legal {
+    margin: 40px 0;
+    align-self: start;
+  }
+
+  &__social {
+    padding: 10px;
+  }
+  &__social a {
+    margin: 10px;
+  }
+
+  &__navigation ul li a {
+    text-decoration: none;
+    color: $color--white;
+    @include font-size(14px);
+  }
+
+  .footer__empleos a {
+    margin-right: 5px;
+  }
+
+  .footer__empleos a::after {
+    content: '¡Estamos contratando!';
+    display: inline;
+    @include font-size(11px);
+    border-radius: 15px;
+    background-color: $color--primary2-light1;
+    padding: 0px 6px;
+    padding-bottom: 2px;
+    margin-left: 2px;
+  }
+}
+
+.newsletter {
+  margin-bottom: 12px;
+  &__description {
+    @include font-size(14px);
+    font-weight: bold;
+    line-height: 24px;
+  }
+  &__inputs {
+    display: flex;
+    input {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+      box-shadow: 14px 21px 20px -15px rgba(0, 0, 0, 0.2);
+    }
+    button {
+      width: initial;
+      padding: 12px;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+  &__error_displayer {
+    margin-top: 0;
+    color: $color--primary1-light1;
+    @include font-size(16px);
+    font-weight: 600;
+  }
+  &__success_displayer {
+    margin-top: 0;
+    color: $color--confirmation;
+    @include font-size(16px);
+    font-weight: 600;
+  }
+}
+
+/////////////////////////
+//         MQ          //
+/////////////////////////
+@media screen and (max-width: 1100px) {
+  .footer {
+    &__navigation {
+      grid-template-areas: 'plataforma legal' 'logo social';
+    }
+
+    &__logo {
+      grid-area: logo;
+      justify-self: end;
+    }
+    &__platform {
+      grid-area: plataforma;
+    }
+    &__legal {
+      grid-area: legal;
+    }
+    &__social {
+      grid-area: social;
+      justify-self: center;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .footer {
+    &__navigation {
+      grid-template-areas:
+        'plataforma legal'
+        'logo logo'
+        'social social';
+    }
+
+    &__logo {
+      justify-self: center;
+    }
+  }
+}
+@media screen and (max-width: 480px) {
+  .footer {
+    &__navigation {
+      grid-template-areas:
+        'plataforma' 'legal'
+        'logo'
+        'social';
+      padding: 15px;
+    }
+
+    &__logo figure {
+      margin: 0;
+    }
+    &__logo {
+      margin-bottom: 30px;
+    }
+
+    &__platform {
+      width: 200px;
+      margin-top: 20px;
+    }
+
+    &__legal {
+      margin-top: 0;
+      width: 200px;
+    }
+    &__social {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      padding: 0;
+      margin-bottom: 30px;
+    }
+    &__social a {
+      margin: 0;
+    }
+  }
+}
+@media screen and (max-width: 320px) {
+  .footer {
+    &__logo figure {
+      width: 100%;
+    }
+    &__logo figure img {
+      width: 100%;
+    }
+  }
+}

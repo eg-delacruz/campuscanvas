@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useInputValue } from '@hooks/useInputValue';
 
 //Styles
-import styles from './Footer.module.scss';
+import styles from './FooterWithoutSignature.module.scss';
 
 //Assets
 import Logo_footer from '@assets/GeneralUse/Logos/logo_footer.svg';
@@ -16,13 +16,10 @@ import Instagram from '@assets/GeneralUse/IconsAndButtons/instagram_icon.svg';
 import TikTok from '@assets/GeneralUse/IconsAndButtons/tiktok_icon.svg';
 import Twitter from '@assets/GeneralUse/IconsAndButtons/twitter_icon.svg';
 
-//Components
-import FooterSignature from '@components/GeneralUseComponents/FooterSignature/FooterSignature';
-
 //CLARIFICATIONS:
-//1. Try to use the footer component without the footer signature
+//1. Try to use this componnt instead of the one with the footer and signature together
 //2. Changes in this componente should be also made in the other one with the signature
-function Footer() {
+function FooterWithoutSignature() {
   const [state, setState] = useState({
     newsletter_loading: false,
     newsletter_error: '',
@@ -236,10 +233,9 @@ function Footer() {
             </a>
           </div>
         </section>
-        <FooterSignature />
       </div>
     </footer>
   );
 }
 
-export default Footer;
+export default FooterWithoutSignature;

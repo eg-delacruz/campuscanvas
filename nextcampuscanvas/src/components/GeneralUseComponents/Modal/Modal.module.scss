@@ -40,6 +40,36 @@
   overflow-y: auto;
 }
 
+//Position top styles
 .position_top {
   align-items: flex-start;
+  .modal {
+    margin-top: 40px;
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+  //Position top styles
+  .position_top {
+    align-items: flex-start;
+    .modal {
+      margin-top: 130px;
+    }
+  }
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
 }
