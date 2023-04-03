@@ -2,7 +2,7 @@
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Swal from 'sweetalert2';
 import dynamic from 'next/dynamic';
 
@@ -23,6 +23,7 @@ import DiscountCard from '@components/GeneralUseComponents/DiscountCard/Discount
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import DisplayEliminateHomeBanner from '@components/UsedInSpecificRoutes/Admin/Descuentos/HomeSlider/DisplayEliminateHomeBanner/DisplayEliminateHomeBanner';
 import DisplayCreateHomeBannerModal from '@components/UsedInSpecificRoutes/Admin/Descuentos/HomeSlider/DisplayCreateHomeBannerModal/DisplayCreateHomeBannerModal';
+import CC_LogoLoader from '@components/GeneralUseComponents/CC_LogoLoader/CC_LogoLoader';
 
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
@@ -110,6 +111,7 @@ const editarDescuento = () => {
   });
 
   const [newBanner, setNewBanner] = useState([]);
+  const [loadingDiscountBanner, setLoadingDiscountBanner] = useState(true);
   const [showEliminateModal, setShowEliminateModal] = useState(false);
   const [termsCondsText, setTermsCondsText] = useState('');
   const [showEliminateHomeBannerModal, setShowEliminateHomeBannerModal] =
@@ -147,6 +149,9 @@ const editarDescuento = () => {
     affiliate_link_only: 'Solo enlace de afiliado',
     dynamically_generated: 'Generado dinámicamente',
   };
+
+  //Ref to monitor if banner is being displayed
+  const bannerRef = useRef(null);
 
   //Controlling inputs
   const STATUS = useInputValue('');
@@ -339,6 +344,13 @@ const editarDescuento = () => {
     setCounts();
   }, [router?.isReady]);
 
+  //Check if discount banner is loading
+  useEffect(() => {
+    if (bannerRef.current?.complete) {
+      handleLoadingDiscountBanner();
+    }
+  }, [bannerRef.current?.complete]);
+
   //Functions
 
   //Get card info
@@ -428,6 +440,10 @@ const editarDescuento = () => {
     }
   };
   //Handle change banner image (end)
+
+  function handleLoadingDiscountBanner() {
+    setLoadingDiscountBanner(false);
+  }
 
   //Available for radio buttons(start)
   const isAvailableForRadioSelected = (value) => AVAILABLE_FOR.value === value;
@@ -896,21 +912,38 @@ const editarDescuento = () => {
                  ///////////////////////// */}
 
               <div className={styles.drop_file_input}>
-                <div className={styles.banner}>
-                  <img
-                    src={state.discount.banner.URL}
-                    alt={state.discount.title}
-                  />
-                  <div className={styles.change_img_on_hover}>
-                    <Image src={edit_pencil} width={80} height={80} />
-                  </div>
+                {/* Loader while banner loads (start) */}
+                <div
+                  className={styles.cc_logo_loading_banner}
+                  style={{ display: loadingDiscountBanner ? 'flex' : 'none' }}
+                >
+                  <CC_LogoLoader />
                 </div>
-                <input
-                  type='file'
-                  value=''
-                  accept='.jpg,.jpeg,.png,.svg'
-                  onChange={onNewBannerFile}
-                />
+                {/* Loader while banner loads (end) */}
+                {/* Span only needed for the loader place holder to work */}
+                <span
+                  style={{
+                    visibility: loadingDiscountBanner ? 'hidden' : 'visible',
+                  }}
+                >
+                  <div className={styles.banner}>
+                    <img
+                      src={state.discount.banner.URL}
+                      alt={state.discount.title}
+                      ref={bannerRef}
+                      onLoad={handleLoadingDiscountBanner}
+                    />
+                    <div className={styles.change_img_on_hover}>
+                      <Image src={edit_pencil} width={80} height={80} />
+                    </div>
+                  </div>
+                  <input
+                    type='file'
+                    value=''
+                    accept='.jpg,.jpeg,.png,.svg'
+                    onChange={onNewBannerFile}
+                  />
+                </span>
               </div>
               {newBannerError && (
                 <div className='error_message'>{newBannerError}</div>

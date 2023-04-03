@@ -18,8 +18,6 @@ import CC_LogoLoader from '@components/GeneralUseComponents/CC_LogoLoader/CC_Log
 //3. Banner image has to be jpg and 640 x 320 px
 //4. The memo is used to avoid re-rendering the component if the props are the same when component is part of a list that gets more items on scroll. (performance improvement)
 
-//This might get a lastCardElementRef prop if it is the last card in a list
-//TODO: Test if we pass a ref=null to the component, it will still work in production. If not, we have to check if the ref is null and conditionally render the component content
 const DiscountCard = memo(
   forwardRef(
     (

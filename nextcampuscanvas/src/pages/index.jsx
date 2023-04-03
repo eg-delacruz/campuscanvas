@@ -10,10 +10,11 @@ import styles from '@pagestyles/Index.module.scss';
 
 //Components
 import Header from '@components/GeneralUseComponents/Header/Header';
-import Footer from '@components/GeneralUseComponents/Footer/Footer';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 import DiscountCard from '@components/GeneralUseComponents/DiscountCard/DiscountCard';
 import HomeSlider from '@components/UsedInSpecificRoutes/Home/HomeSlider/HomeSlider';
+import FooterWithoutSignature from '@components/GeneralUseComponents/FooterWithoutSignature/FooterWithoutSignature';
+import FooterSignature from '@components/GeneralUseComponents/FooterSignature/FooterSignature';
 
 //Session
 import { useSession } from 'next-auth/react';
@@ -150,7 +151,8 @@ export default function Home(props) {
               </button>
             </Link>
           </main>
-          <Footer />
+          <FooterWithoutSignature />
+          <FooterSignature />
         </div>
       </div>
     </>

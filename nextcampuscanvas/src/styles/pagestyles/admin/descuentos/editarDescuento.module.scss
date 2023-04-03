@@ -10,6 +10,18 @@
   align-items: center;
 }
 
+//Loading state while getting discount banner from AWS
+.cc_logo_loading_banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: 100px;
+  margin: 0 auto;
+  width: 120px;
+  height: 120px;
+}
+
 .disabled {
   opacity: 0.4;
   cursor: default;
