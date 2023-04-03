@@ -1,11 +1,6 @@
-import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
 import Swal from 'sweetalert2';
-
-//Session
-import { useSession } from 'next-auth/react';
 
 //Styles
 import styles from '@styles/pagestyles/admin/students/validacionesPorIdPendientes.module.scss';
@@ -13,9 +8,6 @@ import styles from '@styles/pagestyles/admin/students/validacionesPorIdPendiente
 //Components
 import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
-
-//Assets
-import arrow_right_white from '@assets/GeneralUse/IconsAndButtons/arrow_right_white.svg';
 
 //Services
 import { ToUploadImageConfig } from '@services/ToUploadImageConfig';
@@ -363,14 +355,6 @@ const validaciones_por_id_pendientes = () => {
     <>
       <AdminHeader />
       <div className={`${styles.container} container`}>
-        <Link href={'/admin/estudiantes'}>
-          <button className={`${styles.button_back} btn button--red`}>
-            <span>
-              <Image src={arrow_right_white} />
-            </span>
-            <div>Atrás</div>
-          </button>
-        </Link>
         <h1>Validaciones por identificación de estudiante pendientes</h1>
         <p>
           Revisar que los documentos sean identificaciones de estudiante

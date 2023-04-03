@@ -12,7 +12,6 @@ import useDebouncedSearchValue from '@hooks/useDebouncedSearchValue';
 
 //Components
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
-import ButtonBack from '@components/GeneralUseComponents/ButtonBack/ButtonBack';
 import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
 import AdminDiscountsTable from '@components/UsedInSpecificRoutes/Admin/Descuentos/Discounts/AdminDiscountsTable/AdminDiscountsTable';
 import Pagination from '@components/GeneralUseComponents/Pagination/Pagination';
@@ -121,8 +120,6 @@ const index = () => {
     <>
       <AdminHeader />
       <div className={`${styles.container} container`}>
-        <ButtonBack prevRoute={'/admin/descuentos'} />
-
         {/* /////////////////////////
          //Title + button container//
          ///////////////////////// */}

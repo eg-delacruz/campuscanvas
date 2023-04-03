@@ -1,21 +1,13 @@
-import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { useState } from 'react';
 import Image from 'next/image';
 import Swal from 'sweetalert2';
 
 //Styles
 import styles from '@styles/pagestyles/admin/students/obtenerDatosUsuarios.module.scss';
 
-//Session
-import { useSession } from 'next-auth/react';
-
 //Components
 import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
-
-//Assets
-import arrow_right_white from '@assets/GeneralUse/IconsAndButtons/arrow_right_white.svg';
 
 //Services
 import { ToUploadImageConfig } from '@services/ToUploadImageConfig';
@@ -232,14 +224,6 @@ const obtener_datos_de_usuarios = () => {
     <>
       <AdminHeader />
       <div className={`${styles.container} container`}>
-        <Link href={'/admin/estudiantes'}>
-          <button className={`${styles.button_back} btn button--red`}>
-            <span>
-              <Image src={arrow_right_white} />
-            </span>
-            <div>Atrás</div>
-          </button>
-        </Link>
         <h1>Datos de usuario</h1>
 
         {/* /////////////////////////

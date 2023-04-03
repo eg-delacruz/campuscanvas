@@ -12,7 +12,6 @@ import styles from '@styles/pagestyles/admin/descuentos/gestionarHomeSlider.modu
 //Components
 import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
-import ButtonBack from '@components/GeneralUseComponents/ButtonBack/ButtonBack';
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import DisplayEliminateHomeBanner from '@components/UsedInSpecificRoutes/Admin/Descuentos/HomeSlider/DisplayEliminateHomeBanner/DisplayEliminateHomeBanner';
 
@@ -104,7 +103,6 @@ const homeSliderManagement = () => {
 
       <div className={`container`}>
         {handleEliminateModal()}
-        <ButtonBack prevRoute={'/admin/descuentos'} />
 
         <h1>Home slider banners ({bannersInfoReducer.home_banners.length})</h1>
         <p>

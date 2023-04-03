@@ -8,7 +8,6 @@ import styles from '@styles/pagestyles/admin/descuentos/gestionarMarcas.module.s
 //Components
 import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
-import ButtonBack from '@components/GeneralUseComponents/ButtonBack/ButtonBack';
 import DisplayNewBrandModal from '@components/UsedInSpecificRoutes/Admin/Descuentos/Brands/DisplayNewBrandModal/DisplayNewBrandModal';
 
 //hooks
@@ -94,8 +93,6 @@ const gestionarMarcas = () => {
       {displayNewBrandModal()}
       <AdminHeader />
       <div className={`${styles.container} container`}>
-        <ButtonBack prevRoute={'/admin/descuentos'} />
-
         <div className={styles.title_create_brand_container}>
           <h1>Marcas ({brandsCountReducer.count})</h1>
           <button
