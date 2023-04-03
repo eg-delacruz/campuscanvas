@@ -104,6 +104,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     terms_and_conds,
     show_first_in_category,
     show_first_in_home_section,
+    show_first_in_all_discounts,
   } = discountInfo;
 
   if (
@@ -128,6 +129,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
   const SHOW_IN_HOME_SLIDER = show_in_home_slider === 'true';
   const SHOW_FIRST_IN_CATEGORY = show_first_in_category === 'true';
   const SHOW_FIRST_IN_HOME_SECTION = show_first_in_home_section === 'true';
+  const SHOW_FIRST_IN_ALL_DISCOUNTS = show_first_in_all_discounts === 'true';
 
   //Transforming dates to Date objects
   const VALID_FROM_DATE = new Date(valid_from);
@@ -289,6 +291,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       createdAt: new Date(),
       show_first_in_category: SHOW_FIRST_IN_CATEGORY,
       show_first_in_home_section: SHOW_FIRST_IN_HOME_SECTION,
+      show_first_in_all_discounts: SHOW_FIRST_IN_ALL_DISCOUNTS,
       updated_at: new Date(),
       created_by,
       modified_last_time_by: created_by,
@@ -1044,6 +1047,7 @@ async function updateDiscount(data, new_banner, updated_by) {
       display_in_section,
       show_first_in_category,
       show_first_in_home_section,
+      show_first_in_all_discounts,
 
       //Shared information
       expiration_date,
@@ -1067,6 +1071,7 @@ async function updateDiscount(data, new_banner, updated_by) {
     const has_home_banner_attached = HAS_HOME_BANNER_ATTACHED === 'true';
     const SHOW_FIRST_IN_CATEGORY = show_first_in_category === 'true';
     const SHOW_FIRST_IN_HOME_SECTION = show_first_in_home_section === 'true';
+    const SHOW_FIRST_IN_ALL_DISCOUNTS = show_first_in_all_discounts === 'true';
 
     let routesToUpdateSSG = [];
 
@@ -1122,6 +1127,7 @@ async function updateDiscount(data, new_banner, updated_by) {
         card.updated_at = new Date();
         card.modified_last_time_by = updated_by;
         card.show_first_in_home_section = SHOW_FIRST_IN_HOME_SECTION;
+        card.show_first_in_all_discounts = SHOW_FIRST_IN_ALL_DISCOUNTS;
 
         const updated_card = await Card_Store.update(card);
 
@@ -1164,6 +1170,16 @@ async function updateDiscount(data, new_banner, updated_by) {
                 break;
               default:
                 break;
+            }
+          }
+
+          //Revalidate all discounts page if the show first in all discounts value changes
+          if (
+            original_card.show_first_in_all_discounts !==
+            updated_card.show_first_in_all_discounts
+          ) {
+            if (!routesToUpdateSSG.includes('/descuentos/todos')) {
+              routesToUpdateSSG.push('/descuentos/todos');
             }
           }
 

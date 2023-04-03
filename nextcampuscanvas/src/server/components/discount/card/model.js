@@ -72,6 +72,10 @@ const CardSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  show_first_in_all_discounts: {
+    type: Boolean,
+    default: false,
+  },
   updated_at: {
     type: Date,
   },

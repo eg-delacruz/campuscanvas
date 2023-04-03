@@ -398,6 +398,18 @@
       }
     }
 
+    .show_first_in_all_discounts_container {
+      border-bottom: 1px solid $color--dark-gray;
+      .show_first_in_all_discounts_checkbox_container {
+        max-width: 320px;
+      }
+      p {
+        margin: 0;
+        @include font-size(14px);
+        line-height: 1.5;
+      }
+    }
+
     .current_discounts_per_section_table,
     .current_display_first_by_category_table {
       @include font-size(14px);

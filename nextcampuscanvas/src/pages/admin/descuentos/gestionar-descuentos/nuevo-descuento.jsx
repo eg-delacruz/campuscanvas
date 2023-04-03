@@ -152,6 +152,7 @@ const nuevoDescuento = () => {
   const DISPLAY_CARD_IN_SECTION = useInputValue('');
   const SHOW_FIRST_IN_CATEGORY = useInputValue(false);
   const SHOW_FIRST_IN_HOME_SECTION = useInputValue(false);
+  const SHOW_FIRST_IN_ALL_DISCOUNTS = useInputValue(false);
 
   //Setting field counts
   const TITLE_COUNT = useCharacterCount();
@@ -365,6 +366,10 @@ const nuevoDescuento = () => {
     formdata.append(
       'show_first_in_home_section',
       IS_SHOW_FIRST_IN_HOME_SECTION_ALLOWED
+    );
+    formdata.append(
+      'show_first_in_all_discounts',
+      SHOW_FIRST_IN_ALL_DISCOUNTS.value
     );
 
     //Uploading data
@@ -1047,6 +1052,24 @@ const nuevoDescuento = () => {
                   </tbody>
                 </table>
               )}
+            </div>
+
+            <div className={styles.show_first_in_all_discounts_container}>
+              <div
+                className={
+                  styles.show_first_in_all_discounts_checkbox_container
+                }
+              >
+                <CustomCheckBox
+                  message='Mostrar primero entre todos los descuentos'
+                  required={false}
+                  state={SHOW_FIRST_IN_ALL_DISCOUNTS}
+                />
+              </div>
+              <p>
+                <strong>Actualmente se muestran primero: </strong>CUENTA
+                descuentos
+              </p>
             </div>
 
             <div className={styles.show_first_in_category_container}>

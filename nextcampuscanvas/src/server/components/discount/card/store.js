@@ -16,10 +16,13 @@ const createCard = async (card) => {
 
 ///////////////////// Get all available cards //////////////////////////////
 const getAllAvailableCards = async (page, limit) => {
-  //TODO: sort so that, if required, a discount card is always at the top of the list
   const totalEntries = await Card.countDocuments({ status: 'available' });
   const pagination_data = paginationData(totalEntries, page, limit);
   const result = await Card.find({ status: 'available' })
+    .sort({
+      show_first_in_all_discounts: -1,
+      brand_name: 1,
+    })
     .limit(pagination_data.LIMIT)
     //Skip the first x results and return from that point on
     .skip(pagination_data.startIndex)

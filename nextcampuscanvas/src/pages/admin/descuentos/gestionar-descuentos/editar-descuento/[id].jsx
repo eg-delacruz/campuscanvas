@@ -166,6 +166,7 @@ const editarDescuento = () => {
   const DISPLAY_CARD_IN_SECTION = useInputValue('');
   const SHOW_FIRST_IN_CATEGORY = useInputValue(false);
   const SHOW_FIRST_IN_HOME_SECTION = useInputValue(false);
+  const SHOW_FIRST_IN_ALL_DISCOUNTS = useInputValue(false);
 
   //Setting field counts
   const TITLE_COUNT = useCharacterCount(0);
@@ -378,6 +379,11 @@ const editarDescuento = () => {
     if (response.body.show_first_in_category !== undefined) {
       SHOW_FIRST_IN_HOME_SECTION.setValue(
         response.body.show_first_in_home_section
+      );
+    }
+    if (response.body.show_first_in_all_discounts !== undefined) {
+      SHOW_FIRST_IN_ALL_DISCOUNTS.setValue(
+        response.body.show_first_in_all_discounts
       );
     }
 
@@ -619,7 +625,9 @@ const editarDescuento = () => {
       discountCard.discountCard.show_first_in_category !==
         SHOW_FIRST_IN_CATEGORY.value ||
       discountCard.discountCard.show_first_in_home_section !==
-        SHOW_FIRST_IN_HOME_SECTION.value
+        SHOW_FIRST_IN_HOME_SECTION.value ||
+      discountCard.discountCard?.show_first_in_all_discounts !==
+        SHOW_FIRST_IN_ALL_DISCOUNTS.value
     ) {
       EXCLUSIVE_CARD_INFORMATION_WAS_MODIFIED = true;
     }
@@ -678,6 +686,10 @@ const editarDescuento = () => {
       IS_SHOW_FIRST_IN_HOME_SECTION_ALLOWED
     );
     formData.append('terms_and_conds', termsCondsText);
+    formData.append(
+      'show_first_in_all_discounts',
+      SHOW_FIRST_IN_ALL_DISCOUNTS.value
+    );
 
     //Send changes to server
     const response = await fetchData(
@@ -757,7 +769,7 @@ const editarDescuento = () => {
       title: response.body,
     });
 
-    //Scroll to top op page
+    //Scroll to top of page
     window.scrollTo(0, 0);
   };
 
@@ -797,7 +809,9 @@ const editarDescuento = () => {
         SHOW_FIRST_IN_CATEGORY.value ||
       discountCard.discountCard.show_first_in_home_section !==
         SHOW_FIRST_IN_HOME_SECTION.value ||
-      state.discount?.terms_and_conds !== termsCondsText
+      state.discount?.terms_and_conds !== termsCondsText ||
+      discountCard.discountCard.show_first_in_all_discounts !==
+        SHOW_FIRST_IN_ALL_DISCOUNTS.value
     ) {
       return false;
     }
@@ -1502,6 +1516,28 @@ const editarDescuento = () => {
                               </tbody>
                             </table>
                           )}
+                        </div>
+
+                        <div
+                          className={
+                            styles.show_first_in_all_discounts_container
+                          }
+                        >
+                          <div
+                            className={
+                              styles.show_first_in_all_discounts_checkbox_container
+                            }
+                          >
+                            <CustomCheckBox
+                              message='Mostrar primero entre todos los descuentos'
+                              required={false}
+                              state={SHOW_FIRST_IN_ALL_DISCOUNTS}
+                            />
+                          </div>
+                          <p>
+                            <strong>Actualmente se muestran primero: </strong>
+                            CUENTA descuentos
+                          </p>
                         </div>
 
                         <div
