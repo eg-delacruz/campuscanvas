@@ -15,7 +15,8 @@
       "@server/*": ["server/*"],
       "@redux/*": ["redux/*"],
       "@pages/*": ["pages/*"],
-      "@query-key-factory/*": ["query-key-factory/*"]
+      "@query-key-factory/*": ["query-key-factory/*"],
+      "@requestFunctions/*": ["requestFunctions/*"]
     }
   }
 }

@@ -53,7 +53,7 @@ const useSecureAdminRoute = (allowedAdmins = 'all') => {
         break;
     }
   }, [session, status]);
-  return { securingRoute };
+  return { securingRoute, session };
 };
 
 export default useSecureAdminRoute;

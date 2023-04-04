@@ -4,6 +4,8 @@ https://tanstack.com/query/latest/docs/react/overview
 
 Usefull videos:
 https://www.youtube.com/watch?v=r8Dg0KVnfMA&list=WL&index=12&t=168s
+https://www.youtube.com/watch?v=CS0pJ0JJldo&list=WL&index=13
+https://www.youtube.com/watch?v=Kjkx2BASAZA&list=WL&index=16
 
 Usefull resources:
 1. Usage of query key factory: https://tkdodo.eu/blog/effective-react-query-keys

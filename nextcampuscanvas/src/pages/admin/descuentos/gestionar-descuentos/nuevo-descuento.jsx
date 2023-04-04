@@ -56,6 +56,7 @@ const nuevoDescuento = () => {
   const SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT = useQuery({
     queryKey: [discoutKeys.cards.show_first_in_all_discounts_count],
     queryFn: getShowFirstInAllDiscountsCount,
+    staleTime: Infinity,
   });
 
   //Reducers
@@ -423,11 +424,10 @@ const nuevoDescuento = () => {
       dispatch(getShowFirstInCategoryCount());
     }
 
-    //TODO: I think this is not necessary, since react query does it automatically
     //Refetch show first in all discounts count if applies
-    // if (SHOW_FIRST_IN_ALL_DISCOUNTS.value) {
-    //   SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.refetch();
-    // }
+    if (SHOW_FIRST_IN_ALL_DISCOUNTS.value) {
+      SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.refetch();
+    }
 
     setState({ ...state, uploading: false, error: null });
 

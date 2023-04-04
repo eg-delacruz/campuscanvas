@@ -2,6 +2,10 @@ import Link from 'next/link';
 import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+//React query
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import adminKeys from '@query-key-factory/adminKeys';
+
 //styles
 import styles from '@styles/pagestyles/admin/descuentos/gestionarDescuentos.module.scss';
 
@@ -23,8 +27,37 @@ import {
   selectCountDiscounts,
 } from '@redux/discountsCountSlice';
 
+//Data requests
+import adminFunctions from '@requestFunctions/admin';
+
 const index = () => {
   const { securingRoute } = useSecureAdminRoute();
+
+  //React query
+  const queryClient = useQueryClient();
+
+  const ADMIN_SETTINGS = useQuery({
+    queryKey: [adminKeys.admin_settings],
+    queryFn: adminFunctions.getAdminSettings,
+    staleTime: Infinity,
+  });
+
+  const UPDATE_ADMIN_SETTINGS = useMutation({
+    mutationFn: (data) => adminFunctions.updateAdminSettings(data),
+    //Update the cached settings- The data containes the settings from the DB, so we can just update the cache with the new data without having to do a new request
+    onSuccess: (data) => {
+      queryClient.setQueryData([adminKeys.admin_settings], (oldData) => {
+        return {
+          ...oldData,
+          settings: {
+            ...oldData.settings,
+            entries_per_admin_discouns_table_page:
+              data.settings.entries_per_admin_discouns_table_page,
+          },
+        };
+      });
+    },
+  });
 
   //Allows us to manipulate the appropriate slice/action
   const dispatch = useDispatch();
@@ -35,7 +68,6 @@ const index = () => {
 
   //Controlling inputs
   const SEARCH_INPUT = useInputValue('');
-  const DISCOUNTS_PER_PAGE = useInputValue(10);
 
   //States
   const [filteredDiscounts, setFilteredDiscounts] = useState([]);
@@ -92,9 +124,14 @@ const index = () => {
     setFilteredDiscounts(results);
   }, [debouncedSearchValue]);
 
+  const DISCOUNTS_PER_PAGE = ADMIN_SETTINGS.data?.settings
+    ?.entries_per_admin_discouns_table_page
+    ? ADMIN_SETTINGS.data?.settings.entries_per_admin_discouns_table_page
+    : 10;
+
   //Get discounts of current page
-  const indexOfLastDiscount = currentPage * DISCOUNTS_PER_PAGE.value;
-  const indexOfFirstDiscount = indexOfLastDiscount - DISCOUNTS_PER_PAGE.value;
+  const indexOfLastDiscount = currentPage * DISCOUNTS_PER_PAGE;
+  const indexOfFirstDiscount = indexOfLastDiscount - DISCOUNTS_PER_PAGE;
   const currentDiscounts = filteredDiscounts.slice(
     indexOfFirstDiscount,
     indexOfLastDiscount
@@ -104,7 +141,10 @@ const index = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const setDiscountsPerPage = (e) => {
-    DISCOUNTS_PER_PAGE.setValue(e.target.value);
+    UPDATE_ADMIN_SETTINGS.mutate({
+      settings_to_update: 'entries_per_admin_discouns_table_page',
+      update_value: parseInt(e.target.value),
+    });
     setCurrentPage(1);
   };
 
@@ -137,7 +177,13 @@ const index = () => {
           Mostrando{' '}
           <select
             onChange={setDiscountsPerPage}
-            value={DISCOUNTS_PER_PAGE.value}
+            value={
+              ADMIN_SETTINGS.data?.settings
+                ?.entries_per_admin_discouns_table_page
+                ? ADMIN_SETTINGS.data?.settings
+                    .entries_per_admin_discouns_table_page
+                : 10
+            }
           >
             <option value='10'>10</option>
             <option value='20'>20</option>
@@ -201,7 +247,7 @@ const index = () => {
 
         {!discountsReducer.loading && filteredDiscounts.length > 0 && (
           <Pagination
-            itemsPerPage={DISCOUNTS_PER_PAGE.value}
+            itemsPerPage={DISCOUNTS_PER_PAGE}
             totalItems={filteredDiscounts.length}
             paginate={paginate}
             currentPage={currentPage}

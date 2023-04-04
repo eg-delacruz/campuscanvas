@@ -97,6 +97,7 @@ const editarDescuento = () => {
   const SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT = useQuery({
     queryKey: [discoutKeys.cards.show_first_in_all_discounts_count],
     queryFn: getShowFirstInAllDiscountsCount,
+    staleTime: Infinity,
   });
 
   //States
