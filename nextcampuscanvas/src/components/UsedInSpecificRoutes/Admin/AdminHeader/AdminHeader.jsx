@@ -77,10 +77,8 @@ const AdminHeader = () => {
           }`}
         >
           <ul className={styles.upper_ul}>
-            <li>
-              <Link onClick={close767Menu} href={'/admin'}>
-                Dashboard
-              </Link>
+            <li onClick={close767Menu}>
+              <Link href={'/admin'}>Dashboard</Link>
             </li>
 
             <li>
@@ -92,27 +90,18 @@ const AdminHeader = () => {
                 Descuentos
               </Link>
               <ul className={styles.second_level_ul}>
-                <li>
-                  <Link
-                    onClick={close767Menu}
-                    href={'/admin/descuentos/gestionar-descuentos'}
-                  >
+                <li onClick={close767Menu}>
+                  <Link href={'/admin/descuentos/gestionar-descuentos'}>
                     Gestionar descuentos
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    onClick={close767Menu}
-                    href={'/admin/descuentos/gestionar-marcas'}
-                  >
+                <li onClick={close767Menu}>
+                  <Link href={'/admin/descuentos/gestionar-marcas'}>
                     Marcas
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    onClick={close767Menu}
-                    href={'/admin/descuentos/gestionar-home-slider'}
-                  >
+                <li onClick={close767Menu}>
+                  <Link href={'/admin/descuentos/gestionar-home-slider'}>
                     Home slider
                   </Link>
                 </li>
@@ -130,17 +119,13 @@ const AdminHeader = () => {
                 Estudiantes
               </Link>
               <ul className={styles.second_level_ul}>
-                <li>
-                  <Link
-                    onClick={close767Menu}
-                    href={'/admin/estudiantes/obtener-datos-usuarios'}
-                  >
+                <li onClick={close767Menu}>
+                  <Link href={'/admin/estudiantes/obtener-datos-usuarios'}>
                     Datos de estudiantes
                   </Link>
                 </li>
-                <li>
+                <li onClick={close767Menu}>
                   <Link
-                    onClick={close767Menu}
                     href={'/admin/estudiantes/validaciones-por-id-pendientes'}
                   >
                     Validaciones pend.
@@ -152,16 +137,11 @@ const AdminHeader = () => {
             <li>
               <Link href={width > 767 ? '/admin/clientes' : '#'}>Clientes</Link>
               <ul className={styles.second_level_ul}>
-                <li>
-                  <Link onClick={close767Menu} href={'/admin/clientes'}>
-                    Opciones
-                  </Link>
+                <li onClick={close767Menu}>
+                  <Link href={'/admin/clientes'}>Opciones</Link>
                 </li>
-                <li>
-                  <Link
-                    onClick={close767Menu}
-                    href={'/admin/clientes/nuevo-contrato'}
-                  >
+                <li onClick={close767Menu}>
+                  <Link href={'/admin/clientes/nuevo-contrato'}>
                     Nuevo contrato
                   </Link>
                 </li>

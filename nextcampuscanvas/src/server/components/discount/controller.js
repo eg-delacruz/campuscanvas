@@ -1461,6 +1461,19 @@ async function getTotalDiscuntsCount() {
   }
 }
 
+async function getShowFirstInAllDiscountsCount() {
+  try {
+    const count = await Card_Store.getShowFirstInAllDiscountsCount();
+    return count;
+  } catch (error) {
+    console.error(
+      '[discount controller | getShowFirstInAllDiscountsCount function error]' +
+        error.message
+    );
+    throw new Error(error.message);
+  }
+}
+
 module.exports = {
   //Brand functions
   createNewBrand,
@@ -1486,6 +1499,7 @@ module.exports = {
   getCardByDiscountId,
   getHomeSectionsCardsCount,
   getShowFirstInCategoryCount,
+  getShowFirstInAllDiscountsCount,
 
   //Home slider functions
   createHomeSliderBanner,

@@ -58,7 +58,8 @@ export function successResponse(req, res, message, status) {
   }
   console.log('[RESPONSE]Operación realizada con éxito');
 
-  console.log(message);
+  //This shows in console the message sent to the user. Only use it when needed
+  //console.log(message);
   //El status se muestra en el caso de insomnia en un indicador, NO en el objeto enviado
   res.status(statusCode).send({ error: '', body: statusMessage });
 }

@@ -1,7 +1,6 @@
 //Response manager
 import { successResponse, errorResponse } from '@server/response';
 import Controller from '@server/components/discount/controller';
-import routeRevalidator from '@server/services/routeRevalidator';
 
 //Middlewares
 import { initializeEnpoint } from '@server/middlewares/initializeEndpoint';
@@ -48,6 +47,17 @@ export default async function handler(req, res) {
             successResponse(req, res, show_first_in_category_count, 201);
             break;
 
+          case 'show_first_in_all_discounts_count':
+            const show_first_in_all_discounts_count =
+              await Controller.getShowFirstInAllDiscountsCount();
+            successResponse(
+              req,
+              res,
+              { show_first_in_all_discounts_count },
+              201
+            );
+            break;
+
           //Get all cards (available and unavailable) for the default case
           default:
             break;
@@ -56,7 +66,7 @@ export default async function handler(req, res) {
         errorResponse(
           req,
           res,
-          'Error al traer información de banners',
+          'Error al traer información de las cartas de descuento',
           400,
           error
         );

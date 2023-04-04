@@ -1,0 +1,9 @@
+Clarifications to use react query
+Documentation (v4):
+https://tanstack.com/query/latest/docs/react/overview
+
+Usefull videos:
+https://www.youtube.com/watch?v=r8Dg0KVnfMA&list=WL&index=12&t=168s
+
+Usefull resources:
+1. Usage of query key factory: https://tkdodo.eu/blog/effective-react-query-keys

@@ -126,6 +126,14 @@ const getShowFirstInCategoryCount = async (category) => {
   });
 };
 
+///////////////////// Get count of cards being shown first in the /discounts route (among all discounts) //////////////////////////////
+const getShowFirstInAllDiscountsCount = async () => {
+  return await Card.countDocuments({
+    status: 'available',
+    show_first_in_all_discounts: true,
+  });
+};
+
 ///////////////////// Update card //////////////////////////////
 const updateCard = async (card) => {
   const updatedCard = await card.save();
@@ -143,4 +151,5 @@ module.exports = {
   getHomeSectionsCardsCount,
   getShowFirstInCategoryCount,
   update: updateCard,
+  getShowFirstInAllDiscountsCount,
 };

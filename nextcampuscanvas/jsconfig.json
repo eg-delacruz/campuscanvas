@@ -14,7 +14,8 @@
       "@services/*": ["services/*"],
       "@server/*": ["server/*"],
       "@redux/*": ["redux/*"],
-      "@pages/*": ["pages/*"]
+      "@pages/*": ["pages/*"],
+      "@query-key-factory/*": ["query-key-factory/*"]
     }
   }
 }

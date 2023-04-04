@@ -5,6 +5,10 @@ import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
+//React query
+import { useQuery } from '@tanstack/react-query';
+import discoutKeys from '@query-key-factory/discountKeys';
+
 //Styles
 import styles from '@styles/pagestyles/admin/descuentos/nuevoDescuento.module.scss';
 //Rich text editor styles
@@ -48,6 +52,12 @@ const nuevoDescuento = () => {
   //Allows us to manipulate the appropriate slice/action
   const dispatch = useDispatch();
 
+  //React query
+  const SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT = useQuery({
+    queryKey: [discoutKeys.cards.show_first_in_all_discounts_count],
+    queryFn: getShowFirstInAllDiscountsCount,
+  });
+
   //Reducers
   const brandsReducer = useSelector(selectBrand);
   const homeSectionsCountReducer = useSelector(selectHomeSectionsCount);
@@ -83,7 +93,7 @@ const nuevoDescuento = () => {
     setCounts();
   }, [router?.isReady]);
 
-  const { fetchData: uploadData, cancel } = useAxios();
+  const { fetchData } = useAxios();
 
   //Datalist options
   const STATUS_OPTIONS = ['available', 'unavailable'];
@@ -160,6 +170,16 @@ const nuevoDescuento = () => {
   const CARD_TITLE_COUNT = useCharacterCount();
 
   //Functions
+  async function getShowFirstInAllDiscountsCount() {
+    const response = await fetchData(
+      endPoints.admin.discounts.getShowFirstInAllDiscountsCount,
+      'get',
+      null,
+      { required_info: 'show_first_in_all_discounts_count' }
+    );
+    return response;
+  }
+
   const handleTitleChange = (e) => {
     TITLE.onChange(e);
     TITLE_COUNT.onChange(e);
@@ -376,7 +396,7 @@ const nuevoDescuento = () => {
     setState({ ...state, uploading: true });
 
     //No try catch needed, since done in the useAxios hook
-    const response = await uploadData(
+    const response = await fetchData(
       endPoints.admin.discounts.index,
       'post',
       formdata,
@@ -402,6 +422,12 @@ const nuevoDescuento = () => {
     if (SHOW_FIRST_IN_CATEGORY.value) {
       dispatch(getShowFirstInCategoryCount());
     }
+
+    //TODO: I think this is not necessary, since react query does it automatically
+    //Refetch show first in all discounts count if applies
+    // if (SHOW_FIRST_IN_ALL_DISCOUNTS.value) {
+    //   SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.refetch();
+    // }
 
     setState({ ...state, uploading: false, error: null });
 
@@ -1067,8 +1093,24 @@ const nuevoDescuento = () => {
                 />
               </div>
               <p>
-                <strong>Actualmente se muestran primero: </strong>CUENTA
-                descuentos
+                <strong>Actualmente se muestran primero: </strong>
+                {SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.isLoading ? (
+                  'Cargando...'
+                ) : SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.isError ||
+                  SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.data?.error ? (
+                  <>
+                    {SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.error +
+                      SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.data?.error}
+                  </>
+                ) : (
+                  <>
+                    {
+                      SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.data?.body
+                        .show_first_in_all_discounts_count
+                    }{' '}
+                    descuentos
+                  </>
+                )}
               </p>
             </div>
 

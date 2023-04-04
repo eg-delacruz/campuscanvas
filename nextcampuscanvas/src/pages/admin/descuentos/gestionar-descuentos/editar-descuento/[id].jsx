@@ -6,6 +6,10 @@ import { useState, useEffect, useRef } from 'react';
 import Swal from 'sweetalert2';
 import dynamic from 'next/dynamic';
 
+//React query
+import { useQuery } from '@tanstack/react-query';
+import discoutKeys from '@query-key-factory/discountKeys';
+
 //Styles
 import styles from '@styles/pagestyles/admin/descuentos/editarDescuento.module.scss';
 //Rich text editor styles
@@ -88,6 +92,12 @@ const editarDescuento = () => {
   const { securingRoute } = useSecureAdminRoute('all');
 
   const { fetchData } = useAxios();
+
+  //React query
+  const SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT = useQuery({
+    queryKey: [discoutKeys.cards.show_first_in_all_discounts_count],
+    queryFn: getShowFirstInAllDiscountsCount,
+  });
 
   //States
   const [state, setState] = useState({
@@ -393,6 +403,16 @@ const editarDescuento = () => {
       loading: false,
       error: null,
     });
+  }
+
+  async function getShowFirstInAllDiscountsCount() {
+    const response = await fetchData(
+      endPoints.admin.discounts.getShowFirstInAllDiscountsCount,
+      'get',
+      null,
+      { required_info: 'show_first_in_all_discounts_count' }
+    );
+    return response;
   }
 
   const handleTitleChange = (e) => {
@@ -736,6 +756,14 @@ const editarDescuento = () => {
       SHOW_FIRST_IN_CATEGORY.value
     ) {
       dispatch(getShowFirstInCategoryCount());
+    }
+
+    //Refetch show first in all discounts count if applies
+    if (
+      discountCard.discountCard.show_first_in_all_discounts !==
+      SHOW_FIRST_IN_ALL_DISCOUNTS.value
+    ) {
+      SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.refetch();
     }
 
     //Reset the new banner if a new one was uploaded
@@ -1536,7 +1564,23 @@ const editarDescuento = () => {
                           </div>
                           <p>
                             <strong>Actualmente se muestran primero: </strong>
-                            CUENTA descuentos
+                            {SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.isLoading ? (
+                              'Cargando...'
+                            ) : SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.isError ||
+                              SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.data?.error ? (
+                              <>
+                                {SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.error +
+                                  SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.data?.error}
+                              </>
+                            ) : (
+                              <>
+                                {
+                                  SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.data?.body
+                                    .show_first_in_all_discounts_count
+                                }{' '}
+                                descuentos
+                              </>
+                            )}
                           </p>
                         </div>
 
