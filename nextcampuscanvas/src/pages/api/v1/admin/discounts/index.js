@@ -100,6 +100,33 @@ router
       errorResponse(req, res, 'Error al crear descuento', 400, error);
     }
   })
+  .get(async (req, res) => {
+    if (!req.headers.required_info) {
+      return errorResponse(
+        req,
+        res,
+        'Error al obtener datos',
+        400,
+        'Debes especificar la info requerida'
+      );
+    }
+    const { required_info } = req.headers;
+    try {
+      switch (required_info) {
+        case 'most_liked_discounts':
+          const mostLikedDiscounts = await Controller.getMostLikedDiscounts();
+          successResponse(req, res, mostLikedDiscounts, 201);
+          break;
+        case 'most_disliked_discounts':
+          const mostDislikedDiscounts =
+            await Controller.getMostDislikedDiscounts();
+          successResponse(req, res, mostDislikedDiscounts, 201);
+          break;
+      }
+    } catch (error) {
+      errorResponse(req, res, 'Error al obtener datos', 400, error);
+    }
+  })
   //PATCH: edit discount
   .patch(expressWrapper(multiUpload), async (req, res) => {
     const { body, headers, method, files } = req;

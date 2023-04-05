@@ -1503,6 +1503,35 @@ async function countLikesDislikes({ discount_id, like, dislike }) {
   }
 }
 
+async function getMostLikedDiscounts() {
+  try {
+    const mostLikedDiscounts = await discountInfo_Store.getMostLikedDiscounts();
+
+    return mostLikedDiscounts;
+  } catch (error) {
+    console.error(
+      '[discount controller | getMostLikedDiscounts function error]' +
+        error.message
+    );
+    throw new Error(error.message);
+  }
+}
+
+async function getMostDislikedDiscounts() {
+  try {
+    const mostDislikedDiscounts =
+      await discountInfo_Store.getMostDislikedDiscounts();
+
+    return mostDislikedDiscounts;
+  } catch (error) {
+    console.error(
+      '[discount controller | getMostDislikedDiscounts function error]' +
+        error.message
+    );
+    throw new Error(error.message);
+  }
+}
+
 module.exports = {
   //Brand functions
   createNewBrand,
@@ -1521,6 +1550,8 @@ module.exports = {
   updateDiscount,
   getTotalDiscuntsCount,
   countLikesDislikes,
+  getMostLikedDiscounts,
+  getMostDislikedDiscounts,
 
   //Cards functions
   getAllAvailableDiscountCards,

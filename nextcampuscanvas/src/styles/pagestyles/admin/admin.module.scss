@@ -8,10 +8,45 @@
   justify-content: center;
   align-items: center;
 }
+.background {
+  background-color: $color--tertiary-white;
+  height: 100vh;
+}
+
+.chart_loader {
+  height: 280px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid $color--dark-gray;
+  border-radius: 8px;
+  .CC_logo {
+    width: 100px;
+    height: 100px;
+    position: relative;
+  }
+}
 .container {
   padding: 0 8px;
-  //Temporary min height until content is added to the page
-  min-height: 300px;
+  max-width: 1400px;
+  h1 {
+    margin: 16px 0 8px;
+  }
+  .chart_container {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    border-radius: 8px;
+    background-color: $color--white;
+    box-shadow: 0 0 0 1px $color--dark-gray, 0 0 0 2px $color--white;
+  }
+  .liked_disliked_charts_container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1400px;
+    gap: 16px;
+  }
 }
 
 /////////////////////////
@@ -23,6 +58,11 @@
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 767px) {
+  .container {
+    .liked_disliked_charts_container {
+      flex-direction: column;
+    }
+  }
 }
 ////////////////////////////////////////480/////////////////////////////////////////////
 

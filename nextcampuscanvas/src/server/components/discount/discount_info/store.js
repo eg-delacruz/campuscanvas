@@ -89,6 +89,26 @@ const getTotalDiscountsCount = async () => {
   return await Discount.estimatedDocumentCount();
 };
 
+///////////////////// Get most liked discounts ////////////////////////
+const getMostLikedDiscounts = async () => {
+  //get the 10 most liked discounts ordered by likes from highest to lowest
+  return await Discount.find({})
+    .sort({ likes: -1 })
+    .limit(10)
+    .populate({ path: 'brand', model: BrandInfo })
+    .exec();
+};
+
+///////////////////// Get most disliked discounts ////////////////////////
+const getMostDislikedDiscounts = async () => {
+  //get the 10 most disliked discounts ordered by dislikes from highest to lowest
+  return await Discount.find({})
+    .sort({ dislikes: -1 })
+    .limit(10)
+    .populate({ path: 'brand', model: BrandInfo })
+    .exec();
+};
+
 module.exports = {
   add: createDiscount,
   getDiscounts,
@@ -100,4 +120,6 @@ module.exports = {
   getDiscountsCountByBrandId,
   update: updateDiscount,
   getTotalDiscountsCount,
+  getMostLikedDiscounts,
+  getMostDislikedDiscounts,
 };
