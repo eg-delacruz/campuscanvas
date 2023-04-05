@@ -1,6 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+//React query
+import { useQuery } from '@tanstack/react-query';
+import adminKeys from '@query-key-factory/adminKeys';
+
 //Assets
 import UserIcon from '@assets/GeneralUse/UsedInComponents/AdminHeader/UserIcon.svg';
 import logout_icon from '@assets/GeneralUse/IconsAndButtons/usedInComponents/Header/logout_icon.svg';
@@ -19,6 +23,9 @@ import useWindowDimensions from '@hooks/useWindowDimensions';
 //Styles
 import styles from './AdminHeader.module.scss';
 
+//Data requests
+import adminFunctions from '@requestFunctions/admin/Students';
+
 //Session
 import { signOut } from 'next-auth/react';
 
@@ -27,9 +34,19 @@ const AdminHeader = () => {
   const { data: session, status } = useSession();
   const { width } = useWindowDimensions();
 
+  //React query
+  const CHECK_IF_PENDING_VALIDATIONS_AVAILABLE = useQuery({
+    queryKey: [adminKeys.check_if_pending_validations_available],
+    queryFn: adminFunctions.checkIfPendingValidationsAvailable,
+    staleTime: 1000 * 60 * 60 * 24, //24 hours
+    //Execute this query only if there is a session
+    enabled: session ? true : false,
+  });
+
   //Controlling inputs
   const MenuCheckbox_767 = useInputValue(false);
 
+  //Functions
   const onMenuCheckbox_767Change = () => {
     MenuCheckbox_767.setValue(!MenuCheckbox_767.value);
   };
@@ -38,7 +55,18 @@ const AdminHeader = () => {
     if (width <= 767) MenuCheckbox_767.setValue(false);
   };
 
-  //TODO: display something to show if there are pending validations
+  const displayPendingValidationsNotification = () => {
+    //Access current url
+    const currentUrl = encodeURI(window.location.href);
+    if (
+      CHECK_IF_PENDING_VALIDATIONS_AVAILABLE.data?.validationsAvailable &&
+      !currentUrl.includes('validaciones-por-id-pendientes')
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <header className={styles.header}>
       <div className={`${styles.container} container`}>
@@ -108,7 +136,13 @@ const AdminHeader = () => {
               </ul>
             </li>
 
-            <li>
+            <li
+              className={`${
+                displayPendingValidationsNotification()
+                  ? styles.buttonLoading
+                  : ''
+              }`}
+            >
               <Link
                 href={
                   width > 767
@@ -124,7 +158,14 @@ const AdminHeader = () => {
                     Datos de estudiantes
                   </Link>
                 </li>
-                <li onClick={close767Menu}>
+                <li
+                  className={`${
+                    displayPendingValidationsNotification()
+                      ? styles.buttonLoading
+                      : ''
+                  }`}
+                  onClick={close767Menu}
+                >
                   <Link
                     href={'/admin/estudiantes/validaciones-por-id-pendientes'}
                   >

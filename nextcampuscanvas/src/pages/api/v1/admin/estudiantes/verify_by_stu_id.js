@@ -13,6 +13,7 @@ import requestIp from 'request-ip';
 import NextCors from 'nextjs-cors';
 import Controller from '@server/components/user/controller';
 
+//TODO: migrate this endpoint to the one with the same name in the v2 folder
 export default async function handler(req, res) {
   //Securing page with session
   const session = await getSession({ req });
@@ -59,6 +60,7 @@ export default async function handler(req, res) {
     //Gets the 15 oldest pending student id validations to display in client
     case 'GET':
       try {
+        //TODO: eliminate this if statement and use the one in the v2 folder
         //Check if there are pending validatins (returns true/false)
         if (req.headers.website_location === 'admin_estudiantes_index') {
           const pending_validations =

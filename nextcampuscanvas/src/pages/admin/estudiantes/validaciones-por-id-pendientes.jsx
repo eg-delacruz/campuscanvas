@@ -2,6 +2,13 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Swal from 'sweetalert2';
 
+//React query
+import { useQuery } from '@tanstack/react-query';
+import adminKeys from '@query-key-factory/adminKeys';
+
+//Data request functions
+import adminFunctions from '@requestFunctions/admin/Students';
+
 //Styles
 import styles from '@styles/pagestyles/admin/students/validacionesPorIdPendientes.module.scss';
 
@@ -23,6 +30,13 @@ import endPoints from '@services/api';
 //ONLY ONE PERSON SHOULD WORK ON THIS SCREEN - If more than one admin is validating students, this can generate problems, since if one validated student has to be validated again, the second time, the other admin will get an error
 const validaciones_por_id_pendientes = () => {
   const { securingRoute } = useSecureAdminRoute();
+
+  //React query
+  const CHECK_IF_PENDING_VALIDATIONS_AVAILABLE = useQuery({
+    queryKey: [adminKeys.check_if_pending_validations_available],
+    queryFn: adminFunctions.checkIfPendingValidationsAvailable,
+    staleTime: 1000 * 60 * 60 * 24, //24 hours
+  });
 
   const [state, setState] = useState({
     gettingValidations: true,
@@ -89,6 +103,7 @@ const validaciones_por_id_pendientes = () => {
 
       setPendingValidationsLeft(data.body.EntriesCount);
       setPendingValidations(data.body.OldestEntries);
+
       setState({
         ...state,
         gettingValidations: false,
@@ -144,6 +159,9 @@ const validaciones_por_id_pendientes = () => {
       }, 5000);
       return false;
     }
+
+    //Refetching query to check if there are still pending validations
+    CHECK_IF_PENDING_VALIDATIONS_AVAILABLE.refetch();
 
     //Clean validation field and validate acc info
     setValidateAcc({ ...validateAcc, user_email: '', userID: '' });
@@ -296,7 +314,11 @@ const validaciones_por_id_pendientes = () => {
             popup: 'animate__fadeIn',
           },
         });
+        return;
       }
+
+      //Refetching query to check if there are still pending validations
+      CHECK_IF_PENDING_VALIDATIONS_AVAILABLE.refetch();
 
       //Clean validation field and validate acc info
       setValidateAcc({ ...validateAcc, user_email: '', userID: '' });

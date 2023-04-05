@@ -1,4 +1,12 @@
 @import '../../../../styles/Vars.scss';
+@import '../../../../styles/Animations/dotLoadingButton.module.scss';
+
+.buttonLoading {
+  background-color: transparent;
+}
+.buttonLoading:hover {
+  background-color: transparent;
+}
 
 .header {
   width: 100%;

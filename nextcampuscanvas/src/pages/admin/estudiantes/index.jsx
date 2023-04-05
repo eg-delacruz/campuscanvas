@@ -64,7 +64,7 @@ const index = () => {
         return false;
       }
 
-      setPendingValidations(data.body);
+      //setPendingValidations(data.body);
       setState({ ...state, error: null, loading: false });
     } catch (error) {
       setState({

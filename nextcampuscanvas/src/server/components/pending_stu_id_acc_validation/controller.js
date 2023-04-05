@@ -46,7 +46,7 @@ const getOldestEntries = async () => {
 const getPendingValidationsAvailavility = async () => {
   try {
     const validationsAvailable = await store.validationsAvailable();
-    return validationsAvailable;
+    return { validationsAvailable };
   } catch (error) {
     console.log(
       '[pending_stu_id_acc_validation controller error]' + error.message
