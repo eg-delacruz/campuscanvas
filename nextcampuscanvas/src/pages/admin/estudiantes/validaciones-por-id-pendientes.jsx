@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import adminKeys from '@query-key-factory/adminKeys';
 
 //Data request functions
-import adminFunctions from '@requestFunctions/admin/Students';
+import adminFunctions from '@request-functions/Admin/Students';
 
 //Styles
 import styles from '@styles/pagestyles/admin/students/validacionesPorIdPendientes.module.scss';

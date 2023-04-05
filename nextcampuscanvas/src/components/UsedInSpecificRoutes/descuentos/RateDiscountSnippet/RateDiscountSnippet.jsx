@@ -8,7 +8,7 @@ import useDisplayIfVerified from '@hooks/useDisplayIfVerified';
 import styles from './RateDiscountSnippet.module.scss';
 
 //Req. functions
-import DiscountsFunctions from '@requestFunctions/Discounts';
+import DiscountsFunctions from '@request-functions/Discounts';
 
 const RateDiscountSnippet = ({ discount_id }) => {
   const { allowDisplay } = useDisplayIfVerified();

@@ -28,7 +28,7 @@ import {
 } from '@redux/discountsCountSlice';
 
 //Data requests
-import adminFunctions from '@requestFunctions/admin';
+import adminFunctions from '@request-functions/Admin';
 
 const index = () => {
   const { securingRoute } = useSecureAdminRoute();

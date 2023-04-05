@@ -24,7 +24,7 @@ import useWindowDimensions from '@hooks/useWindowDimensions';
 import styles from './AdminHeader.module.scss';
 
 //Data requests
-import adminFunctions from '@requestFunctions/admin/Students';
+import adminFunctions from '@request-functions/Admin/Students';
 
 //Session
 import { signOut } from 'next-auth/react';

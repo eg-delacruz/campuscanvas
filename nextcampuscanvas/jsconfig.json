@@ -16,7 +16,7 @@
       "@redux/*": ["redux/*"],
       "@pages/*": ["pages/*"],
       "@query-key-factory/*": ["query-key-factory/*"],
-      "@requestFunctions/*": ["requestFunctions/*"]
+      "@request-functions/*": ["request-functions/*"]
     }
   }
 }
