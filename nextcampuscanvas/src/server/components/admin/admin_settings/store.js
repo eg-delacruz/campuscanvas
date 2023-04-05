@@ -20,8 +20,17 @@ const updateAdminSettings = async (settings) => {
   return updatedSettings;
 };
 
+///////////////////// Delete admin settings //////////////////////////////
+const deleteAdminSettings = async (userID) => {
+  const settings = await AdminSettings.findOne({ userID });
+  if (settings) {
+    return await settings.deleteOne();
+  }
+};
+
 module.exports = {
   add: createAdminSettings,
   update: updateAdminSettings,
   get: getAdminSettings,
+  delete: deleteAdminSettings,
 };

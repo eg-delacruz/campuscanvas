@@ -1474,6 +1474,35 @@ async function getShowFirstInAllDiscountsCount() {
   }
 }
 
+async function countLikesDislikes({ discount_id, like, dislike }) {
+  if (!discount_id) {
+    console.error(
+      '[discount controller | countLikesDislikes function error] discount_id is required'
+    );
+    throw new Error('No se ha recibido el id del descuento');
+  }
+  try {
+    const discount = await discountInfo_Store.getDiscountByIdWithoutPopulation(
+      discount_id
+    );
+    if (like) {
+      discount.likes = discount.likes + 1;
+    }
+    if (dislike) {
+      discount.dislikes = discount.dislikes + 1;
+    }
+
+    const updatedDiscount = await discountInfo_Store.update(discount);
+    return updatedDiscount;
+  } catch (error) {
+    console.error(
+      '[discount controller | countLikesDislikes function error]' +
+        error.message
+    );
+    throw new Error(error.message);
+  }
+}
+
 module.exports = {
   //Brand functions
   createNewBrand,
@@ -1491,6 +1520,7 @@ module.exports = {
   getDiscountsCountByBrandId,
   updateDiscount,
   getTotalDiscuntsCount,
+  countLikesDislikes,
 
   //Cards functions
   getAllAvailableDiscountCards,

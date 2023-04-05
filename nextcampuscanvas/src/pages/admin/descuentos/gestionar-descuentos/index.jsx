@@ -241,7 +241,11 @@ const index = () => {
           discounts={
             discountsReducer.discounts.length > 0 ? currentDiscounts : []
           }
-          loading={discountsReducer.loading}
+          loading={
+            discountsReducer.loading ||
+            ADMIN_SETTINGS.isLoading ||
+            UPDATE_ADMIN_SETTINGS.isLoading
+          }
           error={discountsReducer.error}
         />
 

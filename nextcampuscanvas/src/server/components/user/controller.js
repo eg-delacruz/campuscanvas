@@ -16,6 +16,7 @@ import unhandledEmailsController from '@server/components/unhandledEmails/contro
 //Stores (imported becaus controllers cannot be imported inside eachother)
 import pendingStuIdAccValidationStore from '@server/components/pending_stu_id_acc_validation/store';
 import stuIdFilesStore from '@server/components/stu_id_files/store';
+import admin_settings_Store from '@server/components/admin/admin_settings/store';
 
 //Mailer
 import {
@@ -517,6 +518,10 @@ const deleteUser = async (id) => {
   try {
     const user = await store.getById(id);
 
+    if (user.email === 'eg.cruzvalle@gmail.com') {
+      throw new Error('[user Controller] No se puede eliminar este usuario');
+    }
+
     const responses = await Promise.all([
       //Delete user
       store.deleteUser(user),
@@ -529,6 +534,9 @@ const deleteUser = async (id) => {
 
       //Erase user from pending validations (if applies)
       pendingStuIdAccValidationStore.delete(id),
+
+      //Delete admin settings (if applies)
+      admin_settings_Store.delete(id),
     ]);
 
     const [
@@ -536,6 +544,7 @@ const deleteUser = async (id) => {
       unverif_acc_coll_response,
       erased_files,
       pendingStuIdValidationsStoreResponse,
+      admin_settings_response,
     ] = responses;
 
     //Erase files from AWS3

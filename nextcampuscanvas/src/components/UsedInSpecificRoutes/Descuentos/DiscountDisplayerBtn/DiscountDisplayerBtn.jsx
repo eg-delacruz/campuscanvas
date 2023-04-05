@@ -18,6 +18,7 @@ const DiscountDisplayerBtn = ({ discount }) => {
       //IMPORTANT: in production, the baseURL has to be 'https://www.campuscanvas.net/' , and in local has to be 'http://localhost:3000/'!!!
 
       const baseURL = 'https://www.campuscanvas.net/';
+      //const baseURL = 'http://localhost:3000/';
       const path = 'student/descuentos/';
       const URL = baseURL + path + discount._id;
       const newTabWindow = window.open(URL, '_blank', 'noopener, noreferrer');

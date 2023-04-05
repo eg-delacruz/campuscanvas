@@ -108,10 +108,6 @@ const usersSchema = new mongoose.Schema({
       default: '',
     },
   },
-  admin_settings_created: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 export default mongoose.models.user || mongoose.model('user', usersSchema);

@@ -48,6 +48,22 @@ export default async function handler(req, res) {
       }
       break;
 
+    //Store likes and dislikes
+    case 'PATCH':
+      try {
+        await Controller.countLikesDislikes(body);
+        successResponse(req, res, 'Se ha almacenado la valoración', 201);
+      } catch (error) {
+        errorResponse(
+          req,
+          res,
+          'Error al actualizar likes y dislikes',
+          400,
+          error
+        );
+      }
+      break;
+
     default:
       errorResponse(req, res, 'Método no soportado', 400);
       break;

@@ -7,6 +7,9 @@ import useDisplayIfVerified from '@hooks/useDisplayIfVerified';
 //Styles
 import styles from './RateDiscountSnippet.module.scss';
 
+//Req. functions
+import DiscountsFunctions from '@requestFunctions/Discounts';
+
 const RateDiscountSnippet = ({ discount_id }) => {
   const { allowDisplay } = useDisplayIfVerified();
   const [state, setState] = useState({
@@ -17,11 +20,24 @@ const RateDiscountSnippet = ({ discount_id }) => {
 
   const handlePositiveRated = () => {
     setState({ ...state, positive_rated: true, unrated: false });
+    const data = {
+      discount_id,
+      like: true,
+      dislike: false,
+    };
+
     //Add positive rated in DB
+    DiscountsFunctions.countLikesDislikes(data);
   };
   const handleNegativeRated = () => {
     setState({ ...state, negative_rated: true, unrated: false });
     //Add negative rated in DB
+    const data = {
+      discount_id,
+      like: false,
+      dislike: true,
+    };
+    DiscountsFunctions.countLikesDislikes(data);
   };
 
   const thankFeedbackMessage = () => (

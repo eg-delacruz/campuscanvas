@@ -77,6 +77,7 @@ const endPoints = {
     getCards: `${API}/api/${VERSION}/discounts/cards`,
     getHomeSliderBanners: `${API}/api/${VERSION}/discounts/home_slider`,
     getDiscountById: (id) => `${API}/api/${VERSION}/discounts/${id}`,
+    countLikesDislikes: (id) => `${API}/api/${VERSION}/discounts/${id}`,
     getBrandById: (id) => `${API}/api/${VERSION}/discounts/brands/${id}`,
     getCardByDiscountId: (id) => `${API}/api/${VERSION}/discounts/cards/${id}`,
   },
