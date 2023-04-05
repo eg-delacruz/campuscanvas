@@ -36,6 +36,7 @@ export default async function handler(req, res) {
 
       try {
         switch (required_info) {
+          //Returns true/false
           case 'check_if_pending_validations_available':
             const available_pending_validations =
               await pending_stu_id_acc_validation_Controller.getPendingValidationsAvailavility();

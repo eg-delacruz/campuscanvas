@@ -60,15 +60,6 @@ export default async function handler(req, res) {
     //Gets the 15 oldest pending student id validations to display in client
     case 'GET':
       try {
-        //TODO: eliminate this if statement and use the one in the v2 folder
-        //Check if there are pending validatins (returns true/false)
-        if (req.headers.website_location === 'admin_estudiantes_index') {
-          const pending_validations =
-            await pending_stu_id_acc_validation_Controller.getPendingValidationsAvailavility();
-          //Didn´t use response.js because it doesn´t let send a truthy/falsy response
-          res.status(200).send({ error: '', body: pending_validations });
-        }
-
         //Get 15 oldest pending validation accounts for manuel validation in client
         if (req.headers.website_location === 'admin_pending_validations') {
           const oldest_pending_stu_id_validations =
