@@ -17,6 +17,7 @@ export default function Document() {
         {/* RBH Cookie consent (start) */}
         <link rel='stylesheet' href='https://pdcc.gdpr.es/pdcc.min.css' />
         <script charSet='utf-8' src='https://pdcc.gdpr.es/pdcc.min.js' />
+
         <script
           type='text/javascript'
           dangerouslySetInnerHTML={createHTMLElement(`
@@ -25,27 +26,39 @@ export default function Document() {
           "dev" : false,
           "name": "Robher Asesores, SL",
           "url" : "https://rbhglobal.com",
-          "websiteOwner" : ""
+          "websiteOwner" : "Campus Canvas SL"
           },
           "showBadges": true,
           "cookiePolicyLink": "https://www.campuscanvas.net/cookies",
           "hideModalIn": ["https://www.campuscanvas.net/cookies"],
-         "styles": {
-         "primaryButton": {
+          "styles": {
+          "primaryButton": {
           "bgColor" : "#ad2146",
           "txtColor": "#f5f5f5"
           },
-         "secondaryButton": {
-         "bgColor" : "#5b0791",
+          "secondaryButton": {
+          "bgColor" : "#5b0791",
           "txtColor": "#f5f5f5"
-         },
-         "cookieButton": {
+          },
+          "cookieButton": {
           "activedColor" : "#ad2146",
-          "disabledColor" : "#ad2146",
-         }
-         }
-          })
+          "disabledColor" : "#ad2146"
+          }
+          }
+          });
         `)}
+        />
+
+        <script
+          type='text/javascript'
+          dangerouslySetInnerHTML={createHTMLElement(`
+        PDCookieConsent.blockList([{
+          "contain": "doubleclick",
+          "name": "Google Ads",
+          "actived": true,
+          "editable:": false,
+          "visible": false
+        }])`)}
         />
         {/* RBH Cookie consent (end) */}
 

@@ -199,7 +199,7 @@ function Cookies() {
             <table className={styles.manage_cookies}>
               <thead>
                 <tr>
-                  <th colspan='2'>
+                  <th colSpan='2'>
                     CÓMO GESTIONAR LAS COOKIES DESDE EL NAVEGADOR
                   </th>
                 </tr>
@@ -250,7 +250,7 @@ function Cookies() {
             <table className={styles.manage_cookies}>
               <thead>
                 <tr>
-                  <th colspan='2'>
+                  <th colSpan='2'>
                     CÓMO ELIMINAR LAS COOKIES DE LOS NAVEGADORES MÁS COMUNES
                   </th>
                 </tr>

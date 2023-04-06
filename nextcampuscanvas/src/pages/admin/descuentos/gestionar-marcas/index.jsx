@@ -32,6 +32,8 @@ const gestionarMarcas = () => {
   const brandsReducer = useSelector(selectBrand);
   const brandsCountReducer = useSelector(selectCountBrands);
 
+  console.log('brandsReducer', brandsReducer);
+
   //States
   const [showModal, setShowModal] = useState(false);
   const [filteredBrands, setFilteredBrands] = useState([]);
@@ -67,9 +69,14 @@ const gestionarMarcas = () => {
   //Filter brands
   useMemo(() => {
     const results = brandsReducer.brands.filter((brand) => {
-      return brand.brand_name
-        .toLowerCase()
-        .includes(SEARCH_INPUT.value.toLowerCase());
+      return (
+        brand.brand_name
+          .toLowerCase()
+          .includes(SEARCH_INPUT.value.toLowerCase()) ||
+        brand.affiliate_program
+          .toLowerCase()
+          .includes(SEARCH_INPUT.value.toLowerCase())
+      );
     });
     setFilteredBrands(results);
   }, [debouncedSearchValue]);
@@ -111,7 +118,7 @@ const gestionarMarcas = () => {
             <div className={styles.search_bar_container}>
               <input
                 type='text'
-                placeholder='Buscar marca...'
+                placeholder='Buscar por marca o programa de afiliación...'
                 className={styles.search_bar}
                 name='search'
                 id='search'
@@ -134,6 +141,7 @@ const gestionarMarcas = () => {
                     <tr>
                       <th className={styles.column1}></th>
                       <th>Marca</th>
+                      <th>Programa de afiliación</th>
                       <th>
                         Patrocina <br /> Campus Box
                       </th>
@@ -160,6 +168,13 @@ const gestionarMarcas = () => {
                         >
                           <td className={styles.column2}>
                             <h5>{brand.brand_name}</h5>
+                          </td>
+                        </Link>
+                        <Link
+                          href={`/admin/descuentos/gestionar-marcas/editar-marca/${brand._id}`}
+                        >
+                          <td className={styles.column3}>
+                            {brand.affiliate_program}
                           </td>
                         </Link>
                         <Link
