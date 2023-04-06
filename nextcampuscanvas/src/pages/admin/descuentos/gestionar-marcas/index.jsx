@@ -32,8 +32,6 @@ const gestionarMarcas = () => {
   const brandsReducer = useSelector(selectBrand);
   const brandsCountReducer = useSelector(selectCountBrands);
 
-  console.log('brandsReducer', brandsReducer);
-
   //States
   const [showModal, setShowModal] = useState(false);
   const [filteredBrands, setFilteredBrands] = useState([]);

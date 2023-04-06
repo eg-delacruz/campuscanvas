@@ -126,6 +126,10 @@ const nuevoDescuento = () => {
   const [smallImageHomeSlider, setSmallImageHomeSlider] = useState([]);
   const [termsCondsText, setTermsCondsText] = useState('');
 
+  //Warning states
+  const [affiliateLinkForbiddenWord, setAffiliateLinkForbiddenWord] =
+    useState(false);
+
   //Error states
   const [statusDatalistError, setStatusDatalistError] = useState(null);
   const [titleError, setTitleError] = useState(null);
@@ -188,6 +192,43 @@ const nuevoDescuento = () => {
   const handleDescriptionChange = (e) => {
     DESCRIPTION.onChange(e);
     DESCRIPTION_COUNT.onChange(e);
+  };
+  const handleAffiliateLinkChange = (e) => {
+    const hasForbiddenWord = (string) => {
+      const FORBIDDEN_WORDS = [
+        'adwords',
+        'analytics',
+        'doubleclick',
+        'facebook.',
+        'google.com/maps',
+        'google.com/recaptcha',
+        'googleadservices',
+        'googlesyndication',
+        'googletagmanager',
+        'googletagservices',
+        'googletraveladservices',
+        'googleusercontent',
+        'gstatic',
+        'linkedin.',
+        'maps.google.com',
+        'maps.googleapis',
+        'twitter.',
+        'vimeo.',
+        'youtube.',
+        'ytimg',
+        'urchin',
+      ];
+      const hasForbiddenWord = FORBIDDEN_WORDS.some((word) =>
+        string.includes(word)
+      );
+      if (hasForbiddenWord) {
+        setAffiliateLinkForbiddenWord(true);
+        return true;
+      }
+      setAffiliateLinkForbiddenWord(false);
+    };
+    hasForbiddenWord(e.target.value);
+    AFFILIATE_LINK.onChange(e);
   };
 
   const handleCardTitleChange = (e) => {
@@ -653,11 +694,21 @@ const nuevoDescuento = () => {
                 placeholder=''
                 autoComplete='off'
                 value={AFFILIATE_LINK.value}
-                onChange={AFFILIATE_LINK.onChange}
+                onChange={handleAffiliateLinkChange}
               />
               {affiliateLinkError && (
                 <p className={`${styles.error_under_input} error__messagev2`}>
                   {affiliateLinkError}
+                </p>
+              )}
+              {affiliateLinkForbiddenWord && (
+                <p className={`${styles.warning_under_input} warning__message`}>
+                  El enlace de afiliado contiene palabras que afectarán la
+                  funcionalidad del descuento. Utiliza el{' '}
+                  <a target={'_blank'} href='https://free-url-shortener.rb.gy/'>
+                    acortador de enlaces
+                  </a>{' '}
+                  para corregirlo.
                 </p>
               )}
             </div>

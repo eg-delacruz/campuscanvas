@@ -123,7 +123,9 @@
     overflow-x: scroll;
     display: block;
     white-space: nowrap;
+    transform: rotateX(180deg);
     .table {
+      transform: rotateX(180deg);
       .column1 {
         max-width: 120px;
       }

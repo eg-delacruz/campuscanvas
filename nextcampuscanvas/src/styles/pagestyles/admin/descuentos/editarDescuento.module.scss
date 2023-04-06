@@ -62,6 +62,12 @@
     margin-top: -35px;
   }
 
+  .warning_under_input {
+    margin: -20px 0 12px;
+    @include font-size(14px);
+    line-height: 1.4;
+  }
+
   .fake_disabled_input {
     width: 100%;
     background-color: $color--light-gray;

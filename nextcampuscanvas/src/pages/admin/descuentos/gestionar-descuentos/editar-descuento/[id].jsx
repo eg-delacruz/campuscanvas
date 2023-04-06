@@ -130,6 +130,10 @@ const editarDescuento = () => {
   const [showCreateHomeBannerModal, setShowCreateHomeBannerModal] =
     useState(false);
 
+  //Warning states
+  const [affiliateLinkForbiddenWord, setAffiliateLinkForbiddenWord] =
+    useState(false);
+
   //Error states
   const [newBannerError, setNewBannerError] = useState(null);
   const [statusDatalistError, setStatusDatalistError] = useState(null);
@@ -228,6 +232,9 @@ const editarDescuento = () => {
           EXPIRATION_DATE.setValue('');
         }
         setTermsCondsText(discount.terms_and_conds);
+
+        //Check if the incomming affiliate link has a forbidden word
+        hasForbiddenWord(discount.affiliate_link);
       }
       return;
     }
@@ -291,6 +298,9 @@ const editarDescuento = () => {
           );
         }
         setTermsCondsText(response.body.terms_and_conds);
+
+        //Check if the incomming affiliate link has a forbidden word
+        hasForbiddenWord(response.body.affiliate_link);
       };
       getDiscount();
     }
@@ -424,6 +434,46 @@ const editarDescuento = () => {
   const handleDescriptionChange = (e) => {
     DESCRIPTION.onChange(e);
     DESCRIPTION_COUNT.onChange(e);
+  };
+
+  //Used to check if the affiliate link has forbidden words
+  const hasForbiddenWord = (string) => {
+    const FORBIDDEN_WORDS = [
+      'adwords',
+      'analytics',
+      'doubleclick',
+      'facebook.',
+      'google.com/maps',
+      'google.com/recaptcha',
+      'googleadservices',
+      'googlesyndication',
+      'googletagmanager',
+      'googletagservices',
+      'googletraveladservices',
+      'googleusercontent',
+      'gstatic',
+      'linkedin.',
+      'maps.google.com',
+      'maps.googleapis',
+      'twitter.',
+      'vimeo.',
+      'youtube.',
+      'ytimg',
+      'urchin',
+    ];
+    const hasForbiddenWord = FORBIDDEN_WORDS.some((word) =>
+      string.includes(word)
+    );
+    if (hasForbiddenWord) {
+      setAffiliateLinkForbiddenWord(true);
+      return true;
+    }
+    setAffiliateLinkForbiddenWord(false);
+  };
+
+  const handleAffiliateLinkChange = (e) => {
+    hasForbiddenWord(e.target.value);
+    AFFILIATE_LINK.onChange(e);
   };
 
   const handleCardTitleChange = (e) => {
@@ -1150,13 +1200,28 @@ const editarDescuento = () => {
                     placeholder=''
                     autoComplete='off'
                     value={AFFILIATE_LINK.value}
-                    onChange={AFFILIATE_LINK.onChange}
+                    onChange={handleAffiliateLinkChange}
                   />
                   {affiliateLinkError && (
                     <p
                       className={`${styles.error_under_input} error__messagev2`}
                     >
                       {affiliateLinkError}
+                    </p>
+                  )}
+                  {affiliateLinkForbiddenWord && (
+                    <p
+                      className={`${styles.warning_under_input} warning__message`}
+                    >
+                      El enlace de afiliado contiene palabras que afectarán la
+                      funcionalidad del descuento. Utiliza el{' '}
+                      <a
+                        target={'_blank'}
+                        href='https://free-url-shortener.rb.gy/'
+                      >
+                        acortador de enlaces
+                      </a>{' '}
+                      para corregirlo.
                     </p>
                   )}
                 </div>
