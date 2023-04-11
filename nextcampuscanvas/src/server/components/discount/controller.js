@@ -550,11 +550,14 @@ const updateBrand = async ({
       const PREVIOUS_BRAND = { ...brand.toObject() };
 
       //Get all available cards to revalidate affected routes
-      const all_available_discount_cards = await getAllAvailableDiscountCards();
+      const all_available_discount_cards = await getAllAvailableDiscountCards(
+        1,
+        1000000
+      );
 
       //Get all cards linked to this brand
       const available_cards_linked_to_brand =
-        all_available_discount_cards.filter((card) => {
+        all_available_discount_cards.cards.filter((card) => {
           return card.brand_name === brand.brand_name;
         });
 
@@ -658,6 +661,8 @@ const updateBrand = async ({
         });
       }
     }
+
+    console.log({ routesToUpdateSSG });
 
     return { updated_Brand, routesToUpdateSSG };
   } catch (error) {

@@ -438,6 +438,7 @@ const editarDescuento = () => {
 
   //Used to check if the affiliate link has forbidden words
   const hasForbiddenWord = (string) => {
+    //These words are forbidden because of the PDCookieConcent of RBH, which makes discount pages crash if they have these words
     const FORBIDDEN_WORDS = [
       'adwords',
       'analytics',
@@ -1221,7 +1222,7 @@ const editarDescuento = () => {
                       >
                         acortador de enlaces
                       </a>{' '}
-                      para corregirlo.
+                      para corregirlo o haz cambios al enlace.
                     </p>
                   )}
                 </div>

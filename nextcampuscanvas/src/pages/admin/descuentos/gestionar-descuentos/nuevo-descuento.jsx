@@ -195,6 +195,7 @@ const nuevoDescuento = () => {
   };
   const handleAffiliateLinkChange = (e) => {
     const hasForbiddenWord = (string) => {
+      //These words are forbidden because of the PDCookieConcent of RBH, which makes discount pages crash if they have these words
       const FORBIDDEN_WORDS = [
         'adwords',
         'analytics',
@@ -708,7 +709,7 @@ const nuevoDescuento = () => {
                   <a target={'_blank'} href='https://free-url-shortener.rb.gy/'>
                     acortador de enlaces
                   </a>{' '}
-                  para corregirlo.
+                  para corregirlo o haz cambios al enlace.
                 </p>
               )}
             </div>
