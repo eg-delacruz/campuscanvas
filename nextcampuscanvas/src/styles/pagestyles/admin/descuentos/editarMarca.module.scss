@@ -130,11 +130,9 @@
   }
 
   .description_container {
-    margin-top: 16px;
-    .description_text_area {
-      min-height: 150px;
-      line-height: 1.5;
-      padding: 0 10px;
+    margin: 16px 0 0;
+    .description_char_count {
+      margin: 0;
     }
   }
 

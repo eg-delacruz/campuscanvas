@@ -1,11 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Swal from 'sweetalert2';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 
 //Styles
 import styles from '@styles/pagestyles/admin/descuentos/editarMarca.module.scss';
+//Rich text editor styles
+//https://www.youtube.com/watch?v=kykC7i9VUE4
+import 'react-quill/dist/quill.snow.css';
 
 //Components
 import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
@@ -19,7 +23,6 @@ import CustomCheckBox from '@components/GeneralUseComponents/CustomCheckBox/Cust
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
 import useAxios from '@hooks/useAxios';
 import { useInputValue } from '@hooks/useInputValue';
-import { useCharacterCount } from '@hooks/useCharacterCount';
 
 //Redux
 import { getBrands, selectBrand } from '@redux/brandsSlice';
@@ -35,6 +38,46 @@ import dateFormat from '@services/dateFormat';
 //Endpoints
 import endPoints from '@services/api/index';
 
+//Rich text editor
+const ReactQuill = dynamic(
+  async () => {
+    const { default: ReactQuill } = await import('react-quill');
+    return ({ forwardedRef, ...props }) => (
+      <ReactQuill ref={forwardedRef} {...props} />
+    );
+  },
+  { ssr: false }
+);
+
+//React Quill custom options
+const modules = {
+  clipboard: {
+    //avoids Quill creating extra, empty lines if the source of the copy-paste includes a lot of padding before/after things like headings.
+    matchVisual: false,
+  },
+  toolbar: [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    ['link', 'image'],
+    ['clean'],
+  ],
+};
+
+//React Quill custom formats. The ones that are not included here will be removed from the editor: https://quilljs.com/docs/formats/
+const formats = [
+  'header',
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'blockquote',
+  'list',
+  'bullet',
+  'link',
+  'image',
+];
+
 const editarMarca = () => {
   const { securingRoute } = useSecureAdminRoute('all');
 
@@ -42,6 +85,9 @@ const editarMarca = () => {
 
   //Allows us to manipulate the appropriate slice/action
   const dispatch = useDispatch();
+
+  //Refs
+  const descriptionRef = useRef();
 
   //States
   const [state, setState] = useState({
@@ -63,6 +109,8 @@ const editarMarca = () => {
     error: null,
     logoPreview: '',
   });
+  const [description, setDescription] = useState('');
+  const [descriptionLength, setDescriptionLength] = useState(0);
   const [discountsCount, setDiscountsCount] = useState(0);
   const [showEliminateModal, setShowEliminateModal] = useState(false);
 
@@ -84,8 +132,7 @@ const editarMarca = () => {
       if (brand) {
         setState({ ...state, brand, loading: false });
         SPONSORS_BOX.setValue(brand.sponsors_box);
-        BRAND_DESCRIPTION.setValue(brand.brand_description);
-        DESCRIPTION_COUNT.setValue(brand.brand_description.length);
+        setDescription(brand.brand_description);
         AFFILIATE_PROGRAM.setValue(brand.affiliate_program);
         NOTES.setValue(brand.notes);
 
@@ -118,8 +165,7 @@ const editarMarca = () => {
           error: null,
         });
         SPONSORS_BOX.setValue(response.body.sponsors_box);
-        BRAND_DESCRIPTION.setValue(response.body.brand_description);
-        DESCRIPTION_COUNT.setValue(response.body.brand_description.length);
+        setDescription(response.body.brand_description);
         AFFILIATE_PROGRAM.setValue(response.body.affiliate_program);
         NOTES.setValue(response.body?.notes);
       };
@@ -177,20 +223,18 @@ const editarMarca = () => {
   }, [router?.isReady]);
   //Get discounts asociated to this brand (end)
 
+  //Count description length
+  useEffect(() => {
+    setDescriptionLength(
+      descriptionRef.current?.unprivilegedEditor.getLength() - 1
+    );
+  }, [description]);
+
   //Controlling inputs
-  const BRAND_DESCRIPTION = useInputValue('');
+  //const BRAND_DESCRIPTION = useInputValue('');
   const SPONSORS_BOX = useInputValue(state.brand?.sponsors_box);
   const AFFILIATE_PROGRAM = useInputValue('');
   const NOTES = useInputValue('');
-
-  //Setting field counts
-  const DESCRIPTION_COUNT = useCharacterCount();
-
-  //Functions
-  const handleDescriptionChange = (e) => {
-    BRAND_DESCRIPTION.onChange(e);
-    DESCRIPTION_COUNT.onChange(e);
-  };
 
   const displayEliminateModal = () => {
     // If this brand has any asociated discounts, show a swal and dont allow to delete
@@ -272,7 +316,7 @@ const editarMarca = () => {
   const handleEditBrand = async (e) => {
     e.preventDefault();
 
-    if (!BRAND_DESCRIPTION.value) {
+    if (!descriptionLength) {
       setState({
         ...state,
         saving_changes_error: 'Debes escribir una descripción',
@@ -288,7 +332,7 @@ const editarMarca = () => {
 
     const formdata = new FormData();
     formdata.append('id', id);
-    formdata.append('brand_description', BRAND_DESCRIPTION.value);
+    formdata.append('brand_description', description);
     formdata.append('sponsors_box', SPONSORS_BOX.value);
     formdata.append('brand_logo', newBrandLogo.newLogo[0]);
     formdata.append('affiliate_program', AFFILIATE_PROGRAM.value);
@@ -466,36 +510,22 @@ const editarMarca = () => {
                   >
                     Descripción
                   </label>
-                  <textarea
-                    className={`${styles.description_text_area}`}
-                    name='brand_description'
+                  <ReactQuill
                     id='brand_description'
-                    type='text'
-                    placeholder='Recomendado: 520 caracteres aprox.'
-                    autoComplete='off'
-                    value={BRAND_DESCRIPTION.value}
-                    onChange={handleDescriptionChange}
-                    required
+                    modules={modules}
+                    formats={formats}
+                    value={description}
+                    onChange={setDescription}
+                    forwardedRef={descriptionRef}
                   />
                   <p
                     className={`${styles.char_count} ${
-                      DESCRIPTION_COUNT.value > 520
-                        ? styles.char_count_warn
-                        : ''
-                    }`}
+                      styles.description_char_count
+                    } ${descriptionLength > 520 ? styles.char_count_warn : ''}`}
                   >
-                    <span>{DESCRIPTION_COUNT.value} / 520</span>
+                    <span>{descriptionLength} / 520</span>
                   </p>
                 </div>
-
-                {/* Display if there were errors at updating brand */}
-                {state.saving_changes_error ? (
-                  <p className='error__messagev2'>
-                    {state.saving_changes_error}
-                  </p>
-                ) : (
-                  ''
-                )}
 
                 <div>
                   <label
@@ -532,6 +562,15 @@ const editarMarca = () => {
                   />
                 </div>
 
+                {/* Display if there were errors at updating brand */}
+                {state.saving_changes_error ? (
+                  <p className='error__messagev2'>
+                    {state.saving_changes_error}
+                  </p>
+                ) : (
+                  ''
+                )}
+
                 {newBrandLogo.error ? (
                   <p className='error__messagev2'>{newBrandLogo.error}</p>
                 ) : (
@@ -543,7 +582,7 @@ const editarMarca = () => {
                   className={`${styles.submit_btn} ${
                     state.saving_changes && styles.buttonLoading
                   } ${
-                    state.brand.brand_description === BRAND_DESCRIPTION.value &&
+                    state.brand.brand_description === description &&
                     newBrandLogo.newLogo.length === 0 &&
                     state.brand.sponsors_box === SPONSORS_BOX.value &&
                     state.brand.affiliate_program === AFFILIATE_PROGRAM.value &&
@@ -554,8 +593,7 @@ const editarMarca = () => {
                   //Disable button if there are no changes or changes are being submitted
                   disabled={
                     state.saving_changes ||
-                    (state.brand.brand_description ===
-                      BRAND_DESCRIPTION.value &&
+                    (state.brand.brand_description === description &&
                       newBrandLogo.newLogo.length === 0 &&
                       state.brand.sponsors_box === SPONSORS_BOX.value &&
                       state.brand.affiliate_program ===

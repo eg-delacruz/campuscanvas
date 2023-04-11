@@ -51,9 +51,14 @@
   .brand_name_input {
     max-width: 200px;
   }
-  .description_text_area {
-    min-height: 150px;
+
+  .description_container {
+    margin: 16px 0 0;
+    .description_char_count {
+      margin: 0;
+    }
   }
+
   .notes_text_area {
     min-height: 60px;
   }

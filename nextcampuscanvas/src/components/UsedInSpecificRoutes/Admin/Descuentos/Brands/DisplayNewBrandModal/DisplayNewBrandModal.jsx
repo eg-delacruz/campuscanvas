@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
+import dynamic from 'next/dynamic';
 
 //Styles
 import styles from './DisplayNewBrandModal.module.scss';
+//Rich text editor styles
+//https://www.youtube.com/watch?v=kykC7i9VUE4
+import 'react-quill/dist/quill.snow.css';
 
 //Components
 import Modal from '@components/GeneralUseComponents/Modal/Modal';
@@ -13,7 +17,6 @@ import CustomCheckBox from '@components/GeneralUseComponents/CustomCheckBox/Cust
 //hooks
 import { useInputValue } from '@hooks/useInputValue';
 import useAxios from '@hooks/useAxios';
-import { useCharacterCount } from '@hooks/useCharacterCount';
 
 //Endpoints
 import endPoints from '@services/api';
@@ -22,12 +25,57 @@ import endPoints from '@services/api';
 import { getBrands } from '@redux/brandsSlice';
 import { countBrands } from '@redux/brandsCountSlice';
 
+//Rich text editor
+const ReactQuill = dynamic(
+  async () => {
+    const { default: ReactQuill } = await import('react-quill');
+    return ({ forwardedRef, ...props }) => (
+      <ReactQuill ref={forwardedRef} {...props} />
+    );
+  },
+  { ssr: false }
+);
+
+//React Quill custom options
+const modules = {
+  clipboard: {
+    //avoids Quill creating extra, empty lines if the source of the copy-paste includes a lot of padding before/after things like headings.
+    matchVisual: false,
+  },
+  toolbar: [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    ['link', 'image'],
+    ['clean'],
+  ],
+};
+
+//React Quill custom formats. The ones that are not included here will be removed from the editor: https://quilljs.com/docs/formats/
+const formats = [
+  'header',
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'blockquote',
+  'list',
+  'bullet',
+  'link',
+  'image',
+];
+
 const displayNewBrandModal = ({ showModal, setShowModal }) => {
+  //Refs
+  const descriptionRef = useRef();
+
   //States
   const [state, setState] = useState({
     error: null,
     uploading: false,
   });
+  const [description, setDescription] = useState('');
+  const [descriptionLength, setDescriptionLength] = useState(0);
   const [files, setFiles] = useState([]);
 
   const { fetchData: uploadData, cancel } = useAxios();
@@ -37,20 +85,21 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
 
   //Controlling inputs
   const BRAND_NAME = useInputValue('');
-  const BRAND_DESCRIPTION = useInputValue('');
   const SPONSORS_BOX = useInputValue(false);
   const AFFILIATE_PROGRAM = useInputValue('');
   const NOTES = useInputValue('');
 
-  //Setting field counts
-  const DESCRIPTION_COUNT = useCharacterCount();
+  //Count description length
+  useEffect(() => {
+    //Avoid that the first useEffect runs before the descriptionRef is set
+    if (!descriptionRef.current) return;
+
+    setDescriptionLength(
+      descriptionRef.current?.unprivilegedEditor.getLength() - 1
+    );
+  }, [description]);
 
   //Functions
-  const handleDescriptionChange = (e) => {
-    BRAND_DESCRIPTION.onChange(e);
-    DESCRIPTION_COUNT.onChange(e);
-  };
-
   const handleCreateNew = async (e) => {
     e.preventDefault();
     setState({ ...state, error: null });
@@ -62,9 +111,23 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
       });
     }
 
+    if (!descriptionLength) {
+      setState({
+        ...state,
+        error: 'Debes escribir una descripción',
+      });
+      setTimeout(() => {
+        setState({
+          ...state,
+          error: null,
+        });
+      }, 3000);
+      return false;
+    }
+
     const formdata = new FormData();
     formdata.append('brand_name', BRAND_NAME.value);
-    formdata.append('brand_description', BRAND_DESCRIPTION.value);
+    formdata.append('brand_description', description);
     formdata.append('affiliate_program', AFFILIATE_PROGRAM.value);
     formdata.append('notes', NOTES.value);
     formdata.append('brand_logo', files[0]);
@@ -92,12 +155,12 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
 
     //Reseting values and closing modal
     BRAND_NAME.setValue('');
-    BRAND_DESCRIPTION.setValue('');
+    setDescription('');
     setFiles([]);
     SPONSORS_BOX.setValue(false);
     setShowModal(false);
     setState({ ...state, uploading: false, error: null });
-    DESCRIPTION_COUNT.setValue(0);
+    setDescriptionLength(0);
 
     const Toast = Swal.mixin({
       toast: true,
@@ -152,30 +215,27 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
             />
           </div>
 
-          <div>
+          <div className={styles.description_container}>
             <label
               htmlFor='brand_description'
               className={`${styles.input_title}`}
             >
               Descripción
             </label>
-            <textarea
-              className={`${styles.description_text_area}`}
-              name='brand_description'
+            <ReactQuill
               id='brand_description'
-              type='text'
-              placeholder='Recomendado: 520 caracteres aprox.'
-              autoComplete='off'
-              value={BRAND_DESCRIPTION.value}
-              onChange={handleDescriptionChange}
-              required
+              modules={modules}
+              formats={formats}
+              value={description}
+              onChange={setDescription}
+              forwardedRef={descriptionRef}
             />
             <p
               className={`${styles.char_count} ${
-                DESCRIPTION_COUNT.value > 520 ? styles.char_count_warn : ''
-              }`}
+                styles.description_char_count
+              } ${descriptionLength > 520 ? styles.char_count_warn : ''}`}
             >
-              <span>{DESCRIPTION_COUNT.value} / 520</span>
+              <span>{descriptionLength} / 520</span>
             </p>
           </div>
 
