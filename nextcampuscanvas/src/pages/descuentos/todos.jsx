@@ -14,9 +14,6 @@ import DisplayCardsByCategoryTemplate from '@components/UsedInSpecificRoutes/Des
 import FooterWithoutSignature from '@components/GeneralUseComponents/FooterWithoutSignature/FooterWithoutSignature';
 import FooterSignature from '@components/GeneralUseComponents/FooterSignature/FooterSignature';
 
-//Hooks
-import useWindowDimensions from '@hooks/useWindowDimensions';
-
 //Endpoints
 import endPoints from '@services/api';
 

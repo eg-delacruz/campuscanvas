@@ -56,7 +56,7 @@ const alimentacion = ({ initialCards }) => {
         url: endPoints.discounts.getCards,
         method: 'get',
         extraHeaders: {
-          required_cards: 'all_available',
+          required_cards: 'eatordrink',
           page: currentPageNumber,
           limit: 12,
         },

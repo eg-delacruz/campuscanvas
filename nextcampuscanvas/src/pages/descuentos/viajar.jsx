@@ -56,7 +56,7 @@ const viajar = ({ initialCards }) => {
         url: endPoints.discounts.getCards,
         method: 'get',
         extraHeaders: {
-          required_cards: 'all_available',
+          required_cards: 'travel',
           page: currentPageNumber,
           limit: 12,
         },
