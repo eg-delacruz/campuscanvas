@@ -510,14 +510,16 @@ const editarMarca = () => {
                   >
                     Descripción
                   </label>
-                  <ReactQuill
-                    id='brand_description'
-                    modules={modules}
-                    formats={formats}
-                    value={description}
-                    onChange={setDescription}
-                    forwardedRef={descriptionRef}
-                  />
+                  <div className={styles.quill_editor}>
+                    <ReactQuill
+                      id='brand_description'
+                      modules={modules}
+                      formats={formats}
+                      value={description}
+                      onChange={setDescription}
+                      forwardedRef={descriptionRef}
+                    />
+                  </div>
                   <p
                     className={`${styles.char_count} ${
                       styles.description_char_count

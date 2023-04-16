@@ -54,6 +54,18 @@
 
   .description_container {
     margin: 16px 0 0;
+    .quill_editor {
+      p {
+        margin: 0;
+      }
+      ul,
+      ol {
+        margin: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        @include paragraph--regular;
+      }
+    }
     .description_char_count {
       margin: 0;
     }

@@ -182,7 +182,7 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
   };
 
   return (
-    <Modal show={showModal} onClose={() => setShowModal(false)}>
+    <Modal position='top' show={showModal} onClose={() => setShowModal(false)}>
       <div className={styles.modal}>
         <h1>Crear nueva marca</h1>
         <form
@@ -222,14 +222,16 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
             >
               Descripción
             </label>
-            <ReactQuill
-              id='brand_description'
-              modules={modules}
-              formats={formats}
-              value={description}
-              onChange={setDescription}
-              forwardedRef={descriptionRef}
-            />
+            <div className={styles.quill_editor}>
+              <ReactQuill
+                id='brand_description'
+                modules={modules}
+                formats={formats}
+                value={description}
+                onChange={setDescription}
+                forwardedRef={descriptionRef}
+              />
+            </div>
             <p
               className={`${styles.char_count} ${
                 styles.description_char_count

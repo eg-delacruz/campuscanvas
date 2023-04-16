@@ -98,6 +98,7 @@ const DiscountTemplate = ({ discount, children }) => {
           <section className={styles.brand_info}>
             <h4>{discount.brand.brand_name}</h4>
             <div
+              className={styles.brand_description}
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(discount.brand.brand_description),
               }}
