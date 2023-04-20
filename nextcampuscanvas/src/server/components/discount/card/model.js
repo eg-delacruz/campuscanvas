@@ -59,6 +59,10 @@ const CardSchema = new mongoose.Schema({
   expiration_date: {
     type: Date,
   },
+  discount_keywords: {
+    type: Array,
+    required: [true, 'Las palabras clave son necesarias'],
+  },
   createdAt: {
     type: Date,
     immutable: true,

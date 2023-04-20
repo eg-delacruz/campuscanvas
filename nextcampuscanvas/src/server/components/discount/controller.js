@@ -105,6 +105,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     show_first_in_category,
     show_first_in_home_section,
     show_first_in_all_discounts,
+    discount_keywords,
   } = discountInfo;
 
   if (
@@ -115,6 +116,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     !category ||
     !type ||
     !valid_from ||
+    !discount_keywords ||
     !card_title ||
     !available_for ||
     files.banner.length === 0
@@ -133,7 +135,6 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
 
   //Transforming dates to Date objects
   const VALID_FROM_DATE = new Date(valid_from);
-
   const EXPIRATION_DATE =
     expiration_date === 'null' ? null : new Date(expiration_date);
 
@@ -177,6 +178,8 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       createdAt: new Date(),
       valid_from: VALID_FROM_DATE,
       expiration_date: EXPIRATION_DATE,
+      //Discount keywords are stored in the discount and in the card
+      discount_keywords: JSON.parse(discount_keywords),
       created_by,
       modified_last_time_by: created_by,
       updated_at: new Date(),
@@ -288,6 +291,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       status,
       valid_from: VALID_FROM_DATE,
       expiration_date: EXPIRATION_DATE,
+      discount_keywords: JSON.parse(discount_keywords),
       createdAt: new Date(),
       show_first_in_category: SHOW_FIRST_IN_CATEGORY,
       show_first_in_home_section: SHOW_FIRST_IN_HOME_SECTION,
@@ -306,7 +310,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       }
     }
 
-    return routesToUpdateSSG;
+    return { routesToUpdateSSG, discount: CREATED_DISCOUNT };
   } catch (error) {
     console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
@@ -1055,6 +1059,7 @@ async function updateDiscount(data, new_banner, updated_by) {
       show_first_in_all_discounts,
 
       //Shared information
+      discount_keywords,
       expiration_date,
       status,
     } = data;
@@ -1320,6 +1325,7 @@ async function updateDiscount(data, new_banner, updated_by) {
           status === 'unavailable' ? '' : display_in_section;
         DISCOUNT.status = status;
         DISCOUNT.expiration_date = FORMATED_EXP_DATE;
+        DISCOUNT.discount_keywords = JSON.parse(discount_keywords);
         DISCOUNT.updated_at = new Date();
         DISCOUNT.modified_last_time_by = updated_by;
 
@@ -1329,6 +1335,7 @@ async function updateDiscount(data, new_banner, updated_by) {
         CARD.display_in_section =
           status === 'unavailable' ? '' : display_in_section;
         CARD.expiration_date = FORMATED_EXP_DATE;
+        CARD.discount_keywords = JSON.parse(discount_keywords);
         CARD.updated_at = new Date();
         CARD.modified_last_time_by = updated_by;
 

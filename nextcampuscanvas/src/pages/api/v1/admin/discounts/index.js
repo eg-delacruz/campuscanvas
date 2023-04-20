@@ -69,15 +69,20 @@ router
     const OPERATION_DONE_BY = SESSION.session.user.email;
 
     try {
-      const routesToUpdateSSG = await Controller.createNewDiscount(
+      const result = await Controller.createNewDiscount(
         body,
         files,
         OPERATION_DONE_BY
       );
       //Revalidating routes
-      await routeRevalidator(res, routesToUpdateSSG);
+      await routeRevalidator(res, result.routesToUpdateSSG);
 
-      successResponse(req, res, 'Descuento creado', 201);
+      successResponse(
+        req,
+        res,
+        { message: 'Descuento creado', discount: result.discount },
+        201
+      );
     } catch (error) {
       if (error.message === 'Información insuficiente para crear descuento') {
         return errorResponse(

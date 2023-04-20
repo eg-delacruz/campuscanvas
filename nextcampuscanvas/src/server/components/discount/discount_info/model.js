@@ -74,6 +74,10 @@ const DiscountSchema = new mongoose.Schema({
     type: Date,
     default: null,
   },
+  discount_keywords: {
+    type: Array,
+    required: [true, 'Las palabras clave son necesarias'],
+  },
   type: {
     type: String,
     required: [true, 'El tipo de descuento es necesario'],

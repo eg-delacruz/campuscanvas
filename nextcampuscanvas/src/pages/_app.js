@@ -18,6 +18,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 //Globas styles
 import '@styles/Globals.scss';
 import '@styles/Buttons.scss';
+import '@styles/React-Tag-Autocomplete-Lib-Styles.scss'; //React Tag Autocomplete Lib Styles
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [queryClient] = useState(() => new QueryClient());

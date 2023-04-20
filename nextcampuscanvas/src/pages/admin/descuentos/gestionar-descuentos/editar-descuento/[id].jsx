@@ -2,9 +2,14 @@
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Swal from 'sweetalert2';
 import dynamic from 'next/dynamic';
+
+//Input tag library
+//https://github.com/i-like-robots/react-tag-autocomplete
+import { ReactTags } from 'react-tag-autocomplete';
+import discount_key_words from '@datalist-options/discount_key_words';
 
 //React query
 import { useQuery } from '@tanstack/react-query';
@@ -53,6 +58,9 @@ import {
 //Services
 import dateFormat from '@services/dateFormat';
 
+//Request functions
+import discountFunctions from '@request-functions/Admin/Discounts';
+
 //Endpoints
 import endPoints from '@services/api/index';
 
@@ -96,7 +104,7 @@ const editarDescuento = () => {
   //React query
   const SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT = useQuery({
     queryKey: [discoutKeys.cards.show_first_in_all_discounts_count],
-    queryFn: getShowFirstInAllDiscountsCount,
+    queryFn: discountFunctions.getShowFirstInAllDiscountsCount,
     staleTime: Infinity,
   });
 
@@ -231,6 +239,9 @@ const editarDescuento = () => {
         } else if (!discount.expiration_date) {
           EXPIRATION_DATE.setValue('');
         }
+        if (discount.discount_keywords !== undefined) {
+          setDiscountKeyWords(discount.discount_keywords);
+        }
         setTermsCondsText(discount.terms_and_conds);
 
         //Check if the incomming affiliate link has a forbidden word
@@ -296,6 +307,9 @@ const editarDescuento = () => {
           EXPIRATION_DATE.setValue(
             dateFormat.dateToYMD(new Date(response.body.expiration_date))
           );
+        }
+        if (response.body.discount_keywords !== undefined) {
+          setDiscountKeyWords(response.body.discount_keywords);
         }
         setTermsCondsText(response.body.terms_and_conds);
 
@@ -373,6 +387,26 @@ const editarDescuento = () => {
     }
   }, [bannerRef.current?.complete]);
 
+  //discountKeyWords input (start)
+  const [discountKeyWords, setDiscountKeyWords] = useState([]);
+
+  const onAdd = useCallback(
+    (newKeyWord) => {
+      setDiscountKeyWords([...discountKeyWords, newKeyWord]);
+    },
+    [discountKeyWords]
+  );
+
+  const onDelete = useCallback(
+    (keyWordIndex) => {
+      setDiscountKeyWords(
+        discountKeyWords.filter((_, index) => index !== keyWordIndex)
+      );
+    },
+    [discountKeyWords]
+  );
+  //discountKeyWords input (end)
+
   //Functions
 
   //Get card info
@@ -414,16 +448,6 @@ const editarDescuento = () => {
       loading: false,
       error: null,
     });
-  }
-
-  async function getShowFirstInAllDiscountsCount() {
-    const response = await fetchData(
-      endPoints.admin.discounts.getShowFirstInAllDiscountsCount,
-      'get',
-      null,
-      { required_info: 'show_first_in_all_discounts_count' }
-    );
-    return response;
   }
 
   const handleTitleChange = (e) => {
@@ -709,7 +733,8 @@ const editarDescuento = () => {
       newBanner[0] ||
       state.discount?.status !== STATUS.value ||
       discountCard.discountCard.display_in_section !==
-        DISPLAY_CARD_IN_SECTION.value
+        DISPLAY_CARD_IN_SECTION.value ||
+      state.discount?.discount_keywords !== discountKeyWords
     ) {
       SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED = true;
     }
@@ -749,6 +774,7 @@ const editarDescuento = () => {
     formData.append('discount_code', DISCOUNT_CODE.value);
     formData.append('available_for', AVAILABLE_FOR.value);
     formData.append('expiration_date', updated_exp_date_same_format);
+    formData.append('discount_keywords', JSON.stringify(discountKeyWords));
     formData.append('card_title', CARD_TITLE.value);
     formData.append('card_tag', CARD_TAG.value);
     formData.append('display_in_section', DISPLAY_CARD_IN_SECTION.value);
@@ -891,7 +917,8 @@ const editarDescuento = () => {
         SHOW_FIRST_IN_HOME_SECTION.value ||
       state.discount?.terms_and_conds !== termsCondsText ||
       discountCard.discountCard.show_first_in_all_discounts !==
-        SHOW_FIRST_IN_ALL_DISCOUNTS.value
+        SHOW_FIRST_IN_ALL_DISCOUNTS.value ||
+      state.discount?.discount_keywords !== discountKeyWords
     ) {
       return false;
     }
@@ -1344,6 +1371,18 @@ const editarDescuento = () => {
                   </div>
                 </div>
 
+                <div className={styles.input_key_words_container}>
+                  <ReactTags
+                    labelText='Etiquetas del descuento'
+                    selected={discountKeyWords}
+                    onAdd={onAdd}
+                    onDelete={onDelete}
+                    suggestions={discount_key_words}
+                    noOptionsText='No hay opciones'
+                    placeholderText='Añade etiquetas para facilitar la búsqueda'
+                  />
+                </div>
+
                 {/* /////////////////////////
                //   Home slider banners   //
                ///////////////////////// */}
@@ -1636,13 +1675,15 @@ const editarDescuento = () => {
                             ) : SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.isError ||
                               SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.data?.error ? (
                               <>
-                                {SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.error +
-                                  SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.data?.error}
+                                {SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.error
+                                  .message +
+                                  SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.data?.error
+                                    ?.message}
                               </>
                             ) : (
                               <>
                                 {
-                                  SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.data?.body
+                                  SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.data
                                     .show_first_in_all_discounts_count
                                 }{' '}
                                 descuentos

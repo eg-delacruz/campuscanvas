@@ -4,6 +4,24 @@ import axiosFetcher from '@services/axiosFetcher';
 //Endpoints
 import endPoints from '@services/api';
 
+const addDiscount = async (formdata) => {
+  const response = await axiosFetcher({
+    url: endPoints.admin.discounts.index,
+    method: 'post',
+    payload: formdata,
+    extraHeaders: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+  if (response.error) {
+    console.log(response.error);
+    throw new Error(response.error);
+  }
+
+  return response.body;
+};
+
 const getMostLikedDiscounts = async () => {
   const response = await axiosFetcher({
     url: endPoints.admin.discounts.index,
@@ -38,7 +56,24 @@ const getMostDislikedDiscounts = async () => {
   return response.body;
 };
 
+const getShowFirstInAllDiscountsCount = async () => {
+  const response = await axiosFetcher({
+    url: endPoints.admin.discounts.getShowFirstInAllDiscountsCount,
+    method: 'get',
+    extraHeaders: { required_info: 'show_first_in_all_discounts_count' },
+  });
+
+  if (response.error) {
+    console.log(response.error);
+    throw new Error(response.error);
+  }
+
+  return response.body;
+};
+
 export default {
+  addDiscount,
   getMostLikedDiscounts,
   getMostDislikedDiscounts,
+  getShowFirstInAllDiscountsCount,
 };

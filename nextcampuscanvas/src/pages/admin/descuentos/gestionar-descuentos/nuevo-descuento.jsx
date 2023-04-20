@@ -1,12 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import dynamic from 'next/dynamic';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
+//Input tag library
+//https://github.com/i-like-robots/react-tag-autocomplete
+import { ReactTags } from 'react-tag-autocomplete';
+import discount_key_words from '@datalist-options/discount_key_words';
+
 //React query
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import discoutKeys from '@query-key-factory/discountKeys';
 
 //Styles
@@ -28,6 +33,9 @@ import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
 import { useCharacterCount } from '@hooks/useCharacterCount';
 import useAxios from '@hooks/useAxios';
 
+//Request functions
+import discountFunctions from '@request-functions/Admin/Discounts';
+
 //Redux
 import { getBrands, selectBrand } from '@redux/brandsSlice';
 import { getDiscounts } from '@redux/discountsSlice';
@@ -47,6 +55,8 @@ import endPoints from '@services/api';
 //Rich text editor
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
+//CLARIFICATIONS:
+//TODO: When the discounts table is fetched with react query, use the setQueryData function to update the table with the new discount
 const nuevoDescuento = () => {
   const { securingRoute } = useSecureAdminRoute('all');
   //Allows us to manipulate the appropriate slice/action
@@ -55,8 +65,62 @@ const nuevoDescuento = () => {
   //React query
   const SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT = useQuery({
     queryKey: [discoutKeys.cards.show_first_in_all_discounts_count],
-    queryFn: getShowFirstInAllDiscountsCount,
+    queryFn: discountFunctions.getShowFirstInAllDiscountsCount,
     staleTime: Infinity,
+  });
+
+  const ADD_DISCOUNT = useMutation({
+    mutationFn: (discount) => discountFunctions.addDiscount(discount),
+    onSuccess: (data) => {
+      setState({ ...state, uploading: false, error: null });
+
+      //Reload all discounts after saving a new one
+      dispatch(getDiscounts());
+
+      //Refresh discounts count
+      dispatch(countDiscounts());
+
+      //Refresh home section card count if applyes
+      if (DISPLAY_CARD_IN_SECTION.value) {
+        dispatch(getHomeSectionsCount());
+      }
+
+      //Refresh show first in category count if applies
+      if (SHOW_FIRST_IN_CATEGORY.value) {
+        dispatch(getShowFirstInCategoryCount());
+      }
+
+      //Refetch show first in all discounts count if applies
+      if (SHOW_FIRST_IN_ALL_DISCOUNTS.value) {
+        SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.refetch();
+      }
+
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        width: 400,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer);
+          toast.addEventListener('mouseleave', Swal.resumeTimer);
+        },
+      });
+
+      Toast.fire({
+        icon: 'success',
+        title: data.message,
+      });
+
+      //Redirect to the created discount
+      router.push(
+        `/admin/descuentos/gestionar-descuentos/editar-descuento/${data.discount._id}`
+      );
+    },
+    onError: (error) => {
+      setState({ ...state, uploading: false });
+    },
   });
 
   //Reducers
@@ -174,16 +238,25 @@ const nuevoDescuento = () => {
   const DESCRIPTION_COUNT = useCharacterCount();
   const CARD_TITLE_COUNT = useCharacterCount();
 
-  //Functions
-  async function getShowFirstInAllDiscountsCount() {
-    const response = await fetchData(
-      endPoints.admin.discounts.getShowFirstInAllDiscountsCount,
-      'get',
-      null,
-      { required_info: 'show_first_in_all_discounts_count' }
-    );
-    return response;
-  }
+  //discountKeyWords input (start)
+  const [discountKeyWords, setDiscountKeyWords] = useState([]);
+
+  const onAdd = useCallback(
+    (newKeyWord) => {
+      setDiscountKeyWords([...discountKeyWords, newKeyWord]);
+    },
+    [discountKeyWords]
+  );
+
+  const onDelete = useCallback(
+    (keyWordIndex) => {
+      setDiscountKeyWords(
+        discountKeyWords.filter((_, index) => index !== keyWordIndex)
+      );
+    },
+    [discountKeyWords]
+  );
+  //discountKeyWords input (end)
 
   const handleTitleChange = (e) => {
     TITLE.onChange(e);
@@ -417,6 +490,7 @@ const nuevoDescuento = () => {
     formdata.append('available_for', AVAILABLE_FOR.value);
     formdata.append('valid_from', new Date(VALID_FROM.value));
     formdata.append('expiration_date', EXP_DATE);
+    formdata.append('discount_keywords', JSON.stringify(discountKeyWords));
     formdata.append('banner', bannerFile[0]);
     formdata.append('show_in_home_slider', SHOW_IN_HOME_SLIDER.value);
     formdata.append('big_home_slider_image', bigImageHomeSlider[0]);
@@ -438,61 +512,7 @@ const nuevoDescuento = () => {
     //Uploading data
     setState({ ...state, uploading: true });
 
-    //No try catch needed, since done in the useAxios hook
-    const response = await fetchData(
-      endPoints.admin.discounts.index,
-      'post',
-      formdata,
-      { 'Content-Type': 'multipart/form-data' }
-    );
-
-    if (response?.error) {
-      return setState({ ...state, error: response.error, uploading: false });
-    }
-
-    //Reload all discounts after saving a new one
-    dispatch(getDiscounts());
-
-    //Refresh discounts count
-    dispatch(countDiscounts());
-
-    //Refresh home section card count if applyes
-    if (DISPLAY_CARD_IN_SECTION.value) {
-      dispatch(getHomeSectionsCount());
-    }
-
-    //Refresh show first in category count if applies
-    if (SHOW_FIRST_IN_CATEGORY.value) {
-      dispatch(getShowFirstInCategoryCount());
-    }
-
-    //Refetch show first in all discounts count if applies
-    if (SHOW_FIRST_IN_ALL_DISCOUNTS.value) {
-      SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.refetch();
-    }
-
-    setState({ ...state, uploading: false, error: null });
-
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      width: 400,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      },
-    });
-
-    Toast.fire({
-      icon: 'success',
-      title: response.body,
-    });
-
-    //Redirect to /gestionar-descuentos
-    router.push('/admin/descuentos/gestionar-descuentos');
+    ADD_DISCOUNT.mutate(formdata);
   };
 
   if (securingRoute || brandsReducer.loading) {
@@ -582,6 +602,7 @@ const nuevoDescuento = () => {
                 autoComplete='off'
                 value={TITLE.value}
                 onChange={handleTitleChange}
+                autoFocus
               />
               <p
                 className={`${styles.char_count} ${
@@ -913,6 +934,18 @@ const nuevoDescuento = () => {
               </div>
             </div>
 
+            <div className={styles.input_key_words_container}>
+              <ReactTags
+                labelText='Etiquetas del descuento'
+                selected={discountKeyWords}
+                onAdd={onAdd}
+                onDelete={onDelete}
+                suggestions={discount_key_words}
+                noOptionsText='No hay opciones'
+                placeholderText='Añade etiquetas para facilitar la búsqueda'
+              />
+            </div>
+
             <div>
               <label className={`${styles.input_title}`}>
                 Banner del descuento en JPG (Debe ser de 640 x 320!){' '}
@@ -1151,13 +1184,13 @@ const nuevoDescuento = () => {
                 ) : SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.isError ||
                   SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.data?.error ? (
                   <>
-                    {SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.error +
-                      SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.data?.error}
+                    {SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.error.message +
+                      SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.data?.error?.message}
                   </>
                 ) : (
                   <>
                     {
-                      SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.data?.body
+                      SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.data
                         .show_first_in_all_discounts_count
                     }{' '}
                     descuentos
@@ -1227,7 +1260,12 @@ const nuevoDescuento = () => {
 
           <ReactQuill value={termsCondsText} onChange={setTermsCondsText} />
 
-          {state.error && <p className='error__messagev2'>{state.error}</p>}
+          {state.error && (
+            <p className='error__messagev2'>{state.error.message}</p>
+          )}
+          {ADD_DISCOUNT.isError && (
+            <p className='error__messagev2'>{ADD_DISCOUNT.error.message}</p>
+          )}
 
           <button
             type='submit'
