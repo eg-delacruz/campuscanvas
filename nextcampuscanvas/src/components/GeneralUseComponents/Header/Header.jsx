@@ -146,7 +146,7 @@ export default function Header() {
 
   return (
     <>
-      {/* Burguer Button */}
+      {/* Burguer Button (start) */}
       <i
         onClick={() => toggleMenu()}
         className={styles['burguer__button']}
@@ -158,6 +158,8 @@ export default function Header() {
         />
         <div className={styles['icon__line']} />
       </i>
+      {/* Burguer Button (end) */}
+
       <header
         className={`${styles['header']} ${
           session && styles.loggedInUserHeader767

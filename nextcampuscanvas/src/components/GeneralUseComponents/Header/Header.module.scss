@@ -168,22 +168,22 @@
 /////////////////////////
 //    Login buttons    // (login + registrarse)
 /////////////////////////
-.loginMenu__skeleton {
-  display: flex;
-  .loginMenu__skeleton--button1 {
-    height: 41px;
-    width: 65px;
-    border-radius: 5px;
-    animation: setSkeletonLoading();
-  }
-  .loginMenu__skeleton--button2 {
-    height: 41px;
-    width: 110px;
-    margin-left: 8px;
-    border-radius: 5px;
-    animation: setSkeletonLoading();
-  }
-}
+// .loginMenu__skeleton {
+//   display: flex;
+//   .loginMenu__skeleton--button1 {
+//     height: 41px;
+//     width: 65px;
+//     border-radius: 5px;
+//     animation: setSkeletonLoading();
+//   }
+//   .loginMenu__skeleton--button2 {
+//     height: 41px;
+//     width: 110px;
+//     margin-left: 8px;
+//     border-radius: 5px;
+//     animation: setSkeletonLoading();
+//   }
+// }
 
 .loading {
   animation: sessionFadeOut();
@@ -264,7 +264,7 @@
 @media screen and (max-width: 880px) {
   .header .header__container {
     .header__logo {
-      //Logged user menu for 767(880) and smaller
+      //Make logged user menu react when touched instead of at hover (siince not a mouse anymore)
       .header__logged_user_menu {
         ul {
           display: none;
@@ -300,10 +300,10 @@
       width: 100%;
 
       //Logged user menu for 767 and smaller
-      .logged_user_menu__skeleton {
-        align-items: center;
-        margin-bottom: 15px;
-      }
+      // .logged_user_menu__skeleton {
+      //   align-items: center;
+      //   margin-bottom: 15px;
+      // }
 
       .header__logged_user_menu {
         width: 100%;
@@ -316,15 +316,15 @@
           .header__logged_user_menu_logo767 {
             display: initial;
             margin-left: 8px;
-            position: relative;
-            top: -5px;
             border: none;
             background-color: transparent;
+            height: 51px;
           }
           .header__logged_user_menu_iconButton_container {
             margin: 0 auto;
             position: relative;
             right: 33px;
+            top: -2px;
           }
         }
 
@@ -335,25 +335,31 @@
           border: 1px solid $color--light-gray;
           text-align: center;
           max-width: 222px;
+          margin-top: -3px;
+          margin-bottom: 5px;
         }
         .unverif_button_container {
-          margin-bottom: 5px;
+          margin-top: 0;
+          margin-bottom: 3px;
         }
       }
       .userMenuStickyState767 {
-        position: fixed;
-        background-color: $color--white;
-        z-index: 80;
-        padding-top: 10px;
+        //Leave this here in case in the future we want to make the menu sticky again
+        // position: fixed;
+        // background-color: $color--white;
+        // z-index: 80;
+        padding-top: 4px;
         box-shadow: 0 4px 6px 0 #20212447;
       }
     }
     //This height is to improve visibility of content, since logged user menu header gets over the elements without this
-    .correctHeaderLoggedUser767 {
-      height: 90px;
-    }
+    //Leave this here, since needed if we want the menu to be sticky again
+    // .correctHeaderLoggedUser767 {
+    //   height: 72px;
+    // }
   }
 
+  //Navbar when menu is open
   .menu {
     position: fixed;
     overflow-y: scroll;
@@ -433,9 +439,10 @@
 @media screen and (max-width: 480px) {
   .header .header__container {
     //This height is to improve visibility of content, since logged user menu header gets over the elements without this
-    .correctHeaderLoggedUser767 {
-      height: 100px;
-    }
+    //Leave this here, since needed if we want the menu to be sticky again
+    // .correctHeaderLoggedUser767 {
+    //   height: 80px;
+    // }
   }
   .menu {
     .menu__list {
