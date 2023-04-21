@@ -5,10 +5,10 @@ import Header from '../Header/Header';
 import FooterWithoutSignature from '../FooterWithoutSignature/FooterWithoutSignature';
 import FooterSignature from '../FooterSignature/FooterSignature';
 
-function Layout({ children }) {
+function Layout({ displaySearchBar = true, children }) {
   return (
     <React.Fragment>
-      <Header />
+      <Header displaySearchBar={displaySearchBar} />
       {children}
       <FooterWithoutSignature />
       <FooterSignature />

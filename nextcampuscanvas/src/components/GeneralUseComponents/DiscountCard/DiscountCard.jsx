@@ -19,6 +19,7 @@ import CC_LogoLoader from '@components/GeneralUseComponents/CC_LogoLoader/CC_Log
 //4. The memo is used to avoid re-rendering the component if the props are the same when component is part of a list that gets more items on scroll. (performance improvement)
 
 const DiscountCard = memo(
+  //This ref is used for the infinite scroll feature
   forwardRef(
     (
       { banner, brand_name, brand_logo, title, discount_id, card_tag },

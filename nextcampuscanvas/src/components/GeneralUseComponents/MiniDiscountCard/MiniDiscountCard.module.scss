@@ -1,0 +1,122 @@
+@import '../../../styles/Vars.scss';
+
+.card {
+  display: flex;
+  align-items: flex-start;
+  padding: 22px 4px;
+  border-radius: 5px;
+  .discount_logo_container {
+    width: 70px;
+    height: 70px;
+    border-radius: 3px;
+    box-shadow: 11px 5px 17px -8px rgb(0 0 0 / 30%);
+    background-color: rgb(255, 255, 255);
+    .span_container {
+      box-sizing: border-box;
+      display: inline-block;
+      overflow: hidden;
+      width: initial;
+      height: initial;
+      background: none;
+      opacity: 1;
+      border: 0px;
+      margin: 0px;
+      padding: 0px;
+      position: relative;
+      max-width: 100%;
+      span {
+        box-sizing: border-box;
+        display: block;
+        width: initial;
+        height: initial;
+        background: none;
+        opacity: 1;
+        border: 0px;
+        margin: 0px;
+        padding: 0px;
+        max-width: 100%;
+        img {
+          display: block;
+          max-width: 100%;
+          width: initial;
+          height: initial;
+          background: none;
+          opacity: 1;
+          border: 0px;
+          margin: 0px;
+          padding: 0px;
+        }
+      }
+      .brand_img {
+        position: absolute;
+        inset: 0px;
+        box-sizing: border-box;
+        padding: 2px;
+        border: none;
+        margin: auto;
+        display: block;
+        width: 0px;
+        height: 0px;
+        min-width: 100%;
+        max-width: 100%;
+        min-height: 100%;
+        max-height: 100%;
+        object-fit: fill;
+      }
+      //CC_logo loader start
+      .cc_logo_loader_container {
+        position: absolute;
+        inset: 0px;
+        margin: auto;
+        display: block;
+        min-width: 100%;
+        max-width: 100%;
+        min-height: 100%;
+        max-height: 100%;
+      }
+      //CC_logo loader end
+    }
+  }
+  .info_container {
+    margin-left: 10px;
+    .brand {
+      margin: 0;
+      @include font-size(16px);
+    }
+    .title {
+      margin: 0;
+      margin-top: 2px;
+      @include font-size(14px);
+      line-height: 1.2;
+      max-width: 180px;
+    }
+  }
+}
+.card:hover {
+  cursor: pointer;
+  background-color: $color--tertiary-white;
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 1100px) {
+  .card {
+    padding: 16px 4px;
+  }
+}
+@media screen and (max-width: 880px) {
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+@media screen and (max-width: 767px) {
+  .card {
+    padding: 12px 4px;
+  }
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+@media screen and (max-width: 480px) {
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+@media screen and (max-width: 320px) {
+}

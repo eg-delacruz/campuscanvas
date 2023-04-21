@@ -49,7 +49,7 @@ export default function Home(props) {
           className={`${styles.parallax__layer} ${styles.parallax__back}`}
         ></div>
         <div className={`${styles.parallax__layer} ${styles.parallax__front}`}>
-          <div className={`${styles.header_wrapper} header_wrapper`}>
+          <div className={`${styles.header_wrapper}`}>
             <Header />
           </div>
 

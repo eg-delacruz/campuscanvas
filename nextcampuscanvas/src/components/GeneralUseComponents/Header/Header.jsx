@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
 
 //Assets
 import Logo_Campus_Canvas from '@assets/GeneralUse/Logos/logo.svg';
@@ -12,9 +13,13 @@ import profile_icon from '@assets/GeneralUse/IconsAndButtons/usedInComponents/He
 import admin_icon from '@assets/GeneralUse/IconsAndButtons/usedInComponents/Header/admin_icon.svg';
 import dropdown_menu_arrow from '@assets/GeneralUse/IconsAndButtons/usedInComponents/Header/dropdown_menu_arrow.svg';
 import Isotype767 from '@assets/GeneralUse/Logos/header_isotype_767.svg';
+import magnifying_glass_icon from '@assets/GeneralUse/IconsAndButtons/magnifying_glass_icon.svg';
 
 //Styles
 import styles from './Header.module.scss';
+
+//Components
+import DiscountsSearchBar from '@components/GeneralUseComponents/DiscountsSearchBar/DiscountsSearchBar';
 
 //Session
 import { useSession } from 'next-auth/react';
@@ -38,7 +43,9 @@ const { FB_Conversions_register_button_clicks } =
 import identifyBrowser from '@services/identifyBrowser';
 const { getBrowserName } = identifyBrowser;
 
-export default function Header() {
+//CLARIFICATIONS:
+//1. When modifying anything related to the search bar, just modify the search bar related elements, since everything else should work the same way with or without the search bar
+export default function Header({ displaySearchBar = true }) {
   const { width, height } = useWindowDimensions();
 
   const { redirectUnverifUser } = useSecureUnverifRoutesInsideFunction();
@@ -97,6 +104,7 @@ export default function Header() {
     isUserMenuOn: false,
   });
 
+  //Functions
   const toggleMenu = (event) => {
     setMenus({ ...menus, isMenuOn: !menus.isMenuOn });
   };
@@ -117,6 +125,20 @@ export default function Header() {
     dispatch(openSidebar(true));
     redirectTo(url);
   };
+
+  //Discounts Search Bar handling (start)
+  const [showDiscountsSearchBar, setShowDiscountsSearchBar] = useState(false);
+  const displayDiscountsSearchBar = () => {
+    return (
+      <DiscountsSearchBar
+        showDiscountsSearchBar={showDiscountsSearchBar}
+        setShowDiscountsSearchBar={setShowDiscountsSearchBar}
+        onClose={() => setShowDiscountsSearchBar(false)}
+      />
+    );
+  };
+
+  //Discounts Search Bar handling (end)
 
   //This function is only displayed if there is a session
   const nameDisplayer = () => {
@@ -146,6 +168,7 @@ export default function Header() {
 
   return (
     <>
+      {displayDiscountsSearchBar()}
       {/* Burguer Button (start) */}
       <i
         onClick={() => toggleMenu()}
@@ -159,6 +182,28 @@ export default function Header() {
         <div className={styles['icon__line']} />
       </i>
       {/* Burguer Button (end) */}
+
+      {/* Search icon 767 (start) */}
+      {displaySearchBar && (
+        <i
+          onClick={() => {
+            setShowDiscountsSearchBar(true);
+          }}
+          className={`${styles.search_icon_767} ${
+            session
+              ? styles.search_icon_767_logged
+              : styles.search_icon_767_unlogged
+          }`}
+        >
+          <Image
+            src={magnifying_glass_icon}
+            alt='Buscar'
+            width={22}
+            height={22}
+          />
+        </i>
+      )}
+      {/* Search icon 767 (end) */}
 
       <header
         className={`${styles['header']} ${
@@ -189,6 +234,34 @@ export default function Header() {
                 />
               </button>
             </Link>
+
+            {/* Fake search bar (start) */}
+            {displaySearchBar && (
+              <div
+                onClick={() => {
+                  setShowDiscountsSearchBar(true);
+                }}
+                className={`${styles.fake_search_bar} ${
+                  session
+                    ? styles.fake_search_bar_logged
+                    : styles.fake_search_bar_unlogged
+                }`}
+              >
+                <div className={styles.magnifying_glass_icon_container}>
+                  <Image src={magnifying_glass_icon} width={20} height={20} />
+                </div>
+
+                <p className={styles.placeholder_above_880}>
+                  Busca marcas, artículos o categorías...
+                </p>
+
+                <p className={styles.placeholder_under_880}>
+                  Marcas, artículos...
+                </p>
+              </div>
+            )}
+
+            {/* Fake search bar (end) */}
 
             {/* Logged in user menu + validated/unvalidated message*/}
             {session && (
@@ -332,3 +405,7 @@ export default function Header() {
     </>
   );
 }
+
+Header.propTypes = {
+  displaySearchBar: PropTypes.bool,
+};

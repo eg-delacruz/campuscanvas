@@ -3,6 +3,59 @@
 @import '../../../styles/Animations/skeleton.module.scss';
 
 /////////////////////////
+//   Burguer button    //
+/////////////////////////
+
+.burguer__button {
+  width: 37px;
+  height: 37px;
+  border-radius: 50%;
+  background-color: rgba(59, 5, 94, 0.8);
+  position: fixed;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  top: 4px;
+  right: 8px;
+  z-index: 100;
+}
+
+.icon__line {
+  height: 4px;
+  width: 22px;
+  background-color: $color--white;
+  border-radius: 10px;
+}
+
+.burguer__line2 {
+  margin: 3px 0;
+}
+
+/////////////////////////
+//   Search icon 767    //
+/////////////////////////
+.search_icon_767 {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgb(222, 226, 230, 0.8);
+  position: fixed;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+.search_icon_767_logged {
+  right: 8px;
+  top: 45px;
+}
+.search_icon_767_unlogged {
+  left: 8px;
+  top: 4px;
+}
+
+/////////////////////////
 //       Header        //
 /////////////////////////
 .header {
@@ -10,6 +63,7 @@
   //position: relative;
   .header__container {
     padding: 0 10px 10px;
+    max-width: 1200px;
 
     .header__logo {
       margin: auto 0;
@@ -21,6 +75,32 @@
         cursor: pointer;
         padding: 0;
         margin-top: 20px;
+      }
+      .fake_search_bar {
+        display: flex;
+        align-items: center;
+        height: 40px;
+        width: 100%;
+        max-width: 500px;
+        background-color: $color--light-gray;
+        align-self: flex-end;
+        position: relative;
+        top: -8px;
+        border-radius: 5px;
+        .magnifying_glass_icon_container {
+          margin: 8px;
+        }
+        .placeholder_under_880 {
+          display: none;
+        }
+      }
+      .fake_search_bar:hover {
+        cursor: pointer;
+      }
+      .fake_search_bar_logged {
+        max-width: 450px;
+        margin-right: auto;
+        margin-left: 110px;
       }
     }
   }
@@ -228,42 +308,39 @@
 }
 
 /////////////////////////
-//   Burguer button    //
-/////////////////////////
-
-.burguer__button {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: rgba(59, 5, 94, 0.8);
-  position: fixed;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  top: 12px;
-  right: 12px;
-  z-index: 100;
-}
-
-.icon__line {
-  height: 4px;
-  width: 22px;
-  background-color: $color--white;
-  border-radius: 10px;
-}
-
-.burguer__line2 {
-  margin: 3px 0;
-}
-
-/////////////////////////
 //         MQ          //
 /////////////////////////
 
+@media screen and (max-width: 1100px) {
+  .header .header__container {
+    .header__logo {
+      .fake_search_bar_logged {
+        margin-right: 20px;
+        margin-left: 20px;
+        max-width: 320px;
+      }
+    }
+  }
+}
 @media screen and (max-width: 880px) {
   .header .header__container {
     .header__logo {
+      .fake_search_bar {
+        .placeholder_under_880 {
+          display: initial;
+        }
+        .placeholder_above_880 {
+          display: none;
+        }
+      }
+      .fake_search_bar_logged {
+        margin: 0 auto;
+        max-width: 220px;
+      }
+      .fake_search_bar_unlogged {
+        max-width: 400px;
+      }
+
       //Make logged user menu react when touched instead of at hover (siince not a mouse anymore)
       .header__logged_user_menu {
         ul {
@@ -281,6 +358,9 @@
   .burguer__button {
     display: flex;
   }
+  .search_icon_767 {
+    display: flex;
+  }
   .loggedInUserHeader767 {
     box-shadow: none;
   }
@@ -293,6 +373,9 @@
         margin: 12px 0 8px;
       }
       .disableLogoLoggedUser767 {
+        display: none;
+      }
+      .fake_search_bar {
         display: none;
       }
       flex-direction: column;
@@ -315,7 +398,7 @@
           justify-content: center;
           .header__logged_user_menu_logo767 {
             display: initial;
-            margin-left: 8px;
+            //margin-left: 8px;
             border: none;
             background-color: transparent;
             height: 51px;
@@ -323,7 +406,7 @@
           .header__logged_user_menu_iconButton_container {
             margin: 0 auto;
             position: relative;
-            right: 33px;
+            right: 36px;
             top: -2px;
           }
         }
@@ -453,6 +536,17 @@
   }
 }
 
+@media screen and (max-width: 382px) {
+  .header {
+    .header__container {
+      .header__logo {
+        .header__logo_button {
+          max-width: 220px;
+        }
+      }
+    }
+  }
+}
 @media screen and (max-width: 320px) {
   .menu {
     .menu__list {

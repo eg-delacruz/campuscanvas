@@ -77,12 +77,6 @@ p {
   box-sizing: border-box;
 }
 
-//CLARIFICATION:
-//Used to give a max-width of 1200 px to the header if needed. To use it, wrap the <Header/> component inside a div with 'header_wrappeer' className.
-.header_wrapper .container {
-  max-width: 1200px;
-}
-
 /////////////////////////
 //   Sponsors slider   //
 /////////////////////////
