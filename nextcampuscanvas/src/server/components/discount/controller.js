@@ -1544,6 +1544,31 @@ async function getMostDislikedDiscounts() {
   }
 }
 
+async function getMiniCardsSearchbarResults(query, page, limit) {
+  //Check if all the parameters are received
+  if (!query || !page || !limit) {
+    console.error(
+      '[discount controller | getMiniCardsSearchbarResults function error] query, page and limit are required'
+    );
+    throw new Error('No se han recibido todos los parámetros');
+  }
+
+  try {
+    const miniCards = await Card_Store.getMiniCardsSearchbarResults(
+      query,
+      page,
+      limit
+    );
+    return miniCards;
+  } catch (error) {
+    console.error(
+      '[discount controller | getMiniCardsSearchbarResults function error]' +
+        error.message
+    );
+    throw new Error(error.message);
+  }
+}
+
 module.exports = {
   //Brand functions
   createNewBrand,
@@ -1573,6 +1598,7 @@ module.exports = {
   getHomeSectionsCardsCount,
   getShowFirstInCategoryCount,
   getShowFirstInAllDiscountsCount,
+  getMiniCardsSearchbarResults,
 
   //Home slider functions
   createHomeSliderBanner,

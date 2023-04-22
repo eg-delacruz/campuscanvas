@@ -6,84 +6,92 @@ import styles from './DiscountsSearchBar.module.scss';
 
 //hooks
 import { useInputValue } from '@hooks/useInputValue';
+import useDebouncedSearchValue from '@hooks/useDebouncedSearchValue';
+
+//React query
+import { useQuery } from '@tanstack/react-query';
+import discoutKeys from '@query-key-factory/discountKeys';
+
+//Request functions
+import discountFunctions from '@request-functions/Discounts/Cards/index';
 
 //Components
 import MiniDiscountCard from '@components/GeneralUseComponents/MiniDiscountCard/MiniDiscountCard';
+import CircularLoader from '@components/GeneralUseComponents/CircularLoader/CircularLoader';
 
 const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
-  const CARDS_PLACEHOLDER = [
-    {
-      disount_id: '6411f70dfb06a2e1426f3e5b',
-      title: '5% de descuento en todos los productos',
-      brand_logo:
-        'https://campus-canvas-bucket.s3.eu-west-3.amazonaws.com/brand_logos/2023-03-15-38736513-logo.png',
-      brand_name: 'Honor',
-    },
-    {
-      disount_id: '64144e9b0bdeb5256cec40c1',
-      title: 'Hasta 60% de descuento en Blue Tomato',
-      brand_logo:
-        'https://campus-canvas-bucket.s3.eu-west-3.amazonaws.com/brand_logos/2023-03-17-39731692-logo_blue_tomato.png',
-      brand_name: 'Blue Tomato',
-    },
-    {
-      disount_id: '6414af168e59407b1e46e72c',
-      title: 'Descuentos en productos Nike',
-      brand_logo:
-        'https://campus-canvas-bucket.s3.eu-west-3.amazonaws.com/brand_logos/2023-03-17-45596457-logo_nike.svg',
-      brand_name: 'Nike',
-    },
-    {
-      disount_id: '6416f009ab73aefdc54e7972',
-      title: '15% descuento en la tienda de Joma',
-      brand_logo:
-        'https://campus-canvas-bucket.s3.eu-west-3.amazonaws.com/brand_logos/2023-03-19-79911234-logo_joma.png',
-      brand_name: 'Joma',
-    },
-    {
-      disount_id: '6411f70dfb06a2e1426f3e5b',
-      title: '5% de descuento en todos los productos',
-      brand_logo:
-        'https://campus-canvas-bucket.s3.eu-west-3.amazonaws.com/brand_logos/2023-03-15-38736513-logo.png',
-      brand_name: 'Honor',
-    },
-    {
-      disount_id: '64144e9b0bdeb5256cec40c1',
-      title: 'Hasta 60% de descuento en Blue Tomato',
-      brand_logo:
-        'https://campus-canvas-bucket.s3.eu-west-3.amazonaws.com/brand_logos/2023-03-17-39731692-logo_blue_tomato.png',
-      brand_name: 'Blue Tomato',
-    },
-    {
-      disount_id: '6414af168e59407b1e46e72c',
-      title: 'Descuentos en productos Nike',
-      brand_logo:
-        'https://campus-canvas-bucket.s3.eu-west-3.amazonaws.com/brand_logos/2023-03-17-45596457-logo_nike.svg',
-      brand_name: 'Nike',
-    },
-    {
-      disount_id: '6416f009ab73aefdc54e7972',
-      title: '15% descuento en la tienda de Joma',
-      brand_logo:
-        'https://campus-canvas-bucket.s3.eu-west-3.amazonaws.com/brand_logos/2023-03-19-79911234-logo_joma.png',
-      brand_name: 'Joma',
-    },
-  ];
-  //Needed to avoid problems with the SSR
+  //Needed to avoid problems with the SSR (start)
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+  //Needed to avoid problems with the SSR (end)
+
+  //States
+  const [searchBarResults, setSearchBarResults] = useState([]);
+  const [cachedSearchBarResults, setCachedSearchBarResults] = useState({});
+  const [firstSearchExecuted, setFirstSearchExecuted] = useState(false);
 
   //Controlling inputs
   const SEARCH_INPUT = useInputValue('');
+
+  const debouncedSearchValue = useDebouncedSearchValue(
+    SEARCH_INPUT.value.toLowerCase(),
+    500
+  );
+
+  //React query
+  const SEARCH_BAR_RESULTS = useQuery({
+    queryKey: [discoutKeys.cards.get_mini_cards_searchbar_results],
+    queryFn: () =>
+      discountFunctions.getMiniCardsSearchbarResults(SEARCH_INPUT.value),
+    staleTime: Infinity,
+    //Disable the query from automatically running
+    enabled: false,
+
+    onSuccess: (data) => {
+      //Setting search results
+      setSearchBarResults(data);
+
+      //Caching results
+      setCachedSearchBarResults({
+        ...cachedSearchBarResults,
+        [SEARCH_INPUT.value]: data,
+      });
+
+      //Clean cached results after 10 min after the first search
+      if (!firstSearchExecuted) {
+        cleanCachedResults();
+        setFirstSearchExecuted(true);
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (debouncedSearchValue) {
+      //Check if the results are already cached
+      if (cachedSearchBarResults[debouncedSearchValue]) {
+        setSearchBarResults(cachedSearchBarResults[debouncedSearchValue]);
+      } else {
+        SEARCH_BAR_RESULTS.refetch();
+      }
+    }
+  }, [debouncedSearchValue]);
 
   //Functions
   const handleClose = (e) => {
     e.preventDefault();
     onClose();
   };
+
+  function cleanCachedResults() {
+    //Clean cached results after 10 min
+    setTimeout(() => {
+      setCachedSearchBarResults({});
+      setFirstSearchExecuted(false);
+    }, 1000 * 60 * 10);
+  }
 
   const discountsSearchBarContent = showDiscountsSearchBar ? (
     //The overlay is the black background
@@ -112,23 +120,38 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
           />
 
           <div className={styles.results_container}>
-            {/*TODO: If no results, show a message */}
-            {/*TODO: If user hasn´t searched, don´t show anything or show suggested things */}
-            <div className={styles.results}>
-              <h3>Descuentos estudiantes</h3>
-              <div className={styles.results_grid}>
-                {CARDS_PLACEHOLDER.map((card) => (
-                  <MiniDiscountCard
-                    closeSearchBar={onClose}
-                    key={card.disount_id}
-                    discount_id={card.disount_id}
-                    title={card.title}
-                    brand_logo={card.brand_logo}
-                    brand_name={card.brand_name}
-                  />
-                ))}
+            {/* Prefetch and render suggested results here or fetch them when user open searc bar (see how to do it on hover or on click down). Don´t do this server side, since not so important for SEO and also very complicated to achieve */}
+            {SEARCH_INPUT.value.length === 0 ? (
+              ''
+            ) : SEARCH_BAR_RESULTS.isLoading ||
+              SEARCH_BAR_RESULTS.isFetching ? (
+              <div className={styles.circular_loader_container}>
+                <CircularLoader />
               </div>
-            </div>
+            ) : searchBarResults.length === 0 ? (
+              <h4>No hay resultados</h4>
+            ) : (
+              <>
+                <div className={styles.results}>
+                  <h3>Descuentos estudiantes</h3>
+                  <div className={styles.results_grid}>
+                    {searchBarResults.map((card) => (
+                      <MiniDiscountCard
+                        closeSearchBar={onClose}
+                        clearSearchBar={() => {
+                          SEARCH_INPUT.setValue('');
+                        }}
+                        key={card._id}
+                        discount_id={card.discount_id}
+                        title={card.title}
+                        brand_logo={card.brand_logo.brand_logo.URL}
+                        brand_name={card.brand_name}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

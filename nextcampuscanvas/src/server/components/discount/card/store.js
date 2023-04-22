@@ -140,6 +140,36 @@ const updateCard = async (card) => {
   return updatedCard;
 };
 
+///////////////////// Get mini cards searchbar results //////////////////////////////
+
+const getMiniCardsSearchbarResults = async (searchTerm, page, limit) => {
+  //Pass things to lowercase
+  const totalEntries = await Card.countDocuments({
+    status: 'available',
+  });
+  const pagination_data = paginationData(totalEntries, page, limit);
+
+  const result = await Card.find({
+    status: 'available',
+    //Search for the term in the brand name or in the discount keywords
+    $or: [
+      { brand_name: { $regex: searchTerm, $options: 'i' } },
+      {
+        'discount_keywords.label': {
+          $regex: searchTerm,
+          $options: 'i',
+        },
+      },
+    ],
+  })
+    .limit(pagination_data.LIMIT)
+    .skip(pagination_data.startIndex)
+    .populate({ path: 'brand_logo', model: BrandInfo, select: 'brand_logo' })
+    .exec();
+
+  return result;
+};
+
 module.exports = {
   add: createCard,
   getAllAvailableCards,
@@ -152,4 +182,5 @@ module.exports = {
   getShowFirstInCategoryCount,
   update: updateCard,
   getShowFirstInAllDiscountsCount,
+  getMiniCardsSearchbarResults,
 };

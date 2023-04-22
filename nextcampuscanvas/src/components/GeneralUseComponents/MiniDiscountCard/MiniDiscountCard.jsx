@@ -16,6 +16,7 @@ const MiniDiscountCard = ({
   brand_logo,
   brand_name,
   closeSearchBar,
+  clearSearchBar,
 }) => {
   //Loader placeholder while images render (start)
   const brandLogoRef = useRef(null);
@@ -41,6 +42,7 @@ const MiniDiscountCard = ({
     <div
       onClick={() => {
         if (closeSearchBar) {
+          clearSearchBar();
           closeSearchBar();
         }
         router.push(
@@ -87,3 +89,12 @@ const MiniDiscountCard = ({
 };
 
 export default MiniDiscountCard;
+
+MiniDiscountCard.propTypes = {
+  discount_id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  brand_logo: PropTypes.string.isRequired,
+  brand_name: PropTypes.string.isRequired,
+  closeSearchBar: PropTypes.func,
+  clearSearchBar: PropTypes.func,
+};

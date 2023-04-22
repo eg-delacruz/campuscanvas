@@ -52,7 +52,6 @@ export default async function handler(req, res) {
               page,
               limit
             );
-
             successResponse(req, res, allCards, 201);
             break;
 

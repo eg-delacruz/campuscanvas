@@ -32,11 +32,14 @@ export default async function handler(req, res) {
   //GET card by discount id
   switch (method) {
     case 'GET':
-      const { id } = req.query;
+      const { page, limit } = req.headers;
+      const { query } = req.query;
 
       try {
-        const discount = await Controller.getCardByDiscountId(id);
-        successResponse(req, res, discount, 200);
+        const miniCardsSearchbarResults =
+          await Controller.getMiniCardsSearchbarResults(query, page, limit);
+
+        successResponse(req, res, miniCardsSearchbarResults, 200);
       } catch (error) {
         errorResponse(req, res, 'Error al obtener datos', 400, error);
       }

@@ -51,6 +51,12 @@
   //    Results states    //
   /////////////////////////
   .results_container {
+    .circular_loader_container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 0;
+    }
     .results {
       h3 {
         margin: 16px 0;
