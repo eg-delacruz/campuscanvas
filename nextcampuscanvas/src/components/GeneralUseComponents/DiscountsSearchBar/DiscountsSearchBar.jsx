@@ -30,7 +30,6 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
 
   //States
   const [searchBarResults, setSearchBarResults] = useState([]);
-  const [cachedSearchBarResults, setCachedSearchBarResults] = useState({});
   const [firstSearchExecuted, setFirstSearchExecuted] = useState(false);
 
   //Controlling inputs
@@ -54,11 +53,26 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
       //Setting search results
       setSearchBarResults(data);
 
-      //Caching results
-      setCachedSearchBarResults({
-        ...cachedSearchBarResults,
-        [SEARCH_INPUT.value]: data,
-      });
+      //Caching results in local storage
+      if (localStorage.getItem('cachedSearchBarResults')) {
+        const cachedSearchBarResultsLocalStorage = JSON.parse(
+          localStorage.getItem('cachedSearchBarResults')
+        );
+        localStorage.setItem(
+          'cachedSearchBarResults',
+          JSON.stringify({
+            ...cachedSearchBarResultsLocalStorage,
+            [SEARCH_INPUT.value]: data,
+          })
+        );
+      } else {
+        localStorage.setItem(
+          'cachedSearchBarResults',
+          JSON.stringify({
+            [SEARCH_INPUT.value]: data,
+          })
+        );
+      }
 
       //Clean cached results after 10 min after the first search
       if (!firstSearchExecuted) {
@@ -70,11 +84,18 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
 
   useEffect(() => {
     if (debouncedSearchValue) {
-      //Check if the results are already cached
-      if (cachedSearchBarResults[debouncedSearchValue]) {
-        setSearchBarResults(cachedSearchBarResults[debouncedSearchValue]);
-      } else {
-        SEARCH_BAR_RESULTS.refetch();
+      //Check if the results are already cached in local storage
+      if (localStorage.getItem('cachedSearchBarResults')) {
+        const cachedSearchBarResultsLocalStorage = JSON.parse(
+          localStorage.getItem('cachedSearchBarResults')
+        );
+        if (cachedSearchBarResultsLocalStorage[debouncedSearchValue]) {
+          setSearchBarResults(
+            cachedSearchBarResultsLocalStorage[debouncedSearchValue]
+          );
+        } else {
+          SEARCH_BAR_RESULTS.refetch();
+        }
       }
     }
   }, [debouncedSearchValue]);
@@ -86,9 +107,9 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
   };
 
   function cleanCachedResults() {
-    //Clean cached results after 10 min
+    //Clean cached results of local storage after 10 min
     setTimeout(() => {
-      setCachedSearchBarResults({});
+      localStorage.removeItem('cachedSearchBarResults');
       setFirstSearchExecuted(false);
     }, 1000 * 60 * 10);
   }
@@ -117,6 +138,7 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
             value={SEARCH_INPUT.value}
             onChange={SEARCH_INPUT.onChange}
             autoFocus
+            autoComplete='off'
           />
 
           <div className={styles.results_container}>
