@@ -85,17 +85,20 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
   useEffect(() => {
     if (debouncedSearchValue) {
       //Check if the results are already cached in local storage
-      if (localStorage.getItem('cachedSearchBarResults')) {
+      if (
+        localStorage.getItem('cachedSearchBarResults') &&
+        JSON.parse(localStorage.getItem('cachedSearchBarResults'))[
+          SEARCH_INPUT.value
+        ]
+      ) {
         const cachedSearchBarResultsLocalStorage = JSON.parse(
           localStorage.getItem('cachedSearchBarResults')
         );
-        if (cachedSearchBarResultsLocalStorage[debouncedSearchValue]) {
-          setSearchBarResults(
-            cachedSearchBarResultsLocalStorage[debouncedSearchValue]
-          );
-        } else {
-          SEARCH_BAR_RESULTS.refetch();
-        }
+        setSearchBarResults(
+          cachedSearchBarResultsLocalStorage[SEARCH_INPUT.value]
+        );
+      } else {
+        SEARCH_BAR_RESULTS.refetch();
       }
     }
   }, [debouncedSearchValue]);
