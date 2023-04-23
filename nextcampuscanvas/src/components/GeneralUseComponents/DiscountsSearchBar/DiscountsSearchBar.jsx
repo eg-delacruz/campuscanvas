@@ -19,6 +19,14 @@ import discountFunctions from '@request-functions/Discounts/Cards/index';
 import MiniDiscountCard from '@components/GeneralUseComponents/MiniDiscountCard/MiniDiscountCard';
 import CircularLoader from '@components/GeneralUseComponents/CircularLoader/CircularLoader';
 
+//Redux
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  updateCache,
+  cleanCache,
+  selectDiscountSearchBarCache,
+} from '@redux/discountSearchBarCacheSlice';
+
 const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
   //Needed to avoid problems with the SSR (start)
   const [isClient, setIsClient] = useState(false);
@@ -28,9 +36,18 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
   }, []);
   //Needed to avoid problems with the SSR (end)
 
+  //Reducers
+  const dispatch = useDispatch();
+  const discountSearchBarCacheReducer = useSelector(
+    selectDiscountSearchBarCache
+  );
+
   //States
   const [searchBarResults, setSearchBarResults] = useState([]);
   const [firstSearchExecuted, setFirstSearchExecuted] = useState(false);
+  const [allowCleanCache, setAllowCleanCache] = useState(false);
+
+  const CLEAN_CACHE_TIMEOUT = 1000 * 60 * 10;
 
   //Controlling inputs
   const SEARCH_INPUT = useInputValue('');
@@ -44,7 +61,7 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
   const SEARCH_BAR_RESULTS = useQuery({
     queryKey: [discoutKeys.cards.get_mini_cards_searchbar_results],
     queryFn: () =>
-      discountFunctions.getMiniCardsSearchbarResults(SEARCH_INPUT.value),
+      discountFunctions.getMiniCardsSearchbarResults(debouncedSearchValue),
     staleTime: Infinity,
     //Disable the query from automatically running
     enabled: false,
@@ -53,51 +70,36 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
       //Setting search results
       setSearchBarResults(data);
 
-      //Caching results in local storage
-      if (localStorage.getItem('cachedSearchBarResults')) {
-        const cachedSearchBarResultsLocalStorage = JSON.parse(
-          localStorage.getItem('cachedSearchBarResults')
-        );
-        localStorage.setItem(
-          'cachedSearchBarResults',
-          JSON.stringify({
-            ...cachedSearchBarResultsLocalStorage,
-            [SEARCH_INPUT.value]: data,
-          })
-        );
-      } else {
-        localStorage.setItem(
-          'cachedSearchBarResults',
-          JSON.stringify({
-            [SEARCH_INPUT.value]: data,
-          })
-        );
-      }
+      //Add result to cache
+      dispatch(
+        updateCache({ searchValue: debouncedSearchValue, results: data })
+      );
 
-      //Clean cached results after 10 min after the first search
+      //Clean cache 10 minutes after the first search
       if (!firstSearchExecuted) {
-        cleanCachedResults();
+        monitorCleanCache();
         setFirstSearchExecuted(true);
       }
     },
   });
 
+  //Clean cache 10 minutes after the first search
+  useEffect(() => {
+    if (allowCleanCache) {
+      dispatch(cleanCache());
+      setAllowCleanCache(false);
+    }
+  }, [allowCleanCache]);
+
   useEffect(() => {
     if (debouncedSearchValue) {
-      //Check if the results are already cached in local storage
-      if (
-        localStorage.getItem('cachedSearchBarResults') &&
-        JSON.parse(localStorage.getItem('cachedSearchBarResults'))[
-          SEARCH_INPUT.value
-        ]
-      ) {
-        const cachedSearchBarResultsLocalStorage = JSON.parse(
-          localStorage.getItem('cachedSearchBarResults')
-        );
+      //Check if the results are already cached
+      if (discountSearchBarCacheReducer.cachedResults[debouncedSearchValue]) {
         setSearchBarResults(
-          cachedSearchBarResultsLocalStorage[SEARCH_INPUT.value]
+          discountSearchBarCacheReducer.cachedResults[debouncedSearchValue]
         );
       } else {
+        //If not, fetch them
         SEARCH_BAR_RESULTS.refetch();
       }
     }
@@ -109,12 +111,12 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
     onClose();
   };
 
-  function cleanCachedResults() {
-    //Clean cached results of local storage after 10 min
+  function monitorCleanCache() {
+    //Clean cache 10 minutes after the first search
     setTimeout(() => {
-      localStorage.removeItem('cachedSearchBarResults');
+      setAllowCleanCache(true);
       setFirstSearchExecuted(false);
-    }, 1000 * 60 * 10);
+    }, CLEAN_CACHE_TIMEOUT);
   }
 
   const discountsSearchBarContent = showDiscountsSearchBar ? (
@@ -153,7 +155,7 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
               <div className={styles.circular_loader_container}>
                 <CircularLoader />
               </div>
-            ) : searchBarResults.length === 0 ? (
+            ) : searchBarResults?.length === 0 ? (
               <h4>No hay resultados</h4>
             ) : (
               <>
