@@ -42,6 +42,8 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
     selectDiscountSearchBarCache
   );
 
+  console.log(discountSearchBarCacheReducer);
+
   //States
   const [searchBarResults, setSearchBarResults] = useState([]);
   const [firstSearchExecuted, setFirstSearchExecuted] = useState(false);
@@ -68,11 +70,11 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
 
     onSuccess: (data) => {
       //Setting search results
-      setSearchBarResults(data);
+      setSearchBarResults(data.miniCards);
 
       //Add result to cache
       dispatch(
-        updateCache({ searchValue: debouncedSearchValue, results: data })
+        updateCache({ searchValue: data.query, results: data.miniCards })
       );
 
       //Clean cache 10 minutes after the first search

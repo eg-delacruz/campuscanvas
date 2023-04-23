@@ -1559,7 +1559,7 @@ async function getMiniCardsSearchbarResults(query, page, limit) {
       page,
       limit
     );
-    return miniCards;
+    return { miniCards, query };
   } catch (error) {
     console.error(
       '[discount controller | getMiniCardsSearchbarResults function error]' +
