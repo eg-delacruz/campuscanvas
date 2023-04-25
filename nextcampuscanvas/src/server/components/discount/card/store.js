@@ -50,6 +50,7 @@ const getByCategory = async (category, page, limit) => {
     // Put the cards that have show_first_in_category true first in the array
     .sort({
       show_first_in_category: -1,
+      brand_name: 1,
     })
     .limit(pagination_data.LIMIT)
     //Skip the first x results and return from that point on
