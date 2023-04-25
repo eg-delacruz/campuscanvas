@@ -66,7 +66,9 @@ const createNewBrand = async ({
     };
 
     //Saving brand in DB
-    await brandInfo_Store.add(brand);
+    const CREATED_BRAND = await brandInfo_Store.add(brand);
+
+    return CREATED_BRAND;
   } catch (error) {
     console.log('[discount controller error]' + error.message);
     throw new Error(error.message);

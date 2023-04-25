@@ -74,8 +74,13 @@ router
     };
 
     try {
-      await Controller.createNewBrand(data);
-      successResponse(req, res, 'Marca creada exitosamente', 201);
+      const brand = await Controller.createNewBrand(data);
+      successResponse(
+        req,
+        res,
+        { message: 'Marca creada exitosamente', brand },
+        201
+      );
     } catch (error) {
       if (error.message === 'Información insuficiente para crear marca') {
         return errorResponse(

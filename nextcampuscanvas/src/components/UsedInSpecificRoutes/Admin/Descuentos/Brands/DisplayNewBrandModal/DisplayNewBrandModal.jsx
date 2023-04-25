@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 
 //Styles
 import styles from './DisplayNewBrandModal.module.scss';
@@ -82,6 +83,8 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
 
   //Allows us to manipulate the appropriate slice/action
   const dispatch = useDispatch();
+
+  const router = useRouter();
 
   //Controlling inputs
   const BRAND_NAME = useInputValue('');
@@ -177,8 +180,13 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
 
     Toast.fire({
       icon: 'success',
-      title: response.body,
+      title: response.body.message,
     });
+
+    //Redirect to the new brand
+    router.push(
+      `/admin/descuentos/gestionar-marcas/editar-marca/${response.body.brand._id}`
+    );
   };
 
   return (
