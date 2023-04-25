@@ -42,8 +42,6 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
     selectDiscountSearchBarCache
   );
 
-  console.log(discountSearchBarCacheReducer);
-
   //States
   const [searchBarResults, setSearchBarResults] = useState([]);
   const [firstSearchExecuted, setFirstSearchExecuted] = useState(false);

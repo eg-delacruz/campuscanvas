@@ -1,7 +1,11 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useRef, useCallback } from 'react';
 
 //Styles
 import styles from '@styles/pagestyles/DisplayDiscountPagesStyles.module.scss';
+
+//React query
+import { useInfiniteQuery } from '@tanstack/react-query';
+import discoutKeys from '@query-key-factory/discountKeys';
 
 //Components
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
@@ -17,72 +21,57 @@ import endPoints from '@services/api';
 //Services
 import axiosFetcher from '@services/axiosFetcher';
 
-const belleza = ({ initialCards }) => {
-  //States
-  const [currentPageNumber, setPageNumber] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [cards, setCards] = useState([...initialCards.cards]);
-  const [hasMore, setHasMore] = useState(initialCards.next);
+//Request functions
+import discountFunctions from '@request-functions/Discounts/Cards/index';
 
-  const initialCardsFetched = useRef(true);
+const belleza = ({ initialCards }) => {
+  const REQUIRED_CARDS = 'beauty';
+  const CARDS_PER_PAGE = 30;
+
+  //React query
+  const INFINITY_SCROLL_CARDS = useInfiniteQuery({
+    queryKey: [discoutKeys.cards.get_by_category(REQUIRED_CARDS)],
+    queryFn: ({ pageParam }) =>
+      discountFunctions.getCardsByCategory({
+        category: REQUIRED_CARDS,
+        requiredPage: pageParam,
+        limit: CARDS_PER_PAGE,
+      }),
+    enabled: false,
+    //Initial data has to have this structure
+    initialData: {
+      pages: [
+        {
+          previous: initialCards?.previous,
+          next: initialCards?.next,
+          cards: initialCards.cards,
+        },
+      ],
+      pageParams: [1],
+    },
+    staleTime: Infinity,
+    getNextPageParam: (prevData) => prevData.next?.PAGE,
+  });
 
   const observer = useRef();
   const lastCardElementRef = useCallback(
     (node) => {
-      if (loading) return;
-      // We disconnect the observer from the previous last card so that we can connect it to the new last card
+      if (INFINITY_SCROLL_CARDS.isFetching) return;
       if (observer.current) observer.current.disconnect();
-      //We connect the observer to the last card, which is the observer.current
       observer.current = new IntersectionObserver((entries) => {
-        //If the last card is intersecting with the viewport and there are more cards, we load more cards
-        if (entries[0].isIntersecting && hasMore) {
-          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        if (entries[0].isIntersecting && INFINITY_SCROLL_CARDS.hasNextPage) {
+          INFINITY_SCROLL_CARDS.fetchNextPage();
         }
       });
-      //If the node exists, we observe it
       if (node) observer.current.observe(node);
     },
-    [loading, hasMore]
+    [INFINITY_SCROLL_CARDS.isFetching, INFINITY_SCROLL_CARDS.hasNextPage]
   );
 
-  //Load more cards on scroll
-  useEffect(() => {
-    const handleScroll = async () => {
-      setLoading(true);
-      setError(null);
-
-      const response = await axiosFetcher({
-        url: endPoints.discounts.getCards,
-        method: 'get',
-        extraHeaders: {
-          required_cards: 'beauty',
-          page: currentPageNumber,
-          limit: 12,
-        },
-      });
-
-      if (response.error) {
-        console.log(`Error at fetching data: ${response.error} `);
-        return setError(response.error);
-      }
-
-      //We add the new cards to the previous ones
-      setCards((prevCards) => {
-        return [...prevCards, ...response.body.cards];
-      });
-
-      setHasMore(response.body.next);
-      setLoading(false);
-    };
-
-    //Avoid that the useEffect runs on the first render
-    if (initialCardsFetched.current) {
-      initialCardsFetched.current = false;
-    } else {
-      handleScroll();
-    }
-  }, [currentPageNumber]);
+  //This value updates every time the query is refetched
+  const CARDS = INFINITY_SCROLL_CARDS.data?.pages?.flatMap(
+    (page) => page.cards
+  );
 
   return (
     <>
@@ -100,10 +89,10 @@ const belleza = ({ initialCards }) => {
       </div>
 
       <DisplayCardsByCategoryTemplate
-        loading={loading}
-        error={error}
+        cards={CARDS}
+        loading={INFINITY_SCROLL_CARDS.isFetching}
+        error={INFINITY_SCROLL_CARDS.error}
         ref={lastCardElementRef}
-        cards={cards}
       />
 
       <FooterWithoutSignature />
@@ -120,7 +109,7 @@ export async function getStaticProps() {
   const response = await axiosFetcher({
     url: endPoints.discounts.getCards,
     method: 'get',
-    extraHeaders: { required_cards: 'beauty', page: 1, limit: 12 },
+    extraHeaders: { required_cards: 'beauty', page: 1, limit: 30 },
   });
 
   if (response.error) {

@@ -21,6 +21,25 @@ const getMiniCardsSearchbarResults = async (query) => {
   return response.body;
 };
 
+const getCardsByCategory = async ({ category, requiredPage, limit }) => {
+  const response = await axiosFetcher({
+    url: endPoints.discounts.getCards,
+    method: 'get',
+    extraHeaders: {
+      required_cards: category,
+      page: requiredPage,
+      limit: limit,
+    },
+  });
+
+  if (response.error) {
+    console.log(response.error);
+    throw new Error(response.error);
+  }
+  return response.body;
+};
+
 export default {
   getMiniCardsSearchbarResults,
+  getCardsByCategory,
 };

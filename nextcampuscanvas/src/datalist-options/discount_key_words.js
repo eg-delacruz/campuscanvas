@@ -63,6 +63,7 @@ const DISCOUNT_KEYWORDS = [
   { value: 62, label: 'cosmética' },
   { value: 63, label: 'cosmetica' },
   { value: 64, label: 'maquillaje' },
+  { value: 65, label: 'peluches' },
 ];
 
 export default DISCOUNT_KEYWORDS;
