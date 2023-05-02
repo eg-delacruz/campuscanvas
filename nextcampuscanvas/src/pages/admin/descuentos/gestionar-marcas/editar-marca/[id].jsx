@@ -83,7 +83,6 @@ const formats = [
   'image',
 ];
 
-//TODO: en vez de invalidar la data de a tabla de marcas, sustituir la información de la marca en el cache por la nueva información
 const editarMarca = () => {
   const { securingRoute } = useSecureAdminRoute('all');
 
@@ -333,6 +332,17 @@ const editarMarca = () => {
       saving_changes_error: null,
     });
 
+    //Update cache only instead of fetching all brands again only if the following fields have changed
+    let update_cache_only = false;
+
+    if (
+      state.brand.brand_description !== description ||
+      state.brand.affiliate_program !== AFFILIATE_PROGRAM.value ||
+      state.brand.notes !== NOTES.value
+    ) {
+      update_cache_only = true;
+    }
+
     //Reset states
     setNewBrandLogo({
       ...newBrandLogo,
@@ -340,8 +350,31 @@ const editarMarca = () => {
       logoPreview: '',
     });
 
-    //Invalidate brands query to refresh the list
-    queryClient.invalidateQueries([adminKeys.brands.all_brands]);
+    //Update brands
+    if (update_cache_only) {
+      //Update brands from cache if descriotion, affiliate program or notes have changed
+      queryClient.setQueryData([adminKeys.brands.all_brands], (oldData) => {
+        if (oldData.length > 0) {
+          const updatedBrands = oldData.map((brand) => {
+            if (brand._id === id) {
+              return {
+                ...brand,
+                brand_description: description,
+                affiliate_program: AFFILIATE_PROGRAM.value,
+                notes: NOTES.value,
+              };
+            }
+            return brand;
+          });
+          return updatedBrands;
+        } else {
+          return oldData;
+        }
+      });
+    } else {
+      //Update brands from DB if brand logo has changed, since the logo URL is not stored in cache
+      queryClient.refetchQueries([adminKeys.brands.all_brands]);
+    }
   };
 
   const valid_till_date_color = (date) => {
@@ -362,7 +395,13 @@ const editarMarca = () => {
     }
   };
 
-  if (securingRoute || state.loading || BRANDS.isLoading) {
+  if (
+    securingRoute ||
+    state.loading ||
+    BRANDS.isLoading ||
+    BRANDS.isFetching ||
+    BRANDS.isRefetching
+  ) {
     return (
       <div className={styles.loaderContainer}>
         <Loader />
@@ -572,7 +611,10 @@ const editarMarca = () => {
                       state.brand.sponsors_box === SPONSORS_BOX.value &&
                       state.brand.affiliate_program ===
                         AFFILIATE_PROGRAM.value &&
-                      state.brand.notes === NOTES.value)
+                      state.brand.notes === NOTES.value) ||
+                    BRANDS.isFetching ||
+                    BRANDS.isRefetching ||
+                    BRANDS.isLoading
                   }
                 >
                   Guardar cambios
