@@ -1,0 +1,48 @@
+@import '../../../../styles/Vars.scss';
+
+.loader_container {
+  height: 280px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid $color--dark-gray;
+  border-radius: 8px;
+  .cc_logo {
+    width: 100px;
+    height: 100px;
+    position: relative;
+  }
+}
+
+.container {
+  width: 100%;
+  border-radius: 8px;
+  background-color: $color--white;
+  box-shadow: 0 0 0 1px $color--dark-gray, 0 0 0 2px $color--white;
+  border: 1px solid $color--dark-gray;
+  padding: 8px;
+  h4 {
+    margin: 0;
+    text-align: center;
+  }
+  .count_container {
+    //Create a circle arround the number
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 125px;
+    height: 125px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background-color: $color--white;
+    border: 3px solid $color--primary1;
+    p {
+      margin: 0;
+      text-align: center;
+      @include font-size(42px);
+      font-weight: bold;
+      font-family: $font1;
+    }
+  }
+}

@@ -6,6 +6,7 @@ import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import CC_LogoLoader from '@components/GeneralUseComponents/CC_LogoLoader/CC_LogoLoader';
 import HorizontalBarChart from '@components/UsedInSpecificRoutes/Admin/HorizontalBarChart/HorizontalBarChart';
 import BrandsWithNoDiscountsTable from '@components/UsedInSpecificRoutes/Admin/BrandsWithNoDiscountsTable/BrandsWithNoDiscountsTable';
+import VerifyedStudentsCount from '@components/UsedInSpecificRoutes/Admin/VerifyedStudentsCount/VerifyedStudentsCount';
 
 //React query
 import { useQuery } from '@tanstack/react-query';
@@ -162,8 +163,18 @@ const index = () => {
             // Brands with no discounts table //
             ////////////////////////////////// */}
 
-            <div className={styles.brands_with_no_discounts_container}>
-              <BrandsWithNoDiscountsTable />
+            <div
+              className={
+                styles.brands_with_no_discounts_verifyed_students_container
+              }
+            >
+              <div className={styles.brands_with_no_discounts_container}>
+                <BrandsWithNoDiscountsTable />
+              </div>
+
+              <div className={styles.verifyed_students_container}>
+                <VerifyedStudentsCount />
+              </div>
             </div>
           </div>
         </div>

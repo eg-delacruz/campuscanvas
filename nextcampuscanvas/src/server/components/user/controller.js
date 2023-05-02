@@ -747,6 +747,20 @@ const manuallyRejectAccVerifByStuId = async (
   }
 };
 
+const getVerifiedStudentsCount = async () => {
+  try {
+    const verified_students_count = await store.getVerifyedStudentsCount();
+
+    return verified_students_count;
+  } catch (error) {
+    console.error(
+      '[User controller | getVerifiedStudentsCount function error]' +
+        error.message
+    );
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
   getUserById,
   registerUser,
@@ -766,4 +780,5 @@ module.exports = {
   getAllAdmins,
   manuallyVerifyStuAccByStuId,
   manuallyRejectAccVerifByStuId,
+  getVerifiedStudentsCount,
 };

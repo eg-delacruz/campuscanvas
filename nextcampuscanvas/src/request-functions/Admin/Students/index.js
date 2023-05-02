@@ -21,6 +21,24 @@ const checkIfPendingValidationsAvailable = async () => {
   return response.body;
 };
 
+const getVerifiedStudentsCount = async () => {
+  const response = await axiosFetcher({
+    url: endPointsV2.admin.students.getVerifiedStudentsCount,
+    method: 'get',
+    extraHeaders: {
+      required_info: 'verified_students_count',
+    },
+  });
+
+  if (response.error) {
+    console.log(response.error);
+    throw new Error(response.error);
+  }
+
+  return response.body;
+};
+
 export default {
   checkIfPendingValidationsAvailable,
+  getVerifiedStudentsCount,
 };

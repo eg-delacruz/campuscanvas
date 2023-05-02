@@ -103,6 +103,18 @@ const verifyStuIdLegitimacy = async (user, stu_id) => {
   }
 };
 
+/////////////////////Get verifyed students count//////////////////////////////
+const getVerifyedStudentsCount = async () => {
+  try {
+    const count = await User.countDocuments({
+      stu_verified: true,
+    });
+    return count;
+  } catch (error) {
+    throw new Error('[User store]', error);
+  }
+};
+
 module.exports = {
   add: addUser,
   getAll: getUsers,
@@ -114,4 +126,5 @@ module.exports = {
   userExists,
   getAdmins,
   verifyStuIdLegitimacy,
+  getVerifyedStudentsCount,
 };

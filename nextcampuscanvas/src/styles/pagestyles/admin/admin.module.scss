@@ -57,12 +57,24 @@
     gap: 16px;
   }
 
-  ////////////////////////////////
-  // Brands with no discounts table //
-  //////////////////////////////////
-  .brands_with_no_discounts_container {
-    max-width: 49.5%;
-    margin-top: 16px;
+  .brands_with_no_discounts_verifyed_students_container {
+    display: flex;
+    justify-content: flex-start;
+    max-width: 1400px;
+    gap: 16px;
+
+    .verifyed_students_container {
+      width: 24.75%;
+      margin-top: 16px;
+    }
+
+    ////////////////////////////////
+    // Brands with no discounts table //
+    //////////////////////////////////
+    .brands_with_no_discounts_container {
+      width: 49.5%;
+      margin-top: 16px;
+    }
   }
 }
 
@@ -80,17 +92,31 @@
       flex-direction: column;
     }
 
-    ////////////////////////////////
-    // Brands with no discounts table //
-    //////////////////////////////////
-    .brands_with_no_discounts_container {
-      max-width: 100%;
+    .brands_with_no_discounts_verifyed_students_container {
+      flex-direction: column-reverse;
+      .verifyed_students_container {
+        width: 50%;
+        margin-top: 16px;
+      }
+      ////////////////////////////////
+      // Brands with no discounts table //
+      //////////////////////////////////
+      .brands_with_no_discounts_container {
+        width: 100%;
+      }
     }
   }
 }
 ////////////////////////////////////////480/////////////////////////////////////////////
 
 @media screen and (max-width: 480px) {
+  .container {
+    .brands_with_no_discounts_verifyed_students_container {
+      .verifyed_students_container {
+        width: 100%;
+      }
+    }
+  }
 }
 ////////////////////////////////////////320/////////////////////////////////////////////
 

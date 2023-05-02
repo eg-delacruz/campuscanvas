@@ -9,6 +9,10 @@ const adminKeys = {
   brands: {
     all_brands: 'all_brands',
   },
+  //////////////////Student//////////////////
+  students: {
+    get_verified_students_count: 'get_verified_students_count',
+  },
 };
 
 export default adminKeys;
