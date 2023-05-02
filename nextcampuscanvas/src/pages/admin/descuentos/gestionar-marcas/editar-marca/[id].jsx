@@ -5,6 +5,11 @@ import Swal from 'sweetalert2';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 
+//React query
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import discountKeys from '@query-key-factory/discountKeys';
+import adminKeys from '@query-key-factory/adminKeys';
+
 //Styles
 import styles from '@styles/pagestyles/admin/descuentos/editarMarca.module.scss';
 //Rich text editor styles
@@ -24,10 +29,6 @@ import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
 import useAxios from '@hooks/useAxios';
 import { useInputValue } from '@hooks/useInputValue';
 
-//Redux
-import { getBrands, selectBrand } from '@redux/brandsSlice';
-import { useSelector, useDispatch } from 'react-redux';
-
 //Assets
 import delete_icon from '@assets/GeneralUse/IconsAndButtons/delete.svg';
 import edit_pencil from '@assets/GeneralUse/IconsAndButtons/edit_pencil.svg';
@@ -37,6 +38,10 @@ import dateFormat from '@services/dateFormat';
 
 //Endpoints
 import endPoints from '@services/api/index';
+
+//Request functions
+import discountFunctions from '@request-functions/Discounts';
+import requestFn from '@request-functions/Admin/Discounts'; //Admin functions
 
 //Rich text editor
 const ReactQuill = dynamic(
@@ -83,9 +88,6 @@ const editarMarca = () => {
 
   const { fetchData, cancel } = useAxios();
 
-  //Allows us to manipulate the appropriate slice/action
-  const dispatch = useDispatch();
-
   //Refs
   const descriptionRef = useRef();
 
@@ -98,12 +100,6 @@ const editarMarca = () => {
     saving_changes_error: null,
   });
 
-  const [discounts, setDiscounts] = useState({
-    discounts: [],
-    loading: true,
-    error: null,
-  });
-
   const [newBrandLogo, setNewBrandLogo] = useState({
     newLogo: [],
     error: null,
@@ -111,15 +107,32 @@ const editarMarca = () => {
   });
   const [description, setDescription] = useState('');
   const [descriptionLength, setDescriptionLength] = useState(0);
-  const [discountsCount, setDiscountsCount] = useState(0);
   const [showEliminateModal, setShowEliminateModal] = useState(false);
 
   //Get brand id
   const router = useRouter();
   const id = router.query.id;
 
-  //Reducers
-  const brandsReducer = useSelector(selectBrand);
+  //React query
+  const queryClient = useQueryClient();
+
+  //React query
+  const BRANDS = useQuery({
+    queryKey: [adminKeys.brands.all_brands],
+    queryFn: requestFn.getBrands,
+    staleTime: 1000 * 60 * 60 * 24, //24 hours
+    initialData: [],
+    initialDataUpdatedAt: 1, //prevent initialData from being overwritten by queryFn
+  });
+
+  const ATTACHED_DISCOUNTS = useQuery({
+    queryKey: [discountKeys.brands.get_discounts_attached(id)],
+    queryFn: () => discountFunctions.getDiscountsOfBrand(id),
+    staleTime: 1000 * 60 * 60 * 5, //5 hours
+    enabled:
+      state.brand?.discounts_attached !== 0 &&
+      state.brand?.discounts_attached !== undefined,
+  });
 
   //Get brand info (start)
   useEffect(() => {
@@ -127,8 +140,10 @@ const editarMarca = () => {
     if (!router.isReady) return;
 
     //Get the brand from global state if available to avoid unnecessary requests
-    if (brandsReducer.brands.length > 0) {
-      const brand = brandsReducer.brands.find((brand) => brand._id === id);
+    if (BRANDS?.data?.length > 0) {
+      if (BRANDS.data === undefined) return;
+
+      const brand = BRANDS.data.find((brand) => brand._id === id);
       if (brand) {
         setState({ ...state, brand, loading: false });
         SPONSORS_BOX.setValue(brand.sponsors_box);
@@ -171,57 +186,8 @@ const editarMarca = () => {
       };
       getBrand();
     }
-  }, [brandsReducer, router?.isReady]);
+  }, [BRANDS?.data, router?.isReady]);
   //Get brand info (end)
-
-  //Get discounts asociated to this brand (start)
-  useEffect(() => {
-    //Await until the route is ready to get the brand_id
-    if (!router.isReady) return;
-
-    const getDiscounts = async () => {
-      const responses = await Promise.allSettled([
-        fetchData(endPoints.discounts.index, 'get', null, {
-          needed_info: 'discounts_by_brand',
-          brand_id: id,
-        }),
-        fetchData(endPoints.discounts.index, 'get', null, {
-          needed_info: 'discounts_count_by_brand',
-          brand_id: id,
-        }),
-      ]);
-
-      const [discountsResponse, discountsCountResponse] = responses;
-
-      if (discountsResponse.status === 'rejected') {
-        setDiscounts({
-          ...discounts,
-          error: discountsResponse.reason,
-          loading: false,
-        });
-        return;
-      }
-
-      if (discountsCountResponse.status === 'rejected') {
-        setDiscounts({
-          ...discounts,
-          error: discountsCountResponse.reason,
-          loading: false,
-        });
-        return;
-      }
-
-      setDiscounts({
-        ...discounts,
-        discounts: discountsResponse.value.body,
-        loading: false,
-        error: null,
-      });
-      setDiscountsCount(discountsCountResponse.value.body.count);
-    };
-    getDiscounts();
-  }, [router?.isReady]);
-  //Get discounts asociated to this brand (end)
 
   //Count description length
   useEffect(() => {
@@ -238,7 +204,7 @@ const editarMarca = () => {
 
   const displayEliminateModal = () => {
     // If this brand has any asociated discounts, show a swal and dont allow to delete
-    if (discounts.discounts.length > 0) {
+    if (state.brand?.discounts_attached > 0) {
       const customSwal = Swal.mixin({
         customClass: {
           confirmButton: 'btn button--red',
@@ -373,7 +339,8 @@ const editarMarca = () => {
       logoPreview: '',
     });
 
-    dispatch(getBrands());
+    //Invalidate brands query to refresh the list
+    queryClient.invalidateQueries([adminKeys.brands.all_brands]);
   };
 
   const valid_till_date_color = (date) => {
@@ -394,7 +361,7 @@ const editarMarca = () => {
     }
   };
 
-  if (securingRoute || state.loading || brandsReducer.loading) {
+  if (securingRoute || state.loading || BRANDS.isLoading) {
     return (
       <div className={styles.loaderContainer}>
         <Loader />
@@ -406,7 +373,11 @@ const editarMarca = () => {
     <>
       <AdminHeader />
       <div className={`${styles.container} container`}>
-        <ButtonBack prevRoute={'/admin/descuentos/gestionar-marcas'} />
+        <ButtonBack
+          prevRoute={'/admin/descuentos/gestionar-marcas'}
+          message='Marcas'
+          disabled={state.saving_changes}
+        />
 
         <main>
           {state.error ? (
@@ -621,17 +592,22 @@ const editarMarca = () => {
                 // Associated discounts //
                 ///////////////////////// */}
               <div className={styles.discounts_container}>
-                <h2>Descuentos asociados ({discountsCount})</h2>
-                {discounts.loading ? (
-                  <Loader />
+                <h2>
+                  Descuentos asociados ({state.brand?.discounts_attached})
+                </h2>
+                {state.brand?.discounts_attached === 0 ? (
+                  <p>No hay descuentos asociados a esta marca</p>
                 ) : (
                   <>
-                    {discounts.error ? (
-                      <p className='error__message'>{discounts.error}</p>
+                    {ATTACHED_DISCOUNTS.isLoading ||
+                    ATTACHED_DISCOUNTS.isFetching ? (
+                      <Loader />
                     ) : (
                       <>
-                        {discounts.discounts.length === 0 ? (
-                          <p>No hay descuentos asociados a esta marca</p>
+                        {ATTACHED_DISCOUNTS.isError ? (
+                          <p className='error__message'>
+                            {ATTACHED_DISCOUNTS.error?.message}
+                          </p>
                         ) : (
                           <div className={styles.discounts_table_container}>
                             <table className={styles.discounts_table}>
@@ -648,7 +624,7 @@ const editarMarca = () => {
                               </thead>
 
                               <tbody>
-                                {discounts.discounts.map((discount) => (
+                                {ATTACHED_DISCOUNTS.data.map((discount) => (
                                   <tr
                                     className={styles.discount}
                                     key={discount._id}

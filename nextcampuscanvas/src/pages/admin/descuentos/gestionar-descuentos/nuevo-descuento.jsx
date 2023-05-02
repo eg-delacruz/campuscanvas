@@ -11,8 +11,9 @@ import { ReactTags } from 'react-tag-autocomplete';
 import discount_key_words from '@datalist-options/discount_key_words';
 
 //React query
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import discoutKeys from '@query-key-factory/discountKeys';
+import adminKeys from '@query-key-factory/adminKeys';
 
 //Styles
 import styles from '@styles/pagestyles/admin/descuentos/nuevoDescuento.module.scss';
@@ -31,13 +32,11 @@ import DragDropUploadArea from '@components/GeneralUseComponents/DragDropUploadA
 import { useInputValue } from '@hooks/useInputValue';
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
 import { useCharacterCount } from '@hooks/useCharacterCount';
-import useAxios from '@hooks/useAxios';
 
 //Request functions
 import discountFunctions from '@request-functions/Admin/Discounts';
 
 //Redux
-import { getBrands, selectBrand } from '@redux/brandsSlice';
 import { getDiscounts } from '@redux/discountsSlice';
 import {
   selectHomeSectionsCount,
@@ -49,20 +48,26 @@ import {
 } from '@redux/showDiscountFirstInCategorySlice';
 import { countDiscounts } from '@redux/discountsCountSlice';
 
-//Endpoints
-import endPoints from '@services/api';
-
 //Rich text editor
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 //CLARIFICATIONS:
-//TODO: When the discounts table is fetched with react query, use the setQueryData function to update the table with the new discount
 const nuevoDescuento = () => {
   const { securingRoute } = useSecureAdminRoute('all');
   //Allows us to manipulate the appropriate slice/action
   const dispatch = useDispatch();
 
   //React query
+  const queryClient = useQueryClient();
+
+  const BRANDS = useQuery({
+    queryKey: [adminKeys.brands.all_brands],
+    queryFn: discountFunctions.getBrands,
+    staleTime: 1000 * 60 * 60 * 24, //24 hours
+    initialData: [],
+    initialDataUpdatedAt: 1, //prevent initialData from being overwritten by queryFn
+  });
+
   const SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT = useQuery({
     queryKey: [discoutKeys.cards.show_first_in_all_discounts_count],
     queryFn: discountFunctions.getShowFirstInAllDiscountsCount,
@@ -72,13 +77,37 @@ const nuevoDescuento = () => {
   const ADD_DISCOUNT = useMutation({
     mutationFn: (discount) => discountFunctions.addDiscount(discount),
     onSuccess: (data) => {
-      setState({ ...state, uploading: false, error: null });
-
       //Reload all discounts after saving a new one
       dispatch(getDiscounts());
 
       //Refresh discounts count
       dispatch(countDiscounts());
+
+      const response_brand_id = data.discount.brand.toString();
+
+      //Increase the discounts_attached count of the brand in the brands query cache (which is an array of brands) if applies (if the array is not empty)
+      queryClient.setQueryData([adminKeys.brands.all_brands], (oldData) => {
+        if (oldData.length > 0) {
+          const updatedBrands = oldData.map((brand) => {
+            if (brand._id === response_brand_id) {
+              return {
+                ...brand,
+                discounts_attached: brand.discounts_attached + 1,
+              };
+            } else {
+              return brand;
+            }
+          });
+          return updatedBrands;
+        } else {
+          return oldData;
+        }
+      });
+
+      //Invalidate discounts associated to the brand that are displayed in the edit brand page
+      queryClient.invalidateQueries([
+        discoutKeys.brands.get_discounts_attached(response_brand_id),
+      ]);
 
       //Refresh home section card count if applyes
       if (DISPLAY_CARD_IN_SECTION.value) {
@@ -113,6 +142,8 @@ const nuevoDescuento = () => {
         title: data.message,
       });
 
+      setState({ ...state, uploading: false, error: null });
+
       //Redirect to the created discount
       router.push(
         `/admin/descuentos/gestionar-descuentos/editar-descuento/${data.discount._id}`
@@ -124,23 +155,12 @@ const nuevoDescuento = () => {
   });
 
   //Reducers
-  const brandsReducer = useSelector(selectBrand);
   const homeSectionsCountReducer = useSelector(selectHomeSectionsCount);
   const showFirstInCategoryCountReducer = useSelector(
     selectShowFirstInCategoryCount
   );
 
   const router = useRouter();
-
-  //Get brands to choose from the datalist
-  useEffect(() => {
-    const setBrands = async () => {
-      if (brandsReducer.brands.length === 0) {
-        dispatch(getBrands());
-      }
-    };
-    setBrands();
-  }, []);
 
   //Get home section and show first counts
   useEffect(() => {
@@ -157,8 +177,6 @@ const nuevoDescuento = () => {
 
     setCounts();
   }, [router?.isReady]);
-
-  const { fetchData } = useAxios();
 
   //Datalist options
   const STATUS_OPTIONS = ['available', 'unavailable'];
@@ -312,8 +330,7 @@ const nuevoDescuento = () => {
 
   //Get brand id
   const brand_id = () => {
-    const { brands } = brandsReducer;
-    const item = brands.find((item) => item.brand_name === BRAND.value);
+    const item = BRANDS.data.find((item) => item.brand_name === BRAND.value);
     if (item === undefined) {
       setBrandDatalistError('Selecciona una marca de la lista');
       setState({
@@ -515,7 +532,7 @@ const nuevoDescuento = () => {
     ADD_DISCOUNT.mutate(formdata);
   };
 
-  if (securingRoute || brandsReducer.loading) {
+  if (securingRoute || BRANDS.isLoading) {
     return (
       <div className={styles.loaderContainer}>
         <Loader />
@@ -526,7 +543,11 @@ const nuevoDescuento = () => {
     <>
       <AdminHeader />
       <div className={`${styles.container} container`}>
-        <ButtonBack prevRoute={'/admin/descuentos/gestionar-descuentos'} />
+        <ButtonBack
+          message='Descuentos'
+          prevRoute={'/admin/descuentos/gestionar-descuentos'}
+          disabled={state.uploading}
+        />
 
         <h1>Nuevo descuento</h1>
 
@@ -661,7 +682,7 @@ const nuevoDescuento = () => {
                   list='brands'
                 />
                 <datalist id='brands'>
-                  {brandsReducer.brands.map((brand) => (
+                  {BRANDS?.data.map((brand) => (
                     <option key={brand._id} value={brand.brand_name} />
                   ))}
                 </datalist>

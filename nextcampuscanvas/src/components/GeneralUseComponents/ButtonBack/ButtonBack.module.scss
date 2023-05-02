@@ -10,3 +10,12 @@
     margin-right: 8px;
   }
 }
+
+/////Disabled states
+.link_disabled {
+  pointer-events: none;
+}
+
+.btn_disabled {
+  opacity: 0.5;
+}

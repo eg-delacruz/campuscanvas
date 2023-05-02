@@ -1,8 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import { useDispatch } from 'react-redux';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+
+//React query
+import { useQueryClient } from '@tanstack/react-query';
+import adminKeys from '@query-key-factory/adminKeys';
 
 //Styles
 import styles from './DisplayNewBrandModal.module.scss';
@@ -21,10 +24,6 @@ import useAxios from '@hooks/useAxios';
 
 //Endpoints
 import endPoints from '@services/api';
-
-//Redux actions
-import { getBrands } from '@redux/brandsSlice';
-import { countBrands } from '@redux/brandsCountSlice';
 
 //Rich text editor
 const ReactQuill = dynamic(
@@ -81,8 +80,8 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
 
   const { fetchData: uploadData, cancel } = useAxios();
 
-  //Allows us to manipulate the appropriate slice/action
-  const dispatch = useDispatch();
+  //React query
+  const queryClient = useQueryClient();
 
   const router = useRouter();
 
@@ -150,11 +149,10 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
       return setState({ ...state, error: response.error, uploading: false });
     }
 
-    //Dispatching action to update the brands list
-    dispatch(getBrands());
-
-    //Dispatching action to update the brands count
-    dispatch(countBrands());
+    //Add the new brand to the brands query cache (which is an array of objects)
+    queryClient.setQueryData([adminKeys.brands.all_brands], (oldData) => {
+      return [...oldData, response.body.brand];
+    });
 
     //Reseting values and closing modal
     BRAND_NAME.setValue('');

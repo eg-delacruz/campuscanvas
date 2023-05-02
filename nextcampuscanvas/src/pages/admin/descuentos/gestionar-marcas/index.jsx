@@ -1,9 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 
 //styles
 import styles from '@styles/pagestyles/admin/descuentos/gestionarMarcas.module.scss';
+
+//React query
+import { useQuery } from '@tanstack/react-query';
+import adminKeys from '@query-key-factory/adminKeys';
 
 //Components
 import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
@@ -15,22 +18,14 @@ import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
 import { useInputValue } from '@hooks/useInputValue';
 import useDebouncedSearchValue from '@hooks/useDebouncedSearchValue';
 
-//Redux
-import { getBrands, selectBrand } from '@redux/brandsSlice';
-import { countBrands, selectCountBrands } from '@redux/brandsCountSlice';
-
 //Services
 import dateFormat from '@services/dateFormat';
 
+//Request functions
+import requestFn from '@request-functions/Admin/Discounts';
+
 const gestionarMarcas = () => {
   const { securingRoute } = useSecureAdminRoute();
-
-  //Allows us to manipulate the appropriate slice/action
-  const dispatch = useDispatch();
-
-  //Reducers
-  const brandsReducer = useSelector(selectBrand);
-  const brandsCountReducer = useSelector(selectCountBrands);
 
   //States
   const [showModal, setShowModal] = useState(false);
@@ -39,41 +34,38 @@ const gestionarMarcas = () => {
   //Controlling inputs
   const SEARCH_INPUT = useInputValue('');
 
-  //Get brands data
-  useEffect(() => {
-    const setBrands = async () => {
-      if (brandsReducer.brands.length === 0) {
-        dispatch(getBrands());
-      }
-    };
-    setBrands();
-  }, []);
+  //React query
+  const BRANDS = useQuery({
+    queryKey: [adminKeys.brands.all_brands],
+    queryFn: requestFn.getBrands,
+    staleTime: 1000 * 60 * 60 * 24, //24 hours
+    initialData: [],
+    initialDataUpdatedAt: 1, //prevent initialData from being overwritten by queryFn
+  });
 
   //Set brands to filtered brands state
   useEffect(() => {
-    setFilteredBrands(brandsReducer.brands);
-  }, [brandsReducer.brands]);
-
-  //Get brands count
-  useEffect(() => {
-    if (!brandsCountReducer.initial_render_loaded) {
-      dispatch(countBrands());
+    if (BRANDS?.data) {
+      setFilteredBrands(BRANDS.data);
     }
-  }, []);
+  }, [BRANDS?.data]);
 
   //Debounce search input
   const debouncedSearchValue = useDebouncedSearchValue(SEARCH_INPUT.value);
 
   //Filter brands
   useMemo(() => {
-    const results = brandsReducer.brands.filter((brand) => {
+    if (BRANDS.data === undefined) return;
+
+    const results = BRANDS?.data.filter((brand) => {
+      //If search input is empty, the filter returns all brands
       return (
         brand.brand_name
           .toLowerCase()
-          .includes(SEARCH_INPUT.value.toLowerCase()) ||
+          .includes(debouncedSearchValue.toLowerCase()) ||
         brand.affiliate_program
           .toLowerCase()
-          .includes(SEARCH_INPUT.value.toLowerCase())
+          .includes(debouncedSearchValue.toLowerCase())
       );
     });
     setFilteredBrands(results);
@@ -99,7 +91,7 @@ const gestionarMarcas = () => {
       <AdminHeader />
       <div className={`${styles.container} container`}>
         <div className={styles.title_create_brand_container}>
-          <h1>Marcas ({brandsCountReducer.count})</h1>
+          <h1>Marcas ({BRANDS.data?.length})</h1>
           <button
             className='btn button--red'
             onClick={() => setShowModal(true)}
@@ -108,7 +100,7 @@ const gestionarMarcas = () => {
           </button>
         </div>
 
-        {!brandsReducer.loading && (
+        {!BRANDS.isLoading && (
           <>
             {/* /////////////////////////
              //      Search bar       //
@@ -129,7 +121,7 @@ const gestionarMarcas = () => {
         )}
 
         <section className={styles.brands}>
-          {brandsReducer.loading ? (
+          {BRANDS.isLoading ? (
             <Loader />
           ) : (
             <>
@@ -143,6 +135,7 @@ const gestionarMarcas = () => {
                       <th>
                         Patrocina <br /> Campus Box
                       </th>
+                      <th>Descuentos asociados</th>
                       <th>Actualizado</th>
                     </tr>
                   </thead>
@@ -192,6 +185,13 @@ const gestionarMarcas = () => {
                           href={`/admin/descuentos/gestionar-marcas/editar-marca/${brand._id}`}
                         >
                           <td className={styles.column4}>
+                            {brand.discounts_attached}
+                          </td>
+                        </Link>
+                        <Link
+                          href={`/admin/descuentos/gestionar-marcas/editar-marca/${brand._id}`}
+                        >
+                          <td className={styles.column5}>
                             {dateFormat.SlashDate(new Date(brand.updated_at))}
                           </td>
                         </Link>
@@ -204,7 +204,7 @@ const gestionarMarcas = () => {
               )}
             </>
           )}
-          {brandsReducer.error ? <p>{brandsReducer.error}</p> : null}
+          {BRANDS.isError ? <p>{BRANDS.error?.message}</p> : null}
         </section>
       </div>
     </>

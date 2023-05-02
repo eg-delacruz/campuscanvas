@@ -6,7 +6,10 @@ const discountKeys = {
     get_by_category: (category) => `get_by_category_${category}`,
   },
   banners: {},
-  brands: {},
+  brands: {
+    get_discounts_attached: (brand_id) =>
+      `get_discounts_attached_to_brand_${brand_id}`,
+  },
   generalKeys: {},
 };
 

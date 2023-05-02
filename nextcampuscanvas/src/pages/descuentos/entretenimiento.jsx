@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useRef, useCallback } from 'react';
 
 //Styles
 import styles from '@styles/pagestyles/DisplayDiscountPagesStyles.module.scss';

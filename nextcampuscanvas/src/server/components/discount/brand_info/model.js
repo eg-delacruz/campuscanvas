@@ -32,6 +32,15 @@ const BrandInfoSchema = new mongoose.Schema({
   notes: {
     type: String,
   },
+  discounts_attached: {
+    type: Number,
+    default: 0,
+    required: [true, 'El número de descuentos es necesario'],
+  },
+  last_time_checked_since_brand_has_no_discounts: {
+    type: Date,
+    default: null,
+  },
   created_by: {
     type: String,
     required: [true, 'El creador de la marca es necesario'],

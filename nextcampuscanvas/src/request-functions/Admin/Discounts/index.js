@@ -4,6 +4,13 @@ import axiosFetcher from '@services/axiosFetcher';
 //Endpoints
 import endPoints from '@services/api';
 
+////////////////////////////
+//    Genersl functions   //
+////////////////////////////
+
+////////////////////////////
+//   Discounts functions  //
+////////////////////////////
 const addDiscount = async (formdata) => {
   const response = await axiosFetcher({
     url: endPoints.admin.discounts.index,
@@ -71,9 +78,40 @@ const getShowFirstInAllDiscountsCount = async () => {
   return response.body;
 };
 
+////////////////////////////
+//    Brands functions   //
+////////////////////////////
+
+const getBrands = async () => {
+  const response = await axiosFetcher({
+    url: endPoints.discounts.brands,
+    method: 'get',
+    extraHeaders: {
+      required_info: 'all_brands',
+    },
+  });
+
+  if (response.error) {
+    console.log(response.error);
+    throw new Error(response.error);
+  }
+
+  return response.body;
+};
+
 export default {
+  //General funtions
+
+  //Discount functions
   addDiscount,
-  getMostLikedDiscounts,
-  getMostDislikedDiscounts,
+  getMostLikedDiscounts, //used in Dashboard
+  getMostDislikedDiscounts, // used in Dashboard
   getShowFirstInAllDiscountsCount,
+
+  //Brand functions
+  getBrands,
+
+  //Cards funtions
+
+  //Banner functions
 };

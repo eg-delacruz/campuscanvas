@@ -6,6 +6,9 @@ const adminKeys = {
     most_liked_discounts_data: 'most_liked_discounts_data',
     most_disliked_discounts_data: 'most_disliked_discounts_data',
   },
+  brands: {
+    all_brands: 'all_brands',
+  },
 };
 
 export default adminKeys;

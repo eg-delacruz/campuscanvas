@@ -936,6 +936,7 @@ const editarDescuento = () => {
         bannerName={state.discount.banner.name}
         has_home_banner={has_home_banner}
         card_appears_in_home={card_appeas_in_home}
+        brand_id={state.discount.brand._id}
       />
     );
   };
@@ -1003,7 +1004,9 @@ const editarDescuento = () => {
           <div className={`${styles.container} container`}>
             <div className={styles.button_back_eliminate_icon_flex_container}>
               <ButtonBack
+                message='Descuentos'
                 prevRoute={'/admin/descuentos/gestionar-descuentos'}
+                disabled={state.saving_changes}
               />
               {/* Only allow deletion if information has been fully fetched */}
               {!securingRoute || !state.loading || !discountsReducer.loading ? (

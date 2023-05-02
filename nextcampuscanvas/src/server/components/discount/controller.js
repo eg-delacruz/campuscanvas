@@ -59,6 +59,8 @@ const createNewBrand = async ({
       brand_description,
       affiliate_program,
       notes,
+      discounts_attached: 0,
+      last_time_checked_since_brand_has_no_discounts: new Date(),
       created_by,
       updated_by: created_by,
       created_at: new Date(),
@@ -312,6 +314,10 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       }
     }
 
+    //Update discounts count attached to brand by getting the brand and adding 1 to the discounts_attached attribute
+    brand_info.discounts_attached += 1;
+    brandInfo_Store.update(brand_info);
+
     return { routesToUpdateSSG, discount: CREATED_DISCOUNT };
   } catch (error) {
     console.log('[discount controller error]' + error.message);
@@ -429,6 +435,15 @@ const eliminateDiscountData = async (id, bannerName) => {
     ] = responses;
 
     if (deleted_discount.value?.status === 'available') {
+      //Update discounts count attached to brand by geting the brand and decreasing the discounts_attached attribute by 1
+      const brand_id = deleted_discount.value.brand.toString();
+      const brand = await brandInfo_Store.getById(brand_id);
+      brand.discounts_attached -= 1;
+      if (brand.discounts_attached === 0) {
+        brand.last_time_checked_since_brand_has_no_discounts = new Date();
+      }
+      brandInfo_Store.update(brand);
+
       //Updating all discounts route (since all available discounts allways appear here)
       routesToUpdateSSG.push('/descuentos/todos');
 
@@ -654,6 +669,16 @@ const updateBrand = async ({
       brand.updated_by = updated_by;
       brand.updated_at = new Date();
 
+      //TODO: erase this when all brands have these properties and when the whole process has been completed and is uploaded to production
+      // if (
+      brand.last_time_checked_since_brand_has_no_discounts === null ||
+        brand.discounts_attached === undefined;
+      // ) {
+      brand.last_time_checked_since_brand_has_no_discounts = new Date();
+      brand.discounts_attached =
+        await discountInfo_Store.getDiscountsCountByBrandId(id);
+      //  }
+
       updated_Brand = await brandInfo_Store.update(brand);
 
       //Revalidate linked discounts if there is a new description
@@ -667,8 +692,6 @@ const updateBrand = async ({
         });
       }
     }
-
-    console.log({ routesToUpdateSSG });
 
     return { updated_Brand, routesToUpdateSSG };
   } catch (error) {

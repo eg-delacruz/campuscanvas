@@ -7,6 +7,10 @@ import { useRouter } from 'next/router';
 //Syles
 import styles from './DisplayEliminateBrandModal.module.scss';
 
+//React query
+import { useQueryClient } from '@tanstack/react-query';
+import adminKeys from '@query-key-factory/adminKeys';
+
 //Components
 import Modal from '@components/GeneralUseComponents/Modal/Modal';
 import WarningImage from '@components/GeneralUseComponents/WarningImage/WarningImage';
@@ -17,10 +21,6 @@ import useAxios from '@hooks/useAxios';
 //Endpoints
 import endPoints from '@services/api';
 
-//Redux
-import { getBrands } from '@redux/brandsSlice';
-import { countBrands } from '@redux/brandsCountSlice';
-
 const DisplayEliminateBrandModal = ({
   showModal,
   setShowModal,
@@ -30,8 +30,8 @@ const DisplayEliminateBrandModal = ({
   //Axios
   const { fetchData: eraseBrand, cancel } = useAxios();
 
-  //Allows us to manipulate the appropriate slice/action
-  const dispatch = useDispatch();
+  //React query
+  const queryClient = useQueryClient();
 
   const router = useRouter();
 
@@ -57,11 +57,12 @@ const DisplayEliminateBrandModal = ({
 
     //If deletion successful
     if (response.body === 'Marca eliminada') {
-      //Update global brands state
-      dispatch(getBrands());
-
-      //Update global brands count state
-      dispatch(countBrands());
+      queryClient.setQueryData(
+        [adminKeys.brands.all_brands],
+        (oldData = []) => {
+          return oldData.filter((brand) => brand._id !== id);
+        }
+      );
 
       setState({
         ...state,
