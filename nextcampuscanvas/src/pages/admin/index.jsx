@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import CC_LogoLoader from '@components/GeneralUseComponents/CC_LogoLoader/CC_LogoLoader';
+import HorizontalBarChart from '@components/UsedInSpecificRoutes/Admin/HorizontalBarChart/HorizontalBarChart';
+import BrandsWithNoDiscountsTable from '@components/UsedInSpecificRoutes/Admin/BrandsWithNoDiscountsTable/BrandsWithNoDiscountsTable';
 
 //React query
 import { useQuery } from '@tanstack/react-query';
@@ -14,9 +16,6 @@ import styles from '@pagestyles/admin/admin.module.scss';
 
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
-
-//Components
-import HorizontalBarChart from '@components/UsedInSpecificRoutes/Admin/HorizontalBarChart/HorizontalBarChart';
 
 //Data request functions
 import requestFunctions from '@request-functions/Admin/Discounts/index';
@@ -124,6 +123,9 @@ const index = () => {
         <div className={`${styles.container} container`}>
           <h1>Dashboard</h1>
           <div className={styles.charts_container}>
+            {/* /////////////////////////
+            //  Liked/disliked charts  //
+            ///////////////////////// */}
             <div className={styles.liked_disliked_charts_container}>
               {preparingData ? (
                 <div className={styles.chart_loader}>
@@ -154,6 +156,14 @@ const index = () => {
                   />
                 </div>
               )}
+            </div>
+
+            {/* ////////////////////////////////
+            // Brands with no discounts table //
+            ////////////////////////////////// */}
+
+            <div className={styles.brands_with_no_discounts_container}>
+              <BrandsWithNoDiscountsTable />
             </div>
           </div>
         </div>

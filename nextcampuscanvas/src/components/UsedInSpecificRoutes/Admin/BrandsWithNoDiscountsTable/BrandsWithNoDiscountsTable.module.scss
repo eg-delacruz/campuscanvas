@@ -1,0 +1,85 @@
+@import '../../../../styles/Vars.scss';
+
+.loader_container {
+  height: 280px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid $color--dark-gray;
+  border-radius: 8px;
+  .cc_logo {
+    width: 100px;
+    height: 100px;
+    position: relative;
+  }
+}
+
+.container {
+  width: 100%;
+  border-radius: 8px;
+  background-color: $color--white;
+  box-shadow: 0 0 0 1px $color--dark-gray, 0 0 0 2px $color--white;
+  border: 1px solid $color--dark-gray;
+  padding: 8px;
+  .title {
+    margin: 0;
+    text-align: center;
+  }
+  .table {
+    width: 100%;
+    thead {
+      @include font-size(12px);
+      th {
+        text-align: left;
+      }
+      .encabezado_col1 {
+        max-width: 70px;
+        padding-right: 4px;
+      }
+    }
+
+    tbody {
+      @include font-size(11px);
+      td {
+        text-align: left;
+      }
+      .col1 {
+        text-align: center;
+        .update_icon:hover {
+          cursor: pointer;
+          opacity: 0.8;
+        }
+      }
+      .col4 {
+        .warn_background {
+          background-color: $color--warning;
+          border-radius: 4px;
+          color: $color--white;
+          padding: 0 2px;
+        }
+        .danger_background {
+          background-color: $color--primary1;
+          border-radius: 4px;
+          color: $color--white;
+          padding: 0 2px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    .table {
+      overflow-x: scroll;
+      display: block;
+      white-space: nowrap;
+      thead {
+        .encabezado_col1 {
+          white-space: pre-wrap;
+        }
+      }
+    }
+  }
+}

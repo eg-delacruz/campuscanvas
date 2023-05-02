@@ -109,6 +109,21 @@ router
   .patch(expressWrapper(upload.array('brand_logo')), async (req, res) => {
     const { body, headers, method, files } = req;
 
+    //Update last time checked
+    if (headers.required_info === 'update_last_time_checked') {
+      const brand_id = headers.brand_id;
+      try {
+        const updated_date = await Controller.updateLastTimeCheckedDate(
+          brand_id
+        );
+        successResponse(req, res, updated_date, 201);
+      } catch (error) {
+        errorResponse(req, res, 'Error al editar marca', 400, error);
+      }
+      return;
+    }
+
+    //Default case
     const data = {
       id: body.id,
       brand_logo: files,

@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
-import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 
 //Syles

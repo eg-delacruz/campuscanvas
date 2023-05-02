@@ -10,7 +10,7 @@
 }
 .background {
   background-color: $color--tertiary-white;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .chart_loader {
@@ -33,6 +33,15 @@
   h1 {
     margin: 16px 0 8px;
   }
+
+  .charts_container {
+    padding-bottom: 40px;
+  }
+
+  /////////////////////////
+  //  Liked/disliked charts  //
+  /////////////////////////
+
   .chart_container {
     position: relative;
     width: 100%;
@@ -46,6 +55,14 @@
     justify-content: space-between;
     max-width: 1400px;
     gap: 16px;
+  }
+
+  ////////////////////////////////
+  // Brands with no discounts table //
+  //////////////////////////////////
+  .brands_with_no_discounts_container {
+    max-width: 49.5%;
+    margin-top: 16px;
   }
 }
 
@@ -61,6 +78,13 @@
   .container {
     .liked_disliked_charts_container {
       flex-direction: column;
+    }
+
+    ////////////////////////////////
+    // Brands with no discounts table //
+    //////////////////////////////////
+    .brands_with_no_discounts_container {
+      max-width: 100%;
     }
   }
 }

@@ -1594,6 +1594,30 @@ async function getMiniCardsSearchbarResults(query, page, limit) {
   }
 }
 
+async function updateLastTimeCheckedDate(brand_id) {
+  if (!brand_id) {
+    console.error(
+      '[discount controller | updateLastTimeCheckedDate function error] brand_id is required'
+    );
+    throw new Error('No se ha recibido el id de la marca');
+  }
+
+  try {
+    const brand = await brandInfo_Store.getById(brand_id);
+    const updated_date = new Date();
+    brand.last_time_checked_since_brand_has_no_discounts = updated_date;
+    await brandInfo_Store.update(brand);
+
+    return updated_date;
+  } catch (error) {
+    console.error(
+      '[discount controller | updateLastTimeCheckedDate function error]' +
+        error.message
+    );
+    throw new Error(error.message);
+  }
+}
+
 module.exports = {
   //Brand functions
   createNewBrand,
@@ -1602,6 +1626,7 @@ module.exports = {
   updateBrand,
   deleteBrand,
   getBrandsCount,
+  updateLastTimeCheckedDate,
 
   //Discount functions
   createNewDiscount,

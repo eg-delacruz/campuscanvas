@@ -8,7 +8,7 @@ const PRODUCTION_API = process.env.NEXT_PUBLIC_API_URL;
 const VERSION = process.env.NEXT_PUBLIC_API_URL_VERSION_2;
 
 //Befor sending to production and npm build, change the API URL to the production one
-const API = PRODUCTION_API;
+const API = LOCAL_API;
 //Next api (end)
 
 //Aquí se podría agregar la api del node server (ver api/index.js)

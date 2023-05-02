@@ -99,6 +99,24 @@ const getBrands = async () => {
   return response.body;
 };
 
+const updateLastTimeChecked = async (brand_id) => {
+  const response = await axiosFetcher({
+    url: endPoints.admin.discounts.brands,
+    method: 'patch',
+    extraHeaders: {
+      brand_id,
+      required_info: 'update_last_time_checked',
+    },
+  });
+
+  if (response.error) {
+    console.log(response.error);
+    throw new Error(response.error);
+  }
+
+  return response.body;
+};
+
 export default {
   //General funtions
 
@@ -110,6 +128,7 @@ export default {
 
   //Brand functions
   getBrands,
+  updateLastTimeChecked,
 
   //Cards funtions
 
