@@ -202,7 +202,6 @@ const editarMarca = () => {
   }, [description]);
 
   //Controlling inputs
-  //const BRAND_DESCRIPTION = useInputValue('');
   const SPONSORS_BOX = useInputValue(state.brand?.sponsors_box);
   const AFFILIATE_PROGRAM = useInputValue('');
   const NOTES = useInputValue('');

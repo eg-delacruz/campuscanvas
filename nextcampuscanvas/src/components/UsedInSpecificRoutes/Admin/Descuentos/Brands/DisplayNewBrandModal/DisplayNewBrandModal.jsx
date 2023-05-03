@@ -151,7 +151,9 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
 
     //Add the new brand to the brands query cache (which is an array of objects)
     queryClient.setQueryData([adminKeys.brands.all_brands], (oldData) => {
-      return [...oldData, response.body.brand];
+      if (oldData?.length > 0) {
+        return [...oldData, response.body.brand];
+      }
     });
 
     //Reseting values and closing modal

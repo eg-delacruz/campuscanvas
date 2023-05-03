@@ -36,8 +36,6 @@ import { useCharacterCount } from '@hooks/useCharacterCount';
 //Request functions
 import discountFunctions from '@request-functions/Admin/Discounts';
 
-//Redux
-import { getDiscounts } from '@redux/discountsSlice';
 import {
   selectHomeSectionsCount,
   getHomeSectionsCount,
@@ -46,7 +44,6 @@ import {
   selectShowFirstInCategoryCount,
   getShowFirstInCategoryCount,
 } from '@redux/showDiscountFirstInCategorySlice';
-import { countDiscounts } from '@redux/discountsCountSlice';
 
 //Datalist options
 import DISPLAY_CARD_IN_SECTION_OPTIONS from '@datalist-options/display_card_in_section_options';
@@ -57,7 +54,6 @@ import DISCOUNT_STATUS_OPTIONS from '@datalist-options/discount_status_options';
 //Rich text editor
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-//TODO: when fetching table with react query, update the table cache instead of invalidating the query
 const nuevoDescuento = () => {
   const { securingRoute } = useSecureAdminRoute('all');
   //Allows us to manipulate the appropriate slice/action
@@ -83,13 +79,7 @@ const nuevoDescuento = () => {
   const ADD_DISCOUNT = useMutation({
     mutationFn: (discount) => discountFunctions.addDiscount(discount),
     onSuccess: (data) => {
-      //Reload all discounts after saving a new one
-      dispatch(getDiscounts());
-
-      //Refresh discounts count
-      dispatch(countDiscounts());
-
-      const response_brand_id = data.discount.brand.toString();
+      const response_brand_id = data.discount.brand._id;
 
       //Increase the discounts_attached count of the brand in the brands query cache (which is an array of brands) if applies (if the array is not empty)
       queryClient.setQueryData([adminKeys.brands.all_brands], (oldData) => {
@@ -105,15 +95,18 @@ const nuevoDescuento = () => {
             }
           });
           return updatedBrands;
-        } else {
-          return oldData;
         }
       });
 
-      //Invalidate discounts associated to the brand that are displayed in the edit brand page
-      queryClient.invalidateQueries([
-        discoutKeys.brands.get_discounts_attached(response_brand_id),
-      ]);
+      // Add the new discount to the discounts query cache (which is an array of discount objects) if applies (if the array is not empty)
+      queryClient.setQueryData(
+        [adminKeys.discounts.all_discounts],
+        (oldData) => {
+          if (oldData?.length > 0) {
+            return [...oldData, data.discount];
+          }
+        }
+      );
 
       //Refresh home section card count if applyes
       if (DISPLAY_CARD_IN_SECTION.value) {

@@ -318,6 +318,9 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     brand_info.discounts_attached += 1;
     brandInfo_Store.update(brand_info);
 
+    //Manually populate brand in CREATED_DISCOUNT
+    CREATED_DISCOUNT.brand = brand_info;
+
     return { routesToUpdateSSG, discount: CREATED_DISCOUNT };
   } catch (error) {
     console.log('[discount controller error]' + error.message);

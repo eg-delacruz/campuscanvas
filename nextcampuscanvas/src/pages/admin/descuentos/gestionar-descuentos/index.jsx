@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import { useEffect, useState, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState, useMemo } from 'react';
 
 //React query
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -20,18 +19,16 @@ import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/Admi
 import AdminDiscountsTable from '@components/UsedInSpecificRoutes/Admin/Descuentos/Discounts/AdminDiscountsTable/AdminDiscountsTable';
 import Pagination from '@components/GeneralUseComponents/Pagination/Pagination';
 
-//Redux
-import { getDiscounts, selectDiscount } from '@redux/discountsSlice';
-import {
-  countDiscounts,
-  selectCountDiscounts,
-} from '@redux/discountsCountSlice';
-
 //Data requests
 import adminFunctions from '@request-functions/Admin';
+import adminDiscountsFunctions from '@request-functions/Admin/Discounts/index';
 
 const index = () => {
   const { securingRoute } = useSecureAdminRoute();
+
+  //States
+  const [filteredDiscounts, setFilteredDiscounts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   //React query
   const queryClient = useQueryClient();
@@ -59,41 +56,20 @@ const index = () => {
     },
   });
 
-  //Allows us to manipulate the appropriate slice/action
-  const dispatch = useDispatch();
-
-  //Reducers
-  const discountsReducer = useSelector(selectDiscount);
-  const discountsCountReducer = useSelector(selectCountDiscounts);
+  const ALL_DISCOUNTS = useQuery({
+    queryKey: [adminKeys.discounts.all_discounts],
+    queryFn: adminDiscountsFunctions.getAllDiscounts,
+    staleTime: 1000 * 60 * 60 * 24, //24 hours
+    initialData: [],
+    initialDataUpdatedAt: 1,
+    onSuccess: (data) => {
+      //Set discounts to filtered discounts state
+      setFilteredDiscounts(data);
+    },
+  });
 
   //Controlling inputs
   const SEARCH_INPUT = useInputValue('');
-
-  //States
-  const [filteredDiscounts, setFilteredDiscounts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  //Get discounts
-  useEffect(() => {
-    const setDiscounts = async () => {
-      if (discountsReducer.discounts.length === 0) {
-        dispatch(getDiscounts());
-      }
-    };
-    setDiscounts();
-  }, []);
-
-  //Set discounts to filtered discounts state
-  useEffect(() => {
-    setFilteredDiscounts(discountsReducer.discounts);
-  }, [discountsReducer.discounts]);
-
-  //Get discounts count
-  useEffect(() => {
-    if (!discountsCountReducer.initial_render_loaded) {
-      dispatch(countDiscounts());
-    }
-  }, []);
 
   //Set debounced search value
   const debouncedSearchValue = useDebouncedSearchValue(SEARCH_INPUT.value);
@@ -102,7 +78,7 @@ const index = () => {
   useMemo(() => {
     //Reset page to 1 when filtering because if we are in page 2 and we filter, we will get an empty page
     setCurrentPage(1);
-    const results = discountsReducer.discounts.filter((discount) => {
+    const results = ALL_DISCOUNTS?.data.filter((discount) => {
       return (
         discount.SEO_meta_title.toLowerCase().includes(
           SEARCH_INPUT.value.toLowerCase()
@@ -164,7 +140,7 @@ const index = () => {
          //Title + button container//
          ///////////////////////// */}
         <div className={styles.title_flex_container}>
-          <h1>Descuentos ({discountsCountReducer.count})</h1>
+          <h1>Descuentos ({ALL_DISCOUNTS?.data.length})</h1>
 
           <Link href={'/admin/descuentos/gestionar-descuentos/nuevo-descuento'}>
             <button type='button' className='btn button--red'>
@@ -194,40 +170,44 @@ const index = () => {
           por página
         </h5>
 
-        {!discountsReducer.loading && (
-          <>
-            {/* /////////////////////////
+        {ALL_DISCOUNTS.isLoading === false &&
+          ALL_DISCOUNTS.isFetching === false &&
+          ALL_DISCOUNTS.isRefetching === false && (
+            <>
+              {/* /////////////////////////
           //      Search bar       //
           ///////////////////////// */}
-            <div className={styles.search_bar_display_per_page_flex_container}>
-              <div className={styles.search_bar_container}>
-                <input
-                  type='text'
-                  placeholder='Buscar por título del descuento, marca, categoría o tipo de descuento...'
-                  className={styles.search_bar}
-                  name='search'
-                  id='search'
-                  value={SEARCH_INPUT.value}
-                  onChange={SEARCH_INPUT.onChange}
-                  autoFocus
-                />
+              <div
+                className={styles.search_bar_display_per_page_flex_container}
+              >
+                <div className={styles.search_bar_container}>
+                  <input
+                    type='text'
+                    placeholder='Buscar por título del descuento, marca, categoría o tipo de descuento...'
+                    className={styles.search_bar}
+                    name='search'
+                    id='search'
+                    value={SEARCH_INPUT.value}
+                    onChange={SEARCH_INPUT.onChange}
+                    autoFocus
+                  />
+                </div>
               </div>
-            </div>
 
-            {discountsCountReducer.count !== filteredDiscounts.length && (
-              <p className={styles.filtered_discounts_count}>
-                Descuentos encontrados:{' '}
-                <strong>{filteredDiscounts.length}</strong>
-              </p>
-            )}
-          </>
-        )}
+              {ALL_DISCOUNTS?.data.length !== filteredDiscounts.length && (
+                <p className={styles.filtered_discounts_count}>
+                  Descuentos encontrados:{' '}
+                  <strong>{filteredDiscounts.length}</strong>
+                </p>
+              )}
+            </>
+          )}
 
         {/* /////////////////////////
           //       Discounts        //
           ///////////////////////// */}
 
-        {discountsReducer.discounts.length > 0 ? (
+        {ALL_DISCOUNTS?.data.length > 0 ? (
           <p className={styles.table_explanation}>
             Las fechas de caducidad de los descuentos que expiren durante los
             próximos 5 días se marcarán en amarillo, los que ya hayan expirado
@@ -238,25 +218,27 @@ const index = () => {
         )}
 
         <AdminDiscountsTable
-          discounts={
-            discountsReducer.discounts.length > 0 ? currentDiscounts : []
-          }
+          discounts={ALL_DISCOUNTS?.data.length > 0 ? currentDiscounts : []}
           loading={
-            discountsReducer.loading ||
+            ALL_DISCOUNTS.isLoading ||
+            ALL_DISCOUNTS.isFetching ||
+            ALL_DISCOUNTS.isRefetching ||
             ADMIN_SETTINGS.isLoading ||
             UPDATE_ADMIN_SETTINGS.isLoading
           }
-          error={discountsReducer.error}
+          error={ALL_DISCOUNTS?.error?.message}
         />
 
-        {!discountsReducer.loading && filteredDiscounts.length > 0 && (
-          <Pagination
-            itemsPerPage={DISCOUNTS_PER_PAGE}
-            totalItems={filteredDiscounts.length}
-            paginate={paginate}
-            currentPage={currentPage}
-          />
-        )}
+        {ALL_DISCOUNTS.isLoading === false &&
+          ALL_DISCOUNTS.isFetching === false &&
+          filteredDiscounts.length > 0 && (
+            <Pagination
+              itemsPerPage={DISCOUNTS_PER_PAGE}
+              totalItems={filteredDiscounts.length}
+              paginate={paginate}
+              currentPage={currentPage}
+            />
+          )}
       </div>
     </>
   );

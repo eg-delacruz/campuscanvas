@@ -78,6 +78,23 @@ const getShowFirstInAllDiscountsCount = async () => {
   return response.body;
 };
 
+const getAllDiscounts = async () => {
+  const response = await axiosFetcher({
+    url: endPoints.discounts.index,
+    method: 'get',
+    extraHeaders: {
+      needed_info: 'all_discounts',
+    },
+  });
+
+  if (response.error) {
+    console.log(response.error);
+    throw new Error(response.error);
+  }
+
+  return response.body;
+};
+
 ////////////////////////////
 //    Brands functions   //
 ////////////////////////////
@@ -125,6 +142,7 @@ export default {
   getMostLikedDiscounts, //used in Dashboard
   getMostDislikedDiscounts, // used in Dashboard
   getShowFirstInAllDiscountsCount,
+  getAllDiscounts,
 
   //Brand functions
   getBrands,

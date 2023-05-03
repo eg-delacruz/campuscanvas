@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
 
 //styles
@@ -41,14 +41,11 @@ const gestionarMarcas = () => {
     staleTime: 1000 * 60 * 60 * 24, //24 hours
     initialData: [],
     initialDataUpdatedAt: 1, //prevent initialData from being overwritten by queryFn
+    onSuccess: (data) => {
+      //Set brands to filtered brands state
+      setFilteredBrands(data);
+    },
   });
-
-  //Set brands to filtered brands state
-  useEffect(() => {
-    if (BRANDS?.data) {
-      setFilteredBrands(BRANDS.data);
-    }
-  }, [BRANDS?.data]);
 
   //Debounce search input
   const debouncedSearchValue = useDebouncedSearchValue(SEARCH_INPUT.value);

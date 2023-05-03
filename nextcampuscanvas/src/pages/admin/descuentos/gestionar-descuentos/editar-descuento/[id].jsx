@@ -14,6 +14,7 @@ import discount_key_words from '@datalist-options/discount_key_words';
 //React query
 import { useQuery } from '@tanstack/react-query';
 import discoutKeys from '@query-key-factory/discountKeys';
+import adminKeys from '@query-key-factory/adminKeys';
 
 //Styles
 import styles from '@styles/pagestyles/admin/descuentos/editarDescuento.module.scss';
@@ -45,7 +46,7 @@ import delete_icon from '@assets/GeneralUse/IconsAndButtons/delete.svg';
 import edit_pencil from '@assets/GeneralUse/IconsAndButtons/edit_pencil.svg';
 
 //Redux reducers and actions
-import { selectDiscount, getDiscounts } from '@redux/discountsSlice';
+//import { selectDiscount } from '@redux/discountsSlice';
 import {
   selectHomeSectionsCount,
   getHomeSectionsCount,
@@ -101,17 +102,12 @@ const formats = [
   'image',
 ];
 
+//CLARIFICATIONS:
+//1. It would be too complicated to update the discounts table cache with the response after editing the discount, since miltiple things happen in the server and is difficult to know what to update. So, the cache is invalidated and the whole discounts table is refetched.
 const editarDescuento = () => {
   const { securingRoute } = useSecureAdminRoute('all');
 
   const { fetchData } = useAxios();
-
-  //React query
-  const SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT = useQuery({
-    queryKey: [discoutKeys.cards.show_first_in_all_discounts_count],
-    queryFn: discountFunctions.getShowFirstInAllDiscountsCount,
-    staleTime: Infinity,
-  });
 
   //States
   const [state, setState] = useState({
@@ -162,6 +158,23 @@ const editarDescuento = () => {
     setDisplayCardInSectionDatalistError,
   ] = useState(null);
 
+  //React query
+
+  const ALL_DISCOUNTS = useQuery({
+    queryKey: [adminKeys.discounts.all_discounts],
+    queryFn: discountFunctions.getAllDiscounts,
+    staleTime: 1000 * 60 * 60 * 24, //24 hours
+    initialData: [],
+    initialDataUpdatedAt: 1,
+    enabled: false,
+  });
+
+  const SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT = useQuery({
+    queryKey: [discoutKeys.cards.show_first_in_all_discounts_count],
+    queryFn: discountFunctions.getShowFirstInAllDiscountsCount,
+    staleTime: Infinity,
+  });
+
   //Other varialbes
   const DISCOUNT_TYPE_DICTIONARY = {
     discount_code: 'Código de descuento',
@@ -197,7 +210,7 @@ const editarDescuento = () => {
   const id = router.query.id;
 
   //Reducers
-  const discountsReducer = useSelector(selectDiscount);
+  //const discountsReducer = useSelector(selectDiscount);
   const homeSectionsCountReducer = useSelector(selectHomeSectionsCount);
   const showFirstInCategoryCountReducer = useSelector(
     selectShowFirstInCategoryCount
@@ -212,8 +225,8 @@ const editarDescuento = () => {
     if (!router.isReady) return;
 
     //Get the discount from global state if available to avoid unnecessary requests
-    if (discountsReducer.discounts.length > 0) {
-      const discount = discountsReducer.discounts.find(
+    if (ALL_DISCOUNTS?.data.length > 0) {
+      const discount = ALL_DISCOUNTS?.data.find(
         (discount) => discount._id === id
       );
       if (discount) {
@@ -316,7 +329,7 @@ const editarDescuento = () => {
     }
 
     //If discount doesn´t exist, redirect to 404 page
-  }, [discountsReducer, router?.isReady]);
+  }, [ALL_DISCOUNTS?.data, router?.isReady]);
 
   //Get home slider banner (if applies)
   useEffect(() => {
@@ -800,12 +813,12 @@ const editarDescuento = () => {
       return;
     }
 
-    //Refresh the discounts reducer
+    //Refresh the discounts table
     if (
       EXCLUSIVE_DISCOUNT_INFORMATION_WAS_MODIFIED ||
       SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED
     ) {
-      dispatch(getDiscounts());
+      ALL_DISCOUNTS.refetch();
     }
 
     //Refetch the card info if the card was modified
@@ -974,7 +987,12 @@ const editarDescuento = () => {
     }
   };
 
-  if (securingRoute || state.loading || discountsReducer.loading) {
+  if (
+    securingRoute ||
+    state.loading ||
+    ALL_DISCOUNTS.isLoading ||
+    ALL_DISCOUNTS.isFetching
+  ) {
     return (
       <div className={styles.loaderContainer}>
         <Loader />
@@ -1005,7 +1023,10 @@ const editarDescuento = () => {
                 disabled={state.saving_changes}
               />
               {/* Only allow deletion if information has been fully fetched */}
-              {!securingRoute || !state.loading || !discountsReducer.loading ? (
+              {!securingRoute ||
+              !state.loading ||
+              ALL_DISCOUNTS.isLoading === false ||
+              ALL_DISCOUNTS.isFetching === false ? (
                 <div className={styles.delete_icon}>
                   <span
                     onClick={() => {

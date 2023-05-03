@@ -10,7 +10,6 @@ import styles from './DisplayEliminateDiscountModal.module.scss';
 //React query
 import { useQueryClient } from '@tanstack/react-query';
 import adminKeys from '@query-key-factory/adminKeys';
-import discoutKeys from '@query-key-factory/discountKeys';
 
 //Components
 import Modal from '@components/GeneralUseComponents/Modal/Modal';
@@ -23,9 +22,7 @@ import endPoints from '@services/api/index';
 import useAxios from '@hooks/useAxios';
 
 //Redux
-import { getDiscounts } from '@redux/discountsSlice';
 import { getHomeBannersInfo } from '@redux/homeBannersSlice';
-import { countDiscounts } from '@redux/discountsCountSlice';
 import { getHomeSectionsCount } from '@redux/homeSectionsDiscountsCountSlice';
 
 const DisplayEliminateDiscountModal = ({
@@ -78,12 +75,6 @@ const DisplayEliminateDiscountModal = ({
       dispatch(getHomeSectionsCount());
     }
 
-    //Update discounts in global state
-    dispatch(getDiscounts());
-
-    //Update discounts count in global state
-    dispatch(countDiscounts());
-
     //Decrease the discounts_attached count of the brand in the brands query cache (which is an array of brands) by one if applies (if the array is not empty). If the discounts_attached count is 0, the brand.last_time_checked_since_brand_has_no_discounts is updated to the current date
     queryClient.setQueryData([adminKeys.brands.all_brands], (oldData) => {
       if (oldData.length > 0) {
@@ -112,10 +103,15 @@ const DisplayEliminateDiscountModal = ({
       }
     });
 
-    //Invalidate discounts associated to the brand that are displayed in the edit brand page
-    queryClient.invalidateQueries([
-      discoutKeys.brands.get_discounts_attached(brand_id),
-    ]);
+    //Update the discounts list by removing the deleted discount from the discounts query cache (which is an array of discounts)
+    queryClient.setQueryData([adminKeys.discounts.all_discounts], (oldData) => {
+      if (oldData?.length > 0) {
+        const updatedDiscounts = oldData.filter(
+          (discount) => discount._id !== id
+        );
+        return updatedDiscounts;
+      }
+    });
 
     //Show a confirmation swall
     setState({ ...state, loading: false });
