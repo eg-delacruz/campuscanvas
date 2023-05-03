@@ -57,7 +57,7 @@ import DISCOUNT_STATUS_OPTIONS from '@datalist-options/discount_status_options';
 //Rich text editor
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-//CLARIFICATIONS:
+//TODO: when fetching table with react query, update the table cache instead of invalidating the query
 const nuevoDescuento = () => {
   const { securingRoute } = useSecureAdminRoute('all');
   //Allows us to manipulate the appropriate slice/action
@@ -93,7 +93,7 @@ const nuevoDescuento = () => {
 
       //Increase the discounts_attached count of the brand in the brands query cache (which is an array of brands) if applies (if the array is not empty)
       queryClient.setQueryData([adminKeys.brands.all_brands], (oldData) => {
-        if (oldData.length > 0) {
+        if (oldData?.length > 0) {
           const updatedBrands = oldData.map((brand) => {
             if (brand._id === response_brand_id) {
               return {
@@ -148,12 +148,12 @@ const nuevoDescuento = () => {
         title: data.message,
       });
 
-      setState({ ...state, uploading: false, error: null });
-
       //Redirect to the created discount
       router.push(
         `/admin/descuentos/gestionar-descuentos/editar-descuento/${data.discount._id}`
       );
+
+      setState({ ...state, error: null });
     },
     onError: (error) => {
       setState({ ...state, uploading: false });
@@ -399,7 +399,7 @@ const nuevoDescuento = () => {
       return;
     }
 
-    if (DISCOUNT_DISCOUNT_CATEGORY_OPTIONS.indexOf(CATEGORY.value) === -1) {
+    if (DISCOUNT_CATEGORY_OPTIONS.indexOf(CATEGORY.value) === -1) {
       setCategoryDatalistError('Selecciona una categoría de la lista');
       CATEGORY.setValue('');
       setState({ ...state, error: 'Selecciona una categoría válida' });

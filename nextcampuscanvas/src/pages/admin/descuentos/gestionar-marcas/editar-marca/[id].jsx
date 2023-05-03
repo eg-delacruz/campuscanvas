@@ -150,7 +150,12 @@ const editarMarca = () => {
         setDescription(brand.brand_description);
         AFFILIATE_PROGRAM.setValue(brand.affiliate_program);
         NOTES.setValue(brand.notes);
-
+        //Wait a second to avoid the editor to be undefined
+        setTimeout(() => {
+          setDescriptionLength(
+            descriptionRef.current?.unprivilegedEditor.getLength() - 1
+          );
+        }, 1000);
         return;
       }
     }
@@ -354,7 +359,7 @@ const editarMarca = () => {
     if (update_cache_only) {
       //Update brands from cache if descriotion, affiliate program or notes have changed
       queryClient.setQueryData([adminKeys.brands.all_brands], (oldData) => {
-        if (oldData.length > 0) {
+        if (oldData?.length > 0) {
           const updatedBrands = oldData.map((brand) => {
             if (brand._id === id) {
               return {

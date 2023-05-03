@@ -28,7 +28,7 @@ const DisplayUpdateLastTimeCheckedModal = ({
     onSuccess: (updated_date) => {
       //update the cache with the response of the mutation
       queryClient.setQueryData([adminKeys.brands.all_brands], (oldData) => {
-        if (oldData.length > 0) {
+        if (oldData?.length > 0) {
           const updatedBrands = oldData.map((brand) => {
             if (brand._id === brand_id) {
               return {
