@@ -188,6 +188,25 @@ const AdminHeader = () => {
                 </li>
               </ul>
             </li>
+
+            {session.token.role === 'super_admin' && (
+              <li>
+                {/* This link is here just to get the styles */}
+                <Link href={'#'}>Master admin</Link>
+                <ul className={styles.second_level_ul}>
+                  <li onClick={close767Menu}>
+                    <Link href={'/admin/master/manage-admins'}>
+                      Gestionar roles admin
+                    </Link>
+                  </li>
+                  <li onClick={close767Menu}>
+                    <Link href={'/admin/master/unhandled-uni-emails'}>
+                      Correos de universidades no controlados
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+            )}
           </ul>
         </nav>
 
@@ -200,12 +219,6 @@ const AdminHeader = () => {
             <Image src={UserIcon} alt='User Icon' />
           </div>
           <ul className={styles.user_dropdown_menu}>
-            {session.token.role === 'super_admin' && (
-              <Link href={'/admin/master'}>
-                <li>Master admin</li>
-              </Link>
-            )}
-
             <li onClick={() => signOut()}>
               {' '}
               Log out

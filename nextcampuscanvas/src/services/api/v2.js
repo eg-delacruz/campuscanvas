@@ -18,6 +18,7 @@ const endPoints = {
     students: {
       checkIfPendingValidationsAvailable: `${API}/api/${VERSION}/admin/estudiantes/verify_by_stu_id`,
       getVerifiedStudentsCount: `${API}/api/${VERSION}/admin/estudiantes/verified_students_count`,
+      index: `${API}/api/${VERSION}/admin/estudiantes`,
     },
   },
 };

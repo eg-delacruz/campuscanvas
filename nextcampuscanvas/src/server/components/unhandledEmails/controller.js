@@ -23,6 +23,20 @@ const createUnhandledEmailEntry = async (university, stu_email) => {
   }
 };
 
+const getAllUnhandledEmails = async () => {
+  try {
+    const unhandledEmails = await store.getAll();
+    return unhandledEmails;
+  } catch (error) {
+    console.error(
+      '[unhandledEmailsController | getAllUnhandledEmails function error]' +
+        error.message
+    );
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
   createUnhandledEmailEntry,
+  getAllUnhandledEmails,
 };

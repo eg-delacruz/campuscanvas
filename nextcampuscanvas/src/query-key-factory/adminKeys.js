@@ -12,6 +12,7 @@ const adminKeys = {
   //////////////////Student//////////////////
   students: {
     get_verified_students_count: 'get_verified_students_count',
+    unhandled_stu_emails_list: 'unhandled_stu_emails_list',
   },
 };
 

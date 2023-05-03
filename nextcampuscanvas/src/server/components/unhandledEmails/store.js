@@ -5,12 +5,18 @@ dbConnect(config.dbURL);
 //Model
 import UnhandledEmailEntry from '@server/components/unhandledEmails/model';
 
-/////////////////////Add user//////////////////////////////
+/////////////////////Add entry//////////////////////////////
 
 const addunhandledEmailEntry = async (unhandledEmailEntry) => {
   return await UnhandledEmailEntry.create(unhandledEmailEntry);
 };
 
+/////////////////////Get all entries//////////////////////////////
+const getAll = async () => {
+  return await UnhandledEmailEntry.find();
+};
+
 module.exports = {
   add: addunhandledEmailEntry,
+  getAll,
 };

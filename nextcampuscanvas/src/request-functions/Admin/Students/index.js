@@ -38,7 +38,25 @@ const getVerifiedStudentsCount = async () => {
   return response.body;
 };
 
+const getUnhandledStuEmails = async () => {
+  const response = await axiosFetcher({
+    url: endPointsV2.admin.students.index,
+    method: 'get',
+    extraHeaders: {
+      required_info: 'unhandled_stu_emails',
+    },
+  });
+
+  if (response.error) {
+    console.log(response.error);
+    throw new Error(response.error);
+  }
+
+  return response.body;
+};
+
 export default {
   checkIfPendingValidationsAvailable,
   getVerifiedStudentsCount,
+  getUnhandledStuEmails,
 };
