@@ -83,6 +83,8 @@ const formats = [
   'image',
 ];
 
+//CLARIFICATIONS:
+//1. If in the future, the brand fetching when brand is not in blobal brands state, try to get the brand first from the global state and store it as initialDate in the queryClient, then, if the brand is not available in the global state, get it from the server and update the queryClient with the new data. This way, the queryClient will always have the brand data available and the component will not have to wait for the server response.
 const editarMarca = () => {
   const { securingRoute } = useSecureAdminRoute('all');
 
@@ -123,6 +125,7 @@ const editarMarca = () => {
     staleTime: 1000 * 60 * 60 * 24, //24 hours
     initialData: [],
     initialDataUpdatedAt: 1, //prevent initialData from being overwritten by queryFn
+    enabled: false,
   });
 
   const ATTACHED_DISCOUNTS = useQuery({
@@ -140,9 +143,7 @@ const editarMarca = () => {
     if (!router.isReady) return;
 
     //Get the brand from global state if available to avoid unnecessary requests
-    if (BRANDS?.data?.length > 0) {
-      if (BRANDS.data === undefined) return;
-
+    if (BRANDS?.data?.length > 0 && BRANDS.data !== undefined) {
       const brand = BRANDS.data.find((brand) => brand._id === id);
       if (brand) {
         setState({ ...state, brand, loading: false });
@@ -377,7 +378,7 @@ const editarMarca = () => {
       });
     } else {
       //Update brands from DB if brand logo has changed, since the logo URL is not stored in cache
-      queryClient.refetchQueries([adminKeys.brands.all_brands]);
+      BRANDS.refetch();
     }
   };
 

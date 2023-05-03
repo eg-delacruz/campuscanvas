@@ -140,6 +140,40 @@ export default function Header({ displaySearchBar = true }) {
 
   //Discounts Search Bar handling (end)
 
+  //Loading state placeholder (start)
+  const loadingSkeletonBigScreen = () => {
+    if (loading) {
+      return (
+        <div className={styles.loadingSkeletonBigScreen}>
+          <div className={styles.icon_block1_container}>
+            <div className={styles.icon}>
+              <Image src={logged_user_icon} />
+            </div>
+            <div className={styles.block1}></div>
+          </div>
+          <div className={styles.block2}></div>
+        </div>
+      );
+    }
+  };
+
+  const loadingSkeletonSmallScreen = () => {
+    if (loading) {
+      return (
+        <div className={styles.loadingSkeletonSmallScreen}>
+          <div className={styles.icon}>
+            <Image src={logged_user_icon} />
+          </div>
+          <div className={styles.block1}></div>
+        </div>
+      );
+    }
+  };
+
+  //Loading state placeholder (end)
+
+  //Functions
+
   //This function is only displayed if there is a session
   const nameDisplayer = () => {
     if (comparingIfNameChanged.comparing || !comparingIfNameChanged.changed) {
@@ -263,8 +297,12 @@ export default function Header({ displaySearchBar = true }) {
 
             {/* Fake search bar (end) */}
 
+            {loadingSkeletonBigScreen()}
+
+            {loadingSkeletonSmallScreen()}
+
             {/* Logged in user menu + validated/unvalidated message*/}
-            {session && (
+            {session && !loading && (
               <div
                 className={`${styles.header__logged_user_menu} ${styles.userMenuStickyState767}`}
               >
@@ -373,8 +411,6 @@ export default function Header({ displaySearchBar = true }) {
             {/* /////////////////////////
             //     Login buttons      //
             ///////////////////////// */}
-
-            {/* {loginMenuSkeleton()} */}
 
             {!loading && !session && (
               <ul

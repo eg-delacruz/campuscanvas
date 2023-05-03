@@ -21,6 +21,52 @@
   z-index: 100;
 }
 
+////////////////////////Loading states (start)
+.loadingSkeletonBigScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+  top: 10px;
+  .icon_block1_container {
+    display: flex;
+    .block1 {
+      //Skeleton animation
+      animation: setSkeletonLoading();
+      width: 112px;
+      margin-left: 8px;
+      border-radius: 5px;
+    }
+  }
+  .block2 {
+    //Skeleton animation
+    animation: setSkeletonLoading();
+    width: 206px;
+    border-radius: 5px;
+    height: 35px;
+    margin-top: 8px;
+    margin-left: 8px;
+  }
+}
+
+.loadingSkeletonSmallScreen {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 6px;
+  .block1 {
+    //Skeleton animation
+    animation: setSkeletonLoading();
+    width: 112px;
+    margin-left: 8px;
+    border-radius: 5px;
+    height: 35px;
+  }
+}
+////////////////////////Loading states (end)
+
 .icon__line {
   height: 4px;
   width: 22px;
@@ -248,22 +294,6 @@
 /////////////////////////
 //    Login buttons    // (login + registrarse)
 /////////////////////////
-// .loginMenu__skeleton {
-//   display: flex;
-//   .loginMenu__skeleton--button1 {
-//     height: 41px;
-//     width: 65px;
-//     border-radius: 5px;
-//     animation: setSkeletonLoading();
-//   }
-//   .loginMenu__skeleton--button2 {
-//     height: 41px;
-//     width: 110px;
-//     margin-left: 8px;
-//     border-radius: 5px;
-//     animation: setSkeletonLoading();
-//   }
-// }
 
 .loading {
   animation: sessionFadeOut();
@@ -358,6 +388,15 @@
   .burguer__button {
     display: flex;
   }
+
+  ////////////Loading states (statr)
+  .loadingSkeletonBigScreen {
+    display: none;
+  }
+  .loadingSkeletonSmallScreen {
+    display: flex;
+  }
+
   .search_icon_767 {
     display: flex;
   }

@@ -74,7 +74,7 @@ const gestionarMarcas = () => {
     );
   };
 
-  if (securingRoute) {
+  if (securingRoute || BRANDS.isLoading || BRANDS.isFetching) {
     return (
       <div className={styles.loaderContainer}>
         <Loader />
