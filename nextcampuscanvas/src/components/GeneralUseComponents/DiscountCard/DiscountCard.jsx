@@ -107,7 +107,11 @@ const DiscountCard = memo(
                 <div
                   className={`${styles.card_tag} ${
                     card_tag === 'exclusivo' ? styles.card_tag_exclusivo : ''
-                  } ${card_tag === 'nuevo' ? styles.card_tag_nuevo : ''}`}
+                  } ${card_tag === 'nuevo' ? styles.card_tag_nuevo : ''} ${
+                    card_tag === 'termina pronto ⌚'
+                      ? styles.card_tag_termina_pronto
+                      : ''
+                  }`}
                 >
                   {card_tag}
                 </div>
