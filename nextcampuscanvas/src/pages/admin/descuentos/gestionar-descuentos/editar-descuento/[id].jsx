@@ -61,6 +61,11 @@ import dateFormat from '@services/dateFormat';
 //Request functions
 import discountFunctions from '@request-functions/Admin/Discounts';
 
+//Datalist options
+import DISPLAY_CARD_IN_SECTION_OPTIONS from '@datalist-options/display_card_in_section_options';
+import CARD_TAG_OPTIONS from '@datalist-options/card_tag_options';
+import DISCOUNT_STATUS_OPTIONS from '@datalist-options/discount_status_options';
+
 //Endpoints
 import endPoints from '@services/api/index';
 
@@ -156,15 +161,6 @@ const editarDescuento = () => {
     displayCardInSectionDatalistError,
     setDisplayCardInSectionDatalistError,
   ] = useState(null);
-
-  //Datalist options
-  const STATUS_OPTIONS = ['available', 'unavailable'];
-  const CARD_TAG_OPTIONS = ['exclusivo', 'nuevo', 'registro no requerido'];
-  const DISPLAY_CARD_IN_SECTION_OPTIONS = [
-    'sugeridos',
-    'nuevos',
-    'mas_descuentos_estudiantes',
-  ];
 
   //Other varialbes
   const DISCOUNT_TYPE_DICTIONARY = {
@@ -574,7 +570,7 @@ const editarDescuento = () => {
     let SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED = false;
 
     //Handling errors
-    if (STATUS_OPTIONS.indexOf(STATUS.value) === -1) {
+    if (DISCOUNT_STATUS_OPTIONS.indexOf(STATUS.value) === -1) {
       setStatusDatalistError('Selecciona un estatus de la lista');
       STATUS.setValue(state.discount.status);
       setState({ ...state, form_error: 'Selecciona un estatus válido' });
@@ -1133,7 +1129,7 @@ const editarDescuento = () => {
                     list='statuses'
                   />
                   <datalist id='statuses'>
-                    {STATUS_OPTIONS.map((option, index) => (
+                    {DISCOUNT_STATUS_OPTIONS.map((option, index) => (
                       <option key={index} value={option} />
                     ))}
                   </datalist>

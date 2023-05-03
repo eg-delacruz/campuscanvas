@@ -48,6 +48,12 @@ import {
 } from '@redux/showDiscountFirstInCategorySlice';
 import { countDiscounts } from '@redux/discountsCountSlice';
 
+//Datalist options
+import DISPLAY_CARD_IN_SECTION_OPTIONS from '@datalist-options/display_card_in_section_options';
+import CARD_TAG_OPTIONS from '@datalist-options/card_tag_options';
+import DISCOUNT_CATEGORY_OPTIONS from '@datalist-options/discount_category_options';
+import DISCOUNT_STATUS_OPTIONS from '@datalist-options/discount_status_options';
+
 //Rich text editor
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -177,26 +183,6 @@ const nuevoDescuento = () => {
 
     setCounts();
   }, [router?.isReady]);
-
-  //Datalist options
-  const STATUS_OPTIONS = ['available', 'unavailable'];
-  const CATEGORY_OPTIONS = [
-    'travel',
-    'fashion',
-    'beauty',
-    'eatordrink',
-    'entertainment',
-    'technology',
-    'others',
-  ];
-  const CARD_TAG_OPTIONS = ['exclusivo', 'nuevo', 'registro no requerido'];
-
-  //These options have to be the same as the ones in the edit discount page. Also, if they are modified, get the proper info to display in the home page
-  const DISPLAY_CARD_IN_SECTION_OPTIONS = [
-    'sugeridos',
-    'nuevos',
-    'mas_descuentos_estudiantes',
-  ];
 
   //States
   const [state, setState] = useState({
@@ -394,7 +380,7 @@ const nuevoDescuento = () => {
       return;
     }
 
-    if (STATUS_OPTIONS.indexOf(STATUS.value) === -1) {
+    if (DISCOUNT_STATUS_OPTIONS.indexOf(STATUS.value) === -1) {
       setStatusDatalistError('Selecciona un estatus de la lista');
       STATUS.setValue('');
       setState({ ...state, error: 'Selecciona un estatus válido' });
@@ -413,7 +399,7 @@ const nuevoDescuento = () => {
       return;
     }
 
-    if (CATEGORY_OPTIONS.indexOf(CATEGORY.value) === -1) {
+    if (DISCOUNT_DISCOUNT_CATEGORY_OPTIONS.indexOf(CATEGORY.value) === -1) {
       setCategoryDatalistError('Selecciona una categoría de la lista');
       CATEGORY.setValue('');
       setState({ ...state, error: 'Selecciona una categoría válida' });
@@ -599,7 +585,7 @@ const nuevoDescuento = () => {
                 list='statuses'
               />
               <datalist id='statuses'>
-                {STATUS_OPTIONS.map((option, index) => (
+                {DISCOUNT_STATUS_OPTIONS.map((option, index) => (
                   <option key={index} value={option} />
                 ))}
               </datalist>
@@ -709,7 +695,7 @@ const nuevoDescuento = () => {
                 />
 
                 <datalist id='categories'>
-                  {CATEGORY_OPTIONS.map((category) => (
+                  {DISCOUNT_CATEGORY_OPTIONS.map((category) => (
                     <option key={category} value={category} />
                   ))}
                 </datalist>
