@@ -82,7 +82,8 @@
     display: block;
     white-space: nowrap;
     transform: rotateX(180deg);
-    .discounts_table {
+    .discounts_table,
+    .no_discounts_message {
       transform: rotateX(180deg);
     }
   }

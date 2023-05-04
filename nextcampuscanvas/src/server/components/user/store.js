@@ -115,6 +115,17 @@ const getVerifyedStudentsCount = async () => {
   }
 };
 
+/////////////////////Getting all master admins//////////////////////////////
+const getMasterAdmins = async () => {
+  try {
+    return await User.find({
+      role: 'super_admin',
+    });
+  } catch (error) {
+    throw new Error('[User store error]', error?.message);
+  }
+};
+
 module.exports = {
   add: addUser,
   getAll: getUsers,
@@ -127,4 +138,5 @@ module.exports = {
   getAdmins,
   verifyStuIdLegitimacy,
   getVerifyedStudentsCount,
+  getMasterAdmins,
 };

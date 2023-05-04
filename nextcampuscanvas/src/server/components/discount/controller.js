@@ -672,16 +672,6 @@ const updateBrand = async ({
       brand.updated_by = updated_by;
       brand.updated_at = new Date();
 
-      //TODO: erase this when all brands have these properties and when the whole process has been completed and is uploaded to production
-      // if (
-      brand.last_time_checked_since_brand_has_no_discounts === null ||
-        brand.discounts_attached === undefined;
-      // ) {
-      brand.last_time_checked_since_brand_has_no_discounts = new Date();
-      brand.discounts_attached =
-        await discountInfo_Store.getDiscountsCountByBrandId(id);
-      //  }
-
       updated_Brand = await brandInfo_Store.update(brand);
 
       //Revalidate linked discounts if there is a new description

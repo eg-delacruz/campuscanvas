@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -10,6 +10,11 @@ import styles from '@styles/pagestyles/admin/master/ManageAdmins.module.scss';
 //Components
 import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
 import Loader from '@components/GeneralUseComponents/Loader/Loader';
+import ConfirmationSwal from '@components/GeneralUseComponents/ConfirmationSwal/ConfirmationSwal';
+
+//React query
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import adminKeys from '@query-key-factory/adminKeys';
 
 //Assets
 import arrow_right_white from '@assets/GeneralUse/IconsAndButtons/arrow_right_white.svg';
@@ -18,32 +23,90 @@ import arrow_right_white from '@assets/GeneralUse/IconsAndButtons/arrow_right_wh
 import { useInputValue } from '@hooks/useInputValue';
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
 
-//Endpoints
-import endPoints from '@services/api';
+//Request functions
+import adminFunctions from '@request-functions/Admin/index';
 
 const manageAdmins = () => {
   const { securingRoute } = useSecureAdminRoute('master');
-  const [state, setState] = useState({
-    submitLoading: false,
-    error: null,
-    responses: '',
-  });
 
-  const [admins, setAdmins] = useState({
-    all: [],
-    gettingAdmins: true,
-    error: null,
-  });
+  const [clientError, setClientError] = useState(null);
 
   //Session
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
-  //Getting all current admins at page load
-  useEffect(() => {
-    if (session) {
-      getAdmins();
-    }
-  }, [session]);
+  //React query
+  const queryClient = useQueryClient();
+
+  const ALL_ADMINS = useQuery({
+    queryKey: [adminKeys.all_admin_users],
+    queryFn: () => adminFunctions.getAdminUsers(session?.token.sub),
+    staleTime: 1000 * 60 * 60 * 24, //24 hours
+    enabled: session ? true : false,
+  });
+
+  const CREATE_ADMIN = useMutation({
+    mutationFn: (admin_data) => adminFunctions.createNewAdmin(admin_data),
+    onSuccess: (data) => {
+      //Replace info in cache instead of refetching
+      queryClient.setQueryData([adminKeys.all_admin_users], (oldData) => {
+        if (oldData?.length > 0) {
+          return [...oldData, data?.newAdmin];
+        } else {
+          ALL_ADMINS.refetch();
+        }
+      });
+
+      //Show a confirmation swal
+      ConfirmationSwal({
+        message: data?.message,
+      });
+    },
+    onError: () => {
+      //Clean CREATE_ADMIN.error after 5 seconds
+      setTimeout(() => {
+        CREATE_ADMIN.reset();
+      }, 5000);
+    },
+    onSettled: () => {
+      //Clearing important fields
+      CREAR_DESTITUIR.setValue('');
+      CONTRASENA.setValue('');
+      REP_CONTRASENA.setValue('');
+    },
+  });
+
+  const DESTITUIR_ADMIN = useMutation({
+    mutationFn: (admin_data) => adminFunctions.revokeAdmin(admin_data),
+    onSuccess: (data) => {
+      //Eliminate admin from cache instead of refetching by finding it by admin.email property
+      queryClient.setQueryData([adminKeys.all_admin_users], (oldData) => {
+        if (oldData?.length > 0) {
+          return oldData.filter(
+            (admin) => admin.email !== data?.revokedAdmin.email
+          );
+        } else {
+          ALL_ADMINS.refetch();
+        }
+      });
+
+      //Show a confirmation swal
+      ConfirmationSwal({
+        message: data?.message,
+      });
+    },
+    onError: () => {
+      //Clean CREATE_ADMIN.error after 5 seconds
+      setTimeout(() => {
+        CREATE_ADMIN.reset();
+      }, 5000);
+    },
+    onSettled: () => {
+      //Clearing important fields
+      CREAR_DESTITUIR.setValue('');
+      CONTRASENA.setValue('');
+      REP_CONTRASENA.setValue('');
+    },
+  });
 
   //Controlling inputs
   const CREAR_DESTITUIR = useInputValue('');
@@ -60,179 +123,30 @@ const manageAdmins = () => {
   };
   //Crear/Destituir radio buttons(end)
 
-  const createAdmin = async (admin_data) => {
-    try {
-      const respuesta = await fetch(endPoints.admin.manageAdmins, {
-        method: 'POST',
-        headers: {
-          accept: '*/*',
-          'Content-Type': 'application/json',
-          app_secret_key: process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
-        },
-        body: JSON.stringify(admin_data),
-      });
-      const data = await respuesta.json();
-
-      return data;
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
-
-  const revokeAdmin = async (admin_data) => {
-    try {
-      const respuesta = await fetch(endPoints.admin.manageAdmins, {
-        method: 'DELETE',
-        headers: {
-          accept: '*/*',
-          'Content-Type': 'application/json',
-          app_secret_key: process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
-        },
-        body: JSON.stringify(admin_data),
-      });
-      const data = await respuesta.json();
-
-      return data;
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
-
-  const getAdmins = async () => {
-    setAdmins({
-      ...admins,
-      error: null,
-      gettingAdmins: true,
-    });
-    try {
-      const respuesta = await fetch(endPoints.admin.manageAdmins, {
-        method: 'GET',
-        headers: {
-          accept: '*/*',
-          'Content-Type': 'application/json',
-          app_secret_key: process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
-          master_admin: session.token.sub,
-        },
-      });
-      const data = await respuesta.json();
-      setAdmins({
-        ...admins,
-        all: data.body,
-        error: null,
-        gettingAdmins: false,
-      });
-
-      return data;
-    } catch (error) {
-      setAdmins({ ...admins, error: error, gettingAdmins: false });
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setState({ ...state, error: null, submitLoading: true });
+    setClientError(null);
 
     //Checking if password spelled right
     if (REP_CONTRASENA.value !== CONTRASENA.value) {
-      setState({
-        ...state,
-        error: 'La contraseña debe coincidir',
-        submitLoading: false,
-      });
+      setClientError('La contraseña debe coincidir');
       return false;
     }
 
     const admin_data = {
-      userId: session.token.sub,
-      admin_email: EMAIL_ADMIN.value,
-      password: CONTRASENA.value,
+      master_id: session.token.sub,
+      new_admin_email: EMAIL_ADMIN.value,
+      master_password: CONTRASENA.value,
     };
 
-    try {
-      //Create admin
-      if (CREAR_DESTITUIR.value === 'crear_admin') {
-        const data = await createAdmin(admin_data);
+    //Create admin
+    if (CREAR_DESTITUIR.value === 'crear_admin') {
+      CREATE_ADMIN.mutate(admin_data);
+    }
 
-        if (data.error) {
-          setState({ ...state, error: data.error });
-
-          //Clearing important fields
-          CREAR_DESTITUIR.setValue('');
-          CONTRASENA.setValue('');
-          REP_CONTRASENA.setValue('');
-
-          return false;
-        }
-        setState({
-          ...state,
-          error: null,
-          submitLoading: false,
-          responses: data.body,
-        });
-
-        //Clearing important fields
-        CREAR_DESTITUIR.setValue('');
-        CONTRASENA.setValue('');
-        REP_CONTRASENA.setValue('');
-
-        //Reset admins table values
-        getAdmins();
-
-        //Reseting state ti stop seeing response message
-        setTimeout(() => {
-          setState({
-            ...state,
-            responses: '',
-            error: null,
-          });
-        }, 3000);
-      }
-
-      //Revoke admin
-      if (CREAR_DESTITUIR.value === 'destituir_admin') {
-        const data = await revokeAdmin(admin_data);
-
-        if (data.error) {
-          setState({ ...state, error: data.error });
-
-          //Clearing important fields
-          CREAR_DESTITUIR.setValue('');
-          CONTRASENA.setValue('');
-          REP_CONTRASENA.setValue('');
-
-          return false;
-        }
-
-        setState({
-          ...state,
-          error: null,
-          submitLoading: false,
-          responses: data.body,
-        });
-
-        //Clearing important fields
-        CREAR_DESTITUIR.setValue('');
-        CONTRASENA.setValue('');
-        REP_CONTRASENA.setValue('');
-
-        //Reset admins table values
-        getAdmins();
-
-        //Reseting state ti stop seeing response message
-        setTimeout(() => {
-          setState({
-            ...state,
-            responses: '',
-            error: null,
-          });
-        }, 3000);
-      }
-    } catch (error) {
-      setState({
-        ...state,
-        error: 'Hubo un error. ' + error.message,
-        submitLoading: false,
-      });
+    //Revoke admin
+    if (CREAR_DESTITUIR.value === 'destituir_admin') {
+      DESTITUIR_ADMIN.mutate(admin_data);
     }
   };
 
@@ -348,25 +262,31 @@ const manageAdmins = () => {
               required
             />
           </div>
-          {state.error && (
+          {clientError && (
             <p className={`${styles.error_displayer} error__message`}>
-              {state.error}
+              {clientError}
             </p>
           )}
-          {state.responses && (
-            <p
-              className={`${styles.success_response_displayer} success__message`}
-            >
-              {state.responses}
+
+          {CREATE_ADMIN.isError && (
+            <p className={`${styles.error_displayer} error__message`}>
+              {CREATE_ADMIN.error?.message}
+            </p>
+          )}
+
+          {DESTITUIR_ADMIN.isError && (
+            <p className={`${styles.error_displayer} error__message`}>
+              {DESTITUIR_ADMIN.error?.message}
             </p>
           )}
 
           <button
             type='submit'
             className={`${styles.submit_button} ${
-              state.submitLoading && styles.buttonLoading
+              CREATE_ADMIN.isLoading === true ||
+              (DESTITUIR_ADMIN.isLoading === true && styles.buttonLoading)
             } btn button--red`}
-            disabled={state.submitLoading}
+            disabled={CREATE_ADMIN.isLoading || DESTITUIR_ADMIN.isLoading}
           >
             {CREAR_DESTITUIR.value === 'destituir_admin'
               ? 'Destituir admin'
@@ -379,7 +299,7 @@ const manageAdmins = () => {
             ///////////////////////// */}
 
         <h3>Administradores actuales</h3>
-        {admins.gettingAdmins ? (
+        {ALL_ADMINS.isLoading ? (
           <Loader />
         ) : (
           <>
@@ -392,7 +312,7 @@ const manageAdmins = () => {
               </thead>
 
               <tbody>
-                {admins.all.map((admin, index) => (
+                {ALL_ADMINS.data?.map((admin, index) => (
                   <tr key={index}>
                     <td className={styles.current_admins__column1}>
                       {admin.nickname}
@@ -404,9 +324,9 @@ const manageAdmins = () => {
             </table>
           </>
         )}
-        {admins.error && (
+        {ALL_ADMINS.isError && (
           <p className={`${styles.error_displayer} error__message`}>
-            {admins.error}
+            {ALL_ADMINS.error?.message}
           </p>
         )}
       </div>

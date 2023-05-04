@@ -77,7 +77,7 @@ const DisplayEliminateDiscountModal = ({
 
     //Decrease the discounts_attached count of the brand in the brands query cache (which is an array of brands) by one if applies (if the array is not empty). If the discounts_attached count is 0, the brand.last_time_checked_since_brand_has_no_discounts is updated to the current date
     queryClient.setQueryData([adminKeys.brands.all_brands], (oldData) => {
-      if (oldData.length > 0) {
+      if (oldData?.length > 0) {
         const updatedBrands = oldData.map((brand) => {
           if (brand._id === brand_id) {
             //In this case, the resultig count will be 0, so we update the last_time_checked_since_brand_has_no_discounts to the current date
@@ -93,13 +93,13 @@ const DisplayEliminateDiscountModal = ({
                 discounts_attached: brand.discounts_attached - 1,
               };
             }
-          } else {
-            return brand;
           }
+          //TODO: check if this works without the else
+          // else {
+          //   return brand;
+          // }
         });
         return updatedBrands;
-      } else {
-        return oldData;
       }
     });
 
@@ -132,6 +132,9 @@ const DisplayEliminateDiscountModal = ({
       icon: 'success',
       title: response.body,
     });
+
+    //Close the modal
+    setShowModal(false);
 
     //Redirect
     router.push('/admin/descuentos/gestionar-descuentos');

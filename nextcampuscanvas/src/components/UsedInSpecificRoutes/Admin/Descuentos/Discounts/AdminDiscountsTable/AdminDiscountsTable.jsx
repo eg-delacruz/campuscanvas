@@ -136,7 +136,7 @@ const AdminDiscountsTable = ({ discounts, loading, error }) => {
             </table>
           </>
         ) : (
-          <p>No hay descuentos</p>
+          <p className={styles.no_discounts_message}>No hay descuentos</p>
         )}
       </section>
 

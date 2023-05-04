@@ -569,18 +569,29 @@ const checkIfUserExists = async (userID) => {
 
 //To create an admin, an account needs to be created first
 const createAdmin = async (master_id, new_admin_email, master_password) => {
-  const masterAdmin = await getUserByEmail('eg.cruzvalle@gmail.com');
-  const masterAdminId = masterAdmin._id.toString();
+  const masterAdmins = await store.getMasterAdmins();
+  const all_admins = await store.getAdmins();
 
-  //Avoid revoking master admin
-  if (new_admin_email === masterAdmin.email) {
-    throw new Error('[Use controller error] Action not allowed');
-  }
-
-  //Checking if Master admin is opperating
-  if (masterAdminId != master_id) {
+  //Checking if Master admin exists to allow creating a new admin
+  const masterAdminExists = masterAdmins.some(
+    (admin) => admin._id.toString() === master_id
+  );
+  if (!masterAdminExists) {
     throw new Error('[Use controller error] Forbidden user');
   }
+
+  //Avoid creating an admin if the email is already an admin
+  const email_already_admin = all_admins.some(
+    (admin) => admin.email === new_admin_email
+  );
+  if (email_already_admin) {
+    throw new Error('[Use controller error] Email ya es admin');
+  }
+
+  //Getting master admin
+  const masterAdmin = masterAdmins.find(
+    (admin) => admin._id.toString() === master_id
+  );
 
   //Checking if master password is correct
   const checkPassword = await verifyPassword(
@@ -595,9 +606,10 @@ const createAdmin = async (master_id, new_admin_email, master_password) => {
   try {
     const new_admin = await getUserByEmail(new_admin_email);
     new_admin.role = 'admin';
-    await store.update(new_admin);
+    const created_admin = await store.update(new_admin);
+    return created_admin;
   } catch (error) {
-    throw new Error('[Use controller error]', error);
+    throw new Error('[Use controller error]', error?.message);
   }
 };
 
@@ -606,18 +618,32 @@ const revokeAdmin = async (
   to_revoke_admin_email,
   master_password
 ) => {
-  const masterAdmin = await getUserByEmail('eg.cruzvalle@gmail.com');
-  const masterAdminId = masterAdmin._id.toString();
+  const UNREVOKABLE_ADMIN_EMAILS = ['eg.cruzvalle@gmail.com'];
 
-  //Avoid revoking master admin
-  if (to_revoke_admin_email === masterAdmin.email) {
-    throw new Error('[Use controller error] Action not allowed');
-  }
+  const masterAdmins = await store.getMasterAdmins();
 
-  //Checking if Master admin is opperating
-  if (masterAdminId != master_id) {
+  //Checking if user is a master admin to allow revoking an admin
+  const masterAdminExists = masterAdmins.some(
+    (admin) => admin._id.toString() === master_id
+  );
+
+  if (!masterAdminExists) {
     throw new Error('[Use controller error] Forbidden user');
   }
+
+  //Avoid revoking master admin if the email is in UNREVOKABLE_ADMIN_EMAILS
+  const admin_is_unrevokable = UNREVOKABLE_ADMIN_EMAILS.some(
+    (email) => email === to_revoke_admin_email
+  );
+
+  if (admin_is_unrevokable) {
+    throw new Error('[Use controller error] Email no se puede revocar');
+  }
+
+  //Getting master admin
+  const masterAdmin = masterAdmins.find(
+    (admin) => admin._id.toString() === master_id
+  );
 
   //Checking if master password is correct
   const checkPassword = await verifyPassword(
@@ -632,18 +658,23 @@ const revokeAdmin = async (
     //Revoke admin
     const admin_to_revoke = await getUserByEmail(to_revoke_admin_email);
     admin_to_revoke.role = 'user';
-    await store.update(admin_to_revoke);
+    const revokedAdmin = await store.update(admin_to_revoke);
+    return revokedAdmin;
   } catch (error) {
     throw new Error('[User controller error]', error);
   }
 };
 
 const getAllAdmins = async (master_id) => {
-  const masterAdmin = await getUserByEmail('eg.cruzvalle@gmail.com');
-  const masterAdminId = masterAdmin._id.toString();
+  const masterAdmins = await store.getMasterAdmins();
 
-  //Checking if Master admin is opperating
-  if (masterAdminId != master_id) {
+  //Checking if any master admin exists
+  const masterAdminExists = masterAdmins.some(
+    (admin) => admin._id.toString() === master_id
+  );
+
+  //If master admin doesn´t exist, throw error
+  if (!masterAdminExists) {
     throw new Error('[Use controller error] Forbidden user');
   }
 
