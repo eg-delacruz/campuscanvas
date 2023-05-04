@@ -23,8 +23,8 @@ import { signOut } from 'next-auth/react';
 import {
   openSidebar,
   closeSidebar,
-  selectGlobalState,
-} from '@redux/globalStateSlice';
+  selectUserSidebarGlobalState,
+} from '@redux/userSidebarGlobalStateSlice';
 
 const UserSidebar = () => {
   const router = useRouter();
@@ -36,7 +36,9 @@ const UserSidebar = () => {
   const dispatch = useDispatch();
 
   //Reducers
-  const globalStateReducer = useSelector(selectGlobalState);
+  const userSidebarGlobalStateReducer = useSelector(
+    selectUserSidebarGlobalState
+  );
 
   //Dirigir a usuario al paso de verificación correspondiente
   const verifyUser = () => {
@@ -80,7 +82,7 @@ const UserSidebar = () => {
   return (
     <nav
       className={`${styles.sidebar} ${
-        !globalStateReducer.openSidebar && styles.close
+        !userSidebarGlobalStateReducer.openSidebar && styles.close
       }`}
     >
       {/* /////////////////////////

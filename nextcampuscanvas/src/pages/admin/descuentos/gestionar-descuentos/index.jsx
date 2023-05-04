@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useState, useMemo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 //React query
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -23,12 +24,25 @@ import Pagination from '@components/GeneralUseComponents/Pagination/Pagination';
 import adminFunctions from '@request-functions/Admin';
 import adminDiscountsFunctions from '@request-functions/Admin/Discounts/index';
 
+//Redux
+import {
+  setCurrentPage,
+  selectAdminDiscountsTablePaginationGlobalState,
+} from '@redux/adminDiscountsTablePaginationGlobalStateSlice';
+
 const index = () => {
   const { securingRoute } = useSecureAdminRoute();
 
   //States
   const [filteredDiscounts, setFilteredDiscounts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+
+  //Reducers
+  const adminDiscountsTablePaginationGlobalStateReducer = useSelector(
+    selectAdminDiscountsTablePaginationGlobalState
+  );
+
+  //Allows us to manipulate the appropriate slice/action
+  const dispatch = useDispatch();
 
   //React query
   const queryClient = useQueryClient();
@@ -77,7 +91,9 @@ const index = () => {
   //Filter discounts
   useMemo(() => {
     //Reset page to 1 when filtering because if we are in page 2 and we filter, we will get an empty page
-    setCurrentPage(1);
+    if (debouncedSearchValue) {
+      dispatch(setCurrentPage(1));
+    }
     const results = ALL_DISCOUNTS?.data.filter((discount) => {
       return (
         discount.SEO_meta_title.toLowerCase().includes(
@@ -106,7 +122,9 @@ const index = () => {
     : 10;
 
   //Get discounts of current page
-  const indexOfLastDiscount = currentPage * DISCOUNTS_PER_PAGE;
+  const indexOfLastDiscount =
+    adminDiscountsTablePaginationGlobalStateReducer.currentPage *
+    DISCOUNTS_PER_PAGE;
   const indexOfFirstDiscount = indexOfLastDiscount - DISCOUNTS_PER_PAGE;
   const currentDiscounts = filteredDiscounts.slice(
     indexOfFirstDiscount,
@@ -114,14 +132,14 @@ const index = () => {
   );
 
   //Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber) => dispatch(setCurrentPage(pageNumber));
 
   const setDiscountsPerPage = (e) => {
     UPDATE_ADMIN_SETTINGS.mutate({
       settings_to_update: 'entries_per_admin_discouns_table_page',
       update_value: parseInt(e.target.value),
     });
-    setCurrentPage(1);
+    dispatch(setCurrentPage(1));
   };
 
   if (securingRoute) {
@@ -236,7 +254,9 @@ const index = () => {
               itemsPerPage={DISCOUNTS_PER_PAGE}
               totalItems={filteredDiscounts.length}
               paginate={paginate}
-              currentPage={currentPage}
+              currentPage={
+                adminDiscountsTablePaginationGlobalStateReducer.currentPage
+              }
             />
           )}
       </div>

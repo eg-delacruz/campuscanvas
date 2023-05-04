@@ -25,7 +25,7 @@ import { useSession } from 'next-auth/react';
 import endPoints from '@services/api';
 
 //Redux actions
-import { openSidebar } from '@redux/globalStateSlice';
+import { openSidebar } from '@redux/userSidebarGlobalStateSlice';
 
 const pedidos = () => {
   //Session

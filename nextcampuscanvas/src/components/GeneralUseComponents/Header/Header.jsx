@@ -27,7 +27,7 @@ import { signOut } from 'next-auth/react';
 
 //Redux actions
 import { getUser, selectUser } from '@redux/usersSlice';
-import { openSidebar } from '@redux/globalStateSlice';
+import { openSidebar } from '@redux/userSidebarGlobalStateSlice';
 
 //Services
 import { truncateText } from '@services/truncateText.js';

@@ -1,12 +1,11 @@
-//CLARIFICATION: Handle a global state with a single varieable like this is fine, no need to create more slices for each different state
 import { createSlice } from '@reduxjs/toolkit';
 
 const INITIAL_STATE = {
   openSidebar: '',
 };
 
-export const globalStateSlice = createSlice({
-  name: 'globalState',
+export const userSidebarGlobalStateSlice = createSlice({
+  name: 'userSidebarGlobalState',
   initialState: INITIAL_STATE,
   reducers: {
     openSidebar: (state) => {
@@ -18,10 +17,12 @@ export const globalStateSlice = createSlice({
   },
 });
 
-export const { openSidebar, closeSidebar } = globalStateSlice.actions;
+export const { openSidebar, closeSidebar } =
+  userSidebarGlobalStateSlice.actions;
 
 //Gives us access to the state value that we want to use
-export const selectGlobalState = (state) => state.globalState;
+export const selectUserSidebarGlobalState = (state) =>
+  state.userSidebarGlobalState;
 
 //We export this to be able to connect the slice to the store
-export default globalStateSlice.reducer;
+export default userSidebarGlobalStateSlice.reducer;
