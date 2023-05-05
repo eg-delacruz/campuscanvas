@@ -162,14 +162,6 @@ const manageAdmins = () => {
     <>
       <AdminHeader />
       <div className={`${styles.container} container`}>
-        <Link href={'/admin/master'}>
-          <button className={`${styles.button_back} btn button--red`}>
-            <span>
-              <Image src={arrow_right_white} />
-            </span>
-            <div>Atrás</div>
-          </button>
-        </Link>
         <h1>Gestión de roles de administración</h1>
 
         {/* /////////////////////////
