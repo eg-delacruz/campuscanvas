@@ -7,6 +7,9 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import * as ga from '../services/googleAnalytics/index';
 
+//Hooks
+import {usePreserveScroll}  from '@hooks/usePreserveScroll';
+
 //React Query
 import {
   QueryClient,
@@ -40,6 +43,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     };
   }, [router.events]);
   //Google Analytics (end)
+
+  //Preserve Scroll 
+  usePreserveScroll();
 
   return (
     <QueryClientProvider client={queryClient}>

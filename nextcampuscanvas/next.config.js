@@ -1,13 +1,15 @@
 const withPWA = require('next-pwa');
 const withFonts = require('next-fonts');
 
+//TODO: check proper pwa config is sw doesn't work properly
 module.exports = withPWA({
   pwa: {
     dest: 'public',
     register: true,
     mode: 'production',
-    disable: false,
-  },
+    //disable: false,
+    include: ['production']
+  }
 });
 
 const nextConfig = {
