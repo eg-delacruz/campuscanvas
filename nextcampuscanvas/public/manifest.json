@@ -7,6 +7,7 @@
   "name": "Campus Canvas",
   "short_name": "Campus Canvas",
   "description": "Mejorando la vida estudiantil",
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/icon-192x192.png",
