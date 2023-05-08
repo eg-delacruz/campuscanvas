@@ -142,11 +142,11 @@ export default function Header({ displaySearchBar = true }) {
 
   //Campus Canvas logo handling (start)
   const handleCampusCanvasLogo = () => (
-    //  Don´t display full logo if < 767  and user is logged in. In every other case, full logo will be dispayed
+    //  Full size logo will always be displayed on big screens. On small screens, it will be disabled by default and enabled only when there is no session and the loading state is over
     <Link href='/'>
       <button
         className={`${styles.header__logo_button} ${
-          session && !loading ? styles.disableLogoLoggedUser767 : ''
+          !session && !loading ? styles.enagleLogoNoSession767 : ''
         }`}
       >
         <Image width={280} src={Logo_Campus_Canvas} alt='Logo Campus Canvas' />

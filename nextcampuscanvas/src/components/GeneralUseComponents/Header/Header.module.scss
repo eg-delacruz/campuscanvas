@@ -115,6 +115,9 @@
       margin: auto 0;
       display: flex;
       justify-content: space-between;
+      // .large_logo_container {
+      //   display: none;
+      // }
       .header__logo_button {
         background-color: transparent;
         border: 0px;
@@ -410,9 +413,10 @@
     .header__logo {
       .header__logo_button {
         margin: 12px 0 8px;
-      }
-      .disableLogoLoggedUser767 {
         display: none;
+      }
+      .enagleLogoNoSession767 {
+        display: block;
       }
       .fake_search_bar {
         display: none;
@@ -420,12 +424,6 @@
       flex-direction: column;
       align-items: center;
       width: 100%;
-
-      //Logged user menu for 767 and smaller
-      // .logged_user_menu__skeleton {
-      //   align-items: center;
-      //   margin-bottom: 15px;
-      // }
 
       .header__logged_user_menu {
         width: 100%;
