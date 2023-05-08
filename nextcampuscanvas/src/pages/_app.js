@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import * as ga from '../services/googleAnalytics/index';
 
 //Hooks
-import {usePreserveScroll}  from '@hooks/usePreserveScroll';
+import { usePreserveScroll } from '@hooks/usePreserveScroll';
 
 //React Query
 import {
@@ -44,8 +44,30 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   }, [router.events]);
   //Google Analytics (end)
 
-  //Preserve Scroll 
+  //Preserve Scroll
   usePreserveScroll();
+
+  //Service Worker (start)
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js').then(
+          function (registration) {
+            // Registration was successful
+            console.log(
+              'ServiceWorker registration successful with scope: ',
+              registration.scope
+            );
+          },
+          function (err) {
+            // registration failed :(
+            console.log('ServiceWorker registration failed: ', err);
+          }
+        );
+      });
+    }
+  }, []);
+  //Service Worker (end)
 
   return (
     <QueryClientProvider client={queryClient}>
