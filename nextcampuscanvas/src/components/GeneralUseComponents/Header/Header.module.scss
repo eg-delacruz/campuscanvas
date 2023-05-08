@@ -52,17 +52,23 @@
 
 .loadingSkeletonSmallScreen {
   display: none;
-  align-items: center;
+  height: 45px;
   justify-content: center;
-  position: absolute;
-  top: 6px;
-  .block1 {
-    //Skeleton animation
-    animation: setSkeletonLoading();
-    width: 112px;
-    margin-left: 8px;
-    border-radius: 5px;
-    height: 35px;
+  align-items: center;
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 6px;
+    .block1 {
+      //Skeleton animation
+      animation: setSkeletonLoading();
+      width: 112px;
+      margin-left: 8px;
+      border-radius: 5px;
+      height: 35px;
+    }
   }
 }
 ////////////////////////Loading states (end)
@@ -115,9 +121,6 @@
       margin: auto 0;
       display: flex;
       justify-content: space-between;
-      // .large_logo_container {
-      //   display: none;
-      // }
       .header__logo_button {
         background-color: transparent;
         border: 0px;
@@ -413,10 +416,9 @@
     .header__logo {
       .header__logo_button {
         margin: 12px 0 8px;
-        display: none;
       }
-      .enagleLogoNoSession767 {
-        display: block;
+      .disableFullLogo767 {
+        display: none;
       }
       .fake_search_bar {
         display: none;

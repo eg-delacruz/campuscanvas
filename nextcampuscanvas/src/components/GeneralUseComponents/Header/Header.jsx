@@ -142,11 +142,10 @@ export default function Header({ displaySearchBar = true }) {
 
   //Campus Canvas logo handling (start)
   const handleCampusCanvasLogo = () => (
-    //  Full size logo will always be displayed on big screens. On small screens, it will be disabled by default and enabled only when there is no session and the loading state is over
     <Link href='/'>
       <button
         className={`${styles.header__logo_button} ${
-          !session && !loading ? styles.enagleLogoNoSession767 : ''
+          loading || session ? styles.disableFullLogo767 : ''
         }`}
       >
         <Image width={280} src={Logo_Campus_Canvas} alt='Logo Campus Canvas' />
@@ -176,10 +175,12 @@ export default function Header({ displaySearchBar = true }) {
     if (loading) {
       return (
         <div className={styles.loadingSkeletonSmallScreen}>
-          <div className={styles.icon}>
-            <Image src={logged_user_icon} />
+          <div className={styles.container}>
+            <div className={styles.icon}>
+              <Image src={logged_user_icon} />
+            </div>
+            <div className={styles.block1}></div>
           </div>
-          <div className={styles.block1}></div>
         </div>
       );
     }
