@@ -1,35 +1,34 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import { useState } from 'react';
+import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
 
 //React query
-import { useQuery } from '@tanstack/react-query';
-import adminKeys from '@query-key-factory/adminKeys';
+import { useQuery } from "@tanstack/react-query";
+import adminKeys from "@query-key-factory/adminKeys";
 
 //Styles
-import styles from './BrandsWithNoDiscountsTable.module.scss';
+import styles from "./BrandsWithNoDiscountsTable.module.scss";
 
 //Request functions
-import requestFn from '@request-functions/Admin/Discounts';
+import requestFn from "@request-functions/Admin/Discounts";
 
 //Services
-import dateFormat from '@services/dateFormat';
+import dateFormat from "@services/dateFormat";
 
 //Assets
-import update_icon from '@assets/GeneralUse/IconsAndButtons/update.svg';
+import update_icon from "@assets/GeneralUse/IconsAndButtons/update.svg";
 
 //Components
-import CC_LogoLoader from '@components/GeneralUseComponents/CC_LogoLoader/CC_LogoLoader';
-import DisplayUpdateLastTimeCheckedModal from '../Descuentos/Brands/DisplayUpdateLastTimeCheckedModal/DisplayUpdateLastTimeCheckedModal';
+import CC_LogoLoader from "@components/GeneralUseComponents/CC_LogoLoader/CC_LogoLoader";
+import DisplayUpdateLastTimeCheckedModal from "../Descuentos/Brands/DisplayUpdateLastTimeCheckedModal/DisplayUpdateLastTimeCheckedModal";
 
 const BrandsWithNoDiscountsTable = () => {
   //States
-
   const [showUpdateLastTimeCheckedModal, setShowUpdateLastTimeCheckedModal] =
     useState(false);
   const [brandInfo, setBrandInfo] = useState({
-    brand_id: '',
-    brand_name: '',
+    brand_id: "",
+    brand_name: "",
   });
 
   //React query
@@ -43,7 +42,7 @@ const BrandsWithNoDiscountsTable = () => {
 
   //Get brands with no discounts
   const brandsWithNoDiscounts = BRANDS.data?.filter(
-    (brand) => brand.discounts_attached === 0
+    (brand) => brand?.discounts_attached === 0
   );
 
   //Order brands from oldest to newest using according to last_time_checked_since_brand_has_no_discounts property
@@ -103,7 +102,7 @@ const BrandsWithNoDiscountsTable = () => {
     );
   }
 
-  if (BRANDS.isLoading || BRANDS.isFetching)
+  if (BRANDS.isLoading || BRANDS.isFetching || BRANDS.isRefetching)
     return (
       <div className={styles.loader_container}>
         <div className={styles.cc_logo}>
@@ -113,7 +112,7 @@ const BrandsWithNoDiscountsTable = () => {
     );
 
   if (BRANDS.isError)
-    return <p className='error__message'>{BRANDS.error?.message}</p>;
+    return <p className="error__message">{BRANDS.error?.message}</p>;
 
   return (
     <>
@@ -141,7 +140,7 @@ const BrandsWithNoDiscountsTable = () => {
                     width={16}
                     height={16}
                     src={update_icon}
-                    alt='update icon'
+                    alt="update icon"
                     onClick={() => {
                       setBrandDateForUpdateModal(brand._id, brand.brand_name);
                     }}
@@ -164,7 +163,7 @@ const BrandsWithNoDiscountsTable = () => {
                         )
                       )
                         ? styles.warn_background
-                        : ''
+                        : ""
                     } ${
                       checkIfOlderThanTwoMonths(
                         new Date(
@@ -172,7 +171,7 @@ const BrandsWithNoDiscountsTable = () => {
                         )
                       )
                         ? styles.danger_background
-                        : ''
+                        : ""
                     }`}
                   >
                     {dateFormat.dateToDMYHM(

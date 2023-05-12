@@ -20,7 +20,7 @@ import AI_Large from '../assets/PagesImages/BlogImages/Inteligencia artificial/B
 //IMPORTANT: Last object in array will always be the main post in main blog url. Rest of post will be displayed from newest on top and oldest on bottom, meaning that they will be displayed from penultimate to earliest in array.
 export const POSTS = [
   {
-    id: '1',
+    id: '1', //Slug in Contentful
     Title: '3 plataformas digitales que no deberías dejar de explorar',
     PubDate: '28/09/2022',
     SmallImage: Canva_Prezi_Infogram_Small,

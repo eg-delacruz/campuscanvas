@@ -1,26 +1,28 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 //Components
-import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
-import Loader from '@components/GeneralUseComponents/Loader/Loader';
-import CC_LogoLoader from '@components/GeneralUseComponents/CC_LogoLoader/CC_LogoLoader';
-import HorizontalBarChart from '@components/UsedInSpecificRoutes/Admin/HorizontalBarChart/HorizontalBarChart';
-import BrandsWithNoDiscountsTable from '@components/UsedInSpecificRoutes/Admin/BrandsWithNoDiscountsTable/BrandsWithNoDiscountsTable';
-import VerifyedStudentsCount from '@components/UsedInSpecificRoutes/Admin/VerifyedStudentsCount/VerifyedStudentsCount';
+import AdminHeader from "@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader";
+import Loader from "@components/GeneralUseComponents/Loader/Loader";
+import CC_LogoLoader from "@components/GeneralUseComponents/CC_LogoLoader/CC_LogoLoader";
+import HorizontalBarChart from "@components/UsedInSpecificRoutes/Admin/HorizontalBarChart/HorizontalBarChart";
+import BrandsWithNoDiscountsTable from "@components/UsedInSpecificRoutes/Admin/BrandsWithNoDiscountsTable/BrandsWithNoDiscountsTable";
+import VerifyedStudentsCount from "@components/UsedInSpecificRoutes/Admin/VerifyedStudentsCount/VerifyedStudentsCount";
 
 //React query
-import { useQuery } from '@tanstack/react-query';
-import adminKeys from '@query-key-factory/adminKeys';
+import { useQuery } from "@tanstack/react-query";
+import adminKeys from "@query-key-factory/adminKeys";
 
 //Styles
-import styles from '@pagestyles/admin/admin.module.scss';
+import styles from "@pagestyles/admin/admin.module.scss";
 
 //hooks
-import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
+import useSecureAdminRoute from "@hooks/useSecureAdminRoute";
 
 //Data request functions
-import requestFunctions from '@request-functions/Admin/Discounts/index';
+import requestFunctions from "@request-functions/Admin/Discounts/index";
 
+//CLARIFICATIONS:
+// 1. This is the admin dashboard page
 const index = () => {
   const { securingRoute } = useSecureAdminRoute();
 
@@ -64,7 +66,7 @@ const index = () => {
   const setLikedDislikedData = () => {
     setMostLikedData({
       labels: MOST_LIKED_DISCOUNTS_DATA.data?.map(
-        (discount) => discount.title + ' | ' + discount.brand.brand_name
+        (discount) => discount.title + " | " + discount.brand.brand_name
       ),
       dataset: MOST_LIKED_DISCOUNTS_DATA.data?.map(
         (discount) => discount.likes
@@ -73,7 +75,7 @@ const index = () => {
 
     setMostDislikedData({
       labels: MOST_DISLIKED_DISCOUNTS_DATA.data?.map(
-        (discount) => discount.title + ' | ' + discount.brand.brand_name
+        (discount) => discount.title + " | " + discount.brand.brand_name
       ),
       dataset: MOST_DISLIKED_DISCOUNTS_DATA.data?.map(
         (discount) => discount.dislikes
@@ -87,10 +89,10 @@ const index = () => {
     labels: mostLikedData.labels,
     datasets: [
       {
-        label: 'Likes',
+        label: "Likes",
         data: mostLikedData.dataset,
-        backgroundColor: ['#005ef5'],
-        borderColor: ['#005ef5'],
+        backgroundColor: ["#005ef5"],
+        borderColor: ["#005ef5"],
         borderWidth: 1,
       },
     ],
@@ -100,10 +102,10 @@ const index = () => {
     labels: mostDislikedData.labels,
     datasets: [
       {
-        label: 'Dislikes',
+        label: "Dislikes",
         data: mostDislikedData.dataset,
-        backgroundColor: ['#ad2146'],
-        borderColor: ['#ad2146'],
+        backgroundColor: ["#ad2146"],
+        borderColor: ["#ad2146"],
         borderWidth: 1,
       },
     ],
@@ -137,7 +139,7 @@ const index = () => {
               ) : (
                 <div className={styles.chart_container}>
                   <HorizontalBarChart
-                    title={'Descuentos más gustados actualmente'}
+                    title={"Descuentos más gustados actualmente"}
                     chartData={likedData}
                   />
                 </div>
@@ -152,7 +154,7 @@ const index = () => {
               ) : (
                 <div className={styles.chart_container}>
                   <HorizontalBarChart
-                    title={'Descuentos menos gustados actualmente'}
+                    title={"Descuentos menos gustados actualmente"}
                     chartData={dislikedData}
                   />
                 </div>
