@@ -1,32 +1,37 @@
-//Sanitysing dangerouslySetInnerHTML as in: https://www.npmjs.com/package/isomorphic-dompurify
-import DOMPurify from 'isomorphic-dompurify';
+import PropTypes from "prop-types";
 
 //Styles
-import styles from './PostTemplate.module.scss';
+import styles from "./PostTemplate.module.scss";
+
+//Components
+import ContentfulRichText from "@components/GeneralUseComponents/ContentfulRichText/ContentfulRichText";
 
 const PostTemplate = ({
   Author,
-  Content = [],
+  AuthorURL = "https://campuscanvas.net/",
+  Content,
   SmallImage,
   LargeImage,
   Title,
   PubDate,
 }) => {
-  function createHTMLElement(string) {
-    return { __html: DOMPurify.sanitize(string) };
-  }
-
   return (
-    <div className='Post container'>
+    <div className="Post container">
       <picture className={styles.Post__image}>
-        <source media='(max-width:480px)' srcSet={SmallImage} />
-        {LargeImage && <img src={LargeImage.src} alt='Imagen del post' />}
+        <source media="(max-width:480px)" srcSet={SmallImage} />
+        {LargeImage && (
+          <img src={LargeImage} alt={`Imagen del post ${Title}`} />
+        )}
       </picture>
 
       <span className={styles.Post__author}>
-        {' '}
-        <strong>Autor:</strong>{' '}
-        <span dangerouslySetInnerHTML={createHTMLElement(Author)} />{' '}
+        {" "}
+        <strong>Autor:</strong>{" "}
+        <span>
+          <a target="_blank" href={AuthorURL}>
+            {Author ? Author : "Campus Canvas"}
+          </a>
+        </span>
       </span>
       <br />
       <span className={styles.Post__PubDate}>
@@ -35,15 +40,23 @@ const PostTemplate = ({
 
       <hr />
 
-      <h2 className={styles.Post__title}>{Title}</h2>
-      {Content.map((paragraph, index) => (
-        <div key={index}>
-          <p dangerouslySetInnerHTML={createHTMLElement(paragraph)} />
-          <br />
-        </div>
-      ))}
+      <h1 className={styles.Post__title}>{Title}</h1>
+
+      <div className={styles.Post__content}>
+        <ContentfulRichText content={Content} />
+      </div>
     </div>
   );
 };
 
 export default PostTemplate;
+
+PostTemplate.propTypes = {
+  Author: PropTypes.string.isRequired,
+  AuthorURL: PropTypes.string.isRequired,
+  Content: PropTypes.object.isRequired,
+  SmallImage: PropTypes.string.isRequired,
+  LargeImage: PropTypes.string.isRequired,
+  Title: PropTypes.string.isRequired,
+  PubDate: PropTypes.string.isRequired,
+};

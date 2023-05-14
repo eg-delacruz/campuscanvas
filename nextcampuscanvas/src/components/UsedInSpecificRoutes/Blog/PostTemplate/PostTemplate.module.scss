@@ -25,17 +25,80 @@
   hr {
     margin-top: 20px;
   }
+  &__title {
+    color: $color--primary2-dark1;
+    text-align: center;
+    @include font-size(36px);
+    margin-bottom: 32px;
+  }
+  &__content {
+    max-width: 800px;
+    margin: 0 auto;
+    h2 {
+      @include font-size(30px);
+    }
+    blockquote {
+      margin: 0;
+      padding: 0 0 0 20px;
+      border-left: 5px solid $color--primary2-dark1;
+      p {
+        margin: 0;
+      }
+    }
+    table {
+      margin: 0 auto;
+      border-collapse: collapse;
+      border-spacing: 0;
+      width: 100%;
+      max-width: 100%;
+      margin-bottom: 20px;
+      overflow: hidden;
+      border: 1px solid #ddd;
+      tbody {
+        th,
+      td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+        //Accentuate first row
+        tr:first-child {
+          background-color: $color--primary2-dark1;
+          color: white;
+          
+        }
+        p {
+          margin: 0;
+        }
+      }
+      
+    }
+    code {
+      background-color: $color--light-gray;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+  }
 }
 
 /////////////////////////
 //         MQ         //
 /////////////////////////
 @media screen and (max-width: 880px) {
+  
 }
 
 ////////////////////////////////////////767/////////////////////////////////////////////
 
 @media screen and (max-width: 767px) {
+  .Post {
+    &__title {
+      text-align: left;
+    }
+  }
 }
 ////////////////////////////////////////480/////////////////////////////////////////////
 

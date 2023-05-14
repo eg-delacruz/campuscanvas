@@ -14,21 +14,17 @@
 .Posts {
   &__main {
     background-color: $color--light-gray;
-    h3 {
-      color: $color--primary1-light1;
-      text-align: center;
-      position: relative;
-      top: -37px;
-      font-size: 18px;
-    }
+   
     h1 {
       color: $color--primary2-dark1;
     }
   }
 }
 
+
+
 .MainPost {
-  padding: 10px 8px 50px;
+  padding: 10px 8px 30px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-areas:
@@ -47,9 +43,55 @@
       box-shadow: 14px 21px 20px -15px rgba(0, 0, 0, 0.3);
     }
   }
+  h1 {
+    margin-top: 16px;
+  }
   h1,
   p {
     margin-left: 32px;
+  }
+}
+
+/////////////////////////
+//    Featured Posts    //
+/////////////////////////
+.featuredPostsHeader {
+  text-align: center;
+}
+.featured_posts_upper_hr{
+  max-width: 1000px;
+}
+.featuredPostsContainer{
+  display: flex;
+  justify-content: space-between;
+  padding-top: 24px;
+  .featured_post_card {
+    max-width: 32.5%;
+    .featured_post_card__image{
+      margin: 0;
+      .Img{
+        width: 100%;
+        border-radius: 3px;
+        box-shadow: 14px 21px 20px -15px rgba(0, 0, 0, 0.3);
+      }
+    }
+    h1 {
+      @include font-size(18px);
+      position: relative;
+      font-weight: bold;
+      text-align: center;
+      bottom: 8%;
+      background-color: $color--secondary-white;
+      box-shadow: 0px 4px 18px 0px rgba(0, 0, 0, 0.4);
+      max-width: 90%;
+      margin: 0 auto;
+      padding: 8px 0;
+      border-radius: 2px;
+    }
+  }
+  .featured_post_card:hover {
+    cursor: pointer;
+    opacity: 0.8;
   }
 }
 
@@ -61,12 +103,17 @@
   h3 {
     text-align: center;
     color: $color--primary2-dark1;
+    margin-top: 32px;
   }
   .AllPostsGrid {
-    padding-top: 52px;
+    padding-top: 24px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 80px 60px;
+    h1 {
+      margin: 12px 0;
+      @include font-size(20px);
+    }
     figure {
       margin: 0;
       img {
@@ -88,6 +135,36 @@
 //         MQ         //
 /////////////////////////
 @media screen and (max-width: 880px) {
+ /////////////////////////
+//    Featured Posts    //
+///////////////////////// 
+.featured_posts_upper_hr {
+  margin: 8px;
+}
+.featuredPostsContainer{
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 8px;
+  .featured_post_card {
+    max-width: 500px;
+    margin-bottom: 24px;
+    h1 {
+      transform: translate(0, -30px);
+    }
+  }
+}
+
+ /////////////////////////
+  //    Posts Table      //
+  /////////////////////////
+.AllPostsHeader {
+  margin-top: 0;
+}
+
+.AllPosts {
+  padding: 0 8px;
+}
 }
 
 ////////////////////////////////////////767/////////////////////////////////////////////
@@ -128,7 +205,6 @@
   //    Posts Table      //
   /////////////////////////
   .AllPosts {
-    padding: 0 8px;
     .AllPostsGrid {
       grid-template-columns: 1fr 1fr;
       grid-gap: 60px 40px;
