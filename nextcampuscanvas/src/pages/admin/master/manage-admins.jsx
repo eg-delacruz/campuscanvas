@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
 
 //Session
 import { useSession } from 'next-auth/react';
@@ -15,9 +13,6 @@ import ConfirmationSwal from '@components/GeneralUseComponents/ConfirmationSwal/
 //React query
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import adminKeys from '@query-key-factory/adminKeys';
-
-//Assets
-import arrow_right_white from '@assets/GeneralUse/IconsAndButtons/arrow_right_white.svg';
 
 //hooks
 import { useInputValue } from '@hooks/useInputValue';

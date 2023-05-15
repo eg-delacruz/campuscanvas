@@ -49,6 +49,7 @@ const endPoints = {
       `${API}/api/${VERSION}/admin/estudiantes/check_acc_info/${accEmail}`,
     getAdminSettings: `${API}/api/${VERSION}/admin`,
     updateAdminSettings: `${API}/api/${VERSION}/admin`,
+    revalidateRoute: `${API}/api/${VERSION}/admin/route_revalidator`,
     discounts: {
       index: `${API}/api/${VERSION}/admin/discounts`,
       brands: `${API}/api/${VERSION}/admin/discounts/brands/index`,

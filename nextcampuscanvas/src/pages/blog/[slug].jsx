@@ -18,9 +18,7 @@ import {
   contentful_preview_client,
 } from '@services/contentful/client';
 
-//TODO: Si un post se borra o se despublica en contentful, manualmente revalidar la ruta en el panel de admin
 //TODO: Create an image component with a placeholder and a loading state using react-cool-image
-//TODO: Añadir kewords nuevas a los descuentos
 const BlogPost = ({ post, preview }) => {
   const router = useRouter();
 

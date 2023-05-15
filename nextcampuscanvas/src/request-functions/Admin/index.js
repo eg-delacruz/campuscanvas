@@ -99,10 +99,29 @@ const revokeAdmin = async ({
   return response.body;
 };
 
+//Don´t use with react query, since the sintax is different from the rest of the functions
+const revalidateRoute = async ({ route }) => {
+  const response = await axiosFetcher({
+    url: endPoints.admin.revalidateRoute,
+    method: 'post',
+    payload: {
+      route,
+    },
+  });
+
+  if (response.error) {
+    console.log(response.error);
+    return response;
+  }
+
+  return response.body;
+};
+
 export default {
   getAdminSettings,
   updateAdminSettings,
   getAdminUsers,
   createNewAdmin,
   revokeAdmin,
+  revalidateRoute,
 };

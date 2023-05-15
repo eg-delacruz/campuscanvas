@@ -56,8 +56,11 @@ const AdminHeader = () => {
   };
 
   const displayPendingValidationsNotification = () => {
+    //Prevent window is not defined error
+    if (typeof window === 'undefined') return false;
+
     //Access current url
-    const currentUrl = encodeURI(window.location.href);
+    const currentUrl = encodeURI(window?.location.href);
     if (
       CHECK_IF_PENDING_VALIDATIONS_AVAILABLE.data?.validationsAvailable &&
       !currentUrl.includes('validaciones-por-id-pendientes')
@@ -189,7 +192,7 @@ const AdminHeader = () => {
               </ul>
             </li>
 
-            {session.token.role === 'super_admin' && (
+            {session?.token.role === 'super_admin' && (
               <li>
                 {/* This link is here just to get the styles */}
                 <Link href={'#'}>Master admin</Link>
@@ -202,6 +205,11 @@ const AdminHeader = () => {
                   <li onClick={close767Menu}>
                     <Link href={'/admin/master/unhandled-uni-emails'}>
                       Correos de universidades no controlados
+                    </Link>
+                  </li>
+                  <li onClick={close767Menu}>
+                    <Link href={'/admin/master/route-revalidator'}>
+                      Revalidar rutas
                     </Link>
                   </li>
                 </ul>
