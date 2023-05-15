@@ -1,31 +1,28 @@
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
 //Styles
-import styles from "@pagestyles/Blog/BlogPost.module.scss";
+import styles from '@pagestyles/Blog/BlogPost.module.scss';
 
 //Components
-import PostTemplate from "@components/UsedInSpecificRoutes/Blog/PostTemplate/PostTemplate";
-import Layout from "@components/GeneralUseComponents/Layout/Layout";
-import SEOHeader from "@components/GeneralUseComponents/SEO_Header/SEOHeader";
-import ContentfulPreviewAlert from "@components/UsedInSpecificRoutes/Blog/ContentfulPreviewAlert/ContentfulPreviewAlert";
+import PostTemplate from '@components/UsedInSpecificRoutes/Blog/PostTemplate/PostTemplate';
+import Layout from '@components/GeneralUseComponents/Layout/Layout';
+import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
+import ContentfulPreviewAlert from '@components/UsedInSpecificRoutes/Blog/ContentfulPreviewAlert/ContentfulPreviewAlert';
 
 //Services
-import dateFormat from "@services/dateFormat";
+import dateFormat from '@services/dateFormat';
 
 //Contentful client
 import {
   contentful_client,
   contentful_preview_client,
-} from "@services/contentful/client";
+} from '@services/contentful/client';
 
-//TODO: Erase post assets when everything comes from Contentful (and has been tested in production)
+//TODO: Si un post se borra o se despublica en contentful, manualmente revalidar la ruta en el panel de admin
+//TODO: Create an image component with a placeholder and a loading state using react-cool-image
+//TODO: Añadir kewords nuevas a los descuentos
 const BlogPost = ({ post, preview }) => {
   const router = useRouter();
-
-  //TODO:
-  //6. Crear un nuevo post en contentful que tenga un video de yt y mandarlo a producción. Si todo funciona, el problema era de chrome en local
-
-  //TODO: mejorar títulos h1 en versión mobile
 
   return (
     <>
@@ -35,8 +32,8 @@ const BlogPost = ({ post, preview }) => {
       ) : (
         <>
           <SEOHeader
-            tabTitle={"Post"}
-            metaName={"Post"}
+            tabTitle={'Post'}
+            metaName={'Post'}
             description={post?.fields?.titulo}
           />
           <Layout>
@@ -72,16 +69,16 @@ export async function getStaticProps({ params, preview = false }) {
   const slug = params?.slug;
 
   //We need the slug to be a string
-  if (typeof slug !== "string") {
+  if (typeof slug !== 'string') {
     return {
       notFound: true,
     };
   }
 
   const response = await client.getEntries({
-    content_type: "post",
+    content_type: 'post',
     //We get the post that matches the slug
-    "fields.slug": slug,
+    'fields.slug': slug,
   });
 
   if (!response?.items?.length) {
@@ -100,7 +97,7 @@ export async function getStaticProps({ params, preview = false }) {
 
 export async function getStaticPaths() {
   const response = await contentful_client.getEntries({
-    content_type: "post",
+    content_type: 'post',
   });
 
   const paths = response.items.map((item) => {

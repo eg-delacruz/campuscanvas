@@ -35,11 +35,3 @@ yarn-error.log*
 #ngrok.exe
 /src/ngrok.exe
 
-# PWA files
-# **/pubic/sw.js
-# **/public/workbox-*.js
-# **/public/workbox-*.js.map
-# **/public/worker-*.js
-# **/public/worker-*.js.map
-# **/public/sw.js.map
-
