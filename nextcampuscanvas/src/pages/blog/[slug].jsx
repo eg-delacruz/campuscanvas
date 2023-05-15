@@ -23,9 +23,9 @@ const BlogPost = ({ post, preview }) => {
   const router = useRouter();
 
   //TODO:
-  //4. Hacer un deploy a producción y ver si todo se ve bien
-  //5. Testear el preview mode en producción
   //6. Crear un nuevo post en contentful que tenga un video de yt y mandarlo a producción. Si todo funciona, el problema era de chrome en local
+
+  //TODO: mejorar títulos h1 en versión mobile
 
   return (
     <>
