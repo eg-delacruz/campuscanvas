@@ -7,16 +7,25 @@ import styles from "@pagestyles/Blog/BlogPost.module.scss";
 import PostTemplate from "@components/UsedInSpecificRoutes/Blog/PostTemplate/PostTemplate";
 import Layout from "@components/GeneralUseComponents/Layout/Layout";
 import SEOHeader from "@components/GeneralUseComponents/SEO_Header/SEOHeader";
+import ContentfulPreviewAlert from "@components/UsedInSpecificRoutes/Blog/ContentfulPreviewAlert/ContentfulPreviewAlert";
 
 //Services
 import dateFormat from "@services/dateFormat";
 
 //Contentful client
-import { contentful_client } from "@services/contentful/client";
+import {
+  contentful_client,
+  contentful_preview_client,
+} from "@services/contentful/client";
 
 //TODO: Erase post assets when everything comes from Contentful (and has been tested in production)
-const BlogPost = ({ post }) => {
+const BlogPost = ({ post, preview }) => {
   const router = useRouter();
+
+  //TODO:
+  //4. Hacer un deploy a producción y ver si todo se ve bien
+  //5. Testear el preview mode en producción
+  //6. Crear un nuevo post en contentful que tenga un video de yt y mandarlo a producción. Si todo funciona, el problema era de chrome en local
 
   return (
     <>
@@ -25,13 +34,13 @@ const BlogPost = ({ post }) => {
         <h1>Loading...</h1>
       ) : (
         <>
-          {" "}
           <SEOHeader
             tabTitle={"Post"}
             metaName={"Post"}
             description={post?.fields?.titulo}
           />
           <Layout>
+            {preview && <ContentfulPreviewAlert />}
             <div className={styles.PostContainer}>
               <PostTemplate
                 Author={post?.fields?.autor.fields.autor}
@@ -55,7 +64,10 @@ const BlogPost = ({ post }) => {
   );
 };
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps({ params, preview = false }) {
+  //Preview will be true if we are in preview mode and the preview coockie is set to true by contentful
+  const client = preview ? contentful_preview_client : contentful_client;
+
   //Optional chaining, since params.slug can be undefined
   const slug = params?.slug;
 
@@ -66,7 +78,7 @@ export async function getStaticProps({ params }) {
     };
   }
 
-  const response = await contentful_client.getEntries({
+  const response = await client.getEntries({
     content_type: "post",
     //We get the post that matches the slug
     "fields.slug": slug,
@@ -81,6 +93,7 @@ export async function getStaticProps({ params }) {
   return {
     props: {
       post: response?.items[0],
+      preview,
     },
   };
 }

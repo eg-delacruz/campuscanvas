@@ -80,7 +80,13 @@ const PostsTable = ({ posts }) => {
             ///////////////////////// */}
       <h3 className={styles.featuredPostsHeader}>Posts destacados</h3>
       <hr className={styles.featured_posts_upper_hr} />
-      <section className={`${styles.featuredPostsContainer} container`}>
+      <section
+        className={`${styles.featuredPostsContainer} ${
+          FEATURED_POSTS.length < 3
+            ? styles.featuredPostsContainer_adjustSpacing
+            : ""
+        } container`}
+      >
         {FEATURED_POSTS.map((post) => (
           //Featured post card
           <article

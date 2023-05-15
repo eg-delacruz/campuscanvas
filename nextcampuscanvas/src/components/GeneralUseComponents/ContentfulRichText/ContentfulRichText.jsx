@@ -48,14 +48,14 @@ const options = {
 
     //Render external embeded videos
     [BLOCKS.EMBEDDED_ENTRY]: (node) => {
-      if (node.data.target.sys.contentType.sys.id === "videoEmbed") {
+      if (node?.data?.target?.sys?.contentType?.sys?.id === "videoEmbed") {
         return (
           <iframe
-            src={node.data.target.fields.embedUrl}
-            width="100%"
             height="400"
-            allowFullScreen={true}
+            width="100%"
+            src={node.data.target.fields.embedUrl}
             title={node.data.target.fields.titulo}
+            allowFullScreen={true}
           />
         );
       }

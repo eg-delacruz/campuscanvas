@@ -1,9 +1,9 @@
 //Aquí manejamos el SEO de la página de manera global
 
 //Purufy inserted external html
-import DOMPurify from 'isomorphic-dompurify';
+import DOMPurify from "isomorphic-dompurify";
 
-import { Html, Head, Main, NextScript } from 'next/document';
+import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
   //Sanitysing the html
@@ -12,14 +12,86 @@ export default function Document() {
   }
 
   return (
-    <Html lang='es'>
+    <Html lang="es">
       <Head>
+        {/* makes browser color match website */}
+        <meta name="theme-color" content="#ffffff" />
+
+        {/* allows search engines to find this page */}
+        <meta name="robots" content="index" follow="true" />
+
+        {/* Facebook Pixel */}
+        <meta
+          name="facebook-domain-verification"
+          content="3qz9uu9j751op1snjiaemodbjgc0mt"
+        />
+
+        {/* TradeTracker site verification */}
+        <meta
+          name="tradetracker-site-verification"
+          content="81f3cacd79c1298746f18e41200e617c8d19ec03"
+        />
+
+        <meta charSet="utf-8" />
+
+        {/* No se que son */}
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+
+        {/* Manifest para PWA */}
+        <link rel="manifest" href="/manifest.json"></link>
+
+        {/* Favicon  */}
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/favicon/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/favicon/site.webmanifest" />
+        <link
+          rel="mask-icon"
+          href="/favicon/safari-pinned-tab.svg"
+          color="#5bbad5"
+        />
+        <meta name="msapplication-TileColor" content="#da532c" />
+        <meta name="theme-color" content="#ffffff" />
+
+        {/* Font1 */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,700;0,800;1,400&display=swap"
+          rel="stylesheet"
+        />
+        {/* Font2 */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap"
+          rel="stylesheet"
+        />
+
+        {/* Improves loading performance by loading google fonts parallel to wp load */}
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="true"
+        />
+
         {/* RBH Cookie consent (start) */}
-        <link rel='stylesheet' href='https://pdcc.gdpr.es/pdcc.min.css' />
-        <script charSet='utf-8' src='https://pdcc.gdpr.es/pdcc.min.js' />
+        <link rel="stylesheet" href="https://pdcc.gdpr.es/pdcc.min.css" />
+        <script charSet="utf-8" src="https://pdcc.gdpr.es/pdcc.min.js" />
 
         <script
-          type='text/javascript'
+          type="text/javascript"
           dangerouslySetInnerHTML={createHTMLElement(`
           PDCookieConsent.config({
           "brand": {
@@ -50,7 +122,7 @@ export default function Document() {
         />
 
         <script
-          type='text/javascript'
+          type="text/javascript"
           dangerouslySetInnerHTML={createHTMLElement(`
         PDCookieConsent.blockList([{
           "contain": "doubleclick",
@@ -79,77 +151,7 @@ export default function Document() {
             });
           `)}
         />
-        <meta charSet='utf-8' />
 
-        {/* Manifest para PWA */}
-        <link rel='manifest' href='/manifest.json'></link>
-
-        {/* No se que son */}
-        <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
-        <link rel='preconnect' href='https://fonts.gstatic.com' />
-
-        {/* Favicon  */}
-        <link
-          rel='apple-touch-icon'
-          sizes='180x180'
-          href='/favicon/apple-touch-icon.png'
-        />
-        <link
-          rel='icon'
-          type='image/png'
-          sizes='32x32'
-          href='/favicon/favicon-32x32.png'
-        />
-        <link
-          rel='icon'
-          type='image/png'
-          sizes='16x16'
-          href='/favicon/favicon-16x16.png'
-        />
-        <link rel='manifest' href='/favicon/site.webmanifest' />
-        <link
-          rel='mask-icon'
-          href='/favicon/safari-pinned-tab.svg'
-          color='#5bbad5'
-        />
-        <meta name='msapplication-TileColor' content='#da532c' />
-        <meta name='theme-color' content='#ffffff' />
-
-        {/* TradeTracker site verification */}
-        <meta
-          name='tradetracker-site-verification'
-          content='81f3cacd79c1298746f18e41200e617c8d19ec03'
-        />
-
-        {/* Font1 */}
-        <link
-          href='https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,700;0,800;1,400&display=swap'
-          rel='stylesheet'
-        />
-        {/* Font2 */}
-        <link
-          href='https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap'
-          rel='stylesheet'
-        />
-
-        {/* Improves loading performance by loading google fonts parallel to wp load */}
-        <link
-          rel='preconnect'
-          href='https://fonts.gstatic.com'
-          crossOrigin='true'
-        />
-
-        {/* makes browser color match website */}
-        <meta name='theme-color' content='#ffffff' />
-
-        {/* allows search engines to find this page */}
-        <meta name='robots' content='index' follow='true' />
-
-        {/* Facebook Pixel */}
-        <meta
-          name='facebook-domain-verification'
-          content='3qz9uu9j751op1snjiaemodbjgc0mt'
-        />
         <script
           dangerouslySetInnerHTML={createHTMLElement(`!(function (f, b, e, v, n, t, s) {
         if (f.fbq) return;
@@ -194,7 +196,7 @@ export default function Document() {
         {/* Es necesario poner el main y NextScript para que la app funcione bien */}
         <Main />
         <NextScript />
-        <div id='modal-root'></div>
+        <div id="modal-root"></div>
       </body>
     </Html>
   );
