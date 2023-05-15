@@ -8,6 +8,7 @@ import PostTemplate from '@components/UsedInSpecificRoutes/Blog/PostTemplate/Pos
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 import ContentfulPreviewAlert from '@components/UsedInSpecificRoutes/Blog/ContentfulPreviewAlert/ContentfulPreviewAlert';
+import PostSkeleton from '../../components/UsedInSpecificRoutes/Blog/PostSkeleton/PostSkeleton';
 
 //Services
 import dateFormat from '@services/dateFormat';
@@ -18,15 +19,13 @@ import {
   contentful_preview_client,
 } from '@services/contentful/client';
 
-//TODO: Create an image component with a placeholder and a loading state using react-cool-image
 const BlogPost = ({ post, preview }) => {
   const router = useRouter();
 
   return (
     <>
       {router.isFallback ? (
-        //TODO: Create a loading skeleton component
-        <h1>Loading...</h1>
+        <PostSkeleton />
       ) : (
         <>
           <SEOHeader
