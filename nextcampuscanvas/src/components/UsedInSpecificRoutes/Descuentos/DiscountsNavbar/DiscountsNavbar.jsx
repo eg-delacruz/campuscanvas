@@ -10,101 +10,85 @@ const DiscountsNavbar = () => {
     <>
       <section className={styles.discounts_header}>
         <ul>
-          <Link href={'/descuentos/todos'}>
-            <li
-              className={
-                router.pathname === '/descuentos/todos'
-                  ? styles.selected
-                  : undefined
-              }
-            >
-              TODOS
-            </li>
-          </Link>
+          <li
+            className={
+              router.pathname === '/descuentos/todos'
+                ? styles.selected
+                : undefined
+            }
+          >
+            <Link href={'/descuentos/todos'}>TODOS</Link>
+          </li>
 
-          <Link href={'/descuentos/moda'}>
-            <li
-              className={
-                router.pathname === '/descuentos/moda'
-                  ? styles.selected
-                  : undefined
-              }
-            >
-              MODA
-            </li>
-          </Link>
+          <li
+            className={
+              router.pathname === '/descuentos/moda'
+                ? styles.selected
+                : undefined
+            }
+          >
+            <Link href={'/descuentos/moda'}>MODA</Link>
+          </li>
 
-          <Link href={'/descuentos/belleza'}>
-            <li
-              className={
-                router.pathname === '/descuentos/belleza'
-                  ? styles.selected
-                  : undefined
-              }
-            >
-              BELLEZA
-            </li>
-          </Link>
+          <li
+            className={
+              router.pathname === '/descuentos/belleza'
+                ? styles.selected
+                : undefined
+            }
+          >
+            <Link href={'/descuentos/belleza'}>BELLEZA</Link>
+          </li>
 
-          <Link href={'/descuentos/viajar'}>
-            <li
-              className={
-                router.pathname === '/descuentos/viajar'
-                  ? styles.selected
-                  : undefined
-              }
-            >
-              VIAJAR
-            </li>
-          </Link>
+          <li
+            className={
+              router.pathname === '/descuentos/viajar'
+                ? styles.selected
+                : undefined
+            }
+          >
+            <Link href={'/descuentos/viajar'}>VIAJAR</Link>
+          </li>
 
-          <Link href={'/descuentos/alimentacion'}>
-            <li
-              className={
-                router.pathname === '/descuentos/alimentacion'
-                  ? styles.selected
-                  : undefined
-              }
-            >
-              ALIMENTOS
-            </li>
-          </Link>
+          <li
+            className={
+              router.pathname === '/descuentos/alimentacion'
+                ? styles.selected
+                : undefined
+            }
+          >
+            <Link href={'/descuentos/alimentacion'}>ALIMENTOS</Link>
+          </li>
 
-          <Link href={'/descuentos/entretenimiento'}>
-            <li
-              className={
-                router.pathname === '/descuentos/entretenimiento'
-                  ? styles.selected
-                  : undefined
-              }
-            >
-              ENTRETENIMIENTO
-            </li>
-          </Link>
+          <li
+            className={
+              router.pathname === '/descuentos/entretenimiento'
+                ? styles.selected
+                : undefined
+            }
+          >
+            <Link href={'/descuentos/entretenimiento'}>ENTRETENIMIENTO</Link>
+          </li>
 
-          <Link href={'/descuentos/tecnologia'}>
-            <li
-              className={
-                router.pathname === '/descuentos/tecnologia'
-                  ? styles.selected
-                  : undefined
-              }
-            >
-              TECNOLOGÍA
-            </li>
-          </Link>
+          <li
+            className={
+              router.pathname === '/descuentos/tecnologia'
+                ? styles.selected
+                : undefined
+            }
+          >
+            <Link href={'/descuentos/tecnologia'}>TECNOLOGÍA</Link>
+          </li>
 
-          <Link href={'/descuentos/otros'}>
-            <li
-              className={
-                router.pathname === '/descuentos/otros'
-                  ? styles.selected
-                  : undefined
-              }
-            >
-              OTROS
-            </li>
-          </Link>
+          <li
+            className={
+              router.pathname === '/descuentos/otros'
+                ? styles.selected
+                : undefined
+            }
+          >
+            <Link href={'/descuentos/otros'}>OTROS</Link>
+          </li>
         </ul>
       </section>
     </>

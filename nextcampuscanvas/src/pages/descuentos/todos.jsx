@@ -106,6 +106,9 @@ const todos = ({ initialCards }) => {
         loading={INFINITY_SCROLL_CARDS.isFetching}
         error={INFINITY_SCROLL_CARDS.error}
         ref={lastCardElementRef}
+        categoryDescription={
+          'Explora todos nuestros descuentos a estudiantes 👩‍🎓🧑‍🎓'
+        }
       />
 
       <FooterWithoutSignature />

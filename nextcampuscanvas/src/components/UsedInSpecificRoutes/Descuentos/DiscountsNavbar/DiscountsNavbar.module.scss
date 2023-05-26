@@ -13,6 +13,13 @@
   li {
     cursor: pointer;
     font-weight: bold;
+
+    a {
+      text-decoration: none;
+      height: inherit;
+      width: inherit;
+      color: $color--black;
+    }
   }
   li:hover {
     opacity: 0.7;

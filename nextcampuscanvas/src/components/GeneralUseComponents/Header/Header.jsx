@@ -397,19 +397,19 @@ export default function Header({ displaySearchBar = true }) {
                   : styles.menu__list
               }
             >
-              <Link href='/'>
-                <li className={styles.menu__item}>Home</li>
-              </Link>
+              <li className={styles.menu__item}>
+                <Link href='/'>Home</Link>
+              </li>
               {/* TODO: uncomment when I start to work with campus box */}
-              {/* <Link href='/campusbox'>
-                <li className={styles.menu__item}>Campus Box</li>
-              </Link> */}
-              <Link href='/descuentos/todos'>
-                <li className={styles.menu__item}>Descuentos</li>
-              </Link>
-              <Link href='/blog'>
-                <li className={styles.menu__item}>Blog</li>
-              </Link>
+              {/* <li className={styles.menu__item}>
+                <Link href='/campusbox'>Campus Box</Link>
+              </li> */}
+              <li className={styles.menu__item}>
+                <Link href='/descuentos/todos'>Descuentos</Link>
+              </li>
+              <li className={styles.menu__item}>
+                <Link href='/blog'>Blog</Link>
+              </li>
             </ul>
 
             {/* /////////////////////////

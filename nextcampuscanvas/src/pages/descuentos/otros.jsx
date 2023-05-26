@@ -91,6 +91,7 @@ const otros = ({ initialCards }) => {
         loading={INFINITY_SCROLL_CARDS.isFetching}
         error={INFINITY_SCROLL_CARDS.error}
         ref={lastCardElementRef}
+        categoryDescription={'Explora otros descuentos para estudiantes 👩‍🎓🧑‍🎓'}
       />
 
       <FooterWithoutSignature />

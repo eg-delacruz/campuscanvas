@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import PropTypes from 'prop-types';
 
 import Image from 'next/image';
 
@@ -14,10 +15,12 @@ import CircularLoader from '@components/GeneralUseComponents/CircularLoader/Circ
 import no_discounts_img from '@assets/PagesImages/Discounts/no_discounts.svg';
 
 const DisplayCardsByCategoryTemplate = forwardRef(
-  ({ cards, loading, error }, lastCardElementRef) => {
+  ({ cards, loading, error, categoryDescription }, lastCardElementRef) => {
     return (
       <div className={`${styles.container} container`}>
         <DiscountsNavbar />
+
+        <p className={styles.category_description}>{categoryDescription}</p>
 
         {cards.length > 0 ? (
           <>
@@ -77,3 +80,10 @@ const DisplayCardsByCategoryTemplate = forwardRef(
 );
 
 export default DisplayCardsByCategoryTemplate;
+
+DisplayCardsByCategoryTemplate.propTypes = {
+  cards: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.string,
+  categoryDescription: PropTypes.string,
+};

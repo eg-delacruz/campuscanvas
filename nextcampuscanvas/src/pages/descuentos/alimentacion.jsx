@@ -93,6 +93,9 @@ const alimentacion = ({ initialCards }) => {
         loading={INFINITY_SCROLL_CARDS.isFetching}
         error={INFINITY_SCROLL_CARDS.error}
         ref={lastCardElementRef}
+        categoryDescription={
+          'Explora todos nuestros descuentos de la categoría de alimentación para estudiantes 👩‍🎓🧑‍🎓'
+        }
       />
 
       <FooterWithoutSignature />

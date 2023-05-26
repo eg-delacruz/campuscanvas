@@ -285,11 +285,22 @@
     cursor: pointer;
     padding: 0 6px;
     text-decoration: none;
-    color: $color--black;
     height: inherit;
     display: flex;
     align-items: center;
     font-weight: 700;
+    a {
+      text-decoration: none;
+      color: $color--black;
+      height: inherit;
+      width: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  .menu__item:hover a {
+    color: $color--white;
   }
 
   .menu__item_empresas {
