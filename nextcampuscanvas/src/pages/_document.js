@@ -134,13 +134,12 @@ export default function Document() {
           crossOrigin='true'
         />
 
-        {/* Google Analytics */}
+        {/* Google Analytics (start) */}
         <script
           async
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
         />
 
-        {/* Google Analytics */}
         <script
           dangerouslySetInnerHTML={createHTMLElement(`
             window.dataLayer = window.dataLayer || [];
@@ -149,16 +148,30 @@ export default function Document() {
             gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
               page_path: window.location.pathname,
             });
-          `)}
+            `)}
         />
 
+        {/* Google Analytics (end) */}
+
+        {/* Google Tag Manager (start) */}
+        <script
+          dangerouslySetInnerHTML={createHTMLElement(`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-KJFK925')`)}
+        />
+
+        {/* Google Tag Manager (end) */}
+
+        {/* Facebook Pixel */}
         <script
           dangerouslySetInnerHTML={createHTMLElement(`!(function (f, b, e, v, n, t, s) {
         if (f.fbq) return;
         n = f.fbq = function () {
           n.callMethod
-            ? n.callMethod.apply(n, arguments)
-            : n.queue.push(arguments);
+          ? n.callMethod.apply(n, arguments)
+          : n.queue.push(arguments);
         };
         if (!f._fbq) f._fbq = n;
         n.push = n;
@@ -175,13 +188,12 @@ export default function Document() {
         document,
         'script',
         'https://connect.facebook.net/en_US/fbevents.js'
-      );
+        );
 
-      fbq('init', '771964337451446');
-      fbq('track', 'PageView');`)}
+        fbq('init', '771964337451446');
+        fbq('track', 'PageView');`)}
         />
 
-        {/* Facebook Pixel */}
         <noscript
           dangerouslySetInnerHTML={createHTMLElement(`<img
           height='1'
@@ -193,6 +205,17 @@ export default function Document() {
       </Head>
 
       <body>
+        {/* Google Tag Manager nonscript (start) */}
+        <noscript>
+          <iframe
+            src='https://www.googletagmanager.com/ns.html?id=GTM-KJFK925'
+            height='0'
+            width='0'
+            style={{ display: 'none', visibility: 'hidden' }}
+          ></iframe>
+        </noscript>
+        {/* Google Tag Manager nonscript (end) */}
+
         {/* Es necesario poner el main y NextScript para que la app funcione bien */}
         <Main />
         <NextScript />

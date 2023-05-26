@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import { useRouter } from 'next/router';
 import { useState, useRef, useEffect, forwardRef, memo } from 'react';
+import Link from 'next/link';
 
 //Styles
 import styles from './DiscountCard.module.scss';
@@ -65,90 +65,83 @@ const DiscountCard = memo(
       //Leave this here in case needed
       //checkDescriptionLength(title);
 
-      //To send the id of the post to the post page
-      const router = useRouter();
-
       return (
         <>
-          <article
-            ref={lastCardElementRef}
-            onClick={() => {
-              router.push(
-                {
-                  pathname: `/descuentos/${discount_id}`,
-                  query: { id: discount_id },
-                },
-                `/descuentos/${discount_id}`
-              );
-            }}
-            className={styles.discount_card}
-          >
-            <div className={styles.discount_image_container}>
-              {/* Loader while banner loads (start) */}
-              <div
-                className={styles.circular_loader_container}
-                style={{ display: loadingBanner ? 'flex' : 'none' }}
-              >
-                <Loader />
-              </div>
-              {/* Loader while banner loads (end) */}
-              <span
-                style={{ visibility: loadingBanner ? 'hidden' : 'visible' }}
-              >
-                <img
-                  ref={bannerRef}
-                  src={banner}
-                  alt={brand_name}
-                  loading='lazy'
-                  onLoad={handleLoadedBanner}
-                />
-              </span>
-              {card_tag && (
-                <div
-                  className={`${styles.card_tag} ${
-                    card_tag === 'exclusivo' ? styles.card_tag_exclusivo : ''
-                  } ${card_tag === 'nuevo' ? styles.card_tag_nuevo : ''} ${
-                    card_tag === 'termina pronto ⌚'
-                      ? styles.card_tag_termina_pronto
-                      : ''
-                  }`}
-                >
-                  {card_tag}
-                </div>
-              )}
-            </div>
-            <div className={styles.discount_info_container}>
-              <div className={styles.discount_logo_container}>
-                <span className={styles.span_container}>
-                  <span>
-                    <img src={white_background_svg.src} />
-                  </span>
+          <article ref={lastCardElementRef} className={styles.discount_card}>
+            <Link href={`/descuentos/${discount_id}`}>
+              <a>
+                <div className={styles.discount_image_container}>
+                  {/* Loader while banner loads (start) */}
                   <div
-                    style={{ visibility: loadingLogo ? 'hidden' : 'visible' }}
+                    className={styles.circular_loader_container}
+                    style={{ display: loadingBanner ? 'flex' : 'none' }}
+                  >
+                    <Loader />
+                  </div>
+                  {/* Loader while banner loads (end) */}
+                  <span
+                    style={{ visibility: loadingBanner ? 'hidden' : 'visible' }}
                   >
                     <img
-                      ref={brandLogoRef}
-                      className={styles.brand_img}
-                      src={brand_logo}
+                      ref={bannerRef}
+                      src={banner}
                       alt={brand_name}
                       loading='lazy'
-                      onLoad={handleLoadedLogo}
+                      onLoad={handleLoadedBanner}
                     />
+                  </span>
+                  {card_tag && (
+                    <div
+                      className={`${styles.card_tag} ${
+                        card_tag === 'exclusivo'
+                          ? styles.card_tag_exclusivo
+                          : ''
+                      } ${card_tag === 'nuevo' ? styles.card_tag_nuevo : ''} ${
+                        card_tag === 'termina pronto ⌚'
+                          ? styles.card_tag_termina_pronto
+                          : ''
+                      }`}
+                    >
+                      {card_tag}
+                    </div>
+                  )}
+                </div>
+                <div className={styles.discount_info_container}>
+                  <div className={styles.discount_logo_container}>
+                    <span className={styles.span_container}>
+                      <span>
+                        <img src={white_background_svg.src} />
+                      </span>
+                      <div
+                        style={{
+                          visibility: loadingLogo ? 'hidden' : 'visible',
+                        }}
+                      >
+                        <img
+                          ref={brandLogoRef}
+                          className={styles.brand_img}
+                          src={brand_logo}
+                          alt={brand_name}
+                          loading='lazy'
+                          onLoad={handleLoadedLogo}
+                        />
+                      </div>
+                      {/* Loader while logo loads (start) */}
+                      <div
+                        className={styles.cc_logo_loader_container}
+                        style={{ display: loadingLogo ? 'block' : 'none' }}
+                      >
+                        <CC_LogoLoader />
+                      </div>
+                      {/* Loader while logo loads (end) */}
+                    </span>
                   </div>
-                  {/* Loader while logo loads (start) */}
-                  <div
-                    className={styles.cc_logo_loader_container}
-                    style={{ display: loadingLogo ? 'block' : 'none' }}
-                  >
-                    <CC_LogoLoader />
+                  <div className={styles.discount_info_details}>
+                    <h4>{title}</h4>
                   </div>
-                  {/* Loader while logo loads (end) */}
-                </span>
-              </div>
-              <div className={styles.discount_info_details}>
-                <h4>{title}</h4>
-              </div>
-            </div>
+                </div>
+              </a>
+            </Link>
           </article>
         </>
       );

@@ -16,9 +16,15 @@
   background-color: $color--tertiary-white;
   transition: all 250ms ease-in-out;
   border-radius: 7px;
-  .discount_card_container {
-    background-color: $color--tertiary-white;
-    padding-bottom: 12px;
+  // .discount_card_container {
+  //   background-color: $color--tertiary-white;
+  //   padding-bottom: 12px;
+  // }
+  a {
+    text-decoration: none;
+    display: block;
+    height: 100%;
+    width: inherit;
   }
   .discount_image_container {
     //Circular loader start
@@ -89,6 +95,7 @@
   }
 
   .discount_info_container {
+    color: $color--black;
     .discount_logo_container {
       z-index: 2;
       width: 90px;
