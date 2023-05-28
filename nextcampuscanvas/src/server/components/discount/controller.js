@@ -437,16 +437,17 @@ const eliminateDiscountData = async (id, bannerName) => {
       deleted_banner,
     ] = responses;
 
-    if (deleted_discount.value?.status === 'available') {
-      //Update discounts count attached to brand by geting the brand and decreasing the discounts_attached attribute by 1
-      const brand_id = deleted_discount.value.brand.toString();
-      const brand = await brandInfo_Store.getById(brand_id);
-      brand.discounts_attached -= 1;
-      if (brand.discounts_attached === 0) {
-        brand.last_time_checked_since_brand_has_no_discounts = new Date();
-      }
-      brandInfo_Store.update(brand);
+    //Update discounts count attached to brand by geting the brand and decreasing the discounts_attached attribute by 1
+    const brand_id = deleted_discount.value.brand.toString();
+    const brand = await brandInfo_Store.getById(brand_id);
+    brand.discounts_attached -= 1;
+    if (brand.discounts_attached === 0) {
+      brand.last_time_checked_since_brand_has_no_discounts = new Date();
+    }
+    brandInfo_Store.update(brand);
 
+    //Revalidating affected routes
+    if (deleted_discount.value?.status === 'available') {
       //Updating all discounts route (since all available discounts allways appear here)
       routesToUpdateSSG.push('/descuentos/todos');
 
