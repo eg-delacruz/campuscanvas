@@ -302,6 +302,46 @@
       }
     }
 
+    /////////////////////////
+    //    Likes/dislikes    //
+    /////////////////////////
+    .like_dislike_container {
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      max-width: 300px;
+      border: 3px dashed $color--primary2;
+      border-radius: 3px;
+      padding: 6px;
+      .like_dislike_icon {
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        background-color: $color--light-gray;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        @include font-size(20px);
+        opacity: 0.8;
+      }
+      .thumbUp {
+        border: 3px solid $color--confirmation;
+
+        span {
+          margin-bottom: 5px;
+        }
+      }
+      .thumbDown {
+        border: 3px solid $color--primary1;
+      }
+      .value {
+        @include font-size(20px);
+        font-weight: bold;
+        text-align: center;
+      }
+    }
+
     .available_for_title {
       margin: 16px 0 8px;
       @include font-size(14px);

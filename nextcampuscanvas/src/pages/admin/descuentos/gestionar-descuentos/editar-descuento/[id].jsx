@@ -1313,6 +1313,34 @@ const editarDescuento = () => {
                   )}
                 </div>
 
+                {/* /////////////////////////
+               //      Likes/dislikes      //
+               ///////////////////////// */}
+
+                <p>
+                  <strong>Likes/Dislikes</strong>
+                </p>
+                <div className={styles.like_dislike_container}>
+                  <div>
+                    <div
+                      className={`${styles.like_dislike_icon} ${styles.thumbUp}`}
+                    >
+                      <span>👍</span>
+                    </div>
+                    <div className={styles.value}>{state.discount?.likes}</div>
+                  </div>
+                  <div>
+                    <div
+                      className={`${styles.like_dislike_icon} ${styles.thumbDown}`}
+                    >
+                      <span>👎</span>
+                    </div>
+                    <div className={styles.value}>
+                      {state.discount?.dislikes}
+                    </div>
+                  </div>
+                </div>
+
                 <span className={styles.available_for_title}>
                   Disponible para:
                 </span>
