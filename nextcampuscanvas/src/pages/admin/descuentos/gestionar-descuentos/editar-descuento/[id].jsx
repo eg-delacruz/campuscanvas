@@ -46,7 +46,6 @@ import delete_icon from '@assets/GeneralUse/IconsAndButtons/delete.svg';
 import edit_pencil from '@assets/GeneralUse/IconsAndButtons/edit_pencil.svg';
 
 //Redux reducers and actions
-//import { selectDiscount } from '@redux/discountsSlice';
 import {
   selectHomeSectionsCount,
   getHomeSectionsCount,
@@ -124,12 +123,6 @@ const editarDescuento = () => {
     error: null,
   });
 
-  const [discountCard, setDiscountCard] = useState({
-    discountCard: {},
-    loading: true,
-    error: null,
-  });
-
   const [newBanner, setNewBanner] = useState([]);
   const [loadingDiscountBanner, setLoadingDiscountBanner] = useState(true);
   const [showEliminateModal, setShowEliminateModal] = useState(false);
@@ -157,23 +150,6 @@ const editarDescuento = () => {
     displayCardInSectionDatalistError,
     setDisplayCardInSectionDatalistError,
   ] = useState(null);
-
-  //React query
-
-  const ALL_DISCOUNTS = useQuery({
-    queryKey: [adminKeys.discounts.all_discounts],
-    queryFn: discountFunctions.getAllDiscounts,
-    staleTime: 1000 * 60 * 60 * 24, //24 hours
-    initialData: [],
-    initialDataUpdatedAt: 1,
-    enabled: false,
-  });
-
-  const SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT = useQuery({
-    queryKey: [discoutKeys.cards.show_first_in_all_discounts_count],
-    queryFn: discountFunctions.getShowFirstInAllDiscountsCount,
-    staleTime: Infinity,
-  });
 
   //Other varialbes
   const DISCOUNT_TYPE_DICTIONARY = {
@@ -209,8 +185,45 @@ const editarDescuento = () => {
   const router = useRouter();
   const id = router.query.id;
 
+  //React query
+
+  const ALL_DISCOUNTS = useQuery({
+    queryKey: [adminKeys.discounts.all_discounts],
+    queryFn: discountFunctions.getAllDiscounts,
+    staleTime: 1000 * 60 * 60 * 24, //24 hours
+    initialData: [],
+    initialDataUpdatedAt: 1,
+    enabled: false,
+  });
+
+  const SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT = useQuery({
+    queryKey: [discoutKeys.cards.show_first_in_all_discounts_count],
+    queryFn: discountFunctions.getShowFirstInAllDiscountsCount,
+    staleTime: Infinity,
+  });
+
+  const CARD = useQuery({
+    queryKey: [discoutKeys.cards.get_by_discount_id(id)],
+    queryFn: () => discountFunctions.getCardByDiscountId(id),
+    staleTime: 1000 * 60 * 60 * 24, //24 hours
+    enabled: router?.isReady,
+    onSuccess: (data) => {
+      //Setting initial input values
+      CARD_TITLE.setValue(data.title);
+      CARD_TITLE_COUNT.setValue(data.title.length);
+      CARD_TAG.setValue(data.card_tag);
+      DISPLAY_CARD_IN_SECTION.setValue(data.display_in_section);
+      SHOW_FIRST_IN_CATEGORY.setValue(data.show_first_in_category);
+      if (data.show_first_in_home_section !== undefined) {
+        SHOW_FIRST_IN_HOME_SECTION.setValue(data.show_first_in_home_section);
+      }
+      if (data.show_first_in_all_discounts !== undefined) {
+        SHOW_FIRST_IN_ALL_DISCOUNTS.setValue(data.show_first_in_all_discounts);
+      }
+    },
+  });
+
   //Reducers
-  //const discountsReducer = useSelector(selectDiscount);
   const homeSectionsCountReducer = useSelector(selectHomeSectionsCount);
   const showFirstInCategoryCountReducer = useSelector(
     selectShowFirstInCategoryCount
@@ -365,14 +378,6 @@ const editarDescuento = () => {
     getHomeBanner();
   }, [state.discount]);
 
-  //Get card info
-  useEffect(() => {
-    //Await until the route is ready to get the discount_id
-    if (!router.isReady) return;
-
-    getCardInfo();
-  }, [router?.isReady]);
-
   //Get home section count and show first count
   useEffect(() => {
     const setCounts = async () => {
@@ -417,48 +422,6 @@ const editarDescuento = () => {
   //discountKeyWords input (end)
 
   //Functions
-
-  //Get card info
-  async function getCardInfo() {
-    const response = await fetchData(
-      endPoints.discounts.getCardByDiscountId(id),
-      'get'
-    );
-
-    if (response.error) {
-      setDiscountCard({
-        ...discountCard,
-        error: response.error,
-        loading: false,
-      });
-      return;
-    }
-
-    //Setting initial input values
-    CARD_TITLE.setValue(response.body.title);
-    CARD_TITLE_COUNT.setValue(response.body.title.length);
-    CARD_TAG.setValue(response.body.card_tag);
-    DISPLAY_CARD_IN_SECTION.setValue(response.body.display_in_section);
-    SHOW_FIRST_IN_CATEGORY.setValue(response.body.show_first_in_category);
-    if (response.body.show_first_in_category !== undefined) {
-      SHOW_FIRST_IN_HOME_SECTION.setValue(
-        response.body.show_first_in_home_section
-      );
-    }
-    if (response.body.show_first_in_all_discounts !== undefined) {
-      SHOW_FIRST_IN_ALL_DISCOUNTS.setValue(
-        response.body.show_first_in_all_discounts
-      );
-    }
-
-    setDiscountCard({
-      ...discountCard,
-      discountCard: response.body,
-      loading: false,
-      error: null,
-    });
-  }
-
   const handleTitleChange = (e) => {
     TITLE.onChange(e);
     TITLE_COUNT.onChange(e);
@@ -725,13 +688,12 @@ const editarDescuento = () => {
     }
 
     if (
-      discountCard.discountCard.title !== CARD_TITLE.value ||
-      discountCard.discountCard.card_tag !== CARD_TAG.value ||
-      discountCard.discountCard.show_first_in_category !==
-        SHOW_FIRST_IN_CATEGORY.value ||
-      discountCard.discountCard.show_first_in_home_section !==
+      CARD.data?.title !== CARD_TITLE.value ||
+      CARD.data?.card_tag !== CARD_TAG.value ||
+      CARD.data?.show_first_in_category !== SHOW_FIRST_IN_CATEGORY.value ||
+      CARD.data?.show_first_in_home_section !==
         SHOW_FIRST_IN_HOME_SECTION.value ||
-      discountCard.discountCard?.show_first_in_all_discounts !==
+      CARD.data?.show_first_in_all_discounts !==
         SHOW_FIRST_IN_ALL_DISCOUNTS.value
     ) {
       EXCLUSIVE_CARD_INFORMATION_WAS_MODIFIED = true;
@@ -741,8 +703,7 @@ const editarDescuento = () => {
       prev_exp_date_same_format !== updated_exp_date_same_format ||
       newBanner[0] ||
       state.discount?.status !== STATUS.value ||
-      discountCard.discountCard.display_in_section !==
-        DISPLAY_CARD_IN_SECTION.value ||
+      CARD.data.display_in_section !== DISPLAY_CARD_IN_SECTION.value ||
       state.discount?.discount_keywords !== discountKeyWords
     ) {
       SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED = true;
@@ -826,28 +787,22 @@ const editarDescuento = () => {
       EXCLUSIVE_CARD_INFORMATION_WAS_MODIFIED ||
       SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED
     ) {
-      getCardInfo();
+      CARD.refetch();
     }
 
     //Refresh home section card count if applyes
-    if (
-      discountCard.discountCard.display_in_section !==
-      DISPLAY_CARD_IN_SECTION.value
-    ) {
+    if (CARD.data?.display_in_section !== DISPLAY_CARD_IN_SECTION.value) {
       dispatch(getHomeSectionsCount());
     }
 
     //Refresh show first in category count if applies
-    if (
-      discountCard.discountCard.show_first_in_category !==
-      SHOW_FIRST_IN_CATEGORY.value
-    ) {
+    if (CARD.data?.show_first_in_category !== SHOW_FIRST_IN_CATEGORY.value) {
       dispatch(getShowFirstInCategoryCount());
     }
 
     //Refetch show first in all discounts count if applies
     if (
-      discountCard.discountCard.show_first_in_all_discounts !==
+      CARD.data?.show_first_in_all_discounts !==
       SHOW_FIRST_IN_ALL_DISCOUNTS.value
     ) {
       SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.refetch();
@@ -916,16 +871,14 @@ const editarDescuento = () => {
       state.discount?.discount_code.code !== DISCOUNT_CODE.value ||
       state.discount?.available_for !== AVAILABLE_FOR.value ||
       prev_exp_date_same_format !== updated_exp_date_same_format ||
-      discountCard.discountCard.title !== CARD_TITLE.value ||
-      discountCard.discountCard.card_tag !== CARD_TAG.value ||
-      discountCard.discountCard.display_in_section !==
-        DISPLAY_CARD_IN_SECTION.value ||
-      discountCard.discountCard.show_first_in_category !==
-        SHOW_FIRST_IN_CATEGORY.value ||
-      discountCard.discountCard.show_first_in_home_section !==
+      CARD.data?.title !== CARD_TITLE.value ||
+      CARD.data?.card_tag !== CARD_TAG.value ||
+      CARD.data?.display_in_section !== DISPLAY_CARD_IN_SECTION.value ||
+      CARD.data?.show_first_in_category !== SHOW_FIRST_IN_CATEGORY.value ||
+      CARD.data?.show_first_in_home_section !==
         SHOW_FIRST_IN_HOME_SECTION.value ||
       state.discount?.terms_and_conds !== termsCondsText ||
-      discountCard.discountCard.show_first_in_all_discounts !==
+      CARD.data?.show_first_in_all_discounts !==
         SHOW_FIRST_IN_ALL_DISCOUNTS.value ||
       state.discount?.discount_keywords !== discountKeyWords
     ) {
@@ -1514,13 +1467,13 @@ const editarDescuento = () => {
               </h2>
 
               <section className={styles.card_section}>
-                {discountCard.loading ? (
+                {CARD.isLoading ? (
                   <Loader />
-                ) : discountCard.error ? (
-                  <p className='error__messagev2'>{discountCard.error}</p>
+                ) : CARD.isError ? (
+                  <p className='error__messagev2'>{CARD.error.message}</p>
                 ) : (
                   <>
-                    {Object.keys(discountCard.discountCard).length > 0 && (
+                    {!CARD.isLoading && !CARD.isError && (
                       <>
                         <div className={styles.card_title_tag_container}>
                           <div>
@@ -1801,14 +1754,11 @@ const editarDescuento = () => {
                         </p>
                         <div className={styles.card_preview_container}>
                           <DiscountCard
-                            banner={discountCard.discountCard.banner.URL}
+                            banner={CARD.data?.banner.URL}
                             title={CARD_TITLE.value}
-                            brand_name={discountCard.discountCard.brand_name}
-                            brand_logo={
-                              discountCard.discountCard.brand_logo.brand_logo
-                                .URL
-                            }
-                            discount_id={discountCard.discountCard.discount_id}
+                            brand_name={CARD.data?.brand_name}
+                            brand_logo={CARD.data?.brand_logo.brand_logo.URL}
+                            discount_id={CARD.data?.discount_id}
                             card_tag={CARD_TAG.value}
                           />
 
@@ -1819,26 +1769,24 @@ const editarDescuento = () => {
                           <div className={styles.card_creation_info}>
                             <p>
                               <strong>Creada por: </strong>
-                              {discountCard.discountCard?.created_by}
+                              {CARD.data?.created_by}
                             </p>
                             <p>
                               <strong>Fecha de creación: </strong>
-                              {discountCard.discountCard?.createdAt &&
+                              {CARD.data?.createdAt &&
                                 dateFormat.dateToDMYHM(
-                                  new Date(discountCard.discountCard?.createdAt)
+                                  new Date(CARD.data?.createdAt)
                                 )}
                             </p>
                             <p>
                               <strong>Actualizada por: </strong>
-                              {discountCard.discountCard?.modified_last_time_by}
+                              {CARD.data?.modified_last_time_by}
                             </p>
                             <p>
                               <strong>Actualizada por última vez: </strong>
-                              {discountCard.discountCard?.updated_at &&
+                              {CARD.data?.updated_at &&
                                 dateFormat.dateToDMYHM(
-                                  new Date(
-                                    discountCard.discountCard?.updated_at
-                                  )
+                                  new Date(CARD.data?.updated_at)
                                 )}
                             </p>
                           </div>
@@ -1871,7 +1819,13 @@ const editarDescuento = () => {
                   enableSaveChangesButton() ? styles.disabled : ''
                 } btn button--red`}
                 //Disable button if there are no changes or changes are being submitted
-                disabled={state.saving_changes || enableSaveChangesButton()}
+                disabled={
+                  state.saving_changes ||
+                  enableSaveChangesButton() ||
+                  CARD.isLoading ||
+                  CARD.isFetching ||
+                  CARD.isRefetching
+                }
               >
                 Guardar cambios
               </button>

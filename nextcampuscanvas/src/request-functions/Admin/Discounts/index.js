@@ -134,6 +134,24 @@ const updateLastTimeChecked = async (brand_id) => {
   return response.body;
 };
 
+////////////////////////////
+//     Cards functions    //
+////////////////////////////
+
+const getCardByDiscountId = async (discount_id) => {
+  const response = await axiosFetcher({
+    url: endPoints.discounts.getCardByDiscountId(discount_id),
+    method: 'get',
+  });
+
+  if (response.error) {
+    console.log(response.error);
+    throw new Error(response.error);
+  }
+
+  return response.body;
+};
+
 export default {
   //General funtions
 
@@ -149,6 +167,7 @@ export default {
   updateLastTimeChecked,
 
   //Cards funtions
+  getCardByDiscountId,
 
   //Banner functions
 };
