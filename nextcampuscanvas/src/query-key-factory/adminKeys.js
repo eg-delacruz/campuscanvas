@@ -11,6 +11,11 @@ const adminKeys = {
   brands: {
     all_brands: 'all_brands',
   },
+  homeBanner: {
+    getHomeSliderBannersInfo: 'getHomeSliderBannersInfo',
+    getHomeBannerByDiscountId: (discountId) =>
+      `getHomeBannerByDiscountId_${discountId}`,
+  },
   //////////////////Student//////////////////
   students: {
     get_verified_students_count: 'get_verified_students_count',

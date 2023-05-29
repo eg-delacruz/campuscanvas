@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import Swal from 'sweetalert2';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+
+//React query
+import { useQueryClient } from '@tanstack/react-query';
+import adminKeys from '@query-key-factory/adminKeys';
 
 //Components
 import Modal from '@components/GeneralUseComponents/Modal/Modal';
 import DragDropUploadArea from '@components/GeneralUseComponents/DragDropUploadArea/DragDropUploadArea';
+import ConfirmationSwal from '@components/GeneralUseComponents/ConfirmationSwal/ConfirmationSwal';
 
 //Styles
 import styles from './DisplayCreateHomeBannerModal.module.scss';
@@ -15,17 +18,9 @@ import useAxios from '@hooks/useAxios';
 
 //Endpoints
 import endPoints from '@services/api';
-
-//Redux
-import { getHomeBannersInfo } from '@redux/homeBannersSlice';
-
-//CLARIFICATIONS:
-//1. The setHomeBanner is a function that has to modify and set a state of the parent function
 const DisplayCreateHomeBannerModal = ({
   showModal,
   setShowModal,
-  setHomeBanner,
-  currentHomeBannerState,
   discount_id,
   available_for,
   affiliate_link,
@@ -42,40 +37,10 @@ const DisplayCreateHomeBannerModal = ({
   const [bigImage, setBigImage] = useState([]);
   const [smallImage, setSmallImage] = useState([]);
 
-  //Allows us to manipulate the appropriate slice/action
-  const dispatch = useDispatch();
+  //React query
+  const queryClient = useQueryClient();
 
   //Functions
-  const getNewHomeBanner = async () => {
-    setHomeBanner({
-      ...currentHomeBannerState,
-      loading: true,
-      error: null,
-    });
-    const response = await fetchData(
-      endPoints.admin.discounts.getHomeSliderBannerByDiscountId(discount_id),
-      'get',
-      null,
-      { required_info: 'banner_by_discount_id' }
-    );
-
-    if (response.error) {
-      setHomeBanner({
-        ...currentHomeBannerState,
-        error: response.error,
-        loading: false,
-      });
-      return;
-    }
-
-    setHomeBanner({
-      ...currentHomeBannerState,
-      homeBanner: response.body,
-      loading: false,
-      error: null,
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setState({ ...state, error: null });
@@ -114,31 +79,23 @@ const DisplayCreateHomeBannerModal = ({
       return;
     }
 
-    //Refresh the banners reducer (this await actually works)
-    dispatch(getHomeBannersInfo());
+    //Invalidate the cache of the home banners info
+    queryClient.invalidateQueries(
+      [adminKeys.homeBanner.getHomeSliderBannersInfo],
+      { exact: true }
+    );
 
-    //Get the new created home banner from the DB
-    await getNewHomeBanner();
+    //Invalidate the cache of the home banner of the discount
+    queryClient.invalidateQueries(
+      [adminKeys.homeBanner.getHomeBannerByDiscountId(discount_id)],
+      { exact: true }
+    );
 
     setState({ ...state, uploading: false, error: null });
 
-    //Show a confirmation swal
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      width: 400,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      },
-    });
-
-    Toast.fire({
-      icon: 'success',
-      title: response.body,
+    //Confirmation swal
+    ConfirmationSwal({
+      message: response.body,
     });
 
     //Reset the images
@@ -202,8 +159,8 @@ export default DisplayCreateHomeBannerModal;
 DisplayCreateHomeBannerModal.propTypes = {
   showModal: PropTypes.bool.isRequired,
   setShowModal: PropTypes.func.isRequired,
-  setHomeBanner: PropTypes.func.isRequired,
   discount_id: PropTypes.string.isRequired,
   available_for: PropTypes.string.isRequired,
   affiliate_link: PropTypes.string,
+  type: PropTypes.string.isRequired,
 };

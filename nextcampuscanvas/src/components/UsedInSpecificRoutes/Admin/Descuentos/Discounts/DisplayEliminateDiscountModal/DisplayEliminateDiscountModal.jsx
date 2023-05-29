@@ -1,29 +1,28 @@
-import { useState } from "react";
-import Swal from "sweetalert2";
-import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
-import PropTypes from "prop-types";
+import { useState } from 'react';
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 
 //Styles
-import styles from "./DisplayEliminateDiscountModal.module.scss";
+import styles from './DisplayEliminateDiscountModal.module.scss';
 
 //React query
-import { useQueryClient } from "@tanstack/react-query";
-import adminKeys from "@query-key-factory/adminKeys";
+import { useQueryClient } from '@tanstack/react-query';
+import adminKeys from '@query-key-factory/adminKeys';
 
 //Components
-import Modal from "@components/GeneralUseComponents/Modal/Modal";
-import WarningImage from "@components/GeneralUseComponents/WarningImage/WarningImage";
+import Modal from '@components/GeneralUseComponents/Modal/Modal';
+import WarningImage from '@components/GeneralUseComponents/WarningImage/WarningImage';
 
 //Endpoints
-import endPoints from "@services/api/index";
+import endPoints from '@services/api/index';
 
 //Hooks
-import useAxios from "@hooks/useAxios";
+import useAxios from '@hooks/useAxios';
 
 //Redux
-import { getHomeBannersInfo } from "@redux/homeBannersSlice";
-import { getHomeSectionsCount } from "@redux/homeSectionsDiscountsCountSlice";
+import { getHomeSectionsCount } from '@redux/homeSectionsDiscountsCountSlice';
 
 const DisplayEliminateDiscountModal = ({
   showModal,
@@ -55,7 +54,7 @@ const DisplayEliminateDiscountModal = ({
 
     const response = await fetchData(
       endPoints.admin.discounts.getDiscountById(id, bannerName),
-      "delete",
+      'delete',
       null,
       { bannerName }
     );
@@ -65,9 +64,12 @@ const DisplayEliminateDiscountModal = ({
 
     //If deletion successful
 
-    //Refresh global home banners state if the erased discount had a home banner, since it was deleted and shoudn´t appear in the reducer
+    //Invalidate the home banners info cache
     if (has_home_banner) {
-      dispatch(getHomeBannersInfo());
+      queryClient.invalidateQueries(
+        [adminKeys.homeBanner.getHomeSliderBannersInfo],
+        { exact: true }
+      );
     }
 
     //Refresh global home section cards count if the card appeared in home
@@ -115,19 +117,19 @@ const DisplayEliminateDiscountModal = ({
     setState({ ...state, loading: false });
     const Toast = Swal.mixin({
       toast: true,
-      position: "top-end",
+      position: 'top-end',
       showConfirmButton: false,
       timer: 3000,
       width: 400,
       timerProgressBar: true,
       didOpen: (toast) => {
-        toast.addEventListener("mouseenter", Swal.stopTimer);
-        toast.addEventListener("mouseleave", Swal.resumeTimer);
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
       },
     });
 
     Toast.fire({
-      icon: "success",
+      icon: 'success',
       title: response.body,
     });
 
@@ -135,7 +137,7 @@ const DisplayEliminateDiscountModal = ({
     setShowModal(false);
 
     //Redirect
-    router.push("/admin/descuentos/gestionar-descuentos");
+    router.push('/admin/descuentos/gestionar-descuentos');
   };
 
   return (
@@ -146,22 +148,22 @@ const DisplayEliminateDiscountModal = ({
       onClose={() => setShowModal(false)}
     >
       <div className={styles.modal}>
-        <WarningImage color="yellow" />
+        <WarningImage color='yellow' />
 
         <h1>¿Estas seguro de eliminar este descuento?</h1>
 
         <p>
-          Se eliminarán todos los elementos vinculados a él, como las{" "}
-          <strong>fotos de banners</strong>, la{" "}
-          <strong>tarjeta del descuento</strong> y los posibles{" "}
+          Se eliminarán todos los elementos vinculados a él, como las{' '}
+          <strong>fotos de banners</strong>, la{' '}
+          <strong>tarjeta del descuento</strong> y los posibles{' '}
           <strong>banners del slider principal de home</strong>
         </p>
 
         <button
           onClick={handleEliminate}
-          type="submit"
+          type='submit'
           className={`${
-            state.loading ? styles.buttonLoading : ""
+            state.loading ? styles.buttonLoading : ''
           } btn button--red`}
           disabled={state.loading}
         >

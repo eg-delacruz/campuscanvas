@@ -152,6 +152,40 @@ const getCardByDiscountId = async (discount_id) => {
   return response.body;
 };
 
+////////////////////////////
+//    Banner functions   //
+////////////////////////////
+const getHomeBannersInfo = async () => {
+  const response = await axiosFetcher({
+    url: endPoints.admin.discounts.getHomeSliderBannersInfo,
+    method: 'get',
+  });
+
+  if (response.error) {
+    console.log(response.error);
+    throw new Error(response.error);
+  }
+
+  return response.body;
+};
+
+const getHomeBannerByDiscountId = async (discount_id) => {
+  const response = await axiosFetcher({
+    url: endPoints.admin.discounts.getHomeSliderBannerByDiscountId(discount_id),
+    method: 'get',
+    extraHeaders: {
+      required_info: 'banner_by_discount_id',
+    },
+  });
+
+  if (response.error) {
+    console.log(response.error);
+    throw new Error(response.error);
+  }
+
+  return response.body;
+};
+
 export default {
   //General funtions
 
@@ -170,4 +204,6 @@ export default {
   getCardByDiscountId,
 
   //Banner functions
+  getHomeBannersInfo,
+  getHomeBannerByDiscountId,
 };

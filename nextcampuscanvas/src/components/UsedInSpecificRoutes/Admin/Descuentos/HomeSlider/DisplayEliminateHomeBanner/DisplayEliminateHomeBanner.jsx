@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import Swal from 'sweetalert2';
-import { useDispatch } from 'react-redux';
+
+//React query
+import { useQueryClient } from '@tanstack/react-query';
+import adminKeys from '@query-key-factory/adminKeys';
 
 //Components
 import Modal from '@components/GeneralUseComponents/Modal/Modal';
 import WarningImage from '@components/GeneralUseComponents/WarningImage/WarningImage';
+import ConfirmationSwal from '@components/GeneralUseComponents/ConfirmationSwal/ConfirmationSwal';
 
 //Styles
 import styles from './DisplayEliminateHomeBanner.module.scss';
@@ -15,20 +18,14 @@ import endPoints from '@services/api/index';
 
 //Hooks
 import useAxios from '@hooks/useAxios';
-
-//Redux
-import { getHomeBannersInfo } from '@redux/homeBannersSlice';
-
-//CLARIFICATIONS:
-//1. The setHomeBanner is a function that has to modify and set a state of the parent function
 const DisplayEliminateHomeBanner = ({
   showModal,
   setShowModal,
   banner_id,
+  discount_id,
   discount_title,
   slider_banner_big_screen_name,
   slider_banner_small_screen_name,
-  setHomeBanner,
 }) => {
   const { fetchData } = useAxios();
 
@@ -38,8 +35,8 @@ const DisplayEliminateHomeBanner = ({
     error: null,
   });
 
-  //Redux
-  const dispatch = useDispatch();
+  //React query
+  const queryClient = useQueryClient();
 
   const handleEliminate = async () => {
     setState({ ...state, loading: true, error: null });
@@ -61,35 +58,23 @@ const DisplayEliminateHomeBanner = ({
     if (response.body) {
       setState({ ...state, loading: false });
 
-      //Update banners in global state
-      dispatch(getHomeBannersInfo());
+      //Delete the banner from react query cache
+      queryClient.setQueryData(
+        [adminKeys.homeBanner.getHomeSliderBannersInfo],
+        (oldData = []) => {
+          return oldData.filter((banner) => banner.id !== banner_id);
+        }
+      );
 
-      //Reset the home banner in the parent component (if applies)
-      if (setHomeBanner) {
-        setHomeBanner({
-          homeBanner: {},
-          loading: false,
-          error: null,
-        });
-      }
+      //Invalidate the home banner query of the discount
+      queryClient.invalidateQueries(
+        [adminKeys.homeBanner.getHomeBannerByDiscountId(discount_id)],
+        { exact: true }
+      );
 
-      //Show a confirmation swall
-      const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        width: 400,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer);
-          toast.addEventListener('mouseleave', Swal.resumeTimer);
-        },
-      });
-
-      Toast.fire({
-        icon: 'success',
-        title: response.body,
+      //Confirmation swal
+      ConfirmationSwal({
+        message: response.body,
       });
 
       //Close modal
@@ -139,8 +124,8 @@ DisplayEliminateHomeBanner.propTypes = {
   showModal: PropTypes.bool.isRequired,
   setShowModal: PropTypes.func.isRequired,
   banner_id: PropTypes.string.isRequired,
+  discount_id: PropTypes.string.isRequired,
   discount_title: PropTypes.string.isRequired,
   slider_banner_big_screen_name: PropTypes.string.isRequired,
   slider_banner_small_screen_name: PropTypes.string.isRequired,
-  setHomeBanner: PropTypes.func,
 };

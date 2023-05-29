@@ -5,7 +5,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import jobsReducer from '@redux/jobsSlice';
 import usersReducer from '@redux/usersSlice';
 import userSidebarGlobalStateReducer from '@redux/userSidebarGlobalStateSlice';
-import homeBannersReducer from '@redux/homeBannersSlice';
 import homeSectionsCountReducer from '@redux/homeSectionsDiscountsCountSlice';
 import showFirstInCategoryCountReducer from '@redux/showDiscountFirstInCategorySlice';
 import discountSearchBarCacheReducer from '@redux/discountSearchBarCacheSlice';
@@ -17,7 +16,6 @@ export const store = configureStore({
     jobs: jobsReducer,
     user: usersReducer,
     userSidebarGlobalState: userSidebarGlobalStateReducer,
-    home_banners: homeBannersReducer,
     homeSectionsCount: homeSectionsCountReducer,
     showFirstInCategoryCount: showFirstInCategoryCountReducer,
     discountSearchBarCache: discountSearchBarCacheReducer,

@@ -117,12 +117,6 @@ const editarDescuento = () => {
     form_error: null,
   });
 
-  const [homeBanner, setHomeBanner] = useState({
-    homeBanner: {},
-    loading: true,
-    error: null,
-  });
-
   const [newBanner, setNewBanner] = useState([]);
   const [loadingDiscountBanner, setLoadingDiscountBanner] = useState(true);
   const [showEliminateModal, setShowEliminateModal] = useState(false);
@@ -187,6 +181,7 @@ const editarDescuento = () => {
 
   //React query
 
+  //Uset to possibly get the discount from the cache and to refetch when the discount is edited
   const ALL_DISCOUNTS = useQuery({
     queryKey: [adminKeys.discounts.all_discounts],
     queryFn: discountFunctions.getAllDiscounts,
@@ -221,6 +216,16 @@ const editarDescuento = () => {
         SHOW_FIRST_IN_ALL_DISCOUNTS.setValue(data.show_first_in_all_discounts);
       }
     },
+  });
+
+  //Even thogh this const sems to be unused, it actually works as a useEffect when the component mounts
+  const HOME_BANNER = useQuery({
+    queryKey: [adminKeys.homeBanner.getHomeBannerByDiscountId(id)],
+    queryFn: () => discountFunctions.getHomeBannerByDiscountId(id),
+    staleTime: 1000 * 60 * 60 * 24, //24 hours
+    initialData: {},
+    initialDataUpdatedAt: 1,
+    enabled: Object.keys(state.discount).length > 0,
   });
 
   //Reducers
@@ -343,40 +348,6 @@ const editarDescuento = () => {
 
     //If discount doesn´t exist, redirect to 404 page
   }, [ALL_DISCOUNTS?.data, router?.isReady]);
-
-  //Get home slider banner (if applies)
-  useEffect(() => {
-    if (Object.keys(state.discount).length === 0) return;
-
-    const getHomeBanner = async () => {
-      const response = await fetchData(
-        endPoints.admin.discounts.getHomeSliderBannerByDiscountId(
-          state.discount._id
-        ),
-        'get',
-        null,
-        { required_info: 'banner_by_discount_id' }
-      );
-
-      if (response.error) {
-        setHomeBanner({
-          ...homeBanner,
-          error: response.error,
-          loading: false,
-        });
-        return;
-      }
-
-      setHomeBanner({
-        ...homeBanner,
-        homeBanner: response.body,
-        loading: false,
-        error: null,
-      });
-    };
-
-    getHomeBanner();
-  }, [state.discount]);
 
   //Get home section count and show first count
   useEffect(() => {
@@ -658,7 +629,7 @@ const editarDescuento = () => {
     let updated_exp_date_same_format = null;
 
     let HAS_HOME_BANNER_ATTACHED;
-    if (Object.keys(homeBanner.homeBanner).length !== 0) {
+    if (Object.keys(HOME_BANNER.data).length !== 0) {
       HAS_HOME_BANNER_ATTACHED = true;
     } else {
       HAS_HOME_BANNER_ATTACHED = false;
@@ -888,7 +859,7 @@ const editarDescuento = () => {
   };
 
   const displayEliminateModal = () => {
-    const has_home_banner = Object.keys(homeBanner.homeBanner).length > 0;
+    const has_home_banner = Object.keys(HOME_BANNER.data).length > 0;
     const card_appeas_in_home = DISPLAY_CARD_IN_SECTION.value.length > 0;
     return (
       <DisplayEliminateDiscountModal
@@ -904,14 +875,12 @@ const editarDescuento = () => {
   };
 
   const displayCreateHomeBanner = () => {
-    if (Object.keys(homeBanner.homeBanner).length === 0) {
+    if (Object.keys(HOME_BANNER.data).length === 0) {
       return (
         <DisplayCreateHomeBannerModal
           showModal={showCreateHomeBannerModal}
           setShowModal={setShowCreateHomeBannerModal}
-          setHomeBanner={setHomeBanner}
           discount_id={id}
-          currentHomeBannerState={homeBanner}
           available_for={state.discount.available_for}
           affiliate_link={state.discount.affiliate_link}
           type={state.discount.type}
@@ -921,20 +890,20 @@ const editarDescuento = () => {
   };
 
   const displayEliminateHomeBannerModal = () => {
-    if (Object.keys(homeBanner.homeBanner).length) {
+    if (Object.keys(HOME_BANNER.data).length) {
       return (
         <DisplayEliminateHomeBanner
           showModal={showEliminateHomeBannerModal}
           setShowModal={setShowEliminateHomeBannerModal}
-          banner_id={homeBanner.homeBanner._id}
+          banner_id={HOME_BANNER.data?._id}
+          discount_id={id}
           discount_title={state.discount.title}
           slider_banner_big_screen_name={
-            homeBanner.homeBanner?.slider_banner_big_screen?.name
+            HOME_BANNER.data?.slider_banner_big_screen?.name
           }
           slider_banner_small_screen_name={
-            homeBanner.homeBanner?.slider_banner_small_screen?.name
+            HOME_BANNER.data?.slider_banner_small_screen?.name
           }
-          setHomeBanner={setHomeBanner}
         />
       );
     }
@@ -1392,13 +1361,17 @@ const editarDescuento = () => {
                   <p className={styles.home_slider_banner_title}>
                     <strong>Slider principal en home</strong>
                   </p>
-                  {homeBanner.loading ? (
+                  {HOME_BANNER.isLoading ||
+                  HOME_BANNER.isFetching ||
+                  HOME_BANNER.isRefetching ? (
                     <Loader />
-                  ) : homeBanner.error ? (
-                    <p className='error__messagev2'>{homeBanner.error}</p>
+                  ) : HOME_BANNER.isError ? (
+                    <p className='error__messagev2'>
+                      {HOME_BANNER.error?.message}
+                    </p>
                   ) : (
                     <>
-                      {Object.keys(homeBanner.homeBanner).length === 0 ? (
+                      {Object.keys(HOME_BANNER?.data).length === 0 ? (
                         <>
                           <p>
                             Este descuento no tienen ningún banner en el slider
@@ -1435,8 +1408,7 @@ const editarDescuento = () => {
                           <div className={styles.big_banner}>
                             <img
                               src={
-                                homeBanner.homeBanner?.slider_banner_big_screen
-                                  ?.URL
+                                HOME_BANNER.data?.slider_banner_big_screen?.URL
                               }
                               alt={`Banner de home pantalla grande `}
                             />
@@ -1445,8 +1417,8 @@ const editarDescuento = () => {
                           <div className={styles.small_banner}>
                             <img
                               src={
-                                homeBanner.homeBanner
-                                  ?.slider_banner_small_screen?.URL
+                                HOME_BANNER.data?.slider_banner_small_screen
+                                  ?.URL
                               }
                               alt={`Banner de home pantalla movil `}
                             />

@@ -1,7 +1,10 @@
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState } from 'react';
 import Image from 'next/image';
+
+//React query
+import { useQuery } from '@tanstack/react-query';
+import adminKeys from '@query-key-factory/adminKeys';
 
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
@@ -15,14 +18,14 @@ import Loader from '@components/GeneralUseComponents/Loader/Loader';
 import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import DisplayEliminateHomeBanner from '@components/UsedInSpecificRoutes/Admin/Descuentos/HomeSlider/DisplayEliminateHomeBanner/DisplayEliminateHomeBanner';
 
-//Redux
-import { getHomeBannersInfo, selectHomeBanner } from '@redux/homeBannersSlice';
-
 //Assets
 import delete_icon from '@assets/GeneralUse/IconsAndButtons/delete.svg';
 
 //Services
 import dateFormat from '@services/dateFormat';
+
+//Data requests
+import adminFunctions from '@request-functions/Admin/Discounts';
 
 const homeSliderManagement = () => {
   const { securingRoute } = useSecureAdminRoute();
@@ -34,35 +37,30 @@ const homeSliderManagement = () => {
     discount_title: '',
     slider_banner_big_screen_name: '',
     slider_banner_small_screen_name: '',
+    discount_id: '',
   });
 
-  //Allows us to manipulate the appropriate slice/action
-  const dispatch = useDispatch();
-
-  //Reducers
-  const bannersInfoReducer = useSelector(selectHomeBanner);
-
-  useEffect(() => {
-    const setBannersInfo = async () => {
-      if (bannersInfoReducer.home_banners.length === 0) {
-        dispatch(getHomeBannersInfo());
-      }
-    };
-    setBannersInfo();
-  }, []);
+  //React query
+  const HOME_BANNERS_INFO = useQuery({
+    queryKey: [adminKeys.homeBanner.getHomeSliderBannersInfo],
+    queryFn: adminFunctions.getHomeBannersInfo,
+    staleTime: 1000 * 60 * 60 * 24 * 7, //1 week
+  });
 
   //Functions
   const displayEliminateModal = (
     banner_id,
     discount_title,
     slider_banner_big_screen_name,
-    slider_banner_small_screen_name
+    slider_banner_small_screen_name,
+    discount_id
   ) => {
     setEliminateBanner({
       banner_id,
       discount_title,
       slider_banner_big_screen_name,
       slider_banner_small_screen_name,
+      discount_id,
     });
     setShowEliminateModal(true);
   };
@@ -73,6 +71,7 @@ const homeSliderManagement = () => {
         showModal={showEliminateModal}
         setShowModal={setShowEliminateModal}
         banner_id={eliminateBanner.banner_id}
+        discount_id={eliminateBanner.discount_id}
         discount_title={eliminateBanner.discount_title}
         slider_banner_big_screen_name={
           eliminateBanner.slider_banner_big_screen_name
@@ -84,7 +83,12 @@ const homeSliderManagement = () => {
     );
   };
 
-  if (securingRoute || bannersInfoReducer.loading) {
+  if (
+    securingRoute ||
+    HOME_BANNERS_INFO.isLoading ||
+    HOME_BANNERS_INFO.isFetching ||
+    HOME_BANNERS_INFO.isRefetching
+  ) {
     return (
       <div className={styles.loaderContainer}>
         <Loader />
@@ -92,8 +96,8 @@ const homeSliderManagement = () => {
     );
   }
 
-  if (bannersInfoReducer.error) {
-    return <p className='error__message'>{bannersInfoReducer.error}</p>;
+  if (HOME_BANNERS_INFO.isError) {
+    return <p className='error__message'>{HOME_BANNERS_INFO.error?.message}</p>;
   }
 
   return (
@@ -104,13 +108,13 @@ const homeSliderManagement = () => {
       <div className={`container`}>
         {handleEliminateModal()}
 
-        <h1>Home slider banners ({bannersInfoReducer.home_banners.length})</h1>
+        <h1>Home slider banners ({HOME_BANNERS_INFO.data?.length})</h1>
         <p>
           Para añadir un nuevo banner a un descuento concreto, dirígete al
           descuento y añádelo desde ahí
         </p>
 
-        {bannersInfoReducer.home_banners.map((banner) => (
+        {HOME_BANNERS_INFO.data?.map((banner) => (
           <article className={styles.banner} key={banner.id}>
             <Link
               href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${banner.discount_id}`}
@@ -165,7 +169,8 @@ const homeSliderManagement = () => {
                         banner.id,
                         banner.discount_title,
                         banner.slider_banner_big_screen.name,
-                        banner.slider_banner_small_screen.name
+                        banner.slider_banner_small_screen.name,
+                        banner.discount_id
                       )
                     }
                   >
