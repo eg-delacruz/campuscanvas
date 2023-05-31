@@ -792,6 +792,25 @@ const getVerifiedStudentsCount = async () => {
   }
 };
 
+const getVerifiedStudents = async (page, limit) => {
+  if (!page || !limit) {
+    console.log(
+      '[User controller | getVerifiedStudents function error] Page or limit missing'
+    );
+    throw new Error('Page or limit missing');
+  }
+
+  try {
+    const verified_students = await store.getVerifiedStudents(page, limit);
+    return verified_students;
+  } catch (error) {
+    console.error(
+      '[User controller | getVerifiedStudents function error]' + error.message
+    );
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
   getUserById,
   registerUser,
@@ -812,4 +831,5 @@ module.exports = {
   manuallyVerifyStuAccByStuId,
   manuallyRejectAccVerifByStuId,
   getVerifiedStudentsCount,
+  getVerifiedStudents,
 };

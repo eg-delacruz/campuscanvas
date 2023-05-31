@@ -207,6 +207,11 @@ const AdminHeader = () => {
                       Correos de universidades no controlados
                     </Link>
                   </li>
+                  <li>
+                    <Link href={'/admin/master/estudiantes-verificados'}>
+                      Estudiantes verificados
+                    </Link>
+                  </li>
                   <li onClick={close767Menu}>
                     <Link href={'/admin/master/route-revalidator'}>
                       Revalidar rutas

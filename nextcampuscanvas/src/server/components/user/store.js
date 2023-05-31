@@ -5,6 +5,9 @@ dbConnect(config.dbURL);
 //Model
 import User from '@server/components/user/model';
 
+//Services
+import paginationData from '@server/services/paginationData';
+
 /////////////////////Add user//////////////////////////////
 const addUser = async (user) => {
   return await User.create(user);
@@ -126,6 +129,28 @@ const getMasterAdmins = async () => {
   }
 };
 
+/////////////////////Getting verified students//////////////////////////////
+const getVerifiedStudents = async (page, limit) => {
+  const totalEntries = await User.countDocuments({
+    stu_verified: true,
+  });
+  const pagination_data = paginationData(totalEntries, page, limit);
+  const result = await User.find({
+    stu_verified: true,
+  })
+    .limit(pagination_data.LIMIT)
+    //Skip the first x results and return from that point on
+    .skip(pagination_data.startIndex);
+
+  const data = {
+    previous: pagination_data.previous,
+    next: pagination_data.next,
+    students: result,
+  };
+
+  return data;
+};
+
 module.exports = {
   add: addUser,
   getAll: getUsers,
@@ -139,4 +164,5 @@ module.exports = {
   verifyStuIdLegitimacy,
   getVerifyedStudentsCount,
   getMasterAdmins,
+  getVerifiedStudents,
 };

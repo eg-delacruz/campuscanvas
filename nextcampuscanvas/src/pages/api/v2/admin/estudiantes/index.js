@@ -1,4 +1,5 @@
 import unhandled_emails_Controller from '@server/components/unhandledEmails/controller';
+import user_controller from '@server/components/user/controller';
 
 //Response manager
 import { successResponse, errorResponse } from '@server/response';
@@ -42,6 +43,19 @@ export default async function handler(req, res) {
               await unhandled_emails_Controller.getAllUnhandledEmails();
 
             successResponse(req, res, unhandled_emails, 201);
+            break;
+
+          case 'verified_students':
+            const verified_students_page = req.headers.page;
+            const verified_students_limit = req.headers.limit;
+
+            const verified_students_data =
+              await user_controller.getVerifiedStudents(
+                verified_students_page,
+                verified_students_limit
+              );
+
+            successResponse(req, res, verified_students_data, 201);
             break;
 
           default:

@@ -1,0 +1,71 @@
+@import '../../../Vars.scss';
+@import '../../../Animations/dotLoadingButton.module.scss';
+
+//Loadint state while displaying page
+.loaderContainer {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  padding: 0 8px;
+  max-width: 1800px;
+}
+
+.table {
+  width: 100%;
+  margin: auto;
+  border-collapse: collapse;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 6px 0px $color--dark-gray;
+  @include font-size(14px);
+
+  thead {
+    @include font-size(12px);
+    tr {
+      background-color: $color--primary1;
+      color: $color--white;
+      text-align: center;
+      font-weight: bold;
+    }
+    th {
+      text-align: left;
+    }
+
+    td {
+      text-align: left;
+      padding-right: 4px;
+    }
+  }
+
+  tbody {
+    .row3 {
+      padding: 0 4px;
+    }
+  }
+}
+
+.show_more_btn {
+  padding: 8px;
+  margin-top: 30px;
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 1790px) {
+  .container {
+    .table_container {
+      overflow-x: auto;
+      display: block;
+      white-space: nowrap;
+      transform: rotateX(180deg);
+    }
+    .table {
+      transform: rotateX(180deg);
+    }
+  }
+}

@@ -21,6 +21,25 @@ const checkIfPendingValidationsAvailable = async () => {
   return response.body;
 };
 
+const getVerifiedStudents = async ({ page, limit }) => {
+  const response = await axiosFetcher({
+    url: endPointsV2.admin.students.index,
+    method: 'get',
+    extraHeaders: {
+      required_info: 'verified_students',
+      page,
+      limit,
+    },
+  });
+
+  if (response.error) {
+    console.log(response.error);
+    throw new Error(response.error);
+  }
+
+  return response.body;
+};
+
 const getVerifiedStudentsCount = async () => {
   const response = await axiosFetcher({
     url: endPointsV2.admin.students.getVerifiedStudentsCount,
@@ -57,6 +76,7 @@ const getUnhandledStuEmails = async () => {
 
 export default {
   checkIfPendingValidationsAvailable,
+  getVerifiedStudents,
   getVerifiedStudentsCount,
   getUnhandledStuEmails,
 };
