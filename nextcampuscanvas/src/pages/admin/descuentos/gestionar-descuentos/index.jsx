@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { useState, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 
 //React query
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -11,7 +10,6 @@ import styles from '@styles/pagestyles/admin/descuentos/gestionarDescuentos.modu
 
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
-import { useInputValue } from '@hooks/useInputValue';
 import useDebouncedSearchValue from '@hooks/useDebouncedSearchValue';
 
 //Components
@@ -25,10 +23,15 @@ import adminFunctions from '@request-functions/Admin';
 import adminDiscountsFunctions from '@request-functions/Admin/Discounts/index';
 
 //Redux
+import { useSelector, useDispatch } from 'react-redux';
 import {
   setCurrentPage,
   selectAdminDiscountsTablePaginationGlobalState,
 } from '@redux/adminDiscountsTablePaginationGlobalStateSlice';
+import {
+  setAdminDiscountsTableSearchValue,
+  selectAdminDiscountsTableSearchValue,
+} from '@redux/adminDiscountsTableSearchValueSlice';
 
 const index = () => {
   const { securingRoute } = useSecureAdminRoute();
@@ -36,9 +39,12 @@ const index = () => {
   //States
   const [filteredDiscounts, setFilteredDiscounts] = useState([]);
 
-  //Reducers
+  //Reducers (global states)
   const adminDiscountsTablePaginationGlobalStateReducer = useSelector(
     selectAdminDiscountsTablePaginationGlobalState
+  );
+  const adminDiscountsTableSearchValueReducer = useSelector(
+    selectAdminDiscountsTableSearchValue
   );
 
   //Allows us to manipulate the appropriate slice/action
@@ -82,11 +88,10 @@ const index = () => {
     },
   });
 
-  //Controlling inputs
-  const SEARCH_INPUT = useInputValue('');
-
   //Set debounced search value
-  const debouncedSearchValue = useDebouncedSearchValue(SEARCH_INPUT.value);
+  const debouncedSearchValue = useDebouncedSearchValue(
+    adminDiscountsTableSearchValueReducer.value
+  );
 
   //Filter discounts
   useMemo(() => {
@@ -97,20 +102,26 @@ const index = () => {
     const results = ALL_DISCOUNTS?.data.filter((discount) => {
       return (
         discount.SEO_meta_title.toLowerCase().includes(
-          SEARCH_INPUT.value.toLowerCase()
+          adminDiscountsTableSearchValueReducer.value.toLowerCase()
         ) ||
         discount.brand.brand_name
           .toLowerCase()
-          .includes(SEARCH_INPUT.value.toLowerCase()) ||
+          .includes(
+            adminDiscountsTableSearchValueReducer.value.toLowerCase()
+          ) ||
         discount.category
           .toLowerCase()
-          .includes(SEARCH_INPUT.value.toLowerCase()) ||
+          .includes(
+            adminDiscountsTableSearchValueReducer.value.toLowerCase()
+          ) ||
         discount.type
           .toLowerCase()
-          .includes(SEARCH_INPUT.value.toLowerCase()) ||
+          .includes(
+            adminDiscountsTableSearchValueReducer.value.toLowerCase()
+          ) ||
         discount.display_in_section
           .toLowerCase()
-          .includes(SEARCH_INPUT.value.toLowerCase())
+          .includes(adminDiscountsTableSearchValueReducer.value.toLowerCase())
       );
     });
     setFilteredDiscounts(results);
@@ -205,8 +216,12 @@ const index = () => {
                     className={styles.search_bar}
                     name='search'
                     id='search'
-                    value={SEARCH_INPUT.value}
-                    onChange={SEARCH_INPUT.onChange}
+                    value={adminDiscountsTableSearchValueReducer.value}
+                    onChange={(e) => {
+                      dispatch(
+                        setAdminDiscountsTableSearchValue(e.target.value)
+                      );
+                    }}
                     autoFocus
                   />
                 </div>
