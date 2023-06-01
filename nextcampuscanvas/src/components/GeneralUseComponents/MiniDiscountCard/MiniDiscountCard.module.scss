@@ -1,10 +1,16 @@
 @import '../../../styles/Vars.scss';
 
 .card {
-  display: flex;
   align-items: flex-start;
-  padding: 22px 4px;
   border-radius: 5px;
+  a {
+    text-decoration: none;
+    display: flex;
+    align-items: flex-start;
+    height: 100%;
+    width: inherit;
+    padding: 22px 4px;
+  }
   .discount_logo_container {
     width: 70px;
     height: 70px;
@@ -79,6 +85,7 @@
   }
   .info_container {
     margin-left: 10px;
+    color: $color--black;
     .brand {
       margin: 0;
       @include font-size(16px);

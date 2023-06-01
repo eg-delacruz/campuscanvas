@@ -147,6 +147,16 @@ const getMiniCardsSearchbarResults = async (searchTerm, page, limit) => {
   //Pass things to lowercase
   const totalEntries = await Card.countDocuments({
     status: 'available',
+    //Search for the term in the brand name or in the discount keywords
+    $or: [
+      { brand_name: { $regex: searchTerm, $options: 'i' } },
+      {
+        'discount_keywords.label': {
+          $regex: searchTerm,
+          $options: 'i',
+        },
+      },
+    ],
   });
   const pagination_data = paginationData(totalEntries, page, limit);
 
@@ -168,7 +178,13 @@ const getMiniCardsSearchbarResults = async (searchTerm, page, limit) => {
     .populate({ path: 'brand_logo', model: BrandInfo, select: 'brand_logo' })
     .exec();
 
-  return result;
+  const data = {
+    previous: pagination_data.previous,
+    next: pagination_data.next,
+    cards: result,
+  };
+
+  return data;
 };
 
 module.exports = {

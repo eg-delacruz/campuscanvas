@@ -9,7 +9,10 @@ export const discountSearchBarCacheSlice = createSlice({
   initialState: INITIAL_STATE,
   reducers: {
     updateCache: (state, action) => {
-      state.cachedResults[action.payload.searchValue] = action.payload.results;
+      state.cachedResults[action.payload.searchValue] = {
+        results: action.payload.results,
+        hasNextPage: action.payload.hasNextPage,
+      };
     },
     cleanCache: (state) => {
       state.cachedResults = {};

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import { useRouter } from 'next/router';
 import { useState, useRef, useEffect } from 'react';
+import Link from 'next/link';
 
 import styles from './MiniDiscountCard.module.scss';
 
@@ -35,55 +35,49 @@ const MiniDiscountCard = ({
 
   //Loader placeholder while images render (end)
 
-  //To send the id of the post to the post page
-  const router = useRouter();
-
   return (
     <div
       onClick={() => {
         if (closeSearchBar) {
-          clearSearchBar();
+          //clearSearchBar();
           closeSearchBar();
         }
-        router.push(
-          {
-            pathname: `/descuentos/${discount_id}`,
-            query: { id: discount_id },
-          },
-          `/descuentos/${discount_id}`
-        );
       }}
       className={styles.card}
     >
-      <div className={styles.discount_logo_container}>
-        <span className={styles.span_container}>
-          <span>
-            <img src={white_background_svg.src} />
-          </span>
-          <div style={{ visibility: loadingLogo ? 'hidden' : 'visible' }}>
-            <img
-              ref={brandLogoRef}
-              className={styles.brand_img}
-              src={brand_logo}
-              alt={brand_name}
-              loading='lazy'
-              onLoad={handleLoadedLogo}
-            />
+      <Link href={`/descuentos/${discount_id}`}>
+        <a>
+          <div className={styles.discount_logo_container}>
+            <span className={styles.span_container}>
+              <span>
+                <img src={white_background_svg.src} />
+              </span>
+              <div style={{ visibility: loadingLogo ? 'hidden' : 'visible' }}>
+                <img
+                  ref={brandLogoRef}
+                  className={styles.brand_img}
+                  src={brand_logo}
+                  alt={brand_name}
+                  loading='lazy'
+                  onLoad={handleLoadedLogo}
+                />
+              </div>
+              {/* Loader while logo loads (start) */}
+              <div
+                className={styles.cc_logo_loader_container}
+                style={{ display: loadingLogo ? 'block' : 'none' }}
+              >
+                <CC_LogoLoader />
+              </div>
+              {/* Loader while logo loads (end) */}
+            </span>
           </div>
-          {/* Loader while logo loads (start) */}
-          <div
-            className={styles.cc_logo_loader_container}
-            style={{ display: loadingLogo ? 'block' : 'none' }}
-          >
-            <CC_LogoLoader />
+          <div className={styles.info_container}>
+            <h4 className={styles.brand}>{brand_name}</h4>
+            <p className={styles.title}>{title}</p>
           </div>
-          {/* Loader while logo loads (end) */}
-        </span>
-      </div>
-      <div className={styles.info_container}>
-        <h4 className={styles.brand}>{brand_name}</h4>
-        <p className={styles.title}>{title}</p>
-      </div>
+        </a>
+      </Link>
     </div>
   );
 };

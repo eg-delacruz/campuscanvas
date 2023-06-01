@@ -5,11 +5,10 @@ import { createPortal } from 'react-dom';
 import styles from './DiscountsSearchBar.module.scss';
 
 //hooks
-import { useInputValue } from '@hooks/useInputValue';
 import useDebouncedSearchValue from '@hooks/useDebouncedSearchValue';
 
 //React query
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import discoutKeys from '@query-key-factory/discountKeys';
 
 //Request functions
@@ -21,11 +20,24 @@ import CircularLoader from '@components/GeneralUseComponents/CircularLoader/Circ
 
 //Redux
 import { useSelector, useDispatch } from 'react-redux';
+//results cache
 import {
   updateCache,
   cleanCache,
   selectDiscountSearchBarCache,
-} from '@redux/discountSearchBarCacheSlice';
+} from '@redux/discountsSearchbar/discountSearchBarCacheSlice';
+//searchbar input state
+import {
+  selectDiscountSearchbarInputState,
+  setSearchbarValue,
+} from '@redux/discountsSearchbar/discountSearchbarInputStateSlice';
+//discounts searchbar general states
+import {
+  setHasNextPage,
+  setFirstSearchExecuted,
+  setAllowCleanCache,
+  selectDiscountSearchbarGeneralStates,
+} from '@redux/discountsSearchbar/discountSearchbarGeneralStatesSlice';
 
 const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
   //Needed to avoid problems with the SSR (start)
@@ -41,62 +53,95 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
   const discountSearchBarCacheReducer = useSelector(
     selectDiscountSearchBarCache
   );
+  const discountSearchbarInputStateReducer = useSelector(
+    selectDiscountSearchbarInputState
+  );
+  const discountSearchbarGeneralStatesReducer = useSelector(
+    selectDiscountSearchbarGeneralStates
+  );
 
   //States
   const [searchBarResults, setSearchBarResults] = useState([]);
-  const [firstSearchExecuted, setFirstSearchExecuted] = useState(false);
-  const [allowCleanCache, setAllowCleanCache] = useState(false);
 
-  const CLEAN_CACHE_TIMEOUT = 1000 * 60 * 10;
-
-  //Controlling inputs
-  const SEARCH_INPUT = useInputValue('');
+  const CLEAN_CACHE_TIMEOUT = 1000 * 60 * 10; //10 minutes
 
   const debouncedSearchValue = useDebouncedSearchValue(
-    SEARCH_INPUT.value.toLowerCase(),
+    discountSearchbarInputStateReducer.value,
     500
   );
 
   //React query
-  const SEARCH_BAR_RESULTS = useQuery({
+  const RESULTS_LIMIT = 12;
+  const SEARCH_BAR_RESULTS = useInfiniteQuery({
     queryKey: [discoutKeys.cards.get_mini_cards_searchbar_results],
-    queryFn: () =>
-      discountFunctions.getMiniCardsSearchbarResults(debouncedSearchValue),
+    queryFn: ({ pageParam = 1 }) =>
+      discountFunctions.getMiniCardsSearchbarResults({
+        query: debouncedSearchValue,
+        page: pageParam,
+        limit: RESULTS_LIMIT,
+      }),
     staleTime: Infinity,
     //Disable the query from automatically running
     enabled: false,
+    getNextPageParam: (lastPage) => lastPage?.miniCards?.next?.PAGE,
 
     onSuccess: (data) => {
       //Setting search results
-      setSearchBarResults(data.miniCards);
+      const updatedResults = data.pages?.flatMap(
+        (page) => page.miniCards?.cards
+      );
 
-      //Add result to cache
+      //Set the results
+      setSearchBarResults(updatedResults);
+
+      //Set if there are more pages by checking the array in the last position
       dispatch(
-        updateCache({ searchValue: data.query, results: data.miniCards })
+        setHasNextPage(
+          data.pages[data.pages.length - 1].miniCards?.next?.PAGE ? true : false
+        )
+      );
+
+      //Update cache
+      dispatch(
+        updateCache({
+          searchValue: data.pages[0].query,
+          results: updatedResults,
+          hasNextPage: data.pages[data.pages.length - 1].miniCards?.next?.PAGE
+            ? true
+            : false,
+        })
       );
 
       //Clean cache 10 minutes after the first search
-      if (!firstSearchExecuted) {
+      if (!discountSearchbarGeneralStatesReducer.firstSearchExecuted) {
         monitorCleanCache();
-        setFirstSearchExecuted(true);
+        dispatch(setFirstSearchExecuted(true));
       }
     },
   });
 
   //Clean cache 10 minutes after the first search
   useEffect(() => {
-    if (allowCleanCache) {
+    if (discountSearchbarGeneralStatesReducer.allowCleanCache) {
       dispatch(cleanCache());
-      setAllowCleanCache(false);
+      dispatch(setAllowCleanCache(false));
     }
-  }, [allowCleanCache]);
+  }, [discountSearchbarGeneralStatesReducer.allowCleanCache]);
 
   useEffect(() => {
     if (debouncedSearchValue) {
       //Check if the results are already cached
       if (discountSearchBarCacheReducer.cachedResults[debouncedSearchValue]) {
+        //If so, set them
         setSearchBarResults(
           discountSearchBarCacheReducer.cachedResults[debouncedSearchValue]
+            .results
+        );
+        dispatch(
+          setHasNextPage(
+            discountSearchBarCacheReducer.cachedResults[debouncedSearchValue]
+              .hasNextPage
+          )
         );
       } else {
         //If not, fetch them
@@ -114,8 +159,8 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
   function monitorCleanCache() {
     //Clean cache 10 minutes after the first search
     setTimeout(() => {
-      setAllowCleanCache(true);
-      setFirstSearchExecuted(false);
+      dispatch(setAllowCleanCache(true));
+      dispatch(setFirstSearchExecuted(false));
     }, CLEAN_CACHE_TIMEOUT);
   }
 
@@ -140,18 +185,23 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
             className={styles.search_bar}
             name='search'
             id='search'
-            value={SEARCH_INPUT.value}
-            onChange={SEARCH_INPUT.onChange}
+            value={discountSearchbarInputStateReducer.value}
+            onChange={(e) => {
+              dispatch(setSearchbarValue(e.target.value));
+            }}
             autoFocus
             autoComplete='off'
           />
 
           <div className={styles.results_container}>
             {/* Prefetch and render suggested results here or fetch them when user open searc bar (see how to do it on hover or on click down). Don´t do this server side, since not so important for SEO and also very complicated to achieve */}
-            {SEARCH_INPUT.value.length === 0 ? (
+            {discountSearchbarInputStateReducer.value.length === 0 ? (
               ''
             ) : SEARCH_BAR_RESULTS.isLoading ||
-              SEARCH_BAR_RESULTS.isFetching ? (
+              (SEARCH_BAR_RESULTS.isFetching &&
+                searchBarResults.length === 0) ||
+              debouncedSearchValue !==
+                discountSearchbarInputStateReducer.value ? (
               <div className={styles.circular_loader_container}>
                 <CircularLoader />
               </div>
@@ -166,7 +216,7 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
                       <MiniDiscountCard
                         closeSearchBar={onClose}
                         clearSearchBar={() => {
-                          SEARCH_INPUT.setValue('');
+                          dispatch(setSearchbarValue(''));
                         }}
                         key={card._id}
                         discount_id={card.discount_id}
@@ -176,6 +226,22 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
                       />
                     ))}
                   </div>
+                  {discountSearchbarGeneralStatesReducer.hasNextPage && (
+                    <button
+                      onClick={() => {
+                        SEARCH_BAR_RESULTS.fetchNextPage();
+                      }}
+                      className={`${
+                        styles.show_more_btn
+                      }  btn button--redRedborderTransparentHoverShadowtRed ${
+                        SEARCH_BAR_RESULTS.isFetchingNextPage &&
+                        styles.buttonLoading
+                      }`}
+                      disabled={SEARCH_BAR_RESULTS.isFetchingNextPage}
+                    >
+                      Mostrar más
+                    </button>
+                  )}
                 </div>
               </>
             )}

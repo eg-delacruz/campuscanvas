@@ -7,8 +7,10 @@ import usersReducer from '@redux/usersSlice';
 import userSidebarGlobalStateReducer from '@redux/userSidebarGlobalStateSlice';
 import homeSectionsCountReducer from '@redux/homeSectionsDiscountsCountSlice';
 import showFirstInCategoryCountReducer from '@redux/showDiscountFirstInCategorySlice';
-import discountSearchBarCacheReducer from '@redux/discountSearchBarCacheSlice';
+import discountSearchBarCacheReducer from '@redux/discountsSearchbar/discountSearchBarCacheSlice';
 import adminDiscountsTablePaginationGlobalStateReducer from '@redux/adminDiscountsTablePaginationGlobalStateSlice';
+import discountSearchbarInputStateReducer from '@redux/discountsSearchbar/discountSearchbarInputStateSlice';
+import discountSearchbarGeneralStatesReducer from '@redux/discountsSearchbar/discountSearchbarGeneralStatesSlice';
 
 export const store = configureStore({
   //We pass the reducer to the store. This names have to be the same as the exported selector of the slice.js files to correctly access the desired state.
@@ -21,6 +23,8 @@ export const store = configureStore({
     discountSearchBarCache: discountSearchBarCacheReducer,
     adminDiscountsTablePaginationGlobalState:
       adminDiscountsTablePaginationGlobalStateReducer,
+    discountSearchbarInputState: discountSearchbarInputStateReducer,
+    discountSearchbarGeneralStates: discountSearchbarGeneralStatesReducer,
   },
 });
 
