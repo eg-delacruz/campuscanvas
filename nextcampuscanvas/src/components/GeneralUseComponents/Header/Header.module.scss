@@ -533,7 +533,9 @@
         border: 1px solid $color--white;
         border-radius: 5px;
         background: rgba(91, 7, 145, 0.9);
-        color: $color--white;
+        a {
+          color: $color--white;
+        }
       }
       .menu__item_empresas {
         max-width: initial;

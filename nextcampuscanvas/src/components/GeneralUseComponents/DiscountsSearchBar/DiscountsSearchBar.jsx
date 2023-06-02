@@ -128,6 +128,7 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
     }
   }, [discountSearchbarGeneralStatesReducer.allowCleanCache]);
 
+  //Fetch results when the debounced search value changes
   useEffect(() => {
     if (debouncedSearchValue) {
       //Check if the results are already cached
@@ -199,7 +200,9 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
               ''
             ) : SEARCH_BAR_RESULTS.isLoading ||
               (SEARCH_BAR_RESULTS.isFetching &&
-                searchBarResults.length === 0) ||
+                !discountSearchBarCacheReducer.cachedResults[
+                  debouncedSearchValue
+                ]) ||
               debouncedSearchValue !==
                 discountSearchbarInputStateReducer.value ? (
               <div className={styles.circular_loader_container}>
