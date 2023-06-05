@@ -155,33 +155,13 @@ const editarDescuento = () => {
   //Ref to monitor if banner is being displayed
   const bannerRef = useRef(null);
 
-  //Controlling inputs
-  const STATUS = useInputValue('');
-  const TITLE = useInputValue('');
-  const DESCRIPTION = useInputValue('');
-  const AFFILIATE_LINK = useInputValue('');
-  const DISCOUNT_CODE = useInputValue('');
-  const AVAILABLE_FOR = useInputValue('');
-  const EXPIRATION_DATE = useInputValue('');
-  const CARD_TITLE = useInputValue('');
-  const CARD_TAG = useInputValue('');
-  const DISPLAY_CARD_IN_SECTION = useInputValue('');
-  const SHOW_FIRST_IN_CATEGORY = useInputValue(false);
-  const SHOW_FIRST_IN_HOME_SECTION = useInputValue(false);
-  const SHOW_FIRST_IN_ALL_DISCOUNTS = useInputValue(false);
-
-  //Setting field counts
-  const TITLE_COUNT = useCharacterCount(0);
-  const DESCRIPTION_COUNT = useCharacterCount(0);
-  const CARD_TITLE_COUNT = useCharacterCount(0);
-
   //Get discount id
   const router = useRouter();
   const id = router.query.id;
 
   //React query
 
-  //Uset to possibly get the discount from the cache and to refetch when the discount is edited
+  //Used to possibly get the discount from the cache and to refetch when the discount is edited
   const ALL_DISCOUNTS = useQuery({
     queryKey: [adminKeys.discounts.all_discounts],
     queryFn: discountFunctions.getAllDiscounts,
@@ -227,6 +207,34 @@ const editarDescuento = () => {
     initialDataUpdatedAt: 1,
     enabled: Object.keys(state.discount).length > 0,
   });
+
+  //Controlling inputs
+  const STATUS = useInputValue('');
+  const TITLE = useInputValue('');
+  const DESCRIPTION = useInputValue('');
+  const AFFILIATE_LINK = useInputValue('');
+  const DISCOUNT_CODE = useInputValue('');
+  const AVAILABLE_FOR = useInputValue('');
+  const EXPIRATION_DATE = useInputValue('');
+  const CARD_TITLE = useInputValue(CARD.data?.title || '');
+  const CARD_TAG = useInputValue(CARD.data?.card_tag || '');
+  const DISPLAY_CARD_IN_SECTION = useInputValue(
+    CARD.data?.display_in_section || ''
+  );
+  const SHOW_FIRST_IN_CATEGORY = useInputValue(
+    CARD.data?.show_first_in_category || false
+  );
+  const SHOW_FIRST_IN_HOME_SECTION = useInputValue(
+    CARD.data?.show_first_in_home_section || false
+  );
+  const SHOW_FIRST_IN_ALL_DISCOUNTS = useInputValue(
+    CARD.data?.show_first_in_all_discounts || false
+  );
+
+  //Setting field counts
+  const TITLE_COUNT = useCharacterCount(0);
+  const DESCRIPTION_COUNT = useCharacterCount(0);
+  const CARD_TITLE_COUNT = useCharacterCount(0);
 
   //Reducers
   const homeSectionsCountReducer = useSelector(selectHomeSectionsCount);
