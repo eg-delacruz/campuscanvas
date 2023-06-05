@@ -57,7 +57,7 @@ const AdminDiscountsTable = ({ discounts, loading, error }) => {
                       href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
                     >
                       <td className={styles.column1}>
-                        <h5>{discount.SEO_meta_title}</h5>
+                        <h5>{discount.title}</h5>
                       </td>
                     </Link>
                     <Link

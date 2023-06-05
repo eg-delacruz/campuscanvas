@@ -156,7 +156,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       //This attribute of "discount_external_key" is currently not being used, but leave it here since the current entries in the DB have it
       discount_external_key: '',
       title,
-      SEO_meta_title: card_title,
+      SEO_meta_title: title,
       brand,
       category,
       banner: {
@@ -1115,6 +1115,7 @@ async function updateDiscount(data, new_banner, updated_by) {
       if (discount) {
         //Update discount
         discount.title = title;
+        discount.SEO_meta_title = title;
         discount.description = description;
         discount.affiliate_link = affiliate_link;
         discount.discount_code.code = discount_code;
