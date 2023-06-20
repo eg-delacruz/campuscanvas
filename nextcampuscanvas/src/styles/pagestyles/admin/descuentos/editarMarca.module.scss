@@ -1,5 +1,6 @@
 @import '../../../Vars.scss';
 @import '../../../Animations/dotLoadingButton.module.scss';
+@import '../../../singleElementsStyles/tooltip.module.scss';
 
 //Loadint state while displaying page
 /////////////////////////
@@ -126,6 +127,14 @@
           color: $color--dark-gray;
         }
       }
+    }
+  }
+
+  .brand_slug_container {
+    max-width: 360px;
+    margin-top: 16px;
+    .brand_slug_input {
+      margin-bottom: 0;
     }
   }
 

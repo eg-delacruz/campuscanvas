@@ -17,6 +17,11 @@ const BrandInfoSchema = new mongoose.Schema({
       required: [true, 'La URL del logo de la marca es necesario'],
     },
   },
+  brand_slug: {
+    type: String,
+    required: [true, 'El slug de la marca es necesario'],
+    unique: true,
+  },
   sponsors_box: {
     type: Boolean,
     required: [true, 'La caja de patrocinadores es necesaria'],

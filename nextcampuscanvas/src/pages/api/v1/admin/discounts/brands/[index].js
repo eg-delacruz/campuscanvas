@@ -66,6 +66,7 @@ router
     const data = {
       brand_name: body.brand_name,
       brand_logo: files,
+      brand_slug: body.brand_slug,
       sponsors_box: body.sponsors_box,
       brand_description: body.brand_description,
       affiliate_program: body.affiliate_program,
@@ -102,6 +103,17 @@ router
           error.message
         );
       }
+
+      if (error.message === 'Este slug ya existe, utiliza otro') {
+        return errorResponse(
+          req,
+          res,
+          'Este slug ya existe, utiliza otro',
+          400,
+          error.message
+        );
+      }
+
       errorResponse(req, res, 'Error al crear marca', 400, error);
     }
   })
@@ -123,10 +135,11 @@ router
       return;
     }
 
-    //Default case
+    //Default case (update brand info)
     const data = {
       id: body.id,
       brand_logo: files,
+      brand_slug: body.brand_slug,
       sponsors_box: body.sponsors_box,
       brand_description: body.brand_description,
       affiliate_program: body.affiliate_program,

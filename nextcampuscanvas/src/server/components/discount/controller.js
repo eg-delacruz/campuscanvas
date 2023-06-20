@@ -21,6 +21,7 @@ import { shuffleArray } from '@server/services/shuffleArray';
 const createNewBrand = async ({
   brand_name,
   brand_logo,
+  brand_slug,
   sponsors_box,
   brand_description,
   affiliate_program,
@@ -35,15 +36,29 @@ const createNewBrand = async ({
   }
 
   try {
-    //Check if brand name already exists in DB
-    const brand_name_exists = await brandInfo_Store.brandAlreadyExists(
-      brand_name
-    );
-    if (brand_name_exists) {
-      console.log(
-        '[discount controller error] Esta marca ya ha sido creada, utiliza otro nombre'
-      );
-      throw new Error('Esta marca ya ha sido creada, utiliza otro nombre');
+    //Check if brand name and slug already exist
+    const [brand_name_promise, brand_slug_promise] = await Promise.allSettled([
+      brandInfo_Store.brandAlreadyExists(brand_name),
+      brandInfo_Store.brandSlugAlreadyExists(brand_slug),
+    ]);
+
+    if (
+      brand_name_promise.status === 'fulfilled' &&
+      brand_slug_promise.status === 'fulfilled'
+    ) {
+      if (brand_name_promise.value === true) {
+        console.log(
+          '[discount controller error] Esta marca ya ha sido creada, utiliza otro nombre'
+        );
+        throw new Error('Esta marca ya ha sido creada, utiliza otro nombre');
+      }
+
+      if (brand_slug_promise.value === true) {
+        console.log(
+          '[discount controller error] Este slug ya existe, utiliza otro'
+        );
+        throw new Error('Este slug ya existe, utiliza otro');
+      }
     }
 
     //Uploading logo to AWS3
@@ -55,6 +70,7 @@ const createNewBrand = async ({
         name: uploaded_logo_url[0].name,
         URL: uploaded_logo_url[0].URL,
       },
+      brand_slug,
       sponsors_box,
       brand_description,
       affiliate_program,
@@ -69,6 +85,8 @@ const createNewBrand = async ({
 
     //Saving brand in DB
     const CREATED_BRAND = await brandInfo_Store.add(brand);
+
+    //TODO: Revalidate brand route/create the brand page in SSG
 
     return CREATED_BRAND;
   } catch (error) {
@@ -277,10 +295,12 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       routesToUpdateSSG.push('/');
     }
 
+    //TODO: Add the brand slug to the card by adding the brand id and populating it when sent to the client
     //Create card
     const card = {
       discount_id: CREATED_DISCOUNT._id.toString(),
       title: card_title,
+      //We pass the brand id to get the brand logo when populating the card
       brand_logo: brand,
       banner: {
         name: uploaded_banner_url[0].name,
@@ -547,9 +567,11 @@ const getDiscountsByBrand = async (brandID) => {
   }
 };
 
+//TODO: update brand page if the slug or description change (and everything else that affects that page)
 const updateBrand = async ({
   id,
   brand_logo,
+  brand_slug,
   sponsors_box,
   brand_description,
   affiliate_program,
@@ -668,6 +690,7 @@ const updateBrand = async ({
       //Update brand in DB
       brand.sponsors_box = sponsors_box;
       brand.brand_description = brand_description;
+      brand.brand_slug = brand_slug;
       brand.affiliate_program = affiliate_program;
       brand.notes = notes;
       brand.updated_by = updated_by;

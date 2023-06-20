@@ -111,6 +111,12 @@ const editarMarca = () => {
   const [descriptionLength, setDescriptionLength] = useState(0);
   const [showEliminateModal, setShowEliminateModal] = useState(false);
 
+  //Controlling inputs
+  const SPONSORS_BOX = useInputValue(state.brand?.sponsors_box);
+  const BRAND_SLUG = useInputValue(state.brand?.brand_slug);
+  const AFFILIATE_PROGRAM = useInputValue('');
+  const NOTES = useInputValue('');
+
   //Get brand id
   const router = useRouter();
   const id = router.query.id;
@@ -148,6 +154,7 @@ const editarMarca = () => {
       if (brand) {
         setState({ ...state, brand, loading: false });
         SPONSORS_BOX.setValue(brand.sponsors_box);
+        BRAND_SLUG.setValue(brand.brand_slug);
         setDescription(brand.brand_description);
         AFFILIATE_PROGRAM.setValue(brand.affiliate_program);
         NOTES.setValue(brand.notes);
@@ -189,6 +196,7 @@ const editarMarca = () => {
         setDescription(response.body.brand_description);
         AFFILIATE_PROGRAM.setValue(response.body.affiliate_program);
         NOTES.setValue(response.body?.notes);
+        BRAND_SLUG.setValue(response.body.brand_slug);
       };
       getBrand();
     }
@@ -201,11 +209,6 @@ const editarMarca = () => {
       descriptionRef.current?.unprivilegedEditor.getLength() - 1
     );
   }, [description]);
-
-  //Controlling inputs
-  const SPONSORS_BOX = useInputValue(state.brand?.sponsors_box);
-  const AFFILIATE_PROGRAM = useInputValue('');
-  const NOTES = useInputValue('');
 
   const displayEliminateModal = () => {
     // If this brand has any asociated discounts, show a swal and dont allow to delete
@@ -304,6 +307,7 @@ const editarMarca = () => {
     const formdata = new FormData();
     formdata.append('id', id);
     formdata.append('brand_description', description);
+    formdata.append('brand_slug', BRAND_SLUG.value);
     formdata.append('sponsors_box', SPONSORS_BOX.value);
     formdata.append('brand_logo', newBrandLogo.newLogo[0]);
     formdata.append('affiliate_program', AFFILIATE_PROGRAM.value);
@@ -342,6 +346,7 @@ const editarMarca = () => {
 
     if (
       state.brand.brand_description !== description ||
+      state.brand.brand_slug !== BRAND_SLUG.value ||
       state.brand.affiliate_program !== AFFILIATE_PROGRAM.value ||
       state.brand.notes !== NOTES.value
     ) {
@@ -357,7 +362,7 @@ const editarMarca = () => {
 
     //Update brands
     if (update_cache_only) {
-      //Update brands from cache if descriotion, affiliate program or notes have changed
+      //Update brands from cache if description, slug, affiliate program or notes have changed
       queryClient.setQueryData([adminKeys.brands.all_brands], (oldData) => {
         if (oldData?.length > 0) {
           const updatedBrands = oldData.map((brand) => {
@@ -365,6 +370,7 @@ const editarMarca = () => {
               return {
                 ...brand,
                 brand_description: description,
+                brand_slug: BRAND_SLUG.value,
                 affiliate_program: AFFILIATE_PROGRAM.value,
                 notes: NOTES.value,
               };
@@ -519,6 +525,45 @@ const editarMarca = () => {
                   ''
                 )}
 
+                <div className={styles.brand_slug_container}>
+                  <div className={styles.label_tooltip_container}>
+                    <label
+                      htmlFor='brand_slug'
+                      className={`${styles.input_title} `}
+                    >
+                      Slug de la marca
+                    </label>
+                    <span className={styles.tooltip_container}>
+                      ?{' '}
+                      <span className={styles.tooltiptext}>
+                        Necesario para generar la URL de la marca. Evitar usar
+                        tildes y caracteres especiales.
+                      </span>
+                    </span>
+                  </div>
+                  <input
+                    className={`${styles.input} ${styles.brand_slug_input}`}
+                    name='brand_slug'
+                    id='brand_slug'
+                    type='text'
+                    placeholder='Slug de la marca'
+                    autoComplete='off'
+                    value={BRAND_SLUG.value}
+                    onChange={(e) => {
+                      //Eliminate accents, special characters and spaces
+                      BRAND_SLUG.setValue(
+                        e.target.value
+                          .normalize('NFD')
+                          .replace(/[\u0300-\u036f]/g, '')
+                          .replace(/\s+/g, '-')
+                          .replace(/\./g, '')
+                          .toLowerCase()
+                      );
+                    }}
+                    required
+                  />
+                </div>
+
                 <div className={styles.description_container}>
                   <label
                     htmlFor='brand_description'
@@ -601,6 +646,7 @@ const editarMarca = () => {
                     state.saving_changes && styles.buttonLoading
                   } ${
                     state.brand.brand_description === description &&
+                    state.brand.brand_slug === BRAND_SLUG.value &&
                     newBrandLogo.newLogo.length === 0 &&
                     state.brand.sponsors_box === SPONSORS_BOX.value &&
                     state.brand.affiliate_program === AFFILIATE_PROGRAM.value &&
@@ -612,6 +658,7 @@ const editarMarca = () => {
                   disabled={
                     state.saving_changes ||
                     (state.brand.brand_description === description &&
+                      state.brand.brand_slug === BRAND_SLUG.value &&
                       newBrandLogo.newLogo.length === 0 &&
                       state.brand.sponsors_box === SPONSORS_BOX.value &&
                       state.brand.affiliate_program ===

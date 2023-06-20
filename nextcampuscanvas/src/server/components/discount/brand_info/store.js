@@ -23,6 +23,17 @@ const brandAlreadyExists = async (brand_name) => {
   return false;
 };
 
+/////////////////////Check if brand slug already exists////////////////////////
+const brandSlugAlreadyExists = async (brand_slug) => {
+  const exists = await BrandInfo.exists({
+    brand_slug: brand_slug,
+  });
+  if (exists) {
+    return true;
+  }
+  return false;
+};
+
 /////////////////////Get all brands////////////////////////
 const getBrands = async () => {
   return await BrandInfo.find({});
@@ -61,6 +72,7 @@ const getCount = async () => {
 module.exports = {
   add: createBrand,
   brandAlreadyExists,
+  brandSlugAlreadyExists,
   getBrands,
   getById: getBrandById,
   update: updateBrand,

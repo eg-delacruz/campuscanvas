@@ -1,5 +1,6 @@
 @import '../../../../../../styles/Vars.scss';
 @import '../../../../../../styles/Animations/dotLoadingButton.module.scss';
+@import '../../../../../../styles/singleElementsStyles/tooltip.module.scss';
 
 .modal {
   padding: 0 30px;
@@ -50,6 +51,10 @@
 
   .brand_name_input {
     max-width: 200px;
+  }
+
+  .brand_slug_container {
+    max-width: 360px;
   }
 
   .description_container {

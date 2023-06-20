@@ -75,6 +75,7 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
     uploading: false,
   });
   const [description, setDescription] = useState('');
+  const [slug_from_brand_name, setSlugFromBrandName] = useState(true);
   const [descriptionLength, setDescriptionLength] = useState(0);
   const [files, setFiles] = useState([]);
 
@@ -88,6 +89,7 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
   //Controlling inputs
   const BRAND_NAME = useInputValue('');
   const SPONSORS_BOX = useInputValue(false);
+  const BRAND_SLUG = useInputValue('');
   const AFFILIATE_PROGRAM = useInputValue('');
   const NOTES = useInputValue('');
 
@@ -113,6 +115,7 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
       });
     }
 
+    //Handling errors
     if (!descriptionLength) {
       setState({
         ...state,
@@ -129,6 +132,7 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
 
     const formdata = new FormData();
     formdata.append('brand_name', BRAND_NAME.value);
+    formdata.append('brand_slug', BRAND_SLUG.value);
     formdata.append('brand_description', description);
     formdata.append('affiliate_program', AFFILIATE_PROGRAM.value);
     formdata.append('notes', NOTES.value);
@@ -212,7 +216,21 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
                 placeholder='Nombre de la marca'
                 autoComplete='off'
                 value={BRAND_NAME.value}
-                onChange={BRAND_NAME.onChange}
+                onChange={(e) => {
+                  BRAND_NAME.onChange(e);
+                  if (slug_from_brand_name) {
+                    //Set the slug value to the brand name
+                    BRAND_SLUG.setValue(
+                      //Eliminate accents, special characters and spaces
+                      e.target.value
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                        .replace(/\s+/g, '-')
+                        .replace(/\./g, '')
+                        .toLowerCase()
+                    );
+                  }
+                }}
                 required
               />
             </div>
@@ -220,6 +238,54 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
               message='La marca patrocina Campus Box 🎁'
               required={false}
               state={SPONSORS_BOX}
+            />
+          </div>
+
+          <div className={styles.brand_slug_container}>
+            <div className={styles.label_tooltip_container}>
+              <label htmlFor='brand_slug' className={`${styles.input_title} `}>
+                Slug de la marca
+              </label>
+              <span className={styles.tooltip_container}>
+                ?{' '}
+                <span className={styles.tooltiptext}>
+                  Necesario para generar la URL de la marca. Evitar usar tildes
+                  y caracteres especiales.
+                </span>
+              </span>
+            </div>
+            <input
+              className={`${styles.input} ${styles.brand_slug_input}`}
+              name='brand_slug'
+              id='brand_slug'
+              type='text'
+              placeholder='Slug de la marca'
+              autoComplete='off'
+              value={
+                slug_from_brand_name
+                  ? //Eliminate accents, special characters and spaces
+                    BRAND_NAME.value
+                      .normalize('NFD')
+                      .replace(/[\u0300-\u036f]/g, '')
+                      .replace(/\s+/g, '-')
+                      .replace(/\./g, '')
+                      .toLowerCase()
+                  : BRAND_SLUG.value
+              }
+              onChange={(e) => {
+                setSlugFromBrandName(false);
+                //Eliminate accents, special characters and spaces
+
+                BRAND_SLUG.setValue(
+                  e.target.value
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/\./g, '')
+                    .toLowerCase()
+                );
+              }}
+              required
             />
           </div>
 

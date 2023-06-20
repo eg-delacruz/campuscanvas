@@ -1,0 +1,52 @@
+@import '../Vars.scss';
+
+//CLARIFICATIONS:
+//This styles have to be used by implementing the tooltip elements in the right way together with input elements. See nuevo-descuento.jsx component for an example
+
+/////////////////////////
+//    Tooltip styles    //
+/////////////////////////
+
+.label_tooltip_container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+}
+
+.tooltip_container {
+  position: relative;
+  @include font-size(14px);
+  font-weight: bold;
+  top: -6px;
+  background-color: $color--light-gray;
+  border: 2px solid $color--dark-gray;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $color--primary1;
+  cursor: default;
+  .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    width: 120px;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+  }
+}
+.tooltip_container:hover .tooltiptext {
+  visibility: visible;
+}
