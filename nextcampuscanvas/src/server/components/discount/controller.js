@@ -295,13 +295,13 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       routesToUpdateSSG.push('/');
     }
 
-    //TODO: Add the brand slug to the card by adding the brand id and populating it when sent to the client
     //Create card
     const card = {
       discount_id: CREATED_DISCOUNT._id.toString(),
       title: card_title,
-      //We pass the brand id to get the brand logo when populating the card
+      //We pass the brand id to get the brand logo when fetching the card by populating the brand_logo field
       brand_logo: brand,
+      brand_slug: brand,
       banner: {
         name: uploaded_banner_url[0].name,
         URL: uploaded_banner_url[0].URL,
@@ -567,7 +567,7 @@ const getDiscountsByBrand = async (brandID) => {
   }
 };
 
-//TODO: update brand page if the slug or description change (and everything else that affects that page)
+//TODO: update brand page and related discounts pages if the slug or description change (and everything else that affects that page)
 const updateBrand = async ({
   id,
   brand_logo,

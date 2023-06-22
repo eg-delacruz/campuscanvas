@@ -101,8 +101,9 @@ const deleteByDiscountId = async (discount_id) => {
 ///////////////////// Get card by discount id //////////////////////////////
 const getByDiscountId = async (discount_id) => {
   return await Card.findOne({ discount_id })
-    //We populate the brand_logo field of the card with the brand_logo field of the brand_info model
+    //We populate the brand_logo and brand_slug fields of the card with the brand_logo and brand_slug fields of the brand_info model
     .populate({ path: 'brand_logo', model: BrandInfo, select: 'brand_logo' })
+    .populate({ path: 'brand_slug', model: BrandInfo, select: 'brand_slug' })
     .exec();
 };
 

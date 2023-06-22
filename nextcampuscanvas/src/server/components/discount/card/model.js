@@ -17,6 +17,11 @@ const CardSchema = new mongoose.Schema({
     required: [true, 'El logo de la marca es necesario'],
     ref: 'BrandInfo',
   },
+  brand_slug: {
+    type: Schema.ObjectId,
+    required: [true, 'El slug de la marca es necesario'],
+    ref: 'BrandInfo',
+  },
   banner: {
     name: {
       type: String,
