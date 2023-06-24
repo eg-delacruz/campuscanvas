@@ -24,7 +24,8 @@
 
   .input,
   .description_text_area,
-  .notes_text_area {
+  .notes_text_area,
+  .meta_description_text_area {
     width: 100%;
     background-color: $color--secondary-light;
     border: 1px solid $color--black;
@@ -76,6 +77,30 @@
     }
   }
 
+  .upper_headings_container {
+    margin-bottom: 30px;
+  }
+
+  .FAQs_container {
+    margin-bottom: 30px;
+  }
+
+  .meta_data_container {
+    .tab_title_meta_name_container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .tab_title_meta_name_container > div {
+      width: 49%;
+    }
+
+    .meta_description_text_area {
+      min-height: 80px;
+      margin-bottom: 0;
+    }
+  }
+
   .notes_text_area {
     min-height: 60px;
   }
@@ -99,6 +124,10 @@
         margin-bottom: 0;
       }
     }
+
+    .brand_slug_container {
+      margin-top: 16px;
+    }
   }
 }
 ////////////////////////////////////////480/////////////////////////////////////////////
@@ -106,5 +135,14 @@
 @media screen and (max-width: 480px) {
   .modal {
     padding: 0;
+
+    .meta_data_container {
+      .tab_title_meta_name_container {
+        display: initial;
+      }
+      .tab_title_meta_name_container > div {
+        width: 100%;
+      }
+    }
   }
 }

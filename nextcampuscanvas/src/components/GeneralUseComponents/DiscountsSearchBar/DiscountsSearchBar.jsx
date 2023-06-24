@@ -226,6 +226,7 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
                         title={card.title}
                         brand_logo={card.brand_logo.brand_logo.URL}
                         brand_name={card.brand_name}
+                        brand_slug={card.brand_slug.brand_slug}
                       />
                     ))}
                   </div>

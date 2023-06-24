@@ -55,6 +55,14 @@ export default async function handler(req, res) {
             successResponse(req, res, allCards, 201);
             break;
 
+          //Get all available cards by brand
+          case 'all_available_by_brand':
+            const { brand_id } = req.headers;
+            const allAvailableCardsByBrand =
+              await Controller.getAvailableCardsByBrandId(brand_id);
+            successResponse(req, res, allAvailableCardsByBrand, 201);
+            break;
+
           case 'fashion':
             const fashionCards =
               await Controller.getAvailableDiscountCardsByCategory(

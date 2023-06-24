@@ -29,7 +29,7 @@ export default async function handler(req, res) {
 
   const { body, method } = req;
 
-  //GET card by discount id
+  //GET card by search term
   switch (method) {
     case 'GET':
       const { page, limit } = req.headers;

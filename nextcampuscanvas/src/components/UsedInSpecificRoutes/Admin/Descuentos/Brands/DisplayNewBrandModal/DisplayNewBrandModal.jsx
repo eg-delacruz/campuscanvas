@@ -46,7 +46,9 @@ const modules = {
     [{ header: [1, 2, 3, 4, 5, 6, false] }],
     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
     [{ list: 'ordered' }, { list: 'bullet' }],
-    ['link', 'image'],
+    //To add images, uncomment the following line and erase the next one
+    //['link', 'image'],
+    ['link'],
     ['clean'],
   ],
 };
@@ -76,6 +78,8 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
   });
   const [description, setDescription] = useState('');
   const [slug_from_brand_name, setSlugFromBrandName] = useState(true);
+  const [upperHeadings, setUpperHeadings] = useState('');
+  const [FAQs, setFAQs] = useState('');
   const [descriptionLength, setDescriptionLength] = useState(0);
   const [files, setFiles] = useState([]);
 
@@ -90,6 +94,9 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
   const BRAND_NAME = useInputValue('');
   const SPONSORS_BOX = useInputValue(false);
   const BRAND_SLUG = useInputValue('');
+  const TAB_TITLE = useInputValue('');
+  const META_NAME = useInputValue('');
+  const META_DESCRIPTION = useInputValue('');
   const AFFILIATE_PROGRAM = useInputValue('');
   const NOTES = useInputValue('');
 
@@ -130,14 +137,41 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
       return false;
     }
 
+    if (
+      TAB_TITLE.value.length === 0 ||
+      META_NAME.value.length === 0 ||
+      META_DESCRIPTION.value.length === 0
+    ) {
+      setState({
+        ...state,
+        error: 'Debes llenar todos los campos de metadatos',
+      });
+      setTimeout(() => {
+        setState({
+          ...state,
+          error: null,
+        });
+      }, 3000);
+      return false;
+    }
+
     const formdata = new FormData();
     formdata.append('brand_name', BRAND_NAME.value);
+    formdata.append('sponsors_box', SPONSORS_BOX.value);
     formdata.append('brand_slug', BRAND_SLUG.value);
+    formdata.append('brand_logo', files[0]);
     formdata.append('brand_description', description);
+    //This is to avoid sending <p><br></p> when the user hasnt written anything, since when the field is empty, the value is <p><br></p>
+    formdata.append(
+      'upper_headings',
+      upperHeadings === '<p><br></p>' ? '' : upperHeadings
+    );
+    formdata.append('faqs', FAQs === '<p><br></p>' ? '' : FAQs);
+    formdata.append('tab_title', TAB_TITLE.value);
+    formdata.append('meta_name', META_NAME.value);
+    formdata.append('meta_description', META_DESCRIPTION.value);
     formdata.append('affiliate_program', AFFILIATE_PROGRAM.value);
     formdata.append('notes', NOTES.value);
-    formdata.append('brand_logo', files[0]);
-    formdata.append('sponsors_box', SPONSORS_BOX.value);
 
     setState({ ...state, uploading: true });
 
@@ -232,6 +266,7 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
                   }
                 }}
                 required
+                autoFocus
               />
             </div>
             <CustomCheckBox
@@ -289,12 +324,26 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
             />
           </div>
 
+          <label className={`${styles.input_title}`}>
+            Logo en SVG o PNG de 230 x 230 px
+          </label>
+
+          <DragDropUploadArea
+            onFileChange={(files) => {
+              setFiles(files);
+            }}
+            maxAllowedFiles={1}
+            maxSizeFilesBytes={4194304}
+            allowedFileFormats={['svg', 'jpg', 'jpeg', 'png']}
+            minimizedVersion={true}
+          />
+
           <div className={styles.description_container}>
             <label
               htmlFor='brand_description'
               className={`${styles.input_title}`}
             >
-              Descripción
+              Descripción de la marca
             </label>
             <div className={styles.quill_editor}>
               <ReactQuill
@@ -314,6 +363,98 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
               <span>{descriptionLength} / 520</span>
             </p>
           </div>
+
+          <div className={styles.upper_headings_container}>
+            <label htmlFor='upper_headings' className={`${styles.input_title}`}>
+              Encabezados superiores (H1 + párrafo + H2)
+            </label>
+            <div className={styles.quill_editor}>
+              <ReactQuill
+                id='upper_headings'
+                modules={modules}
+                formats={formats}
+                value={upperHeadings}
+                onChange={setUpperHeadings}
+              />
+            </div>
+          </div>
+
+          <div className={styles.FAQs_container}>
+            <label htmlFor='FAQs' className={`${styles.input_title}`}>
+              Preguntas frecuentes (Pequeña descripción + H3 + párrafo por
+              pregunta)
+            </label>
+            <div className={styles.quill_editor}>
+              <ReactQuill
+                id='FAQs'
+                modules={modules}
+                formats={formats}
+                value={FAQs}
+                onChange={setFAQs}
+              />
+            </div>
+          </div>
+
+          <h3>Meta datos</h3>
+          <div className={styles.meta_data_container}>
+            <div className={styles.tab_title_meta_name_container}>
+              <div className={styles.tab_title}>
+                <label htmlFor='tab_title' className={`${styles.input_title}`}>
+                  Título de la pestaña
+                </label>
+                <input
+                  className={`${styles.input} ${styles.tab_title_input}`}
+                  name='tab_title'
+                  id='tab_title'
+                  type='text'
+                  placeholder='Título de la pestaña'
+                  autoComplete='off'
+                  value={TAB_TITLE.value}
+                  onChange={TAB_TITLE.onChange}
+                  required
+                />
+              </div>
+
+              <div className={styles.meta_name}>
+                <label htmlFor='meta_name' className={`${styles.input_title}`}>
+                  Nombre de la etiqueta meta
+                </label>
+                <input
+                  className={`${styles.input} ${styles.meta_name_input}`}
+                  name='meta_name'
+                  id='meta_name'
+                  type='text'
+                  placeholder='Nombre de la etiqueta meta'
+                  autoComplete='off'
+                  value={META_NAME.value}
+                  onChange={META_NAME.onChange}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className={styles.meta_description_container}>
+              <label
+                htmlFor='meta_description'
+                className={`${styles.input_title}`}
+              >
+                Meta descripción
+              </label>
+              <textarea
+                className={`${styles.meta_description_text_area}`}
+                name='meta_description'
+                id='meta_description'
+                type='text'
+                placeholder='Meta descripción'
+                autoComplete='off'
+                value={META_DESCRIPTION.value}
+                onChange={META_DESCRIPTION.onChange}
+                required
+              />
+            </div>
+          </div>
+
+          <h3>Información extra</h3>
 
           <div>
             <label
@@ -349,20 +490,6 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
               onChange={NOTES.onChange}
             />
           </div>
-
-          <label className={`${styles.input_title}`}>
-            Logo en SVG o PNG de 230 x 230 px
-          </label>
-
-          <DragDropUploadArea
-            onFileChange={(files) => {
-              setFiles(files);
-            }}
-            maxAllowedFiles={1}
-            maxSizeFilesBytes={4194304}
-            allowedFileFormats={['svg', 'jpg', 'jpeg', 'png']}
-            minimizedVersion={true}
-          />
 
           {state.error && <p className='error__messagev2'>{state.error}</p>}
 

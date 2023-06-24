@@ -23,6 +23,7 @@
 
 .input,
 .description_text_area,
+.meta_description_text_area,
 .notes_text_area {
   width: 100%;
   background-color: $color--secondary-light;
@@ -107,6 +108,12 @@
     }
     h1 {
       @include font-size(40px);
+      a {
+        color: $color--black;
+      }
+      a:hover {
+        opacity: 0.8;
+      }
     }
   }
 
@@ -154,6 +161,30 @@
     }
     .description_char_count {
       margin: 0;
+    }
+  }
+
+  .upper_headings_container {
+    margin-bottom: 30px;
+  }
+
+  .FAQs_container {
+    margin-bottom: 30px;
+  }
+
+  .meta_data_container {
+    .tab_title_meta_name_container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .tab_title_meta_name_container > div {
+      width: 49%;
+    }
+
+    .meta_description_text_area {
+      min-height: 80px;
+      margin-bottom: 0;
     }
   }
 
@@ -320,6 +351,14 @@
 
 @media screen and (max-width: 480px) {
   .container {
+    .meta_data_container {
+      .tab_title_meta_name_container {
+        display: initial;
+      }
+      .tab_title_meta_name_container > div {
+        width: 100%;
+      }
+    }
     /////////////////////////
     // Associated discounts //
     /////////////////////////

@@ -56,6 +56,7 @@ const Discount = ({ discount }) => {
 
 export default Discount;
 
+//TODO: Check if the getStaicPaths and getStaticProps are working correctly in production
 //Pre-render these paths when building the app and fallback: 'blocking' to build new added discounts on demand in production.
 export async function getStaticPaths() {
   const response = await axiosFetcher({
@@ -66,7 +67,8 @@ export async function getStaticPaths() {
 
   const paths = response.body.cards.map((card) => ({
     params: {
-      id: card._id,
+      discountId: card._id,
+      brand_slug: card.brand_slug.brand_slug,
     },
   }));
 
@@ -83,23 +85,34 @@ export async function getStaticPaths() {
 //Pre-render the discount with the id passed in the path
 export async function getStaticProps({ params }) {
   //with the optional chaining, since params could be undefined
-  const id = params?.id;
+  const discountId = params?.discountId;
+  const brand_slug = params?.brand_slug;
 
   //Necesitamos que sea un string, pues puede venir un array o undefined, dependiendo de cuántos parámetros ponemos en el slug separados por un /, o si directamente no ponemos nada. (Creo)
-  if (typeof id !== 'string') {
+  if (typeof discountId !== 'string') {
     return {
       notFound: true,
     };
   }
 
   const response = await axiosFetcher({
-    url: endPoints.discounts.getDiscountById(id),
+    url: endPoints.discounts.getDiscountById(discountId),
     method: 'get',
   });
 
   if (response.error || response.body.status === 'unavailable') {
     return {
       notFound: true,
+    };
+  }
+
+  //If the brand_slug in the url doesn't match the brand_slug in the discount, redirect to the correct url
+  if (response.body.brand.brand_slug !== brand_slug) {
+    return {
+      redirect: {
+        destination: `/descuentos/${response.body.brand.brand_slug}/${discountId}`,
+        permanent: true,
+      },
     };
   }
 

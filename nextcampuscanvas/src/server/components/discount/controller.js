@@ -18,17 +18,45 @@ import Card_Store from '@server/components/discount/card/store';
 //Service functions
 import { shuffleArray } from '@server/services/shuffleArray';
 
+//Client cleaner functions
+const cleanBrandForClient = (brand) => {
+  let cleanedBrand = brand.toObject();
+  delete cleanedBrand.__v;
+  delete cleanedBrand.affiliate_program;
+  delete cleanedBrand.created_by;
+  delete cleanedBrand.updated_by;
+  delete cleanedBrand.created_at;
+  delete cleanedBrand.updated_at;
+  delete cleanedBrand.notes;
+  delete cleanedBrand.affiliate_program;
+  delete cleanedBrand.last_time_checked_since_brand_has_no_discounts;
+  return cleanedBrand;
+};
+
 const createNewBrand = async ({
   brand_name,
   brand_logo,
   brand_slug,
   sponsors_box,
   brand_description,
+  upper_headings,
+  faqs,
+  tab_title,
+  meta_name,
+  meta_description,
   affiliate_program,
   notes,
   created_by,
 }) => {
-  if (!brand_name || !brand_logo || !brand_description || !created_by) {
+  if (
+    !brand_name ||
+    !brand_logo ||
+    !brand_description ||
+    !tab_title ||
+    !meta_name ||
+    !meta_description ||
+    !created_by
+  ) {
     console.log(
       '[discount controller error] Información insuficiente para crear marca'
     );
@@ -73,6 +101,11 @@ const createNewBrand = async ({
       brand_slug,
       sponsors_box,
       brand_description,
+      upper_headings,
+      faqs,
+      tab_title,
+      meta_name,
+      meta_description,
       affiliate_program,
       notes,
       discounts_attached: 0,
@@ -86,9 +119,12 @@ const createNewBrand = async ({
     //Saving brand in DB
     const CREATED_BRAND = await brandInfo_Store.add(brand);
 
-    //TODO: Revalidate brand route/create the brand page in SSG
+    //Revalidate brand route/create the brand page in SSG
+    let routesToUpdateSSG = [];
 
-    return CREATED_BRAND;
+    routesToUpdateSSG.push(`/descuentos/${CREATED_BRAND.brand_slug}`);
+
+    return { brand: CREATED_BRAND, routesToUpdateSSG };
   } catch (error) {
     console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
@@ -215,8 +251,11 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       routesToUpdateSSG.push('/descuentos/todos');
 
       //Updating discount route
-      //In case /student/descuentos is also SSG, uptade that route here as well
-      routesToUpdateSSG.push(`/descuentos/${CREATED_DISCOUNT._id.toString()}`);
+      routesToUpdateSSG.push(
+        `/descuentos/${
+          brand_info.brand_slug
+        }/${CREATED_DISCOUNT._id.toString()}`
+      );
 
       //Updating category route
       switch (CREATED_DISCOUNT.category) {
@@ -472,8 +511,7 @@ const eliminateDiscountData = async (id, bannerName) => {
       routesToUpdateSSG.push('/descuentos/todos');
 
       //Updating discount route
-      //In case /student/descuentos is also SSG, uptade that route here as well
-      routesToUpdateSSG.push(`/descuentos/${id}`);
+      routesToUpdateSSG.push(`/descuentos/${brand.brand_slug}/${id}`);
 
       //Upadting home if needed
       if (deleted_card.value.display_in_section) {
@@ -557,6 +595,27 @@ const getBrandById = async (id) => {
   }
 };
 
+const getBrandBySlug = async (slug) => {
+  try {
+    const brand = await brandInfo_Store.getBySlug(slug);
+    return brand;
+  } catch (error) {
+    console.log('[discount controller error]' + error.message);
+    throw new Error(error.message);
+  }
+};
+
+const getBrandBySlugCleanForClient = async (slug) => {
+  try {
+    const brand = await brandInfo_Store.getBySlug(slug);
+    const cleanBrand = cleanBrandForClient(brand);
+    return cleanBrand;
+  } catch (error) {
+    console.log('[discount controller error]' + error.message);
+    throw new Error(error.message);
+  }
+};
+
 const getDiscountsByBrand = async (brandID) => {
   try {
     const discounts = await discountInfo_Store.getByBrand(brandID);
@@ -567,13 +626,17 @@ const getDiscountsByBrand = async (brandID) => {
   }
 };
 
-//TODO: update brand page and related discounts pages if the slug or description change (and everything else that affects that page)
 const updateBrand = async ({
   id,
   brand_logo,
-  brand_slug,
   sponsors_box,
+  brand_slug,
   brand_description,
+  upper_headings,
+  faqs,
+  tab_title,
+  meta_name,
+  meta_description,
   affiliate_program,
   notes,
   updated_by,
@@ -608,7 +671,7 @@ const updateBrand = async ({
           return card.brand_name === brand.brand_name;
         });
 
-      //Update and revalidate only if there is a new logo
+      //Update logo and revalidate affected routes only if there is a new logo
       if (brand_logo.length > 0) {
         const responses = await Promise.allSettled([
           //Upload new logo to AWS
@@ -626,8 +689,9 @@ const updateBrand = async ({
           URL: uploaded_logo.value[0].URL,
         };
 
-        //Revalidate all discounts route
+        //Revalidate all discounts route and the brand route
         routesToUpdateSSG.push('/descuentos/todos');
+        routesToUpdateSSG.push(`/descuentos/${brand_slug}`);
 
         //Check if any card currently appears in home section and revalidate home if true
         const revalidate_home = available_cards_linked_to_brand.some(
@@ -681,9 +745,10 @@ const updateBrand = async ({
         });
 
         //Revalidate affected discount routes
-        //In case /student/descuentos is also SSG, uptade that route here as well
         available_cards_linked_to_brand.forEach((card) => {
-          routesToUpdateSSG.push(`/descuentos/${card.discount_id}`);
+          routesToUpdateSSG.push(
+            `/descuentos/${brand_slug}/${card.discount_id}`
+          );
         });
       }
 
@@ -691,6 +756,11 @@ const updateBrand = async ({
       brand.sponsors_box = sponsors_box;
       brand.brand_description = brand_description;
       brand.brand_slug = brand_slug;
+      brand.upper_headings = upper_headings;
+      brand.faqs = faqs;
+      brand.tab_title = tab_title;
+      brand.meta_name = meta_name;
+      brand.meta_description = meta_description;
       brand.affiliate_program = affiliate_program;
       brand.notes = notes;
       brand.updated_by = updated_by;
@@ -698,13 +768,36 @@ const updateBrand = async ({
 
       updated_Brand = await brandInfo_Store.update(brand);
 
-      //Revalidate linked discounts if there is a new description
-      if (PREVIOUS_BRAND.brand_description !== brand.brand_description) {
+      //Revalidate brand page if anything but the sponsors_box, notes or the affiliate_program change
+      if (
+        PREVIOUS_BRAND.brand_slug !== updated_Brand.brand_slug ||
+        PREVIOUS_BRAND.brand_description !== updated_Brand.brand_description ||
+        PREVIOUS_BRAND.upper_headings !== updated_Brand.upper_headings ||
+        PREVIOUS_BRAND.faqs !== updated_Brand.faqs ||
+        PREVIOUS_BRAND.tab_title !== updated_Brand.tab_title ||
+        PREVIOUS_BRAND.meta_name !== updated_Brand.meta_name ||
+        PREVIOUS_BRAND.meta_description !== updated_Brand.meta_description
+      ) {
+        if (!routesToUpdateSSG.includes(`/descuentos/${brand_slug}`)) {
+          routesToUpdateSSG.push(`/descuentos/${brand_slug}`);
+        }
+      }
+
+      //Revalidate linked discounts pages if there is a new description or a new slug
+      if (
+        PREVIOUS_BRAND.brand_description !== brand.brand_description ||
+        PREVIOUS_BRAND.brand_slug !== brand.brand_slug
+      ) {
         //Revalidate affected discount routes
-        //In case /student/descuentos is also SSG, uptade that route here as well
         available_cards_linked_to_brand.forEach((card) => {
-          if (!routesToUpdateSSG.includes(`/descuentos/${card.discount_id}`)) {
-            routesToUpdateSSG.push(`/descuentos/${card.discount_id}`);
+          if (
+            !routesToUpdateSSG.includes(
+              `/descuentos/${updated_Brand.brand_slug}/${card.discount_id}`
+            )
+          ) {
+            routesToUpdateSSG.push(
+              `/descuentos/${updated_Brand.brand_slug}/${card.discount_id}`
+            );
           }
         });
       }
@@ -741,6 +834,8 @@ const deleteBrand = async (id, brandLogoFileName) => {
       );
     }
 
+    let routesToUpdateSSG = [];
+
     const responses = await Promise.allSettled([
       //Delete brand logo from aws
       s3Deletev3_brand_logos([brandLogoFileName]),
@@ -762,6 +857,11 @@ const deleteBrand = async (id, brandLogoFileName) => {
       );
       throw new Error('Error al eliminar marca');
     }
+
+    //Revalidate brand page
+    routesToUpdateSSG.push(`/descuentos/${deleted_brand.value.brand_slug}`);
+
+    return routesToUpdateSSG;
   } catch (error) {
     console.error(
       '[discount controller | deleteBrand function error]' + error.message
@@ -935,6 +1035,27 @@ async function getCardByDiscountId(discount_id) {
     throw new Error(error.message);
   }
 }
+
+const getAvailableCardsByBrandId = async (brand_id) => {
+  try {
+    if (!brand_id) {
+      console.error(
+        '[discount controller | getAvailableCardsByBrandId function error] Información insuficiente para obtener datos'
+      );
+      throw new Error('Información insuficiente para obtener datos');
+    }
+
+    const cards = await Card_Store.getAvailableCardsByBrandId(brand_id);
+
+    return cards;
+  } catch (error) {
+    console.error(
+      '[discount controller | getAvailableCardsByBrandId function error]' +
+        error.message
+    );
+    throw new Error(error.message);
+  }
+};
 
 const getHomeSectionsCardsCount = async () => {
   try {
@@ -1129,8 +1250,7 @@ async function updateDiscount(data, new_banner, updated_by) {
 
     if (exclusive_discount_information_was_modified) {
       //Get discount to be updated
-      const discount =
-        await discountInfo_Store.getDiscountByIdWithoutPopulation(discount_id);
+      const discount = await discountInfo_Store.getDiscountById(discount_id);
 
       const PREVIOUS_DISCOUNT = {
         ...discount.toObject(),
@@ -1158,8 +1278,10 @@ async function updateDiscount(data, new_banner, updated_by) {
         }
 
         //Revalidating discount route
-        //In case /student/descuentos is also SSG, uptade that route here as well
-        routesToUpdateSSG.push(`/descuentos/${discount_id}`);
+        const brand_slug_for_revalidation = updated_discount.brand.brand_slug;
+        routesToUpdateSSG.push(
+          `/descuentos/${brand_slug_for_revalidation}/${discount_id}`
+        );
       }
     }
 
@@ -1314,7 +1436,7 @@ async function updateDiscount(data, new_banner, updated_by) {
         expiration_date === 'null' ? null : new Date(expiration_date);
       const responses = await Promise.allSettled([
         //Get the discount to be updated
-        discountInfo_Store.getDiscountByIdWithoutPopulation(discount_id),
+        discountInfo_Store.getDiscountById(discount_id),
 
         //Get the card to be updated
         Card_Store.getByDiscountIdWithoutPopulation(discount_id),
@@ -1431,8 +1553,16 @@ async function updateDiscount(data, new_banner, updated_by) {
             }
 
             //Allways update the discount
-            if (!routesToUpdateSSG.includes(`/descuentos/${discount_id}`)) {
-              routesToUpdateSSG.push(`/descuentos/${discount_id}`);
+            const brand_slug_for_revalidation =
+              updated_discount.value.brand.brand_slug;
+            if (
+              !routesToUpdateSSG.includes(
+                `/descuentos/${brand_slug_for_revalidation}/${discount_id}`
+              )
+            ) {
+              routesToUpdateSSG.push(
+                `/descuentos/${brand_slug_for_revalidation}/${discount_id}`
+              );
             }
 
             //Allways update the category
@@ -1641,6 +1771,8 @@ module.exports = {
   createNewBrand,
   getBrands,
   getBrandById,
+  getBrandBySlug,
+  getBrandBySlugCleanForClient,
   updateBrand,
   deleteBrand,
   getBrandsCount,
@@ -1663,6 +1795,7 @@ module.exports = {
   getAvailableDiscountCardsByCategory,
   getHomeSectionsCards,
   getCardByDiscountId,
+  getAvailableCardsByBrandId,
   getHomeSectionsCardsCount,
   getShowFirstInCategoryCount,
   getShowFirstInAllDiscountsCount,

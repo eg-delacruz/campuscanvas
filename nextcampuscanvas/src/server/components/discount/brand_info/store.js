@@ -51,6 +51,18 @@ const getBrandById = async (id) => {
   return brand;
 };
 
+/////////////////////Get brand by slug////////////////////////
+const getBrandBySlug = async (slug) => {
+  const brand = await BrandInfo.findOne({
+    brand_slug: slug,
+  });
+  if (!brand) {
+    console.log('[db] Brand not found');
+    throw new Error('Brand not found');
+  }
+  return brand;
+};
+
 ///////////////////// Update brand ////////////////////////
 const updateBrand = async (brand) => {
   const updatedBrand = await brand.save();
@@ -75,6 +87,7 @@ module.exports = {
   brandSlugAlreadyExists,
   getBrands,
   getById: getBrandById,
+  getBySlug: getBrandBySlug,
   update: updateBrand,
   delete: deleteBrand,
   getCount,

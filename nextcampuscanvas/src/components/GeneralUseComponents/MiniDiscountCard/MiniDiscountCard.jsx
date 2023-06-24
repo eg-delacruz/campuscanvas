@@ -12,6 +12,7 @@ import CC_LogoLoader from '@components/GeneralUseComponents/CC_LogoLoader/CC_Log
 //1. This component can get a closeSearchBar function as a prop to close the search bar when the user clicks on the card
 const MiniDiscountCard = ({
   discount_id,
+  brand_slug,
   title,
   brand_logo,
   brand_name,
@@ -45,7 +46,7 @@ const MiniDiscountCard = ({
       }}
       className={styles.card}
     >
-      <Link href={`/descuentos/${discount_id}`}>
+      <Link href={`/descuentos/${brand_slug}/${discount_id}`}>
         <a>
           <div className={styles.discount_logo_container}>
             <span className={styles.span_container}>
@@ -91,4 +92,5 @@ MiniDiscountCard.propTypes = {
   brand_name: PropTypes.string.isRequired,
   closeSearchBar: PropTypes.func,
   clearSearchBar: PropTypes.func,
+  brand_slug: PropTypes.string.isRequired,
 };

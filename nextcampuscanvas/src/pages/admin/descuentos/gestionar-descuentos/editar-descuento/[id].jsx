@@ -1740,6 +1740,7 @@ const editarDescuento = () => {
                             brand_logo={CARD.data?.brand_logo.brand_logo.URL}
                             discount_id={CARD.data?.discount_id}
                             card_tag={CARD_TAG.value}
+                            brand_slug={CARD.data?.brand_slug.brand_slug}
                           />
 
                           {/* /////////////////////////

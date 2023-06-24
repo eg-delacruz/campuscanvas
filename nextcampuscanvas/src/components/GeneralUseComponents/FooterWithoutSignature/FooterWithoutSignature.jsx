@@ -211,7 +211,7 @@ function FooterWithoutSignature() {
               <Image src={Facebook} alt='Enlace a nuestro Facebook' />
             </a>
             <a
-              href='https://www.tiktok.com/@campuscanvas?is_from_webapp=1&sender_device=pc'
+              href='https://www.tiktok.com/@campuscanvas.es'
               rel='noreferrer'
               target='_blank'
             >

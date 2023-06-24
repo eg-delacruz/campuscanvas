@@ -1,6 +1,7 @@
 //Sanitysing dangerouslySetInnerHTML as in: https://www.npmjs.com/package/isomorphic-dompurify
 import DOMPurify from 'isomorphic-dompurify';
 import { useState } from 'react';
+import Link from 'next/link';
 
 //Assets
 import white_background_svg_big from '@assets/GeneralUse/UsedInComponents/Ofertas/white_svg_background_big.svg';
@@ -96,7 +97,11 @@ const DiscountTemplate = ({ discount, children }) => {
         //       Brand info     //
         /////////////////////////*/}
           <section className={styles.brand_info}>
-            <h4>{discount.brand.brand_name}</h4>
+            <h4>
+              <Link href={`/descuentos/${discount.brand.brand_slug}`}>
+                {discount.brand.brand_name}
+              </Link>
+            </h4>
             <div
               className={styles.brand_description}
               dangerouslySetInnerHTML={{

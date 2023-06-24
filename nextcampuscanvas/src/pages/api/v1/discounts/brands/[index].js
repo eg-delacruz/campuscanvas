@@ -50,10 +50,19 @@ export default async function handler(req, res) {
             successResponse(req, res, allBrands, 201);
             break;
 
+          //Get a brand by its id
           case 'single_brand':
             const brandId = req.query.index;
             const singleBrand = await Controller.getBrandById(brandId);
             successResponse(req, res, singleBrand, 201);
+            break;
+
+          //Get a brand by its slug
+          case 'single_brand_by_slug_clean_for_client':
+            const brandSlug = req.query.index;
+            const singleBrandBySlugClean =
+              await Controller.getBrandBySlugCleanForClient(brandSlug);
+            successResponse(req, res, singleBrandBySlugClean, 201);
             break;
 
           case 'brands_count':

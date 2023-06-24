@@ -182,6 +182,12 @@
   padding: 8px;
   h4 {
     margin: 0;
+    a {
+      color: $color--black;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
   }
   .brand_description {
     p {

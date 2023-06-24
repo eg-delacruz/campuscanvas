@@ -31,6 +31,24 @@ const BrandInfoSchema = new mongoose.Schema({
     type: String,
     required: [true, 'La descripción de la marca es necesaria'],
   },
+  upper_headings: {
+    type: String,
+  },
+  faqs: {
+    type: String,
+  },
+  tab_title: {
+    type: String,
+    required: [true, 'El título de la pestaña es necesario'],
+  },
+  meta_name: {
+    type: String,
+    required: [true, 'El nombre de la meta es necesario'],
+  },
+  meta_description: {
+    type: String,
+    required: [true, 'La descripción de la meta es necesaria'],
+  },
   affiliate_program: {
     type: String,
   },

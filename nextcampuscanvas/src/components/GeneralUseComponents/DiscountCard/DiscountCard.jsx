@@ -22,7 +22,15 @@ const DiscountCard = memo(
   //This ref is used for the infinite scroll feature
   forwardRef(
     (
-      { banner, brand_name, brand_logo, title, discount_id, card_tag },
+      {
+        banner,
+        brand_name,
+        brand_logo,
+        title,
+        discount_id,
+        card_tag,
+        brand_slug,
+      },
       lastCardElementRef
     ) => {
       //Loader placeholder while images render (start)
@@ -68,7 +76,7 @@ const DiscountCard = memo(
       return (
         <>
           <article ref={lastCardElementRef} className={styles.discount_card}>
-            <Link href={`/descuentos/${discount_id}`}>
+            <Link href={`/descuentos/${brand_slug}/${discount_id}`}>
               <a>
                 <div className={styles.discount_image_container}>
                   {/* Loader while banner loads (start) */}
@@ -158,4 +166,5 @@ DiscountCard.propTypes = {
   title: PropTypes.string.isRequired,
   discount_id: PropTypes.string.isRequired,
   card_tag: PropTypes.string,
+  brand_slug: PropTypes.string.isRequired,
 };

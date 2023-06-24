@@ -81,6 +81,7 @@ export default function Home(props) {
                       title={card.title}
                       discount_id={card.discount_id}
                       card_tag={card.card_tag}
+                      brand_slug={card.brand_slug.brand_slug}
                     />
                   ))}
                 </div>
@@ -107,6 +108,7 @@ export default function Home(props) {
                       title={card.title}
                       discount_id={card.discount_id}
                       card_tag={card.card_tag}
+                      brand_slug={card.brand_slug.brand_slug}
                     />
                   ))}
                 </div>
@@ -120,10 +122,7 @@ export default function Home(props) {
 
             {home_data.home_sections_cards.mas_descuentos_estudiantes.length !==
               0 && (
-              <section
-                //ref={testRef}
-                className={`${styles.more_discounts} container`}
-              >
+              <section className={`${styles.more_discounts} container`}>
                 <div className={styles.subtitle_glass_container}>
                   <h2>Más descuentos para estudiantes</h2>
                 </div>
@@ -138,6 +137,7 @@ export default function Home(props) {
                         title={card.title}
                         discount_id={card.discount_id}
                         card_tag={card.card_tag}
+                        brand_slug={card.brand_slug.brand_slug}
                       />
                     )
                   )}

@@ -69,17 +69,26 @@ router
       brand_slug: body.brand_slug,
       sponsors_box: body.sponsors_box,
       brand_description: body.brand_description,
+      upper_headings: body.upper_headings,
+      faqs: body.faqs,
+      tab_title: body.tab_title,
+      meta_name: body.meta_name,
+      meta_description: body.meta_description,
       affiliate_program: body.affiliate_program,
       notes: body.notes,
       created_by: SESSION?.token.email,
     };
 
     try {
-      const brand = await Controller.createNewBrand(data);
+      const response = await Controller.createNewBrand(data);
+
+      //Create route for the brand
+      await routeRevalidator(res, response.routesToUpdateSSG);
+
       successResponse(
         req,
         res,
-        { message: 'Marca creada exitosamente', brand },
+        { message: 'Marca creada exitosamente', brand: response.brand },
         201
       );
     } catch (error) {
@@ -140,6 +149,11 @@ router
       id: body.id,
       brand_logo: files,
       brand_slug: body.brand_slug,
+      upper_headings: body.upper_headings,
+      faqs: body.faqs,
+      tab_title: body.tab_title,
+      meta_name: body.meta_name,
+      meta_description: body.meta_description,
       sponsors_box: body.sponsors_box,
       brand_description: body.brand_description,
       affiliate_program: body.affiliate_program,
@@ -164,7 +178,14 @@ router
     const brandID = req.query.index;
     const brandLogoFileName = headers.brandlogofilename;
     try {
-      await Controller.deleteBrand(brandID, brandLogoFileName);
+      const routesToUpdateSSG = await Controller.deleteBrand(
+        brandID,
+        brandLogoFileName
+      );
+
+      //Revalidate routes affected by the change
+      await routeRevalidator(res, routesToUpdateSSG);
+
       successResponse(req, res, 'Marca eliminada', 201);
     } catch (error) {
       if (

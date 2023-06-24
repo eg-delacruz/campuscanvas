@@ -37,6 +37,7 @@ const DisplayCardsByCategoryTemplate = forwardRef(
                       title={card.title}
                       discount_id={card.discount_id}
                       card_tag={card.card_tag}
+                      brand_slug={card.brand_slug.brand_slug}
                       ref={lastCardElementRef}
                     />
                   );
@@ -49,6 +50,7 @@ const DisplayCardsByCategoryTemplate = forwardRef(
                       brand_logo={card.brand_logo.brand_logo.URL}
                       title={card.title}
                       discount_id={card.discount_id}
+                      brand_slug={card.brand_slug.brand_slug}
                       card_tag={card.card_tag}
                     />
                   );

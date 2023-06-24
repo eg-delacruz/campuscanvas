@@ -28,6 +28,7 @@ const getAllAvailableCards = async (page, limit) => {
     .skip(pagination_data.startIndex)
     //Populate the Brand logo from the brand object. The path is the property of card that we want to populate, the model is from which we get the info and the select selects the specific fields of the brand model that we want to populate
     .populate({ path: 'brand_logo', model: BrandInfo, select: 'brand_logo' })
+    .populate({ path: 'brand_slug', model: BrandInfo, select: 'brand_slug' })
     .exec();
 
   const data = {
@@ -189,6 +190,15 @@ const getMiniCardsSearchbarResults = async (searchTerm, page, limit) => {
   return data;
 };
 
+///////////////////// Get available cards by brand id //////////////////////////////
+
+const getAvailableCardsByBrandId = async (brand_id) => {
+  return await Card.find({ status: 'available', brand_logo: brand_id })
+    .populate({ path: 'brand_logo', model: BrandInfo, select: 'brand_logo' })
+    .populate({ path: 'brand_slug', model: BrandInfo, select: 'brand_slug' })
+    .exec();
+};
+
 module.exports = {
   add: createCard,
   getAllAvailableCards,
@@ -202,4 +212,5 @@ module.exports = {
   update: updateCard,
   getShowFirstInAllDiscountsCount,
   getMiniCardsSearchbarResults,
+  getAvailableCardsByBrandId,
 };
