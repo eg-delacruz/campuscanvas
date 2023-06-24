@@ -35,8 +35,6 @@ export async function getStaticPaths() {
     extraHeaders: { required_info: 'all_brands' },
   });
 
-  console.log({ response });
-
   const paths = response.body.map((brand) => ({
     params: {
       brand_slug: brand.brand_slug,

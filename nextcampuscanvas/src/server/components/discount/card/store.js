@@ -77,6 +77,7 @@ const getBySection = async (section) => {
       display_in_section: section,
     })
       .populate({ path: 'brand_logo', model: BrandInfo, select: 'brand_logo' })
+      .populate({ path: 'brand_slug', model: BrandInfo, select: 'brand_slug' })
       .exec(),
     Card.find({
       status: 'available',
@@ -84,6 +85,7 @@ const getBySection = async (section) => {
       display_in_section: section,
     })
       .populate({ path: 'brand_logo', model: BrandInfo, select: 'brand_logo' })
+      .populate({ path: 'brand_slug', model: BrandInfo, select: 'brand_slug' })
       .exec(),
   ]);
 
