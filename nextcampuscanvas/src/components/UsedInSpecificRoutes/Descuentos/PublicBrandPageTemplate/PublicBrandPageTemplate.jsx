@@ -17,7 +17,7 @@ import { createHTMLElement } from '@services/createHTMLElement';
 import requestFn from '@request-functions/Discounts/Cards/index';
 import NoDiscountsSnippet from '../NoDiscountsSnippet/NoDiscountsSnippet';
 
-//TODO: Pass the brand URL when workflow is
+
 const PublicBrandPageTemplate = ({ brand }) => {
   //React query
   const ATTACHED_DISCOUNT_CARDS = useQuery({
@@ -84,7 +84,8 @@ const PublicBrandPageTemplate = ({ brand }) => {
               {ATTACHED_DISCOUNT_CARDS.data?.length === 0 ? (
                 <div className={styles.no_discounts_snippet_container}>
                   <NoDiscountsSnippet
-                    brand_URL='https://www.campuscanvas.net'
+                  //TODO: in the future, when all brands have their own URL, pass the brand URL
+                    brand_URL={brand.brand_home_tracked_url ? brand.brand_home_tracked_url : 'https://www.campuscanvas.net'}
                     brand_name={brand.brand_name}
                   />
                 </div>

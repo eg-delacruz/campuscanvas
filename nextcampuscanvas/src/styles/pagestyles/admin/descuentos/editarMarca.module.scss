@@ -21,6 +21,10 @@
   font-weight: bold;
 }
 
+.warning_under_input{
+  margin-bottom: 30px;
+}
+
 .input,
 .description_text_area,
 .meta_description_text_area,
@@ -140,6 +144,7 @@
   .brand_slug_container {
     max-width: 360px;
     margin-top: 16px;
+    margin-bottom: 30px;
     .brand_slug_input {
       margin-bottom: 0;
     }

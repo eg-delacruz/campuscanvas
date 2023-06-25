@@ -37,6 +37,7 @@ const createNewBrand = async ({
   brand_name,
   brand_logo,
   brand_slug,
+  brand_home_tracked_url,
   sponsors_box,
   brand_description,
   upper_headings,
@@ -52,6 +53,8 @@ const createNewBrand = async ({
     !brand_name ||
     !brand_logo ||
     !brand_description ||
+    !brand_slug ||
+    !brand_home_tracked_url ||
     !tab_title ||
     !meta_name ||
     !meta_description ||
@@ -99,6 +102,7 @@ const createNewBrand = async ({
         URL: uploaded_logo_url[0].URL,
       },
       brand_slug,
+      brand_home_tracked_url,
       sponsors_box,
       brand_description,
       upper_headings,
@@ -631,6 +635,7 @@ const updateBrand = async ({
   brand_logo,
   sponsors_box,
   brand_slug,
+  brand_home_tracked_url,
   brand_description,
   upper_headings,
   faqs,
@@ -756,6 +761,7 @@ const updateBrand = async ({
       brand.sponsors_box = sponsors_box;
       brand.brand_description = brand_description;
       brand.brand_slug = brand_slug;
+      brand.brand_home_tracked_url = brand_home_tracked_url;
       brand.upper_headings = upper_headings;
       brand.faqs = faqs;
       brand.tab_title = tab_title;
@@ -771,6 +777,8 @@ const updateBrand = async ({
       //Revalidate brand page if anything but the sponsors_box, notes or the affiliate_program change
       if (
         PREVIOUS_BRAND.brand_slug !== updated_Brand.brand_slug ||
+        PREVIOUS_BRAND.brand_home_tracked_url !==
+          updated_Brand.brand_home_tracked_url ||
         PREVIOUS_BRAND.brand_description !== updated_Brand.brand_description ||
         PREVIOUS_BRAND.upper_headings !== updated_Brand.upper_headings ||
         PREVIOUS_BRAND.faqs !== updated_Brand.faqs ||

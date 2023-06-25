@@ -34,6 +34,7 @@ import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
 import DisplayEliminateHomeBanner from '@components/UsedInSpecificRoutes/Admin/Descuentos/HomeSlider/DisplayEliminateHomeBanner/DisplayEliminateHomeBanner';
 import DisplayCreateHomeBannerModal from '@components/UsedInSpecificRoutes/Admin/Descuentos/HomeSlider/DisplayCreateHomeBannerModal/DisplayCreateHomeBannerModal';
 import CC_LogoLoader from '@components/GeneralUseComponents/CC_LogoLoader/CC_LogoLoader';
+import ConfirmationSwal from '@components/GeneralUseComponents/ConfirmationSwal/ConfirmationSwal';
 
 //hooks
 import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
@@ -800,23 +801,9 @@ const editarDescuento = () => {
     setState({ ...state, saving_changes: false, form_error: null });
 
     //Show a confirmation swal
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      width: 400,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      },
-    });
-
-    Toast.fire({
-      icon: 'success',
-      title: response.body,
-    });
+    ConfirmationSwal({
+      message: response.body
+    })
 
     //Scroll to top of page
     window.scrollTo(0, 0);

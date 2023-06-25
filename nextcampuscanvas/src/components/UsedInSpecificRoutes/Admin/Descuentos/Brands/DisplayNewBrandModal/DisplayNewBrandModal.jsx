@@ -17,6 +17,7 @@ import 'react-quill/dist/quill.snow.css';
 import Modal from '@components/GeneralUseComponents/Modal/Modal';
 import DragDropUploadArea from '@components/GeneralUseComponents/DragDropUploadArea/DragDropUploadArea';
 import CustomCheckBox from '@components/GeneralUseComponents/CustomCheckBox/CustomCheckBox';
+import ConfirmationSwal from '@components/GeneralUseComponents/ConfirmationSwal/ConfirmationSwal';
 
 //hooks
 import { useInputValue } from '@hooks/useInputValue';
@@ -68,6 +69,8 @@ const formats = [
 ];
 
 const displayNewBrandModal = ({ showModal, setShowModal }) => {
+  const { fetchData: uploadData, cancel } = useAxios();
+
   //Refs
   const descriptionRef = useRef();
 
@@ -83,7 +86,9 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
   const [descriptionLength, setDescriptionLength] = useState(0);
   const [files, setFiles] = useState([]);
 
-  const { fetchData: uploadData, cancel } = useAxios();
+  //Warning states
+  const [homeTrackedURLForbiddenWord, setHomeTrackedURLForbiddenWord] =
+    useState(false);
 
   //React query
   const queryClient = useQueryClient();
@@ -94,11 +99,13 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
   const BRAND_NAME = useInputValue('');
   const SPONSORS_BOX = useInputValue(false);
   const BRAND_SLUG = useInputValue('');
+  const BRAND_HOME_TRACKED_URL = useInputValue('');
   const TAB_TITLE = useInputValue('');
   const META_NAME = useInputValue('');
   const META_DESCRIPTION = useInputValue('');
   const AFFILIATE_PROGRAM = useInputValue('');
   const NOTES = useInputValue('');
+
 
   //Count description length
   useEffect(() => {
@@ -113,6 +120,8 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
   //Functions
   const handleCreateNew = async (e) => {
     e.preventDefault();
+
+    //Resetting errors
     setState({ ...state, error: null });
 
     if (files.length === 0) {
@@ -127,6 +136,20 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
       setState({
         ...state,
         error: 'Debes escribir una descripción',
+      });
+      setTimeout(() => {
+        setState({
+          ...state,
+          error: null,
+        });
+      }, 3000);
+      return false;
+    }
+
+    if (BRAND_HOME_TRACKED_URL.value.length === 0) {
+      setState({
+        ...state,
+        error: 'Debes escribir la URL trackeada de la página de inicio de la marca',
       });
       setTimeout(() => {
         setState({
@@ -159,6 +182,7 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
     formdata.append('brand_name', BRAND_NAME.value);
     formdata.append('sponsors_box', SPONSORS_BOX.value);
     formdata.append('brand_slug', BRAND_SLUG.value);
+    formdata.append('brand_home_tracked_url', BRAND_HOME_TRACKED_URL.value);
     formdata.append('brand_logo', files[0]);
     formdata.append('brand_description', description);
     //This is to avoid sending <p><br></p> when the user hasnt written anything, since when the field is empty, the value is <p><br></p>
@@ -194,37 +218,57 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
       }
     });
 
-    //Reseting values and closing modal
-    BRAND_NAME.setValue('');
-    setDescription('');
-    setFiles([]);
-    SPONSORS_BOX.setValue(false);
-    setShowModal(false);
+    //Reseting state and show swal
     setState({ ...state, uploading: false, error: null });
-    setDescriptionLength(0);
 
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      width: 400,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      },
-    });
-
-    Toast.fire({
-      icon: 'success',
-      title: response.body.message,
-    });
+    //Confirmation swal
+    ConfirmationSwal({
+      message: response.body.message
+    })
 
     //Redirect to the new brand
     router.push(
       `/admin/descuentos/gestionar-marcas/editar-marca/${response.body.brand._id}`
     );
+  };
+
+  const handleTrackedBrandHomeUrl = (e) => {
+    const hasForbiddenWord = (string) => {
+      //These words are forbidden because of the PDCookieConcent of RBH, which makes discount pages crash if they have these words
+      const FORBIDDEN_WORDS = [
+        'adwords',
+        'analytics',
+        'doubleclick',
+        'facebook.',
+        'google.com/maps',
+        'google.com/recaptcha',
+        'googleadservices',
+        'googlesyndication',
+        'googletagmanager',
+        'googletagservices',
+        'googletraveladservices',
+        'googleusercontent',
+        'gstatic',
+        'linkedin.',
+        'maps.google.com',
+        'maps.googleapis',
+        'twitter.',
+        'vimeo.',
+        'youtube.',
+        'ytimg',
+        'urchin',
+      ];
+      const hasForbiddenWord = FORBIDDEN_WORDS.some((word) =>
+        string.includes(word)
+      );
+      if (hasForbiddenWord) {
+        setHomeTrackedURLForbiddenWord(true);
+        return true;
+      }
+      setHomeTrackedURLForbiddenWord(false);
+    };
+    hasForbiddenWord(e.target.value);
+    BRAND_HOME_TRACKED_URL.onChange(e);
   };
 
   return (
@@ -240,7 +284,7 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
           <div className={styles.row_1_container}>
             <div>
               <label htmlFor='brand_name' className={`${styles.input_title} `}>
-                Nombre de la marca
+                Nombre de la marca *
               </label>
               <input
                 className={`${styles.input} ${styles.brand_name_input}`}
@@ -279,7 +323,7 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
           <div className={styles.brand_slug_container}>
             <div className={styles.label_tooltip_container}>
               <label htmlFor='brand_slug' className={`${styles.input_title} `}>
-                Slug de la marca
+                Slug de la marca *
               </label>
               <span className={styles.tooltip_container}>
                 ?{' '}
@@ -324,8 +368,38 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
             />
           </div>
 
+          <div>
+            <label
+              htmlFor='tracked_home_url'
+              className={`${styles.input_title}`}
+            >
+              Enlace trackeado a la web de la marca (incluye desde el
+              https://www.)*
+            </label>
+            <input
+              className={`${styles.input}`}
+              name='tracked_home_url'
+              id='tracked_home_url'
+              type='text'
+              placeholder=''
+              autoComplete='off'
+              value={BRAND_HOME_TRACKED_URL.value}
+              onChange={handleTrackedBrandHomeUrl}
+            />
+            {homeTrackedURLForbiddenWord && (
+              <p className={`${styles.warning_under_input} warning__message`}>
+              El enlace de afiliado contiene palabras que afectarán la
+              funcionalidad del sitio web de Campus Canvas. Utiliza el{' '}
+              <a target={'_blank'} href='https://free-url-shortener.rb.gy/'>
+                acortador de enlaces
+              </a>{' '}
+              para corregirlo o haz cambios al enlace.
+            </p>
+            )}
+          </div>
+
           <label className={`${styles.input_title}`}>
-            Logo en SVG o PNG de 230 x 230 px
+            Logo en SVG o PNG de 230 x 230 px *
           </label>
 
           <DragDropUploadArea
@@ -343,7 +417,7 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
               htmlFor='brand_description'
               className={`${styles.input_title}`}
             >
-              Descripción de la marca
+              Descripción de la marca *
             </label>
             <div className={styles.quill_editor}>
               <ReactQuill
@@ -400,7 +474,7 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
             <div className={styles.tab_title_meta_name_container}>
               <div className={styles.tab_title}>
                 <label htmlFor='tab_title' className={`${styles.input_title}`}>
-                  Título de la pestaña
+                  Título de la pestaña *
                 </label>
                 <input
                   className={`${styles.input} ${styles.tab_title_input}`}
@@ -417,7 +491,7 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
 
               <div className={styles.meta_name}>
                 <label htmlFor='meta_name' className={`${styles.input_title}`}>
-                  Nombre de la etiqueta meta
+                  Nombre de la etiqueta meta *
                 </label>
                 <input
                   className={`${styles.input} ${styles.meta_name_input}`}
@@ -438,7 +512,7 @@ const displayNewBrandModal = ({ showModal, setShowModal }) => {
                 htmlFor='meta_description'
                 className={`${styles.input_title}`}
               >
-                Meta descripción
+                Meta descripción *
               </label>
               <textarea
                 className={`${styles.meta_description_text_area}`}

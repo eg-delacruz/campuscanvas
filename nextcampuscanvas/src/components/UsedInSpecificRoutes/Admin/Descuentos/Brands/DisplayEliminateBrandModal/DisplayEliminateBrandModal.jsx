@@ -1,24 +1,27 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
 
 //Syles
 import styles from './DisplayEliminateBrandModal.module.scss';
 
 //React query
-import { useQueryClient } from '@tanstack/react-query';
+import { useQuery,useQueryClient } from '@tanstack/react-query';
 import adminKeys from '@query-key-factory/adminKeys';
 
 //Components
 import Modal from '@components/GeneralUseComponents/Modal/Modal';
 import WarningImage from '@components/GeneralUseComponents/WarningImage/WarningImage';
+import ConfirmationSwal from '@components/GeneralUseComponents/ConfirmationSwal/ConfirmationSwal';
 
 //Hooks
 import useAxios from '@hooks/useAxios';
 
 //Endpoints
 import endPoints from '@services/api';
+
+//Request functions
+import requestFn from '@request-functions/Admin/Discounts';
 
 const DisplayEliminateBrandModal = ({
   showModal,
@@ -31,6 +34,15 @@ const DisplayEliminateBrandModal = ({
 
   //React query
   const queryClient = useQueryClient();
+
+  const BRANDS = useQuery({
+    queryKey: [adminKeys.brands.all_brands],
+    queryFn: requestFn.getBrands,
+    staleTime: 1000 * 60 * 60 * 24, //24 hours
+    initialData: [],
+    initialDataUpdatedAt: 1, //prevent initialData from being overwritten by queryFn
+    enabled: false,
+  });
 
   const router = useRouter();
 
@@ -59,6 +71,14 @@ const DisplayEliminateBrandModal = ({
       queryClient.setQueryData(
         [adminKeys.brands.all_brands],
         (oldData = []) => {
+          //Check if all brands have been already fetched before deleting the brand
+          if (oldData.length === 0) {
+            //Refetch that query to update the data
+            BRANDS.refetch();
+            return oldData;
+          }
+
+          //If brands have been already fetched, delete the brand from the array
           return oldData.filter((brand) => brand._id !== id);
         }
       );
@@ -69,24 +89,9 @@ const DisplayEliminateBrandModal = ({
         error: null,
       });
 
-      //Show a confirmation swal
-      const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        width: 400,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer);
-          toast.addEventListener('mouseleave', Swal.resumeTimer);
-        },
-      });
-
-      Toast.fire({
-        icon: 'success',
-        title: response.body,
-      });
+      ConfirmationSwal({
+        message: response.body,
+      })
 
       //Redirect to brands page
       router.push('/admin/descuentos/gestionar-marcas');

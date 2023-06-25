@@ -113,9 +113,14 @@ const editarMarca = () => {
   const [FAQs, setFAQs] = useState('');
   const [showEliminateModal, setShowEliminateModal] = useState(false);
 
+  //Warning states
+  const [homeTrackedURLForbiddenWord, setHomeTrackedURLForbiddenWord] =
+    useState(false);
+
   //Controlling inputs
   const SPONSORS_BOX = useInputValue(state.brand?.sponsors_box);
   const BRAND_SLUG = useInputValue(state.brand?.brand_slug);
+  const BRAND_HOME_TRACKED_URL = useInputValue('');
   const TAB_TITLE = useInputValue('');
   const META_NAME = useInputValue('');
   const META_DESCRIPTION = useInputValue('');
@@ -160,6 +165,8 @@ const editarMarca = () => {
         setState({ ...state, brand, loading: false });
         SPONSORS_BOX.setValue(brand.sponsors_box);
         BRAND_SLUG.setValue(brand.brand_slug);
+        //TODO: In the future, when all brands have a tracked url, remove this if statement
+        if (brand.brand_home_tracked_url) BRAND_HOME_TRACKED_URL.setValue(brand.brand_home_tracked_url);
         setDescription(brand.brand_description);
         setUpperHeadings(brand.upper_headings);
         setFAQs(brand.faqs);
@@ -206,6 +213,8 @@ const editarMarca = () => {
         SPONSORS_BOX.setValue(response.body.sponsors_box);
         setDescription(response.body.brand_description);
         BRAND_SLUG.setValue(response.body.brand_slug);
+        //TODO: In the future, when all brands have a tracked url, remove this if statement
+        if(response.body.brand_home_tracked_url) BRAND_HOME_TRACKED_URL.setValue(response.body.brand_home_tracked_url);
         setUpperHeadings(response.body.upper_headings);
         setFAQs(response.body.faqs);
         TAB_TITLE.setValue(response.body.tab_title);
@@ -268,6 +277,8 @@ const editarMarca = () => {
     );
   };
 
+  //Functions
+
   //Handle change brand logo (start)
   const onNewFile = (e) => {
     const allowedFileFormats = ['svg', 'png'];
@@ -314,6 +325,45 @@ const editarMarca = () => {
   };
   //Handle change brand logo (end)
 
+  const handleTrackedBrandHomeUrl = (e) => {
+    const hasForbiddenWord = (string) => {
+      //These words are forbidden because of the PDCookieConcent of RBH, which makes discount pages crash if they have these words
+      const FORBIDDEN_WORDS = [
+        'adwords',
+        'analytics',
+        'doubleclick',
+        'facebook.',
+        'google.com/maps',
+        'google.com/recaptcha',
+        'googleadservices',
+        'googlesyndication',
+        'googletagmanager',
+        'googletagservices',
+        'googletraveladservices',
+        'googleusercontent',
+        'gstatic',
+        'linkedin.',
+        'maps.google.com',
+        'maps.googleapis',
+        'twitter.',
+        'vimeo.',
+        'youtube.',
+        'ytimg',
+        'urchin',
+      ];
+      const hasForbiddenWord = FORBIDDEN_WORDS.some((word) =>
+        string.includes(word)
+      );
+      if (hasForbiddenWord) {
+        setHomeTrackedURLForbiddenWord(true);
+        return true;
+      }
+      setHomeTrackedURLForbiddenWord(false);
+    };
+    hasForbiddenWord(e.target.value);
+    BRAND_HOME_TRACKED_URL.onChange(e);
+  };
+
   const handleEditBrand = async (e) => {
     e.preventDefault();
 
@@ -321,6 +371,20 @@ const editarMarca = () => {
       setState({
         ...state,
         saving_changes_error: 'Debes escribir una descripción',
+      });
+      setTimeout(() => {
+        setState({
+          ...state,
+          saving_changes_error: null,
+        });
+      }, 3000);
+      return false;
+    }
+
+    if(BRAND_HOME_TRACKED_URL.value.length === 0){
+      setState({
+        ...state,
+        saving_changes_error: 'Debes escribir una URL trackeada de la página de inicio de la marca',
       });
       setTimeout(() => {
         setState({
@@ -354,6 +418,7 @@ const editarMarca = () => {
     formdata.append('brand_logo', newBrandLogo.newLogo[0]);
     formdata.append('brand_slug', BRAND_SLUG.value);
     formdata.append('sponsors_box', SPONSORS_BOX.value);
+    formdata.append('brand_home_tracked_url', BRAND_HOME_TRACKED_URL.value);
     formdata.append('brand_description', description);
     //This is to avoid sending <p><br></p> when the user hasnt written anything, since when the field is empty, the value is <p><br></p>
     formdata.append(
@@ -399,8 +464,14 @@ const editarMarca = () => {
     let update_cache_only = false;
 
     if (
-      state.brand.brand_description !== description ||
       state.brand.brand_slug !== BRAND_SLUG.value ||
+      state.brand.brand_home_tracked_url !== BRAND_HOME_TRACKED_URL.value ||
+      state.brand.brand_description !== description ||
+      state.brand.upper_headings !== upperHeadings ||
+      state.brand.faqs !== FAQs ||
+      state.brand.tab_title !== TAB_TITLE.value ||
+      state.brand.meta_name !== META_NAME.value ||
+      state.brand.meta_description !== META_DESCRIPTION.value ||
       state.brand.affiliate_program !== AFFILIATE_PROGRAM.value ||
       state.brand.notes !== NOTES.value
     ) {
@@ -424,6 +495,7 @@ const editarMarca = () => {
               return {
                 ...brand,
                 brand_slug: BRAND_SLUG.value,
+                brand_home_tracked_url: BRAND_HOME_TRACKED_URL.value,
                 brand_description: description,
                 upper_headings: upperHeadings,
                 faqs: FAQs,
@@ -445,6 +517,9 @@ const editarMarca = () => {
       //Update brands from DB if brand logo has changed, since the logo URL is not stored in cache
       BRANDS.refetch();
     }
+
+    //Scroll to top
+    window.scrollTo(0, 0);
   };
 
   const valid_till_date_color = (date) => {
@@ -597,7 +672,7 @@ const editarMarca = () => {
                       htmlFor='brand_slug'
                       className={`${styles.input_title} `}
                     >
-                      Slug de la marca
+                      Slug de la marca *
                     </label>
                     <span className={styles.tooltip_container}>
                       ?{' '}
@@ -630,12 +705,42 @@ const editarMarca = () => {
                   />
                 </div>
 
+                <div>
+                <label
+              htmlFor='tracked_home_url'
+              className={`${styles.input_title}`}
+            >
+              Enlace trackeado a la web de la marca (incluye desde el
+              https://www.)*
+            </label>
+            <input
+              className={`${styles.input}`}
+              name='tracked_home_url'
+              id='tracked_home_url'
+              type='text'
+              placeholder=''
+              autoComplete='off'
+              value={BRAND_HOME_TRACKED_URL.value}
+              onChange={handleTrackedBrandHomeUrl}
+            />
+            {homeTrackedURLForbiddenWord && (
+              <p className={`${styles.warning_under_input} warning__message`}>
+              El enlace de afiliado contiene palabras que afectarán la
+              funcionalidad del sitio web de Campus Canvas. Utiliza el{' '}
+              <a target={'_blank'} href='https://free-url-shortener.rb.gy/'>
+                acortador de enlaces
+              </a>{' '}
+              para corregirlo o haz cambios al enlace.
+            </p>
+            )}
+                </div>
+
                 <div className={styles.description_container}>
                   <label
                     htmlFor='brand_description'
                     className={`${styles.input_title}`}
                   >
-                    Descripción de la marca
+                    Descripción de la marca *
                   </label>
                   <div className={styles.quill_editor}>
                     <ReactQuill
@@ -698,7 +803,7 @@ const editarMarca = () => {
                         htmlFor='tab_title'
                         className={`${styles.input_title}`}
                       >
-                        Título de la pestaña
+                        Título de la pestaña *
                       </label>
                       <input
                         className={`${styles.input} ${styles.tab_title_input}`}
@@ -718,7 +823,7 @@ const editarMarca = () => {
                         htmlFor='meta_name'
                         className={`${styles.input_title}`}
                       >
-                        Nombre de la etiqueta meta
+                        Nombre de la etiqueta meta *
                       </label>
                       <input
                         className={`${styles.input} ${styles.meta_name_input}`}
@@ -739,7 +844,7 @@ const editarMarca = () => {
                       htmlFor='meta_description'
                       className={`${styles.input_title}`}
                     >
-                      Meta descripción
+                      Meta descripción *
                     </label>
                     <textarea
                       className={`${styles.meta_description_text_area}`}
@@ -813,11 +918,13 @@ const editarMarca = () => {
                   } ${
                     state.brand.brand_description === description &&
                     state.brand.brand_slug === BRAND_SLUG.value &&
-                    state.brand?.upper_headings === upperHeadings &&
-                    state.brand?.faqs === FAQs &&
-                    state.brand?.tab_title === TAB_TITLE.value &&
-                    state.brand?.meta_name === META_NAME.value &&
-                    state.brand?.meta_description === META_DESCRIPTION.value &&
+                    state.brand?.brand_home_tracked_url ===
+                      BRAND_HOME_TRACKED_URL.value &&
+                    state.brand.upper_headings === upperHeadings &&
+                    state.brand.faqs === FAQs &&
+                    state.brand.tab_title === TAB_TITLE.value &&
+                    state.brand.meta_name === META_NAME.value &&
+                    state.brand.meta_description === META_DESCRIPTION.value &&
                     newBrandLogo.newLogo.length === 0 &&
                     state.brand.sponsors_box === SPONSORS_BOX.value &&
                     state.brand.affiliate_program === AFFILIATE_PROGRAM.value &&
@@ -830,11 +937,13 @@ const editarMarca = () => {
                     state.saving_changes ||
                     (state.brand.brand_description === description &&
                       state.brand.brand_slug === BRAND_SLUG.value &&
-                      state.brand?.upper_headings === upperHeadings &&
-                      state.brand?.faqs === FAQs &&
-                      state.brand?.tab_title === TAB_TITLE.value &&
-                      state.brand?.meta_name === META_NAME.value &&
-                      state.brand?.meta_description ===
+                      state.brand?.brand_home_tracked_url ===
+                        BRAND_HOME_TRACKED_URL.value &&
+                      state.brand.upper_headings === upperHeadings &&
+                      state.brand.faqs === FAQs &&
+                      state.brand.tab_title === TAB_TITLE.value &&
+                      state.brand.meta_name === META_NAME.value &&
+                      state.brand.meta_description ===
                         META_DESCRIPTION.value &&
                       newBrandLogo.newLogo.length === 0 &&
                       state.brand.sponsors_box === SPONSORS_BOX.value &&

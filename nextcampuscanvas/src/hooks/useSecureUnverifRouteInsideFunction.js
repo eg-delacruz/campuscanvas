@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 const useSecureUnverifRoutesInsideFunction = () => {
   const [verified, setVerified] = useState(false);
   const [checking, setChecking] = useState(true);
+  
   //Session
   const { data: session, status } = useSession();
 
