@@ -1,7 +1,7 @@
 @import '../../../../styles/Vars.scss';
+@import '../../../../styles/Animations/skeleton.module.scss';
 
 .container {
-  //max-width: 1200px;
   padding: 32px 0 50px;
   min-height: 550px;
   h1 {
@@ -15,6 +15,23 @@
     @include font-size(20px);
     margin-top: 0;
   }
+
+  //////////////////////////////
+  // Skeleton discount loading //
+  //////////////////////////////
+  .skeleton_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 30px 20px;
+    margin-bottom: 50px;
+    .discount_card_skeleton {
+      animation: setSkeletonLoading();
+      border-radius: 5px;
+      height: 300px;
+      width: 100%;
+    }
+  }
+
   .upper_headings {
     p {
       margin: 0;
@@ -89,6 +106,16 @@
 
 @media screen and (max-width: 767px) {
   .container {
+    //////////////////////////////
+    // Skeleton discount loading //
+    //////////////////////////////
+    .skeleton_grid {
+      grid-template-columns: repeat(2, 1fr);
+      .discount_card_skeleton:last-child {
+        display: none;
+      }
+    }
+
     .discount_cards_section {
       .discounts_grid {
         grid-template-columns: repeat(2, 1fr);
@@ -100,6 +127,13 @@
 
 @media screen and (max-width: 480px) {
   .container {
+    //////////////////////////////
+    // Skeleton discount loading //
+    //////////////////////////////
+    .skeleton_grid {
+      grid-template-columns: repeat(1, 1fr);
+    }
+
     .logo_description_container {
       flex-direction: column;
       align-items: center;

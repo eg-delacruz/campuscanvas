@@ -15,8 +15,9 @@ import { createHTMLElement } from '@services/createHTMLElement';
 
 //Request functions
 import requestFn from '@request-functions/Discounts/Cards/index';
+import NoDiscountsSnippet from '../NoDiscountsSnippet/NoDiscountsSnippet';
 
-//TODO: Get the discounts count from the discounts array, not from the brand object to avoid page regenearion when a new discount is added or deleted
+//TODO: Pass the brand URL when workflow is
 const PublicBrandPageTemplate = ({ brand }) => {
   //React query
   const ATTACHED_DISCOUNT_CARDS = useQuery({
@@ -24,6 +25,14 @@ const PublicBrandPageTemplate = ({ brand }) => {
     queryFn: () => requestFn.getCardsByBrandId(brand._id),
     staleTime: 1000 * 60 * 60 * 24 * 2, //2 days
   });
+
+  const discounts_loading_skeleton = (
+    <div className={styles.skeleton_grid}>
+      <div className={styles.discount_card_skeleton}></div>
+      <div className={styles.discount_card_skeleton}></div>
+      <div className={styles.discount_card_skeleton}></div>
+    </div>
+  );
 
   return (
     <main className={`${styles.container} container`}>
@@ -63,7 +72,7 @@ const PublicBrandPageTemplate = ({ brand }) => {
           ///////////////////////// */}
 
       {ATTACHED_DISCOUNT_CARDS.isLoading ? (
-        <>Cargando...</>
+        <>{discounts_loading_skeleton}</>
       ) : (
         <>
           {ATTACHED_DISCOUNT_CARDS.isError ? (
@@ -73,7 +82,12 @@ const PublicBrandPageTemplate = ({ brand }) => {
           ) : (
             <>
               {ATTACHED_DISCOUNT_CARDS.data?.length === 0 ? (
-                <>{brand.brand_name} no tiene descuentos actualmente</>
+                <div className={styles.no_discounts_snippet_container}>
+                  <NoDiscountsSnippet
+                    brand_URL='https://www.campuscanvas.net'
+                    brand_name={brand.brand_name}
+                  />
+                </div>
               ) : (
                 <section className={styles.discount_cards_section}>
                   <h3>

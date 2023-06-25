@@ -1,0 +1,21 @@
+@import '../../../../styles/Vars.scss';
+
+.container {
+  max-width: 390px;
+  margin: 0 auto;
+  border-radius: 5px;
+  background-color: $color--tertiary-white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 16px;
+  text-align: center;
+  h4 {
+    margin: 0;
+    margin-top: 20px;
+  }
+  p {
+    margin: 8px 0 24px;
+  }
+}

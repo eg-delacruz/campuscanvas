@@ -1,5 +1,8 @@
 @import '../Vars.scss';
 
+//CLARIFICATIONS:
+//To use this animation, just add the animation: setSkeletonLoading(); property to the desired element/selectors
+
 @function setSkeletonLoading() {
   @return (skeletonLoading 0.75s linear infinite alternate);
 }
