@@ -9,12 +9,14 @@ import adminKeys from '@query-key-factory/adminKeys';
 import Modal from '@components/GeneralUseComponents/Modal/Modal';
 import DragDropUploadArea from '@components/GeneralUseComponents/DragDropUploadArea/DragDropUploadArea';
 import ConfirmationSwal from '@components/GeneralUseComponents/ConfirmationSwal/ConfirmationSwal';
+import CustomCheckBox from '@components/GeneralUseComponents/CustomCheckBox/CustomCheckBox';
 
 //Styles
 import styles from './DisplayCreateHomeBannerModal.module.scss';
 
 //hooks
 import useAxios from '@hooks/useAxios';
+import { useInputValue } from '@hooks/useInputValue';
 
 //Endpoints
 import endPoints from '@services/api';
@@ -25,6 +27,7 @@ const DisplayCreateHomeBannerModal = ({
   available_for,
   affiliate_link,
   type,
+  brand_slug,
 }) => {
   const { fetchData } = useAxios();
 
@@ -33,6 +36,9 @@ const DisplayCreateHomeBannerModal = ({
     error: null,
     uploading: false,
   });
+
+  //Controlling inputs
+  const REDIRECT_TO_BRAND_PAGE = useInputValue(false);
 
   const [bigImage, setBigImage] = useState([]);
   const [smallImage, setSmallImage] = useState([]);
@@ -57,6 +63,8 @@ const DisplayCreateHomeBannerModal = ({
     formData.append('big_home_slider_image', bigImage[0]);
     formData.append('small_home_slider_image', smallImage[0]);
     formData.append('discount_id', discount_id);
+    formData.append('brand_slug', brand_slug);
+    formData.append('redirect_to_brand_page', REDIRECT_TO_BRAND_PAGE.value);
     formData.append('available_for', available_for);
     formData.append('affiliate_link', affiliate_link);
     formData.append('type', type);
@@ -137,6 +145,16 @@ const DisplayCreateHomeBannerModal = ({
             minimizedVersion={true}
           />
 
+          <div
+            className={styles.redirect_user_to_brand_page_checkbox_container}
+          >
+            <CustomCheckBox
+              message='Redirigir al usuario a la página de la marca'
+              required={false}
+              state={REDIRECT_TO_BRAND_PAGE}
+            />
+          </div>
+
           {state.error && <p className='error__messagev2'>{state.error}</p>}
 
           <button
@@ -163,4 +181,5 @@ DisplayCreateHomeBannerModal.propTypes = {
   available_for: PropTypes.string.isRequired,
   affiliate_link: PropTypes.string,
   type: PropTypes.string.isRequired,
+  brand_slug: PropTypes.string.isRequired,
 };

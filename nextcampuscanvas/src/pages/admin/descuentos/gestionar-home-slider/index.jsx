@@ -47,6 +47,8 @@ const homeSliderManagement = () => {
     staleTime: 1000 * 60 * 60 * 24 * 7, //1 week
   });
 
+  console.log(HOME_BANNERS_INFO.data);
+
   //Functions
   const displayEliminateModal = (
     banner_id,
@@ -146,6 +148,12 @@ const homeSliderManagement = () => {
                 <p className={styles.discount_category}>
                   <strong>Categoría: </strong>
                   {banner.discount_category}
+                </p>
+                <p className={styles.slide_redirects_user_to_brand_page}>
+                  <strong>
+                    El slide redirecciona a la página de la marca:{' '}
+                  </strong>
+                  {banner.redirect_user_to_brand_page ? '✅' : '❌'}
                 </p>
                 <p className={styles.created_at}>
                   <strong>Fecha de creación del banner: </strong>

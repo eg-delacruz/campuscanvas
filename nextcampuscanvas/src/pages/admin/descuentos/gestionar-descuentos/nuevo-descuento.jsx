@@ -35,7 +35,6 @@ import { useCharacterCount } from '@hooks/useCharacterCount';
 
 //Request functions
 import discountFunctions from '@request-functions/Admin/Discounts';
-import adminFunctions from '@request-functions/Admin/Discounts';
 
 import {
   selectHomeSectionsCount,
@@ -106,6 +105,7 @@ const nuevoDescuento = () => {
   const VALID_FROM = useInputValue('');
   const EXPIRATION_DATE = useInputValue('');
   const SHOW_IN_HOME_SLIDER = useInputValue(false);
+  const HOME_BANNER__REDIRECT_TO_BRAND_PAGE = useInputValue(false);
   const CARD_TITLE = useInputValue('');
   const CARD_TAG = useInputValue('');
   const DISPLAY_CARD_IN_SECTION = useInputValue('');
@@ -485,6 +485,10 @@ const nuevoDescuento = () => {
     formdata.append('discount_keywords', JSON.stringify(discountKeyWords));
     formdata.append('banner', bannerFile[0]);
     formdata.append('show_in_home_slider', SHOW_IN_HOME_SLIDER.value);
+    formdata.append(
+      'home_banner__redirect_user_to_brand_page',
+      HOME_BANNER__REDIRECT_TO_BRAND_PAGE.value
+    );
     formdata.append('big_home_slider_image', bigImageHomeSlider[0]);
     formdata.append('small_home_slider_image', smallImageHomeSlider[0]);
     formdata.append('card_title', CARD_TITLE.value);
@@ -1002,6 +1006,18 @@ const nuevoDescuento = () => {
                   {homeSliderFilesError && (
                     <p className={'error__messagev2'}>{homeSliderFilesError}</p>
                   )}
+
+                  <div
+                    className={
+                      styles.home_banner__redirect_user_to_brand_page_checkbox_container
+                    }
+                  >
+                    <CustomCheckBox
+                      message='Redirigir al usuario a la página de la marca'
+                      required={false}
+                      state={HOME_BANNER__REDIRECT_TO_BRAND_PAGE}
+                    />
+                  </div>
                 </div>
               )}
             </div>

@@ -374,6 +374,13 @@
       }
 
       //This will display if there are home banners
+      .redirect_user_to_brand_tooltip_container {
+        display: flex;
+        align-items: center;
+        .tooltip_container {
+          margin-left: 8px;
+        }
+      }
       .images_container {
         background-color: $color--secondary-white;
         padding: 8px;

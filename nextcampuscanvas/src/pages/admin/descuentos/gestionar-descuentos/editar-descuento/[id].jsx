@@ -802,8 +802,8 @@ const editarDescuento = () => {
 
     //Show a confirmation swal
     ConfirmationSwal({
-      message: response.body
-    })
+      message: response.body,
+    });
 
     //Scroll to top of page
     window.scrollTo(0, 0);
@@ -879,6 +879,7 @@ const editarDescuento = () => {
           available_for={state.discount.available_for}
           affiliate_link={state.discount.affiliate_link}
           type={state.discount.type}
+          brand_slug={state.discount.brand.brand_slug}
         />
       );
     }
@@ -1381,44 +1382,69 @@ const editarDescuento = () => {
                           </div>
                         </>
                       ) : (
-                        <div className={styles.images_container}>
+                        <>
                           <div
                             className={
-                              styles.big_image_title_delete_banner_container
+                              styles.redirect_user_to_brand_tooltip_container
                             }
                           >
-                            <h5>Pantalla grande (1200 x 550)</h5>
-                            <div className={styles.eliminate_container}>
-                              <Image src={delete_icon} />
-                              <div
-                                className={styles.eliminate_text}
-                                onClick={() =>
-                                  setShowEliminateHomeBannerModal(true)
-                                }
-                              >
-                                Eliminar home banners
+                            <p>
+                              El slide redirecciona a la página de{' '}
+                              {state.discount?.brand.brand_name}:{' '}
+                              {HOME_BANNER.data?.redirect_user_to_brand_page
+                                ? '✅'
+                                : '❌'}
+                            </p>
+                            <span className={styles.tooltip_container}>
+                              ?{' '}
+                              <span className={styles.tooltiptext}>
+                                Si se quiere cambiar la redirección, ya sea al
+                                descuento o a la página de la marca, se debe
+                                eliminar el banner y crear uno nuevo cambiando
+                                esta opción.
+                              </span>
+                            </span>
+                          </div>
+                          <div className={styles.images_container}>
+                            <div
+                              className={
+                                styles.big_image_title_delete_banner_container
+                              }
+                            >
+                              <h5>Pantalla grande (1200 x 550)</h5>
+                              <div className={styles.eliminate_container}>
+                                <Image src={delete_icon} />
+                                <div
+                                  className={styles.eliminate_text}
+                                  onClick={() =>
+                                    setShowEliminateHomeBannerModal(true)
+                                  }
+                                >
+                                  Eliminar home banners
+                                </div>
                               </div>
                             </div>
+                            <div className={styles.big_banner}>
+                              <img
+                                src={
+                                  HOME_BANNER.data?.slider_banner_big_screen
+                                    ?.URL
+                                }
+                                alt={`Banner de home pantalla grande `}
+                              />
+                            </div>
+                            <h5>Pantalla movil (780 x 520)</h5>
+                            <div className={styles.small_banner}>
+                              <img
+                                src={
+                                  HOME_BANNER.data?.slider_banner_small_screen
+                                    ?.URL
+                                }
+                                alt={`Banner de home pantalla movil `}
+                              />
+                            </div>
                           </div>
-                          <div className={styles.big_banner}>
-                            <img
-                              src={
-                                HOME_BANNER.data?.slider_banner_big_screen?.URL
-                              }
-                              alt={`Banner de home pantalla grande `}
-                            />
-                          </div>
-                          <h5>Pantalla movil (780 x 520)</h5>
-                          <div className={styles.small_banner}>
-                            <img
-                              src={
-                                HOME_BANNER.data?.slider_banner_small_screen
-                                  ?.URL
-                              }
-                              alt={`Banner de home pantalla movil `}
-                            />
-                          </div>
-                        </div>
+                        </>
                       )}
                     </>
                   )}

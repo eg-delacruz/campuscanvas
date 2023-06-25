@@ -34,6 +34,13 @@ const HomeBannerSlideSchema = new mongoose.Schema({
       'Es necesario especificar quien puede acceder al descuento',
     ],
   },
+  brand_slug: {
+    type: String,
+    required: [true, 'El slug de la marca es necesario'],
+  },
+  redirect_user_to_brand_page: {
+    type: Boolean,
+  },
   type: {
     type: String,
   },

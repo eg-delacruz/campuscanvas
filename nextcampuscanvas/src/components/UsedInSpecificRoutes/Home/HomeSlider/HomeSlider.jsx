@@ -70,6 +70,18 @@ const HomeSlider = ({ slides }) => {
         {slides.map((item) => (
           <SwiperSlide
             onClick={() => {
+              //Redirect user to the brand page if applies
+              if (item.redirect_user_to_brand_page) {
+                router.push(
+                  {
+                    pathname: `/descuentos/${item.brand_slug}`,
+                    query: { id: item.brand_slug },
+                  },
+                  `/descuentos/${item.brand_slug}`
+                );
+                return;
+              }
+
               //Directly open the affiliate link if discount only has affiliate link and is available for public
               if (
                 item.type === 'affiliate_link_only' &&
@@ -83,13 +95,13 @@ const HomeSlider = ({ slides }) => {
                 return;
               }
 
-              //Or open the discount page
+              //Or open the discount page in every other case
               router.push(
                 {
-                  pathname: `/descuentos/${item.discount_id}`,
+                  pathname: `/descuentos/${item.brand_slug}/${item.discount_id}`,
                   query: { id: item.discount_id },
                 },
-                `/descuentos/${item.discount_id}`
+                `/descuentos/${item.brand_slug}/${item.discount_id}`
               );
             }}
             key={item.discount_id}

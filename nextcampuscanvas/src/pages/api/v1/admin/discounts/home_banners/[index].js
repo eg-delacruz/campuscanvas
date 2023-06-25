@@ -58,7 +58,14 @@ router
   .post(expressWrapper(multiUpload), async (req, res) => {
     const { body, headers, method, files } = req;
 
-    const { discount_id, available_for, affiliate_link, type } = body;
+    const {
+      discount_id,
+      available_for,
+      affiliate_link,
+      type,
+      brand_slug,
+      redirect_to_brand_page,
+    } = body;
     const { big_home_slider_image } = files;
     const { small_home_slider_image } = files;
     const created_by = SESSION.session.user.email;
@@ -66,8 +73,10 @@ router
     try {
       const routesToUpdateSSG = await Controller.createHomeSliderBanner(
         discount_id,
+        brand_slug,
         big_home_slider_image,
         small_home_slider_image,
+        redirect_to_brand_page,
         available_for,
         affiliate_link,
         type,

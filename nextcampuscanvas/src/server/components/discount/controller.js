@@ -160,6 +160,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     valid_from,
     expiration_date,
     show_in_home_slider,
+    home_banner__redirect_user_to_brand_page,
     card_title,
     card_tag,
     display_card_in_section,
@@ -194,6 +195,8 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
   const SHOW_FIRST_IN_CATEGORY = show_first_in_category === 'true';
   const SHOW_FIRST_IN_HOME_SECTION = show_first_in_home_section === 'true';
   const SHOW_FIRST_IN_ALL_DISCOUNTS = show_first_in_all_discounts === 'true';
+  const HOME_BANNER__REDIRECT_USER_TO_BRAND_PAGE =
+    home_banner__redirect_user_to_brand_page === 'true';
 
   //Transforming dates to Date objects
   const VALID_FROM_DATE = new Date(valid_from);
@@ -325,7 +328,9 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
           URL: small_slider_img.value[0].URL,
         },
         available_for,
+        brand_slug: brand_info.brand_slug,
         affiliate_link: HOME_BANNER_AFF_LINK,
+        redirect_user_to_brand_page: HOME_BANNER__REDIRECT_USER_TO_BRAND_PAGE,
         type,
         created_at: new Date(),
         created_by,
@@ -917,6 +922,7 @@ async function getHomeSliderBannersInfoForAdmin() {
           discount_id: banner.discount_id,
           slider_banner_big_screen: banner.slider_banner_big_screen,
           slider_banner_small_screen: banner.slider_banner_small_screen,
+          redirect_user_to_brand_page: banner.redirect_user_to_brand_page,
           created_by: banner.created_by,
           created_at: banner.created_at,
           brand_logo: discount.brand.brand_logo,
@@ -1128,8 +1134,10 @@ async function getShowFirstInCategoryCount() {
 
 async function createHomeSliderBanner(
   discount_id,
+  brand_slug,
   big_home_slider_image,
   small_home_slider_image,
+  redirect_to_brand_page,
   available_for,
   affiliate_link,
   type,
@@ -1145,6 +1153,9 @@ async function createHomeSliderBanner(
       );
       throw new Error('Información insuficiente para crear banner');
     }
+
+    //Transforming boolean strings to pure boolean
+    const REDIRECT_TO_BRAND_PAGE = redirect_to_brand_page === 'true';
 
     const uploaded_images_urls = await Promise.allSettled([
       s3Uploadv3_big_home_slider_images(big_home_slider_image),
@@ -1171,6 +1182,7 @@ async function createHomeSliderBanner(
 
     const slide = {
       discount_id,
+      brand_slug,
       slider_banner_big_screen: {
         name: big_slider_img.value[0].name,
         URL: big_slider_img.value[0].URL,
@@ -1179,6 +1191,7 @@ async function createHomeSliderBanner(
         name: small_slider_img.value[0].name,
         URL: small_slider_img.value[0].URL,
       },
+      redirect_user_to_brand_page: REDIRECT_TO_BRAND_PAGE,
       available_for,
       type,
       affiliate_link: HOME_BANNER_AFF_LINK,
