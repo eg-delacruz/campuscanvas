@@ -2,7 +2,69 @@
 
 .container {
   max-width: 1200px;
+  min-height: calc(100vh - 420px);
+
   h1 {
     color: $color--primary2-dark1;
+    margin-bottom: 0;
   }
+  .search_bar_clarification {
+    margin-bottom: 0;
+  }
+  .search_bar {
+    width: 100%;
+    background-color: $color--secondary-light;
+    border: 1px solid $color--black;
+    height: 40px;
+    border-radius: 5px;
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 10px;
+    max-width: 390px;
+  }
+  .brands_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 70px 90px;
+    margin: 40px 0 50px;
+  }
+
+  .no_results_container {
+    margin: 0 auto;
+    text-align: center;
+  }
+}
+
+/////////////////////////
+//         MQ         //
+/////////////////////////
+@media screen and (max-width: 1200px) {
+  .container {
+    padding: 0 8px;
+  }
+}
+
+////////////////////////////////////////767/////////////////////////////////////////////
+
+@media screen and (max-width: 767px) {
+  .container {
+    .brands_grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 50px;
+    }
+  }
+}
+////////////////////////////////////////480/////////////////////////////////////////////
+
+@media screen and (max-width: 480px) {
+  .container {
+    .brands_grid {
+      grid-template-columns: repeat(1, 1fr);
+      grid-gap: 40px 0px;
+    }
+  }
+}
+////////////////////////////////////////320/////////////////////////////////////////////
+
+@media screen and (max-width: 320px) {
 }

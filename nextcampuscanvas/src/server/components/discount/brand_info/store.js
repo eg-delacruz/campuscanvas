@@ -39,6 +39,11 @@ const getBrands = async () => {
   return await BrandInfo.find({});
 };
 
+/////////////////////Get all brands alphabetically////////////////////////
+const getBrandsAlphabetically = async () => {
+  return await BrandInfo.find({}).sort({ brand_name: 1 });
+};
+
 /////////////////////Get brand by id////////////////////////
 const getBrandById = async (id) => {
   const brand = await BrandInfo.findOne({
@@ -86,6 +91,7 @@ module.exports = {
   brandAlreadyExists,
   brandSlugAlreadyExists,
   getBrands,
+  getBrandsAlphabetically,
   getById: getBrandById,
   getBySlug: getBrandBySlug,
   update: updateBrand,

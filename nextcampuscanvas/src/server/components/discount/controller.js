@@ -127,6 +127,7 @@ const createNewBrand = async ({
     let routesToUpdateSSG = [];
 
     routesToUpdateSSG.push(`/descuentos/${CREATED_BRAND.brand_slug}`);
+    routesToUpdateSSG.push('/descuentos/marcas');
 
     return { brand: CREATED_BRAND, routesToUpdateSSG };
   } catch (error) {
@@ -147,7 +148,7 @@ const getBrands = async () => {
 
 const getAllBrandsCleanForClient = async () => {
   try {
-    const brands = await brandInfo_Store.getBrands();
+    const brands = await brandInfo_Store.getBrandsAlphabetically();
     let cleanedBrands = brands.map((brand) => cleanBrandForClient(brand));
     return cleanedBrands;
   } catch (error) {
@@ -710,8 +711,9 @@ const updateBrand = async ({
           URL: uploaded_logo.value[0].URL,
         };
 
-        //Revalidate all discounts route and the brand route
+        //Revalidate all discounts route, all brands page and the brand route
         routesToUpdateSSG.push('/descuentos/todos');
+        routesToUpdateSSG.push('/descuentos/marcas');
         routesToUpdateSSG.push(`/descuentos/${brand_slug}`);
 
         //Check if any card currently appears in home section and revalidate home if true
@@ -884,6 +886,7 @@ const deleteBrand = async (id, brandLogoFileName) => {
 
     //Revalidate brand page
     routesToUpdateSSG.push(`/descuentos/${deleted_brand.value.brand_slug}`);
+    routesToUpdateSSG.push('/descuentos/marcas');
 
     return routesToUpdateSSG;
   } catch (error) {

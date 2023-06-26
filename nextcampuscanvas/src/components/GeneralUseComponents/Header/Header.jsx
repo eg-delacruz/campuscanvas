@@ -408,6 +408,9 @@ export default function Header({ displaySearchBar = true }) {
                 <Link href='/descuentos/todos'>Descuentos</Link>
               </li>
               <li className={styles.menu__item}>
+                <Link href='/descuentos/marcas'>Marcas</Link>
+              </li>
+              <li className={styles.menu__item}>
                 <Link href='/blog'>Blog</Link>
               </li>
             </ul>
