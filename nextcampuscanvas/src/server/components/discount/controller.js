@@ -145,6 +145,17 @@ const getBrands = async () => {
   }
 };
 
+const getAllBrandsCleanForClient = async () => {
+  try {
+    const brands = await brandInfo_Store.getBrands();
+    let cleanedBrands = brands.map((brand) => cleanBrandForClient(brand));
+    return cleanedBrands;
+  } catch (error) {
+    console.log('[discount controller error]' + error.message);
+    throw new Error(error.message);
+  }
+};
+
 const createNewDiscount = async (discountInfo, files, created_by) => {
   const {
     status,
@@ -1791,6 +1802,7 @@ module.exports = {
   //Brand functions
   createNewBrand,
   getBrands,
+  getAllBrandsCleanForClient,
   getBrandById,
   getBrandBySlug,
   getBrandBySlugCleanForClient,

@@ -26,7 +26,6 @@ const index = ({ brand }) => {
 
 export default index;
 
-//TODO: Check if the getStaicPaths and getStaticProps are working correctly in production
 //Pre-render these paths when building the app and fallback: 'blocking' to build new added discounts on demand in production.
 export async function getStaticPaths() {
   const response = await axiosFetcher({

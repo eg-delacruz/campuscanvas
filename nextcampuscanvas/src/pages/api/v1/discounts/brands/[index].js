@@ -65,6 +65,14 @@ export default async function handler(req, res) {
             successResponse(req, res, singleBrandBySlugClean, 201);
             break;
 
+          //Get all brands clean for client
+          case 'all_brands_clean_for_client':
+            const allBrandsCleanForClient =
+              await Controller.getAllBrandsCleanForClient();
+            successResponse(req, res, allBrandsCleanForClient, 201);
+            break;
+
+          //Count all brands
           case 'brands_count':
             const brandsCount = await Controller.getBrandsCount();
             const COUNT = {
