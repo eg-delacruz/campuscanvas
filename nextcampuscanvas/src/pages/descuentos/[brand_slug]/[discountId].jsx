@@ -27,15 +27,15 @@ const Discount = ({ discount }) => {
 
   return (
     <>
-      {/* <SEOHeader
+      <SEOHeader
         tabTitle={discount.SEO_meta_title}
         metaName={discount.SEO_meta_title}
         description={discount.description}
-      /> */}
+      />
 
       <Layout>
         {/* Edit icon if user is an admin */}
-        {/* {allowDisplay && (
+        {allowDisplay && (
           <Link
             href={`/admin/descuentos/gestionar-descuentos/editar-descuento/${discount._id}`}
           >
@@ -48,7 +48,7 @@ const Discount = ({ discount }) => {
         )}
         <DiscountTemplate discount={discount}>
           <DiscountDisplayerBtn discount={discount} />
-        </DiscountTemplate> */}
+        </DiscountTemplate>
       </Layout>
     </>
   );
@@ -56,70 +56,70 @@ const Discount = ({ discount }) => {
 
 export default Discount;
 
-// //TODO: Check if the getStaicPaths and getStaticProps are working correctly in production
-// //Pre-render these paths when building the app and fallback: 'blocking' to build new added discounts on demand in production.
-// export async function getStaticPaths() {
-//   const response = await axiosFetcher({
-//     url: endPoints.discounts.getCards,
-//     method: 'get',
-//     extraHeaders: { required_cards: 'all_available', page: 1, limit: 2000 },
-//   });
+//TODO: Check if the getStaicPaths and getStaticProps are working correctly in production
+//Pre-render these paths when building the app and fallback: 'blocking' to build new added discounts on demand in production.
+export async function getStaticPaths() {
+  const response = await axiosFetcher({
+    url: endPoints.discounts.getCards,
+    method: 'get',
+    extraHeaders: { required_cards: 'all_available', page: 1, limit: 2000 },
+  });
 
-//   const paths = response.body.cards.map((card) => ({
-//     params: {
-//       brand_slug: card.brand_slug.brand_slug,
-//       discountId: card._id,
-//     },
-//   }));
+  const paths = response.body.cards.map((card) => ({
+    params: {
+      brand_slug: card.brand_slug.brand_slug,
+      discountId: card._id,
+    },
+  }));
 
-//   return {
-//     paths,
-//     // true | false | blocking
-//     // true: Si no fue pre-renderizado en getStaticPaths, lo renderiza en el client, con lo cual podemos mostrar un estado de carga en el cliente con router.isFallback (lo cual vendría siendo como un estado de cargando)
-//     // false: Si no fue pre-renderizado en getStaticPaths, muestra un 404
-//     // blocking: Si no fue pre-renderizado en getStaticPaths, renderiza en el server
-//     fallback: 'blocking',
-//   };
-// }
+  return {
+    paths,
+    // true | false | blocking
+    // true: Si no fue pre-renderizado en getStaticPaths, lo renderiza en el client, con lo cual podemos mostrar un estado de carga en el cliente con router.isFallback (lo cual vendría siendo como un estado de cargando)
+    // false: Si no fue pre-renderizado en getStaticPaths, muestra un 404
+    // blocking: Si no fue pre-renderizado en getStaticPaths, renderiza en el server
+    fallback: 'blocking',
+  };
+}
 
-// //Pre-render the discount with the id passed in the path
-// export async function getStaticProps({ params }) {
-//   //with the optional chaining, since params could be undefined
-//   const brand_slug = params?.brand_slug;
-//   const discountId = params?.discountId;
+//Pre-render the discount with the id passed in the path
+export async function getStaticProps({ params }) {
+  //with the optional chaining, since params could be undefined
+  const brand_slug = params?.brand_slug;
+  const discountId = params?.discountId;
 
-//   //Necesitamos que sea un string, pues puede venir un array o undefined, dependiendo de cuántos parámetros ponemos en el slug separados por un /, o si directamente no ponemos nada. (Creo)
-//   if (typeof discountId !== 'string' || typeof brand_slug !== 'string') {
-//     return {
-//       notFound: true,
-//     };
-//   }
+  //Necesitamos que sea un string, pues puede venir un array o undefined, dependiendo de cuántos parámetros ponemos en el slug separados por un /, o si directamente no ponemos nada. (Creo)
+  if (typeof discountId !== 'string' || typeof brand_slug !== 'string') {
+    return {
+      notFound: true,
+    };
+  }
 
-//   const response = await axiosFetcher({
-//     url: endPoints.discounts.getDiscountById(discountId),
-//     method: 'get',
-//   });
+  const response = await axiosFetcher({
+    url: endPoints.discounts.getDiscountById(discountId),
+    method: 'get',
+  });
 
-//   if (response.error || response.body.status === 'unavailable') {
-//     return {
-//       notFound: true,
-//     };
-//   }
+  if (response.error || response.body.status === 'unavailable') {
+    return {
+      notFound: true,
+    };
+  }
 
-//   //If the brand_slug in the url doesn't match the brand_slug in the discount, redirect to the correct url
-//   if (response.body.brand.brand_slug !== brand_slug) {
-//     return {
-//       redirect: {
-//         destination: `/descuentos/${response.body.brand.brand_slug}/${discountId}`,
-//         permanent: true,
-//       },
-//     };
-//   }
+  //If the brand_slug in the url doesn't match the brand_slug in the discount, redirect to the correct url
+  if (response.body.brand.brand_slug !== brand_slug) {
+    return {
+      redirect: {
+        destination: `/descuentos/${response.body.brand.brand_slug}/${discountId}`,
+        permanent: true,
+      },
+    };
+  }
 
-//   return {
-//     props: {
-//       //Should be returned like this to avoid errors on next js production build
-//       discount: response?.body || null,
-//     },
-//   };
-// }
+  return {
+    props: {
+      //Should be returned like this to avoid errors on next js production build
+      discount: response?.body || null,
+    },
+  };
+}
