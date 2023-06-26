@@ -41,6 +41,8 @@ export async function getStaticPaths() {
     },
   }));
 
+  //console.log(paths);
+
   return {
     paths,
     // true | false | blocking
