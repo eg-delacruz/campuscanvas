@@ -396,6 +396,10 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
 
     //Update discounts count attached to brand by getting the brand and adding 1 to the discounts_attached attribute
     brand_info.discounts_attached += 1;
+    //TODO: eliminate this if when all brands have a tracked url
+    if(!brand_info.brand_home_tracked_url){
+      brand_info.brand_home_tracked_url = "https://www.campuscanvas.net"
+    }
     brandInfo_Store.update(brand_info);
 
     //Manually populate brand in CREATED_DISCOUNT
