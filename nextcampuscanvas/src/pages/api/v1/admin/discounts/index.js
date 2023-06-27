@@ -74,6 +74,7 @@ router
         files,
         OPERATION_DONE_BY
       );
+
       //Revalidating routes
       await routeRevalidator(res, result.routesToUpdateSSG);
 
