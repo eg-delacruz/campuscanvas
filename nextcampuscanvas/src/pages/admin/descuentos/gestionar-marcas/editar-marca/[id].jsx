@@ -1,52 +1,52 @@
-import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/router';
-import Image from 'next/image';
-import Swal from 'sweetalert2';
-import Link from 'next/link';
-import dynamic from 'next/dynamic';
+import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import Swal from "sweetalert2";
+import Link from "next/link";
+import dynamic from "next/dynamic";
 
 //React query
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import discountKeys from '@query-key-factory/discountKeys';
-import adminKeys from '@query-key-factory/adminKeys';
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import discountKeys from "@query-key-factory/discountKeys";
+import adminKeys from "@query-key-factory/adminKeys";
 
 //Styles
-import styles from '@styles/pagestyles/admin/descuentos/editarMarca.module.scss';
+import styles from "@styles/pagestyles/admin/descuentos/editarMarca.module.scss";
 //Rich text editor styles
 //https://www.youtube.com/watch?v=kykC7i9VUE4
-import 'react-quill/dist/quill.snow.css';
+import "react-quill/dist/quill.snow.css";
 
 //Components
-import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
-import ButtonBack from '@components/GeneralUseComponents/ButtonBack/ButtonBack';
-import Loader from '@components/GeneralUseComponents/Loader/Loader';
-import DisplayEliminateBrandModal from '@components/UsedInSpecificRoutes/Admin/Descuentos/Brands/DisplayEliminateBrandModal/DisplayEliminateBrandModal';
-import NotFound404 from '@components/GeneralUseComponents/NotFound404/NotFound404';
-import CustomCheckBox from '@components/GeneralUseComponents/CustomCheckBox/CustomCheckBox';
+import AdminHeader from "@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader";
+import ButtonBack from "@components/GeneralUseComponents/ButtonBack/ButtonBack";
+import Loader from "@components/GeneralUseComponents/Loader/Loader";
+import DisplayEliminateBrandModal from "@components/UsedInSpecificRoutes/Admin/Descuentos/Brands/DisplayEliminateBrandModal/DisplayEliminateBrandModal";
+import NotFound404 from "@components/GeneralUseComponents/NotFound404/NotFound404";
+import CustomCheckBox from "@components/GeneralUseComponents/CustomCheckBox/CustomCheckBox";
 
 //hooks
-import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
-import useAxios from '@hooks/useAxios';
-import { useInputValue } from '@hooks/useInputValue';
+import useSecureAdminRoute from "@hooks/useSecureAdminRoute";
+import useAxios from "@hooks/useAxios";
+import { useInputValue } from "@hooks/useInputValue";
 
 //Assets
-import delete_icon from '@assets/GeneralUse/IconsAndButtons/delete.svg';
-import edit_pencil from '@assets/GeneralUse/IconsAndButtons/edit_pencil.svg';
+import delete_icon from "@assets/GeneralUse/IconsAndButtons/delete.svg";
+import edit_pencil from "@assets/GeneralUse/IconsAndButtons/edit_pencil.svg";
 
 //Services
-import dateFormat from '@services/dateFormat';
+import dateFormat from "@services/dateFormat";
 
 //Endpoints
-import endPoints from '@services/api/index';
+import endPoints from "@services/api/index";
 
 //Request functions
-import discountFunctions from '@request-functions/Discounts';
-import requestFn from '@request-functions/Admin/Discounts'; //Admin functions
+import discountFunctions from "@request-functions/Discounts";
+import requestFn from "@request-functions/Admin/Discounts"; //Admin functions
 
 //Rich text editor
 const ReactQuill = dynamic(
   async () => {
-    const { default: ReactQuill } = await import('react-quill');
+    const { default: ReactQuill } = await import("react-quill");
     return ({ forwardedRef, ...props }) => (
       <ReactQuill ref={forwardedRef} {...props} />
     );
@@ -62,36 +62,38 @@ const modules = {
   },
   toolbar: [
     [{ header: [1, 2, 3, 4, 5, 6, false] }],
-    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-    [{ list: 'ordered' }, { list: 'bullet' }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [{ list: "ordered" }, { list: "bullet" }],
     //To add images to the editor, uncomment the following line and erase the one below it
     //['link', 'image'],
-    ['link'],
-    ['clean'],
+    ["link"],
+    ["clean"],
   ],
 };
 
 //React Quill custom formats. The ones that are not included here will be removed from the editor: https://quilljs.com/docs/formats/
 const formats = [
-  'header',
-  'bold',
-  'italic',
-  'underline',
-  'strike',
-  'blockquote',
-  'list',
-  'bullet',
-  'link',
-  'image',
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "link",
+  "image",
 ];
 
 const editarMarca = () => {
-  const { securingRoute } = useSecureAdminRoute('all');
+  const { securingRoute } = useSecureAdminRoute("all");
 
   const { fetchData, cancel } = useAxios();
 
   //Refs
   const descriptionRef = useRef();
+  const upperHeadingsRef = useRef();
+  const FAQsRef = useRef();
 
   //States
   const [state, setState] = useState({
@@ -105,12 +107,12 @@ const editarMarca = () => {
   const [newBrandLogo, setNewBrandLogo] = useState({
     newLogo: [],
     error: null,
-    logoPreview: '',
+    logoPreview: "",
   });
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState("");
   const [descriptionLength, setDescriptionLength] = useState(0);
-  const [upperHeadings, setUpperHeadings] = useState('');
-  const [FAQs, setFAQs] = useState('');
+  const [upperHeadings, setUpperHeadings] = useState("");
+  const [FAQs, setFAQs] = useState("");
   const [showEliminateModal, setShowEliminateModal] = useState(false);
 
   //Warning states
@@ -120,12 +122,12 @@ const editarMarca = () => {
   //Controlling inputs
   const SPONSORS_BOX = useInputValue(state.brand?.sponsors_box);
   const BRAND_SLUG = useInputValue(state.brand?.brand_slug);
-  const BRAND_HOME_TRACKED_URL = useInputValue('');
-  const TAB_TITLE = useInputValue('');
-  const META_NAME = useInputValue('');
-  const META_DESCRIPTION = useInputValue('');
-  const AFFILIATE_PROGRAM = useInputValue('');
-  const NOTES = useInputValue('');
+  const BRAND_HOME_TRACKED_URL = useInputValue("");
+  const TAB_TITLE = useInputValue("");
+  const META_NAME = useInputValue("");
+  const META_DESCRIPTION = useInputValue("");
+  const AFFILIATE_PROGRAM = useInputValue("");
+  const NOTES = useInputValue("");
 
   //Get brand id
   const router = useRouter();
@@ -165,8 +167,7 @@ const editarMarca = () => {
         setState({ ...state, brand, loading: false });
         SPONSORS_BOX.setValue(brand.sponsors_box);
         BRAND_SLUG.setValue(brand.brand_slug);
-        //TODO: In the future, when all brands have a tracked url, remove this if statement
-        if (brand.brand_home_tracked_url) BRAND_HOME_TRACKED_URL.setValue(brand.brand_home_tracked_url);
+        BRAND_HOME_TRACKED_URL.setValue(brand.brand_home_tracked_url);
         setDescription(brand.brand_description);
         setUpperHeadings(brand.upper_headings);
         setFAQs(brand.faqs);
@@ -191,9 +192,9 @@ const editarMarca = () => {
       const getBrand = async () => {
         const response = await fetchData(
           endPoints.discounts.getBrandById(id),
-          'get',
+          "get",
           null,
-          { required_info: 'single_brand' }
+          { required_info: "single_brand" }
         );
 
         if (response.error) {
@@ -213,8 +214,7 @@ const editarMarca = () => {
         SPONSORS_BOX.setValue(response.body.sponsors_box);
         setDescription(response.body.brand_description);
         BRAND_SLUG.setValue(response.body.brand_slug);
-        //TODO: In the future, when all brands have a tracked url, remove this if statement
-        if(response.body.brand_home_tracked_url) BRAND_HOME_TRACKED_URL.setValue(response.body.brand_home_tracked_url);
+        BRAND_HOME_TRACKED_URL.setValue(response.body.brand_home_tracked_url);
         setUpperHeadings(response.body.upper_headings);
         setFAQs(response.body.faqs);
         TAB_TITLE.setValue(response.body.tab_title);
@@ -251,14 +251,14 @@ const editarMarca = () => {
     if (state.brand?.discounts_attached > 0) {
       const customSwal = Swal.mixin({
         customClass: {
-          confirmButton: 'btn button--red',
+          confirmButton: "btn button--red",
         },
         buttonsStyling: false,
       });
       customSwal.fire(
-        '¡Hay descuentos asociados!',
-        'Elimina los descuentos asociados antes de eliminar la marca',
-        'error'
+        "¡Hay descuentos asociados!",
+        "Elimina los descuentos asociados antes de eliminar la marca",
+        "error"
       );
       return false;
     }
@@ -281,20 +281,20 @@ const editarMarca = () => {
 
   //Handle change brand logo (start)
   const onNewFile = (e) => {
-    const allowedFileFormats = ['svg', 'png'];
+    const allowedFileFormats = ["svg", "png"];
     const newFile = e.target.files[0];
     //4 MB aprox.
     const maxSizeAllowed = 4194304;
 
     //Allow only certain file formats
-    const dots = newFile.name.split('.');
+    const dots = newFile.name.split(".");
     const newFileType = dots[dots.length - 1];
 
     if (!allowedFileFormats.includes(newFileType)) {
       setNewBrandLogo({
         ...newBrandLogo,
         error:
-          'Debes subir un archivo preferentemente en formato SVG, o un PNG de 230 x 230 px',
+          "Debes subir un archivo preferentemente en formato SVG, o un PNG de 230 x 230 px",
       });
       setTimeout(() => {
         setNewBrandLogo({ ...newBrandLogo, error: null });
@@ -329,27 +329,27 @@ const editarMarca = () => {
     const hasForbiddenWord = (string) => {
       //These words are forbidden because of the PDCookieConcent of RBH, which makes discount pages crash if they have these words
       const FORBIDDEN_WORDS = [
-        'adwords',
-        'analytics',
-        'doubleclick',
-        'facebook.',
-        'google.com/maps',
-        'google.com/recaptcha',
-        'googleadservices',
-        'googlesyndication',
-        'googletagmanager',
-        'googletagservices',
-        'googletraveladservices',
-        'googleusercontent',
-        'gstatic',
-        'linkedin.',
-        'maps.google.com',
-        'maps.googleapis',
-        'twitter.',
-        'vimeo.',
-        'youtube.',
-        'ytimg',
-        'urchin',
+        "adwords",
+        "analytics",
+        "doubleclick",
+        "facebook.",
+        "google.com/maps",
+        "google.com/recaptcha",
+        "googleadservices",
+        "googlesyndication",
+        "googletagmanager",
+        "googletagservices",
+        "googletraveladservices",
+        "googleusercontent",
+        "gstatic",
+        "linkedin.",
+        "maps.google.com",
+        "maps.googleapis",
+        "twitter.",
+        "vimeo.",
+        "youtube.",
+        "ytimg",
+        "urchin",
       ];
       const hasForbiddenWord = FORBIDDEN_WORDS.some((word) =>
         string.includes(word)
@@ -370,7 +370,7 @@ const editarMarca = () => {
     if (!descriptionLength) {
       setState({
         ...state,
-        saving_changes_error: 'Debes escribir una descripción',
+        saving_changes_error: "Debes escribir una descripción",
       });
       setTimeout(() => {
         setState({
@@ -381,10 +381,11 @@ const editarMarca = () => {
       return false;
     }
 
-    if(BRAND_HOME_TRACKED_URL.value.length === 0){
+    if (BRAND_HOME_TRACKED_URL.value.length === 0) {
       setState({
         ...state,
-        saving_changes_error: 'Debes escribir una URL trackeada de la página de inicio de la marca',
+        saving_changes_error:
+          "Debes escribir una URL trackeada de la página de inicio de la marca",
       });
       setTimeout(() => {
         setState({
@@ -402,7 +403,7 @@ const editarMarca = () => {
     ) {
       setState({
         ...state,
-        saving_changes_error: 'Debes llenar todos los campos de metadatos',
+        saving_changes_error: "Debes llenar todos los campos de metadatos",
       });
       setTimeout(() => {
         setState({
@@ -413,24 +414,27 @@ const editarMarca = () => {
       return false;
     }
 
+    const APPROVED_UPPER_HEADINGS =
+      upperHeadingsRef.current?.unprivilegedEditor.getLength() - 1 < 5
+        ? ""
+        : upperHeadings;
+    const APPROVED_FAQS =
+      FAQsRef.current?.unprivilegedEditor.getLength() - 1 < 5 ? "" : FAQs;
+
     const formdata = new FormData();
-    formdata.append('id', id);
-    formdata.append('brand_logo', newBrandLogo.newLogo[0]);
-    formdata.append('brand_slug', BRAND_SLUG.value);
-    formdata.append('sponsors_box', SPONSORS_BOX.value);
-    formdata.append('brand_home_tracked_url', BRAND_HOME_TRACKED_URL.value);
-    formdata.append('brand_description', description);
-    //This is to avoid sending <p><br></p> when the user hasnt written anything, since when the field is empty, the value is <p><br></p>
-    formdata.append(
-      'upper_headings',
-      upperHeadings === '<p><br></p>' ? '' : upperHeadings
-    );
-    formdata.append('faqs', FAQs === '<p><br></p>' ? '' : FAQs);
-    formdata.append('tab_title', TAB_TITLE.value);
-    formdata.append('meta_name', META_NAME.value);
-    formdata.append('meta_description', META_DESCRIPTION.value);
-    formdata.append('affiliate_program', AFFILIATE_PROGRAM.value);
-    formdata.append('notes', NOTES.value);
+    formdata.append("id", id);
+    formdata.append("brand_logo", newBrandLogo.newLogo[0]);
+    formdata.append("brand_slug", BRAND_SLUG.value);
+    formdata.append("sponsors_box", SPONSORS_BOX.value);
+    formdata.append("brand_home_tracked_url", BRAND_HOME_TRACKED_URL.value);
+    formdata.append("brand_description", description);
+    formdata.append("upper_headings", APPROVED_UPPER_HEADINGS);
+    formdata.append("faqs", APPROVED_FAQS);
+    formdata.append("tab_title", TAB_TITLE.value);
+    formdata.append("meta_name", META_NAME.value);
+    formdata.append("meta_description", META_DESCRIPTION.value);
+    formdata.append("affiliate_program", AFFILIATE_PROGRAM.value);
+    formdata.append("notes", NOTES.value);
 
     setState({
       ...state,
@@ -440,9 +444,9 @@ const editarMarca = () => {
     //Send data to update information
     const response = await fetchData(
       endPoints.admin.discounts.brands,
-      'patch',
+      "patch",
       formdata,
-      { 'Content-Type': 'multipart/form-data' }
+      { "Content-Type": "multipart/form-data" }
     );
 
     if (response.error) {
@@ -482,8 +486,16 @@ const editarMarca = () => {
     setNewBrandLogo({
       ...newBrandLogo,
       newLogo: [],
-      logoPreview: '',
+      logoPreview: "",
     });
+    if (APPROVED_UPPER_HEADINGS === "") {
+      //Set upper headings to empty if it's less than 5 characters
+      setUpperHeadings("");
+    }
+    if (APPROVED_FAQS === "") {
+      //Set FAQs to empty if it's less than 5 characters
+      setFAQs("");
+    }
 
     //Update brands
     if (update_cache_only) {
@@ -497,8 +509,8 @@ const editarMarca = () => {
                 brand_slug: BRAND_SLUG.value,
                 brand_home_tracked_url: BRAND_HOME_TRACKED_URL.value,
                 brand_description: description,
-                upper_headings: upperHeadings,
-                faqs: FAQs,
+                upper_headings: APPROVED_UPPER_HEADINGS,
+                faqs: APPROVED_FAQS,
                 tab_title: TAB_TITLE.value,
                 meta_name: META_NAME.value,
                 meta_description: META_DESCRIPTION.value,
@@ -559,8 +571,8 @@ const editarMarca = () => {
       <AdminHeader />
       <div className={`${styles.container} container`}>
         <ButtonBack
-          prevRoute={'/admin/descuentos/gestionar-marcas'}
-          message='Marcas'
+          prevRoute={"/admin/descuentos/gestionar-marcas"}
+          message="Marcas"
           disabled={state.saving_changes}
         />
 
@@ -569,16 +581,16 @@ const editarMarca = () => {
             <NotFound404
               title={state.error}
               message={
-                'No se ha podido encontrar esta marca. Probablemente no exista o fue borrada'
+                "No se ha podido encontrar esta marca. Probablemente no exista o fue borrada"
               }
             />
           ) : (
             <>
               {handleDisplayEliminateModal()}
               <form
-                action=''
-                method='POST'
-                autoComplete='off'
+                action=""
+                method="POST"
+                autoComplete="off"
                 onSubmit={handleEditBrand}
               >
                 {/* /////////////////////////
@@ -596,16 +608,16 @@ const editarMarca = () => {
                       </div>
                     </div>
                     <input
-                      type='file'
-                      value=''
-                      accept='.jpg,.jpeg,.png,.svg'
+                      type="file"
+                      value=""
+                      accept=".jpg,.jpeg,.png,.svg"
                       onChange={onNewFile}
                     />
                   </div>
                   <h1>
                     <a
                       href={`https://campuscanvas.net/descuentos/${state.brand.brand_slug}`}
-                      target='_blank'
+                      target="_blank"
                     >
                       {state.brand.brand_name}
                     </a>
@@ -627,7 +639,7 @@ const editarMarca = () => {
                     </p>
                     <p>
                       <strong>Actualizado por: </strong>
-                      {state.brand.updated_by ? state.brand.updated_by : ''}
+                      {state.brand.updated_by ? state.brand.updated_by : ""}
                     </p>
                     <p>
                       <strong>Actualizado por última vez: </strong>
@@ -635,7 +647,7 @@ const editarMarca = () => {
                     </p>
                   </div>
                   <CustomCheckBox
-                    message='La marca patrocina Campus Box 🎁'
+                    message="La marca patrocina Campus Box 🎁"
                     required={false}
                     state={SPONSORS_BOX}
                   />
@@ -652,7 +664,7 @@ const editarMarca = () => {
                       <div className={styles.new_logo_preview}>
                         <Image
                           src={newBrandLogo.logoPreview}
-                          alt='Logo de la marca'
+                          alt="Logo de la marca"
                           height={80}
                           width={80}
                         />
@@ -663,19 +675,19 @@ const editarMarca = () => {
                     </div>
                   </div>
                 ) : (
-                  ''
+                  ""
                 )}
 
                 <div className={styles.brand_slug_container}>
                   <div className={styles.label_tooltip_container}>
                     <label
-                      htmlFor='brand_slug'
+                      htmlFor="brand_slug"
                       className={`${styles.input_title} `}
                     >
                       Slug de la marca *
                     </label>
                     <span className={styles.tooltip_container}>
-                      ?{' '}
+                      ?{" "}
                       <span className={styles.tooltiptext}>
                         Necesario para generar la URL de la marca. Evitar usar
                         tildes y caracteres especiales.
@@ -684,20 +696,20 @@ const editarMarca = () => {
                   </div>
                   <input
                     className={`${styles.input} ${styles.brand_slug_input}`}
-                    name='brand_slug'
-                    id='brand_slug'
-                    type='text'
-                    placeholder='Slug de la marca'
-                    autoComplete='off'
+                    name="brand_slug"
+                    id="brand_slug"
+                    type="text"
+                    placeholder="Slug de la marca"
+                    autoComplete="off"
                     value={BRAND_SLUG.value}
                     onChange={(e) => {
                       //Eliminate accents, special characters and spaces
                       BRAND_SLUG.setValue(
                         e.target.value
-                          .normalize('NFD')
-                          .replace(/[\u0300-\u036f]/g, '')
-                          .replace(/\s+/g, '-')
-                          .replace(/\./g, '')
+                          .normalize("NFD")
+                          .replace(/[\u0300-\u036f]/g, "")
+                          .replace(/\s+/g, "-")
+                          .replace(/\./g, "")
                           .toLowerCase()
                       );
                     }}
@@ -706,45 +718,50 @@ const editarMarca = () => {
                 </div>
 
                 <div>
-                <label
-              htmlFor='tracked_home_url'
-              className={`${styles.input_title}`}
-            >
-              Enlace trackeado a la web de la marca (incluye desde el
-              https://www.)*
-            </label>
-            <input
-              className={`${styles.input}`}
-              name='tracked_home_url'
-              id='tracked_home_url'
-              type='text'
-              placeholder=''
-              autoComplete='off'
-              value={BRAND_HOME_TRACKED_URL.value}
-              onChange={handleTrackedBrandHomeUrl}
-            />
-            {homeTrackedURLForbiddenWord && (
-              <p className={`${styles.warning_under_input} warning__message`}>
-              El enlace de afiliado contiene palabras que afectarán la
-              funcionalidad del sitio web de Campus Canvas. Utiliza el{' '}
-              <a target={'_blank'} href='https://free-url-shortener.rb.gy/'>
-                acortador de enlaces
-              </a>{' '}
-              para corregirlo o haz cambios al enlace.
-            </p>
-            )}
+                  <label
+                    htmlFor="tracked_home_url"
+                    className={`${styles.input_title}`}
+                  >
+                    Enlace trackeado a la web de la marca (incluye desde el
+                    https://www.)*
+                  </label>
+                  <input
+                    className={`${styles.input}`}
+                    name="tracked_home_url"
+                    id="tracked_home_url"
+                    type="text"
+                    placeholder=""
+                    autoComplete="off"
+                    value={BRAND_HOME_TRACKED_URL.value}
+                    onChange={handleTrackedBrandHomeUrl}
+                  />
+                  {homeTrackedURLForbiddenWord && (
+                    <p
+                      className={`${styles.warning_under_input} warning__message`}
+                    >
+                      El enlace de afiliado contiene palabras que afectarán la
+                      funcionalidad del sitio web de Campus Canvas. Utiliza el{" "}
+                      <a
+                        target={"_blank"}
+                        href="https://free-url-shortener.rb.gy/"
+                      >
+                        acortador de enlaces
+                      </a>{" "}
+                      para corregirlo o haz cambios al enlace.
+                    </p>
+                  )}
                 </div>
 
                 <div className={styles.description_container}>
                   <label
-                    htmlFor='brand_description'
+                    htmlFor="brand_description"
                     className={`${styles.input_title}`}
                   >
                     Descripción de la marca *
                   </label>
                   <div className={styles.quill_editor}>
                     <ReactQuill
-                      id='brand_description'
+                      id="brand_description"
                       modules={modules}
                       formats={formats}
                       value={description}
@@ -755,7 +772,7 @@ const editarMarca = () => {
                   <p
                     className={`${styles.char_count} ${
                       styles.description_char_count
-                    } ${descriptionLength > 520 ? styles.char_count_warn : ''}`}
+                    } ${descriptionLength > 520 ? styles.char_count_warn : ""}`}
                   >
                     <span>{descriptionLength} / 520</span>
                   </p>
@@ -763,34 +780,36 @@ const editarMarca = () => {
 
                 <div className={styles.upper_headings_container}>
                   <label
-                    htmlFor='upper_headings'
+                    htmlFor="upper_headings"
                     className={`${styles.input_title}`}
                   >
-                    Encabezados superiores (H1 + párrafo + H2)
+                    Contenido principal (H1 + párrafo + contenido)
                   </label>
                   <div className={styles.quill_editor}>
                     <ReactQuill
-                      id='upper_headings'
+                      id="upper_headings"
                       modules={modules}
                       formats={formats}
                       value={upperHeadings}
                       onChange={setUpperHeadings}
+                      forwardedRef={upperHeadingsRef}
                     />
                   </div>
                 </div>
 
                 <div className={styles.FAQs_container}>
-                  <label htmlFor='FAQs' className={`${styles.input_title}`}>
+                  <label htmlFor="FAQs" className={`${styles.input_title}`}>
                     Preguntas frecuentes (Pequeña descripción + H3 + párrafo por
                     pregunta)
                   </label>
                   <div className={styles.quill_editor}>
                     <ReactQuill
-                      id='FAQs'
+                      id="FAQs"
                       modules={modules}
                       formats={formats}
                       value={FAQs}
                       onChange={setFAQs}
+                      forwardedRef={FAQsRef}
                     />
                   </div>
                 </div>
@@ -800,18 +819,18 @@ const editarMarca = () => {
                   <div className={styles.tab_title_meta_name_container}>
                     <div className={styles.tab_title}>
                       <label
-                        htmlFor='tab_title'
+                        htmlFor="tab_title"
                         className={`${styles.input_title}`}
                       >
                         Título de la pestaña *
                       </label>
                       <input
                         className={`${styles.input} ${styles.tab_title_input}`}
-                        name='tab_title'
-                        id='tab_title'
-                        type='text'
-                        placeholder='Título de la pestaña'
-                        autoComplete='off'
+                        name="tab_title"
+                        id="tab_title"
+                        type="text"
+                        placeholder="Título de la pestaña"
+                        autoComplete="off"
                         value={TAB_TITLE.value}
                         onChange={TAB_TITLE.onChange}
                         required
@@ -820,18 +839,18 @@ const editarMarca = () => {
 
                     <div className={styles.meta_name}>
                       <label
-                        htmlFor='meta_name'
+                        htmlFor="meta_name"
                         className={`${styles.input_title}`}
                       >
                         Nombre de la etiqueta meta *
                       </label>
                       <input
                         className={`${styles.input} ${styles.meta_name_input}`}
-                        name='meta_name'
-                        id='meta_name'
-                        type='text'
-                        placeholder='Nombre de la etiqueta meta'
-                        autoComplete='off'
+                        name="meta_name"
+                        id="meta_name"
+                        type="text"
+                        placeholder="Nombre de la etiqueta meta"
+                        autoComplete="off"
                         value={META_NAME.value}
                         onChange={META_NAME.onChange}
                         required
@@ -841,18 +860,18 @@ const editarMarca = () => {
 
                   <div className={styles.meta_description_container}>
                     <label
-                      htmlFor='meta_description'
+                      htmlFor="meta_description"
                       className={`${styles.input_title}`}
                     >
                       Meta descripción *
                     </label>
                     <textarea
                       className={`${styles.meta_description_text_area}`}
-                      name='meta_description'
-                      id='meta_description'
-                      type='text'
-                      placeholder='Meta descripción'
-                      autoComplete='off'
+                      name="meta_description"
+                      id="meta_description"
+                      type="text"
+                      placeholder="Meta descripción"
+                      autoComplete="off"
                       value={META_DESCRIPTION.value}
                       onChange={META_DESCRIPTION.onChange}
                       required
@@ -863,34 +882,34 @@ const editarMarca = () => {
                 <h3>Información extra</h3>
                 <div>
                   <label
-                    htmlFor='affiliate_program'
+                    htmlFor="affiliate_program"
                     className={`${styles.input_title} `}
                   >
                     Plataforma de afiliado de la marca
                   </label>
                   <input
                     className={`${styles.input} ${styles.affiliate_program_input}`}
-                    name='affiliate_program'
-                    id='affiliate_program'
-                    type='text'
-                    placeholder='Awin, Tradedoubler, etc.'
-                    autoComplete='off'
+                    name="affiliate_program"
+                    id="affiliate_program"
+                    type="text"
+                    placeholder="Awin, Tradedoubler, etc."
+                    autoComplete="off"
                     value={AFFILIATE_PROGRAM.value}
                     onChange={AFFILIATE_PROGRAM.onChange}
                   />
                 </div>
 
                 <div>
-                  <label htmlFor='notes' className={`${styles.input_title}`}>
+                  <label htmlFor="notes" className={`${styles.input_title}`}>
                     Notas
                   </label>
                   <textarea
                     className={`${styles.notes_text_area}`}
-                    name='notes'
-                    id='notes'
-                    type='text'
-                    placeholder='Por ejemplo, forma de trabajar con la marca, etc.'
-                    autoComplete='off'
+                    name="notes"
+                    id="notes"
+                    type="text"
+                    placeholder="Por ejemplo, forma de trabajar con la marca, etc."
+                    autoComplete="off"
                     value={NOTES.value}
                     onChange={NOTES.onChange}
                   />
@@ -898,21 +917,21 @@ const editarMarca = () => {
 
                 {/* Display if there were errors at updating brand */}
                 {state.saving_changes_error ? (
-                  <p className='error__messagev2'>
+                  <p className="error__messagev2">
                     {state.saving_changes_error}
                   </p>
                 ) : (
-                  ''
+                  ""
                 )}
 
                 {newBrandLogo.error ? (
-                  <p className='error__messagev2'>{newBrandLogo.error}</p>
+                  <p className="error__messagev2">{newBrandLogo.error}</p>
                 ) : (
-                  ''
+                  ""
                 )}
 
                 <button
-                  type='submit'
+                  type="submit"
                   className={`${styles.submit_btn} ${
                     state.saving_changes && styles.buttonLoading
                   } ${
@@ -930,7 +949,7 @@ const editarMarca = () => {
                     state.brand.affiliate_program === AFFILIATE_PROGRAM.value &&
                     state.brand.notes === NOTES.value
                       ? styles.disabled
-                      : ''
+                      : ""
                   } btn button--red`}
                   //Disable button if there are no changes or changes are being submitted
                   disabled={
@@ -943,8 +962,7 @@ const editarMarca = () => {
                       state.brand.faqs === FAQs &&
                       state.brand.tab_title === TAB_TITLE.value &&
                       state.brand.meta_name === META_NAME.value &&
-                      state.brand.meta_description ===
-                        META_DESCRIPTION.value &&
+                      state.brand.meta_description === META_DESCRIPTION.value &&
                       newBrandLogo.newLogo.length === 0 &&
                       state.brand.sponsors_box === SPONSORS_BOX.value &&
                       state.brand.affiliate_program ===
@@ -986,7 +1004,7 @@ const editarMarca = () => {
                     ) : (
                       <>
                         {ATTACHED_DISCOUNTS.isError ? (
-                          <p className='error__message'>
+                          <p className="error__message">
                             {ATTACHED_DISCOUNTS.error?.message}
                           </p>
                         ) : (
@@ -1056,14 +1074,14 @@ const editarMarca = () => {
                                             ? valid_till_date_color(
                                                 discount.expiration_date
                                               )
-                                            : ''
+                                            : ""
                                         }`}
                                       >
                                         {discount.expiration_date
                                           ? dateFormat.SlashDate(
                                               new Date(discount.expiration_date)
                                             )
-                                          : 'No expira'}
+                                          : "No expira"}
                                       </td>
                                     </Link>
                                     <Link
@@ -1072,7 +1090,7 @@ const editarMarca = () => {
                                       <td className={styles.column7}>
                                         <div
                                           className={` ${
-                                            discount.status === 'available'
+                                            discount.status === "available"
                                               ? styles.available
                                               : styles.unavailable
                                           }`}

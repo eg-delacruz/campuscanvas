@@ -1,21 +1,21 @@
 //Components
-import Layout from '@components/GeneralUseComponents/Layout/Layout';
-import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
-import PublicBrandPageTemplate from '@components/UsedInSpecificRoutes/Descuentos/PublicBrandPageTemplate/PublicBrandPageTemplate';
+import Layout from "@components/GeneralUseComponents/Layout/Layout";
+import SEOHeader from "@components/GeneralUseComponents/SEO_Header/SEOHeader";
+import PublicBrandPageTemplate from "@components/UsedInSpecificRoutes/Descuentos/PublicBrandPageTemplate/PublicBrandPageTemplate";
 
 //Endpoints
-import endPoints from '@services/api/index';
+import endPoints from "@services/api/index";
 
 //Services
-import axiosFetcher from '@services/axiosFetcher';
+import axiosFetcher from "@services/axiosFetcher";
 
 const index = ({ brand }) => {
   return (
     <>
       <SEOHeader
-        tabTitle={`Descuentos ${brand.brand_name}`}
-        metaName={`Descuentos ${brand.brand_name}`}
-        description={brand.brand_description}
+        tabTitle={brand.tab_title}
+        metaName={brand.meta_name}
+        description={brand.meta_description}
       />
       <Layout>
         <PublicBrandPageTemplate brand={brand} />
@@ -30,8 +30,8 @@ export default index;
 export async function getStaticPaths() {
   const response = await axiosFetcher({
     url: endPoints.discounts.brands,
-    method: 'get',
-    extraHeaders: { required_info: 'all_brands' },
+    method: "get",
+    extraHeaders: { required_info: "all_brands" },
   });
 
   const paths = response.body.map((brand) => ({
@@ -48,7 +48,7 @@ export async function getStaticPaths() {
     // true: Si no fue pre-renderizado en getStaticPaths, lo renderiza en el client, con lo cual podemos mostrar un estado de carga en el cliente con router.isFallback (lo cual vendría siendo como un estado de cargando)
     // false: Si no fue pre-renderizado en getStaticPaths, muestra un 404
     // blocking: Si no fue pre-renderizado en getStaticPaths, renderiza en el server
-    fallback: 'blocking',
+    fallback: "blocking",
   };
 }
 
@@ -58,7 +58,7 @@ export async function getStaticProps({ params }) {
   const brand_slug = params?.brand_slug;
 
   //Necesitamos que sea un string, pues puede venir un array o undefined, dependiendo de cuántos parámetros ponemos en el slug separados por un /, o si directamente no ponemos nada. (Creo)
-  if (typeof brand_slug !== 'string') {
+  if (typeof brand_slug !== "string") {
     return {
       notFound: true,
     };
@@ -66,11 +66,11 @@ export async function getStaticProps({ params }) {
 
   const response = await axiosFetcher({
     url: endPoints.discounts.getBrandBySlug(brand_slug),
-    method: 'get',
-    extraHeaders: { required_info: 'single_brand_by_slug_clean_for_client' },
+    method: "get",
+    extraHeaders: { required_info: "single_brand_by_slug_clean_for_client" },
   });
 
-  if (response.error || response.body.status === 'unavailable') {
+  if (response.error || response.body.status === "unavailable") {
     return {
       notFound: true,
     };

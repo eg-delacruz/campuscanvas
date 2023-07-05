@@ -32,19 +32,22 @@
     }
   }
 
-  .upper_headings {
-    p {
-      margin: 0;
-    }
-  }
+  
 
   .logo_description_container {
     display: flex;
     align-items: flex-start;
-    margin: 50px 0;
+    margin: 30px 0 50px;
     background-color: $color--tertiary-white;
     padding: 30px;
     border-radius: 5px;
+    ul,
+    ol {
+      margin: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      @include paragraph--regular;
+    }
 
     .logo_container {
       width: 140px;
@@ -69,6 +72,19 @@
     }
   }
 
+  .upper_headings {
+    p {
+      margin: 0;
+    }
+    ul,
+    ol {
+      margin: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      @include paragraph--regular;
+    }
+  }
+
   .discount_cards_section {
     .discounts_grid {
       display: grid;
@@ -78,6 +94,9 @@
     }
   }
 
+  .faqs_title {
+    margin-top: 40px;
+  }
   .faqs_container {
     p {
       margin: 0;
