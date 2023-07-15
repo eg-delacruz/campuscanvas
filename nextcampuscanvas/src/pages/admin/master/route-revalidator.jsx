@@ -1,28 +1,28 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import styles from '@styles/pagestyles/admin/master/RouteRevalidator.module.scss';
+import styles from "@styles/pagestyles/admin/master/RouteRevalidator.module.scss";
 
 //Components
-import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
-import ConfirmationSwal from '@components/GeneralUseComponents/ConfirmationSwal/ConfirmationSwal';
-import Loader from '@components/GeneralUseComponents/Loader/Loader';
+import AdminHeader from "@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader";
+import ConfirmationSwal from "@components/GeneralUseComponents/ConfirmationSwal/ConfirmationSwal";
+import Loader from "@components/GeneralUseComponents/Loader/Loader";
 
 //hooks
-import { useInputValue } from '@hooks/useInputValue';
-import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
+import { useInputValue } from "@hooks/useInputValue";
+import useSecureAdminRoute from "@hooks/useSecureAdminRoute";
 
 //Request functions
-import adminFunctions from '@request-functions/Admin/index';
+import adminFunctions from "@request-functions/Admin/index";
 
 const routeRevalidator = () => {
-  const { securingRoute } = useSecureAdminRoute('master');
+  const { securingRoute } = useSecureAdminRoute("master");
 
   //States
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   //Controlling inputs
-  const ROUTE = useInputValue('');
+  const ROUTE = useInputValue("https://www.campuscanvas.net/");
 
   //Functions
   const handleSubmit = async (e) => {
@@ -44,7 +44,7 @@ const routeRevalidator = () => {
 
     setLoading(false);
 
-    ROUTE.setValue('');
+    ROUTE.setValue("");
 
     //Show a confirmation swal
     ConfirmationSwal({
@@ -70,23 +70,23 @@ const routeRevalidator = () => {
           'https://www.campuscanvas.net/'
         </p>
         <form
-          action=''
-          method='POST'
-          autoComplete='off'
+          action=""
+          method="POST"
+          autoComplete="off"
           onSubmit={handleSubmit}
           className={styles.form}
         >
           <div className={styles.input_container}>
-            <label htmlFor='route' className={`${styles.input_title}`}>
+            <label htmlFor="route" className={`${styles.input_title}`}>
               Ruta a revalidar
             </label>
             <input
               className={`${styles.input}`}
-              name='route'
-              id='route'
-              type='text'
-              placeholder='Ruta a revalidar'
-              autoComplete='off'
+              name="route"
+              id="route"
+              type="text"
+              placeholder="Ruta a revalidar"
+              autoComplete="off"
               value={ROUTE.value}
               onChange={ROUTE.onChange}
               required
@@ -96,7 +96,7 @@ const routeRevalidator = () => {
           {error && <p className={`error__messagev2`}>{error}</p>}
 
           <button
-            type='submit'
+            type="submit"
             className={`${loading && styles.buttonLoading} btn button--red`}
             disabled={loading}
           >
