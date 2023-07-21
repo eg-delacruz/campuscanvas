@@ -111,6 +111,7 @@ const editarMarca = () => {
   });
   const [description, setDescription] = useState("");
   const [descriptionLength, setDescriptionLength] = useState(0);
+  //UpperHeadings is now the main content, but didn't change the name of the state
   const [upperHeadings, setUpperHeadings] = useState("");
   const [FAQs, setFAQs] = useState("");
   const [showEliminateModal, setShowEliminateModal] = useState(false);
@@ -524,6 +525,23 @@ const editarMarca = () => {
         } else {
           return oldData;
         }
+      });
+      //Update state with the new information
+      setState({
+        ...state,
+        brand: {
+          ...state.brand,
+          brand_slug: BRAND_SLUG.value,
+          brand_home_tracked_url: BRAND_HOME_TRACKED_URL.value,
+          brand_description: description,
+          upper_headings: APPROVED_UPPER_HEADINGS,
+          faqs: APPROVED_FAQS,
+          tab_title: TAB_TITLE.value,
+          meta_name: META_NAME.value,
+          meta_description: META_DESCRIPTION.value,
+          affiliate_program: AFFILIATE_PROGRAM.value,
+          notes: NOTES.value,
+        },
       });
     } else {
       //Update brands from DB if brand logo has changed, since the logo URL is not stored in cache
