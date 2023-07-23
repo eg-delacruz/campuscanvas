@@ -1,77 +1,77 @@
 //Clarification: Allows edition and deletion of a discount
-import { useRouter } from 'next/router';
-import Image from 'next/image';
-import { useSelector, useDispatch } from 'react-redux';
-import { useState, useEffect, useRef, useCallback } from 'react';
-import Swal from 'sweetalert2';
-import dynamic from 'next/dynamic';
+import { useRouter } from "next/router";
+import Image from "next/image";
+import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect, useRef, useCallback } from "react";
+import Swal from "sweetalert2";
+import dynamic from "next/dynamic";
 
 //Input tag library
 //https://github.com/i-like-robots/react-tag-autocomplete
-import { ReactTags } from 'react-tag-autocomplete';
-import discount_key_words from '@datalist-options/discount_key_words';
+import { ReactTags } from "react-tag-autocomplete";
+import discount_key_words from "@datalist-options/discount_key_words";
 
 //React query
-import { useQuery } from '@tanstack/react-query';
-import discoutKeys from '@query-key-factory/discountKeys';
-import adminKeys from '@query-key-factory/adminKeys';
+import { useQuery } from "@tanstack/react-query";
+import discoutKeys from "@query-key-factory/discountKeys";
+import adminKeys from "@query-key-factory/adminKeys";
 
 //Styles
-import styles from '@styles/pagestyles/admin/descuentos/editarDescuento.module.scss';
+import styles from "@styles/pagestyles/admin/descuentos/editarDescuento.module.scss";
 //Rich text editor styles
 //https://www.youtube.com/watch?v=kykC7i9VUE4
-import 'react-quill/dist/quill.snow.css';
+import "react-quill/dist/quill.snow.css";
 
 //Components
-import AdminHeader from '@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader';
-import Loader from '@components/GeneralUseComponents/Loader/Loader';
-import ButtonBack from '@components/GeneralUseComponents/ButtonBack/ButtonBack';
-import DisplayEliminateDiscountModal from '@components/UsedInSpecificRoutes/Admin/Descuentos/Discounts/DisplayEliminateDiscountModal/DisplayEliminateDiscountModal';
-import ToUploadFilePreview from '@components/GeneralUseComponents/ToUploadFilePreview/ToUploadFilePreview';
-import CustomCheckBox from '@components/GeneralUseComponents/CustomCheckBox/CustomCheckBox';
-import DiscountCard from '@components/GeneralUseComponents/DiscountCard/DiscountCard';
-import ButtonUp from '@components/GeneralUseComponents/ButtonUp/ButtonUp';
-import DisplayEliminateHomeBanner from '@components/UsedInSpecificRoutes/Admin/Descuentos/HomeSlider/DisplayEliminateHomeBanner/DisplayEliminateHomeBanner';
-import DisplayCreateHomeBannerModal from '@components/UsedInSpecificRoutes/Admin/Descuentos/HomeSlider/DisplayCreateHomeBannerModal/DisplayCreateHomeBannerModal';
-import CC_LogoLoader from '@components/GeneralUseComponents/CC_LogoLoader/CC_LogoLoader';
-import ConfirmationSwal from '@components/GeneralUseComponents/ConfirmationSwal/ConfirmationSwal';
+import AdminHeader from "@components/UsedInSpecificRoutes/Admin/AdminHeader/AdminHeader";
+import Loader from "@components/GeneralUseComponents/Loader/Loader";
+import ButtonBack from "@components/GeneralUseComponents/ButtonBack/ButtonBack";
+import DisplayEliminateDiscountModal from "@components/UsedInSpecificRoutes/Admin/Descuentos/Discounts/DisplayEliminateDiscountModal/DisplayEliminateDiscountModal";
+import ToUploadFilePreview from "@components/GeneralUseComponents/ToUploadFilePreview/ToUploadFilePreview";
+import CustomCheckBox from "@components/GeneralUseComponents/CustomCheckBox/CustomCheckBox";
+import DiscountCard from "@components/GeneralUseComponents/DiscountCard/DiscountCard";
+import ButtonUp from "@components/GeneralUseComponents/ButtonUp/ButtonUp";
+import DisplayEliminateHomeBanner from "@components/UsedInSpecificRoutes/Admin/Descuentos/HomeSlider/DisplayEliminateHomeBanner/DisplayEliminateHomeBanner";
+import DisplayCreateHomeBannerModal from "@components/UsedInSpecificRoutes/Admin/Descuentos/HomeSlider/DisplayCreateHomeBannerModal/DisplayCreateHomeBannerModal";
+import CC_LogoLoader from "@components/GeneralUseComponents/CC_LogoLoader/CC_LogoLoader";
+import ConfirmationSwal from "@components/GeneralUseComponents/ConfirmationSwal/ConfirmationSwal";
 
 //hooks
-import useSecureAdminRoute from '@hooks/useSecureAdminRoute';
-import useAxios from '@hooks/useAxios';
-import { useInputValue } from '@hooks/useInputValue';
-import { useCharacterCount } from '@hooks/useCharacterCount';
+import useSecureAdminRoute from "@hooks/useSecureAdminRoute";
+import useAxios from "@hooks/useAxios";
+import { useInputValue } from "@hooks/useInputValue";
+import { useCharacterCount } from "@hooks/useCharacterCount";
 
 //Assets
-import delete_icon from '@assets/GeneralUse/IconsAndButtons/delete.svg';
-import edit_pencil from '@assets/GeneralUse/IconsAndButtons/edit_pencil.svg';
+import delete_icon from "@assets/GeneralUse/IconsAndButtons/delete.svg";
+import edit_pencil from "@assets/GeneralUse/IconsAndButtons/edit_pencil.svg";
 
 //Redux reducers and actions
 import {
   selectHomeSectionsCount,
   getHomeSectionsCount,
-} from '@redux/homeSectionsDiscountsCountSlice';
+} from "@redux/homeSectionsDiscountsCountSlice";
 import {
   selectShowFirstInCategoryCount,
   getShowFirstInCategoryCount,
-} from '@redux/showDiscountFirstInCategorySlice';
+} from "@redux/showDiscountFirstInCategorySlice";
 
 //Services
-import dateFormat from '@services/dateFormat';
+import dateFormat from "@services/dateFormat";
 
 //Request functions
-import discountFunctions from '@request-functions/Admin/Discounts';
+import discountFunctions from "@request-functions/Admin/Discounts";
 
 //Datalist options
-import DISPLAY_CARD_IN_SECTION_OPTIONS from '@datalist-options/display_card_in_section_options';
-import CARD_TAG_OPTIONS from '@datalist-options/card_tag_options';
-import DISCOUNT_STATUS_OPTIONS from '@datalist-options/discount_status_options';
+import DISPLAY_CARD_IN_SECTION_OPTIONS from "@datalist-options/display_card_in_section_options";
+import CARD_TAG_OPTIONS from "@datalist-options/card_tag_options";
+import DISCOUNT_STATUS_OPTIONS from "@datalist-options/discount_status_options";
 
 //Endpoints
-import endPoints from '@services/api/index';
+import endPoints from "@services/api/index";
 
 //Rich text editor
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 //React Quill custom options
 const modules = {
@@ -81,31 +81,31 @@ const modules = {
   },
   toolbar: [
     [{ header: [1, 2, 3, 4, 5, 6, false] }],
-    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-    [{ list: 'ordered' }, { list: 'bullet' }],
-    ['link', 'image'],
-    ['clean'],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    ["link", "image"],
+    ["clean"],
   ],
 };
 
 //React Quill custom formats. The ones that are not included here will be removed from the editor: https://quilljs.com/docs/formats/
 const formats = [
-  'header',
-  'bold',
-  'italic',
-  'underline',
-  'strike',
-  'blockquote',
-  'list',
-  'bullet',
-  'link',
-  'image',
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "link",
+  "image",
 ];
 
 //CLARIFICATIONS:
 //1. It would be too complicated to update the discounts table cache with the response after editing the discount, since miltiple things happen in the server and is difficult to know what to update. So, the cache is invalidated and the whole discounts table is refetched.
 const editarDescuento = () => {
-  const { securingRoute } = useSecureAdminRoute('all');
+  const { securingRoute } = useSecureAdminRoute("all");
 
   const { fetchData } = useAxios();
 
@@ -121,7 +121,7 @@ const editarDescuento = () => {
   const [newBanner, setNewBanner] = useState([]);
   const [loadingDiscountBanner, setLoadingDiscountBanner] = useState(true);
   const [showEliminateModal, setShowEliminateModal] = useState(false);
-  const [termsCondsText, setTermsCondsText] = useState('');
+  const [termsCondsText, setTermsCondsText] = useState("");
   const [showEliminateHomeBannerModal, setShowEliminateHomeBannerModal] =
     useState(false);
   const [showCreateHomeBannerModal, setShowCreateHomeBannerModal] =
@@ -148,9 +148,9 @@ const editarDescuento = () => {
 
   //Other varialbes
   const DISCOUNT_TYPE_DICTIONARY = {
-    discount_code: 'Código de descuento',
-    affiliate_link_only: 'Solo enlace de afiliado',
-    dynamically_generated: 'Generado dinámicamente',
+    discount_code: "Código de descuento",
+    affiliate_link_only: "Solo enlace de afiliado",
+    dynamically_generated: "Generado dinámicamente",
   };
 
   //Ref to monitor if banner is being displayed
@@ -210,17 +210,17 @@ const editarDescuento = () => {
   });
 
   //Controlling inputs
-  const STATUS = useInputValue('');
-  const TITLE = useInputValue('');
-  const DESCRIPTION = useInputValue('');
-  const AFFILIATE_LINK = useInputValue('');
-  const DISCOUNT_CODE = useInputValue('');
-  const AVAILABLE_FOR = useInputValue('');
-  const EXPIRATION_DATE = useInputValue('');
-  const CARD_TITLE = useInputValue(CARD.data?.title || '');
-  const CARD_TAG = useInputValue(CARD.data?.card_tag || '');
+  const STATUS = useInputValue("");
+  const TITLE = useInputValue("");
+  const DESCRIPTION = useInputValue("");
+  const AFFILIATE_LINK = useInputValue("");
+  const DISCOUNT_CODE = useInputValue("");
+  const AVAILABLE_FOR = useInputValue("");
+  const EXPIRATION_DATE = useInputValue("");
+  const CARD_TITLE = useInputValue(CARD.data?.title || "");
+  const CARD_TAG = useInputValue(CARD.data?.card_tag || "");
   const DISPLAY_CARD_IN_SECTION = useInputValue(
-    CARD.data?.display_in_section || ''
+    CARD.data?.display_in_section || ""
   );
   const SHOW_FIRST_IN_CATEGORY = useInputValue(
     CARD.data?.show_first_in_category || false
@@ -273,7 +273,7 @@ const editarDescuento = () => {
             dateFormat.dateToYMD(new Date(discount.expiration_date))
           );
         } else if (!discount.expiration_date) {
-          EXPIRATION_DATE.setValue('');
+          EXPIRATION_DATE.setValue("");
         }
         if (discount.discount_keywords !== undefined) {
           setDiscountKeyWords(discount.discount_keywords);
@@ -291,28 +291,28 @@ const editarDescuento = () => {
       const getDiscount = async () => {
         const response = await fetchData(
           endPoints.discounts.getDiscountById(id),
-          'get'
+          "get"
         );
 
         if (response.error) {
           //Redirect if discount doesn´t exist
-          if (response.error === 'Descuento no encontrado') {
+          if (response.error === "Descuento no encontrado") {
             //Show a swal
             const customSwal = Swal.mixin({
               customClass: {
-                confirmButton: 'btn button--red',
+                confirmButton: "btn button--red",
               },
               buttonsStyling: false,
             });
             customSwal
               .fire({
                 title: response.error,
-                text: 'El descuento que intenta editar no existe',
-                icon: 'error',
-                confirmButtonText: 'Aceptar',
+                text: "El descuento que intenta editar no existe",
+                icon: "error",
+                confirmButtonText: "Aceptar",
               })
               .then(() => {
-                router.push('/admin/descuentos/gestionar-descuentos');
+                router.push("/admin/descuentos/gestionar-descuentos");
               });
           }
           setState({
@@ -416,27 +416,27 @@ const editarDescuento = () => {
   const hasForbiddenWord = (string) => {
     //These words are forbidden because of the PDCookieConcent of RBH, which makes discount pages crash if they have these words
     const FORBIDDEN_WORDS = [
-      'adwords',
-      'analytics',
-      'doubleclick',
-      'facebook.',
-      'google.com/maps',
-      'google.com/recaptcha',
-      'googleadservices',
-      'googlesyndication',
-      'googletagmanager',
-      'googletagservices',
-      'googletraveladservices',
-      'googleusercontent',
-      'gstatic',
-      'linkedin.',
-      'maps.google.com',
-      'maps.googleapis',
-      'twitter.',
-      'vimeo.',
-      'youtube.',
-      'ytimg',
-      'urchin',
+      "adwords",
+      "analytics",
+      "doubleclick",
+      "facebook.",
+      "google.com/maps",
+      "google.com/recaptcha",
+      "googleadservices",
+      "googlesyndication",
+      "googletagmanager",
+      "googletagservices",
+      "googletraveladservices",
+      "googleusercontent",
+      "gstatic",
+      "linkedin.",
+      "maps.google.com",
+      "maps.googleapis",
+      "twitter.",
+      "vimeo.",
+      "youtube.",
+      "ytimg",
+      "urchin",
     ];
     const hasForbiddenWord = FORBIDDEN_WORDS.some((word) =>
       string.includes(word)
@@ -460,18 +460,18 @@ const editarDescuento = () => {
 
   //Handle change banner image (start)
   const onNewBannerFile = (e) => {
-    const allowedFileFormats = ['svg', 'jpg', 'jpeg', 'png'];
+    const allowedFileFormats = ["svg", "jpg", "jpeg", "png"];
     const newFile = e.target.files[0];
     //4 MB aprox.
     const maxSizeAllowed = 4194304;
 
     //Allow only certain file formats
-    const dots = newFile.name.split('.');
+    const dots = newFile.name.split(".");
     const newFileType = dots[dots.length - 1];
 
     if (!allowedFileFormats.includes(newFileType)) {
       setNewBannerError(
-        'Debes subir un archivo en formato SVG, JPG, JPEG o PNG'
+        "Debes subir un archivo en formato SVG, JPG, JPEG o PNG"
       );
       setTimeout(() => {
         setNewBannerError(null);
@@ -482,7 +482,7 @@ const editarDescuento = () => {
     if (newFile) {
       //Max size allowed files
       if (newFile.size > maxSizeAllowed) {
-        setNewBannerError('El documento pesa demasiado');
+        setNewBannerError("El documento pesa demasiado");
         setTimeout(() => {
           setNewBannerError(null);
         }, 3000);
@@ -527,44 +527,44 @@ const editarDescuento = () => {
 
     //Handling errors
     if (DISCOUNT_STATUS_OPTIONS.indexOf(STATUS.value) === -1) {
-      setStatusDatalistError('Selecciona un estatus de la lista');
+      setStatusDatalistError("Selecciona un estatus de la lista");
       STATUS.setValue(state.discount.status);
-      setState({ ...state, form_error: 'Selecciona un estatus válido' });
+      setState({ ...state, form_error: "Selecciona un estatus válido" });
       return;
     }
 
     if (TITLE.value.length === 0) {
-      setTitleError('Debes escribir un título');
+      setTitleError("Debes escribir un título");
       setState({
         ...state,
-        form_error: 'Completa todos los campos obligatorios',
+        form_error: "Completa todos los campos obligatorios",
       });
       return;
     }
 
     if (DESCRIPTION.value.length === 0) {
-      setDescriptionError('Debes escribir una descripción');
+      setDescriptionError("Debes escribir una descripción");
       setState({
         ...state,
-        form_error: 'Completa todos los campos obligatorios',
+        form_error: "Completa todos los campos obligatorios",
       });
       return;
     }
 
     if (AFFILIATE_LINK.value.length === 0) {
-      setAffiliateLinkError('Debes introducir un enlace de afiliado');
+      setAffiliateLinkError("Debes introducir un enlace de afiliado");
       setState({
         ...state,
-        form_error: 'Completa todos los campos obligatorios',
+        form_error: "Completa todos los campos obligatorios",
       });
       return;
     }
 
     if (AVAILABLE_FOR.value.length === 0) {
       setAvailableForError(
-        'Debes seleccionar quien puede acceder al descuento'
+        "Debes seleccionar quien puede acceder al descuento"
       );
-      setState({ ...state, error: 'Completa todos los campos obligatorios' });
+      setState({ ...state, error: "Completa todos los campos obligatorios" });
       return;
     }
 
@@ -580,21 +580,21 @@ const editarDescuento = () => {
       );
       if (exp_date_end_of_day < today_end_of_day) {
         setExpirationDateError(
-          'La fecha de expiración no puede ser anterior a hoy'
+          "La fecha de expiración no puede ser anterior a hoy"
         );
         setState({
           ...state,
-          form_error: 'Completa los campos correctamente',
+          form_error: "Completa los campos correctamente",
         });
         return;
       }
     }
 
     if (CARD_TITLE.value.length === 0) {
-      setCardTitleError('Debes escribir un título');
+      setCardTitleError("Debes escribir un título");
       setState({
         ...state,
-        form_error: 'Completa todos los campos obligatorios',
+        form_error: "Completa todos los campos obligatorios",
       });
       return;
     }
@@ -602,13 +602,13 @@ const editarDescuento = () => {
     if (CARD_TAG.value) {
       if (CARD_TAG_OPTIONS.indexOf(CARD_TAG.value) === -1) {
         setCardTagDatalistError(
-          'Solo puedes seleccionar una viñeta que esté en la lista'
+          "Solo puedes seleccionar una viñeta que esté en la lista"
         );
         setState({
           ...state,
-          form_error: 'Completa los campos correctamente',
+          form_error: "Completa los campos correctamente",
         });
-        CARD_TAG.setValue('');
+        CARD_TAG.setValue("");
         return;
       }
     }
@@ -621,13 +621,13 @@ const editarDescuento = () => {
         ) === -1
       ) {
         setDisplayCardInSectionDatalistError(
-          'Solo puedes seleccionar una sección que esté en la lista'
+          "Solo puedes seleccionar una sección que esté en la lista"
         );
         setState({
           ...state,
-          form_error: 'Completa los campos correctamente',
+          form_error: "Completa los campos correctamente",
         });
-        DISPLAY_CARD_IN_SECTION.setValue('');
+        DISPLAY_CARD_IN_SECTION.setValue("");
         return;
       }
     }
@@ -698,54 +698,54 @@ const editarDescuento = () => {
     //Put everything in a formData:
     const formData = new FormData();
 
-    formData.append('discount_id', id);
+    formData.append("discount_id", id);
     if (newBanner[0]) {
-      formData.append('banner', newBanner[0]);
+      formData.append("banner", newBanner[0]);
     } else {
-      formData.append('banner', '');
+      formData.append("banner", "");
     }
     formData.append(
-      'EXCLUSIVE_DISCOUNT_INFORMATION_WAS_MODIFIED',
+      "EXCLUSIVE_DISCOUNT_INFORMATION_WAS_MODIFIED",
       EXCLUSIVE_DISCOUNT_INFORMATION_WAS_MODIFIED
     );
     formData.append(
-      'EXCLUSIVE_CARD_INFORMATION_WAS_MODIFIED',
+      "EXCLUSIVE_CARD_INFORMATION_WAS_MODIFIED",
       EXCLUSIVE_CARD_INFORMATION_WAS_MODIFIED
     );
     formData.append(
-      'SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED',
+      "SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED",
       SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED
     );
-    formData.append('status', STATUS.value);
-    formData.append('HAS_HOME_BANNER_ATTACHED', HAS_HOME_BANNER_ATTACHED);
-    formData.append('title', TITLE.value);
-    formData.append('description', DESCRIPTION.value);
-    formData.append('affiliate_link', AFFILIATE_LINK.value);
-    formData.append('discount_code', DISCOUNT_CODE.value);
-    formData.append('available_for', AVAILABLE_FOR.value);
-    formData.append('expiration_date', updated_exp_date_same_format);
-    formData.append('discount_keywords', JSON.stringify(discountKeyWords));
-    formData.append('card_title', CARD_TITLE.value);
-    formData.append('card_tag', CARD_TAG.value);
-    formData.append('display_in_section', DISPLAY_CARD_IN_SECTION.value);
-    formData.append('show_first_in_category', SHOW_FIRST_IN_CATEGORY.value);
+    formData.append("status", STATUS.value);
+    formData.append("HAS_HOME_BANNER_ATTACHED", HAS_HOME_BANNER_ATTACHED);
+    formData.append("title", TITLE.value);
+    formData.append("description", DESCRIPTION.value);
+    formData.append("affiliate_link", AFFILIATE_LINK.value);
+    formData.append("discount_code", DISCOUNT_CODE.value);
+    formData.append("available_for", AVAILABLE_FOR.value);
+    formData.append("expiration_date", updated_exp_date_same_format);
+    formData.append("discount_keywords", JSON.stringify(discountKeyWords));
+    formData.append("card_title", CARD_TITLE.value);
+    formData.append("card_tag", CARD_TAG.value);
+    formData.append("display_in_section", DISPLAY_CARD_IN_SECTION.value);
+    formData.append("show_first_in_category", SHOW_FIRST_IN_CATEGORY.value);
     formData.append(
-      'show_first_in_home_section',
+      "show_first_in_home_section",
       IS_SHOW_FIRST_IN_HOME_SECTION_ALLOWED
     );
-    formData.append('terms_and_conds', termsCondsText);
+    formData.append("terms_and_conds", termsCondsText);
     formData.append(
-      'show_first_in_all_discounts',
+      "show_first_in_all_discounts",
       SHOW_FIRST_IN_ALL_DISCOUNTS.value
     );
 
     //Send changes to server
     const response = await fetchData(
       endPoints.admin.discounts.index,
-      'patch',
+      "patch",
       formData,
       {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
       }
     );
 
@@ -795,7 +795,7 @@ const editarDescuento = () => {
 
     //Refresh the exp date input value
     if (!updated_exp_date_same_format) {
-      EXPIRATION_DATE.setValue('');
+      EXPIRATION_DATE.setValue("");
     }
 
     setState({ ...state, saving_changes: false, form_error: null });
@@ -936,8 +936,8 @@ const editarDescuento = () => {
           <div className={`${styles.container} container`}>
             <div className={styles.button_back_eliminate_icon_flex_container}>
               <ButtonBack
-                message='Descuentos'
-                prevRoute={'/admin/descuentos/gestionar-descuentos'}
+                message="Descuentos"
+                prevRoute={"/admin/descuentos/gestionar-descuentos"}
                 disabled={state.saving_changes}
               />
               {/* Only allow deletion if information has been fully fetched */}
@@ -955,15 +955,15 @@ const editarDescuento = () => {
                   </span>
                 </div>
               ) : (
-                ''
+                ""
               )}
             </div>
             <h1>Editar descuento</h1>
 
             <form
-              action=''
-              method='PATCH'
-              autoComplete='off'
+              action=""
+              method="PATCH"
+              autoComplete="off"
               onSubmit={handleEditDiscount}
             >
               {/* /////////////////////////
@@ -974,7 +974,7 @@ const editarDescuento = () => {
                 {/* Loader while banner loads (start) */}
                 <div
                   className={styles.cc_logo_loading_banner}
-                  style={{ display: loadingDiscountBanner ? 'flex' : 'none' }}
+                  style={{ display: loadingDiscountBanner ? "flex" : "none" }}
                 >
                   <CC_LogoLoader />
                 </div>
@@ -982,7 +982,7 @@ const editarDescuento = () => {
                 {/* Span only needed for the loader place holder to work */}
                 <span
                   style={{
-                    visibility: loadingDiscountBanner ? 'hidden' : 'visible',
+                    visibility: loadingDiscountBanner ? "hidden" : "visible",
                   }}
                 >
                   <div className={styles.banner}>
@@ -997,15 +997,15 @@ const editarDescuento = () => {
                     </div>
                   </div>
                   <input
-                    type='file'
-                    value=''
-                    accept='.jpg,.jpeg,.png,.svg'
+                    type="file"
+                    value=""
+                    accept=".jpg,.jpeg,.png,.svg"
                     onChange={onNewBannerFile}
                   />
                 </span>
               </div>
               {newBannerError && (
-                <div className='error_message'>{newBannerError}</div>
+                <div className="error_message">{newBannerError}</div>
               )}
               {newBanner.length > 0 && (
                 <>
@@ -1055,19 +1055,19 @@ const editarDescuento = () => {
                 </div>
 
                 <div className={styles.status_datalist_container}>
-                  <label htmlFor='status' className={`${styles.input_title}`}>
+                  <label htmlFor="status" className={`${styles.input_title}`}>
                     Status
                   </label>
                   <input
                     className={`${styles.input}`}
-                    name='status'
-                    id='status'
-                    autoComplete='off'
+                    name="status"
+                    id="status"
+                    autoComplete="off"
                     value={STATUS.value}
                     onChange={STATUS.onChange}
-                    list='statuses'
+                    list="statuses"
                   />
-                  <datalist id='statuses'>
+                  <datalist id="statuses">
                     {DISCOUNT_STATUS_OPTIONS.map((option, index) => (
                       <option key={index} value={option} />
                     ))}
@@ -1086,22 +1086,22 @@ const editarDescuento = () => {
 
               <section className={styles.general_info_section}>
                 <div>
-                  <label htmlFor='title' className={`${styles.input_title}`}>
+                  <label htmlFor="title" className={`${styles.input_title}`}>
                     Título
                   </label>
                   <input
                     className={`${styles.input}`}
-                    name='title'
-                    id='title'
-                    type='text'
-                    placeholder='Recomendado: 40 caracteres aprox.'
-                    autoComplete='off'
+                    name="title"
+                    id="title"
+                    type="text"
+                    placeholder="Recomendado: 40 caracteres aprox."
+                    autoComplete="off"
                     value={TITLE.value}
                     onChange={handleTitleChange}
                   />
                   <p
                     className={`${styles.char_count} ${
-                      TITLE_COUNT.value > 40 ? styles.char_count_warn : ''
+                      TITLE_COUNT.value > 40 ? styles.char_count_warn : ""
                     }`}
                   >
                     <span>{TITLE_COUNT.value} / 40</span>
@@ -1117,18 +1117,18 @@ const editarDescuento = () => {
 
                 <div>
                   <label
-                    htmlFor='description'
+                    htmlFor="description"
                     className={`${styles.input_title}`}
                   >
                     Descripción
                   </label>
                   <textarea
                     className={`${styles.description_text_area}`}
-                    name='description'
-                    id='description'
-                    type='text'
-                    placeholder='Recomendado: 180 caracteres aprox.'
-                    autoComplete='off'
+                    name="description"
+                    id="description"
+                    type="text"
+                    placeholder="Recomendado: 180 caracteres aprox."
+                    autoComplete="off"
                     value={DESCRIPTION.value}
                     onChange={handleDescriptionChange}
                   />
@@ -1136,7 +1136,7 @@ const editarDescuento = () => {
                     className={`${styles.char_count} ${
                       DESCRIPTION_COUNT.value > 180
                         ? styles.char_count_warn
-                        : ''
+                        : ""
                     }`}
                   >
                     <span>{DESCRIPTION_COUNT.value} / 180</span>
@@ -1152,7 +1152,7 @@ const editarDescuento = () => {
 
                 <div>
                   <label
-                    htmlFor='affiliate_link'
+                    htmlFor="affiliate_link"
                     className={`${styles.input_title}`}
                   >
                     Enlace de afiliado o web del anunciante (incluye desde el
@@ -1160,11 +1160,11 @@ const editarDescuento = () => {
                   </label>
                   <input
                     className={`${styles.input}`}
-                    name='affiliate_link'
-                    id='affiliate_link'
-                    type='text'
-                    placeholder=''
-                    autoComplete='off'
+                    name="affiliate_link"
+                    id="affiliate_link"
+                    type="text"
+                    placeholder=""
+                    autoComplete="off"
                     value={AFFILIATE_LINK.value}
                     onChange={handleAffiliateLinkChange}
                   />
@@ -1180,13 +1180,13 @@ const editarDescuento = () => {
                       className={`${styles.warning_under_input} warning__message`}
                     >
                       El enlace de afiliado contiene palabras que afectarán la
-                      funcionalidad del descuento. Utiliza el{' '}
+                      funcionalidad del descuento. Utiliza el{" "}
                       <a
-                        target={'_blank'}
-                        href='https://free-url-shortener.rb.gy/'
+                        target={"_blank"}
+                        href="https://free-url-shortener.rb.gy/"
                       >
                         acortador de enlaces
-                      </a>{' '}
+                      </a>{" "}
                       para corregirlo o haz cambios al enlace.
                     </p>
                   )}
@@ -1198,23 +1198,23 @@ const editarDescuento = () => {
                     {DISCOUNT_TYPE_DICTIONARY[state.discount.type]}
                   </p>
 
-                  {state.discount?.type === 'discount_code' && (
+                  {state.discount?.type === "discount_code" && (
                     <div
                       className={`${styles.disc_code_input_label_container}`}
                     >
                       <label
-                        htmlFor='discount_code'
+                        htmlFor="discount_code"
                         className={`${styles.input_title}`}
                       >
                         Código de descuento
                       </label>
                       <input
                         className={`${styles.input}`}
-                        name='discount_code'
-                        id='discount_code'
-                        type='text'
-                        placeholder=''
-                        autoComplete='off'
+                        name="discount_code"
+                        id="discount_code"
+                        type="text"
+                        placeholder=""
+                        autoComplete="off"
                         value={DISCOUNT_CODE.value}
                         onChange={DISCOUNT_CODE.onChange}
                         required
@@ -1222,7 +1222,7 @@ const editarDescuento = () => {
                     </div>
                   )}
 
-                  {state.discount?.type === 'dynamically_generated' && (
+                  {state.discount?.type === "dynamically_generated" && (
                     <div
                       className={styles.dynamically_generated_type_container}
                     >
@@ -1267,16 +1267,16 @@ const editarDescuento = () => {
                   <div className={styles.radio_input_container}>
                     <input
                       className={styles.radio_input}
-                      type='radio'
-                      id='estudiantes_verificados'
-                      name='available_for'
-                      value='estudiantes_verificados'
+                      type="radio"
+                      id="estudiantes_verificados"
+                      name="available_for"
+                      value="estudiantes_verificados"
                       checked={isAvailableForRadioSelected(
-                        'estudiantes_verificados'
+                        "estudiantes_verificados"
                       )}
                       onChange={handleRadioAvailableForClick}
                     />
-                    <label htmlFor='estudiantes_verificados'>
+                    <label htmlFor="estudiantes_verificados">
                       Estudiantes verificados
                     </label>
                   </div>
@@ -1284,14 +1284,14 @@ const editarDescuento = () => {
                   <div className={styles.radio_input_container}>
                     <input
                       className={styles.radio_input}
-                      type='radio'
-                      id='publico'
-                      name='available_for'
-                      value='publico'
-                      checked={isAvailableForRadioSelected('publico')}
+                      type="radio"
+                      id="publico"
+                      name="available_for"
+                      value="publico"
+                      checked={isAvailableForRadioSelected("publico")}
                       onChange={handleRadioAvailableForClick}
                     />
-                    <label htmlFor='publico'>Todo público</label>
+                    <label htmlFor="publico">Todo público</label>
                   </div>
                   {availableForError && (
                     <p className={`error__messagev2`}>{availableForError}</p>
@@ -1312,18 +1312,18 @@ const editarDescuento = () => {
 
                   <div className={styles.valid_till_container}>
                     <label
-                      htmlFor='valid_till'
+                      htmlFor="valid_till"
                       className={`${styles.input_title}`}
                     >
                       Fecha de expiración
                     </label>
                     <input
                       className={`${styles.input}`}
-                      name='valid_till'
-                      id='valid_till'
-                      type='date'
-                      placeholder=''
-                      autoComplete='off'
+                      name="valid_till"
+                      id="valid_till"
+                      type="date"
+                      placeholder=""
+                      autoComplete="off"
                       value={EXPIRATION_DATE.value}
                       onChange={EXPIRATION_DATE.onChange}
                     />
@@ -1339,13 +1339,13 @@ const editarDescuento = () => {
 
                 <div className={styles.input_key_words_container}>
                   <ReactTags
-                    labelText='Etiquetas del descuento'
+                    labelText="Etiquetas del descuento"
                     selected={discountKeyWords}
                     onAdd={onAdd}
                     onDelete={onDelete}
                     suggestions={discount_key_words}
-                    noOptionsText='No hay opciones'
-                    placeholderText='Añade etiquetas para facilitar la búsqueda'
+                    noOptionsText="No hay opciones"
+                    placeholderText="Añade etiquetas para facilitar la búsqueda"
                   />
                 </div>
 
@@ -1362,7 +1362,7 @@ const editarDescuento = () => {
                   HOME_BANNER.isRefetching ? (
                     <Loader />
                   ) : HOME_BANNER.isError ? (
-                    <p className='error__messagev2'>
+                    <p className="error__messagev2">
                       {HOME_BANNER.error?.message}
                     </p>
                   ) : (
@@ -1389,14 +1389,14 @@ const editarDescuento = () => {
                             }
                           >
                             <p>
-                              El slide redirecciona a la página de{' '}
-                              {state.discount?.brand.brand_name}:{' '}
+                              El slide redirecciona a la página de{" "}
+                              {state.discount?.brand.brand_name}:{" "}
                               {HOME_BANNER.data?.redirect_user_to_brand_page
-                                ? '✅'
-                                : '❌'}
+                                ? "✅"
+                                : "❌"}
                             </p>
                             <span className={styles.tooltip_container}>
-                              ?{' '}
+                              ?{" "}
                               <span className={styles.tooltiptext}>
                                 Si se quiere cambiar la redirección, ya sea al
                                 descuento o a la página de la marca, se debe
@@ -1463,7 +1463,7 @@ const editarDescuento = () => {
                 {CARD.isLoading ? (
                   <Loader />
                 ) : CARD.isError ? (
-                  <p className='error__messagev2'>{CARD.error.message}</p>
+                  <p className="error__messagev2">{CARD.error.message}</p>
                 ) : (
                   <>
                     {!CARD.isLoading && !CARD.isError && (
@@ -1471,18 +1471,18 @@ const editarDescuento = () => {
                         <div className={styles.card_title_tag_container}>
                           <div>
                             <label
-                              htmlFor='card_title'
+                              htmlFor="card_title"
                               className={`${styles.input_title}`}
                             >
                               Título de la tarjeta
                             </label>
                             <input
                               className={`${styles.input}`}
-                              name='card_title'
-                              id='card_title'
-                              type='text'
-                              placeholder='Recomendado: 40 caracteres aprox.'
-                              autoComplete='off'
+                              name="card_title"
+                              id="card_title"
+                              type="text"
+                              placeholder="Recomendado: 40 caracteres aprox."
+                              autoComplete="off"
                               value={CARD_TITLE.value}
                               onChange={handleCardTitleChange}
                             />
@@ -1490,7 +1490,7 @@ const editarDescuento = () => {
                               className={`${styles.char_count} ${
                                 CARD_TITLE_COUNT.value > 40
                                   ? styles.char_count_warn
-                                  : ''
+                                  : ""
                               }`}
                             >
                               <span>{CARD_TITLE_COUNT.value} / 40</span>
@@ -1506,21 +1506,21 @@ const editarDescuento = () => {
 
                           <div>
                             <label
-                              htmlFor='card_tag'
+                              htmlFor="card_tag"
                               className={`${styles.input_title}`}
                             >
                               Viñeta
                             </label>
                             <input
                               className={`${styles.input}`}
-                              name='card_tag'
-                              id='card_tag'
-                              autoComplete='off'
+                              name="card_tag"
+                              id="card_tag"
+                              autoComplete="off"
                               value={CARD_TAG.value}
                               onChange={CARD_TAG.onChange}
-                              list='tags'
+                              list="tags"
                             />
-                            <datalist id='tags'>
+                            <datalist id="tags">
                               {CARD_TAG_OPTIONS.map((tag, index) => (
                                 <option key={index} value={tag} />
                               ))}
@@ -1542,13 +1542,13 @@ const editarDescuento = () => {
                         >
                           <div className={styles.label_tooltip_container}>
                             <label
-                              htmlFor='display_in_section'
+                              htmlFor="display_in_section"
                               className={`${styles.input_title}`}
                             >
                               Mostrar en sección de home
                             </label>
                             <span className={styles.tooltip_container}>
-                              ?{' '}
+                              ?{" "}
                               <span className={styles.tooltiptext}>
                                 SUGERIDOS y NOVEDADES se mostrarán solo a
                                 estudiantes verificados. SUGERIDOS debe tener 4.
@@ -1561,14 +1561,14 @@ const editarDescuento = () => {
                           </div>
                           <input
                             className={`${styles.input}`}
-                            name='display_in_section'
-                            id='display_in_section'
-                            autoComplete='off'
+                            name="display_in_section"
+                            id="display_in_section"
+                            autoComplete="off"
                             value={DISPLAY_CARD_IN_SECTION.value}
                             onChange={DISPLAY_CARD_IN_SECTION.onChange}
-                            list='sections'
+                            list="sections"
                           />
-                          <datalist id='sections'>
+                          <datalist id="sections">
                             {DISPLAY_CARD_IN_SECTION_OPTIONS.map(
                               (section, index) => (
                                 <option key={index} value={section} />
@@ -1590,7 +1590,7 @@ const editarDescuento = () => {
                           }
                         >
                           <CustomCheckBox
-                            message='Mostrar primero en la sección de home'
+                            message="Mostrar primero en la sección de home"
                             required={false}
                             state={SHOW_FIRST_IN_HOME_SECTION}
                           />
@@ -1616,7 +1616,7 @@ const editarDescuento = () => {
                             >
                               <thead>
                                 <tr>
-                                  <th colSpan='4'>
+                                  <th colSpan="4">
                                     Descuentos por sección de home actuales
                                   </th>
                                 </tr>
@@ -1657,7 +1657,7 @@ const editarDescuento = () => {
                             }
                           >
                             <CustomCheckBox
-                              message='Mostrar primero entre todos los descuentos'
+                              message="Mostrar primero entre todos los descuentos"
                               required={false}
                               state={SHOW_FIRST_IN_ALL_DISCOUNTS}
                             />
@@ -1665,7 +1665,7 @@ const editarDescuento = () => {
                           <p>
                             <strong>Actualmente se muestran primero: </strong>
                             {SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.isLoading ? (
-                              'Cargando...'
+                              "Cargando..."
                             ) : SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.isError ||
                               SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.data?.error ? (
                               <>
@@ -1679,7 +1679,7 @@ const editarDescuento = () => {
                                 {
                                   SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.data
                                     .show_first_in_all_discounts_count
-                                }{' '}
+                                }{" "}
                                 descuentos
                               </>
                             )}
@@ -1691,13 +1691,13 @@ const editarDescuento = () => {
                         >
                           <div className={styles.checkbox_tooltip_container}>
                             <CustomCheckBox
-                              message='Mostrar primero en su categoría'
+                              message="Mostrar primero en su categoría"
                               required={false}
                               state={SHOW_FIRST_IN_CATEGORY}
                             />
 
                             <span className={styles.tooltip_container}>
-                              ?{' '}
+                              ?{" "}
                               <span className={styles.tooltiptext}>
                                 No exceder a más de 4 por categoría
                               </span>
@@ -1716,7 +1716,7 @@ const editarDescuento = () => {
                             >
                               <thead>
                                 <tr>
-                                  <th colSpan='7'>
+                                  <th colSpan="7">
                                     Cantidad de descuentos que se muestran
                                     primero en su categoría actualmente
                                   </th>
@@ -1801,16 +1801,16 @@ const editarDescuento = () => {
               />
 
               {state.form_error && (
-                <div className='error__messagev2'>{state.form_error}</div>
+                <div className="error__messagev2">{state.form_error}</div>
               )}
 
               <button
-                type='submit'
+                type="submit"
                 //Disable button if there are no changes or changes are being submitted
                 className={`${styles.submit_btn} ${
                   state.saving_changes && styles.buttonLoading
                 } ${
-                  enableSaveChangesButton() ? styles.disabled : ''
+                  enableSaveChangesButton() ? styles.disabled : ""
                 } btn button--red`}
                 //Disable button if there are no changes or changes are being submitted
                 disabled={

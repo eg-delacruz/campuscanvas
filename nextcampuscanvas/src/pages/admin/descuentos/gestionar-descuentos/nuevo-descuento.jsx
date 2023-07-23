@@ -84,6 +84,7 @@ const nuevoDescuento = () => {
   const [brandDatalistError, setBrandDatalistError] = useState(null);
   const [categoryDatalistError, setCategoryDatalistError] = useState(null);
   const [affiliateLinkError, setAffiliateLinkError] = useState(null);
+  const [expirationDateError, setExpirationDateError] = useState(null);
   const [bannerFileError, setBannerFileError] = useState(null);
   const [homeSliderFilesError, setHomeSliderFilesError] = useState(null);
   const [cardTitleError, setCardTitleError] = useState(null);
@@ -225,7 +226,12 @@ const nuevoDescuento = () => {
       setState({ ...state, error: null });
     },
     onError: (error) => {
-      setState({ ...state, uploading: false });
+      setState({
+        ...state,
+        uploading: false,
+        //TODO: Check if the error message is properly accessed like this
+        error: error?.response?.data?.message,
+      });
     },
   });
 
@@ -351,6 +357,7 @@ const nuevoDescuento = () => {
     setBrandDatalistError(null);
     setCategoryDatalistError(null);
     setAffiliateLinkError(null);
+    setExpirationDateError(null);
     setBannerFileError(null);
     setHomeSliderFilesError(null);
     setCardTitleError(null);
@@ -415,6 +422,28 @@ const nuevoDescuento = () => {
       );
       setState({ ...state, error: "Completa todos los campos obligatorios" });
       return;
+    }
+
+    //Don't let to creat discount if expiration date is prior to today
+    if (EXPIRATION_DATE.value) {
+      //Today at the end of the day
+      const today_end_of_day = new Date().setHours(23, 59, 59, 999);
+      const exp_date_end_of_day = new Date(EXPIRATION_DATE.value).setHours(
+        23,
+        59,
+        59,
+        999
+      );
+      if (exp_date_end_of_day < today_end_of_day) {
+        setExpirationDateError(
+          "La fecha de expiración no puede ser anterior a hoy"
+        );
+        setState({
+          ...state,
+          error: "Completa los campos correctamente",
+        });
+        return;
+      }
     }
 
     if (bannerFile.length === 0) {
@@ -933,6 +962,11 @@ const nuevoDescuento = () => {
                   value={EXPIRATION_DATE.value}
                   onChange={EXPIRATION_DATE.onChange}
                 />
+                {expirationDateError && (
+                  <p className={`${styles.error_under_input} error__messagev2`}>
+                    {expirationDateError}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -1274,9 +1308,7 @@ const nuevoDescuento = () => {
 
           <ReactQuill value={termsCondsText} onChange={setTermsCondsText} />
 
-          {state.error && (
-            <p className="error__messagev2">{state.error.message}</p>
-          )}
+          {state.error && <p className="error__messagev2">{state.error}</p>}
           {ADD_DISCOUNT.isError && (
             <p className="error__messagev2">{ADD_DISCOUNT.error.message}</p>
           )}
