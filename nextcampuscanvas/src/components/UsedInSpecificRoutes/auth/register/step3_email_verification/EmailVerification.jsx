@@ -1,23 +1,23 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import Image from 'next/image';
-import Link from 'next/link';
+import { useState } from "react";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import Link from "next/link";
 
 //Assets
-import sendIcon from '@assets/GeneralUse/IconsAndButtons/send_email.svg';
-import arrow_right_white from '@assets/GeneralUse/IconsAndButtons/arrow_right_white.svg';
+import sendIcon from "@assets/GeneralUse/IconsAndButtons/send_email.svg";
+import arrow_right_white from "@assets/GeneralUse/IconsAndButtons/arrow_right_white.svg";
 
 //Styles
-import styles from './EmailVerification.module.scss';
+import styles from "./EmailVerification.module.scss";
 
 //Endpoints
-import endPoints from '@services/api';
+import endPoints from "@services/api";
 
 //hooks
-import { useInputValue } from '@hooks/useInputValue';
+import { useInputValue } from "@hooks/useInputValue";
 
 //Browser identifyer
-import identifyBrowser from '@services/identifyBrowser';
+import identifyBrowser from "@services/identifyBrowser";
 const { getBrowserName } = identifyBrowser;
 
 const EmailVerification = ({ user_id, setVerificationMethod }) => {
@@ -30,7 +30,7 @@ const EmailVerification = ({ user_id, setVerificationMethod }) => {
   const router = useRouter();
 
   //Controlling inputs
-  const STU_EMAIL = useInputValue('');
+  const STU_EMAIL = useInputValue("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,10 +41,10 @@ const EmailVerification = ({ user_id, setVerificationMethod }) => {
 
     try {
       const response = await fetch(endPoints.auth.verifyStuEmail, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          accept: '*/*',
-          'Content-Type': 'application/json',
+          accept: "*/*",
+          "Content-Type": "application/json",
           app_secret_key: process.env.NEXT_PUBLIC_MAIN_NEXT_WEB_APP_SECRET_KEY,
         },
         body: JSON.stringify({
@@ -56,17 +56,17 @@ const EmailVerification = ({ user_id, setVerificationMethod }) => {
       const data = await response.json();
 
       if (data.error) {
-        if (data.error === 'No has ingresado tu universidad') {
+        if (data.error === "No has ingresado tu universidad") {
           setState({ ...state, error: data.error, loading: false });
           return setTimeout(() => {
-            router.push('/');
+            router.push("/");
           }, 2000);
         }
         setState({ ...state, error: data.error, loading: false });
         return false;
       }
 
-      STU_EMAIL.setValue('');
+      STU_EMAIL.setValue("");
       setState({ ...state, error: false, loading: false, sent: true });
     } catch (error) {
       console.log(error);
@@ -78,30 +78,33 @@ const EmailVerification = ({ user_id, setVerificationMethod }) => {
     <>
       <form
         className={styles.form}
-        method='POST'
+        method="POST"
         onSubmit={handleSubmit}
-        action=''
-        autoComplete='off'
+        action=""
+        autoComplete="off"
       >
         {state.sent ? (
           <>
             <h4 className={styles.sent__message}>
               Te hemos enviado un enlace de verificación. Revisa tu correo
-              universitario, incluyendo el buzón de SPAM.
+              universitario, incluyendo el buzón de SPAM. Algunos sistemas de
+              correo universitarios no admiten correos externos. Ponte en
+              contacto con nosotros si necesitas ayuda para proceder con la
+              verificación 😊.
             </h4>
             <p className={styles.sent__resendOption}>
-              ¿No has recibido el enlace?{' '}
+              ¿No has recibido el enlace?{" "}
               <span onClick={() => setState({ ...state, sent: false })}>
                 Reenviar enlace
-              </span>{' '}
+              </span>{" "}
             </p>
           </>
         ) : (
           <>
             <button
-              type='button'
+              type="button"
               onClick={() => {
-                setVerificationMethod('');
+                setVerificationMethod("");
               }}
               className={`${styles.button_back} btn button--red`}
             >
@@ -120,17 +123,17 @@ const EmailVerification = ({ user_id, setVerificationMethod }) => {
 
             <div className={styles.confirmationContainer}>
               <div className={styles.iconContainer}>
-                <Image layout='fixed' src={sendIcon} />
+                <Image layout="fixed" src={sendIcon} />
               </div>
               <div>
-                <label htmlFor='email'>Correo universitario</label>
+                <label htmlFor="email">Correo universitario</label>
                 <input
                   required
-                  name='email'
-                  id='email'
-                  type='email'
-                  placeholder='Correo universitario'
-                  autoComplete='off'
+                  name="email"
+                  id="email"
+                  type="email"
+                  placeholder="Correo universitario"
+                  autoComplete="off"
                   value={STU_EMAIL.value}
                   onChange={STU_EMAIL.onChange}
                 />
@@ -141,18 +144,18 @@ const EmailVerification = ({ user_id, setVerificationMethod }) => {
             )}
 
             <button
-              type='button'
+              type="button"
               className={`${styles.sentLinkButton} ${
                 state.loading && styles.buttonLoading
               } btn button--red`}
               disabled={state.loading}
             >
-              Enviar enlace{' '}
+              Enviar enlace{" "}
             </button>
             <p className={styles.bottom_message}>
               En caso tengas problemas para verificarte, considera hacerlo
-              mediante tu identificación de estudiante o consulta nuestras{' '}
-              <Link href='/FAQs'>FAQs</Link>.
+              mediante tu identificación de estudiante o consulta nuestras{" "}
+              <Link href="/FAQs">FAQs</Link>.
             </p>
           </>
         )}
