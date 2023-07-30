@@ -1,0 +1,37 @@
+@import '../../../styles/Vars.scss';
+@import '../../../styles/Animations/dotLoadingButton.module.scss';
+
+.container {
+    max-width: 470px;
+    margin: 16px auto;
+    text-align: center;
+    padding: 6px;
+    border: 1px solid $color--dark-gray;
+    border-radius: 4px;
+    background: $color--tertiary-white;
+    h4 {
+        margin: 0;
+    }
+    p {
+        margin-top: 0;
+    }
+    .submit_btn {
+        margin: 16px auto;
+        margin-bottom: 8px;
+        padding: 8px 16px;
+    }
+
+}
+
+.sent_message_container {
+    max-width: 470px;
+    margin: 16px auto;
+    text-align: center;
+    padding: 6px;
+    h4 {
+        margin: 0;
+    }
+    p {
+        margin: 0;
+    }
+}

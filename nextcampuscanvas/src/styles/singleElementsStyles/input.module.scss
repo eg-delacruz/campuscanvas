@@ -1,0 +1,21 @@
+@import '../Vars.scss';
+
+//CLARIFICATION: This is a single input, not a form. The input shoul be inside a div with no class name
+
+//Use this class in the label of the inputs
+.input_title {
+    margin: 0 0 8px;
+    @include font-size(14px);
+    display: block;
+    font-weight: bold;
+}
+
+.input {
+    width: 100%;
+    background-color: $color--secondary-light;
+    border: 1px solid $color--black;
+    height: 40px;
+    border-radius: 5px;
+    margin: 0;
+    padding: 10px;
+}
