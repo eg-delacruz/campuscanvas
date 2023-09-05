@@ -5,11 +5,12 @@ import PropTypes from "prop-types";
 //Styles
 import styles from "./PostsTable.module.scss";
 
-//Components
-import CircularLoader from "@components/GeneralUseComponents/CircularLoader/CircularLoader";
-
 //Services
 import { truncateText } from "@services/truncateText";
+
+//Assets
+import main_post_image_placeholder from "@assets/PagesImages/BlogIndex/main_post_img_placeholder.gif";
+import posts_img_placeholder from "@assets/PagesImages/BlogIndex/posts_img_placeholder.gif";
 
 const PostsTable = ({ posts }) => {
   let MAIN_POST = null;
@@ -50,7 +51,7 @@ const PostsTable = ({ posts }) => {
             <figure className={styles.MainPost__image}>
               <Img
                 src={`https:${MAIN_POST?.fields.imagenDePortada?.fields.file.url}`}
-                placeholder={CircularLoader}
+                placeholder={main_post_image_placeholder.src}
                 alt={`Imagen miniatura de ${MAIN_POST?.fields.titulo}`}
                 lazy={true}
               />
@@ -105,7 +106,7 @@ const PostsTable = ({ posts }) => {
             <figure className={styles.featured_post_card__image}>
               <Img
                 src={`https:${post.fields.imagenMiniatura.fields.file.url}`}
-                placeholder={CircularLoader}
+                placeholder={posts_img_placeholder.src}
                 alt={`Imagen miniatura de ${post.fields.titulo}`}
                 lazy={true}
                 className={styles.Img}
@@ -131,7 +132,7 @@ const PostsTable = ({ posts }) => {
                 <figure>
                   <Img
                     src={`https:${post.fields.imagenMiniatura.fields.file.url}`}
-                    placeholder={CircularLoader}
+                    placeholder={posts_img_placeholder.src}
                     alt={`Imagen miniatura de ${post.fields.titulo}`}
                     lazy={true}
                     className={styles.Img}

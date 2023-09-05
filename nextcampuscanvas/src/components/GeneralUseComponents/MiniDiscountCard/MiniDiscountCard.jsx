@@ -1,12 +1,12 @@
-import PropTypes from 'prop-types';
-import { useState, useRef, useEffect } from 'react';
-import Link from 'next/link';
+import PropTypes from "prop-types";
+import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 
-import styles from './MiniDiscountCard.module.scss';
+import styles from "./MiniDiscountCard.module.scss";
 
 //Assets
-import white_background_svg from '@assets/GeneralUse/UsedInComponents/DiscountCard/white_svg_background.svg';
-import CC_LogoLoader from '@components/GeneralUseComponents/CC_LogoLoader/CC_LogoLoader';
+import white_background_svg from "@assets/GeneralUse/UsedInComponents/DiscountCard/white_svg_background.svg";
+import CC_LogoLoader from "@components/GeneralUseComponents/CC_LogoLoader/CC_LogoLoader";
 
 //CLARIFICATIONS:
 //1. This component can get a closeSearchBar function as a prop to close the search bar when the user clicks on the card
@@ -53,20 +53,20 @@ const MiniDiscountCard = ({
               <span>
                 <img src={white_background_svg.src} />
               </span>
-              <div style={{ visibility: loadingLogo ? 'hidden' : 'visible' }}>
+              <div style={{ visibility: loadingLogo ? "hidden" : "visible" }}>
                 <img
                   ref={brandLogoRef}
                   className={styles.brand_img}
                   src={brand_logo}
                   alt={brand_name}
-                  loading='lazy'
+                  loading="lazy"
                   onLoad={handleLoadedLogo}
                 />
               </div>
               {/* Loader while logo loads (start) */}
               <div
                 className={styles.cc_logo_loader_container}
-                style={{ display: loadingLogo ? 'block' : 'none' }}
+                style={{ display: loadingLogo ? "block" : "none" }}
               >
                 <CC_LogoLoader />
               </div>

@@ -1,5 +1,5 @@
 //Diferencias de v2 respecto a v1:
-//1. Endpoints utilizados aquí centan con la nueva forma de asegurar y de evitar el error de CORS (mas compacta), y la secret key se hashea al enviarla
+//1. Endpoints utilizados aquí cuentan con la nueva forma de asegurar y de evitar el error de CORS (mas compacta), y la secret key se hashea al enviarla
 //2. En los casos en que se pedía una website location, ahora se pide un required_info, para que sea agnóstico al lugar donde se use
 
 //Next api (start)
@@ -20,6 +20,9 @@ const endPoints = {
       getVerifiedStudentsCount: `${API}/api/${VERSION}/admin/estudiantes/verified_students_count`,
       index: `${API}/api/${VERSION}/admin/estudiantes`,
     },
+  },
+  suggested_search_term: {
+    addNewSearchTerm: `${API}/api/${VERSION}/suggested_search_term`,
   },
 };
 

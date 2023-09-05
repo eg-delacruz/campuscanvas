@@ -1,22 +1,21 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 //Styles
-import styles from './PublicBrandPageTemplate.module.scss';
+import styles from "./PublicBrandPageTemplate.module.scss";
 
 //Components
-import DiscountCard from '@components/GeneralUseComponents/DiscountCard/DiscountCard';
+import DiscountCard from "@components/GeneralUseComponents/DiscountCard/DiscountCard";
 
 //React query
-import { useQuery } from '@tanstack/react-query';
-import discountKeys from '@query-key-factory/discountKeys';
+import { useQuery } from "@tanstack/react-query";
+import discountKeys from "@query-key-factory/discountKeys";
 
 //Services
-import { createHTMLElement } from '@services/createHTMLElement';
+import { createHTMLElement } from "@services/createHTMLElement";
 
 //Request functions
-import requestFn from '@request-functions/Discounts/Cards/index';
-import NoDiscountsSnippet from '../NoDiscountsSnippet/NoDiscountsSnippet';
-
+import requestFn from "@request-functions/Discounts/Cards/index";
+import NoDiscountsSnippet from "../NoDiscountsSnippet/NoDiscountsSnippet";
 
 const PublicBrandPageTemplate = ({ brand }) => {
   //React query
@@ -36,17 +35,6 @@ const PublicBrandPageTemplate = ({ brand }) => {
 
   return (
     <main className={`${styles.container} container`}>
-      {/* /////////////////////////
-            //   Upper Headings    //
-          ///////////////////////// */}
-
-      {brand.upper_headings !== '' && (
-        <section
-          className={styles.upper_headings}
-          dangerouslySetInnerHTML={createHTMLElement(brand.upper_headings)}
-        />
-      )}
-
       {/* //////////////////////////////
          // Brand logo + description //
          /////////////////////////////*/}
@@ -76,7 +64,7 @@ const PublicBrandPageTemplate = ({ brand }) => {
       ) : (
         <>
           {ATTACHED_DISCOUNT_CARDS.isError ? (
-            <p className='error__message'>
+            <p className="error__message">
               {ATTACHED_DISCOUNT_CARDS.error?.message}
             </p>
           ) : (
@@ -84,8 +72,7 @@ const PublicBrandPageTemplate = ({ brand }) => {
               {ATTACHED_DISCOUNT_CARDS.data?.length === 0 ? (
                 <div className={styles.no_discounts_snippet_container}>
                   <NoDiscountsSnippet
-                  //TODO: in the future, when all brands have their own URL, pass the brand URL
-                    brand_URL={brand.brand_home_tracked_url ? brand.brand_home_tracked_url : 'https://www.campuscanvas.net'}
+                    brand_URL={brand.brand_home_tracked_url}
                     brand_name={brand.brand_name}
                   />
                 </div>
@@ -115,12 +102,24 @@ const PublicBrandPageTemplate = ({ brand }) => {
           )}
         </>
       )}
+
+      {/* /////////////////////////
+          //       Content        //
+          ///////////////////////// */}
+
+      {brand.upper_headings !== "" && (
+        <section
+          className={styles.upper_headings}
+          dangerouslySetInnerHTML={createHTMLElement(brand.upper_headings)}
+        />
+      )}
+
       {/* /////////////////////////
           //        Faqs         //
           ///////////////////////// */}
-      {brand.faqs !== '' && (
+      {brand.faqs !== "" && (
         <>
-          <h2>
+          <h2 className={styles.faqs_title}>
             Preguntas frecuentes sobre los descuentos de {brand.brand_name}
           </h2>
           <section

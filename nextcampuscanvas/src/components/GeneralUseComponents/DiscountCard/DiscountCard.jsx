@@ -1,16 +1,16 @@
-import PropTypes from 'prop-types';
-import { useState, useRef, useEffect, forwardRef, memo } from 'react';
-import Link from 'next/link';
+import PropTypes from "prop-types";
+import { useState, useRef, useEffect, forwardRef, memo } from "react";
+import Link from "next/link";
 
 //Styles
-import styles from './DiscountCard.module.scss';
+import styles from "./DiscountCard.module.scss";
 
 //Assets
-import white_background_svg from '@assets/GeneralUse/UsedInComponents/DiscountCard/white_svg_background.svg';
+import white_background_svg from "@assets/GeneralUse/UsedInComponents/DiscountCard/white_svg_background.svg";
 
 //Components
-import Loader from '@components/GeneralUseComponents/CircularLoader/CircularLoader';
-import CC_LogoLoader from '@components/GeneralUseComponents/CC_LogoLoader/CC_LogoLoader';
+import Loader from "@components/GeneralUseComponents/CircularLoader/CircularLoader";
+import CC_LogoLoader from "@components/GeneralUseComponents/CC_LogoLoader/CC_LogoLoader";
 
 //CLARIFICATIONS
 //1. Brand logos have to be svg. Apply viewBox="0 0 200 200" to the svg tag.
@@ -82,32 +82,32 @@ const DiscountCard = memo(
                   {/* Loader while banner loads (start) */}
                   <div
                     className={styles.circular_loader_container}
-                    style={{ display: loadingBanner ? 'flex' : 'none' }}
+                    style={{ display: loadingBanner ? "flex" : "none" }}
                   >
                     <Loader />
                   </div>
                   {/* Loader while banner loads (end) */}
                   <span
-                    style={{ visibility: loadingBanner ? 'hidden' : 'visible' }}
+                    style={{ visibility: loadingBanner ? "hidden" : "visible" }}
                   >
                     <img
                       ref={bannerRef}
                       src={banner}
                       alt={brand_name}
-                      loading='lazy'
+                      loading="lazy"
                       onLoad={handleLoadedBanner}
                     />
                   </span>
                   {card_tag && (
                     <div
                       className={`${styles.card_tag} ${
-                        card_tag === 'exclusivo'
+                        card_tag === "exclusivo"
                           ? styles.card_tag_exclusivo
-                          : ''
-                      } ${card_tag === 'nuevo' ? styles.card_tag_nuevo : ''} ${
-                        card_tag === 'termina pronto ⌚'
+                          : ""
+                      } ${card_tag === "nuevo" ? styles.card_tag_nuevo : ""} ${
+                        card_tag === "termina pronto ⌚"
                           ? styles.card_tag_termina_pronto
-                          : ''
+                          : ""
                       }`}
                     >
                       {card_tag}
@@ -122,7 +122,7 @@ const DiscountCard = memo(
                       </span>
                       <div
                         style={{
-                          visibility: loadingLogo ? 'hidden' : 'visible',
+                          visibility: loadingLogo ? "hidden" : "visible",
                         }}
                       >
                         <img
@@ -130,14 +130,14 @@ const DiscountCard = memo(
                           className={styles.brand_img}
                           src={brand_logo}
                           alt={brand_name}
-                          loading='lazy'
+                          loading="lazy"
                           onLoad={handleLoadedLogo}
                         />
                       </div>
                       {/* Loader while logo loads (start) */}
                       <div
                         className={styles.cc_logo_loader_container}
-                        style={{ display: loadingLogo ? 'block' : 'none' }}
+                        style={{ display: loadingLogo ? "block" : "none" }}
                       >
                         <CC_LogoLoader />
                       </div>
