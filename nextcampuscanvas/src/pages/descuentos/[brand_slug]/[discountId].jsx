@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import Layout from '@components/GeneralUseComponents/Layout/Layout';
 import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
 import DiscountTemplate from '@components/UsedInSpecificRoutes/Descuentos/DiscountTemplate/DiscountTemplate.jsx';
-import DiscountDisplayerBtn from '@components/UsedInSpecificRoutes/Descuentos/DiscountDisplayerBtn/DiscountDisplayerBtn1.jsx';
+import DiscountDisplayerBtn from '@components/UsedInSpecificRoutes/Descuentos/DiscountDisplayerBtn/DiscountDisplayerBtn.jsx';
 
 //Assets
 import edit_pencil from '@assets/GeneralUse/IconsAndButtons/edit_pencil.svg';
