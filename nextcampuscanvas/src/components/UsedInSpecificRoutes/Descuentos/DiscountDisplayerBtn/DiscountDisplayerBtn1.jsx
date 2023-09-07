@@ -37,7 +37,7 @@ const DiscountDisplayerBtn = ({ discount }) => {
       redirectUserToCouponAndOpenAffLink();
       return;
     }
-    //Check if user is verified en redirect if not (runs if available for verified students only)
+    //Check if user is verified and redirect if not (runs if available for verified students only)
     redirectUnverifUser();
 
     if (verified) {

@@ -1,29 +1,34 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect } from 'react';
 
 //Components
-import Layout from "@components/GeneralUseComponents/Layout/Layout";
-import SEOHeader from "@components/GeneralUseComponents/SEO_Header/SEOHeader";
-import DiscountTemplate from "@components/UsedInSpecificRoutes/Descuentos/DiscountTemplate/DiscountTemplate.jsx";
-import DiscountDisplayerBtn from "@components/UsedInSpecificRoutes/Descuentos/DiscountDisplayerBtn/DiscountDisplayerBtn.jsx";
+import Layout from '@components/GeneralUseComponents/Layout/Layout';
+import SEOHeader from '@components/GeneralUseComponents/SEO_Header/SEOHeader';
+import DiscountTemplate from '@components/UsedInSpecificRoutes/Descuentos/DiscountTemplate/DiscountTemplate.jsx';
+import DiscountDisplayerBtn from '@components/UsedInSpecificRoutes/Descuentos/DiscountDisplayerBtn/DiscountDisplayerBtn1.jsx';
 
 //Assets
-import edit_pencil from "@assets/GeneralUse/IconsAndButtons/edit_pencil.svg";
+import edit_pencil from '@assets/GeneralUse/IconsAndButtons/edit_pencil.svg';
 
 //Styles
-import styles from "@styles/pagestyles/descuentos/DisplayDiscount.module.scss";
+import styles from '@styles/pagestyles/descuentos/DisplayDiscount.module.scss';
 
 //Endpoints
-import endPoints from "@services/api/index";
+import endPoints from '@services/api/index';
 
 //Hooks
-import useDisplayIfAdmin from "@hooks/useDisplayIfAdmin";
+import useDisplayIfAdmin from '@hooks/useDisplayIfAdmin';
 
 //Services
-import axiosFetcher from "@services/axiosFetcher";
+import axiosFetcher from '@services/axiosFetcher';
 
 const Discount = ({ discount }) => {
-  const { allowDisplay } = useDisplayIfAdmin("all");
+  const { allowDisplay } = useDisplayIfAdmin('all');
+
+  useEffect(() => {
+    const callbackURL = sessionStorage.getItem('callbackURL');
+  }, []);
 
   return (
     <>
@@ -60,8 +65,8 @@ export default Discount;
 export async function getStaticPaths() {
   const response = await axiosFetcher({
     url: endPoints.discounts.getCards,
-    method: "get",
-    extraHeaders: { required_cards: "all_available", page: 1, limit: 2000 },
+    method: 'get',
+    extraHeaders: { required_cards: 'all_available', page: 1, limit: 2000 },
   });
 
   const paths = response.body.cards.map((card) => ({
@@ -77,7 +82,7 @@ export async function getStaticPaths() {
     // true: Si no fue pre-renderizado en getStaticPaths, lo renderiza en el client, con lo cual podemos mostrar un estado de carga en el cliente con router.isFallback (lo cual vendría siendo como un estado de cargando)
     // false: Si no fue pre-renderizado en getStaticPaths, muestra un 404
     // blocking: Si no fue pre-renderizado en getStaticPaths, renderiza en el server
-    fallback: "blocking",
+    fallback: 'blocking',
   };
 }
 
@@ -88,7 +93,7 @@ export async function getStaticProps({ params }) {
   const discountId = params?.discountId;
 
   //Necesitamos que sea un string, pues puede venir un array o undefined, dependiendo de cuántos parámetros ponemos en el slug separados por un /, o si directamente no ponemos nada. (Creo)
-  if (typeof discountId !== "string" || typeof brand_slug !== "string") {
+  if (typeof discountId !== 'string' || typeof brand_slug !== 'string') {
     return {
       notFound: true,
     };
@@ -96,10 +101,10 @@ export async function getStaticProps({ params }) {
 
   const response = await axiosFetcher({
     url: endPoints.discounts.getDiscountById(discountId),
-    method: "get",
+    method: 'get',
   });
 
-  if (response.error || response.body.status === "unavailable") {
+  if (response.error || response.body.status === 'unavailable') {
     return {
       notFound: true,
     };

@@ -19,7 +19,10 @@ import Divider from '@assets/PagesImages/Login/Divider.svg';
 import { useInputValue } from '@hooks/useInputValue';
 
 const LoginForm = () => {
-  const [state, setState] = useState({ loading: false, error: '' });
+  const [state, setState] = useState({
+    loading: false,
+    error: '',
+  });
 
   //Session
   const { data: session, status } = useSession();
@@ -31,9 +34,13 @@ const LoginForm = () => {
   const CORREO = useInputValue('');
   const CONTRASENA = useInputValue('');
 
+  const callbackURL = sessionStorage.getItem('callbackURL')
+    ? sessionStorage.getItem('callbackURL')
+    : '/';
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setState({ ...state, loading: true });
+    setState({ ...state, loading: true, error: '' });
     try {
       const auth = await signIn('credentials', {
         redirect: false,
@@ -50,11 +57,14 @@ const LoginForm = () => {
         CONTRASENA.setValue('');
         return false;
       }
+
       setState({
         ...state,
         loading: false,
+        error: '',
       });
-      router.push('/');
+
+      //No need for redirect, since the session will be updated and the user will be redirected to the callbackURL
     } catch (error) {
       setState({
         ...state,
@@ -64,9 +74,14 @@ const LoginForm = () => {
     }
   };
 
-  //If logged in, redirect to home
+  //If logged in, redirect to home (or callbackURL)
   if (status !== 'loading' && status === 'authenticated') {
-    router.push('/');
+    //Clear the session storage callbackURL
+    sessionStorage.removeItem('callbackURL')
+      ? sessionStorage.removeItem('callbackURL')
+      : null;
+
+    router.push(callbackURL);
   }
 
   return (
@@ -113,10 +128,11 @@ const LoginForm = () => {
         </p>
         <button
           type='submit'
-          className={`${
-            state.loading && styles.buttonLoading
+          //If status is authenticated, the user is already logged an this page will automatically redirect to the callbackURL, so in the meantime, the user will see a loading state
+          className={`${state.loading && styles.buttonLoading} ${
+            status === 'authenticated' && styles.buttonLoading
           }  btn button--red`}
-          disabled={state.loading}
+          disabled={state.loading || status === 'authenticated'}
         >
           Iniciar sesión
         </button>

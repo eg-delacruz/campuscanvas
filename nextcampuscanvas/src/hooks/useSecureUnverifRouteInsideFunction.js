@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 const useSecureUnverifRoutesInsideFunction = () => {
   const [verified, setVerified] = useState(false);
   const [checking, setChecking] = useState(true);
-  
+
   //Session
   const { data: session, status } = useSession();
 
@@ -22,6 +22,9 @@ const useSecureUnverifRoutesInsideFunction = () => {
 
   const router = useRouter();
   const redirectUnverifUser = () => {
+    //Save current route in sessionStorage to redirect back to it after verification
+    sessionStorage.setItem('callbackURL', router.asPath);
+
     //Redirecting according to auth status/securing route
     if (status === 'unauthenticated') {
       return router.push({ pathname: '/auth/login' }, 'auth/login');
