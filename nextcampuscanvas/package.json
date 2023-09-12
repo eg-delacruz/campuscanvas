@@ -22,7 +22,7 @@
     "bcryptjs": "2.4.3",
     "chart.js": "4.2.1",
     "contentful": "10.2.0",
-    "facebook-nodejs-business-sdk": "14.0.0",
+    "facebook-nodejs-business-sdk": "17.0.3",
     "googleapis": "100.0.0",
     "isomorphic-dompurify": "0.24.0",
     "jsonwebtoken": "9.0.0",
