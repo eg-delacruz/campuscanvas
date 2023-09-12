@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 //Session
 import { useSession } from 'next-auth/react';
@@ -24,6 +24,8 @@ const LoginForm = () => {
     error: '',
   });
 
+  const [callbackURL, setCallbackURL] = useState('/');
+
   //Session
   const { data: session, status } = useSession();
   const loading = status === 'loading';
@@ -34,9 +36,13 @@ const LoginForm = () => {
   const CORREO = useInputValue('');
   const CONTRASENA = useInputValue('');
 
-  const callbackURL = sessionStorage.getItem('callbackURL')
-    ? sessionStorage.getItem('callbackURL')
-    : '/';
+  useEffect(() => {
+    const callbackURL = sessionStorage.getItem('callbackURL')
+      ? sessionStorage.getItem('callbackURL')
+      : '/';
+
+    setCallbackURL(callbackURL);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

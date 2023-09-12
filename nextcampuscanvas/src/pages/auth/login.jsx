@@ -1,5 +1,3 @@
-import React from 'react';
-
 //Components
 import SecondaryHeader from '@components/GeneralUseComponents/SecondaryHeader/SecondaryHeader';
 import FooterSignature from '@components/GeneralUseComponents/FooterSignature/FooterSignature';
