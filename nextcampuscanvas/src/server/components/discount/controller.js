@@ -7,16 +7,16 @@ import {
   s3Deletev3_big_home_slider_images,
   s3Deletev3_small_home_slider_images,
   s3Deletev3_brand_logos,
-} from "@server/services/AWS3/s3Service";
+} from '@server/services/AWS3/s3Service';
 
 //Stores
-import brandInfo_Store from "@server/components/discount/brand_info/store";
-import discountInfo_Store from "@server/components/discount/discount_info/store";
-import homeSliderBanner_Store from "@server/components/discount/home_slider_banner/store";
-import Card_Store from "@server/components/discount/card/store";
+import brandInfo_Store from '@server/components/discount/brand_info/store';
+import discountInfo_Store from '@server/components/discount/discount_info/store';
+import homeSliderBanner_Store from '@server/components/discount/home_slider_banner/store';
+import Card_Store from '@server/components/discount/card/store';
 
 //Service functions
-import { shuffleArray } from "@server/services/shuffleArray";
+import { shuffleArray } from '@server/services/shuffleArray';
 
 //Client cleaner functions
 const cleanBrandForClient = (brand) => {
@@ -61,9 +61,9 @@ const createNewBrand = async ({
     !created_by
   ) {
     console.log(
-      "[discount controller error] Información insuficiente para crear marca"
+      '[discount controller error] Información insuficiente para crear marca'
     );
-    throw new Error("Información insuficiente para crear marca");
+    throw new Error('Información insuficiente para crear marca');
   }
 
   try {
@@ -74,21 +74,21 @@ const createNewBrand = async ({
     ]);
 
     if (
-      brand_name_promise.status === "fulfilled" &&
-      brand_slug_promise.status === "fulfilled"
+      brand_name_promise.status === 'fulfilled' &&
+      brand_slug_promise.status === 'fulfilled'
     ) {
       if (brand_name_promise.value === true) {
         console.log(
-          "[discount controller error] Esta marca ya ha sido creada, utiliza otro nombre"
+          '[discount controller error] Esta marca ya ha sido creada, utiliza otro nombre'
         );
-        throw new Error("Esta marca ya ha sido creada, utiliza otro nombre");
+        throw new Error('Esta marca ya ha sido creada, utiliza otro nombre');
       }
 
       if (brand_slug_promise.value === true) {
         console.log(
-          "[discount controller error] Este slug ya existe, utiliza otro"
+          '[discount controller error] Este slug ya existe, utiliza otro'
         );
-        throw new Error("Este slug ya existe, utiliza otro");
+        throw new Error('Este slug ya existe, utiliza otro');
       }
     }
 
@@ -127,11 +127,11 @@ const createNewBrand = async ({
     let routesToUpdateSSG = [];
 
     routesToUpdateSSG.push(`/descuentos/${CREATED_BRAND.brand_slug}`);
-    routesToUpdateSSG.push("/descuentos/marcas");
+    routesToUpdateSSG.push('/descuentos/marcas');
 
     return { brand: CREATED_BRAND, routesToUpdateSSG };
   } catch (error) {
-    console.log("[discount controller error]" + error.message);
+    console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
   }
 };
@@ -141,7 +141,7 @@ const getBrands = async () => {
     const brands = await brandInfo_Store.getBrands();
     return brands;
   } catch (error) {
-    console.log("[discount controller error]" + error.message);
+    console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
   }
 };
@@ -152,7 +152,7 @@ const getAllBrandsCleanForClient = async () => {
     let cleanedBrands = brands.map((brand) => cleanBrandForClient(brand));
     return cleanedBrands;
   } catch (error) {
-    console.log("[discount controller error]" + error.message);
+    console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
   }
 };
@@ -181,6 +181,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     show_first_in_home_section,
     show_first_in_all_discounts,
     discount_keywords,
+    show_in_recommendations_searchbar,
   } = discountInfo;
 
   if (
@@ -197,23 +198,25 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     files.banner.length === 0
   ) {
     console.log(
-      "[discount controller error] Información insuficiente para crear descuento"
+      '[discount controller error] Información insuficiente para crear descuento'
     );
-    throw new Error("Información insuficiente para crear descuento");
+    throw new Error('Información insuficiente para crear descuento');
   }
 
   //Transforming boolean strings to pure boolean
-  const SHOW_IN_HOME_SLIDER = show_in_home_slider === "true";
-  const SHOW_FIRST_IN_CATEGORY = show_first_in_category === "true";
-  const SHOW_FIRST_IN_HOME_SECTION = show_first_in_home_section === "true";
-  const SHOW_FIRST_IN_ALL_DISCOUNTS = show_first_in_all_discounts === "true";
+  const SHOW_IN_HOME_SLIDER = show_in_home_slider === 'true';
+  const SHOW_FIRST_IN_CATEGORY = show_first_in_category === 'true';
+  const SHOW_FIRST_IN_HOME_SECTION = show_first_in_home_section === 'true';
+  const SHOW_FIRST_IN_ALL_DISCOUNTS = show_first_in_all_discounts === 'true';
+  const SHOW_IN_RECOMMENDATIONS_SEARCHBAR =
+    show_in_recommendations_searchbar === 'true';
   const HOME_BANNER__REDIRECT_USER_TO_BRAND_PAGE =
-    home_banner__redirect_user_to_brand_page === "true";
+    home_banner__redirect_user_to_brand_page === 'true';
 
   //Transforming dates to Date objects
   const VALID_FROM_DATE = new Date(valid_from);
   const EXPIRATION_DATE =
-    expiration_date === "null" ? null : new Date(expiration_date);
+    expiration_date === 'null' ? null : new Date(expiration_date);
 
   try {
     let routesToUpdateSSG = [];
@@ -227,7 +230,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     //Create discount
     const discount = {
       //This attribute of "discount_external_key" is currently not being used, but leave it here since the current entries in the DB have it
-      discount_external_key: "",
+      discount_external_key: '',
       title,
       SEO_meta_title: title,
       brand,
@@ -251,7 +254,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       status,
       terms_and_conds,
       display_in_section:
-        status === "unavailable" ? "" : display_card_in_section,
+        status === 'unavailable' ? '' : display_card_in_section,
       createdAt: new Date(),
       valid_from: VALID_FROM_DATE,
       expiration_date: EXPIRATION_DATE,
@@ -265,9 +268,9 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     const CREATED_DISCOUNT = await discountInfo_Store.add(discount);
 
     //Updating SSG routes
-    if (CREATED_DISCOUNT.status === "available") {
+    if (CREATED_DISCOUNT.status === 'available') {
       //Updating all discounts route (since all available discounts allways appear here)
-      routesToUpdateSSG.push("/descuentos/todos");
+      routesToUpdateSSG.push('/descuentos/todos');
 
       //Updating discount route
       routesToUpdateSSG.push(
@@ -278,26 +281,26 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
 
       //Updating category route
       switch (CREATED_DISCOUNT.category) {
-        case "travel":
-          routesToUpdateSSG.push("/descuentos/viajar");
+        case 'travel':
+          routesToUpdateSSG.push('/descuentos/viajar');
           break;
-        case "fashion":
-          routesToUpdateSSG.push("/descuentos/moda");
+        case 'fashion':
+          routesToUpdateSSG.push('/descuentos/moda');
           break;
-        case "beauty":
-          routesToUpdateSSG.push("/descuentos/belleza");
+        case 'beauty':
+          routesToUpdateSSG.push('/descuentos/belleza');
           break;
-        case "eatordrink":
-          routesToUpdateSSG.push("/descuentos/alimentacion");
+        case 'eatordrink':
+          routesToUpdateSSG.push('/descuentos/alimentacion');
           break;
-        case "entertainment":
-          routesToUpdateSSG.push("/descuentos/entretenimiento");
+        case 'entertainment':
+          routesToUpdateSSG.push('/descuentos/entretenimiento');
           break;
-        case "technology":
-          routesToUpdateSSG.push("/descuentos/tecnologia");
+        case 'technology':
+          routesToUpdateSSG.push('/descuentos/tecnologia');
           break;
-        case "others":
-          routesToUpdateSSG.push("/descuentos/otros");
+        case 'others':
+          routesToUpdateSSG.push('/descuentos/otros');
           break;
         default:
           break;
@@ -315,19 +318,19 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       const small_slider_img = uploaded_images_urls[1];
 
       if (
-        big_slider_img.status === "rejected" ||
-        small_slider_img.status === "rejected"
+        big_slider_img.status === 'rejected' ||
+        small_slider_img.status === 'rejected'
       ) {
         console.log(
-          "[discount controller error] Error al subir imágenes de home slider a AWS"
+          '[discount controller error] Error al subir imágenes de home slider a AWS'
         );
-        throw new Error("Error al subir imágenes de home slider");
+        throw new Error('Error al subir imágenes de home slider');
       }
 
       const HOME_BANNER_AFF_LINK =
-        available_for === "publico" && type === "affiliate_link_only"
+        available_for === 'publico' && type === 'affiliate_link_only'
           ? affiliate_link
-          : "";
+          : '';
 
       const slide = {
         discount_id: CREATED_DISCOUNT._id.toString(),
@@ -352,7 +355,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       await homeSliderBanner_Store.add(slide);
 
       //Adding home route
-      routesToUpdateSSG.push("/");
+      routesToUpdateSSG.push('/');
     }
 
     //Create card
@@ -370,7 +373,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       brand_name: brand_info.brand_name,
       click_count: 0,
       display_in_section:
-        status === "unavailable" ? "" : display_card_in_section,
+        status === 'unavailable' ? '' : display_card_in_section,
       card_tag,
       status,
       valid_from: VALID_FROM_DATE,
@@ -380,6 +383,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
       show_first_in_category: SHOW_FIRST_IN_CATEGORY,
       show_first_in_home_section: SHOW_FIRST_IN_HOME_SECTION,
       show_first_in_all_discounts: SHOW_FIRST_IN_ALL_DISCOUNTS,
+      show_in_recommendations_searchbar: SHOW_IN_RECOMMENDATIONS_SEARCHBAR,
       updated_at: new Date(),
       created_by,
       modified_last_time_by: created_by,
@@ -388,9 +392,9 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
     const CREATED_CARD = await Card_Store.add(card);
 
     //Revalidating home if needed
-    if (CREATED_CARD.display_in_section && status === "available") {
-      if (!routesToUpdateSSG.includes("/")) {
-        routesToUpdateSSG.push("/");
+    if (CREATED_CARD.display_in_section && status === 'available') {
+      if (!routesToUpdateSSG.includes('/')) {
+        routesToUpdateSSG.push('/');
       }
     }
 
@@ -403,7 +407,7 @@ const createNewDiscount = async (discountInfo, files, created_by) => {
 
     return { routesToUpdateSSG, discount: CREATED_DISCOUNT };
   } catch (error) {
-    console.log("[discount controller error]" + error.message);
+    console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
   }
 };
@@ -413,7 +417,7 @@ const getDiscounts = async () => {
     const discounts = await discountInfo_Store.getDiscounts();
     return discounts;
   } catch (error) {
-    console.log("[discount controller error]" + error.message);
+    console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
   }
 };
@@ -421,16 +425,16 @@ const getDiscounts = async () => {
 const getAllAvailableDiscountCards = async (page, limit) => {
   if (!page || !limit) {
     console.log(
-      "[discount controller error] | getAllAvailableDiscountCards function error Faltan parámetros de paginación"
+      '[discount controller error] | getAllAvailableDiscountCards function error Faltan parámetros de paginación'
     );
-    throw new Error("Faltan parámetros de paginación");
+    throw new Error('Faltan parámetros de paginación');
   }
 
   try {
     const cards = await Card_Store.getAllAvailableCards(page, limit);
     return cards;
   } catch (error) {
-    console.log("[discount controller error]" + error.message);
+    console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
   }
 };
@@ -438,16 +442,16 @@ const getAllAvailableDiscountCards = async (page, limit) => {
 const getAvailableDiscountCardsByCategory = async (category, page, limit) => {
   if (!page || !limit) {
     console.log(
-      "[discount controller error] | getAllAvailableDiscountCards function error Faltan parámetros de paginación"
+      '[discount controller error] | getAllAvailableDiscountCards function error Faltan parámetros de paginación'
     );
-    throw new Error("Faltan parámetros de paginación");
+    throw new Error('Faltan parámetros de paginación');
   }
 
   try {
     const cards = await Card_Store.getByCategory(category, page, limit);
     return cards;
   } catch (error) {
-    console.log("[discount controller error]" + error.message);
+    console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
   }
 };
@@ -457,7 +461,7 @@ async function getHomeSliderBanners() {
     const banners = await homeSliderBanner_Store.getBanners();
     return banners;
   } catch (error) {
-    console.log("[discount controller error]" + error.message);
+    console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
   }
 }
@@ -465,9 +469,9 @@ async function getHomeSliderBanners() {
 const getHomeSectionsCards = async () => {
   try {
     const cards = await Promise.allSettled([
-      Card_Store.getBySection("sugeridos"),
-      Card_Store.getBySection("nuevos"),
-      Card_Store.getBySection("mas_descuentos_estudiantes"),
+      Card_Store.getBySection('sugeridos'),
+      Card_Store.getBySection('nuevos'),
+      Card_Store.getBySection('mas_descuentos_estudiantes'),
     ]);
     const [SUGGESTED, NEW, MAS_DESCUENTOS_ESTUDIANTES] = cards;
 
@@ -478,7 +482,7 @@ const getHomeSectionsCards = async () => {
     };
     return SECTION_CARDS;
   } catch (error) {
-    console.log("[discount controller error]" + error.message);
+    console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
   }
 };
@@ -488,7 +492,7 @@ async function getDiscountById(id) {
     const discount = await discountInfo_Store.getDiscountById(id);
     return discount;
   } catch (error) {
-    console.log("[discount controller error]" + error.message);
+    console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
   }
 }
@@ -527,9 +531,9 @@ const eliminateDiscountData = async (id, bannerName) => {
     brandInfo_Store.update(brand);
 
     //Revalidating affected routes
-    if (deleted_discount.value?.status === "available") {
+    if (deleted_discount.value?.status === 'available') {
       //Updating all discounts route (since all available discounts allways appear here)
-      routesToUpdateSSG.push("/descuentos/todos");
+      routesToUpdateSSG.push('/descuentos/todos');
 
       //Updating discount route
       routesToUpdateSSG.push(`/descuentos/${brand.brand_slug}/${id}`);
@@ -541,26 +545,26 @@ const eliminateDiscountData = async (id, bannerName) => {
 
       //Updating category route
       switch (deleted_card.value.category) {
-        case "travel":
-          routesToUpdateSSG.push("/descuentos/viajar");
+        case 'travel':
+          routesToUpdateSSG.push('/descuentos/viajar');
           break;
-        case "fashion":
-          routesToUpdateSSG.push("/descuentos/moda");
+        case 'fashion':
+          routesToUpdateSSG.push('/descuentos/moda');
           break;
-        case "beauty":
-          routesToUpdateSSG.push("/descuentos/belleza");
+        case 'beauty':
+          routesToUpdateSSG.push('/descuentos/belleza');
           break;
-        case "eatordrink":
-          routesToUpdateSSG.push("/descuentos/alimentacion");
+        case 'eatordrink':
+          routesToUpdateSSG.push('/descuentos/alimentacion');
           break;
-        case "entertainment":
-          routesToUpdateSSG.push("/descuentos/entretenimiento");
+        case 'entertainment':
+          routesToUpdateSSG.push('/descuentos/entretenimiento');
           break;
-        case "technology":
-          routesToUpdateSSG.push("/descuentos/tecnologia");
+        case 'technology':
+          routesToUpdateSSG.push('/descuentos/tecnologia');
           break;
-        case "others":
-          routesToUpdateSSG.push("/descuentos/otros");
+        case 'others':
+          routesToUpdateSSG.push('/descuentos/otros');
           break;
         default:
           break;
@@ -578,13 +582,13 @@ const eliminateDiscountData = async (id, bannerName) => {
       ]);
 
       //Adding home route if not already added
-      if (!routesToUpdateSSG.includes("/")) {
-        routesToUpdateSSG.push("/");
+      if (!routesToUpdateSSG.includes('/')) {
+        routesToUpdateSSG.push('/');
       }
     }
     return routesToUpdateSSG;
   } catch (error) {
-    console.log("[discount controller error]" + error.message);
+    console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
   }
 };
@@ -601,7 +605,7 @@ const getHomeData = async () => {
 
     return { home_banners, home_sections_cards };
   } catch (error) {
-    console.log("[discount controller error]" + error.message);
+    console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
   }
 };
@@ -611,7 +615,7 @@ const getBrandById = async (id) => {
     const brand = await brandInfo_Store.getById(id);
     return brand;
   } catch (error) {
-    console.log("[discount controller error]" + error.message);
+    console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
   }
 };
@@ -621,7 +625,7 @@ const getBrandBySlug = async (slug) => {
     const brand = await brandInfo_Store.getBySlug(slug);
     return brand;
   } catch (error) {
-    console.log("[discount controller error]" + error.message);
+    console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
   }
 };
@@ -632,7 +636,7 @@ const getBrandBySlugCleanForClient = async (slug) => {
     const cleanBrand = cleanBrandForClient(brand);
     return cleanBrand;
   } catch (error) {
-    console.log("[discount controller error]" + error.message);
+    console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
   }
 };
@@ -642,7 +646,7 @@ const getDiscountsByBrand = async (brandID) => {
     const discounts = await discountInfo_Store.getByBrand(brandID);
     return discounts;
   } catch (error) {
-    console.log("[discount controller error]" + error.message);
+    console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
   }
 };
@@ -667,9 +671,9 @@ const updateBrand = async ({
     //Check if data is valid
     if (!id || !updated_by) {
       console.error(
-        "[discount controller error] Información insuficiente para crear marca"
+        '[discount controller error] Información insuficiente para crear marca'
       );
-      throw new Error("Información insuficiente para crear marca");
+      throw new Error('Información insuficiente para crear marca');
     }
 
     //Get brand from DB to be modifyed
@@ -712,8 +716,8 @@ const updateBrand = async ({
         };
 
         //Revalidate all discounts route, all brands page and the brand route
-        routesToUpdateSSG.push("/descuentos/todos");
-        routesToUpdateSSG.push("/descuentos/marcas");
+        routesToUpdateSSG.push('/descuentos/todos');
+        routesToUpdateSSG.push('/descuentos/marcas');
         routesToUpdateSSG.push(`/descuentos/${brand_slug}`);
 
         //Check if any card currently appears in home section and revalidate home if true
@@ -721,45 +725,45 @@ const updateBrand = async ({
           (card) => card.display_in_section
         );
         if (revalidate_home) {
-          routesToUpdateSSG.push("/");
+          routesToUpdateSSG.push('/');
         }
 
         //Revalidate category routes of all discounts affected by the change
         available_cards_linked_to_brand.forEach((card) => {
           switch (card.category) {
-            case "travel":
-              if (!routesToUpdateSSG.includes("/descuentos/viajes")) {
-                routesToUpdateSSG.push("/descuentos/viajar");
+            case 'travel':
+              if (!routesToUpdateSSG.includes('/descuentos/viajes')) {
+                routesToUpdateSSG.push('/descuentos/viajar');
               }
               break;
-            case "fashion":
-              if (!routesToUpdateSSG.includes("/descuentos/moda")) {
-                routesToUpdateSSG.push("/descuentos/moda");
+            case 'fashion':
+              if (!routesToUpdateSSG.includes('/descuentos/moda')) {
+                routesToUpdateSSG.push('/descuentos/moda');
               }
               break;
-            case "beauty":
-              if (!routesToUpdateSSG.includes("/descuentos/belleza")) {
-                routesToUpdateSSG.push("/descuentos/belleza");
+            case 'beauty':
+              if (!routesToUpdateSSG.includes('/descuentos/belleza')) {
+                routesToUpdateSSG.push('/descuentos/belleza');
               }
               break;
-            case "eatordrink":
-              if (!routesToUpdateSSG.includes("/descuentos/alimentacion")) {
-                routesToUpdateSSG.push("/descuentos/alimentacion");
+            case 'eatordrink':
+              if (!routesToUpdateSSG.includes('/descuentos/alimentacion')) {
+                routesToUpdateSSG.push('/descuentos/alimentacion');
               }
               break;
-            case "entertainment":
-              if (!routesToUpdateSSG.includes("/descuentos/entretenimiento")) {
-                routesToUpdateSSG.push("/descuentos/entretenimiento");
+            case 'entertainment':
+              if (!routesToUpdateSSG.includes('/descuentos/entretenimiento')) {
+                routesToUpdateSSG.push('/descuentos/entretenimiento');
               }
               break;
-            case "technology":
-              if (!routesToUpdateSSG.includes("/descuentos/tecnologia")) {
-                routesToUpdateSSG.push("/descuentos/tecnologia");
+            case 'technology':
+              if (!routesToUpdateSSG.includes('/descuentos/tecnologia')) {
+                routesToUpdateSSG.push('/descuentos/tecnologia');
               }
               break;
-            case "others":
-              if (!routesToUpdateSSG.includes("/descuentos/otros")) {
-                routesToUpdateSSG.push("/descuentos/otros");
+            case 'others':
+              if (!routesToUpdateSSG.includes('/descuentos/otros')) {
+                routesToUpdateSSG.push('/descuentos/otros');
               }
               break;
             default:
@@ -831,7 +835,7 @@ const updateBrand = async ({
 
     return { updated_Brand, routesToUpdateSSG };
   } catch (error) {
-    console.log("[discount controller error]" + error.message);
+    console.log('[discount controller error]' + error.message);
     throw new Error(error.message);
   }
 };
@@ -841,9 +845,9 @@ const deleteBrand = async (id, brandLogoFileName) => {
     //Check if required info has been received
     if (!id || !brandLogoFileName) {
       console.error(
-        "[discount controller | deleteBrand function error] Información insuficiente para eliminar marca"
+        '[discount controller | deleteBrand function error] Información insuficiente para eliminar marca'
       );
-      throw new Error("Información insuficiente para eliminar marca");
+      throw new Error('Información insuficiente para eliminar marca');
     }
 
     //Get associated discounts count of brand and not allow to erase if there are any
@@ -853,10 +857,10 @@ const deleteBrand = async (id, brandLogoFileName) => {
 
     if (discountsCount > 0) {
       console.error(
-        "[discount controller | deleteBrand function error] No se puede eliminar marca porque tiene descuentos asociados"
+        '[discount controller | deleteBrand function error] No se puede eliminar marca porque tiene descuentos asociados'
       );
       throw new Error(
-        "No se puede eliminar marca porque tiene descuentos asociados"
+        'No se puede eliminar marca porque tiene descuentos asociados'
       );
     }
 
@@ -873,25 +877,25 @@ const deleteBrand = async (id, brandLogoFileName) => {
     const [deleted_logo, deleted_brand] = responses;
 
     if (
-      deleted_logo.status === "rejected" ||
-      deleted_brand.status === "rejected"
+      deleted_logo.status === 'rejected' ||
+      deleted_brand.status === 'rejected'
     ) {
       console.error(
-        "[discount controller | deleteBrand function error] Error al eliminar logo de AWS o al eliminar marca de la DB" +
+        '[discount controller | deleteBrand function error] Error al eliminar logo de AWS o al eliminar marca de la DB' +
           deleted_logo.reason +
           deleted_brand.reason
       );
-      throw new Error("Error al eliminar marca");
+      throw new Error('Error al eliminar marca');
     }
 
     //Revalidate brand page
     routesToUpdateSSG.push(`/descuentos/${deleted_brand.value.brand_slug}`);
-    routesToUpdateSSG.push("/descuentos/marcas");
+    routesToUpdateSSG.push('/descuentos/marcas');
 
     return routesToUpdateSSG;
   } catch (error) {
     console.error(
-      "[discount controller | deleteBrand function error]" + error.message
+      '[discount controller | deleteBrand function error]' + error.message
     );
     throw new Error(error.message);
   }
@@ -902,9 +906,9 @@ async function getDiscountsCountByBrandId(brandID) {
     //Check if required info has been received
     if (!brandID) {
       console.error(
-        "[discount controller | getDiscountsCountByBrandId function error] Información insuficiente para obtener datos"
+        '[discount controller | getDiscountsCountByBrandId function error] Información insuficiente para obtener datos'
       );
-      throw new Error("Información insuficiente para obtener datos");
+      throw new Error('Información insuficiente para obtener datos');
     }
 
     const discountCount = await discountInfo_Store.getDiscountsCountByBrandId(
@@ -914,7 +918,7 @@ async function getDiscountsCountByBrandId(brandID) {
     return discountCount;
   } catch (error) {
     console.error(
-      "[discount controller | getDiscountsCountByBrandId function error]" +
+      '[discount controller | getDiscountsCountByBrandId function error]' +
         error.message
     );
     throw new Error(error.message);
@@ -951,7 +955,7 @@ async function getHomeSliderBannersInfoForAdmin() {
     return bannersInfo;
   } catch (error) {
     console.error(
-      "[discount controller | getHomeSliderBannersInfoForAdmin function error]" +
+      '[discount controller | getHomeSliderBannersInfoForAdmin function error]' +
         error.message
     );
     throw new Error(error.message);
@@ -971,9 +975,9 @@ async function deleteHomeSliderBanner(
       !slider_banner_small_screen_name
     ) {
       console.error(
-        "[discount controller | deleteHomeSliderBanner function error] Información insuficiente para eliminar banner"
+        '[discount controller | deleteHomeSliderBanner function error] Información insuficiente para eliminar banner'
       );
-      throw new Error("Información insuficiente para eliminar banner");
+      throw new Error('Información insuficiente para eliminar banner');
     }
 
     let routesToUpdateSSG = [];
@@ -992,26 +996,26 @@ async function deleteHomeSliderBanner(
 
     //Checking for errors
     if (
-      deleted_big_image.status === "rejected" ||
-      deleted_small_image.status === "rejected" ||
-      deleted_banner.status === "rejected"
+      deleted_big_image.status === 'rejected' ||
+      deleted_small_image.status === 'rejected' ||
+      deleted_banner.status === 'rejected'
     ) {
       console.error(
-        "[discount controller | deleteHomeSliderBanner function error] Error al eliminar imágenes de AWS o al eliminar banner de la DB" +
+        '[discount controller | deleteHomeSliderBanner function error] Error al eliminar imágenes de AWS o al eliminar banner de la DB' +
           deleted_big_image.reason +
           deleted_small_image.reason +
           deleted_banner.reason
       );
-      throw new Error("Error al eliminar banner");
+      throw new Error('Error al eliminar banner');
     }
 
     //If banner was deleted successfully, update SSG
-    routesToUpdateSSG.push("/");
+    routesToUpdateSSG.push('/');
 
     return routesToUpdateSSG;
   } catch (error) {
     console.error(
-      "[discount controller | deleteHomeSliderBanner function error]" +
+      '[discount controller | deleteHomeSliderBanner function error]' +
         error.message
     );
     throw new Error(error.message);
@@ -1023,9 +1027,9 @@ async function getHomeSliderBannerByDiscountId(discount_id) {
     //Check if required info has been received
     if (!discount_id) {
       console.error(
-        "[discount controller | getHomeSliderBannerByDiscountId function error] Información insuficiente para obtener datos"
+        '[discount controller | getHomeSliderBannerByDiscountId function error] Información insuficiente para obtener datos'
       );
-      throw new Error("Información insuficiente para obtener datos");
+      throw new Error('Información insuficiente para obtener datos');
     }
 
     let object_banner = {};
@@ -1036,7 +1040,7 @@ async function getHomeSliderBannerByDiscountId(discount_id) {
     return object_banner;
   } catch (error) {
     console.error(
-      "[discount controller | getHomeSliderBannerByDiscountId function error]" +
+      '[discount controller | getHomeSliderBannerByDiscountId function error]' +
         error.message
     );
     throw new Error(error.message);
@@ -1047,9 +1051,9 @@ async function getCardByDiscountId(discount_id) {
   try {
     if (!discount_id) {
       console.error(
-        "[discount controller | getCardByDiscountId function error] Información insuficiente para obtener datos"
+        '[discount controller | getCardByDiscountId function error] Información insuficiente para obtener datos'
       );
-      throw new Error("Información insuficiente para obtener datos");
+      throw new Error('Información insuficiente para obtener datos');
     }
 
     const card = await Card_Store.getByDiscountId(discount_id);
@@ -1057,7 +1061,7 @@ async function getCardByDiscountId(discount_id) {
     return card;
   } catch (error) {
     console.error(
-      "[discount controller | getCardByDiscountId function error]" +
+      '[discount controller | getCardByDiscountId function error]' +
         error.message
     );
     throw new Error(error.message);
@@ -1068,9 +1072,9 @@ const getAvailableCardsByBrandId = async (brand_id) => {
   try {
     if (!brand_id) {
       console.error(
-        "[discount controller | getAvailableCardsByBrandId function error] Información insuficiente para obtener datos"
+        '[discount controller | getAvailableCardsByBrandId function error] Información insuficiente para obtener datos'
       );
-      throw new Error("Información insuficiente para obtener datos");
+      throw new Error('Información insuficiente para obtener datos');
     }
 
     const cards = await Card_Store.getAvailableCardsByBrandId(brand_id);
@@ -1078,7 +1082,7 @@ const getAvailableCardsByBrandId = async (brand_id) => {
     return cards;
   } catch (error) {
     console.error(
-      "[discount controller | getAvailableCardsByBrandId function error]" +
+      '[discount controller | getAvailableCardsByBrandId function error]' +
         error.message
     );
     throw new Error(error.message);
@@ -1088,7 +1092,7 @@ const getAvailableCardsByBrandId = async (brand_id) => {
 const getHomeSectionsCardsCount = async () => {
   try {
     //If new sections are created, update this array as well
-    const SECTIONS = ["sugeridos", "nuevos", "mas_descuentos_estudiantes"];
+    const SECTIONS = ['sugeridos', 'nuevos', 'mas_descuentos_estudiantes'];
     const count = await Promise.all(
       SECTIONS.map(async (section) => {
         const sectionCount = await Card_Store.getHomeSectionsCardsCount(
@@ -1104,7 +1108,7 @@ const getHomeSectionsCardsCount = async () => {
     return count;
   } catch (error) {
     console.error(
-      "[discount controller | getHomeSectionsCardsCount function error]" +
+      '[discount controller | getHomeSectionsCardsCount function error]' +
         error.message
     );
     throw new Error(error.message);
@@ -1115,13 +1119,13 @@ async function getShowFirstInCategoryCount() {
   try {
     //If new categories added, also add them in this array
     const CATEGORIES = [
-      "travel",
-      "fashion",
-      "beauty",
-      "eatordrink",
-      "entertainment",
-      "technology",
-      "others",
+      'travel',
+      'fashion',
+      'beauty',
+      'eatordrink',
+      'entertainment',
+      'technology',
+      'others',
     ];
 
     const count = await Promise.all(
@@ -1139,7 +1143,7 @@ async function getShowFirstInCategoryCount() {
     return count;
   } catch (error) {
     console.error(
-      "[discount controller | getShowFirstInCategoryCount function error]" +
+      '[discount controller | getShowFirstInCategoryCount function error]' +
         error.message
     );
     throw new Error(error.message);
@@ -1163,13 +1167,13 @@ async function createHomeSliderBanner(
     //Check if required info has been received
     if (!discount_id || !big_home_slider_image || !small_home_slider_image) {
       console.error(
-        "[discount controller | createHomeSliderBanner function error] Información insuficiente para crear banner"
+        '[discount controller | createHomeSliderBanner function error] Información insuficiente para crear banner'
       );
-      throw new Error("Información insuficiente para crear banner");
+      throw new Error('Información insuficiente para crear banner');
     }
 
     //Transforming boolean strings to pure boolean
-    const REDIRECT_TO_BRAND_PAGE = redirect_to_brand_page === "true";
+    const REDIRECT_TO_BRAND_PAGE = redirect_to_brand_page === 'true';
 
     const uploaded_images_urls = await Promise.allSettled([
       s3Uploadv3_big_home_slider_images(big_home_slider_image),
@@ -1180,19 +1184,19 @@ async function createHomeSliderBanner(
     const small_slider_img = uploaded_images_urls[1];
 
     if (
-      big_slider_img.status === "rejected" ||
-      small_slider_img.status === "rejected"
+      big_slider_img.status === 'rejected' ||
+      small_slider_img.status === 'rejected'
     ) {
       console.log(
-        "[discount controller | createHomeSliderBanner function error] Error al subir imágenes de home slider a AWS"
+        '[discount controller | createHomeSliderBanner function error] Error al subir imágenes de home slider a AWS'
       );
-      throw new Error("Error al subir imágenes de home slider");
+      throw new Error('Error al subir imágenes de home slider');
     }
 
     const HOME_BANNER_AFF_LINK =
-      available_for === "publico" && type === "affiliate_link_only"
+      available_for === 'publico' && type === 'affiliate_link_only'
         ? affiliate_link
-        : "";
+        : '';
 
     const slide = {
       discount_id,
@@ -1216,12 +1220,12 @@ async function createHomeSliderBanner(
     //Create home slider banner document in Mongo DB
     await homeSliderBanner_Store.add(slide);
 
-    routesToUpdateSSG.push("/");
+    routesToUpdateSSG.push('/');
 
     return routesToUpdateSSG;
   } catch (error) {
     console.error(
-      "[discount controller | createHomeSliderBanner function error]" +
+      '[discount controller | createHomeSliderBanner function error]' +
         error.message
     );
     throw new Error(error.message);
@@ -1255,6 +1259,7 @@ async function updateDiscount(data, new_banner, updated_by) {
       show_first_in_category,
       show_first_in_home_section,
       show_first_in_all_discounts,
+      show_in_recommendations_searchbar,
 
       //Shared information
       discount_keywords,
@@ -1264,22 +1269,24 @@ async function updateDiscount(data, new_banner, updated_by) {
 
     if (!updated_by || !discount_id) {
       console.error(
-        "[discount controller | updateDiscount function error] Información insuficiente para actualizar descuento"
+        '[discount controller | updateDiscount function error] Información insuficiente para actualizar descuento'
       );
-      throw new Error("Información insuficiente para actualizar descuento");
+      throw new Error('Información insuficiente para actualizar descuento');
     }
 
     //Transforming boolean strings to pure boolean
     const exclusive_discount_information_was_modified =
-      EXCLUSIVE_DISCOUNT_INFORMATION_WAS_MODIFIED === "true";
+      EXCLUSIVE_DISCOUNT_INFORMATION_WAS_MODIFIED === 'true';
     const exclusive_card_information_was_modified =
-      EXCLUSIVE_CARD_INFORMATION_WAS_MODIFIED === "true";
+      EXCLUSIVE_CARD_INFORMATION_WAS_MODIFIED === 'true';
     const shared_card_discount_information_was_modified =
-      SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED === "true";
-    const has_home_banner_attached = HAS_HOME_BANNER_ATTACHED === "true";
-    const SHOW_FIRST_IN_CATEGORY = show_first_in_category === "true";
-    const SHOW_FIRST_IN_HOME_SECTION = show_first_in_home_section === "true";
-    const SHOW_FIRST_IN_ALL_DISCOUNTS = show_first_in_all_discounts === "true";
+      SHARED_CARD_DISCOUNT_INFORMATION_WAS_MODIFIED === 'true';
+    const has_home_banner_attached = HAS_HOME_BANNER_ATTACHED === 'true';
+    const SHOW_FIRST_IN_CATEGORY = show_first_in_category === 'true';
+    const SHOW_FIRST_IN_HOME_SECTION = show_first_in_home_section === 'true';
+    const SHOW_FIRST_IN_ALL_DISCOUNTS = show_first_in_all_discounts === 'true';
+    const SHOW_IN_RECOMMENDATIONS_SEARCHBAR =
+      show_in_recommendations_searchbar === 'true';
 
     let routesToUpdateSSG = [];
 
@@ -1309,7 +1316,7 @@ async function updateDiscount(data, new_banner, updated_by) {
           has_home_banner_attached &&
           updated_discount.available_for !== PREVIOUS_DISCOUNT.available_for
         ) {
-          routesToUpdateSSG.push("/");
+          routesToUpdateSSG.push('/');
         }
 
         //Revalidating discount route
@@ -1338,45 +1345,47 @@ async function updateDiscount(data, new_banner, updated_by) {
         card.modified_last_time_by = updated_by;
         card.show_first_in_home_section = SHOW_FIRST_IN_HOME_SECTION;
         card.show_first_in_all_discounts = SHOW_FIRST_IN_ALL_DISCOUNTS;
+        card.show_in_recommendations_searchbar =
+          SHOW_IN_RECOMMENDATIONS_SEARCHBAR;
 
         const updated_card = await Card_Store.update(card);
 
         //Revalidate affected routes (only evaluate available discounts, since the rest are not shown in the frontend, and if the status is modified in the same request, it will be handled in the next if statement)
-        if (updated_card.status === "available") {
+        if (updated_card.status === 'available') {
           if (
             original_card.title !== updated_card.title ||
             original_card.card_tag !== updated_card.card_tag
           ) {
-            routesToUpdateSSG.push("/descuentos/todos");
+            routesToUpdateSSG.push('/descuentos/todos');
 
             if (updated_card.display_in_section) {
-              if (!routesToUpdateSSG.includes("/")) {
-                routesToUpdateSSG.push("/");
+              if (!routesToUpdateSSG.includes('/')) {
+                routesToUpdateSSG.push('/');
               }
             }
 
             //Revalidating category route
             switch (updated_card.category) {
-              case "travel":
-                routesToUpdateSSG.push("/descuentos/viajar");
+              case 'travel':
+                routesToUpdateSSG.push('/descuentos/viajar');
                 break;
-              case "fashion":
-                routesToUpdateSSG.push("/descuentos/moda");
+              case 'fashion':
+                routesToUpdateSSG.push('/descuentos/moda');
                 break;
-              case "beauty":
-                routesToUpdateSSG.push("/descuentos/belleza");
+              case 'beauty':
+                routesToUpdateSSG.push('/descuentos/belleza');
                 break;
-              case "eatordrink":
-                routesToUpdateSSG.push("/descuentos/alimentacion");
+              case 'eatordrink':
+                routesToUpdateSSG.push('/descuentos/alimentacion');
                 break;
-              case "entertainment":
-                routesToUpdateSSG.push("/descuentos/entretenimiento");
+              case 'entertainment':
+                routesToUpdateSSG.push('/descuentos/entretenimiento');
                 break;
-              case "technology":
-                routesToUpdateSSG.push("/descuentos/tecnologia");
+              case 'technology':
+                routesToUpdateSSG.push('/descuentos/tecnologia');
                 break;
-              case "others":
-                routesToUpdateSSG.push("/descuentos/otros");
+              case 'others':
+                routesToUpdateSSG.push('/descuentos/otros');
                 break;
               default:
                 break;
@@ -1388,8 +1397,8 @@ async function updateDiscount(data, new_banner, updated_by) {
             original_card.show_first_in_all_discounts !==
             updated_card.show_first_in_all_discounts
           ) {
-            if (!routesToUpdateSSG.includes("/descuentos/todos")) {
-              routesToUpdateSSG.push("/descuentos/todos");
+            if (!routesToUpdateSSG.includes('/descuentos/todos')) {
+              routesToUpdateSSG.push('/descuentos/todos');
             }
           }
 
@@ -1399,8 +1408,8 @@ async function updateDiscount(data, new_banner, updated_by) {
               original_card.show_first_in_home_section &&
             updated_card.display_in_section
           ) {
-            if (!routesToUpdateSSG.includes("/")) {
-              routesToUpdateSSG.push("/");
+            if (!routesToUpdateSSG.includes('/')) {
+              routesToUpdateSSG.push('/');
             }
           }
 
@@ -1410,41 +1419,41 @@ async function updateDiscount(data, new_banner, updated_by) {
             original_card.show_first_in_category
           ) {
             switch (updated_card.category) {
-              case "travel":
-                if (!routesToUpdateSSG.includes("/descuentos/viajes")) {
-                  routesToUpdateSSG.push("/descuentos/viajar");
+              case 'travel':
+                if (!routesToUpdateSSG.includes('/descuentos/viajes')) {
+                  routesToUpdateSSG.push('/descuentos/viajar');
                 }
                 break;
-              case "fashion":
-                if (!routesToUpdateSSG.includes("/descuentos/moda")) {
-                  routesToUpdateSSG.push("/descuentos/moda");
+              case 'fashion':
+                if (!routesToUpdateSSG.includes('/descuentos/moda')) {
+                  routesToUpdateSSG.push('/descuentos/moda');
                 }
                 break;
-              case "beauty":
-                if (!routesToUpdateSSG.includes("/descuentos/belleza")) {
-                  routesToUpdateSSG.push("/descuentos/belleza");
+              case 'beauty':
+                if (!routesToUpdateSSG.includes('/descuentos/belleza')) {
+                  routesToUpdateSSG.push('/descuentos/belleza');
                 }
                 break;
-              case "eatordrink":
-                if (!routesToUpdateSSG.includes("/descuentos/alimentacion")) {
-                  routesToUpdateSSG.push("/descuentos/alimentacion");
+              case 'eatordrink':
+                if (!routesToUpdateSSG.includes('/descuentos/alimentacion')) {
+                  routesToUpdateSSG.push('/descuentos/alimentacion');
                 }
                 break;
-              case "entertainment":
+              case 'entertainment':
                 if (
-                  !routesToUpdateSSG.includes("/descuentos/entretenimiento")
+                  !routesToUpdateSSG.includes('/descuentos/entretenimiento')
                 ) {
-                  routesToUpdateSSG.push("/descuentos/entretenimiento");
+                  routesToUpdateSSG.push('/descuentos/entretenimiento');
                 }
                 break;
-              case "technology":
-                if (!routesToUpdateSSG.includes("/descuentos/tecnologia")) {
-                  routesToUpdateSSG.push("/descuentos/tecnologia");
+              case 'technology':
+                if (!routesToUpdateSSG.includes('/descuentos/tecnologia')) {
+                  routesToUpdateSSG.push('/descuentos/tecnologia');
                 }
                 break;
-              case "others":
-                if (!routesToUpdateSSG.includes("/descuentos/otros")) {
-                  routesToUpdateSSG.push("/descuentos/otros");
+              case 'others':
+                if (!routesToUpdateSSG.includes('/descuentos/otros')) {
+                  routesToUpdateSSG.push('/descuentos/otros');
                 }
                 break;
               default:
@@ -1457,8 +1466,8 @@ async function updateDiscount(data, new_banner, updated_by) {
             original_card.card_tag !== updated_card.card_tag &&
             updated_card.display_in_section
           ) {
-            if (!routesToUpdateSSG.includes("/")) {
-              routesToUpdateSSG.push("/");
+            if (!routesToUpdateSSG.includes('/')) {
+              routesToUpdateSSG.push('/');
             }
           }
         }
@@ -1468,7 +1477,7 @@ async function updateDiscount(data, new_banner, updated_by) {
     if (shared_card_discount_information_was_modified) {
       //Transforming dates to Date objects
       const FORMATED_EXP_DATE =
-        expiration_date === "null" ? null : new Date(expiration_date);
+        expiration_date === 'null' ? null : new Date(expiration_date);
       const responses = await Promise.allSettled([
         //Get the discount to be updated
         discountInfo_Store.getDiscountById(discount_id),
@@ -1479,7 +1488,7 @@ async function updateDiscount(data, new_banner, updated_by) {
 
       const [discount, card] = responses;
 
-      if (discount.status === "fulfilled" && card.status === "fulfilled") {
+      if (discount.status === 'fulfilled' && card.status === 'fulfilled') {
         const DISCOUNT = discount.value;
         const CARD = card.value;
         const ORIGINAL_CARD = {
@@ -1499,8 +1508,8 @@ async function updateDiscount(data, new_banner, updated_by) {
           const [uploaded_banner, deleted_banner] = responses;
 
           if (
-            uploaded_banner.status === "fulfilled" &&
-            deleted_banner.status === "fulfilled"
+            uploaded_banner.status === 'fulfilled' &&
+            deleted_banner.status === 'fulfilled'
           ) {
             const UPLOADED_BANNER = uploaded_banner.value[0];
 
@@ -1522,7 +1531,7 @@ async function updateDiscount(data, new_banner, updated_by) {
         //Discount
         //Set the display_in_section value to empty string if the status is unavailable
         DISCOUNT.display_in_section =
-          status === "unavailable" ? "" : display_in_section;
+          status === 'unavailable' ? '' : display_in_section;
         DISCOUNT.status = status;
         DISCOUNT.expiration_date = FORMATED_EXP_DATE;
         DISCOUNT.discount_keywords = JSON.parse(discount_keywords);
@@ -1533,7 +1542,7 @@ async function updateDiscount(data, new_banner, updated_by) {
         CARD.status = status;
         //Set the display_in_section value to empty string if the status is unavailable
         CARD.display_in_section =
-          status === "unavailable" ? "" : display_in_section;
+          status === 'unavailable' ? '' : display_in_section;
         CARD.expiration_date = FORMATED_EXP_DATE;
         CARD.discount_keywords = JSON.parse(discount_keywords);
         CARD.updated_at = new Date();
@@ -1551,16 +1560,16 @@ async function updateDiscount(data, new_banner, updated_by) {
         const [updated_discount, updated_card] = responses;
 
         if (
-          updated_discount.status === "fulfilled" &&
-          updated_card.status === "fulfilled"
+          updated_discount.status === 'fulfilled' &&
+          updated_card.status === 'fulfilled'
         ) {
           const UPDATED_CARD = updated_card.value;
 
           //Revalidate affected routes
           //Don´t revalidate if discount keeps the unavailable status
           if (
-            ORIGINAL_CARD.status === "unavailable" &&
-            UPDATED_CARD.status === "unavailable"
+            ORIGINAL_CARD.status === 'unavailable' &&
+            UPDATED_CARD.status === 'unavailable'
           )
             return routesToUpdateSSG;
 
@@ -1571,8 +1580,8 @@ async function updateDiscount(data, new_banner, updated_by) {
             (ORIGINAL_CARD.status !== UPDATED_CARD.status &&
               UPDATED_CARD.display_in_section)
           ) {
-            if (!routesToUpdateSSG.includes("/")) {
-              routesToUpdateSSG.push("/");
+            if (!routesToUpdateSSG.includes('/')) {
+              routesToUpdateSSG.push('/');
             }
           }
 
@@ -1583,8 +1592,8 @@ async function updateDiscount(data, new_banner, updated_by) {
             new_banner
           ) {
             //Allways update the "/descuentos/todos" route
-            if (!routesToUpdateSSG.includes("/descuentos/todos")) {
-              routesToUpdateSSG.push("/descuentos/todos");
+            if (!routesToUpdateSSG.includes('/descuentos/todos')) {
+              routesToUpdateSSG.push('/descuentos/todos');
             }
 
             //Allways update the discount
@@ -1602,41 +1611,41 @@ async function updateDiscount(data, new_banner, updated_by) {
 
             //Allways update the category
             switch (UPDATED_CARD.category) {
-              case "travel":
-                if (!routesToUpdateSSG.includes("/descuentos/viajes")) {
-                  routesToUpdateSSG.push("/descuentos/viajar");
+              case 'travel':
+                if (!routesToUpdateSSG.includes('/descuentos/viajes')) {
+                  routesToUpdateSSG.push('/descuentos/viajar');
                 }
                 break;
-              case "fashion":
-                if (!routesToUpdateSSG.includes("/descuentos/moda")) {
-                  routesToUpdateSSG.push("/descuentos/moda");
+              case 'fashion':
+                if (!routesToUpdateSSG.includes('/descuentos/moda')) {
+                  routesToUpdateSSG.push('/descuentos/moda');
                 }
                 break;
-              case "beauty":
-                if (!routesToUpdateSSG.includes("/descuentos/belleza")) {
-                  routesToUpdateSSG.push("/descuentos/belleza");
+              case 'beauty':
+                if (!routesToUpdateSSG.includes('/descuentos/belleza')) {
+                  routesToUpdateSSG.push('/descuentos/belleza');
                 }
                 break;
-              case "eatordrink":
-                if (!routesToUpdateSSG.includes("/descuentos/alimentacion")) {
-                  routesToUpdateSSG.push("/descuentos/alimentacion");
+              case 'eatordrink':
+                if (!routesToUpdateSSG.includes('/descuentos/alimentacion')) {
+                  routesToUpdateSSG.push('/descuentos/alimentacion');
                 }
                 break;
-              case "entertainment":
+              case 'entertainment':
                 if (
-                  !routesToUpdateSSG.includes("/descuentos/entretenimiento")
+                  !routesToUpdateSSG.includes('/descuentos/entretenimiento')
                 ) {
-                  routesToUpdateSSG.push("/descuentos/entretenimiento");
+                  routesToUpdateSSG.push('/descuentos/entretenimiento');
                 }
                 break;
-              case "technology":
-                if (!routesToUpdateSSG.includes("/descuentos/tecnologia")) {
-                  routesToUpdateSSG.push("/descuentos/tecnologia");
+              case 'technology':
+                if (!routesToUpdateSSG.includes('/descuentos/tecnologia')) {
+                  routesToUpdateSSG.push('/descuentos/tecnologia');
                 }
                 break;
-              case "others":
-                if (!routesToUpdateSSG.includes("/descuentos/otros")) {
-                  routesToUpdateSSG.push("/descuentos/otros");
+              case 'others':
+                if (!routesToUpdateSSG.includes('/descuentos/otros')) {
+                  routesToUpdateSSG.push('/descuentos/otros');
                 }
                 break;
               default:
@@ -1650,7 +1659,7 @@ async function updateDiscount(data, new_banner, updated_by) {
     return routesToUpdateSSG;
   } catch (error) {
     console.error(
-      "[discount controller | updateDiscount function error]" + error.message
+      '[discount controller | updateDiscount function error]' + error.message
     );
     throw new Error(error.message);
   }
@@ -1662,7 +1671,7 @@ async function getBrandsCount() {
     return brandsCount;
   } catch (error) {
     console.error(
-      "[discount controller | getBrandsCount function error]" + error.message
+      '[discount controller | getBrandsCount function error]' + error.message
     );
     throw new Error(error.message);
   }
@@ -1674,7 +1683,7 @@ async function getTotalDiscuntsCount() {
     return discountsCount;
   } catch (error) {
     console.error(
-      "[discount controller | getTotalDiscuntsCount function error]" +
+      '[discount controller | getTotalDiscuntsCount function error]' +
         error.message
     );
     throw new Error(error.message);
@@ -1687,7 +1696,7 @@ async function getShowFirstInAllDiscountsCount() {
     return count;
   } catch (error) {
     console.error(
-      "[discount controller | getShowFirstInAllDiscountsCount function error]" +
+      '[discount controller | getShowFirstInAllDiscountsCount function error]' +
         error.message
     );
     throw new Error(error.message);
@@ -1697,9 +1706,9 @@ async function getShowFirstInAllDiscountsCount() {
 async function countLikesDislikes({ discount_id, like, dislike }) {
   if (!discount_id) {
     console.error(
-      "[discount controller | countLikesDislikes function error] discount_id is required"
+      '[discount controller | countLikesDislikes function error] discount_id is required'
     );
-    throw new Error("No se ha recibido el id del descuento");
+    throw new Error('No se ha recibido el id del descuento');
   }
   try {
     const discount = await discountInfo_Store.getDiscountByIdWithoutPopulation(
@@ -1716,7 +1725,7 @@ async function countLikesDislikes({ discount_id, like, dislike }) {
     return updatedDiscount;
   } catch (error) {
     console.error(
-      "[discount controller | countLikesDislikes function error]" +
+      '[discount controller | countLikesDislikes function error]' +
         error.message
     );
     throw new Error(error.message);
@@ -1730,7 +1739,7 @@ async function getMostLikedDiscounts() {
     return mostLikedDiscounts;
   } catch (error) {
     console.error(
-      "[discount controller | getMostLikedDiscounts function error]" +
+      '[discount controller | getMostLikedDiscounts function error]' +
         error.message
     );
     throw new Error(error.message);
@@ -1745,7 +1754,7 @@ async function getMostDislikedDiscounts() {
     return mostDislikedDiscounts;
   } catch (error) {
     console.error(
-      "[discount controller | getMostDislikedDiscounts function error]" +
+      '[discount controller | getMostDislikedDiscounts function error]' +
         error.message
     );
     throw new Error(error.message);
@@ -1756,9 +1765,9 @@ async function getMiniCardsSearchbarResults(query, page, limit) {
   //Check if all the parameters are received
   if (!query || !page || !limit) {
     console.error(
-      "[discount controller | getMiniCardsSearchbarResults function error] query, page and limit are required"
+      '[discount controller | getMiniCardsSearchbarResults function error] query, page and limit are required'
     );
-    throw new Error("No se han recibido todos los parámetros");
+    throw new Error('No se han recibido todos los parámetros');
   }
 
   try {
@@ -1770,7 +1779,7 @@ async function getMiniCardsSearchbarResults(query, page, limit) {
     return { miniCards, query };
   } catch (error) {
     console.error(
-      "[discount controller | getMiniCardsSearchbarResults function error]" +
+      '[discount controller | getMiniCardsSearchbarResults function error]' +
         error.message
     );
     throw new Error(error.message);
@@ -1780,9 +1789,9 @@ async function getMiniCardsSearchbarResults(query, page, limit) {
 async function updateLastTimeCheckedDate(brand_id) {
   if (!brand_id) {
     console.error(
-      "[discount controller | updateLastTimeCheckedDate function error] brand_id is required"
+      '[discount controller | updateLastTimeCheckedDate function error] brand_id is required'
     );
-    throw new Error("No se ha recibido el id de la marca");
+    throw new Error('No se ha recibido el id de la marca');
   }
 
   try {
@@ -1794,7 +1803,7 @@ async function updateLastTimeCheckedDate(brand_id) {
     return updated_date;
   } catch (error) {
     console.error(
-      "[discount controller | updateLastTimeCheckedDate function error]" +
+      '[discount controller | updateLastTimeCheckedDate function error]' +
         error.message
     );
     throw new Error(error.message);

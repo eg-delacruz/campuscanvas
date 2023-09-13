@@ -276,15 +276,31 @@
     }
   }
 
-  .show_first_in_all_discounts_container {
+  .checkboxes_flex_container {
     border-bottom: 1px solid $color--dark-gray;
-    .show_first_in_all_discounts_checkbox_container {
-      max-width: 320px;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 8px;
+    .show_first_in_all_discounts_container {
+      border-right: 1px solid $color--dark-gray;
+      padding-right: 60px;
+      .show_first_in_all_discounts_checkbox_container {
+        max-width: 320px;
+      }
+      p {
+        margin: 0;
+        @include font-size(14px);
+        line-height: 1.5;
+      }
     }
-    p {
-      margin: 0;
-      @include font-size(14px);
-      line-height: 1.5;
+
+    .show_in_search_bar_recomendations_container {
+      padding-left: 8px;
+      p {
+        margin: 0;
+        @include font-size(14px);
+        line-height: 1.5;
+      }
     }
   }
 
@@ -344,6 +360,12 @@
     .display_in_section_datalist_container {
       max-width: 355px;
     }
+
+    .checkboxes_flex_container {
+      .show_first_in_all_discounts_container {
+        padding-right: 30px;
+      }
+    }
   }
 }
 ////////////////////////////////////////480/////////////////////////////////////////////
@@ -389,6 +411,17 @@
       overflow-x: scroll;
       display: block;
       white-space: nowrap;
+    }
+
+    .checkboxes_flex_container {
+      flex-direction: column;
+      .show_first_in_all_discounts_container {
+        border-right: none;
+        padding-right: 0;
+      }
+      .show_in_search_bar_recomendations_container {
+        padding-left: 0;
+      }
     }
     .current_display_first_by_category_table {
       overflow-x: scroll;

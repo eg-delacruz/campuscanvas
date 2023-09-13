@@ -85,6 +85,10 @@ const CardSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  show_in_recommendations_searchbar: {
+    type: Boolean,
+    default: false,
+  },
   updated_at: {
     type: Date,
   },
