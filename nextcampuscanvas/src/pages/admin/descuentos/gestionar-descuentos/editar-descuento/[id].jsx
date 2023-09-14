@@ -895,6 +895,9 @@ const editarDescuento = () => {
         has_home_banner={has_home_banner}
         card_appears_in_home={card_appeas_in_home}
         brand_id={state.discount.brand._id}
+        refetch_show_first_in_all_discounts_count={
+          SHOW_FIRST_IN_ALL_DISCOUNTS.value
+        }
         refetch_show_in_searchbar_count={
           SHOW_IN_RECOMMENDATIONS_SEARCHBAR?.value
         }

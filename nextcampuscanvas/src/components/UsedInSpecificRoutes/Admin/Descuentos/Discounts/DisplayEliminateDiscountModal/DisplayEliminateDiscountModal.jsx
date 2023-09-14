@@ -33,6 +33,7 @@ const DisplayEliminateDiscountModal = ({
   has_home_banner,
   card_appears_in_home,
   brand_id,
+  refetch_show_first_in_all_discounts_count,
   refetch_show_in_searchbar_count,
 }) => {
   const { fetchData, cancel } = useAxios();
@@ -73,6 +74,14 @@ const DisplayEliminateDiscountModal = ({
         { exact: true }
       );
     }
+    //Invalidate the show first in all discounts count cache
+    if (refetch_show_first_in_all_discounts_count) {
+      queryClient.invalidateQueries(
+        [discountKeys.cards.show_first_in_all_discounts_count],
+        { exact: true }
+      );
+    }
+
     //Invalidate the show in searchbar count cache
     if (refetch_show_in_searchbar_count) {
       queryClient.invalidateQueries(
@@ -180,5 +189,6 @@ DisplayEliminateDiscountModal.propTypes = {
   has_home_banner: PropTypes.bool.isRequired,
   card_appears_in_home: PropTypes.bool.isRequired,
   brand_id: PropTypes.string.isRequired,
+  refetch_show_first_in_all_discounts_count: PropTypes.bool.isRequired,
   refetch_show_in_searchbar_count: PropTypes.bool.isRequired,
 };
