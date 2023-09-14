@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -10,10 +9,12 @@ import styles from './DisplayEliminateDiscountModal.module.scss';
 //React query
 import { useQueryClient } from '@tanstack/react-query';
 import adminKeys from '@query-key-factory/adminKeys';
+import discountKeys from '@query-key-factory/discountKeys';
 
 //Components
 import Modal from '@components/GeneralUseComponents/Modal/Modal';
 import WarningImage from '@components/GeneralUseComponents/WarningImage/WarningImage';
+import ConfirmationSwal from '@components/GeneralUseComponents/ConfirmationSwal/ConfirmationSwal';
 
 //Endpoints
 import endPoints from '@services/api/index';
@@ -32,6 +33,7 @@ const DisplayEliminateDiscountModal = ({
   has_home_banner,
   card_appears_in_home,
   brand_id,
+  refetch_show_in_searchbar_count,
 }) => {
   const { fetchData, cancel } = useAxios();
 
@@ -68,6 +70,13 @@ const DisplayEliminateDiscountModal = ({
     if (has_home_banner) {
       queryClient.invalidateQueries(
         [adminKeys.homeBanner.getHomeSliderBannersInfo],
+        { exact: true }
+      );
+    }
+    //Invalidate the show in searchbar count cache
+    if (refetch_show_in_searchbar_count) {
+      queryClient.invalidateQueries(
+        [discountKeys.cards.show_in_recommendations_searchbar_count],
         { exact: true }
       );
     }
@@ -113,24 +122,11 @@ const DisplayEliminateDiscountModal = ({
       }
     });
 
-    //Show a confirmation swall
     setState({ ...state, loading: false });
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      width: 400,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      },
-    });
 
-    Toast.fire({
-      icon: 'success',
-      title: response.body,
+    //Show a confirmation swall
+    ConfirmationSwal({
+      message: response.body,
     });
 
     //Close the modal
@@ -184,4 +180,5 @@ DisplayEliminateDiscountModal.propTypes = {
   has_home_banner: PropTypes.bool.isRequired,
   card_appears_in_home: PropTypes.bool.isRequired,
   brand_id: PropTypes.string.isRequired,
+  refetch_show_in_searchbar_count: PropTypes.bool.isRequired,
 };

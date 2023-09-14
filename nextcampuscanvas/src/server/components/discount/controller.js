@@ -1703,6 +1703,19 @@ async function getShowFirstInAllDiscountsCount() {
   }
 }
 
+async function getShowInRecommendationsSearchbarCount() {
+  try {
+    const count = await Card_Store.getShowInRecommendationsSearchbarCount();
+    return count;
+  } catch (error) {
+    console.error(
+      '[discount controller | getShowInRecommendationsSearchbarCount function error]' +
+        error.message
+    );
+    throw new Error(error.message);
+  }
+}
+
 async function countLikesDislikes({ discount_id, like, dislike }) {
   if (!discount_id) {
     console.error(
@@ -1844,6 +1857,7 @@ module.exports = {
   getHomeSectionsCardsCount,
   getShowFirstInCategoryCount,
   getShowFirstInAllDiscountsCount,
+  getShowInRecommendationsSearchbarCount,
   getMiniCardsSearchbarResults,
 
   //Home slider functions

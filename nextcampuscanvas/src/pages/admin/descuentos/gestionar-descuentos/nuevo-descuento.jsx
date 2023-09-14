@@ -54,7 +54,6 @@ import DISCOUNT_STATUS_OPTIONS from '@datalist-options/discount_status_options';
 //Rich text editor
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-//TODO: count the recommendations in the search bar and update them if needed
 const nuevoDescuento = () => {
   const { securingRoute } = useSecureAdminRoute('all');
   //Allows us to manipulate the appropriate slice/action
@@ -118,7 +117,7 @@ const nuevoDescuento = () => {
   const SHOW_FIRST_IN_ALL_DISCOUNTS = useInputValue(false);
   const SHOW_IN_RECOMMENDATIONS_SEARCHBAR = useInputValue(false);
 
-  //Setting field counts
+  //Setting field characters counts
   const TITLE_COUNT = useCharacterCount();
   const DESCRIPTION_COUNT = useCharacterCount();
   const CARD_TITLE_COUNT = useCharacterCount();
@@ -157,6 +156,12 @@ const nuevoDescuento = () => {
   const SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT = useQuery({
     queryKey: [discoutKeys.cards.show_first_in_all_discounts_count],
     queryFn: discountFunctions.getShowFirstInAllDiscountsCount,
+    staleTime: Infinity,
+  });
+
+  const SHOW_IN_RECOMMENDATIONS_SEARCHBAR_COUNT = useQuery({
+    queryKey: [discoutKeys.cards.show_in_recommendations_searchbar_count],
+    queryFn: discountFunctions.getShowInRecommendationsSearchbarCount,
     staleTime: Infinity,
   });
 
@@ -213,6 +218,11 @@ const nuevoDescuento = () => {
       //Refetch show first in all discounts count if applies
       if (SHOW_FIRST_IN_ALL_DISCOUNTS.value) {
         SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.refetch();
+      }
+
+      //Refetch show in recommendations searchbar count if applies
+      if (SHOW_IN_RECOMMENDATIONS_SEARCHBAR.value) {
+        SHOW_IN_RECOMMENDATIONS_SEARCHBAR_COUNT.refetch();
       }
 
       //Confirmation swal
@@ -1269,7 +1279,25 @@ const nuevoDescuento = () => {
                   />
                 </div>
                 <p>
-                  <strong>Actualmente mostrando: </strong>5 descuentos (12 max.)
+                  <strong>Actualmente mostrando: </strong>
+                  {SHOW_IN_RECOMMENDATIONS_SEARCHBAR_COUNT.isLoading ? (
+                    'Cargando...'
+                  ) : SHOW_IN_RECOMMENDATIONS_SEARCHBAR_COUNT.isError ||
+                    SHOW_IN_RECOMMENDATIONS_SEARCHBAR_COUNT.data?.error ? (
+                    <>
+                      {SHOW_IN_RECOMMENDATIONS_SEARCHBAR_COUNT.error.message +
+                        SHOW_IN_RECOMMENDATIONS_SEARCHBAR_COUNT.data?.error
+                          .message}
+                    </>
+                  ) : (
+                    <>
+                      {
+                        SHOW_IN_RECOMMENDATIONS_SEARCHBAR_COUNT.data
+                          .show_in_recommendations_searchbar_count
+                      }
+                      {''} descuentos (12 max.)
+                    </>
+                  )}
                 </p>
               </div>
             </div>

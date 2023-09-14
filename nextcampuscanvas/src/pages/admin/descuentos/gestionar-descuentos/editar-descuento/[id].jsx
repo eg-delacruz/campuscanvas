@@ -178,6 +178,12 @@ const editarDescuento = () => {
     staleTime: Infinity,
   });
 
+  const SHOW_IN_RECOMMENDATIONS_SEARCHBAR_COUNT = useQuery({
+    queryKey: [discoutKeys.cards.show_in_recommendations_searchbar_count],
+    queryFn: discountFunctions.getShowInRecommendationsSearchbarCount,
+    staleTime: Infinity,
+  });
+
   const CARD = useQuery({
     queryKey: [discoutKeys.cards.get_by_discount_id(id)],
     queryFn: () => discountFunctions.getCardByDiscountId(id),
@@ -802,7 +808,13 @@ const editarDescuento = () => {
       SHOW_FIRST_IN_ALL_DISCOUNTS_COUNT.refetch();
     }
 
-    //TODO: reset the show in searchbar recommendations count if applies
+    //Refetch show in recommendations searchbar count if applies
+    if (
+      CARD.data?.show_in_recommendations_searchbar !==
+      SHOW_IN_RECOMMENDATIONS_SEARCHBAR.value
+    ) {
+      SHOW_IN_RECOMMENDATIONS_SEARCHBAR_COUNT.refetch();
+    }
 
     //Reset the new banner if a new one was uploaded
     if (newBanner[0]) {
@@ -883,6 +895,9 @@ const editarDescuento = () => {
         has_home_banner={has_home_banner}
         card_appears_in_home={card_appeas_in_home}
         brand_id={state.discount.brand._id}
+        refetch_show_in_searchbar_count={
+          SHOW_IN_RECOMMENDATIONS_SEARCHBAR?.value
+        }
       />
     );
   };
@@ -1723,8 +1738,27 @@ const editarDescuento = () => {
                               />
                             </div>
                             <p>
-                              <strong>Actualmente mostrando: </strong>5
-                              descuentos (12 max.)
+                              <strong>Actualmente mostrando: </strong>
+                              {SHOW_IN_RECOMMENDATIONS_SEARCHBAR_COUNT.isLoading ? (
+                                'Cargando...'
+                              ) : SHOW_IN_RECOMMENDATIONS_SEARCHBAR_COUNT.isError ||
+                                SHOW_IN_RECOMMENDATIONS_SEARCHBAR_COUNT.data
+                                  ?.error ? (
+                                <>
+                                  {SHOW_IN_RECOMMENDATIONS_SEARCHBAR_COUNT.error
+                                    .message +
+                                    SHOW_IN_RECOMMENDATIONS_SEARCHBAR_COUNT.data
+                                      ?.error.message}
+                                </>
+                              ) : (
+                                <>
+                                  {
+                                    SHOW_IN_RECOMMENDATIONS_SEARCHBAR_COUNT.data
+                                      .show_in_recommendations_searchbar_count
+                                  }
+                                  {''} descuentos (12 max.)
+                                </>
+                              )}
                             </p>
                           </div>
                         </div>

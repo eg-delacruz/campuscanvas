@@ -78,6 +78,21 @@ const getShowFirstInAllDiscountsCount = async () => {
   return response.body;
 };
 
+const getShowInRecommendationsSearchbarCount = async () => {
+  const response = await axiosFetcher({
+    url: endPoints.admin.discounts.getShowInRecommendationsSearchbarCount,
+    method: 'get',
+    extraHeaders: { required_info: 'show_in_recommendations_searchbar_count' },
+  });
+
+  if (response.error) {
+    console.log(response.error);
+    throw new Error(response.error);
+  }
+
+  return response.body;
+};
+
 const getAllDiscounts = async () => {
   const response = await axiosFetcher({
     url: endPoints.discounts.index,
@@ -194,6 +209,7 @@ export default {
   getMostLikedDiscounts, //used in Dashboard
   getMostDislikedDiscounts, // used in Dashboard
   getShowFirstInAllDiscountsCount,
+  getShowInRecommendationsSearchbarCount, //used in Admin sections
   getAllDiscounts,
 
   //Brand functions

@@ -58,6 +58,17 @@ export default async function handler(req, res) {
             );
             break;
 
+          case 'show_in_recommendations_searchbar_count':
+            const show_in_recommendations_searchbar_count =
+              await Controller.getShowInRecommendationsSearchbarCount();
+            successResponse(
+              req,
+              res,
+              { show_in_recommendations_searchbar_count },
+              201
+            );
+            break;
+
           //Get all cards (available and unavailable) for the default case
           default:
             break;
