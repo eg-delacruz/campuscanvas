@@ -21,6 +21,22 @@ const getMiniCardsSearchbarResults = async ({ query, page, limit }) => {
   return response.body;
 };
 
+const getMiniCardsRecommendations = async () => {
+  const response = await axiosFetcher({
+    url: endPoints.discounts.getCards,
+    method: 'get',
+    extraHeaders: {
+      required_cards: 'searchbar_recommendations',
+    },
+  });
+
+  if (response.error) {
+    console.log(response.error);
+    throw new Error(response.error);
+  }
+  return response.body;
+};
+
 const getCardsByCategory = async ({ category, requiredPage, limit }) => {
   const response = await axiosFetcher({
     url: endPoints.discounts.getCards,
@@ -58,6 +74,7 @@ const getCardsByBrandId = async (brand_id) => {
 
 export default {
   getMiniCardsSearchbarResults,
+  getMiniCardsRecommendations, //used in searchbar recommendations
   getCardsByCategory,
   getCardsByBrandId,
 };

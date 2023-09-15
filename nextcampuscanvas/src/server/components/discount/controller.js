@@ -1799,6 +1799,19 @@ async function getMiniCardsSearchbarResults(query, page, limit) {
   }
 }
 
+async function getMiniCardsRecommendations() {
+  try {
+    const miniCards = await Card_Store.getMiniCardsRecommendations();
+    return miniCards;
+  } catch (error) {
+    console.error(
+      '[discount controller | getMiniCardsRecommendations function error]' +
+        error.message
+    );
+    throw new Error(error.message);
+  }
+}
+
 async function updateLastTimeCheckedDate(brand_id) {
   if (!brand_id) {
     console.error(
@@ -1859,6 +1872,7 @@ module.exports = {
   getShowFirstInAllDiscountsCount,
   getShowInRecommendationsSearchbarCount,
   getMiniCardsSearchbarResults,
+  getMiniCardsRecommendations,
 
   //Home slider functions
   createHomeSliderBanner,

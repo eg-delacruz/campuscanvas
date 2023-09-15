@@ -1,44 +1,44 @@
-import { useState, useEffect } from "react";
-import { createPortal } from "react-dom";
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 //Styles
-import styles from "./DiscountsSearchBar.module.scss";
+import styles from './DiscountsSearchBar.module.scss';
 
 //hooks
-import useDebouncedSearchValue from "@hooks/useDebouncedSearchValue";
+import useDebouncedSearchValue from '@hooks/useDebouncedSearchValue';
 
 //React query
-import { useInfiniteQuery } from "@tanstack/react-query";
-import discoutKeys from "@query-key-factory/discountKeys";
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import discoutKeys from '@query-key-factory/discountKeys';
 
 //Request functions
-import discountFunctions from "@request-functions/Discounts/Cards/index";
+import discountFunctions from '@request-functions/Discounts/Cards/index';
 
 //Components
-import MiniDiscountCard from "@components/GeneralUseComponents/MiniDiscountCard/MiniDiscountCard";
-import CircularLoader from "@components/GeneralUseComponents/CircularLoader/CircularLoader";
-import SuggestSearchTermInput from "../SuggestSearchTermInput/SuggestSearchTermInput";
+import MiniDiscountCard from '@components/GeneralUseComponents/MiniDiscountCard/MiniDiscountCard';
+import CircularLoader from '@components/GeneralUseComponents/CircularLoader/CircularLoader';
+import SuggestSearchTermInput from '../SuggestSearchTermInput/SuggestSearchTermInput';
 
 //Redux
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux';
 //results cache
 import {
   updateCache,
   cleanCache,
   selectDiscountSearchBarCache,
-} from "@redux/discountsSearchbar/discountSearchBarCacheSlice";
+} from '@redux/discountsSearchbar/discountSearchBarCacheSlice';
 //searchbar input state
 import {
   selectDiscountSearchbarInputState,
   setSearchbarValue,
-} from "@redux/discountsSearchbar/discountSearchbarInputStateSlice";
+} from '@redux/discountsSearchbar/discountSearchbarInputStateSlice';
 //discounts searchbar general states
 import {
   setHasNextPage,
   setFirstSearchExecuted,
   setAllowCleanCache,
   selectDiscountSearchbarGeneralStates,
-} from "@redux/discountsSearchbar/discountSearchbarGeneralStatesSlice";
+} from '@redux/discountsSearchbar/discountSearchbarGeneralStatesSlice';
 
 const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
   //Needed to avoid problems with the SSR (start)
@@ -121,6 +121,12 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
     },
   });
 
+  const RECOMMENDATIONS = useQuery({
+    queryKey: [discoutKeys.cards.get_minicards_recommendations],
+    queryFn: discountFunctions.getMiniCardsRecommendations,
+    staleTime: Infinity,
+  });
+
   //Clean cache 10 minutes after the first search
   useEffect(() => {
     if (discountSearchbarGeneralStatesReducer.allowCleanCache) {
@@ -182,23 +188,42 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
             X
           </button>
           <input
-            type="text"
-            placeholder="Marcas, artículos o categorías"
+            type='text'
+            placeholder='Marcas, artículos o categorías'
             className={styles.search_bar}
-            name="search"
-            id="search"
+            name='search'
+            id='search'
             value={discountSearchbarInputStateReducer.value}
             onChange={(e) => {
               dispatch(setSearchbarValue(e.target.value));
             }}
             autoFocus
-            autoComplete="off"
+            autoComplete='off'
           />
 
           <div className={styles.results_container}>
             {discountSearchbarInputStateReducer.value.length === 0 ? (
-              // Prefetch and render suggested results here or fetch them when user opens searc bar (see how to do it on hover or on click down). Don´t do this server side, since not so important for SEO and also very complicated to achieve
-              ""
+              // Recommendations (prefetched when the app starts)
+              <>
+                {RECOMMENDATIONS?.data?.recommendations.length > 0 && (
+                  <div className={styles.recommendations}>
+                    <h3>Recomendaciones para ti</h3>
+                    <div className={styles.recommendations_grid}>
+                      {RECOMMENDATIONS.data.recommendations.map((card) => (
+                        <MiniDiscountCard
+                          closeSearchBar={onClose}
+                          key={card.id}
+                          discount_id={card.discount_id}
+                          title={card.title}
+                          brand_logo={card.brand_logo.brand_logo.URL}
+                          brand_name={card.brand_name}
+                          brand_slug={card.brand_slug.brand_slug}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </>
             ) : //Loading state while fetching search term
             SEARCH_BAR_RESULTS.isLoading ||
               (SEARCH_BAR_RESULTS.isFetching &&
@@ -223,7 +248,7 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
                       <MiniDiscountCard
                         closeSearchBar={onClose}
                         clearSearchBar={() => {
-                          dispatch(setSearchbarValue(""));
+                          dispatch(setSearchbarValue(''));
                         }}
                         key={card._id}
                         discount_id={card.discount_id}
@@ -262,7 +287,7 @@ const DiscountsSearchBar = ({ showDiscountsSearchBar, onClose }) => {
   return isClient
     ? createPortal(
         discountsSearchBarContent,
-        document.getElementById("modal-root")
+        document.getElementById('modal-root')
       )
     : null;
 };

@@ -52,12 +52,26 @@
   //    Results states    //
   /////////////////////////
   .results_container {
+    ///////////// Recommendations /////////////
+    .recommendations {
+      h3 {
+        margin: 16px 0;
+      }
+      .recommendations_grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    ///////////// Circular loader /////////////
     .circular_loader_container {
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 20px 0;
     }
+
+    ///////////// Results /////////////
     .results {
       h3 {
         margin: 16px 0;

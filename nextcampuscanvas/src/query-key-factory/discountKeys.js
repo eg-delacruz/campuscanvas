@@ -11,6 +11,7 @@ const discountKeys = {
     get_by_discount_id: (discount_id) =>
       `get_card_by_discount_id_${discount_id}`,
     get_by_brand_id: (brand_id) => `get_card_by_brand_id_${brand_id}`,
+    get_minicards_recommendations: 'get_minicards_recommendations',
   },
   banners: {},
   brands: {

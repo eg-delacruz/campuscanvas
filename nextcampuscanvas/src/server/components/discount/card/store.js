@@ -200,6 +200,20 @@ const getMiniCardsSearchbarResults = async (searchTerm, page, limit) => {
   return data;
 };
 
+///////////////////// Get mini cards searchbar recommendations //////////////////////////////
+
+const getMiniCardsRecommendations = async () => {
+  const result = await Card.find({
+    status: 'available',
+    show_in_recommendations_searchbar: true,
+  })
+    .populate({ path: 'brand_logo', model: BrandInfo, select: 'brand_logo' })
+    .populate({ path: 'brand_slug', model: BrandInfo, select: 'brand_slug' })
+    .exec();
+
+  return result;
+};
+
 ///////////////////// Get available cards by brand id //////////////////////////////
 
 const getAvailableCardsByBrandId = async (brand_id) => {
@@ -223,5 +237,6 @@ module.exports = {
   getShowFirstInAllDiscountsCount,
   getShowInRecommendationsSearchbarCount,
   getMiniCardsSearchbarResults,
+  getMiniCardsRecommendations,
   getAvailableCardsByBrandId,
 };

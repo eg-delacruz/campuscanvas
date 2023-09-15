@@ -147,6 +147,12 @@ export default async function handler(req, res) {
               'Parámetro no soportado'
             );
             break;
+
+          case 'searchbar_recommendations':
+            const recommendations =
+              await Controller.getMiniCardsRecommendations();
+            successResponse(req, res, { recommendations }, 201);
+            break;
         }
       } catch (error) {
         errorResponse(req, res, 'Error al obtener datos', 400, error);
