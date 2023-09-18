@@ -147,16 +147,21 @@
   .featured_posts_upper_hr {
     margin: 8px;
   }
+
   .featuredPostsContainer {
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 0 8px;
-    .featured_post_card {
-      max-width: 500px;
-      margin-bottom: 24px;
-      h1 {
-        transform: translate(0, -30px);
+    .featured_post_card_link_container {
+      max-width: 100%;
+      .featured_post_card {
+        max-width: 500px;
+        margin: 0 auto;
+        margin-bottom: 24px;
+        h1 {
+          transform: translate(0, -30px);
+        }
       }
     }
   }
