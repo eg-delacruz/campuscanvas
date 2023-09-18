@@ -29,9 +29,9 @@ const BlogPost = ({ post, preview }) => {
       ) : (
         <>
           <SEOHeader
-            tabTitle={'Post'}
-            metaName={'Post'}
-            description={post?.fields?.titulo}
+            tabTitle={post?.fields?.titulopestana}
+            metaName={post?.fields?.nombreetiquetameta}
+            description={post?.fields?.metadescripcion}
           />
           <Layout>
             {preview && <ContentfulPreviewAlert />}

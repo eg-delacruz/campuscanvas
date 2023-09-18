@@ -12,6 +12,7 @@ import adminDiscountsTablePaginationGlobalStateReducer from '@redux/adminDiscoun
 import discountSearchbarInputStateReducer from '@redux/discountsSearchbar/discountSearchbarInputStateSlice';
 import discountSearchbarGeneralStatesReducer from '@redux/discountsSearchbar/discountSearchbarGeneralStatesSlice';
 import adminDiscountsTableSearchValueReducer from '@redux/adminDiscountsTableSearchValueSlice';
+import blogPaginationReducer from '@redux/blogPaginationSlice';
 
 export const store = configureStore({
   //We pass the reducer to the store. This names have to be the same as the exported selector of the slice.js files to correctly access the desired state.
@@ -24,6 +25,7 @@ export const store = configureStore({
     discountSearchBarCache: discountSearchBarCacheReducer,
     adminDiscountsTablePaginationGlobalState:
       adminDiscountsTablePaginationGlobalStateReducer,
+    blogPagination: blogPaginationReducer,
     discountSearchbarInputState: discountSearchbarInputStateReducer,
     discountSearchbarGeneralStates: discountSearchbarGeneralStatesReducer,
     adminDiscountsTableSearchValue: adminDiscountsTableSearchValueReducer,
