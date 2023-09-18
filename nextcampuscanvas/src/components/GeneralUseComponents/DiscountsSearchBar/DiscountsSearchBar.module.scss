@@ -100,6 +100,12 @@
     //    Results states    //
     /////////////////////////
     .results_container {
+      .recommendations {
+        .recommendations_grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
       .results {
         .results_grid {
           grid-template-columns: repeat(3, 1fr);
@@ -121,6 +127,12 @@
     //    Results states    //
     /////////////////////////
     .results_container {
+      .recommendations {
+        .recommendations_grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
       .results {
         .results_grid {
           grid-template-columns: repeat(2, 1fr);
@@ -139,6 +151,11 @@
     //    Results states    //
     /////////////////////////
     .results_container {
+      .recommendations {
+        .recommendations_grid {
+          grid-template-columns: repeat(1, 1fr);
+        }
+      }
       .results {
         .results_grid {
           grid-template-columns: repeat(1, 1fr);
