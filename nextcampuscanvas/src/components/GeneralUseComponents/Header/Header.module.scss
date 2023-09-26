@@ -478,6 +478,11 @@
           max-width: 222px;
           margin-top: -3px;
           margin-bottom: 5px;
+          li {
+            i {
+              justify-content: center;
+            }
+          }
         }
         .unverif_button_container {
           margin-top: 0;

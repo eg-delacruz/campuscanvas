@@ -83,6 +83,7 @@ export default function Document() {
         <meta charSet='utf-8' />
 
         {/* No se que son */}
+        {/* TODO: erase this line, since not necesary anymore */}
         <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
         <link rel='preconnect' href='https://fonts.gstatic.com' />
 
