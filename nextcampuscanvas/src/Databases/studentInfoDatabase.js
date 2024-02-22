@@ -34,6 +34,7 @@ const UNIVERSITIES = [
   'Fundació Universitària del Bages FUB',
   'IE Universidad',
   'IMF Business School',
+  'Instituto Forma t d Ensenyament Superior',
   'IQS Institut Químic de Sarrià',
   'Mondragon Unibertsitatea',
   'Saint Louis University',
@@ -162,7 +163,7 @@ const ACADEMIC_DEGREES = [
 ];
 
 //Allways have the current year and the next five
-const YEARS = [2022, 2023, 2024, 2025, 2026, 2027];
+const YEARS = [2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030];
 
 export default {
   UNIVERSITIES,
